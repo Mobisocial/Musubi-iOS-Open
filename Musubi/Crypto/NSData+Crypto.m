@@ -51,6 +51,10 @@
     return [self runAlgorithm:kCCAlgorithmAES128 andOptions:kCCOptionPKCS7Padding inMode:kCCEncrypt withKey:key andIV:iv];
 }
 
+- (NSData *) decryptWithAES128CBCPKCS7WithKey:(NSData*)key andIV:(NSData*)iv {
+    return [self runAlgorithm:kCCAlgorithmAES128 andOptions:kCCOptionPKCS7Padding inMode:kCCDecrypt withKey:key andIV:iv];
+}
+
 - (BOOL) verifySignature: (NSData*) sig withKey: (SecKeyRef) key {
     OSStatus status = SecKeyRawVerify(key, kSecPaddingPKCS1SHA1, [self bytes], [self length], [sig bytes], [sig length]);
     if(status == noErr) {
@@ -105,8 +109,8 @@
     return [NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH];
 }
 
-- (NSString*) hexString {
-	NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([self length] * 2)];
+- (NSString*) hex {
+    NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([self length] * 2)];
 	const unsigned char *dataBuffer = [self bytes];
 	int i;
 	for (i = 0; i < [self length]; ++i) {
@@ -116,13 +120,13 @@
 }
 
 - (NSString*) sha1HashWithLength: (int) length{
-    unsigned char hash[length];
+    unsigned char* hash = malloc(length);
     
     CC_SHA1_CTX ctx;
     CC_SHA1_Init(&ctx);
     CC_SHA1_Update(&ctx, [self bytes], [self length]);
     CC_SHA1_Final(hash, &ctx);
-    return [NSData dataWithBytes:hash length:length];
+    return [NSData dataWithBytesNoCopy:hash length:length freeWhenDone:YES];
 }
 
 
@@ -131,9 +135,9 @@
 	bzero(keyPtr, sizeof(keyPtr)); // fill with zeroes (for padding)
 	
 	// fetch key data
-    memcpy(keyPtr, [key bytes], sizeof(keyPtr));
-	
-	//See the doc: For block ciphers, the output size will always be less than or 
+    memcpy(keyPtr, [key bytes], [key length]);
+    
+    //See the doc: For block ciphers, the output size will always be less than or 
 	//equal to the input size plus the size of one block.
 	//That's why we need to add the size of one block here
 	size_t bufferSize = [self length] + kCCBlockSizeAES128;
@@ -141,14 +145,14 @@
     
 	size_t numBytesProcessed = 0;
 	CCCryptorStatus status = CCCrypt(mode, algo, options,
-                                          keyPtr, sizeof(keyPtr), /* key */
+                                          keyPtr, [key length], /* key */
                                           iv != nil ? [iv bytes] : NULL, /* initialization vector */
                                           [self bytes], [self length], /* input */
                                           buffer, bufferSize, /* output */
                                           &numBytesProcessed);
 	if (status == kCCSuccess) {
 		//the returned NSData takes ownership of the buffer and will free it on deallocation
-		return [NSData dataWithBytesNoCopy:buffer length:numBytesProcessed];
+		return [NSData dataWithBytesNoCopy:buffer length:numBytesProcessed freeWhenDone:YES];
 	}
     
 	free(buffer); //free the buffer;

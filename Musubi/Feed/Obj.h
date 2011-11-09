@@ -24,6 +24,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSData+Base64.h"
 
 @interface Obj : NSObject {
     NSString* type;
@@ -33,5 +34,8 @@
 
 - (id) initWithType: (NSString*) t;
 - (NSDictionary*) json;
+- (UIView*) render;
+- (CGFloat) renderHeight;
++ (Obj*) readFromJSON: (NSDictionary*) json;
 
 @end

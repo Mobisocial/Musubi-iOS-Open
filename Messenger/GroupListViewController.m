@@ -26,44 +26,19 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    [self setGroups: [[Musubi sharedInstance] groups]];
 
+    NSLog(@"Groups: %@", groups);
 }
 
 - (UINavigationItem *)navigationItem {
-    return [[UINavigationItem alloc] initWithTitle:@"Groups"];
+    return [[[UINavigationItem alloc] initWithTitle:@"Groups"] autorelease];
 }
 
 - (UITabBarItem *)tabBarItem {
-    return [[UITabBarItem alloc] initWithTitle:@"Groups" image:nil tag:0];
+    return [[[UITabBarItem alloc] initWithTitle:@"Groups" image:nil tag:0] autorelease];
 }
-
-/*
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return @"Nearby";
-    } else {
-        return nil;
-    }
-}*/
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return [groups count];
-    } else {
-        return 0;
-    }
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    Group* group = [groups objectAtIndex: indexPath.row];
-    
-    static NSString *cellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.textLabel.text = [group name];
-    return cell;
-}
-
-
 /*
 - (void) appManager:(NSObject *)mgr installedApp:(NSString *)name {
     [self loadResource: @"index.html" inApp: name];
@@ -152,4 +127,43 @@
         return YES;
     }
 }
+
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return [groups count];
+    } else {
+        return 0;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    Group* group = [groups objectAtIndex: indexPath.row];
+    
+    static NSString *cellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    cell.textLabel.text = [group name];
+    return cell;
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Group* group = [groups objectAtIndex: indexPath.row];
+    NSLog(@"Group: %@", group);
+    
+    FeedViewController* feedViewController = (FeedViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"feed"];
+    [feedViewController setGroup: group];
+    
+    [[self navigationController] pushViewController:feedViewController animated:YES];
+}
+
 @end

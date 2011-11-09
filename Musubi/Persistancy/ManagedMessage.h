@@ -25,14 +25,19 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "Message.h"
+#import "SBJson.h"
 
 @class ManagedFeed;
 
 @interface ManagedMessage : NSManagedObject
 
-@property (nonatomic, retain) NSString * contents;
+@property (nonatomic, retain) NSData * contents;
 @property (nonatomic, retain) NSString * sender;
-@property (nonatomic, retain) NSNumber * timestamp;
+@property (nonatomic, retain) NSString * app;
+@property (nonatomic, retain) NSDate * timestamp;
 @property (nonatomic, retain) ManagedFeed *feed;
+
+- (Message*) message;
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ObjectStore.h"
+#import "FeedViewController.h"
 
 @interface GroupListViewController : UITableViewController {
     NSArray* groups;

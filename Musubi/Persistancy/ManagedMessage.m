@@ -31,6 +31,21 @@
 @dynamic contents;
 @dynamic sender;
 @dynamic timestamp;
+@dynamic app;
 @dynamic feed;
+
+- (Message*) message {
+    Message* msg = [[[Message alloc] init] autorelease];
+    [msg setAppId: [self app]];
+    [msg setFeedName: [[self feed] session]];
+    [msg setTimestamp: [self timestamp]];
+    [msg setSender: [self sender]];
+
+    SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
+    [msg setObj: [SignedObj readFromJSON:[parser objectWithData: [self contents]]]];
+    [[msg obj] setTimestamp: [self timestamp]];
+    return msg;
+}
+
 
 @end

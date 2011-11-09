@@ -39,4 +39,8 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<GroupMember: %@, %@>", email, publicKey];
+}
+
 @end

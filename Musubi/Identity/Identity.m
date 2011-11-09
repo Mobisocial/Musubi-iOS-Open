@@ -62,9 +62,9 @@ static Identity* _sharedInstance = nil;
         
         NSString* pubKeyB64 = @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqEnUVom64ZzTupLcrBllqZnKlkMxV+nH9Mg78Jqo2OG5Xv7fq0RQIh3Nuis4Wq1zFIG+CNbRjB76zRKP1Dr635N9GTjiTFmnDwTKDwfotwpuJTNaZmowh92xNR+pFYtoCPZQ3ZlUd/qGYPLI4RsQZOXq3SpRdc0kMxpKUEtUCqwIDAQAB";
         
-        OpenSSLPrivateKey* privKey = [[OpenSSLPrivateKey alloc] initWithDER: [privKeyB64 decodeBase64]];
-        OpenSSLPublicKey* pubKey = [[OpenSSLPublicKey alloc] initWithEncoded: [pubKeyB64 decodeBase64]];
-        [self setKeyPair: [[OpenSSLKeyPair alloc] initWithPrivateKey:privKey andPublicKey:pubKey]];
+        OpenSSLPrivateKey* privKey = [[[OpenSSLPrivateKey alloc] initWithDER: [privKeyB64 decodeBase64]] autorelease];
+        OpenSSLPublicKey* pubKey = [[[OpenSSLPublicKey alloc] initWithEncoded: [pubKeyB64 decodeBase64]] autorelease];
+        [self setKeyPair: [[[OpenSSLKeyPair alloc] initWithPrivateKey:privKey andPublicKey:pubKey] autorelease]];
 //		[self setKeyPair: [OpenSSLKeyPair keyPairWithLength:1024]];
         
         NSLog(@"Private key: %@", [[[[self keyPair] privateKey] der] encodeBase64]);

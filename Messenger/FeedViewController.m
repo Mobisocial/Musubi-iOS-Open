@@ -11,7 +11,7 @@
 
 @implementation FeedViewController
 
-@synthesize feed;
+@synthesize group, messages, updateField, pictureButton;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -35,6 +35,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    ManagedFeed* feed = [[Musubi sharedInstance] feedForGroup: group];
+    
+    [self setMessages:[NSMutableArray array]];
+    for (ManagedMessage* msg in [feed allMessages]) {
+        [[self messages] insertObject:[msg message] atIndex:0];
+    }
+    
+    [[Musubi sharedInstance] listenToGroup: group withListener:self];
+
+    [updateField setDelegate:self];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -85,23 +96,65 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [messages count] + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    if (indexPath.row > 0) {
+        Message* msg = [self msgForIndexPath:indexPath];
+        FeedItemTableCell* cell = (FeedItemTableCell*) [tableView dequeueReusableCellWithIdentifier:@"FeedItemCell"];
+        [cell setItemView: [[msg obj] render]];
+        
+        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+
+        [[cell senderLabel] setText: [group memberByPublicKey:[msg sender]].email];
+        [[cell timestampLabel] setText:[dateFormatter stringFromDate:[msg timestamp]]];
+        return cell;
+    } else {
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"StatusCell"];
+        return cell;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row > 0) {
+        return [[[self msgForIndexPath:indexPath] obj] renderHeight] + 73;
+    } else {
+        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    }
+}
+
+- (Message* ) msgForIndexPath: (NSIndexPath *)indexPath {
+    return [messages objectAtIndex:([indexPath row] - 1)];
+}
+
+- (void)newMessage:(Message *)message {
+    if (message != nil) {
+        [messages insertObject:message atIndex:0];
     }
     
-    // Configure the cell...
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:FALSE];
+}
+
+- (void)pictureButtonPushed:(id)sender {
+    UIImagePickerController* picker =[[UIImagePickerController alloc] init];
+    [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
+    [picker setDelegate:self];
     
-    return cell;
+    [self presentModalViewController:picker animated:YES];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
+    
+    PictureObj* obj = [[PictureObj alloc] initWithImage: image];
+    [[Musubi sharedInstance] sendObj:obj forApp:kMusubiAppId toGroup:group];
+    
+    [[self modalViewController] dismissModalViewControllerAnimated:YES];
 }
 
 /*
@@ -155,6 +208,17 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    StatusObj* obj = [[StatusObj alloc] initWithText: [textField text]];
+    [[Musubi sharedInstance] sendObj:obj forApp:kMusubiAppId toGroup:group];
+    [textField setText:@""];
 }
 
 @end

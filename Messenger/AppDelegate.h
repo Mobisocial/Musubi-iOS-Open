@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Musubi.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

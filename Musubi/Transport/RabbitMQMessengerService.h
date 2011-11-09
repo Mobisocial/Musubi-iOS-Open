@@ -31,18 +31,50 @@
 #import "OutgoingMessage.h"
 #import "Identity.h"
 #import "MessageFormat.h"
+#import "Transport.h"
 
-@interface RabbitMQMessengerService : NSObject {
+
+@interface RabbitMQMessengerService : NSObject<Transport> {
+@private
     MessageFormat* messageFormat;
     Identity* identity;
+    
+    NSMutableArray* queue;
+    NSLock* connLock;
+    NSConditionLock* inLock;
+    NSConditionLock* outLock;
+    
+    id<TransportListener> listener;
+    
+    amqp_basic_deliver_t* delivery;
 }
 
-@property (nonatomic, retain) MessageFormat* messageFormat;
-@property (nonatomic, retain) Identity* identity;
+@property (nonatomic,retain) NSMutableArray* queue;
+@property (nonatomic,retain) NSLock* connLock;
+@property (nonatomic,retain) MessageFormat* messageFormat;
+@property (nonatomic,retain) Identity* identity;
+@property (nonatomic,retain) id<TransportListener> listener;
 
-- (NSString*) queueForKey: (OpenSSLPublicKey*) key;
-- (NSString*) routeForKeys: (NSArray*) keys;
+- (id) initWithListener: (id<TransportListener>) listener;
 
-- (void) runWithPublicKey: (NSString*) pubKey;
-- (void) sendMessage: (OutgoingMessage*) msg;
+- (void) run;
+
+// receiving thread
+- (NSData*) consumeMessageFromConn: (amqp_connection_state_t) conn;
+- (void) receive;
+
+// sending thread
+- (void) sendData: (NSData*) data toKeys: (NSArray*) keys onConn: (amqp_connection_state_t) conn;
+- (void) queueMessage: (OutgoingMessage*) msg;
+- (void) send;
+
+// utility functions
+- (amqp_connection_state_t) openConnection;
+
+
++ (NSString*) queueForKey: (OpenSSLPublicKey*) key;
++ (NSString*) routeForKeys: (NSArray*) keys;
++ (void) amqpCheckReplyForConn: (amqp_connection_state_t) conn inContext: (NSString*) context;
++ (NSString*) amqpErrorMessageFor: (amqp_rpc_reply_t) x inContext: (NSString*) context;
+
 @end

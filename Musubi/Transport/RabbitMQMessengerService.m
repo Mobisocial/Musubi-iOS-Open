@@ -27,19 +27,319 @@
 
 @implementation RabbitMQMessengerService
 
-@synthesize messageFormat, identity;
+@synthesize messageFormat, identity, listener, queue, connLock;
 
-- (id)init {
+- (id)initWithListener:(id<TransportListener>) l {
     self = [super init];
     if (self != nil) {
         [self setMessageFormat: [MessageFormat defaultMessageFormat]];
         [self setIdentity: [Identity sharedInstance]];
+        [self setListener: l];
+        [self setQueue: [NSMutableArray arrayWithCapacity:10]];
+        [self setConnLock: [[NSLock alloc] init]];
     }
     
     return self;
 }
 
-- (NSString*) queueForKey: (OpenSSLPublicKey*) key {
+
+- (NSData*) consumeMessageFromConn: (amqp_connection_state_t) conn {
+    amqp_frame_t frame;
+    int result;
+    size_t body_received;
+    size_t body_target;
+    
+    amqp_maybe_release_buffers(conn);
+    
+    result = amqp_simple_wait_frame(conn, &frame);
+    if (result < 0) {
+        @throw [NSException exceptionWithName:@"AMQPException" reason:@"Got error waiting for frame" userInfo:nil];
+    }
+
+    if (frame.frame_type != AMQP_FRAME_METHOD) {
+        return nil;
+    }
+    
+    if (frame.payload.method.id != AMQP_BASIC_DELIVER_METHOD) {
+        return nil;
+    }
+    
+    delivery = (amqp_basic_deliver_t*) frame.payload.method.decoded;
+    
+    result = amqp_simple_wait_frame(conn, &frame);
+    if (result < 0) {
+        @throw [NSException exceptionWithName:@"AMQPException" reason:@"Got error waiting for frame" userInfo:nil];
+    }
+    
+    if (frame.frame_type != AMQP_FRAME_HEADER) {
+        @throw [NSException exceptionWithName:@"AMQPException" reason:@"Expected frame header but got something else" userInfo:nil];
+    }
+    
+    body_target = frame.payload.properties.body_size;
+    body_received = 0;
+    
+    NSMutableData* messageData = [NSMutableData data];
+    
+    while (body_received < body_target) {
+        result = amqp_simple_wait_frame(conn, &frame);
+        if (result < 0) {
+            @throw [NSException exceptionWithName:@"AMQPException" reason:@"Got error waiting for frame" userInfo:nil];
+        }
+        
+        if (frame.frame_type != AMQP_FRAME_BODY) {
+            @throw [NSException exceptionWithName:@"AMQPException" reason:@"Expected body" userInfo:nil];
+        }
+        
+        body_received += frame.payload.body_fragment.len;
+        [messageData appendBytes:frame.payload.body_fragment.bytes length:frame.payload.body_fragment.len];
+        assert(body_received <= body_target);
+    }
+    
+    return messageData;
+}
+
+- (void)receive {
+    [inLock lock];
+    
+    while (true) {
+        amqp_connection_state_t conn = [self openConnection];
+        
+        @try {
+            while (true) {
+                // Open channel
+                amqp_channel_open(conn, 1);
+                [RabbitMQMessengerService amqpCheckReplyForConn:conn inContext:@"Opening channel"];
+                
+                // Declare our queue (by public key)
+                NSString* queueName = [RabbitMQMessengerService queueForKey:[[identity keyPair] publicKey]];
+                const char* cQueueName = [queueName cStringUsingEncoding:NSUTF8StringEncoding];
+                amqp_queue_declare_ok_t *r = amqp_queue_declare(conn, 1, amqp_cstring_bytes(cQueueName), 0, 1, 0, 0, amqp_empty_table);
+                [RabbitMQMessengerService amqpCheckReplyForConn:conn inContext:@"Declaring queue"];
+                
+                // Get the name of the queue
+                amqp_bytes_t queuename = amqp_bytes_malloc_dup(r->queue);
+                if (queuename.bytes == NULL) {
+                    @throw [NSException exceptionWithName:@"AMQPException" reason:@"Out of memory while copying queue name" userInfo:nil];
+                }
+                
+                // Consume from the queue
+                amqp_basic_consume(conn, 1, queuename, amqp_empty_bytes, 0, 0, 0, amqp_empty_table);
+                [RabbitMQMessengerService amqpCheckReplyForConn:conn inContext:@"Basic consume"];
+                
+                @try {
+                    while (true) {
+                        
+                        NSLog(@"[RabbitMQMessengerService] Incoming alive");
+                        
+                        // Keep reading messageg
+                        NSData* incoming = [self consumeMessageFromConn:conn];
+                        
+                        if (incoming != nil) {
+                            
+                            @try {
+                                IncomingMessage* msg = [[messageFormat decodeMessage:incoming withKeyPair:[identity keyPair]] autorelease];
+                                NSLog(@"[RabbitMQMessengerService] Incoming message: %@", [msg obj]);
+                                
+                                int res = [listener handleIncoming:msg];
+                                if (res) {
+                                    amqp_basic_ack(conn, 1, delivery->delivery_tag, FALSE);
+                                } else {
+                                    amqp_basic_reject(conn, 1, delivery->delivery_tag, FALSE);
+                                }
+                            }
+                            @catch (NSException *exception) {
+                                NSLog(@"Message exception: %@", exception);
+                                amqp_basic_reject(conn, 1, delivery->delivery_tag, FALSE);
+                            }
+                            @finally {
+                                
+                            }
+                        }
+                    }
+                } @catch (NSException* exception) {
+                    NSLog(@"Transport exception: %@", exception);
+                } @finally {
+                    // close the channel
+                    amqp_channel_close(conn, 1, AMQP_REPLY_SUCCESS);
+                }
+            }
+            
+            amqp_connection_close(conn, AMQP_REPLY_SUCCESS);
+
+        } @catch (NSException* exception) {
+            NSLog(@"Exception: %@", exception);
+        } @finally {
+            amqp_destroy_connection(conn);
+        }
+    }
+    
+    
+    [inLock unlockWithCondition:1];
+}
+
+- (void) sendData: (NSData*) data toKeys: (NSArray*) keys onConn: (amqp_connection_state_t) conn {
+    // Declare exchange using destination keys
+    NSString* exchange = [RabbitMQMessengerService routeForKeys: keys];
+    const char* cExchange = [exchange cStringUsingEncoding:NSUTF8StringEncoding];
+    amqp_exchange_declare(conn, 1, amqp_cstring_bytes(cExchange), amqp_cstring_bytes("fanout"), 0, 0, amqp_empty_table);
+    
+    // Declare queues and bind exchange for every recipient
+    for (NSString* key in keys) {
+        // Determine queue name using recipient's public key
+        OpenSSLPublicKey* rsaKey = [[[OpenSSLPublicKey alloc] initWithEncoded: [key decodeBase64]] autorelease];
+        NSString* queueName = [RabbitMQMessengerService queueForKey:rsaKey];
+        const char* cQueueName = [queueName cStringUsingEncoding:NSUTF8StringEncoding];
+        
+        // Declare queue
+        amqp_queue_declare(conn, 1, amqp_cstring_bytes(cQueueName), 0, 1, 0, 0, amqp_empty_table);
+        [RabbitMQMessengerService amqpCheckReplyForConn:conn inContext:@"Declaring queue"];
+        
+        // Bind queue to exchange
+        amqp_queue_bind(conn, 1, amqp_cstring_bytes(cQueueName), amqp_cstring_bytes(cExchange), amqp_cstring_bytes(""),
+                        amqp_empty_table);
+        [RabbitMQMessengerService amqpCheckReplyForConn:conn inContext:@"Binding queue"];
+    }
+    
+    // Publish the data on the exchange 
+    amqp_bytes_t message;
+    message.bytes = (void*) [data bytes];
+    message.len = [data length];
+    
+    int result = amqp_basic_publish(conn,
+                                    1,
+                                    amqp_cstring_bytes(cExchange),
+                                    amqp_cstring_bytes(""),
+                                    1,
+                                    0,
+                                    NULL,
+                                    message);
+    if (result > 0) {
+        @throw [NSException exceptionWithName:@"AMQPException" reason:@"Error while publishing" userInfo:nil];
+    }
+}
+
+- (void)send {
+    [outLock lock];
+    while (true) {
+        amqp_connection_state_t conn = [self openConnection];
+        @try {
+            // Open channel
+            amqp_channel_open(conn, 1);
+            [RabbitMQMessengerService amqpCheckReplyForConn:conn inContext:@"Opening channel"];
+            
+            // keep sending and receiving messages
+            while (true) {
+                NSLog(@"[RabbitMQMessengerService] Outgoing alive");
+                
+                if ([queue count] > 0) {
+                    OutgoingMessage* msg = [[queue objectAtIndex:0] retain];
+                    [queue removeObjectAtIndex:0];
+                    
+                    NSLog(@"[RabbitMQMessengerService] Sending message: %@", [msg obj]);
+                    
+                    // encode message
+                    NSData* encoded = [messageFormat encodeMessage: msg withKeyPair:[identity keyPair]];
+                    
+                    // send message
+                    @try {
+                        [self sendData:encoded toKeys:[msg toPublicKeys] onConn:conn];
+                    } @catch (NSException* exception) {
+                        NSLog(@"TransportException: %@", exception);                    
+                    } @finally {
+                        [msg release];
+                    }
+                }
+                
+                // sleep 100 ms
+                [NSThread sleepForTimeInterval:3];
+            }        
+            // close the channel
+            amqp_channel_close(conn, 1, AMQP_REPLY_SUCCESS);
+            amqp_connection_close(conn, AMQP_REPLY_SUCCESS);
+        } @catch (NSException* exception) {
+            NSLog(@"MessageException: %@", exception);
+        } @finally {
+            amqp_destroy_connection(conn);
+        }
+    }
+ 
+
+    [outLock unlockWithCondition:1];
+}
+
+- (void) sendMessage: (OutgoingMessage*) msg {
+    [queue addObject:msg];
+}
+
+- (void) run {
+    inLock = [[NSConditionLock alloc] initWithCondition:0];
+    outLock = [[NSConditionLock alloc] initWithCondition:0];
+    
+    while (true) {
+        // Run the in / out threads
+        NSThread *inThread = [[NSThread alloc] initWithTarget:self
+                                                     selector:@selector(receive)
+                                                       object:nil];
+        
+        NSThread *outThread = [[NSThread alloc] initWithTarget:self
+                                                      selector:@selector(send)
+                                                       object:nil];
+        
+        [inThread start];
+        [outThread start];
+        
+        [outLock lockWhenCondition:1];
+        NSLog(@"Outgoing done");
+
+        [inLock lockWhenCondition:
+         1];
+        NSLog(@"Incoming done");
+
+        [outLock unlock];
+        [inLock unlock];
+    }
+    
+    [outLock release];
+    [inLock release];    
+}
+
+- (amqp_connection_state_t) openConnection {
+    [connLock lock];
+    NSLog(@"Connecting to AMQP");
+    amqp_connection_state_t conn = amqp_new_connection();
+    
+    // Open socket to AMQP server
+    int sockfd = amqp_open_socket("pepperjack.stanford.edu", 5672);
+    if (sockfd < 0) {
+        return nil;
+    }
+    amqp_set_sockfd(conn, sockfd);
+    
+    // Login to server using default username/password
+    amqp_login(conn, "/", 0, 131072, 30, AMQP_SASL_METHOD_PLAIN, "guest", "guest");
+//    [self amqpCheckReplyForConn:conn inContext:@"Logging in"];
+    
+    NSLog(@"Connected to AMQP");
+    [connLock unlock];
+    return conn;
+}
+
++ (NSString*) routeForKeys: (NSArray*) keys {
+    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
+    
+    CC_SHA1_CTX ctx;
+    CC_SHA1_Init(&ctx);
+    {
+        for (NSString* key in keys) {
+            const char* cKey = [key cStringUsingEncoding:NSUTF8StringEncoding];
+            CC_SHA1_Update(&ctx, cKey, sizeof(cKey));
+        }
+    }
+    CC_SHA1_Final(digest, &ctx);
+    return [[NSData dataWithBytes: digest length:CC_SHA1_DIGEST_LENGTH] encodeBase64];
+}
+
++ (NSString*) queueForKey: (OpenSSLPublicKey*) key {
     NSMutableData* bytes = [NSMutableData data];
     
     NSData* mod = [key modulus];
@@ -58,116 +358,44 @@
     return [bytes encodeBase64];
 }
 
-- (NSString*) routeForKeys: (NSArray*) keys {
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    
-    CC_SHA1_CTX ctx;
-    CC_SHA1_Init(&ctx);
-    {
-        for (NSString* key in keys) {
-            const char* cKey = [key cStringUsingEncoding:NSUTF8StringEncoding];
-            CC_SHA1_Update(&ctx, cKey, sizeof(cKey));
-        }
++ (void) amqpCheckReplyForConn: (amqp_connection_state_t) c inContext: (NSString*) context {
+    if (amqp_get_rpc_reply(c).reply_type != AMQP_RESPONSE_NORMAL) {
+        @throw [NSException exceptionWithName:@"AMQPException" reason: [RabbitMQMessengerService amqpErrorMessageFor: amqp_get_rpc_reply(c) inContext: context] userInfo: nil];
     }
-    CC_SHA1_Final(digest, &ctx);
-    return [[NSData dataWithBytes: digest length:CC_SHA1_DIGEST_LENGTH] encodeBase64];
 }
 
-- (void) sendMessage: (OutgoingMessage*) msg {
-    
-    amqp_connection_state_t conn = amqp_new_connection();
-    
-    // Open socket to AMQP server
-    int sockfd;
-    die_on_error(sockfd = amqp_open_socket("pepperjack.stanford.edu", 5672), "Opening socket");
-    amqp_set_sockfd(conn, sockfd);
-    
-    // Login to server using default username/password
-    die_on_amqp_error(amqp_login(conn, "/", 0, 131072, 30, AMQP_SASL_METHOD_PLAIN, "guest", "guest"), "Logging in");
-    
-    // Open channel
-    amqp_channel_open(conn, 1);
-    die_on_amqp_error(amqp_get_rpc_reply(conn), "Opening channel");
-    
-    // Declare exchange using destination keys
-    NSString* exchange = [self routeForKeys: [msg toPublicKeys]];
-    const char* cExchange = [exchange cStringUsingEncoding:NSUTF8StringEncoding];
-    amqp_exchange_declare(conn, 1, amqp_cstring_bytes(cExchange), amqp_cstring_bytes("fanout"), 0, 0, amqp_empty_table);
-    die_on_amqp_error(amqp_get_rpc_reply(conn), "Declaring exchange");
-    
-    // Declare queues and bind exchange for every recipient
-    for (NSString* key in [msg toPublicKeys]) {
-        // Determine queue name using recipient's public key
-        OpenSSLPublicKey* rsaKey = [[OpenSSLPublicKey alloc] initWithEncoded: [key decodeBase64]];
-        NSString* queueName = [self queueForKey:rsaKey];
-        const char* cQueueName = [queueName cStringUsingEncoding:NSUTF8StringEncoding];
-        
-        // Declare queue
-        amqp_queue_declare(conn, 1, amqp_cstring_bytes(cQueueName), 0, 1, 0, 0, amqp_empty_table);
-        die_on_amqp_error(amqp_get_rpc_reply(conn), "Declaring queue");
-        
-        // Bind queue to exchange
-        amqp_queue_bind(conn, 1, amqp_cstring_bytes(cQueueName), amqp_cstring_bytes(cExchange), amqp_cstring_bytes(""),
-                        amqp_empty_table);
-        die_on_amqp_error(amqp_get_rpc_reply(conn), "Binding queue");
++ (NSString*) amqpErrorMessageFor: (amqp_rpc_reply_t) x inContext: (NSString*) context {
+    switch (x.reply_type) {
+        case AMQP_RESPONSE_NORMAL:
+            return nil;
+            
+        case AMQP_RESPONSE_NONE:
+            return [NSString stringWithFormat:@"%@: missing RPC reply type!", context];
+            
+        case AMQP_RESPONSE_LIBRARY_EXCEPTION:
+            return [NSString stringWithFormat:@"%@: %s", context, amqp_error_string(x.library_error)];       
+            
+        case AMQP_RESPONSE_SERVER_EXCEPTION:
+            switch (x.reply.id) {
+                case AMQP_CONNECTION_CLOSE_METHOD: {
+                    amqp_connection_close_t *m = (amqp_connection_close_t *) x.reply.decoded;
+                    return [NSString stringWithFormat:@"%@: server connection error %d, message: %.*s", context,
+                            m->reply_code,
+                            (int) m->reply_text.len, (char *) m->reply_text.bytes];
+                }
+                case AMQP_CHANNEL_CLOSE_METHOD: {
+                    amqp_channel_close_t *m = (amqp_channel_close_t *) x.reply.decoded;
+                    return [NSString stringWithFormat:@"%@: server channel error %d, message: %.*s", context,
+                            m->reply_code,
+                            (int) m->reply_text.len, (char *) m->reply_text.bytes];
+                }
+                default:
+                    return [NSString stringWithFormat:@"%@: unknown server error, method id 0x%08X", context,
+                            x.reply.id];
+            }
     }
-
-    // Encode message using message format
-    NSData* encoded = [messageFormat encodeMessage: msg withKeyPair:[identity keyPair]];
-    amqp_bytes_t cyphered;
-    cyphered.bytes = (void*) [encoded bytes];
-    cyphered.len = [encoded length];
-    
-    // Publish the encoded message on the exchange
-    die_on_error(amqp_basic_publish(conn,
-                               1,
-                               amqp_cstring_bytes(cExchange),
-                               amqp_cstring_bytes(""),
-                               1,
-                               0,
-                               NULL,
-                               cyphered),
-                     "Publishing");
-    
-    // Close channel and connection
-    die_on_amqp_error(amqp_channel_close(conn, 1, AMQP_REPLY_SUCCESS), "Closing channel");
-    die_on_amqp_error(amqp_connection_close(conn, AMQP_REPLY_SUCCESS), "Closing connection");
-    die_on_error(amqp_destroy_connection(conn), "Ending connection");
-    
-    NSLog(@"Sent message: %@", msg);
-    return;
+    return nil;
 }
 
-- (void) runWithPublicKey: (NSString*) pubKey {
-    const char* exchange = [pubKey cStringUsingEncoding:NSUTF8StringEncoding];
-    
-    amqp_connection_state_t conn = amqp_new_connection();
-
-    int sockfd;
-    die_on_error(sockfd = amqp_open_socket("pepperjack.stanford.edu", 5672), "Opening socket");
-    amqp_set_sockfd(conn, sockfd);
-    
-    die_on_amqp_error(amqp_login(conn, "/", 0, 131072, 30, AMQP_SASL_METHOD_PLAIN, "guest", "guest"), "Logging in");
-    amqp_channel_open(conn, 1);
-    die_on_amqp_error(amqp_get_rpc_reply(conn), "Opening channel");
-    
-    amqp_queue_declare_ok_t *r = amqp_queue_declare(conn, 1, amqp_cstring_bytes(exchange), 0, 0, 0, 1,
-                                                    amqp_empty_table);
-    die_on_amqp_error(amqp_get_rpc_reply(conn), "Declaring queue");
-    
-    amqp_bytes_t queuename = amqp_bytes_malloc_dup(r->queue);
-    if (queuename.bytes == NULL) {
-        fprintf(stderr, "Out of memory while copying queue name");
-        return;
-    }
-    
-    amqp_basic_consume(conn, 1, amqp_cstring_bytes(exchange), amqp_empty_bytes, 0, 0, 0, amqp_empty_table);
-    die_on_amqp_error(amqp_get_rpc_reply(conn), "Consuming");
-    
-    
-    amqp_channel_close(conn, 1, AMQP_REPLY_SUCCESS);
-    amqp_connection_close(conn, AMQP_REPLY_SUCCESS);
-    amqp_destroy_connection(conn);
-}
 
 @end

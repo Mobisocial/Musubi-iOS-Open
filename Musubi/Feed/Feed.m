@@ -37,10 +37,4 @@
     return self;
 }
 
-- (void) insert: (Obj *)obj forApp: (NSString*) app {
-    OutgoingMessage* msg = [[OutgoingMessage alloc] initWithObj:obj publicKeys:[group publicKeys] feedName:[group feedName] appId:app];
-    RabbitMQMessengerService* messenger = [[RabbitMQMessengerService alloc] init];
-    [messenger sendMessage: msg];
-}
-
 @end

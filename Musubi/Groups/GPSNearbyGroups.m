@@ -49,12 +49,12 @@
 - (NSArray*) findGroupsNear: (CLLocation*) loc withPassword: (NSString*) pwd {
     NSString* url = @"http://suif.stanford.edu/dungbeetle/nearby.php";
 
-    NSMutableString *body = [[NSMutableString alloc] init];   
+    NSMutableString *body = [[[NSMutableString alloc] init] autorelease];   
     [body appendFormat:@"lat=%f", [loc coordinate].latitude];
     [body appendFormat:@"&lng=%f", [loc coordinate].longitude];
     [body appendFormat:@"&password=%@", pwd != nil ? pwd : @""];
     
-    NSMutableURLRequest* req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    NSMutableURLRequest* req = [[[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]] autorelease];
     [req setHTTPMethod:@"POST"];
     [req setValue:[NSString stringWithFormat:@"%d", [body length]] forHTTPHeaderField:@"Content-length"];
     [req setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
@@ -70,13 +70,13 @@
     if ([urlResponse statusCode] >=200 && [urlResponse statusCode] <300)
     {
         // construct groups from JSON response
-        SBJsonParser* parser = [[SBJsonParser alloc] init];
+        SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
         NSArray* json = [parser objectWithData: responseData];
 
         NSMutableArray* groups = [NSMutableArray arrayWithCapacity:[json count]];
         for (int i=0; i<[json count]; i++) {
             NSDictionary* dict = [parser objectWithString:[json objectAtIndex:i]];
-            Group* group = [[Group alloc] initWithName:[dict valueForKey:@"group_name"] feedUri: [NSURL URLWithString:[dict valueForKey:@"feed_uri"]]];
+            Group* group = [[[Group alloc] initWithName:[dict valueForKey:@"group_name"] feedUri: [NSURL URLWithString:[dict valueForKey:@"feed_uri"]]] autorelease];
             [groups addObject:group];
         }
         

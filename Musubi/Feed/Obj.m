@@ -48,4 +48,11 @@
     return [NSString stringWithFormat:@"<Obj: %@, %@>", type, [self json]];
 }
 
+- (UIView*) render {
+    return nil;
+}
+
+- (CGFloat)renderHeight {
+    return 44.0;
+}
 @end

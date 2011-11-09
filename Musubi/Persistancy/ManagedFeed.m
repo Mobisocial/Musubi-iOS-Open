@@ -31,5 +31,50 @@
 @dynamic key;
 @dynamic name;
 @dynamic session;
+@dynamic url;
+@dynamic messages;
+
+- (ManagedMessage*) storeMessage: (Message*) msg{
+    
+    SBJsonWriter* writer = [[[SBJsonWriter alloc] init] autorelease];
+    NSData* contents = [writer dataWithObject: [[msg obj] json]];
+    
+    ManagedMessage *newMessage = [NSEntityDescription
+                                  insertNewObjectForEntityForName:@"Message"
+                                  inManagedObjectContext:[self managedObjectContext]];
+    
+    [newMessage setContents: contents];
+    [newMessage setApp: [msg appId]];
+    [newMessage setTimestamp: [msg timestamp]];
+    [newMessage setFeed: self];
+    [newMessage setSender:[msg sender]];
+    
+    [[self managedObjectContext] save:NULL];
+    return newMessage;
+}
+
+- (NSArray *) allMessages {
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:[self managedObjectContext]];
+    
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    [request setEntity:entity];
+    [request setPredicate: [NSPredicate predicateWithFormat:@"feed = %@", self]];
+    
+    NSError *error = nil;
+    return [[self managedObjectContext] executeFetchRequest:request error:&error];
+}
+
+- (NSArray *) allMembers {
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"GroupMember" inManagedObjectContext:[self managedObjectContext]];
+    
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    [request setEntity:entity];
+    [request setPredicate: [NSPredicate predicateWithFormat:@"feed = %@", self]];
+    
+    NSError *error = nil;
+    return [[self managedObjectContext] executeFetchRequest:request error:&error];
+}
+
+
 
 @end

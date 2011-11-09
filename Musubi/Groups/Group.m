@@ -27,19 +27,18 @@
 
 @implementation Group
 
-@synthesize name, feedUri, feedName, key, members;
+@synthesize name, feedUri, session, key, members;
 
 - (id)initWithName:(NSString *)n feedUri:(NSURL *)uri {
     self = [super init];
     if (self != nil) {
-        [self setName: name];
+        [self setName: n];
         [self setFeedUri: uri];
         [self setMembers: [NSArray array]];
         
         NSDictionary* uriComponents = [uri queryComponents];
-        [self setFeedName: [[uriComponents objectForKey:@"session"] objectAtIndex:0]];
+        [self setSession: [[uriComponents objectForKey:@"session"] objectAtIndex:0]];
         [self setKey: [[uriComponents objectForKey:@"key"] objectAtIndex:0]];
-
     }
     return self;
 }
@@ -50,5 +49,27 @@
         [keys addObject: [member publicKey]];
     }
     return keys;
+}
+
+- (NSString *)description {
+    NSMutableString* desc = [NSMutableString string];
+    [desc appendString:@"<Group: "];
+    [desc appendString:name];
+    [desc appendString:@", ["];
+    for (GroupMember* member in members) {
+        [desc appendString:[NSString stringWithFormat:@"%@, ", [member description]]];
+    }
+    [desc appendString:@"]>"];
+    return desc;
+}
+
+- (GroupMember *)memberByPublicKey:(NSString *)publicKey {
+    for (GroupMember* member in members) {
+        if ([[member publicKey] isEqualToString:publicKey]) {
+            return member;
+        }
+    }
+    
+    return nil;
 }
 @end

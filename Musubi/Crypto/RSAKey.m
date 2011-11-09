@@ -225,7 +225,7 @@ NSData* stripPublicKeyHeader(NSData * d_key)
     };
     
     unsigned char builder[15];
-    NSMutableData * encKey = [[NSMutableData alloc] init];
+    NSMutableData * encKey = [[[NSMutableData alloc] init] autorelease];
     int bitstringEncLength;
     
     // When we get to the bitstring - how will we encode it?

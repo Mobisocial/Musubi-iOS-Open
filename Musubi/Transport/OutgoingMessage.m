@@ -27,34 +27,36 @@
 
 @implementation OutgoingMessage 
 
-@synthesize obj, toPublicKeys, feedName, appId, timestamp;
+@synthesize toPublicKeys;
 
-- (id)initWithObj:(Obj *)o publicKeys:(NSArray *)pks feedName:(NSString *)fn appId:(NSString *)ai {
+- (id)initWithObj:(SignedObj *)o publicKeys:(NSArray *)pks feedName:(NSString *)fn appId:(NSString *)ai {
     self = [super init];
     if (self != nil) {
         [self setObj: o];
         [self setToPublicKeys: pks];
         [self setFeedName: fn];
         [self setAppId: ai];
-        [self setTimestamp: (long)[[NSDate date] timeIntervalSince1970] * 1000];
+        [self setTimestamp: [NSDate date]];
     }
     return self;
 }
 
 - (NSData*) message {
+    long long ts = (long long)([timestamp timeIntervalSince1970] * 1000);
     NSMutableDictionary* complemented = [NSMutableDictionary dictionaryWithDictionary: [obj json]];
-    [complemented setValue:[obj type] forKey:@"type"];
     [complemented setValue:feedName forKey:@"feedName"];
     [complemented setValue:appId forKey:@"appId"];
-    [complemented setValue:[NSString stringWithFormat: @"%u", timestamp] forKey:@"timestamp"];
+    [complemented setValue:[NSString stringWithFormat: @"%qi", ts] forKey:@"timestamp"];
     
-    SBJsonWriter* jsonWriter = [[SBJsonWriter alloc] init];
+    NSLog(@"Sending: %@", complemented);
+    
+    SBJsonWriter* jsonWriter = [[[SBJsonWriter alloc] init] autorelease];
     NSString* json = [jsonWriter stringWithObject: complemented];
     return [json dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<OutgoingMessage: %@, to: %@>", obj, toPublicKeys];
+    return [NSString stringWithFormat:@"<OutgoingMessage: %@, to: %@>", [super description], toPublicKeys];
 }
 
 @end

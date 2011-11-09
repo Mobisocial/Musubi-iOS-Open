@@ -30,18 +30,19 @@
 @interface Group : NSObject {
     NSString* name;
     NSURL* feedUri;
-    NSString* feedName;
+    NSString* session;
     NSString* key;
     NSArray* members;
 }
 
 @property (nonatomic, retain) NSString* name;
 @property (nonatomic, retain) NSURL* feedUri;
-@property (nonatomic, retain) NSString* feedName;
+@property (nonatomic, retain) NSString* session;
 @property (nonatomic, retain) NSString* key;
 @property (nonatomic, retain) NSArray* members;
 
 - (id) initWithName: (NSString*) n feedUri: (NSURL*) uri;
 - (NSArray*) publicKeys;
+- (GroupMember *)memberByPublicKey:(NSString *)publicKey;
 
 @end

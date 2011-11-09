@@ -64,7 +64,7 @@
 }
 
 - (RSAKey *)privateKey {
-    return [[RSAKey alloc] initFromKeyChainWithTag:privateTag];
+    return [[[RSAKey alloc] initFromKeyChainWithTag:privateTag] autorelease];
 }
 
 - (NSString *)privateKeyString {
@@ -72,7 +72,7 @@
 }
 
 - (RSAPublicKey *)publicKey {
-    return [[RSAPublicKey alloc] initFromKeyChainWithTag:publicTag];
+    return [[[RSAPublicKey alloc] initFromKeyChainWithTag:publicTag] autorelease];
 }
 
 - (NSString *)publicKeyString {

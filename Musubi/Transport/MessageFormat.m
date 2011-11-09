@@ -32,6 +32,10 @@
     @throw [NSException exceptionWithName:@"AbstractClass" reason:@"This method must be implemented in an extending class" userInfo:nil];
 }
 
+- (IncomingMessage *)decodeMessage:(NSData *)data withKeyPair :(OpenSSLKeyPair *)keyPair {
+    @throw [NSException exceptionWithName:@"AbstractClass" reason:@"This method must be implemented in an extending class" userInfo:nil];
+}
+
 + (MessageFormat *)defaultMessageFormat {
     return [[[DefaultMessageFormat alloc] init] autorelease];
 }

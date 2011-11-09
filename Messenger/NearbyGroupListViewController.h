@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Feed.h"
 #import "GroupProvider.h"
 #import "GPSNearbyGroups.h"
 #import "FeedViewController.h"
+#import "Musubi.h"
 
 @interface NearbyGroupListViewController : UITableViewController {
     NSArray* groups;

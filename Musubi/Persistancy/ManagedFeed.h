@@ -25,12 +25,21 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-
+#import "ManagedMessage.h"
+#import "SBJson.h"
+#import "IncomingMessage.h"
+#import "OutgoingMessage.h"
 
 @interface ManagedFeed : NSManagedObject
 
 @property (nonatomic, retain) NSString * key;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * session;
+@property (nonatomic, retain) NSString * url;
+@property (nonatomic, retain) NSArray * messages;
+
+- (ManagedMessage*) storeMessage: (Message*) msg;
+- (NSArray*) allMessages;
+- (NSArray*) allMembers;
 
 @end

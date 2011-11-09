@@ -42,7 +42,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    GPSNearbyGroups* gpsNearbyGroups = [[GPSNearbyGroups alloc] init];
+    GPSNearbyGroups* gpsNearbyGroups = [[[GPSNearbyGroups alloc] init] autorelease];
     [self setGroups: [gpsNearbyGroups findNearbyGroups]];
 }
 
@@ -80,11 +80,11 @@
 }
 
 - (UINavigationItem *)navigationItem {
-    return [[UINavigationItem alloc] initWithTitle:@"Nearby"];
+    return [[[UINavigationItem alloc] initWithTitle:@"Nearby"] autorelease];
 }
 
 - (UITabBarItem *)tabBarItem {
-    return [[UITabBarItem alloc] initWithTitle:@"Nearby" image:nil tag:0];
+    return [[[UITabBarItem alloc] initWithTitle:@"Nearby" image:nil tag:0] autorelease];
 }
 
 
@@ -119,12 +119,10 @@
 {
     Group* group = [groups objectAtIndex: indexPath.row];
     
-    GroupProvider* gp = [[GroupProvider alloc] init];
-    Feed* feed = [gp joinGroup: group];
-    
-    
+    ManagedFeed* feed = [[Musubi sharedInstance] joinGroup: group];
+
     FeedViewController* feedViewController = (FeedViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"feed"];
-    [feedViewController setFeed: feed];
+    [feedViewController setGroup: group];
     
     [[self navigationController] pushViewController:feedViewController animated:YES];
 }

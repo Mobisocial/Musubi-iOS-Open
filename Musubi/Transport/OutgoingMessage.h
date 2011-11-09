@@ -26,22 +26,15 @@
 #import <Foundation/Foundation.h>
 #import "Obj.h"
 #import "SBJsonWriter.h"
+#import "Message.h"
 
-@interface OutgoingMessage : NSObject {
-    Obj* obj;
+@interface OutgoingMessage : Message {
     NSArray* toPublicKeys;
-    NSString* feedName;
-    NSString* appId;
-    long timestamp;
 }
 
-@property (nonatomic, retain) Obj* obj;
 @property (nonatomic, retain) NSArray* toPublicKeys;
-@property (nonatomic, retain) NSString* feedName;
-@property (nonatomic, retain) NSString* appId;
-@property (nonatomic, assign) long timestamp;
 
-- (id) initWithObj:(Obj *)o publicKeys:(NSArray *)pks feedName:(NSString *)fn appId:(NSString *)ai;
+- (id) initWithObj:(SignedObj *)o publicKeys:(NSArray *)pks feedName:(NSString *)fn appId:(NSString *)ai;
 - (NSData*) message;
 
 @end

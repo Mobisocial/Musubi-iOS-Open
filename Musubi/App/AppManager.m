@@ -46,14 +46,14 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *appPath = [documentsDirectory stringByAppendingPathComponent:name];
     
-    Download* download = [[Download alloc] initWithPath:appPath andDelegate:self];
+    Download* download = [[[Download alloc] initWithPath:appPath andDelegate:self] autorelease];
     [download startWithURL:url];
 }
 
 - (void)resourceSavedToPath:(NSString *)path {
     NSString* targetPath = [path stringByReplacingOccurrencesOfString:@"__TMP__" withString:@""];
     
-    ZipArchive* archive = [[ZipArchive alloc] init];
+    ZipArchive* archive = [[[ZipArchive alloc] init] autorelease];
     [archive UnzipOpenFile: path];
     [archive UnzipFileTo:targetPath overWrite:YES];
     

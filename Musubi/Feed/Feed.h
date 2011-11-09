@@ -36,6 +36,5 @@
 @property (nonatomic,retain) Group* group;
 
 - (id) initWithGroup: (Group*) g;
-- (void) insert: (Obj*) obj forApp: (NSString*) app;
 
 @end

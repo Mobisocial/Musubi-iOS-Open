@@ -129,6 +129,23 @@
     return signature;
 }
 
+- (NSData *)decryptNoPadding:(NSData *)input {
+    int length = RSA_size(rsa);    
+    unsigned char *buffer = malloc(length);
+    bzero(buffer, length);
+    
+    RSA_private_decrypt([input length], [input bytes], buffer, rsa, RSA_NO_PADDING);
+    return [NSData dataWithBytesNoCopy:buffer length:length];
+}
+
+- (NSData *)decryptPKCS1Padding:(NSData *)input {
+    int length = RSA_size(rsa);    
+    unsigned char *buffer = malloc(length);
+    bzero(buffer, length);
+    
+    RSA_private_decrypt([input length], [input bytes], buffer, rsa, RSA_PKCS1_PADDING);
+    return [NSData dataWithBytesNoCopy:buffer length:length];
+}
 
 + (OpenSSLKey*)privateKeyWithLength:(int)length
 {
@@ -137,9 +154,8 @@
         key = RSA_generate_key(length, RSA_F4, NULL, NULL);
     } while (1 != RSA_check_key(key));
     
-    return [[OpenSSLPrivateKey alloc] initWithRSA:key];
+    return [[[OpenSSLPrivateKey alloc] initWithRSA:key] autorelease];
 }
-
 
 @end
 
@@ -183,18 +199,20 @@
 
 - (NSData *)encryptNoPadding:(NSData *)input {
     int length = RSA_size(rsa);
-    unsigned char *buffer = malloc(length);
-    bzero(buffer, length);
-    bcopy((void*)[input bytes], buffer, [input length]);
-    
+    if (![input length] == length) {
+        @throw [NSException exceptionWithName:@"CryptError" reason:@"Input length is not equal to the RSA block size" userInfo:nil];
+    }
     unsigned char *cipher = malloc(length);
-    length = RSA_public_encrypt(length, buffer, cipher, rsa, RSA_NO_PADDING);
-    return [NSData dataWithBytesNoCopy:cipher length:length];
+    
+    RSA_public_encrypt(length, [input bytes], cipher, rsa, RSA_NO_PADDING);
+    return [NSData dataWithBytesNoCopy:cipher length:length freeWhenDone:YES];
 }
 
 - (NSData *)encryptPKCS1Padding:(NSData *)input {
+    int length = RSA_size(rsa);
+
     unsigned char *cipher = malloc(RSA_size(rsa));
-    int length = RSA_public_encrypt(MIN(RSA_size(rsa) - 12, [input length]), [input bytes], cipher, rsa, RSA_PKCS1_PADDING);
+    RSA_public_encrypt(MIN(length - 12, [input length]), [input bytes], cipher, rsa, RSA_PKCS1_PADDING);
     return [NSData dataWithBytesNoCopy:cipher length:length];
 }
 
@@ -211,7 +229,7 @@
 		return nil;
 	}
     
-    return [[self alloc] initWithRSA: [privateKey rsa]];
+    return [[[self alloc] initWithRSA: [privateKey rsa]] autorelease];
 }
 
 + (NSData *)stripHeaderFromEncodedKey:(NSData *)enc {
@@ -277,7 +295,7 @@
     };
     
     unsigned char builder[15];
-    NSMutableData * encKey = [[NSMutableData alloc] init];
+    NSMutableData * encKey = [[[NSMutableData alloc] init] autorelease];
     int bitstringEncLength;
     
     // When we get to the bitstring - how will we encode it?
@@ -326,8 +344,8 @@
 }
 
 + (OpenSSLKeyPair *) keyPairWithLength: (int) bits {
-    OpenSSLPrivateKey* privateKey = [[OpenSSLPrivateKey privateKeyWithLength: bits] autorelease];
-    OpenSSLPublicKey* publicKey = [[OpenSSLPublicKey publicKeyFromPrivateKey: privateKey] autorelease];
+    OpenSSLPrivateKey* privateKey = [OpenSSLPrivateKey privateKeyWithLength: bits];
+    OpenSSLPublicKey* publicKey = [OpenSSLPublicKey publicKeyFromPrivateKey: privateKey];
     
     return [[[OpenSSLKeyPair alloc] initWithPrivateKey:privateKey andPublicKey:publicKey] autorelease];
 }

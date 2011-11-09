@@ -25,10 +25,9 @@
 
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
-//#import "RSAKeyPair.h"
+#import "ObjectStore.h"
 #import "NSData+Crypto.h"
 #import "SBJsonParser.h"
-#import "Feed.h"
 #import "Group.h"
 #import "GroupMember.h"
 #import "JoinNotificationObj.h"
@@ -40,8 +39,7 @@
 @interface GroupProvider : NSObject {
 }
 
-- (Feed*) joinGroup: (Group*) g;
-- (void) updateFeed: (Feed*) feed sinceVersion: (int) version;
+- (void)updateGroup: (Group*) group sinceVersion: (int) version;
 - (NSString*) encryptAndBase64: (NSString*) str withKey: (NSData*) key;
 - (NSString*) decryptAndDecodeBase64: (NSString*) str withKey: (NSData*) key;
 

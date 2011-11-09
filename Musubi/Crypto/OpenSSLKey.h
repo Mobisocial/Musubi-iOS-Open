@@ -47,6 +47,8 @@
 - (NSData *) privateExponent;
 - (NSData *) der;
 - (NSData *) sign: (NSData*) data;
+- (NSData *) decryptNoPadding: (NSData*) input;
+- (NSData *) decryptPKCS1Padding: (NSData *)input;
 + (OpenSSLPrivateKey *) privateKeyWithLength:(int)length;
 
 @end

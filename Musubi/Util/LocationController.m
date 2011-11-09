@@ -18,9 +18,9 @@ static LocationController* sharedInstance = nil;
 {
  	self = [super init];
 	if (self != nil) {
-		self.locationManager = [[CLLocationManager alloc] init];
-		self.locationManager.delegate = self;
-		self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        [self setLocationManager: [[[CLLocationManager alloc] init] autorelease]];
+        [[self locationManager] setDelegate: self];
+        [[self locationManager] setDesiredAccuracy:kCLLocationAccuracyBest];
         
 //        [self.locationManager startUpdatingLocation];
         [self setLocation: [[[CLLocation alloc] initWithLatitude:37.429717 longitude:-122.173269] autorelease]];
@@ -32,7 +32,9 @@ static LocationController* sharedInstance = nil;
 
 - (void)dealloc
 {
-    [self.locationManager release];
+    [locationManager release];
+    [self setLocationManager:nil];
+
     [super dealloc];
 }
 

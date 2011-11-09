@@ -19,12 +19,12 @@
 
 - (NSString *)stringByEncodingURLFormat
 {
-    return (NSString *)CFURLCreateStringByAddingPercentEscapes(
+    return [(NSString *)CFURLCreateStringByAddingPercentEscapes(
                                                                NULL,
                                                                (CFStringRef)self,
                                                                NULL,
                                                                (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                               kCFStringEncodingUTF8 );
+                                                               kCFStringEncodingUTF8 ) autorelease];
 }
 
 - (NSMutableDictionary *)dictionaryFromQueryComponents

@@ -1,0 +1,56 @@
+/*
+ * Copyright 2012 The Stanford MobiSocial Laboratory
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+//
+//  Musubi.h
+//  musubi
+//
+//  Created by Willem Bult on 10/27/11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "Obj.h"
+#import "GroupProvider.h"
+#import "IncomingMessage.h"
+#import "RabbitMQMessengerService.h"
+
+static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
+
+@protocol MusubiFeedListener
+
+- (void) newMessage: (Message*) message;
+//- (void) newObj: (SignedObj*) obj forApp: (NSString*) appId andGroup: (Group*) group;
+
+@end
+
+@interface Musubi : NSObject<TransportListener> {
+    RabbitMQMessengerService* transport;
+    NSMutableDictionary* feedListeners;
+}
+
+@property (nonatomic, retain) NSMutableDictionary* feedListeners;
+
++ (Musubi*) sharedInstance;
+- (void) startTransport;
+- (NSArray*) groups;
+- (ManagedFeed*) joinGroup: (Group*) group;
+- (ManagedFeed*) feedForGroup: (Group*) group;
+- (void) listenToGroup: (Group*) group withListener: (id<MusubiFeedListener>) listener;
+- (void) sendObj: (SignedObj*)obj forApp: (NSString*) appId toGroup: (Group*) group;
+
+@end

@@ -30,14 +30,14 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
 
 @implementation GroupProvider
 
-- (NSString*) sessionURIForGroup: (NSString*) group andFeed: (NSString*) feed {
+- (NSString*) sessionURIForGroup: (NSString*) group andSession: (NSString*) session {
     
     NSData* key = [NSData generateSecureRandomKeyOf:16];
     NSString* base64Key = [key encodeBase64];
 
     NSMutableDictionary* queryComponents = [NSMutableDictionary dictionaryWithCapacity:3];
     [queryComponents setObject:group forKey:@"groupName"];
-    [queryComponents setObject:feed forKey:@"session"];
+    [queryComponents setObject:session forKey:@"session"];
     [queryComponents setObject:base64Key forKey:@"key"];
 
     NSString* url = [NSString stringWithFormat: @"http://suif.stanford.edu/dungbeetle/index.php?%@", [queryComponents stringFromQueryComponents]];
@@ -45,21 +45,23 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
     return url;
 }
 
-- (void)updateFeed: (Feed*) feed sinceVersion: (int) version {
-    NSData* key = [[feed key] decodeBase64];
-    NSString* session = [feed session];
+- (void)updateGroup: (Group*) group sinceVersion: (int) version {
+    NSData* key = [[group key] decodeBase64];
+    NSString* session = [group session];
     NSString* pubKeyB64 = [[Identity sharedInstance] publicKeyBase64];
     NSString* email = [[Identity sharedInstance] email];
     NSURL* url = [NSURL URLWithString:@"http://suif.stanford.edu/dungbeetle/index.php"];
     
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithCapacity:4];
     [params setObject:session forKey:@"session"];
+    NSLog(@"Key: %@", pubKeyB64);
+    NSLog(@"Key: %@", [self encryptAndBase64:pubKeyB64 withKey:key]);
     [params setObject:[self encryptAndBase64:pubKeyB64 withKey:key] forKey:@"public_key"];
     [params setObject:[self encryptAndBase64:email withKey:key] forKey:@"email"];
     [params setObject:[NSString stringWithFormat:@"%d", version] forKey:@"version"];
     NSString* body = [params stringFromQueryComponents];
     
-    NSMutableURLRequest* req = [[NSMutableURLRequest alloc] initWithURL:url];
+    NSMutableURLRequest* req = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
     [req setValue:[NSString stringWithFormat:@"%d", [body length]] forHTTPHeaderField:@"Content-length"];
     [req setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
     [req setHTTPMethod:@"POST"];
@@ -74,7 +76,7 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
     if ([urlResponse statusCode] >=200 && [urlResponse statusCode] <300)
     {
         // construct groups from JSON response
-        SBJsonParser* parser = [[SBJsonParser alloc] init];
+        SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
         NSDictionary* groupJSON = [parser objectWithData: responseData];
         
         NSMutableArray* members = [NSMutableArray array];
@@ -84,22 +86,14 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
             NSString* email = [self decryptAndDecodeBase64:[userDict objectForKey:@"email"] withKey:key]; 
             NSString* profile = [self decryptAndDecodeBase64:[userDict objectForKey:@"profile"] withKey:key]; 
             
-            GroupMember* member = [[GroupMember alloc] initWithEmail: email profile:profile publicKey:pubK];
-            [members addObject:member];
+            if (!(pubK == nil || [pubK isEqualToString:@""])) {
+                GroupMember* member = [[[GroupMember alloc] initWithEmail: email profile:profile publicKey:pubK] autorelease];
+                [members addObject:member];
+            }
         }
         
-        [[feed group] setMembers:members];
+        [group setMembers:members];
     }
-}
-
-- (Feed*) joinGroup:(Group *)g {
-    Feed* feed = [[Feed alloc] initWithGroup:g];
-    [self updateFeed: feed sinceVersion:-1];
-
-    JoinNotificationObj* jno = [[JoinNotificationObj alloc] initWithURI: [[feed uri] absoluteString]];
-    [feed insert: jno];
-    
-    return feed;
 }
 
 - (NSString*) decryptAndDecodeBase64: (NSString*) str withKey: (NSData*) key {
@@ -107,7 +101,7 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
         return nil;
     }
     NSData* decrypted = [[str decodeBase64] decryptWithAES128ECBPKCS7WithKey:key];
-    return [[NSString alloc] initWithData:decrypted encoding:NSUTF8StringEncoding];
+    return [[[NSString alloc] initWithData:decrypted encoding:NSUTF8StringEncoding] autorelease];
 }
 
 - (NSString*) encryptAndBase64: (NSString*) str withKey: (NSData*) key {

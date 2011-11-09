@@ -33,13 +33,14 @@
 - (NSData *) runAlgorithm:(CCAlgorithm)algo andOptions:(CCOptions)options inMode:(CCOperation) mode withKey:(NSData*)key andIV:(NSData*)iv;
 - (NSData *) encryptWithAES128ECBPKCS7WithKey:(NSData*)key;
 - (NSData *) encryptWithAES128CBCPKCS7WithKey:(NSData*)key andIV:(NSData*)iv;
-- (NSData *) encryptWithRSAECBPKCS1WithKey:(SecKeyRef)key;
 - (NSData *) decryptWithAES128ECBPKCS7WithKey:(NSData*)key;
+- (NSData *) decryptWithAES128CBCPKCS7WithKey:(NSData*)key andIV:(NSData*)iv;
+- (NSData *) encryptWithRSAECBPKCS1WithKey:(SecKeyRef)key;
 + (NSData *) generateSecureRandomKeyOf: (int) bits;
 - (NSData *) signatureForKey:(SecKeyRef) key;
 - (BOOL) verifySignature: (NSData*) sig withKey: (SecKeyRef) key ;
 - (NSData*) sha1Digest;
 - (NSData*) sha1HashWithLength: (int) length;
-- (NSString*) hexString;
+- (NSString*) hex;
 
 @end
