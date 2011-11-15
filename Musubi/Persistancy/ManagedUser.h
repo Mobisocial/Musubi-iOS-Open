@@ -16,37 +16,25 @@
 
 
 //
-//  PictureObj.h
+//  ManagedUser.h
 //  musubi
 //
-//  Created by Willem Bult on 11/1/11.
+//  Created by Willem Bult on 11/14/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "SignedObj.h"
+#import <CoreData/CoreData.h>
+#import "User.h"
 #import "NSData+Base64.h"
-#import "UIImage+Resize.h"
-#import "FeedItemTableCell.h"
 
-static NSString* kObjTypePicture = @"picture";
+@interface ManagedUser : NSManagedObject
 
-@interface PictureObj : SignedObj {
-    UIImage* image;
-}
+@property (nonatomic, retain) NSString* name;
+@property (nonatomic, retain) NSData* publicKey;
+@property (nonatomic, retain) NSData* picture;
 
-@property (nonatomic,retain) UIImage* image;
+- (User*) user;
++ (NSArray *) allInContext: (NSManagedObjectContext*) context;
++ (id) withPublicKey: (NSData*) publicKey inContext: (NSManagedObjectContext*) context;
 
-- (id) initWithData: (NSData *) data;
-- (id) initWithImage: (UIImage *) img;
-@end
-
-
-@interface PictureTableCellView : FeedItemTableCell {
-    UIImage* image;
-    UIImageView* imageView;
-}
-
-@property (nonatomic,retain) IBOutlet UIImage* image;
-@property (nonatomic,retain) IBOutlet UIImageView* imageView;
-- initWithImage: (UIImage*) img;
 @end

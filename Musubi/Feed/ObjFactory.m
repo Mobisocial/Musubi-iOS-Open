@@ -16,27 +16,15 @@
 
 
 //
-//  Identity.h
+//  ObjFactory.m
 //  musubi
 //
-//  Created by Willem Bult on 10/23/11.
+//  Created by Willem Bult on 11/10/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "OpenSSLKey.h"
-#import "User.h"
+#import "ObjFactory.h"
 
-@interface Identity : NSObject {
-    OpenSSLKeyPair* keyPair;
-    NSString* email;
-}
-
-@property (nonatomic, retain) OpenSSLKeyPair* keyPair;
-@property (nonatomic, retain) NSString* email;
-
-+ (Identity*) sharedInstance;
-- (NSString*) publicKeyBase64;
-- (User*) user;
+@implementation ObjFactory
 
 @end

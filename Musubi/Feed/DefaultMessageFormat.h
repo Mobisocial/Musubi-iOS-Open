@@ -24,12 +24,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MessageFormat.h"
 #import "NSData+Crypto.h"
-#import "SBJsonWriter.h"
+#import "MessageFormat.h"
+#import "Message.h"
+#import "EncodedMessage.h"
+#import "SignedMessage.h"
+#import "Musubi.h"
 
 @interface DefaultMessageFormat : MessageFormat
 - (void) appendLengthBigEndian16AndData: (NSData*) src to: (NSMutableData*) dest;
 - (void) appendLengthBigEndian32AndData: (NSData*) src to: (NSMutableData*) dest;    
 - (NSString*) personIdForPublicKey: (OpenSSLPublicKey*) key;
+
+- (NSData*) packMessage: (Message*) msg;
+- (SignedMessage*) unpackMessage: (NSData *)plain;
+- (NSData*) possiblyDecodeBase64: (NSString*) str;
 @end

@@ -16,22 +16,21 @@
 
 
 //
-//  StatusObj.h
+//  EncodedMessage.h
 //  musubi
 //
-//  Created by Willem Bult on 10/30/11.
+//  Created by Willem Bult on 11/10/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "SignedObj.h"
+#import <Foundation/Foundation.h>
 
-static NSString* kObjTypeStatus = @"status";
-
-@interface StatusObj : SignedObj {
-    NSString* text;
+@interface EncodedMessage : NSObject {
+    NSData* message;
+    NSData* signature;
 }
 
-@property (nonatomic,retain) NSString* text;
-- (id)initWithText:(NSString *)t;
+@property (nonatomic,retain) NSData* message;
+@property (nonatomic,retain) NSData* signature;
 
 @end

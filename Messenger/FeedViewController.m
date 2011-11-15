@@ -7,11 +7,11 @@
 //
 
 #import "FeedViewController.h"
-
+#import "FeedItemTableCell.h"
 
 @implementation FeedViewController
 
-@synthesize group, messages, updateField, pictureButton;
+@synthesize group, messages, updateField, pictureButton, updates;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -35,6 +35,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [self setUpdates: [[NSMutableDictionary alloc] init]];
+    renderer = [[ObjRenderer alloc] init];
     
     ManagedFeed* feed = [[Musubi sharedInstance] feedForGroup: group];
     
@@ -105,13 +108,14 @@
     if (indexPath.row > 0) {
         Message* msg = [self msgForIndexPath:indexPath];
         FeedItemTableCell* cell = (FeedItemTableCell*) [tableView dequeueReusableCellWithIdentifier:@"FeedItemCell"];
-        [cell setItemView: [[msg obj] render]];
+
+        [cell setItemView: [renderer renderUpdate: [self updateForMessage: msg]]];
         
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
         [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 
-        [[cell senderLabel] setText: [group memberByPublicKey:[msg sender]].email];
+        [[cell senderLabel] setText: [[msg sender] name]];
         [[cell timestampLabel] setText:[dateFormatter stringFromDate:[msg timestamp]]];
         return cell;
     } else {
@@ -123,17 +127,36 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row > 0) {
-        return [[[self msgForIndexPath:indexPath] obj] renderHeight] + 73;
+        return [renderer renderHeightForUpdate:[self updateForMessage:[self msgForIndexPath:indexPath]]] + 73;
     } else {
         return [super tableView:tableView heightForRowAtIndexPath:indexPath];
     }
 }
 
-- (Message* ) msgForIndexPath: (NSIndexPath *)indexPath {
+- (id<Update>) updateForMessage: (SignedMessage*) msg {
+    id<Update> update = [updates objectForKey: [msg hash]];
+    NSString* objType = [msg obj].type;
+
+    if (update == nil) {
+        if ([objType isEqualToString:kObjTypeJoinNotification]) 
+            update = [[StatusUpdate alloc] initWithText:@"I'm here"];
+        else if ([objType isEqualToString:kObjTypeStatus]) 
+            update = [StatusUpdate createFromObj:[msg obj]];
+        else if ([objType isEqualToString:kObjTypePicture]) 
+            update = [PictureUpdate createFromObj:[msg obj]];
+     
+        if (update != nil)
+            [updates setObject:update forKey:[msg hash]];
+    }
+    
+    return update;
+}
+
+- (SignedMessage* ) msgForIndexPath: (NSIndexPath *)indexPath {
     return [messages objectAtIndex:([indexPath row] - 1)];
 }
 
-- (void)newMessage:(Message *)message {
+- (void)newMessage:(SignedMessage *)message {
     if (message != nil) {
         [messages insertObject:message atIndex:0];
     }
@@ -151,8 +174,8 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     
-    PictureObj* obj = [[PictureObj alloc] initWithImage: image];
-    [[Musubi sharedInstance] sendObj:obj forApp:kMusubiAppId toGroup:group];
+    PictureUpdate* update = [[PictureUpdate alloc] initWithImage: image];
+    [[Musubi sharedInstance] sendObj:[update obj] forApp:kMusubiAppId toGroup:group];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
 }
@@ -216,9 +239,11 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    StatusObj* obj = [[StatusObj alloc] initWithText: [textField text]];
-    [[Musubi sharedInstance] sendObj:obj forApp:kMusubiAppId toGroup:group];
-    [textField setText:@""];
+    if ([textField text].length > 0) {
+        StatusUpdate* update = [[StatusUpdate alloc] initWithText: [textField text]];
+        [[Musubi sharedInstance] sendObj:[update obj] forApp:kMusubiAppId toGroup:group];
+        [textField setText:@""];
+    }
 }
 
 @end

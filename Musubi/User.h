@@ -16,27 +16,24 @@
 
 
 //
-//  Identity.h
+//  User.h
 //  musubi
 //
-//  Created by Willem Bult on 10/23/11.
+//  Created by Willem Bult on 11/14/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "OpenSSLKey.h"
-#import "User.h"
 
-@interface Identity : NSObject {
-    OpenSSLKeyPair* keyPair;
-    NSString* email;
+@interface User : NSObject {
+    NSString* name;
+    NSString* id;
+    UIImage* picture;
 }
 
-@property (nonatomic, retain) OpenSSLKeyPair* keyPair;
-@property (nonatomic, retain) NSString* email;
+@property (nonatomic, retain) NSString* name;
+@property (nonatomic, retain) NSString* id;
+@property (nonatomic, retain) UIImage* picture;
 
-+ (Identity*) sharedInstance;
-- (NSString*) publicKeyBase64;
-- (User*) user;
 
 @end

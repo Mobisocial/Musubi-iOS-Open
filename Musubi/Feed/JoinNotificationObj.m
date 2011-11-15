@@ -24,8 +24,6 @@
 //
 
 #import "JoinNotificationObj.h"
-#import "SBJsonParser.h"
-#import "SBJson.h"
 
 @implementation JoinNotificationObj
 
@@ -36,34 +34,14 @@
     self = [super initWithType:kObjTypeJoinNotification];
     if (self != nil) {
         self.uri = u;
+    
+        NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithCapacity:2];
+        [dict setObject:uri forKey:@"uri"];
+
+        [self setData:dict];
     }
     
     return self;
 }
 
-- (NSDictionary *)json {
-    NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithCapacity:2];
-    [dict setObject:type forKey:@"type"];
-    [dict setObject:uri forKey:@"uri"];
-    
-    return dict;
-}
-
-
-- (CGFloat)renderHeight {
-    CGSize size = [@"I'm here" sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(300, 1024) lineBreakMode:UILineBreakModeWordWrap];
-    return size.height;
-}
-
-- (UIView *)render {
-    UILabel* label = [[UILabel alloc] init];
-    [label setFont: [UIFont systemFontOfSize:15]];
-    [label setText: @"I'm here"];
-    [label setLineBreakMode:UILineBreakModeWordWrap];
-    
-    CGSize size = CGSizeMake(300, [self renderHeight]);
-    [label setFrame:CGRectMake(0, 0, size.width, size.height)];
-    
-    return label;
-}
 @end

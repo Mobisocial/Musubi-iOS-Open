@@ -24,18 +24,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NSData+Base64.h"
 
 @interface Obj : NSObject {
     NSString* type;
+    NSDictionary* data;
 }
 
 @property (nonatomic, retain) NSString* type;
+@property (nonatomic, retain) NSDictionary* data;
 
 - (id) initWithType: (NSString*) t;
-- (NSDictionary*) json;
-- (UIView*) render;
-- (CGFloat) renderHeight;
-+ (Obj*) readFromJSON: (NSDictionary*) json;
 
 @end

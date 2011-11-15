@@ -24,6 +24,7 @@
 //
 
 #import "DefaultMessageFormat.h"
+#import "SBJson.h"
 
 @implementation DefaultMessageFormat : MessageFormat
 
@@ -75,9 +76,96 @@
     return [NSData dataWithBytesNoCopy:buffer length:length freeWhenDone:YES];
 }
 
-- (NSData *) encodeMessage: (OutgoingMessage *) msg withKeyPair: (OpenSSLKeyPair *) keyPair {
+- (NSData*) packMessage: (Message*) msg {
+    long long ts = (long long)([[msg timestamp] timeIntervalSince1970] * 1000);
+    
+    NSMutableDictionary* complemented = [NSMutableDictionary dictionaryWithDictionary: [[msg obj] data]];
+    NSEnumerator *enumerator = [complemented keyEnumerator];
+    id key;
+    
+    while ((key = [enumerator nextObject])) {
+        id prop = [complemented objectForKey:key];
+        
+        if ([prop isKindOfClass:[NSData class]]) {
+            [complemented setObject:[prop encodeBase64] forKey:key];
+        }
+    }
+    
+    [complemented setValue:[[msg obj] type] forKey:@"type"];
+    [complemented setValue:[msg feedName] forKey:@"feedName"];
+    [complemented setValue:[msg appId] forKey:@"appId"];
+    [complemented setValue:[NSString stringWithFormat: @"%qi", ts] forKey:@"timestamp"];
+    
+    SBJsonWriter* jsonWriter = [[[SBJsonWriter alloc] init] autorelease];
+    NSString* json = [jsonWriter stringWithObject: complemented];
+    return [json dataUsingEncoding:NSUTF8StringEncoding];
+}
+
+- (NSData*) possiblyDecodeBase64: (NSString*) str {
+    NSString* stripped = [str stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    
+    if ([stripped length] % 4 != 0)
+        return nil;
+    
+    NSString* pattern = @"([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}[AEIMQUYcgkosw048]=|[A-Za-z0-9+/][AQgw]==)?";
+    NSError* error = nil;
+    NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionAnchorsMatchLines error:&error];
+    
+    int matches = [regex numberOfMatchesInString:stripped options:0 range:NSMakeRange(0, [stripped length])];
+    if (matches > 0) {
+        @try {
+            return [str decodeBase64];
+        } @catch (NSException* e) {
+        }
+    }
+    
+    return nil;
+}
+
+
+- (SignedMessage*) unpackMessage: (NSData *)plain {
+    SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
+    NSDictionary* dict = [parser objectWithData: plain];
+    
+    double_t timestamp = [(NSString*)[dict objectForKey:@"timestamp"] doubleValue];
+    NSDate* date = [NSDate dateWithTimeIntervalSince1970:(int)(timestamp / 1000)];
+    
+    SignedMessage* msg = [[[SignedMessage alloc] init] autorelease];
+    [msg setTimestamp: date];
+    [msg setFeedName: [dict objectForKey:@"feedName"]];
+    [msg setAppId: [dict objectForKey:@"appId"]];
+    
+    NSMutableDictionary* props = [[NSMutableDictionary alloc] init];
+    NSEnumerator *enumerator = [dict keyEnumerator];
+    id key;
+    
+    while ((key = [enumerator nextObject])) {
+        if ([key isEqualToString:@"timestamp"] || [key isEqualToString:@"feedName"] || [key isEqualToString:@"appId"] || [key isEqualToString:@"type"])
+            continue;
+        
+        id prop = [dict objectForKey:key];
+        
+        if ([key isEqualToString:@"data"] && [prop isKindOfClass:[NSString class]]) {
+            NSData* decoded = [self possiblyDecodeBase64: prop];
+            if (decoded != nil)
+                prop = decoded;
+        }
+        
+        [props setObject:prop forKey:key];
+    }
+    
+    
+    Obj* obj = [[Obj alloc] initWithType:[dict objectForKey:@"type"]];
+    [obj setData: props];
+    [msg setObj:obj];
+    
+    return msg;
+}
+
+
+- (EncodedMessage*) encodeMessage: (Message*) msg withKeyPair: (OpenSSLKeyPair*) keyPair {
     // the plain data
-    NSData* plain = [msg message];
+    NSData* plain = [self packMessage:msg];
     
     // 128 bit AES key used to encrypt data
     NSData* aesKey = [NSData generateSecureRandomKeyOf:16];
@@ -91,10 +179,10 @@
     [self appendLengthBigEndian16AndData:userPubKey to:encoded];
     
     // addressed public key count (BigEndian 16 bit)
-    uint16_t pubKeysCount = CFSwapInt16HostToBig([[msg toPublicKeys] count]);
+    uint16_t pubKeysCount = CFSwapInt16HostToBig([[msg recipients] count]);
     [encoded appendBytes:&pubKeysCount length:sizeof(pubKeysCount)];
     
-    for (NSString* pubKeyStr in [msg toPublicKeys]) {
+    for (NSString* pubKeyStr in [msg recipients]) {
         // addressee's person id (SHA1 hash of public key)
         OpenSSLPublicKey* pubKey = [[[OpenSSLPublicKey alloc] initWithEncoded: [pubKeyStr decodeBase64]] autorelease];
         //NSLog(@"Pub key: %@", [pubKey encoded]);
@@ -123,25 +211,19 @@
     // Compute signature of payload with private key (SHA1 + RSA + PKCS#1)
     NSData* digest = [encoded sha1Digest];
     NSData* signature = [[keyPair privateKey] sign: digest];
-    //NSLog(@"Signature: %@", signature);
     
-    // Message = signature + encoded payload
-    NSMutableData* message = [NSMutableData data];
-    [self appendLengthBigEndian16AndData:signature to:message];
-    [message appendData:encoded];
+    EncodedMessage* encodedMsg = [[[EncodedMessage alloc] init] autorelease];
+    [encodedMsg setMessage: encoded];
+    [encodedMsg setSignature: signature];
     
-    return message;
+    return encodedMsg;
 }
 
-- (IncomingMessage *)decodeMessage:(NSData *)data withKeyPair :(OpenSSLKeyPair *)keyPair {
-    const void* ptr = [data bytes];
-    
-    // Consume signature
-    NSData* signature = [self consumeLengthBigEndian16AndData:&ptr];
+- (SignedMessage *)decodeMessage:(EncodedMessage *)msg withKeyPair:(OpenSSLKeyPair *)keyPair {
+    const void* ptr = [[msg message] bytes];
     
     // Consume sender's public key
     NSData* senderKey = [self consumeLengthBigEndian16AndData:&ptr];
-    //NSLog(@"Sender key: %@", senderKey);
     
     // Consume number of keys
     uint16_t numberOfKeys = CFSwapInt16BigToHost(*(uint16_t*)ptr);
@@ -151,12 +233,16 @@
     NSData* myPersonId = [[self personIdForPublicKey:[keyPair publicKey]] dataUsingEncoding:NSUTF8StringEncoding];
     NSData* myEncryptedAesKey = nil;
     
+    NSMutableArray* recipients = [NSMutableArray arrayWithCapacity:numberOfKeys];
+    
     for (int i=0; i<numberOfKeys; i++) {
         // Consume person id and encrypted AES key
         NSData* personId = [self consumeLengthBigEndian16AndData:&ptr];
         //NSLog(@"Person id: %@", personId);
         NSData* encryptedAesKey = [self consumeLengthBigEndian16AndData:&ptr];
         //NSLog(@"Enc AES: %@", encryptedAesKey);
+        
+        [recipients addObject:personId];
         
         // If this is my person id, then this is my encrypted AES key
         if ([personId isEqualToData:myPersonId])
@@ -184,7 +270,13 @@
     // Decrypt with the AES key
     NSData* plain = [cypher decryptWithAES128CBCPKCS7WithKey:aesKey andIV:aesInitVector];
     
-    return [IncomingMessage readFromJSON:plain withSender:[senderKey encodeBase64]];
+    SignedMessage* signedMsg = [self unpackMessage: plain];
+    [signedMsg setSender: [[Musubi sharedInstance] userWithPublicKey: senderKey]];
+    [signedMsg setRecipients: recipients];
+    [signedMsg setHash: [[[msg signature] sha1Digest] hex]];
+    return signedMsg;
 }
+
+
 
 @end

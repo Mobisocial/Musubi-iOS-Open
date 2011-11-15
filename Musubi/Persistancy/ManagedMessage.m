@@ -25,6 +25,7 @@
 
 #import "ManagedMessage.h"
 #import "ManagedFeed.h"
+#import "SignedMessage.h"
 
 @implementation ManagedMessage
 
@@ -33,17 +34,27 @@
 @dynamic timestamp;
 @dynamic app;
 @dynamic feed;
+@dynamic type;
+@dynamic id;
 
-- (Message*) message {
-    Message* msg = [[[Message alloc] init] autorelease];
+- (SignedMessage*) message {
+    
+    NSPropertyListFormat format;
+    NSString *errorStr = nil;
+    
+    NSDictionary* dict = [NSPropertyListSerialization propertyListFromData:[self contents] mutabilityOption:NSPropertyListImmutable format:&format errorDescription:&errorStr];
+    
+    Obj* obj = [[Obj alloc] initWithType:[self type]];
+    [obj setData: dict];
+    
+    SignedMessage* msg = [[[SignedMessage alloc] init] autorelease];
     [msg setAppId: [self app]];
     [msg setFeedName: [[self feed] session]];
     [msg setTimestamp: [self timestamp]];
-    [msg setSender: [self sender]];
-
-    SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
-    [msg setObj: [SignedObj readFromJSON:[parser objectWithData: [self contents]]]];
-    [[msg obj] setTimestamp: [self timestamp]];
+    [msg setSender: [[self sender] user]];
+    [msg setHash: [self id]];
+    [msg setObj:obj];
+    
     return msg;
 }
 

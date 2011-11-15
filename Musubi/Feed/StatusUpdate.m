@@ -16,23 +16,40 @@
 
 
 //
-//  SignedObj.h
+//  StatusUpdate.m
 //  musubi
 //
-//  Created by Willem Bult on 11/1/11.
+//  Created by Willem Bult on 10/30/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Obj.h"
+#import "StatusUpdate.h"
 
-@interface SignedObj : Obj {
-    NSDate* timestamp;
-    NSString* senderPublicKey;
+@implementation StatusUpdate
+
+@synthesize text;
+
+- (id)initWithText:(NSString *)t {
+    
+    self = [super init];
+    if (self != nil) {
+        self.text = t;
+    }
+    
+    return self;
 }
 
-@property (nonatomic,retain) NSDate* timestamp;
-@property (nonatomic,retain) NSString* senderPublicKey;
+- (Obj*) obj {
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    [dict setObject: text forKey: @"text"];
+    
+    Obj* obj = [[Obj alloc] initWithType: kObjTypeStatus];
+    [obj setData: dict];
+    return obj;
+}
 
-+ (SignedObj *)readFromJSON:(NSDictionary *)json;
++ (id)createFromObj:(Obj *)obj {
+    return [[StatusUpdate alloc] initWithText: [[obj data] objectForKey:@"text"]];
+}
 
 @end

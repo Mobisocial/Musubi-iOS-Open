@@ -28,15 +28,15 @@
 
 @implementation MessageFormat
 
-- (NSData*) encodeMessage: (OutgoingMessage*) msg withKeyPair: (OpenSSLKeyPair*) keyPair {
+- (EncodedMessage*) encodeMessage: (Message*) msg withKeyPair: (OpenSSLKeyPair*) keyPair {
     @throw [NSException exceptionWithName:@"AbstractClass" reason:@"This method must be implemented in an extending class" userInfo:nil];
 }
 
-- (IncomingMessage *)decodeMessage:(NSData *)data withKeyPair :(OpenSSLKeyPair *)keyPair {
+- (SignedMessage *) decodeMessage: (EncodedMessage *) msg withKeyPair: (OpenSSLKeyPair *) keyPair {
     @throw [NSException exceptionWithName:@"AbstractClass" reason:@"This method must be implemented in an extending class" userInfo:nil];
 }
 
-+ (MessageFormat *)defaultMessageFormat {
++ (MessageFormat *) defaultMessageFormat {
     return [[[DefaultMessageFormat alloc] init] autorelease];
 }
 

@@ -25,7 +25,7 @@
 
 #import <Foundation/Foundation.h>
 #import "XQueryComponents.h"
-#import "GroupMember.h"
+#import "User.h"
 
 @interface Group : NSObject {
     NSString* name;
@@ -43,6 +43,5 @@
 
 - (id) initWithName: (NSString*) n feedUri: (NSURL*) uri;
 - (NSArray*) publicKeys;
-- (GroupMember *)memberByPublicKey:(NSString *)publicKey;
 
 @end

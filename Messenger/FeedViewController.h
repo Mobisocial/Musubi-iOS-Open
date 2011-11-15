@@ -9,24 +9,29 @@
 #import <UIKit/UIKit.h>
 #import "Group.h"
 #import "Musubi.h"
-#import "StatusObj.h"
-#import "PictureObj.h"
+#import "StatusUpdate.h"
+#import "PictureUpdate.h"
+#import "ObjRenderer.h"
 
 @interface FeedViewController : UITableViewController<MusubiFeedListener, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     Group* group;
+    
+    NSMutableDictionary* updates;
+    ObjRenderer* renderer;
     
     UITextField* updateField;
     UIButton* pictureButton;
     NSMutableArray* messages;
 }
 
+@property (nonatomic,retain) NSMutableDictionary* updates;
 @property (nonatomic,retain) Group* group;
 @property (nonatomic,retain) NSMutableArray* messages;
 @property (nonatomic, retain) IBOutlet UITextField* updateField;
 @property (nonatomic, retain) IBOutlet UIButton* pictureButton;
 
-- (SignedObj*) objForIndexPath: (NSIndexPath*) indexPath;
 - (Message* ) msgForIndexPath: (NSIndexPath *)indexPath;
 - (IBAction) pictureButtonPushed :(id)sender;
+- (id<Update>) updateForMessage: (Message*) msg;
 
 @end

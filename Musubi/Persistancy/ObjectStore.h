@@ -27,9 +27,8 @@
 #import <CoreData/CoreData.h>
 #import "ManagedFeed.h"
 #import "ManagedMessage.h"
+#import "ManagedUser.h"
 #import "Group.h"
-#import "OutgoingMessage.h"
-#import "IncomingMessage.h"
 #import "Message.h"
 #import "Obj.h"
 
@@ -39,14 +38,15 @@
 
 @property (nonatomic,retain) NSManagedObjectContext* context;
 
-- (ManagedMessage*) storeIncomingMessage: (IncomingMessage*) msg forFeed: (ManagedFeed*) feed;
-- (ManagedMessage*) storeOutgoingMessage: (OutgoingMessage*) msg forFeed: (ManagedFeed*) feed;
+- (ManagedMessage*) storeMessage: (Message*) msg forFeed: (ManagedFeed*) feed;
 
 - (NSArray*) feeds;
 - (ManagedFeed*) feedForSession: (NSString*) session;
 - (ManagedFeed*) storeFeed: (Group*) feed;
 - (NSArray*) messagesForFeed: (ManagedFeed*) feed;
 
+- (NSArray*) users;
+- (ManagedUser *) userWithPublicKey: (NSData*) publicKey;
 
 + (ObjectStore*) sharedInstance;
 

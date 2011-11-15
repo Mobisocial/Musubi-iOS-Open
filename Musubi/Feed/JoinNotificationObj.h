@@ -23,12 +23,11 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "SignedObj.h"
+#import "Obj.h"
 
 static NSString* kObjTypeJoinNotification = @"join_notification";
 
-
-@interface JoinNotificationObj : SignedObj {
+@interface JoinNotificationObj : Obj {
     NSString* uri;
 }
 

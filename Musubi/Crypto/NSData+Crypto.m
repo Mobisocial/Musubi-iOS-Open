@@ -119,7 +119,7 @@
 	return [[stringBuffer copy] autorelease];
 }
 
-- (NSString*) sha1HashWithLength: (int) length{
+- (NSDate*) sha1HashWithLength: (int) length{
     unsigned char* hash = malloc(length);
     
     CC_SHA1_CTX ctx;

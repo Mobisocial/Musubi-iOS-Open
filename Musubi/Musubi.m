@@ -63,9 +63,19 @@ static Musubi* _sharedInstance = nil;
     if (self != nil) {
         transport = [[RabbitMQMessengerService alloc] initWithListener:self];
         feedListeners = [[NSMutableDictionary alloc] init];
+        messageFormat = [[MessageFormat defaultMessageFormat] retain];
+        identity = [Identity sharedInstance];
     }
     
     return self;
+}
+
+- (void)dealloc {
+    [messageFormat release];
+    [feedListeners release];
+    [transport release];
+    
+    [super dealloc];
 }
 
 - (void)startTransport {
@@ -73,8 +83,11 @@ static Musubi* _sharedInstance = nil;
 }
 
 
-- (int) handleIncoming:(IncomingMessage *)msg {
+- (int)handleIncoming:(EncodedMessage *)encoded {
+    // decode
+    SignedMessage* msg = [messageFormat decodeMessage:encoded withKeyPair:[identity keyPair]];
     NSLog(@"Incoming: %@", msg);
+    
     // save
     ManagedFeed* feed = [[ObjectStore sharedInstance] feedForSession: [msg feedName]];
     [feed storeMessage:msg];
@@ -84,7 +97,6 @@ static Musubi* _sharedInstance = nil;
     if (listeners != nil) {
         for (id<MusubiFeedListener> listener in listeners) {
             [listener newMessage:msg];
-//            [listener newObj:[msg obj] forApp:[msg appId] andGroup:nil];
         }
     }
     
@@ -97,9 +109,8 @@ static Musubi* _sharedInstance = nil;
         Group* group = [[Group alloc] initWithName:[feed name] feedUri:[NSURL URLWithString:[feed url]]];
 
         NSMutableArray* members = [NSMutableArray array];
-        for (NSManagedObject* member in [feed allMembers]) {
-            GroupMember* m = [[GroupMember alloc] initWithEmail:[member valueForKey:@"email"] profile:[member valueForKey:@"profile"] publicKey:[member valueForKey:@"publicKey"]];
-            [members addObject:m];
+        for (ManagedUser* member in [feed allMembers]) {
+            [members addObject:[member user]];
         }
         [group setMembers:members];
         
@@ -111,6 +122,10 @@ static Musubi* _sharedInstance = nil;
 - (ManagedFeed*) joinGroup:(Group *)group {
     ManagedFeed* existing = [[ObjectStore sharedInstance] feedForSession:[group session]];
     if (existing != nil) {
+        [[[[GroupProvider alloc] init] autorelease] updateGroup:group sinceVersion:-1];
+        JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[group feedUri] absoluteString]] autorelease];
+        [self sendObj: jno forApp:kMusubiAppId toGroup:group];
+
         return existing;
     }
     
@@ -118,7 +133,7 @@ static Musubi* _sharedInstance = nil;
     
     ManagedFeed* feed = [[ObjectStore sharedInstance] storeFeed: group];
     
-    JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI: [[group feedUri] absoluteString]] autorelease];
+    JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[group feedUri] absoluteString]] autorelease];
     [self sendObj: jno forApp:kMusubiAppId toGroup:group];
     
     return feed;
@@ -139,35 +154,47 @@ static Musubi* _sharedInstance = nil;
     [listeners addObject:listener];
 }
 
-- (void)sendObj:(SignedObj *)obj forApp:(NSString *)appId toGroup:(Group *)group {
-    NSMutableArray* pubKeys = [NSMutableArray arrayWithArray:[group publicKeys]];
-    NSString* myPubKey = [[Identity sharedInstance] publicKeyBase64];
-    while ([pubKeys containsObject:myPubKey]) {
-        [pubKeys removeObject: myPubKey];
-        
-    }
-    
-    OutgoingMessage* msg = [[[OutgoingMessage alloc] initWithObj:obj publicKeys:pubKeys feedName:[group session] appId:appId] autorelease];
-    [msg setSender:myPubKey];
-    
-    NSLog(@"Message: %@", msg);
+- (void) sendMessage: (Message*) msg {
+    EncodedMessage* encoded = [messageFormat encodeMessage:msg withKeyPair:[identity keyPair]];
+    SignedMessage* signedMsg = [SignedMessage createFromMessage:msg withHash: [[[encoded signature] sha1Digest] hex]];
     
     // send
-    [transport sendMessage:msg];
-    [obj setTimestamp:[NSDate date]];
+    [transport sendMessage:encoded to:[msg recipients]];
     
     // and save
     ManagedFeed* feed = [[ObjectStore sharedInstance] feedForSession: [msg feedName]];
-    [feed storeMessage:msg];
+    [feed storeMessage:signedMsg];
     
     // and notify
     NSArray* listeners = [feedListeners objectForKey: [msg feedName]];
     if (listeners != nil) {
         for (id<MusubiFeedListener> listener in listeners) {
-            [listener newMessage:msg];
-//            [listener newObj:[msg obj] forApp:[msg appId] andGroup:nil];
+            [listener newMessage:signedMsg];
         }
     }
+}
+
+- (void)sendObj:(Obj *)obj forApp:(NSString *)appId toGroup:(Group *)group {
+    NSMutableArray* pubKeys = [NSMutableArray arrayWithArray:[group publicKeys]];
+    NSString* myPubKey = [[Identity sharedInstance] publicKeyBase64];
+    while ([pubKeys containsObject:myPubKey]) {
+        [pubKeys removeObject: myPubKey];
+    }
+    
+    Message* msg = [[Message alloc] init];
+    [msg setObj:obj];
+    [msg setSender:[[Identity sharedInstance] user]];
+    [msg setRecipients:pubKeys];
+    [msg setAppId:appId];
+    [msg setFeedName:[group session]];
+    [msg setTimestamp:[NSDate date]];
+
+    [self sendMessage:msg];
+}
+
+- (User *)userWithPublicKey:(NSData *)publicKey {
+    ManagedUser* user = [[ObjectStore sharedInstance] userWithPublicKey:publicKey];
+    return [user user];
 }
 
 @end

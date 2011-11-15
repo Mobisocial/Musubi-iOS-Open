@@ -27,13 +27,13 @@
 
 @protocol TransportListener <NSObject>
 
-- (int) handleIncoming: (IncomingMessage*) msg;
+- (int) handleIncoming: (EncodedMessage*) msg;
 
 @end
 
 @protocol Transport <NSObject>
 
 - (id) initWithListener: (id<TransportListener>) l;
-- (void) sendMessage: (OutgoingMessage*) msg;
+- (void) sendMessage: (EncodedMessage*) msg to: (NSArray*) recipients;
 
 @end

@@ -25,13 +25,13 @@
 
 #import <Foundation/Foundation.h>
 #import "OpenSSLKey.h"
-#import "OutgoingMessage.h"
-#import "IncomingMessage.h"
+#import "EncodedMessage.h"
+#import "SignedMessage.h"
 
 @interface MessageFormat : NSObject
 
-- (NSData*) encodeMessage: (OutgoingMessage*) msg withKeyPair: (OpenSSLKeyPair*) keyPair;
-- (IncomingMessage*) decodeMessage: (NSData*) data withKeyPair: (OpenSSLKeyPair*) keyPair;
+- (EncodedMessage*) encodeMessage: (Message*) msg withKeyPair: (OpenSSLKeyPair*) keyPair;
+- (SignedMessage *) decodeMessage: (EncodedMessage *) msg withKeyPair: (OpenSSLKeyPair *) keyPair;
 + (MessageFormat*) defaultMessageFormat;
 
 @end

@@ -16,22 +16,33 @@
 
 
 //
-//  Message.m
+//  SignedMessage.m
 //  musubi
 //
-//  Created by Willem Bult on 10/31/11.
+//  Created by Willem Bult on 11/10/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Message.h"
+#import "SignedMessage.h"
 #import "SBJson.h"
 
-@implementation Message
+@implementation SignedMessage
 
-@synthesize obj, sender, recipients, appId, feedName, timestamp;
+@synthesize hash;
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Message: %@, %@, %@, %@, %@, %@>", obj, sender, recipients, appId, feedName, timestamp];
+    return [NSString stringWithFormat:@"<SignedMessage: %@, %@, %@, %@, %@, %@, %@>", hash, obj, sender, recipients, appId, feedName, timestamp];
+}
+
++ (id)createFromMessage:(Message *)msg withHash:(NSString *)hash {
+    SignedMessage* signedMsg = [[[SignedMessage alloc] init] autorelease];
+    [signedMsg setObj: [msg obj]];
+    [signedMsg setFeedName: [msg feedName]];
+    [signedMsg setTimestamp: [msg timestamp]];
+    [signedMsg setHash: hash];
+    [signedMsg setSender: [msg sender]];
+    [signedMsg setRecipients: [msg recipients]];
+    return signedMsg;
 }
 
 @end

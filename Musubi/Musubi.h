@@ -25,21 +25,25 @@
 
 #import <Foundation/Foundation.h>
 #import "Obj.h"
+#import "User.h"
 #import "GroupProvider.h"
-#import "IncomingMessage.h"
+#import "JoinNotificationObj.h"
+#import "MessageFormat.h"
 #import "RabbitMQMessengerService.h"
 
 static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 @protocol MusubiFeedListener
 
-- (void) newMessage: (Message*) message;
-//- (void) newObj: (SignedObj*) obj forApp: (NSString*) appId andGroup: (Group*) group;
+- (void) newMessage: (SignedMessage*) message;
 
 @end
 
 @interface Musubi : NSObject<TransportListener> {
     RabbitMQMessengerService* transport;
+    MessageFormat* messageFormat;
+    Identity* identity;
+
     NSMutableDictionary* feedListeners;
 }
 
@@ -47,10 +51,14 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 + (Musubi*) sharedInstance;
 - (void) startTransport;
+
 - (NSArray*) groups;
 - (ManagedFeed*) joinGroup: (Group*) group;
 - (ManagedFeed*) feedForGroup: (Group*) group;
+
 - (void) listenToGroup: (Group*) group withListener: (id<MusubiFeedListener>) listener;
-- (void) sendObj: (SignedObj*)obj forApp: (NSString*) appId toGroup: (Group*) group;
+- (void) sendObj: (Obj*)obj forApp: (NSString*) appId toGroup: (Group*) group;
+
+- (User*) userWithPublicKey: (NSData*) publicKey;
 
 @end

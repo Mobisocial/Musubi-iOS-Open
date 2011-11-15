@@ -69,6 +69,7 @@ static ObjectStore* _sharedInstance = nil;
     
     return self;
 }
+
 - (NSArray *) feeds {
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:context];
 
@@ -106,16 +107,32 @@ static ObjectStore* _sharedInstance = nil;
     [newFeed setValue:[feed key] forKey:@"key"];
     [newFeed setValue:[[feed feedUri] description] forKey:@"url"];
     
-    for (GroupMember* member in [feed members]) {
-        NSManagedObject* managedMember =[NSEntityDescription insertNewObjectForEntityForName:@"GroupMember" inManagedObjectContext:context];
+    for (User* member in [feed members]) {
+        ManagedUser* user = [self userWithPublicKey:[[member id] decodeBase64]];
+        if (user == nil) {
+            user = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
+            [user setName: [member name]];
+            [user setPublicKey: [[member id] decodeBase64]];
+            if ([member picture] != nil) {
+                [user setPicture: UIImageJPEGRepresentation([member picture], 0.95)];
+            }
+        }
+        
+        NSManagedObject* managedMember =[NSEntityDescription insertNewObjectForEntityForName:@"FeedMember" inManagedObjectContext:context];
         [managedMember setValue:newFeed forKey:@"feed"];
-        [managedMember setValue:[member publicKey] forKey:@"publicKey"];
-        [managedMember setValue:[member email] forKey:@"email"];
-        [managedMember setValue:[member profile] forKey:@"profile"];
+        [managedMember setValue:user forKey:@"user"];
     }
     
     [context save:NULL];
     return newFeed;
+}
+
+- (NSArray *) users {
+    return [ManagedUser allInContext: context];
+}
+
+- (ManagedUser *) userWithPublicKey: (NSData*) publicKey {    
+    return [ManagedUser withPublicKey: publicKey inContext: context];
 }
 
 + (ObjectStore*) sharedInstance

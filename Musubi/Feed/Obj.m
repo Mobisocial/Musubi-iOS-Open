@@ -27,7 +27,7 @@
 
 @implementation Obj
 
-@synthesize type;
+@synthesize type, data;
 
 - (id)initWithType:(NSString *)t {
     self = [super init];
@@ -37,22 +37,10 @@
     return self;
 }
 
-- (NSDictionary *)json {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-
-}
-
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Obj: %@, %@>", type, [self json]];
+    return [NSString stringWithFormat:@"<Obj: %@, %@>", type, data];
 }
 
-- (UIView*) render {
-    return nil;
-}
 
-- (CGFloat)renderHeight {
-    return 44.0;
-}
+
 @end

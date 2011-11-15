@@ -28,15 +28,23 @@
 #import "amqp.h"
 #import "amqp_framing.h"
 #import "utils.h"
-#import "OutgoingMessage.h"
+#import "EncodedMessage.h"
 #import "Identity.h"
-#import "MessageFormat.h"
 #import "Transport.h"
+
+@interface RabbitMQQueuedMessage : NSObject {
+    EncodedMessage* message;
+    NSArray* recipients;
+}
+
+@property (nonatomic,retain) EncodedMessage* message;
+@property (nonatomic,retain) NSArray* recipients;
+
+@end
 
 
 @interface RabbitMQMessengerService : NSObject<Transport> {
 @private
-    MessageFormat* messageFormat;
     Identity* identity;
     
     NSMutableArray* queue;
@@ -51,7 +59,6 @@
 
 @property (nonatomic,retain) NSMutableArray* queue;
 @property (nonatomic,retain) NSLock* connLock;
-@property (nonatomic,retain) MessageFormat* messageFormat;
 @property (nonatomic,retain) Identity* identity;
 @property (nonatomic,retain) id<TransportListener> listener;
 
@@ -65,7 +72,6 @@
 
 // sending thread
 - (void) sendData: (NSData*) data toKeys: (NSArray*) keys onConn: (amqp_connection_state_t) conn;
-- (void) queueMessage: (OutgoingMessage*) msg;
 - (void) send;
 
 // utility functions

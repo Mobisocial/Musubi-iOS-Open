@@ -45,8 +45,8 @@
 
 - (NSArray *)publicKeys {
     NSMutableArray* keys = [NSMutableArray arrayWithCapacity:[members count]];
-    for (GroupMember* member in members) {
-        [keys addObject: [member publicKey]];
+    for (User* member in members) {
+        [keys addObject: [member id]];
     }
     return keys;
 }
@@ -56,20 +56,10 @@
     [desc appendString:@"<Group: "];
     [desc appendString:name];
     [desc appendString:@", ["];
-    for (GroupMember* member in members) {
+    for (User* member in members) {
         [desc appendString:[NSString stringWithFormat:@"%@, ", [member description]]];
     }
     [desc appendString:@"]>"];
     return desc;
-}
-
-- (GroupMember *)memberByPublicKey:(NSString *)publicKey {
-    for (GroupMember* member in members) {
-        if ([[member publicKey] isEqualToString:publicKey]) {
-            return member;
-        }
-    }
-    
-    return nil;
 }
 @end

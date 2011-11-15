@@ -16,27 +16,26 @@
 
 
 //
-//  Identity.h
+//  StatusUpdate.h
 //  musubi
 //
-//  Created by Willem Bult on 10/23/11.
+//  Created by Willem Bult on 10/30/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "OpenSSLKey.h"
-#import "User.h"
+#import "Obj.h"
+#import "Update.h"
 
-@interface Identity : NSObject {
-    OpenSSLKeyPair* keyPair;
-    NSString* email;
+static NSString* kObjTypeStatus = @"status";
+
+@interface StatusUpdate : NSObject<Update> {
+    NSString* text;
 }
 
-@property (nonatomic, retain) OpenSSLKeyPair* keyPair;
-@property (nonatomic, retain) NSString* email;
+@property (nonatomic,retain) NSString* text;
 
-+ (Identity*) sharedInstance;
-- (NSString*) publicKeyBase64;
-- (User*) user;
+- (id) initWithText:(NSString *)t;
+- (Obj*) obj;
++ (id) createFromObj: (Obj*) obj;
 
 @end

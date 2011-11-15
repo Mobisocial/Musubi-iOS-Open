@@ -16,25 +16,30 @@
 
 
 //
-//  Feed.h
+//  PictureUpdate.h
 //  musubi
 //
-//  Created by Willem Bult on 10/25/11.
+//  Created by Willem Bult on 11/1/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "Group.h"
+#import "Update.h"
 #import "Obj.h"
-#import "OutgoingMessage.h"
-#import "RabbitMQMessengerService.h"
+#import "NSData+Base64.h"
+#import "UIImage+Resize.h"
 
-@interface Feed : NSObject {
-    Group* group;
+static NSString* kObjTypePicture = @"picture";
+
+@interface PictureUpdate : NSObject<Update> {
+    UIImage* image;
 }
 
-@property (nonatomic,retain) Group* group;
+@property (nonatomic,retain) UIImage* image;
 
-- (id) initWithGroup: (Group*) g;
+- (id) initWithData: (NSData *) data;
+- (id) initWithImage: (UIImage *) img;
+- (Obj*) obj;
+
++ (id) createFromObj: (Obj*) obj;
 
 @end

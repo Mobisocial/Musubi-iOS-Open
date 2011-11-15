@@ -16,21 +16,22 @@
 
 
 //
-//  IncomingMessage.h
+//  SignedMessage.h
 //  musubi
 //
-//  Created by Willem Bult on 10/28/11.
+//  Created by Willem Bult on 11/10/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "SBJsonParser.h"
-#import "SignedObj.h"
 #import "Message.h"
 
-@interface IncomingMessage : Message {
+@interface SignedMessage : Message {
+    NSString* hash;    
 }
 
-+ (id) readFromJSON: (NSData*) json withSender: (NSString*) sender;
+@property (nonatomic, retain) NSString* hash;
+
++ (id) createFromMessage: (Message*) msg withHash: (NSString*) hash;
+//+ (id)readFromJSON:(NSData *)json;
 
 @end

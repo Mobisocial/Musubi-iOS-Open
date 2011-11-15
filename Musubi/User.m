@@ -16,25 +16,21 @@
 
 
 //
-//  OutgoingMessage.h
+//  User.m
 //  musubi
 //
-//  Created by Willem Bult on 10/13/11.
+//  Created by Willem Bult on 11/14/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "Obj.h"
-#import "SBJsonWriter.h"
-#import "Message.h"
+#import "User.h"
 
-@interface OutgoingMessage : Message {
-    NSArray* toPublicKeys;
+@implementation User
+
+@synthesize name, id, picture;
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<User: %@, %@>", name, id];
 }
-
-@property (nonatomic, retain) NSArray* toPublicKeys;
-
-- (id) initWithObj:(SignedObj *)o publicKeys:(NSArray *)pks feedName:(NSString *)fn appId:(NSString *)ai;
-- (NSData*) message;
 
 @end

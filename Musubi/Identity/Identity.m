@@ -79,5 +79,11 @@ static Identity* _sharedInstance = nil;
     return [[[[self keyPair] publicKey] encoded] encodeBase64];
 }
 
+- (User *)user {
+    User* user = [[User alloc] init];
+    [user setName:email];
+    [user setId: [self publicKeyBase64]];
+    return user;
+}
 
 @end

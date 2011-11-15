@@ -25,14 +25,19 @@
 
 #import "RabbitMQMessengerService.h"
 
+@implementation RabbitMQQueuedMessage 
+
+@synthesize message, recipients;
+
+@end
+
 @implementation RabbitMQMessengerService
 
-@synthesize messageFormat, identity, listener, queue, connLock;
+@synthesize identity, listener, queue, connLock;
 
 - (id)initWithListener:(id<TransportListener>) l {
     self = [super init];
     if (self != nil) {
-        [self setMessageFormat: [MessageFormat defaultMessageFormat]];
         [self setIdentity: [Identity sharedInstance]];
         [self setListener: l];
         [self setQueue: [NSMutableArray arrayWithCapacity:10]];
@@ -98,6 +103,35 @@
     return messageData;
 }
 
+- (NSData*) dataFromMessage: (EncodedMessage*) msg {
+    NSMutableData* data = [NSMutableData data];
+    
+    uint16_t len = CFSwapInt16HostToBig([[msg signature] length]);
+    [data appendBytes:&len length:sizeof(len)];
+    [data appendData: [msg signature]];
+    [data appendData: [msg message]];
+
+    return data;
+}
+
+- (EncodedMessage*) messageFromData: (NSData*) data {
+    const void* ptr = [data bytes];
+
+    uint16_t len = CFSwapInt16BigToHost(*(uint16_t*)ptr);
+    ptr += sizeof(len);
+    
+    NSData* signature = [NSData dataWithBytes:ptr length:len];
+    ptr += len;
+    
+    NSData* payload = [NSData dataWithBytes:ptr length:[data length]-len];
+    
+    EncodedMessage* encoded = [[EncodedMessage alloc] init];
+    [encoded setSignature:signature];
+    [encoded setMessage:payload];
+    
+    return encoded;
+}
+
 - (void)receive {
     [inLock lock];
     
@@ -136,9 +170,10 @@
                         
                         if (incoming != nil) {
                             
+                            EncodedMessage* msg = [[self messageFromData:incoming] retain];
+
                             @try {
-                                IncomingMessage* msg = [[messageFormat decodeMessage:incoming withKeyPair:[identity keyPair]] autorelease];
-                                NSLog(@"[RabbitMQMessengerService] Incoming message: %@", [msg obj]);
+                                NSLog(@"[RabbitMQMessengerService] Incoming message: %@", msg);
                                 
                                 int res = [listener handleIncoming:msg];
                                 if (res) {
@@ -152,7 +187,7 @@
                                 amqp_basic_reject(conn, 1, delivery->delivery_tag, FALSE);
                             }
                             @finally {
-                                
+                                [msg release];
                             }
                         }
                     }
@@ -183,6 +218,7 @@
     const char* cExchange = [exchange cStringUsingEncoding:NSUTF8StringEncoding];
     amqp_exchange_declare(conn, 1, amqp_cstring_bytes(cExchange), amqp_cstring_bytes("fanout"), 0, 0, amqp_empty_table);
     
+    NSLog(@"Recipients: %@", keys);
     // Declare queues and bind exchange for every recipient
     for (NSString* key in keys) {
         // Determine queue name using recipient's public key
@@ -232,21 +268,18 @@
                 NSLog(@"[RabbitMQMessengerService] Outgoing alive");
                 
                 if ([queue count] > 0) {
-                    OutgoingMessage* msg = [[queue objectAtIndex:0] retain];
-                    [queue removeObjectAtIndex:0];
+                    RabbitMQQueuedMessage* queuedMsg = [[queue objectAtIndex:0] retain];
                     
-                    NSLog(@"[RabbitMQMessengerService] Sending message: %@", [msg obj]);
-                    
-                    // encode message
-                    NSData* encoded = [messageFormat encodeMessage: msg withKeyPair:[identity keyPair]];
+                    NSLog(@"[RabbitMQMessengerService] Sending message: %@", [queuedMsg message]);
                     
                     // send message
                     @try {
-                        [self sendData:encoded toKeys:[msg toPublicKeys] onConn:conn];
+                        [self sendData:[self dataFromMessage: [queuedMsg message]] toKeys:[queuedMsg recipients] onConn:conn];
+                        [queue removeObjectAtIndex:0];
                     } @catch (NSException* exception) {
                         NSLog(@"TransportException: %@", exception);                    
                     } @finally {
-                        [msg release];
+                        [queuedMsg release];
                     }
                 }
                 
@@ -267,9 +300,13 @@
     [outLock unlockWithCondition:1];
 }
 
-- (void) sendMessage: (OutgoingMessage*) msg {
-    [queue addObject:msg];
+- (void)sendMessage:(EncodedMessage *)msg to:(NSArray *)recipients {
+    RabbitMQQueuedMessage* queuedMsg = [[[RabbitMQQueuedMessage alloc] init] autorelease];
+    [queuedMsg setMessage:msg];
+    [queuedMsg setRecipients:recipients];
+    [queue addObject:queuedMsg];
 }
+
 
 - (void) run {
     inLock = [[NSConditionLock alloc] initWithCondition:0];
@@ -284,7 +321,7 @@
         NSThread *outThread = [[NSThread alloc] initWithTarget:self
                                                       selector:@selector(send)
                                                        object:nil];
-        
+    
         [inThread start];
         [outThread start];
         

@@ -34,10 +34,11 @@
 @dynamic url;
 @dynamic messages;
 
-- (ManagedMessage*) storeMessage: (Message*) msg{
+- (ManagedMessage*) storeMessage: (SignedMessage*) msg{
     
-    SBJsonWriter* writer = [[[SBJsonWriter alloc] init] autorelease];
-    NSData* contents = [writer dataWithObject: [[msg obj] json]];
+    NSData* contents = [NSPropertyListSerialization dataFromPropertyList: [[msg obj] data]
+                                                                  format: NSPropertyListBinaryFormat_v1_0
+                                                        errorDescription: nil];
     
     ManagedMessage *newMessage = [NSEntityDescription
                                   insertNewObjectForEntityForName:@"Message"
@@ -47,7 +48,9 @@
     [newMessage setApp: [msg appId]];
     [newMessage setTimestamp: [msg timestamp]];
     [newMessage setFeed: self];
-    [newMessage setSender:[msg sender]];
+    [newMessage setType: [[msg obj] type]];
+    [newMessage setSender:[self userWithId: [[msg sender] id]]];
+    [newMessage setId: [msg hash]];
     
     [[self managedObjectContext] save:NULL];
     return newMessage;
@@ -65,16 +68,26 @@
 }
 
 - (NSArray *) allMembers {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"GroupMember" inManagedObjectContext:[self managedObjectContext]];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"FeedMember" inManagedObjectContext:[self managedObjectContext]];
     
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:entity];
     [request setPredicate: [NSPredicate predicateWithFormat:@"feed = %@", self]];
     
     NSError *error = nil;
-    return [[self managedObjectContext] executeFetchRequest:request error:&error];
+    NSArray* members= [[self managedObjectContext] executeFetchRequest:request error:&error];
+    
+    NSMutableArray* users = [NSMutableArray array];
+    for (NSManagedObject* member in members) {
+        [users addObject:[member valueForKey:@"user"]];
+    }
+    
+    return users;
 }
 
+- (ManagedUser *) userWithId: (NSString*) id {
+    return [ManagedUser withPublicKey:[id decodeBase64] inContext:[self managedObjectContext]];
+}
 
 
 @end

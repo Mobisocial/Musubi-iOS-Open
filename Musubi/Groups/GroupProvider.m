@@ -83,11 +83,12 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
         for (NSString* userJSON in [parser objectWithString: [groupJSON objectForKey:@"users"]]) {
             NSDictionary* userDict = [parser objectWithString: userJSON];
             NSString* pubK = [self decryptAndDecodeBase64:[userDict objectForKey:@"public_key"] withKey:key];
-            NSString* email = [self decryptAndDecodeBase64:[userDict objectForKey:@"email"] withKey:key]; 
-            NSString* profile = [self decryptAndDecodeBase64:[userDict objectForKey:@"profile"] withKey:key]; 
+            NSString* email = [self decryptAndDecodeBase64:[userDict objectForKey:@"email"] withKey:key];
             
             if (!(pubK == nil || [pubK isEqualToString:@""])) {
-                GroupMember* member = [[[GroupMember alloc] initWithEmail: email profile:profile publicKey:pubK] autorelease];
+                User* member = [[User alloc] init];
+                [member setName: email];
+                [member setId: pubK];
                 [members addObject:member];
             }
         }

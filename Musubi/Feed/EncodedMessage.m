@@ -16,25 +16,17 @@
 
 
 //
-//  Feed.m
+//  EncodedMessage.m
 //  musubi
 //
-//  Created by Willem Bult on 10/25/11.
+//  Created by Willem Bult on 11/10/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Feed.h"
+#import "EncodedMessage.h"
 
-@implementation Feed 
+@implementation EncodedMessage
 
-@synthesize group;
-
-- (id)initWithGroup:(Group *)g {
-    self = [super init];
-    if (self != nil) {
-        [self setGroup: g];
-    }
-    return self;
-}
+@synthesize message, signature;
 
 @end

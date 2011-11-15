@@ -24,21 +24,27 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SignedObj.h"
+#import "Obj.h"
+#import "User.h"
 
 @interface Message : NSObject {
-    SignedObj* obj;
+    Obj* obj;
     
-    NSDate* timestamp;
-    NSString* feedName;
+    User* sender;
+    NSArray* recipients;
+    
     NSString* appId;
-    NSString* sender;
+    NSString* feedName;
+    NSDate* timestamp;
 }
 
-@property (nonatomic, retain) SignedObj* obj;
-@property (nonatomic, retain) NSDate* timestamp;
-@property (nonatomic, retain) NSString* feedName;
+@property (nonatomic, retain) Obj* obj;
+
+@property (nonatomic, retain) User* sender;
+@property (nonatomic, retain) NSArray* recipients;
+
 @property (nonatomic, retain) NSString* appId;
-@property (nonatomic, retain) NSString* sender;
+@property (nonatomic, retain) NSString* feedName;
+@property (nonatomic, retain) NSDate* timestamp;
 
 @end
