@@ -16,30 +16,32 @@
 
 
 //
-//  PictureUpdate.h
+//  Feed.h
 //  musubi
 //
-//  Created by Willem Bult on 11/1/11.
+//  Created by Willem Bult on 10/24/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Update.h"
-#import "Obj.h"
-#import "NSData+Base64.h"
-#import "UIImage+Resize.h"
+#import <Foundation/Foundation.h>
+#import "XQueryComponents.h"
+#import "User.h"
 
-static NSString* kObjTypePicture = @"picture";
-
-@interface PictureUpdate : NSObject<Update> {
-    UIImage* image;
+@interface Feed : NSObject {
+    NSString* name;
+    NSURL* feedUri;
+    NSString* session;
+    NSString* key;
+    NSArray* members;
 }
 
-@property (nonatomic,retain) UIImage* image;
+@property (nonatomic, retain) NSString* name;
+@property (nonatomic, retain) NSURL* feedUri;
+@property (nonatomic, retain) NSString* session;
+@property (nonatomic, retain) NSString* key;
+@property (nonatomic, retain) NSArray* members;
 
-- (id) initWithData: (NSData *) data;
-- (id) initWithImage: (UIImage *) img;
-- (Obj*) obj;
-
-+ (id) createFromObj: (Obj*) obj;
+- (id) initWithName: (NSString*) n feedUri: (NSURL*) uri;
+- (NSArray*) publicKeys;
 
 @end

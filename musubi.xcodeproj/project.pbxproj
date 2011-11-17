@@ -12,9 +12,6 @@
 		D20E4235146204D90096A272 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = D20E4232146204D90096A272 /* UIImage+Alpha.m */; };
 		D20E4236146204D90096A272 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = D20E4234146204D90096A272 /* UIImage+RoundedCorner.m */; };
 		D25F48D1146C579A00AC1551 /* ObjRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F48D0146C579A00AC1551 /* ObjRenderer.m */; };
-		D25F48D5146C5D5E00AC1551 /* SignedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F48D4146C5D5E00AC1551 /* SignedMessage.m */; };
-		D25F48D8146C600800AC1551 /* EncodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F48D7146C600800AC1551 /* EncodedMessage.m */; };
-		D25F48E2146DDDBB00AC1551 /* JoinNotificationObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F48E1146DDDBB00AC1551 /* JoinNotificationObj.m */; };
 		D25F49151471A32500AC1551 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49031471A32500AC1551 /* bson.c */; };
 		D25F49161471A32500AC1551 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49051471A32500AC1551 /* encoding.c */; };
 		D25F49171471A32500AC1551 /* gridfs.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49071471A32500AC1551 /* gridfs.c */; };
@@ -22,7 +19,6 @@
 		D25F49191471A32500AC1551 /* mongo.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490B1471A32500AC1551 /* mongo.c */; };
 		D25F491A1471A32500AC1551 /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490D1471A32500AC1551 /* net.c */; };
 		D25F491B1471A32500AC1551 /* numbers.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490F1471A32500AC1551 /* numbers.c */; };
-		D25F491F1471E7D600AC1551 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F491E1471E7D400AC1551 /* User.m */; };
 		D25F49221471EB1A00AC1551 /* ManagedUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F49211471EB1A00AC1551 /* ManagedUser.m */; };
 		D26E6D8A1468ECAC005BDABF /* FeedItemTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D26E6D891468ECAC005BDABF /* FeedItemTableCell.m */; };
 		D279597B1457D36700C5FDAB /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2794AF61457D33F00C5FDAB /* libcrypto.a */; };
@@ -46,11 +42,7 @@
 		D27965961457D37A00C5FDAB /* OpenSSLKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D27959341457D36300C5FDAB /* OpenSSLKey.m */; };
 		D27965971457D37B00C5FDAB /* RSAKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D27959361457D36300C5FDAB /* RSAKey.m */; };
 		D27965981457D37B00C5FDAB /* RSAKeyPair.m in Sources */ = {isa = PBXBuildFile; fileRef = D27959381457D36300C5FDAB /* RSAKeyPair.m */; };
-		D27965991457D37B00C5FDAB /* DefaultMessageFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = D279593B1457D36300C5FDAB /* DefaultMessageFormat.m */; };
-		D279659C1457D37B00C5FDAB /* Obj.m in Sources */ = {isa = PBXBuildFile; fileRef = D27959411457D36300C5FDAB /* Obj.m */; };
 		D279659D1457D37B00C5FDAB /* GPSNearbyGroups.m in Sources */ = {isa = PBXBuildFile; fileRef = D27959441457D36300C5FDAB /* GPSNearbyGroups.m */; };
-		D279659E1457D37B00C5FDAB /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D27959461457D36300C5FDAB /* Group.m */; };
-		D279659F1457D37B00C5FDAB /* GroupMember.m in Sources */ = {isa = PBXBuildFile; fileRef = D27959481457D36400C5FDAB /* GroupMember.m */; };
 		D27965A01457D37B00C5FDAB /* GroupProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D279594A1457D36400C5FDAB /* GroupProvider.m */; };
 		D27965A11457D37B00C5FDAB /* Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = D279594D1457D36400C5FDAB /* Identity.m */; };
 		D27965A21457D37B00C5FDAB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D279594E1457D36400C5FDAB /* Model.xcdatamodeld */; };
@@ -82,13 +74,20 @@
 		D298FA17143CE6DF000831DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D298FA18143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
+		D2AF4BE11475D1EF00162B46 /* PictureUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AF4BDD1475D1EF00162B46 /* PictureUpdate.m */; };
+		D2AF4BE21475D1EF00162B46 /* StatusUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AF4BDF1475D1EF00162B46 /* StatusUpdate.m */; };
+		D2AF4BF01475D20400162B46 /* EncodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AF4BE51475D20400162B46 /* EncodedMessage.m */; };
+		D2AF4BF11475D20400162B46 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AF4BE71475D20400162B46 /* Feed.m */; };
+		D2AF4BF21475D20400162B46 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AF4BE91475D20400162B46 /* Message.m */; };
+		D2AF4BF31475D20400162B46 /* Obj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AF4BEB1475D20400162B46 /* Obj.m */; };
+		D2AF4BF41475D20400162B46 /* SignedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AF4BED1475D20400162B46 /* SignedMessage.m */; };
+		D2AF4BF51475D20400162B46 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AF4BEF1475D20400162B46 /* User.m */; };
+		D2AF4C021475D22C00162B46 /* JoinNotificationObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AF4C011475D22C00162B46 /* JoinNotificationObj.m */; };
+		D2AF4C051475D24200162B46 /* DefaultMessageFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AF4C041475D24200162B46 /* DefaultMessageFormat.m */; };
 		D2CD028A1443A1830080861E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD02891443A1830080861E /* CoreLocation.framework */; };
 		D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
 		D2D45295145A0A42003C588E /* ObjectStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D45294145A0A42003C588E /* ObjectStore.m */; };
 		D2D45298145A22EE003C588E /* Musubi.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D45297145A22ED003C588E /* Musubi.m */; };
-		D2D4529F145DE0A8003C588E /* StatusUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D4529E145DE0A7003C588E /* StatusUpdate.m */; };
-		D2D452A2145F1151003C588E /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D452A1145F114F003C588E /* Message.m */; };
-		D2F4671414608D8000B32701 /* PictureUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F4671314608D8000B32701 /* PictureUpdate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,13 +166,6 @@
 		D20E4234146204D90096A272 /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 		D25F48CF146C579A00AC1551 /* ObjRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjRenderer.h; sourceTree = "<group>"; };
 		D25F48D0146C579A00AC1551 /* ObjRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjRenderer.m; sourceTree = "<group>"; };
-		D25F48D3146C5D5E00AC1551 /* SignedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignedMessage.h; path = Feed/SignedMessage.h; sourceTree = "<group>"; };
-		D25F48D4146C5D5E00AC1551 /* SignedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignedMessage.m; path = Feed/SignedMessage.m; sourceTree = "<group>"; };
-		D25F48D6146C600800AC1551 /* EncodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncodedMessage.h; path = Feed/EncodedMessage.h; sourceTree = "<group>"; };
-		D25F48D7146C600800AC1551 /* EncodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EncodedMessage.m; path = Feed/EncodedMessage.m; sourceTree = "<group>"; };
-		D25F48DF146DD7E900AC1551 /* Update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Update.h; sourceTree = "<group>"; };
-		D25F48E0146DDDBB00AC1551 /* JoinNotificationObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoinNotificationObj.h; path = Musubi/Feed/JoinNotificationObj.h; sourceTree = SOURCE_ROOT; };
-		D25F48E1146DDDBB00AC1551 /* JoinNotificationObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JoinNotificationObj.m; path = Musubi/Feed/JoinNotificationObj.m; sourceTree = SOURCE_ROOT; };
 		D25F49031471A32500AC1551 /* bson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson.c; sourceTree = "<group>"; };
 		D25F49041471A32500AC1551 /* bson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson.h; sourceTree = "<group>"; };
 		D25F49051471A32500AC1551 /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
@@ -188,8 +180,6 @@
 		D25F490E1471A32500AC1551 /* net.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
 		D25F490F1471A32500AC1551 /* numbers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = numbers.c; sourceTree = "<group>"; };
 		D25F49141471A32500AC1551 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
-		D25F491D1471E7D300AC1551 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		D25F491E1471E7D400AC1551 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		D25F49201471EB1900AC1551 /* ManagedUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedUser.h; sourceTree = "<group>"; };
 		D25F49211471EB1A00AC1551 /* ManagedUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedUser.m; sourceTree = "<group>"; };
 		D26E6D881468ECAC005BDABF /* FeedItemTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedItemTableCell.h; sourceTree = "<group>"; };
@@ -3274,16 +3264,8 @@
 		D27959361457D36300C5FDAB /* RSAKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSAKey.m; sourceTree = "<group>"; };
 		D27959371457D36300C5FDAB /* RSAKeyPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSAKeyPair.h; sourceTree = "<group>"; };
 		D27959381457D36300C5FDAB /* RSAKeyPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSAKeyPair.m; sourceTree = "<group>"; };
-		D279593A1457D36300C5FDAB /* DefaultMessageFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultMessageFormat.h; path = Feed/DefaultMessageFormat.h; sourceTree = "<group>"; };
-		D279593B1457D36300C5FDAB /* DefaultMessageFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultMessageFormat.m; path = Feed/DefaultMessageFormat.m; sourceTree = "<group>"; };
-		D27959401457D36300C5FDAB /* Obj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Obj.h; path = Feed/Obj.h; sourceTree = "<group>"; };
-		D27959411457D36300C5FDAB /* Obj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Obj.m; path = Feed/Obj.m; sourceTree = "<group>"; };
 		D27959431457D36300C5FDAB /* GPSNearbyGroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPSNearbyGroups.h; sourceTree = "<group>"; };
 		D27959441457D36300C5FDAB /* GPSNearbyGroups.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPSNearbyGroups.m; sourceTree = "<group>"; };
-		D27959451457D36300C5FDAB /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
-		D27959461457D36300C5FDAB /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
-		D27959471457D36300C5FDAB /* GroupMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupMember.h; sourceTree = "<group>"; };
-		D27959481457D36400C5FDAB /* GroupMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupMember.m; sourceTree = "<group>"; };
 		D27959491457D36400C5FDAB /* GroupProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupProvider.h; sourceTree = "<group>"; };
 		D279594A1457D36400C5FDAB /* GroupProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupProvider.m; sourceTree = "<group>"; };
 		D279594C1457D36400C5FDAB /* Identity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Identity.h; sourceTree = "<group>"; };
@@ -3293,8 +3275,8 @@
 		D27959521457D36400C5FDAB /* ManagedFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedFeed.m; sourceTree = "<group>"; };
 		D27959531457D36400C5FDAB /* ManagedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedMessage.h; sourceTree = "<group>"; };
 		D27959541457D36400C5FDAB /* ManagedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedMessage.m; sourceTree = "<group>"; };
-		D27959581457D36400C5FDAB /* MessageFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageFormat.h; path = Transport/MessageFormat.h; sourceTree = "<group>"; };
-		D27959591457D36400C5FDAB /* MessageFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageFormat.m; path = Transport/MessageFormat.m; sourceTree = "<group>"; };
+		D27959581457D36400C5FDAB /* MessageFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageFormat.h; sourceTree = "<group>"; };
+		D27959591457D36400C5FDAB /* MessageFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageFormat.m; sourceTree = "<group>"; };
 		D279595C1457D36400C5FDAB /* RabbitMQMessengerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RabbitMQMessengerService.h; sourceTree = "<group>"; };
 		D279595D1457D36400C5FDAB /* RabbitMQMessengerService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RabbitMQMessengerService.m; sourceTree = "<group>"; };
 		D279595F1457D36400C5FDAB /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
@@ -3646,6 +3628,27 @@
 		D298FA15143CE6DF000831DD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D298FA40143D0E84000831DD /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		D298FA4B143E5B4E000831DD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D2AF4BDC1475D1EF00162B46 /* PictureUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureUpdate.h; sourceTree = "<group>"; };
+		D2AF4BDD1475D1EF00162B46 /* PictureUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureUpdate.m; sourceTree = "<group>"; };
+		D2AF4BDE1475D1EF00162B46 /* StatusUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusUpdate.h; sourceTree = "<group>"; };
+		D2AF4BDF1475D1EF00162B46 /* StatusUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusUpdate.m; sourceTree = "<group>"; };
+		D2AF4BE01475D1EF00162B46 /* Update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Update.h; sourceTree = "<group>"; };
+		D2AF4BE41475D20400162B46 /* EncodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncodedMessage.h; sourceTree = "<group>"; };
+		D2AF4BE51475D20400162B46 /* EncodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncodedMessage.m; sourceTree = "<group>"; };
+		D2AF4BE61475D20400162B46 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
+		D2AF4BE71475D20400162B46 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
+		D2AF4BE81475D20400162B46 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		D2AF4BE91475D20400162B46 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		D2AF4BEA1475D20400162B46 /* Obj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Obj.h; sourceTree = "<group>"; };
+		D2AF4BEB1475D20400162B46 /* Obj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Obj.m; sourceTree = "<group>"; };
+		D2AF4BEC1475D20400162B46 /* SignedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignedMessage.h; sourceTree = "<group>"; };
+		D2AF4BED1475D20400162B46 /* SignedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignedMessage.m; sourceTree = "<group>"; };
+		D2AF4BEE1475D20400162B46 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		D2AF4BEF1475D20400162B46 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		D2AF4C001475D22C00162B46 /* JoinNotificationObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoinNotificationObj.h; sourceTree = "<group>"; };
+		D2AF4C011475D22C00162B46 /* JoinNotificationObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JoinNotificationObj.m; sourceTree = "<group>"; };
+		D2AF4C031475D24200162B46 /* DefaultMessageFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultMessageFormat.h; sourceTree = "<group>"; };
+		D2AF4C041475D24200162B46 /* DefaultMessageFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultMessageFormat.m; sourceTree = "<group>"; };
 		D2CD02891443A1830080861E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D2CD05DB14450E3E0080861E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D2CD05E314462BD90080861E /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
@@ -3654,12 +3657,6 @@
 		D2D45296145A22EC003C588E /* Musubi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Musubi.h; sourceTree = "<group>"; };
 		D2D45297145A22ED003C588E /* Musubi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Musubi.m; sourceTree = "<group>"; };
 		D2D45299145A2DB2003C588E /* Transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transport.h; sourceTree = "<group>"; };
-		D2D4529D145DE0A7003C588E /* StatusUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusUpdate.h; path = ../Musubi/Feed/StatusUpdate.h; sourceTree = "<group>"; };
-		D2D4529E145DE0A7003C588E /* StatusUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusUpdate.m; path = ../Musubi/Feed/StatusUpdate.m; sourceTree = "<group>"; };
-		D2D452A0145F114F003C588E /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Message.h; path = Transport/Message.h; sourceTree = "<group>"; };
-		D2D452A1145F114F003C588E /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Message.m; path = Transport/Message.m; sourceTree = "<group>"; };
-		D2F4671214608D8000B32701 /* PictureUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PictureUpdate.h; path = ../Musubi/Feed/PictureUpdate.h; sourceTree = "<group>"; };
-		D2F4671314608D8000B32701 /* PictureUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PictureUpdate.m; path = ../Musubi/Feed/PictureUpdate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3694,39 +3691,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D25F48CE146C565D00AC1551 /* SocialKit */ = {
-			isa = PBXGroup;
-			children = (
-				D279593A1457D36300C5FDAB /* DefaultMessageFormat.h */,
-				D279593B1457D36300C5FDAB /* DefaultMessageFormat.m */,
-				D27959581457D36400C5FDAB /* MessageFormat.h */,
-				D27959591457D36400C5FDAB /* MessageFormat.m */,
-				D2D452A0145F114F003C588E /* Message.h */,
-				D2D452A1145F114F003C588E /* Message.m */,
-				D27959401457D36300C5FDAB /* Obj.h */,
-				D27959411457D36300C5FDAB /* Obj.m */,
-				D25F48D3146C5D5E00AC1551 /* SignedMessage.h */,
-				D25F48D4146C5D5E00AC1551 /* SignedMessage.m */,
-				D25F48D6146C600800AC1551 /* EncodedMessage.h */,
-				D25F48D7146C600800AC1551 /* EncodedMessage.m */,
-				D25F491D1471E7D300AC1551 /* User.h */,
-				D25F491E1471E7D400AC1551 /* User.m */,
-			);
-			name = SocialKit;
-			sourceTree = "<group>";
-		};
-		D25F48D2146C5C9100AC1551 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				D2D4529D145DE0A7003C588E /* StatusUpdate.h */,
-				D2D4529E145DE0A7003C588E /* StatusUpdate.m */,
-				D2F4671214608D8000B32701 /* PictureUpdate.h */,
-				D2F4671314608D8000B32701 /* PictureUpdate.m */,
-				D25F48DF146DD7E900AC1551 /* Update.h */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
 		D25F49021471A32500AC1551 /* bson */ = {
 			isa = PBXGroup;
 			children = (
@@ -7879,7 +7843,7 @@
 		D27959101457D36300C5FDAB /* Messenger */ = {
 			isa = PBXGroup;
 			children = (
-				D25F48D2146C5C9100AC1551 /* Model */,
+				D2AF4BDB1475D1EF00162B46 /* Model */,
 				D27959111457D36300C5FDAB /* AppDelegate.h */,
 				D27959121457D36300C5FDAB /* AppDelegate.m */,
 				D27959131457D36300C5FDAB /* FeedViewController.h */,
@@ -7905,7 +7869,7 @@
 		D27959221457D36300C5FDAB /* Musubi */ = {
 			isa = PBXGroup;
 			children = (
-				D25F48CE146C565D00AC1551 /* SocialKit */,
+				D2AF4BE31475D20300162B46 /* SocialKit */,
 				D27959231457D36300C5FDAB /* App */,
 				D279592C1457D36300C5FDAB /* Crypto */,
 				D27959421457D36300C5FDAB /* Groups */,
@@ -7957,14 +7921,10 @@
 		D27959421457D36300C5FDAB /* Groups */ = {
 			isa = PBXGroup;
 			children = (
-				D25F48E0146DDDBB00AC1551 /* JoinNotificationObj.h */,
-				D25F48E1146DDDBB00AC1551 /* JoinNotificationObj.m */,
+				D2AF4C001475D22C00162B46 /* JoinNotificationObj.h */,
+				D2AF4C011475D22C00162B46 /* JoinNotificationObj.m */,
 				D27959431457D36300C5FDAB /* GPSNearbyGroups.h */,
 				D27959441457D36300C5FDAB /* GPSNearbyGroups.m */,
-				D27959451457D36300C5FDAB /* Group.h */,
-				D27959461457D36300C5FDAB /* Group.m */,
-				D27959471457D36300C5FDAB /* GroupMember.h */,
-				D27959481457D36400C5FDAB /* GroupMember.m */,
 				D27959491457D36400C5FDAB /* GroupProvider.h */,
 				D279594A1457D36400C5FDAB /* GroupProvider.m */,
 			);
@@ -7999,9 +7959,13 @@
 		D27959571457D36400C5FDAB /* Transport */ = {
 			isa = PBXGroup;
 			children = (
+				D2AF4C031475D24200162B46 /* DefaultMessageFormat.h */,
+				D2AF4C041475D24200162B46 /* DefaultMessageFormat.m */,
 				D279595C1457D36400C5FDAB /* RabbitMQMessengerService.h */,
 				D279595D1457D36400C5FDAB /* RabbitMQMessengerService.m */,
 				D2D45299145A2DB2003C588E /* Transport.h */,
+				D27959581457D36400C5FDAB /* MessageFormat.h */,
+				D27959591457D36400C5FDAB /* MessageFormat.m */,
 			);
 			path = Transport;
 			sourceTree = "<group>";
@@ -9118,6 +9082,37 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D2AF4BDB1475D1EF00162B46 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D2AF4BDC1475D1EF00162B46 /* PictureUpdate.h */,
+				D2AF4BDD1475D1EF00162B46 /* PictureUpdate.m */,
+				D2AF4BDE1475D1EF00162B46 /* StatusUpdate.h */,
+				D2AF4BDF1475D1EF00162B46 /* StatusUpdate.m */,
+				D2AF4BE01475D1EF00162B46 /* Update.h */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D2AF4BE31475D20300162B46 /* SocialKit */ = {
+			isa = PBXGroup;
+			children = (
+				D2AF4BE41475D20400162B46 /* EncodedMessage.h */,
+				D2AF4BE51475D20400162B46 /* EncodedMessage.m */,
+				D2AF4BE61475D20400162B46 /* Feed.h */,
+				D2AF4BE71475D20400162B46 /* Feed.m */,
+				D2AF4BE81475D20400162B46 /* Message.h */,
+				D2AF4BE91475D20400162B46 /* Message.m */,
+				D2AF4BEA1475D20400162B46 /* Obj.h */,
+				D2AF4BEB1475D20400162B46 /* Obj.m */,
+				D2AF4BEC1475D20400162B46 /* SignedMessage.h */,
+				D2AF4BED1475D20400162B46 /* SignedMessage.m */,
+				D2AF4BEE1475D20400162B46 /* User.h */,
+				D2AF4BEF1475D20400162B46 /* User.m */,
+			);
+			path = SocialKit;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -9320,11 +9315,7 @@
 				D27965961457D37A00C5FDAB /* OpenSSLKey.m in Sources */,
 				D27965971457D37B00C5FDAB /* RSAKey.m in Sources */,
 				D27965981457D37B00C5FDAB /* RSAKeyPair.m in Sources */,
-				D27965991457D37B00C5FDAB /* DefaultMessageFormat.m in Sources */,
-				D279659C1457D37B00C5FDAB /* Obj.m in Sources */,
 				D279659D1457D37B00C5FDAB /* GPSNearbyGroups.m in Sources */,
-				D279659E1457D37B00C5FDAB /* Group.m in Sources */,
-				D279659F1457D37B00C5FDAB /* GroupMember.m in Sources */,
 				D27965A01457D37B00C5FDAB /* GroupProvider.m in Sources */,
 				D27965A11457D37B00C5FDAB /* Identity.m in Sources */,
 				D27965A21457D37B00C5FDAB /* Model.xcdatamodeld in Sources */,
@@ -9341,17 +9332,11 @@
 				D27968C21457D97700C5FDAB /* zip.c in Sources */,
 				D2D45295145A0A42003C588E /* ObjectStore.m in Sources */,
 				D2D45298145A22EE003C588E /* Musubi.m in Sources */,
-				D2D4529F145DE0A8003C588E /* StatusUpdate.m in Sources */,
-				D2D452A2145F1151003C588E /* Message.m in Sources */,
-				D2F4671414608D8000B32701 /* PictureUpdate.m in Sources */,
 				D20E4230146203E30096A272 /* UIImage+Resize.m in Sources */,
 				D20E4235146204D90096A272 /* UIImage+Alpha.m in Sources */,
 				D20E4236146204D90096A272 /* UIImage+RoundedCorner.m in Sources */,
 				D26E6D8A1468ECAC005BDABF /* FeedItemTableCell.m in Sources */,
 				D25F48D1146C579A00AC1551 /* ObjRenderer.m in Sources */,
-				D25F48D5146C5D5E00AC1551 /* SignedMessage.m in Sources */,
-				D25F48D8146C600800AC1551 /* EncodedMessage.m in Sources */,
-				D25F48E2146DDDBB00AC1551 /* JoinNotificationObj.m in Sources */,
 				D25F49151471A32500AC1551 /* bson.c in Sources */,
 				D25F49161471A32500AC1551 /* encoding.c in Sources */,
 				D25F49171471A32500AC1551 /* gridfs.c in Sources */,
@@ -9359,8 +9344,17 @@
 				D25F49191471A32500AC1551 /* mongo.c in Sources */,
 				D25F491A1471A32500AC1551 /* net.c in Sources */,
 				D25F491B1471A32500AC1551 /* numbers.c in Sources */,
-				D25F491F1471E7D600AC1551 /* User.m in Sources */,
 				D25F49221471EB1A00AC1551 /* ManagedUser.m in Sources */,
+				D2AF4BE11475D1EF00162B46 /* PictureUpdate.m in Sources */,
+				D2AF4BE21475D1EF00162B46 /* StatusUpdate.m in Sources */,
+				D2AF4BF01475D20400162B46 /* EncodedMessage.m in Sources */,
+				D2AF4BF11475D20400162B46 /* Feed.m in Sources */,
+				D2AF4BF21475D20400162B46 /* Message.m in Sources */,
+				D2AF4BF31475D20400162B46 /* Obj.m in Sources */,
+				D2AF4BF41475D20400162B46 /* SignedMessage.m in Sources */,
+				D2AF4BF51475D20400162B46 /* User.m in Sources */,
+				D2AF4C021475D22C00162B46 /* JoinNotificationObj.m in Sources */,
+				D2AF4C051475D24200162B46 /* DefaultMessageFormat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

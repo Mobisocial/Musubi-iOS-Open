@@ -106,7 +106,7 @@ static Musubi* _sharedInstance = nil;
 - (NSArray *)groups {
     NSMutableArray* groups = [NSMutableArray array];
     for (ManagedFeed* feed in [[ObjectStore sharedInstance] feeds]) {
-        Group* group = [[Group alloc] initWithName:[feed name] feedUri:[NSURL URLWithString:[feed url]]];
+        Feed* group = [[Feed alloc] initWithName:[feed name] feedUri:[NSURL URLWithString:[feed url]]];
 
         NSMutableArray* members = [NSMutableArray array];
         for (ManagedUser* member in [feed allMembers]) {
@@ -119,7 +119,7 @@ static Musubi* _sharedInstance = nil;
     return groups;
 }
 
-- (ManagedFeed*) joinGroup:(Group *)group {
+- (ManagedFeed*) joinGroup:(Feed *)group {
     ManagedFeed* existing = [[ObjectStore sharedInstance] feedForSession:[group session]];
     if (existing != nil) {
         [[[[GroupProvider alloc] init] autorelease] updateGroup:group sinceVersion:-1];
@@ -139,12 +139,12 @@ static Musubi* _sharedInstance = nil;
     return feed;
 }
 
-- (ManagedFeed *)feedForGroup:(Group *)group {
+- (ManagedFeed *)feedForGroup:(Feed *)group {
     return [[ObjectStore sharedInstance] feedForSession:[group session]];
 }
 
 
-- (void)listenToGroup:(Group *)group withListener:(id<MusubiFeedListener>)listener {
+- (void)listenToGroup:(Feed *)group withListener:(id<MusubiFeedListener>)listener {
     NSMutableArray* listeners = [feedListeners objectForKey: [group session]];
     if (listeners == nil) {
         listeners = [NSMutableArray arrayWithCapacity:1];
@@ -174,7 +174,7 @@ static Musubi* _sharedInstance = nil;
     }
 }
 
-- (void)sendObj:(Obj *)obj forApp:(NSString *)appId toGroup:(Group *)group {
+- (void)sendObj:(Obj *)obj forApp:(NSString *)appId toGroup:(Feed *)group {
     NSMutableArray* pubKeys = [NSMutableArray arrayWithArray:[group publicKeys]];
     NSString* myPubKey = [[Identity sharedInstance] publicKeyBase64];
     while ([pubKeys containsObject:myPubKey]) {

@@ -16,16 +16,16 @@
 
 
 //
-//  Group.m
+//  Feed.m
 //  musubi
 //
 //  Created by Willem Bult on 10/24/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Group.h"
+#import "Feed.h"
 
-@implementation Group
+@implementation Feed
 
 @synthesize name, feedUri, session, key, members;
 

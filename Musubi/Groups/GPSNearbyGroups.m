@@ -76,7 +76,7 @@
         NSMutableArray* groups = [NSMutableArray arrayWithCapacity:[json count]];
         for (int i=0; i<[json count]; i++) {
             NSDictionary* dict = [parser objectWithString:[json objectAtIndex:i]];
-            Group* group = [[[Group alloc] initWithName:[dict valueForKey:@"group_name"] feedUri: [NSURL URLWithString:[dict valueForKey:@"feed_uri"]]] autorelease];
+            Feed* group = [[[Feed alloc] initWithName:[dict valueForKey:@"group_name"] feedUri: [NSURL URLWithString:[dict valueForKey:@"feed_uri"]]] autorelease];
             [groups addObject:group];
         }
         

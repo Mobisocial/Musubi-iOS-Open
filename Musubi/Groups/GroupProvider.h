@@ -28,7 +28,7 @@
 #import "ObjectStore.h"
 #import "NSData+Crypto.h"
 #import "SBJsonParser.h"
-#import "Group.h"
+#import "Feed.h"
 #import "User.h"
 #import "XQueryComponents.h"
 #import "NSData+Base64.h"
@@ -38,7 +38,7 @@
 @interface GroupProvider : NSObject {
 }
 
-- (void)updateGroup: (Group*) group sinceVersion: (int) version;
+- (void)updateGroup: (Feed*) group sinceVersion: (int) version;
 - (NSString*) encryptAndBase64: (NSString*) str withKey: (NSData*) key;
 - (NSString*) decryptAndDecodeBase64: (NSString*) str withKey: (NSData*) key;
 

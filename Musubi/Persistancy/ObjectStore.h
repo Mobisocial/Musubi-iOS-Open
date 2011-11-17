@@ -28,7 +28,7 @@
 #import "ManagedFeed.h"
 #import "ManagedMessage.h"
 #import "ManagedUser.h"
-#import "Group.h"
+#import "Feed.h"
 #import "Message.h"
 #import "Obj.h"
 
@@ -42,7 +42,7 @@
 
 - (NSArray*) feeds;
 - (ManagedFeed*) feedForSession: (NSString*) session;
-- (ManagedFeed*) storeFeed: (Group*) feed;
+- (ManagedFeed*) storeFeed: (Feed*) feed;
 - (NSArray*) messagesForFeed: (ManagedFeed*) feed;
 
 - (NSArray*) users;

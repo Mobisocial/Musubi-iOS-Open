@@ -45,7 +45,7 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
     return url;
 }
 
-- (void)updateGroup: (Group*) group sinceVersion: (int) version {
+- (void)updateGroup: (Feed*) group sinceVersion: (int) version {
     NSData* key = [[group key] decodeBase64];
     NSString* session = [group session];
     NSString* pubKeyB64 = [[Identity sharedInstance] publicKeyBase64];

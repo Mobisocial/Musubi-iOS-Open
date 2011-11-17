@@ -97,7 +97,7 @@ static ObjectStore* _sharedInstance = nil;
     return nil;
 }
 
-- (ManagedFeed*) storeFeed:(Group *) feed {
+- (ManagedFeed*) storeFeed:(Feed *) feed {
     ManagedFeed *newFeed = [NSEntityDescription
                                 insertNewObjectForEntityForName:@"Feed"
                                 inManagedObjectContext:context];

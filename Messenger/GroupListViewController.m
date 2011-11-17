@@ -145,7 +145,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    Group* group = [groups objectAtIndex: indexPath.row];
+    Feed* group = [groups objectAtIndex: indexPath.row];
     
     static NSString *cellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -157,7 +157,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Group* group = [groups objectAtIndex: indexPath.row];
+    Feed* group = [groups objectAtIndex: indexPath.row];
     NSLog(@"Group: %@", group);
     
     FeedViewController* feedViewController = (FeedViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"feed"];

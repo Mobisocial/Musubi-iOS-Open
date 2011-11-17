@@ -24,7 +24,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Group.h"
+#import "Feed.h"
 #import "LocationController.h"
 
 @interface GPSNearbyGroups : NSObject<LocationControllerDelegate> {
