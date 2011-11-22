@@ -1,3 +1,6 @@
+SocialKit = {
+};
+
 Musubi = {
     platform: {
         _runCommand: function() {
@@ -9,24 +12,24 @@ Musubi = {
         Musubi.platform._runCommand(className, methodName, parameters, callback);
     },
     
-    _feed: null,
     _launchCallback: null,
-    
     _launchApp: function(json) {
-        Musubi._feed = new Musubi.Feed(json);
+        Musubi.feed = new SocialKit.Feed(json);
         
         if (Musubi._launchCallback != null) {
-            Musubi._launchCallback(Musubi._feed);
+            Musubi._launchCallback(Musubi.feed);
         }
     },
     
-    onAppLaunch: function(callback) {
-        Musubi._launchCallback = callback
-    },
-    
     _newMessage: function(msg) {
-        // Pass on to responsible Feed instance
-        Musubi._feed._newMessage(msg);
+        // Pass on to Feed instance
+        Musubi.feed._newMessage(msg);
+    },
+
+    feed: null,
+
+    ready: function(callback) {
+        Musubi._launchCallback = callback
     }
 };
 
@@ -57,28 +60,29 @@ Musubi.platform = {
             cb(result);
         }
     }
-}
+};
 
 
 /*
  * App class
  */
 
-Musubi.App = function(appId, feed) {
-    this.appId = appId;
-    this.feed = feed;
+SocialKit.App = function(json) {
+    this.appId = json.appId;
+    this.feed = new SocialKit.Feed(json.feed);
+    this.obj = new SocialKit.Obj(json.obj);
 };
 
 /*
  * User class
  */
 
-Musubi.User = function(json) {
+SocialKit.User = function(json) {
     this.name = json.name;
     this.id = json.id;
 };
 
-Musubi.User.prototype.toString = function() {
+SocialKit.User.prototype.toString = function() {
     return "<User: " + this.id + "," + this.name + ">";
 };
 
@@ -86,7 +90,7 @@ Musubi.User.prototype.toString = function() {
  * Feed class
  */
 
-Musubi.Feed = function(json) {
+SocialKit.Feed = function(json) {
     this.name = json.name;
     this.uri = json.uri;
     this.session = json.session;
@@ -94,31 +98,31 @@ Musubi.Feed = function(json) {
     this.members = [];
 
     for (var key in json.members) {
-        this.members.push( new Musubi.User(json.members[key]) );
+        this.members.push( new SocialKit.User(json.members[key]) );
     }
     
     this._messageListener = null;
 };
 
 // Message listener
-Musubi.Feed.prototype.onNewMessage = function(callback) {
+SocialKit.Feed.prototype.onNewMessage = function(callback) {
     this._messageListener = callback;
 };
 
-Musubi.Feed.prototype._newMessage = function(json) {
+SocialKit.Feed.prototype._newMessage = function(json) {
     if (this._messageListener != null) {
-        var msg = new Musubi.SignedMessage(json);
+        var msg = new SocialKit.SignedMessage(json);
         this._messageListener(msg);
     }
 };
     
 // Message querying
-Musubi.Feed.prototype.messages = function(callback) {
+SocialKit.Feed.prototype.messages = function(callback) {
     Musubi._runCommand("Feed", "messages", {feedName: this.session}, function(json) {
         // convert json messages to SignedMessage objects
         var msgs = [];
         for (var key in json) {
-            var msg = new Musubi.SignedMessage(json[key]);
+            var msg = new SocialKit.SignedMessage(json[key]);
             msgs.push(msg);
         }
         callback(msgs);
@@ -126,7 +130,7 @@ Musubi.Feed.prototype.messages = function(callback) {
 };
 
 // Message posting
-Musubi.Feed.prototype.post = function(obj) {
+SocialKit.Feed.prototype.post = function(obj) {
     Musubi._runCommand("Feed", "post", {feedName: this.session, obj: JSON.stringify(obj)});
 };
 
@@ -135,12 +139,12 @@ Musubi.Feed.prototype.post = function(obj) {
  * Obj class
  */
 
-Musubi.Obj = function(json) {
+SocialKit.Obj = function(json) {
     this.type = json.type;
     this.data = json.data;
 };
 
-Musubi.Obj.prototype.toString = function() {
+SocialKit.Obj.prototype.toString = function() {
     return "<Obj: " + this.type + ">";
 };
 
@@ -148,7 +152,7 @@ Musubi.Obj.prototype.toString = function() {
  * Message class
  */
 
-Musubi.Message = function() {
+SocialKit.Message = function() {
     this.obj = null;
     this.sender = null;
     this.recipients = [];
@@ -159,13 +163,13 @@ Musubi.Message = function() {
     this.init(json);
 };
 
-Musubi.Message.prototype.init = function(json) {
-    this.obj = new Musubi.Obj(json.obj);
-    this.sender = new Musubi.User(json.sender);
+SocialKit.Message.prototype.init = function(json) {
+    this.obj = new SocialKit.Obj(json.obj);
+    this.sender = new SocialKit.User(json.sender);
     this.recipients = [];
     
     for (var key in json.recipients) {
-        this.members.push( new Musubi.User(json.recipients[key]) );
+        this.members.push( new SocialKit.User(json.recipients[key]) );
     }
     
     this.appId = json.appId;
@@ -173,7 +177,7 @@ Musubi.Message.prototype.init = function(json) {
     this.date = new Date(parseInt(json.timestamp));
 };
 
-Musubi.Message.prototype.toString = function() {
+SocialKit.Message.prototype.toString = function() {
     return "<Message: " + this.obj.toString() + "," + this.sender.toString() + "," + this.appId + "," + this.feedName + "," + this.timestamp + ">";
 };
 
@@ -181,15 +185,15 @@ Musubi.Message.prototype.toString = function() {
  * SignedMessage class
  */
 
-Musubi.SignedMessage = function(json) {
+SocialKit.SignedMessage = function(json) {
     this.hash = null;
     
     this.init(json);
 };
-Musubi.SignedMessage.prototype = Musubi.Message.prototype;
+SocialKit.SignedMessage.prototype = SocialKit.Message.prototype;
 
-Musubi.SignedMessage.prototype.superInit = Musubi.SignedMessage.prototype.init;
-Musubi.SignedMessage.prototype.init = function(json) {
+SocialKit.SignedMessage.prototype.superInit = SocialKit.SignedMessage.prototype.init;
+SocialKit.SignedMessage.prototype.init = function(json) {
     this.superInit(json);
     this.hash = json.hash;
 };
