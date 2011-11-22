@@ -48,6 +48,10 @@ static const short _base64DecodingTable[256] = {
 
 @implementation NSData (Base64)
 
+- (NSString *) proxyForJson {
+    return [self encodeBase64];
+}
+
 - (NSString *) encodeBase64 {
 	const unsigned char * objRawData = [self bytes];
 	char * objPointer;

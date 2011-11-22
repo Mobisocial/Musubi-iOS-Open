@@ -10,6 +10,7 @@
 #import "Download.h"
 #import "GPSNearbyGroups.h"
 #import "GroupProvider.h"
+#import "HTMLAppViewController.h"
 
 @implementation GroupListViewController
 @synthesize groups;
@@ -157,13 +158,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Feed* group = [groups objectAtIndex: indexPath.row];
-    NSLog(@"Group: %@", group);
+    Feed* feed = [groups objectAtIndex: indexPath.row];
+    NSLog(@"Group: %@", feed);
     
     FeedViewController* feedViewController = (FeedViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"feed"];
-    [feedViewController setGroup: group];
+    [feedViewController setFeed: feed];
     
     [[self navigationController] pushViewController:feedViewController animated:YES];
+    /*
+    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"app"];
+    [appViewController setFeed: feed];
+    
+    [[self navigationController] pushViewController:appViewController animated:YES];*/
 }
 
 @end

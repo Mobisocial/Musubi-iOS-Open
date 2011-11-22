@@ -37,8 +37,8 @@
         [self setMembers: [NSArray array]];
         
         NSDictionary* uriComponents = [uri queryComponents];
-        [self setSession: [[uriComponents objectForKey:@"session"] objectAtIndex:0]];
-        [self setKey: [[uriComponents objectForKey:@"key"] objectAtIndex:0]];
+        [self setSession: [uriComponents objectForKey:@"session"]];
+        [self setKey: [uriComponents objectForKey:@"key"]];
     }
     return self;
 }
@@ -50,6 +50,24 @@
     }
     return keys;
 }
+
+- (NSDictionary *)json {
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:6];
+    [dict setObject:[self name] forKey:@"name"];
+    [dict setObject:[[self feedUri] description] forKey:@"uri"];
+    [dict setObject:[self session] forKey:@"session"];
+    [dict setObject:[self key] forKey:@"key"];
+    
+    NSMutableArray* memberDict = [[NSMutableArray alloc] init];
+    for (User* user in members) {
+        [memberDict addObject:[user json]];
+    }
+    
+    [dict setObject:memberDict forKey:@"members"];
+    
+    return dict;
+}
+
 
 - (NSString *)description {
     NSMutableString* desc = [NSMutableString string];

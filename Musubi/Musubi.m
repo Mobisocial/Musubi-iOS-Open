@@ -139,8 +139,8 @@ static Musubi* _sharedInstance = nil;
     return feed;
 }
 
-- (ManagedFeed *)feedForGroup:(Feed *)group {
-    return [[ObjectStore sharedInstance] feedForSession:[group session]];
+- (ManagedFeed *)feedByName:(NSString *)feedName {
+    return [[ObjectStore sharedInstance] feedForSession:feedName];
 }
 
 

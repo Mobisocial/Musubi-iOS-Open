@@ -25,6 +25,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface App : NSObject
+@interface App : NSObject {
+    NSString* name;
+    NSURL* url;
+}
+
+@property (nonatomic,retain) NSString* name;
+@property (nonatomic,retain) NSURL* url;
+
 
 @end

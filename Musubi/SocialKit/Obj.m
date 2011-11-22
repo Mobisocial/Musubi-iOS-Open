@@ -41,6 +41,12 @@
     return [NSString stringWithFormat:@"<Obj: %@, %@>", type, data];
 }
 
+- (NSDictionary *)json {
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:type forKey:@"type"];
+    [dict setObject:data forKey:@"data"];
+    return dict;
+}
 
 
 @end

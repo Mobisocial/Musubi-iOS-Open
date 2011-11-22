@@ -27,4 +27,6 @@
 
 @implementation App
 
+@synthesize name, url;
+
 @end

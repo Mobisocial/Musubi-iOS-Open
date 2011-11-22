@@ -31,7 +31,7 @@
 
 @property (nonatomic, retain) NSString* hash;
 
+- (NSDictionary*) json;
 + (id) createFromMessage: (Message*) msg withHash: (NSString*) hash;
-//+ (id)readFromJSON:(NSData *)json;
 
 @end

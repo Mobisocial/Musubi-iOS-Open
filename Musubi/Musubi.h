@@ -54,7 +54,8 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 - (NSArray*) groups;
 - (ManagedFeed*) joinGroup: (Feed*) group;
-- (ManagedFeed*) feedForGroup: (Feed*) group;
+- (ManagedFeed*) feedByName: (NSString*) feedName;
+
 
 - (void) listenToGroup: (Feed*) group withListener: (id<MusubiFeedListener>) listener;
 - (void) sendObj: (Obj*)obj forApp: (NSString*) appId toGroup: (Feed*) group;

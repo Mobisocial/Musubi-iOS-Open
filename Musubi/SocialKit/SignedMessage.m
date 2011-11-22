@@ -34,6 +34,21 @@
     return [NSString stringWithFormat:@"<SignedMessage: %@, %@, %@, %@, %@, %@, %@>", hash, obj, sender, recipients, appId, feedName, timestamp];
 }
 
+- (NSDictionary *)json {
+    long long ts = (long long)([[self timestamp] timeIntervalSince1970] * 1000);
+
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:6];
+    if ([self appId] != nil)
+        [dict setObject:[self appId] forKey:@"appId"];
+    [dict setObject:[self feedName] forKey:@"feedName"];
+    [dict setObject:[NSString stringWithFormat: @"%qi", ts] forKey:@"timestamp"];
+    [dict setObject:[self hash] forKey:@"hash"];
+    [dict setObject:[[self sender] json] forKey:@"sender"];
+    [dict setObject:[[self obj] json] forKey:@"obj"];
+
+    return dict;
+}
+
 + (id)createFromMessage:(Message *)msg withHash:(NSString *)hash {
     SignedMessage* signedMsg = [[[SignedMessage alloc] init] autorelease];
     [signedMsg setObj: [msg obj]];

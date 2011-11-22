@@ -34,5 +34,6 @@
 @property (nonatomic, retain) NSDictionary* data;
 
 - (id) initWithType: (NSString*) t;
+- (NSDictionary*) json;
 
 @end

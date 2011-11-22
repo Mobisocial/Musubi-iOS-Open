@@ -117,12 +117,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Feed* group = [groups objectAtIndex: indexPath.row];
+    Feed* feed = [groups objectAtIndex: indexPath.row];
     
-    ManagedFeed* feed = [[Musubi sharedInstance] joinGroup: group];
+    ManagedFeed* managedFeed = [[Musubi sharedInstance] joinGroup: feed];
 
     FeedViewController* feedViewController = (FeedViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"feed"];
-    [feedViewController setGroup: group];
+    [feedViewController setFeed: feed];
     
     [[self navigationController] pushViewController:feedViewController animated:YES];
 }

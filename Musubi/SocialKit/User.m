@@ -33,4 +33,11 @@
     return [NSString stringWithFormat:@"<User: %@, %@>", name, id];
 }
 
+- (NSDictionary *)json {
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:name forKey:@"name"];
+    [dict setObject:id forKey:@"id"];
+    return dict;
+}
+
 @end

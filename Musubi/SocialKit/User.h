@@ -35,5 +35,6 @@
 @property (nonatomic, retain) NSString* id;
 @property (nonatomic, retain) UIImage* picture;
 
+- (NSDictionary*) json;
 
 @end

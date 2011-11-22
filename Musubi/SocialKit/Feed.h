@@ -43,5 +43,6 @@
 
 - (id) initWithName: (NSString*) n feedUri: (NSURL*) uri;
 - (NSArray*) publicKeys;
+- (NSDictionary *)json;
 
 @end

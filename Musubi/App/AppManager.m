@@ -39,12 +39,27 @@
     return self;
 }
 
+- (NSArray *)apps {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *appsPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"apps"];
+    
+    NSArray* contents = [[NSFileManager defaultManager] directoryContentsAtPath: appsPath];
+	NSLog(@"Contents: %@", contents);
+    
+    NSMutableArray* list = [NSMutableArray array];
+    return list;
+}
+
+- (id)appById:(NSString *)id {
+    return nil;
+}
+
 - (void) downloadAppFromURL: (NSURL*) url {
     NSString* name = [NSString stringWithFormat:@"__TMP__%@", [url lastPathComponent]];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *appPath = [documentsDirectory stringByAppendingPathComponent:name];
+    NSString *appPath = [[documentsDirectory stringByAppendingPathComponent:@"apps"] stringByAppendingPathComponent:name];
     
     Download* download = [[[Download alloc] initWithPath:appPath andDelegate:self] autorelease];
     [download startWithURL:url];
@@ -57,7 +72,11 @@
     [archive UnzipOpenFile: path];
     [archive UnzipFileTo:targetPath overWrite:YES];
     
-    [delegate appManager:self installedApp: [targetPath lastPathComponent]];
+    App* app = [[[App alloc] init] autorelease];
+    [app setName: [targetPath lastPathComponent]];
+    [app setUrl: [NSURL URLWithString:targetPath]];
+    
+    [delegate appManager:self installedApp: app];
 }
 
 @end

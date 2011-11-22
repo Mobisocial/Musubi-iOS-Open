@@ -14,7 +14,7 @@
 #import "ObjRenderer.h"
 
 @interface FeedViewController : UITableViewController<MusubiFeedListener, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
-    Feed* group;
+    Feed* feed;
     
     NSMutableDictionary* updates;
     ObjRenderer* renderer;
@@ -25,7 +25,7 @@
 }
 
 @property (nonatomic,retain) NSMutableDictionary* updates;
-@property (nonatomic,retain) Feed* group;
+@property (nonatomic,retain) Feed* feed;
 @property (nonatomic,retain) NSMutableArray* messages;
 @property (nonatomic, retain) IBOutlet UITextField* updateField;
 @property (nonatomic, retain) IBOutlet UIButton* pictureButton;

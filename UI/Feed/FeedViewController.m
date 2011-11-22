@@ -8,10 +8,11 @@
 
 #import "FeedViewController.h"
 #import "FeedItemTableCell.h"
+#import "HTMLAppViewController.h"
 
 @implementation FeedViewController
 
-@synthesize group, messages, updateField, pictureButton, updates;
+@synthesize feed, messages, updateField, pictureButton, updates;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -39,14 +40,14 @@
     [self setUpdates: [[NSMutableDictionary alloc] init]];
     renderer = [[ObjRenderer alloc] init];
     
-    ManagedFeed* feed = [[Musubi sharedInstance] feedForGroup: group];
+    ManagedFeed* managedFeed = [[Musubi sharedInstance] feedByName: [feed session]];
     
     [self setMessages:[NSMutableArray array]];
-    for (ManagedMessage* msg in [feed allMessages]) {
+    for (ManagedMessage* msg in [managedFeed allMessages]) {
         [[self messages] insertObject:[msg message] atIndex:0];
     }
     
-    [[Musubi sharedInstance] listenToGroup: group withListener:self];
+    [[Musubi sharedInstance] listenToGroup: feed withListener:self];
 
     [updateField setDelegate:self];
 
@@ -175,7 +176,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     
     PictureUpdate* update = [[PictureUpdate alloc] initWithImage: image];
-    [[Musubi sharedInstance] sendObj:[update obj] forApp:kMusubiAppId toGroup:group];
+    [[Musubi sharedInstance] sendObj:[update obj] forApp:kMusubiAppId toGroup:feed];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
 }
@@ -231,6 +232,20 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
+    
+    NSString* appId = [[self msgForIndexPath:indexPath] appId];
+    if (appId == nil) {
+        appId = kMusubiAppId;
+    }
+    
+    App* app = [[App alloc] init];
+    [app setName: appId];
+    
+    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"app"];
+    [appViewController setApp: app];
+    [appViewController setFeed: feed];
+    
+    [[self navigationController] pushViewController:appViewController animated:YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -241,7 +256,7 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if ([textField text].length > 0) {
         StatusUpdate* update = [[StatusUpdate alloc] initWithText: [textField text]];
-        [[Musubi sharedInstance] sendObj:[update obj] forApp:kMusubiAppId toGroup:group];
+        [[Musubi sharedInstance] sendObj:[update obj] forApp:kMusubiAppId toGroup:feed];
         [textField setText:@""];
     }
 }
