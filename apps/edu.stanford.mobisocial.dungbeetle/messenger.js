@@ -99,5 +99,5 @@ Messenger.prototype.renderMessage = function(msg) {
  */
 var messenger = null;
 Musubi.ready(function() {
-    messenger = new Messenger(Musubi.feed);
+    messenger = new Messenger(Musubi.app.feed);
 });

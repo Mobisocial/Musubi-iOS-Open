@@ -58,7 +58,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 
 - (void) listenToGroup: (Feed*) group withListener: (id<MusubiFeedListener>) listener;
-- (void) sendObj: (Obj*)obj forApp: (NSString*) appId toGroup: (Feed*) group;
+- (SignedMessage*) sendMessage: (Message*) msg;
 
 - (User*) userWithPublicKey: (NSData*) publicKey;
 

@@ -37,6 +37,7 @@
 {
     [super viewDidLoad];
 
+    cellHeights = [[NSMutableDictionary alloc] init];
     [self setUpdates: [[NSMutableDictionary alloc] init]];
     renderer = [[ObjRenderer alloc] init];
     
@@ -118,6 +119,15 @@
 
         [[cell senderLabel] setText: [[msg sender] name]];
         [[cell timestampLabel] setText:[dateFormatter stringFromDate:[msg timestamp]]];
+        
+        if ([[cell itemView] isKindOfClass:[UIWebView class]]) {
+            UIWebView* webView = (UIWebView*) [cell itemView];
+            if ([webView delegate] == nil) {
+                [webView setTag:[indexPath row]];
+                [webView setDelegate:self];
+            }
+        }
+        
         return cell;
     } else {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"StatusCell"];
@@ -128,10 +138,28 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row > 0) {
+        NSNumber* storedHeight = [cellHeights objectForKey:[NSNumber numberWithInteger:[indexPath row]]];
+        if (storedHeight != nil) {
+            return [storedHeight floatValue] + 73;
+        }
+        
         return [renderer renderHeightForUpdate:[self updateForMessage:[self msgForIndexPath:indexPath]]] + 73;
     } else {
         return [super tableView:tableView heightForRowAtIndexPath:indexPath];
     }
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSString *output = [webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"];
+    NSNumber* height = [NSNumber numberWithInt:[output intValue]];
+    [cellHeights setObject:height forKey:[NSNumber numberWithInteger:[webView tag]]];
+    
+    CGRect frame = [webView frame];
+    [webView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [height floatValue])];
+    
+    [[self tableView] beginUpdates];
+    [[self tableView] setNeedsLayout];
+    [[self tableView] endUpdates];
 }
 
 - (id<Update>) updateForMessage: (SignedMessage*) msg {
@@ -145,6 +173,9 @@
             update = [StatusUpdate createFromObj:[msg obj]];
         else if ([objType isEqualToString:kObjTypePicture]) 
             update = [PictureUpdate createFromObj:[msg obj]];
+        else if ([objType isEqualToString:kObjTypeAppState]) 
+//            update = [[StatusUpdate alloc] initWithText:[msg appId]];
+            update = [AppStateUpdate createFromObj:[msg obj]];
      
         if (update != nil)
             [updates setObject:update forKey:[msg hash]];
@@ -165,6 +196,35 @@
     [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:FALSE];
 }
 
+- (void)appButtonPushed:(id)sender {
+    NSString* appId = @"edu.stanford.mobisocial.tictactoe";
+    
+    NSMutableArray* userKeys = [NSMutableArray array];
+    for (User* user in [feed members]) {
+        if ([[user name] rangeOfString:@"willem" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            [userKeys addObject:[user id]];
+        }
+        
+        if ([userKeys count] >= 2)
+            break;
+    }
+    
+    NSMutableDictionary* appDict = [[NSMutableDictionary alloc] init];
+    [appDict setObject:userKeys forKey:@"membership"];
+    
+    Obj* obj = [[Obj alloc] initWithType:@"appstate"];
+    [obj setData:appDict];
+    
+    App* app = [[App alloc] init];
+    [app setId: appId];
+    [app setFeed: feed];
+    
+    SignedMessage* msg = [[Musubi sharedInstance] sendMessage:[Message createWithObj:obj forApp:app]];
+    [app setMessage:msg];
+    
+    [self launchApp: app];
+}
+
 - (void)pictureButtonPushed:(id)sender {
     UIImagePickerController* picker =[[UIImagePickerController alloc] init];
     [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
@@ -175,8 +235,12 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     
+    App* app = [[App alloc] init];
+    [app setId:kMusubiAppId];
+    [app setFeed:feed];
+    
     PictureUpdate* update = [[PictureUpdate alloc] initWithImage: image];
-    [[Musubi sharedInstance] sendObj:[update obj] forApp:kMusubiAppId toGroup:feed];
+    [[Musubi sharedInstance] sendMessage: [Message createWithObj:[update obj] forApp:app]];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
 }
@@ -222,30 +286,28 @@
 
 #pragma mark - Table view delegate
 
+- (void)launchApp: (App*) app {
+    
+    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"app"];
+    [appViewController setApp: app];
+    
+    [[self navigationController] pushViewController:appViewController animated:YES];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
-    
-    NSString* appId = [[self msgForIndexPath:indexPath] appId];
+    SignedMessage* msg = [self msgForIndexPath:indexPath];
+    NSString* appId = [msg appId];
     if (appId == nil) {
         appId = kMusubiAppId;
     }
     
     App* app = [[App alloc] init];
-    [app setName: appId];
+    [app setId: appId];
+    [app setFeed: feed];
+    [app setMessage: msg];
     
-    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"app"];
-    [appViewController setApp: app];
-    [appViewController setFeed: feed];
-    
-    [[self navigationController] pushViewController:appViewController animated:YES];
+    [self launchApp:app];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -256,7 +318,12 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if ([textField text].length > 0) {
         StatusUpdate* update = [[StatusUpdate alloc] initWithText: [textField text]];
-        [[Musubi sharedInstance] sendObj:[update obj] forApp:kMusubiAppId toGroup:feed];
+        
+        App* app = [[App alloc] init];
+        [app setId: kMusubiAppId];
+        [app setFeed: feed];
+
+        [[Musubi sharedInstance] sendMessage: [Message createWithObj:[update obj] forApp:app]];
         [textField setText:@""];
     }
 }

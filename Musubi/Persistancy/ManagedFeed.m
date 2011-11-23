@@ -51,6 +51,7 @@
     [newMessage setType: [[msg obj] type]];
     [newMessage setSender:[self userWithId: [[msg sender] id]]];
     [newMessage setId: [msg hash]];
+    [newMessage setParent: [(SignedMessage*)[msg parent] hash]];
     
     [[self managedObjectContext] save:NULL];
     return newMessage;

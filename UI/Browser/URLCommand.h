@@ -9,23 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "Musubi.h"
 #import "XQueryComponents.h"
+#import "App.h"
 
 @interface URLFeedCommand : NSObject {
     NSURL* url;
     NSString* className;
     NSString* methodName;
     NSDictionary* parameters;
-    Feed* feed;
+
+    App* app;
 }
 
 @property (nonatomic,retain) NSURL* url;
 @property (nonatomic,retain) NSString* className;
 @property (nonatomic,retain) NSString* methodName;
 @property (nonatomic,retain) NSDictionary* parameters;
-@property (nonatomic,retain) Feed* feed;
+@property (nonatomic,retain) App* app;
 
 - (NSString*) execute;
-+ (id)createFromURL:(NSURL *)url withFeed:(Feed*) feed;
++ (id)createFromURL:(NSURL *)url withApp:(App*) app;
 
 @end
 

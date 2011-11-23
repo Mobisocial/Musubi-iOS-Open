@@ -10,7 +10,7 @@
 #import "Obj.h"
 #import "Update.h"
 
-@interface ObjRenderer : NSObject
+@interface ObjRenderer : NSObject<UIWebViewDelegate>
 
 - (UIView*) renderUpdate: (id<Update>) update;
 - (int) renderHeightForUpdate: (id<Update>) update;

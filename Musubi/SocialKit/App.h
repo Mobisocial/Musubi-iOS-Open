@@ -16,17 +16,30 @@
 
 
 //
-//  App.m
+//  App.h
 //  musubi
 //
-//  Created by Willem Bult on 10/24/11.
+//  Created by Willem Bult on 11/22/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "App.h"
+#import <Foundation/Foundation.h>
+#import "Feed.h"
 
-@implementation App
+@interface App : NSObject {
+    NSString* id;
 
-@synthesize name, url;
+    Feed* feed;
+    id message;
+    
+    NSArray* users;
+}
+
+@property (nonatomic,retain) NSString* id;
+@property (nonatomic,retain) Feed* feed;
+@property (nonatomic,retain) id message;
+@property (nonatomic,retain) NSArray* users;
+
+- (NSDictionary *)json;
 
 @end

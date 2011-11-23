@@ -15,7 +15,6 @@
 #import "NSData+Base64.h"
 
 @interface HTMLAppViewController : UIViewController<UIWebViewDelegate, MusubiFeedListener> {
-    Feed* feed;
     App* app;
     
     @private
@@ -25,7 +24,6 @@
     
 }
 
-@property (nonatomic,retain) Feed* feed;
 @property (nonatomic,retain) App* app;
 
 @end

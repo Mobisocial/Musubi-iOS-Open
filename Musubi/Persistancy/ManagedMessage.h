@@ -40,7 +40,9 @@
 @property (nonatomic, retain) NSData * contents;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSString * id;
+@property (nonatomic, retain) NSString * parent;
 
 - (SignedMessage*) message;
+- (ManagedMessage*) parentMessage;
 
 @end

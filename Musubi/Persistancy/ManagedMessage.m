@@ -35,6 +35,7 @@
 @dynamic app;
 @dynamic feed;
 @dynamic type;
+@dynamic parent;
 @dynamic id;
 
 - (SignedMessage*) message {
@@ -54,9 +55,30 @@
     [msg setSender: [[self sender] user]];
     [msg setHash: [self id]];
     [msg setObj:obj];
+    if ([self parent] != nil) {
+        [msg setParent:[self parentMessage]];
+    }
     
     return msg;
 }
+
+
+- (ManagedMessage*) parentMessage {
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:[self managedObjectContext]];
+    
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    [request setEntity:entity];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"hash = %@", [self parent]]];
+    
+    NSError *error = nil;
+    NSArray* results = [[self managedObjectContext] executeFetchRequest:request error:&error];
+    if (results != nil && [results count] > 0) {
+        return [results objectAtIndex:0];
+    }
+    
+    return nil;
+}
+
 
 
 @end

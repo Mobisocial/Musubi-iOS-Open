@@ -38,25 +38,30 @@
     long long ts = (long long)([[self timestamp] timeIntervalSince1970] * 1000);
 
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:6];
-    if ([self appId] != nil)
-        [dict setObject:[self appId] forKey:@"appId"];
+
+    [dict setObject:[self appId] forKey:@"appId"];
     [dict setObject:[self feedName] forKey:@"feedName"];
     [dict setObject:[NSString stringWithFormat: @"%qi", ts] forKey:@"timestamp"];
     [dict setObject:[self hash] forKey:@"hash"];
     [dict setObject:[[self sender] json] forKey:@"sender"];
     [dict setObject:[[self obj] json] forKey:@"obj"];
-
+    if ([self parent] != nil) {
+        [dict setObject:[(SignedMessage*)[self parent] hash] forKey:@"target_hash"];
+        [dict setObject:@"parent" forKey:@"target_relation"];
+    }
     return dict;
 }
 
 + (id)createFromMessage:(Message *)msg withHash:(NSString *)hash {
     SignedMessage* signedMsg = [[[SignedMessage alloc] init] autorelease];
     [signedMsg setObj: [msg obj]];
+    [signedMsg setAppId: [msg appId]];
     [signedMsg setFeedName: [msg feedName]];
     [signedMsg setTimestamp: [msg timestamp]];
     [signedMsg setHash: hash];
     [signedMsg setSender: [msg sender]];
     [signedMsg setRecipients: [msg recipients]];
+    [signedMsg setParent: [msg parent]];
     return signedMsg;
 }
 

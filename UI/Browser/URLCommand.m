@@ -10,9 +10,9 @@
 
 @implementation URLFeedCommand
 
-@synthesize url, className, methodName, parameters, feed;
+@synthesize url, className, methodName, parameters, app;
 
-+ (id)createFromURL:(NSURL *)url withFeed:(Feed*) feed {
++ (id)createFromURL:(NSURL *)url withApp:(App*) app{
     NSArray* hostComponents = [[url host] componentsSeparatedByString:@"."];
     NSString* className = [NSString stringWithFormat:@"%@Command", [[hostComponents objectAtIndex:0] capitalizedString]];
     NSString* methodName = [NSString stringWithFormat:@"%@WithParams:", [hostComponents objectAtIndex:1]];
@@ -36,11 +36,10 @@
         return nil;
     }
     
-    
     NSMutableDictionary* params = [url queryComponents];
     [cmd setParameters:params];
     [cmd setMethodName:methodName];
-    [cmd setFeed:feed];
+    [cmd setApp:app];
     
     return cmd;
 }
@@ -73,7 +72,7 @@
     [obj setType:[json objectForKey:@"type"]];
     [obj setData:[json objectForKey:@"data"]];
     
-    [[Musubi sharedInstance] sendObj:obj forApp:kMusubiAppId toGroup:feed];
+    [[Musubi sharedInstance] sendMessage:[Message createWithObj:obj forApp:app]];
     
     return nil;
 }

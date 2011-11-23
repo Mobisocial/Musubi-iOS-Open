@@ -15,7 +15,6 @@
 		D25F49191471A32500AC1551 /* mongo.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490B1471A32500AC1551 /* mongo.c */; };
 		D25F491A1471A32500AC1551 /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490D1471A32500AC1551 /* net.c */; };
 		D25F491B1471A32500AC1551 /* numbers.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490F1471A32500AC1551 /* numbers.c */; };
-		D26D3703147B3ED400C4FE93 /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D3694147B3ED300C4FE93 /* App.m */; };
 		D26D3704147B3ED400C4FE93 /* AppBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D3696147B3ED300C4FE93 /* AppBundle.m */; };
 		D26D3705147B3ED400C4FE93 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D3698147B3ED300C4FE93 /* AppManager.m */; };
 		D26D3706147B3ED400C4FE93 /* Download.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369A147B3ED300C4FE93 /* Download.m */; };
@@ -92,6 +91,8 @@
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
 		D2CD028A1443A1830080861E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD02891443A1830080861E /* CoreLocation.framework */; };
 		D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
+		D2F4F23A147C1D910080474E /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F4F239147C1D910080474E /* App.m */; };
+		D2F4F23D147C59070080474E /* AppStateUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F4F23C147C59070080474E /* AppStateUpdate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,8 +177,6 @@
 		D25F490E1471A32500AC1551 /* net.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
 		D25F490F1471A32500AC1551 /* numbers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = numbers.c; sourceTree = "<group>"; };
 		D25F49141471A32500AC1551 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
-		D26D3693147B3ED300C4FE93 /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
-		D26D3694147B3ED300C4FE93 /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = App.m; sourceTree = "<group>"; };
 		D26D3695147B3ED300C4FE93 /* AppBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppBundle.h; sourceTree = "<group>"; };
 		D26D3696147B3ED300C4FE93 /* AppBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppBundle.m; sourceTree = "<group>"; };
 		D26D3697147B3ED300C4FE93 /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
@@ -3665,6 +3664,10 @@
 		D2CD02891443A1830080861E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D2CD05DB14450E3E0080861E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D2CD05E314462BD90080861E /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
+		D2F4F238147C1D910080474E /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
+		D2F4F239147C1D910080474E /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = App.m; sourceTree = "<group>"; };
+		D2F4F23B147C59060080474E /* AppStateUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppStateUpdate.h; sourceTree = "<group>"; };
+		D2F4F23C147C59070080474E /* AppStateUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppStateUpdate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3743,8 +3746,6 @@
 		D26D3692147B3ED300C4FE93 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				D26D3693147B3ED300C4FE93 /* App.h */,
-				D26D3694147B3ED300C4FE93 /* App.m */,
 				D26D3695147B3ED300C4FE93 /* AppBundle.h */,
 				D26D3696147B3ED300C4FE93 /* AppBundle.m */,
 				D26D3697147B3ED300C4FE93 /* AppManager.h */,
@@ -3826,6 +3827,8 @@
 				D26D36C9147B3ED400C4FE93 /* SignedMessage.m */,
 				D26D36CA147B3ED400C4FE93 /* User.h */,
 				D26D36CB147B3ED400C4FE93 /* User.m */,
+				D2F4F238147C1D910080474E /* App.h */,
+				D2F4F239147C1D910080474E /* App.m */,
 			);
 			path = SocialKit;
 			sourceTree = "<group>";
@@ -3910,6 +3913,8 @@
 				D26D36F2147B3ED400C4FE93 /* StatusUpdate.h */,
 				D26D36F3147B3ED400C4FE93 /* StatusUpdate.m */,
 				D26D36F4147B3ED400C4FE93 /* Update.h */,
+				D2F4F23B147C59060080474E /* AppStateUpdate.h */,
+				D2F4F23C147C59070080474E /* AppStateUpdate.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -9349,7 +9354,6 @@
 				D25F49191471A32500AC1551 /* mongo.c in Sources */,
 				D25F491A1471A32500AC1551 /* net.c in Sources */,
 				D25F491B1471A32500AC1551 /* numbers.c in Sources */,
-				D26D3703147B3ED400C4FE93 /* App.m in Sources */,
 				D26D3704147B3ED400C4FE93 /* AppBundle.m in Sources */,
 				D26D3705147B3ED400C4FE93 /* AppManager.m in Sources */,
 				D26D3706147B3ED400C4FE93 /* Download.m in Sources */,
@@ -9394,6 +9398,8 @@
 				D26D372F147B3ED400C4FE93 /* GroupListViewController.m in Sources */,
 				D26D3730147B3ED400C4FE93 /* NearbyGroupListViewController.m in Sources */,
 				D26D3734147B3ED400C4FE93 /* main.m in Sources */,
+				D2F4F23A147C1D910080474E /* App.m in Sources */,
+				D2F4F23D147C59070080474E /* AppStateUpdate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

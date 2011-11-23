@@ -1,3 +1,12 @@
+console.origLog = console.log;
+console.log = function(msg) {
+    console.origLog(msg);
+    
+    if (typeof msg == "object")
+        msg = JSON.stringify(msg);
+    window.location = "console://?log=" + encodeURIComponent(msg);
+};
+
 SocialKit = {
 };
 
@@ -13,20 +22,22 @@ Musubi = {
     },
     
     _launchCallback: null,
-    _launchApp: function(json) {
-        Musubi.feed = new SocialKit.Feed(json);
+    _launchApp: function(appJson, userJson) {
+        Musubi.app = new SocialKit.App(appJson);
+        Musubi.user = new SocialKit.User(userJson);
         
         if (Musubi._launchCallback != null) {
-            Musubi._launchCallback(Musubi.feed);
+            Musubi._launchCallback(Musubi.app, Musubi.user);
         }
     },
     
     _newMessage: function(msg) {
         // Pass on to Feed instance
-        Musubi.feed._newMessage(msg);
+        Musubi.app.feed._newMessage(msg);
     },
 
-    feed: null,
+    app: null,
+    user: null,
 
     ready: function(callback) {
         Musubi._launchCallback = callback
@@ -68,9 +79,13 @@ Musubi.platform = {
  */
 
 SocialKit.App = function(json) {
-    this.appId = json.appId;
+    this.id = json.id;
     this.feed = new SocialKit.Feed(json.feed);
     this.obj = new SocialKit.Obj(json.obj);
+};
+
+SocialKit.App.prototype.toString = function() {
+    return "<App: " + this.id + "," + this.feed.toString() + "," + this.obj.toString() + ">";
 };
 
 /*
@@ -80,6 +95,7 @@ SocialKit.App = function(json) {
 SocialKit.User = function(json) {
     this.name = json.name;
     this.id = json.id;
+    this.personId = json.personId;
 };
 
 SocialKit.User.prototype.toString = function() {
@@ -102,6 +118,10 @@ SocialKit.Feed = function(json) {
     }
     
     this._messageListener = null;
+};
+
+SocialKit.Feed.prototype.toString = function() {
+    return "<Feed: " + this.name + "," + this.session + ">";
 };
 
 // Message listener
@@ -145,14 +165,14 @@ SocialKit.Obj = function(json) {
 };
 
 SocialKit.Obj.prototype.toString = function() {
-    return "<Obj: " + this.type + ">";
+    return "<Obj: " + this.type + "," + JSON.stringify(this.data) + ">";
 };
 
 /*
  * Message class
  */
 
-SocialKit.Message = function() {
+SocialKit.Message = function(json) {
     this.obj = null;
     this.sender = null;
     this.recipients = [];
@@ -160,7 +180,8 @@ SocialKit.Message = function() {
     this.feedName = null;
     this.date = null;
     
-    this.init(json);
+    if (json)
+        this.init(json);
 };
 
 SocialKit.Message.prototype.init = function(json) {
@@ -190,10 +211,9 @@ SocialKit.SignedMessage = function(json) {
     
     this.init(json);
 };
-SocialKit.SignedMessage.prototype = SocialKit.Message.prototype;
+SocialKit.SignedMessage.prototype = new SocialKit.Message;
 
-SocialKit.SignedMessage.prototype.superInit = SocialKit.SignedMessage.prototype.init;
 SocialKit.SignedMessage.prototype.init = function(json) {
-    this.superInit(json);
+    SocialKit.Message.prototype.init.call(this, json);
     this.hash = json.hash;
 };

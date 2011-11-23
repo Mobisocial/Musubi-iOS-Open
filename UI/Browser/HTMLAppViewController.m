@@ -10,7 +10,7 @@
 
 @implementation HTMLAppViewController
 
-@synthesize feed, app;
+@synthesize app;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,23 +43,30 @@
 {
     [super viewDidLoad];
     
-    NSURL* html = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html" subdirectory:[NSString stringWithFormat: @"apps/%@", app.name]];
+    NSURL* html = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html" subdirectory:[NSString stringWithFormat: @"apps/%@", app.id]];
     [webView loadRequest:[NSURLRequest requestWithURL:html]];
     [webView setDelegate:self];
     
-    [[Musubi sharedInstance] listenToGroup:feed withListener:self];
+    [[Musubi sharedInstance] listenToGroup:[app feed] withListener:self];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)wv {
     // Launch app
     NSError* err = nil;
     SBJsonWriter* writer = [[SBJsonWriter alloc] init];
-    NSString* feedJson = [writer stringWithObject: [feed json] error:&err];
+    NSString* appJson = [writer stringWithObject: [app json] error:&err];
     if (err != nil) {
         NSLog(@"Error: %@", err);
     }
+    User* user = [[Identity sharedInstance] user];
+    NSString* userJson = [writer stringWithObject: [user json] error:&err];
+    if (err != nil) {
+        NSLog(@"Error: %@", err);
+    }
+    
+    NSLog(@"Launching app with %@", appJson);
 
-    NSString* jsString = [NSString stringWithFormat:@"if (typeof Musubi !== 'undefined') {Musubi._launchApp(%@);} else {alert('Musubi library not loaded. Please include musubiLib.js');}", feedJson];
+    NSString* jsString = [NSString stringWithFormat:@"if (typeof Musubi !== 'undefined') {Musubi._launchApp(%@, %@);} else {alert('Musubi library not loaded. Please include musubiLib.js');}", appJson, userJson];
     /*
     NSString* jsString = [NSString stringWithFormat:@"function checkMusubi() {if (typeof Musubi !== 'undefined') {Musubi._launchApp(%@);} else {setTimeout(checkMusubi, 500);}}; checkMusubi() ", feedJson];*/
     [wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:NO];    
@@ -90,19 +97,25 @@
     NSURL* url = [request URL];
     
     if ([[url scheme] isEqualToString:@"musubi"]) {
-        URLFeedCommand* cmd = [URLFeedCommand createFromURL:url withFeed:feed];
+        URLFeedCommand* cmd = [URLFeedCommand createFromURL:url withApp: app];
         id result = [cmd execute];
         
-        SBJsonWriter* writer = [[SBJsonWriter alloc] init];
-        NSError* err = nil;
-        NSString* json = [writer stringWithObject: result error:&err];
-        
-        if (err != nil) {
-            NSLog(@"JSON Encoding error: %@", err);
+        NSString* json = @"";
+        if (result != nil) {
+            SBJsonWriter* writer = [[SBJsonWriter alloc] init];
+            NSError* err = nil;
+            json = [writer stringWithObject: result error:&err];
+            
+            if (err != nil) {
+                NSLog(@"JSON Encoding error: %@", err);
+            }
         }
         
         NSString* jsString = [NSString stringWithFormat:@"Musubi.platform._commandResult(%@);", json];
         [wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:FALSE];
+        return NO;
+    } else if ([[url scheme] isEqualToString:@"console"]) {
+        NSLog(@"Javascript: %@", [[url queryComponents] objectForKey:@"log"]);
         return NO;
     } else {
         return YES;

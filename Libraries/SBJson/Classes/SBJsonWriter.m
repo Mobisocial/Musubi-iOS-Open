@@ -98,7 +98,7 @@
 	else if ([object respondsToSelector:@selector(proxyForJson)])
 		return [self dataWithObject:[object proxyForJson]];
 	else {
-		self.error = @"Not valid type for JSON";
+		self.error = [NSString stringWithFormat: @"Not valid type for JSON: %@", object];
 		return nil;
 	}
 	

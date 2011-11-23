@@ -124,7 +124,11 @@ static Musubi* _sharedInstance = nil;
     if (existing != nil) {
         [[[[GroupProvider alloc] init] autorelease] updateGroup:group sinceVersion:-1];
         JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[group feedUri] absoluteString]] autorelease];
-        [self sendObj: jno forApp:kMusubiAppId toGroup:group];
+        
+        App* app = [[App alloc] init];
+        [app setId: kMusubiAppId];
+        [app setFeed: group];
+        [self sendMessage:[Message createWithObj:jno forApp:app]];
 
         return existing;
     }
@@ -134,7 +138,11 @@ static Musubi* _sharedInstance = nil;
     ManagedFeed* feed = [[ObjectStore sharedInstance] storeFeed: group];
     
     JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[group feedUri] absoluteString]] autorelease];
-    [self sendObj: jno forApp:kMusubiAppId toGroup:group];
+
+    App* app = [[App alloc] init];
+    [app setId: kMusubiAppId];
+    [app setFeed: group];
+    [self sendMessage:[Message createWithObj:jno forApp:app]];
     
     return feed;
 }
@@ -154,7 +162,7 @@ static Musubi* _sharedInstance = nil;
     [listeners addObject:listener];
 }
 
-- (void) sendMessage: (Message*) msg {
+- (SignedMessage*) sendMessage: (Message*) msg {
     EncodedMessage* encoded = [messageFormat encodeMessage:msg withKeyPair:[identity keyPair]];
     SignedMessage* signedMsg = [SignedMessage createFromMessage:msg withHash: [[[encoded signature] sha1Digest] hex]];
     
@@ -172,24 +180,8 @@ static Musubi* _sharedInstance = nil;
             [listener newMessage:signedMsg];
         }
     }
-}
-
-- (void)sendObj:(Obj *)obj forApp:(NSString *)appId toGroup:(Feed *)group {
-    NSMutableArray* pubKeys = [NSMutableArray arrayWithArray:[group publicKeys]];
-    NSString* myPubKey = [[Identity sharedInstance] publicKeyBase64];
-    while ([pubKeys containsObject:myPubKey]) {
-        [pubKeys removeObject: myPubKey];
-    }
     
-    Message* msg = [[Message alloc] init];
-    [msg setObj:obj];
-    [msg setSender:[[Identity sharedInstance] user]];
-    [msg setRecipients:pubKeys];
-    [msg setAppId:appId];
-    [msg setFeedName:[group session]];
-    [msg setTimestamp:[NSDate date]];
-
-    [self sendMessage:msg];
+    return signedMsg;
 }
 
 - (User *)userWithPublicKey:(NSData *)publicKey {

@@ -25,10 +25,9 @@
 
 #import <Foundation/Foundation.h>
 #import "Download.h"
-#import "App.h"
 
 @protocol AppManagerDelegate
-- (void) appManager: (NSObject*) mgr installedApp: (App*) name;
+//- (void) appManager: (NSObject*) mgr installedApp: (App*) name;
 @end
 
 @interface AppManager : NSObject<ResourceDownloadDelegate> {
@@ -39,7 +38,7 @@
 
 - (id) initWithDelegate: (id<AppManagerDelegate>) d;
 - (NSArray*) apps;
-- (App*) appById: (NSString*) id;
+//- (App*) appById: (NSString*) id;
 - (void) downloadAppFromURL: (NSURL*) url;
 
 @end

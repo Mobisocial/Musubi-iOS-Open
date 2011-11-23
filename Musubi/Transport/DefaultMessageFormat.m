@@ -96,8 +96,11 @@
     [complemented setValue:[msg appId] forKey:@"appId"];
     [complemented setValue:[NSString stringWithFormat: @"%qi", ts] forKey:@"timestamp"];
     
+    NSError* err = nil;
     SBJsonWriter* jsonWriter = [[[SBJsonWriter alloc] init] autorelease];
-    NSString* json = [jsonWriter stringWithObject: complemented];
+    NSString* json = [jsonWriter stringWithObject: complemented error:&err];
+    if (err != nil)
+        NSLog(@"Encoding error: %@", err);
     return [json dataUsingEncoding:NSUTF8StringEncoding];
 }
 
@@ -270,10 +273,14 @@
     // Decrypt with the AES key
     NSData* plain = [cypher decryptWithAES128CBCPKCS7WithKey:aesKey andIV:aesInitVector];
     
+    // Hash is the BigEndian uint64 representation of the signature
+    long long hash = *(long long *)[[msg signature] bytes];
+    hash = CFSwapInt64BigToHost(hash);
+    
     SignedMessage* signedMsg = [self unpackMessage: plain];
     [signedMsg setSender: [[Musubi sharedInstance] userWithPublicKey: senderKey]];
     [signedMsg setRecipients: recipients];
-    [signedMsg setHash: [[[msg signature] sha1Digest] hex]];
+    [signedMsg setHash: [NSString stringWithFormat:@"%qi", hash]];
     return signedMsg;
 }
 

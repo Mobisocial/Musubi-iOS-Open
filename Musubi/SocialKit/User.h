@@ -24,6 +24,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSData+Base64.h"
+#import "NSData+Crypto.h"
 
 @interface User : NSObject {
     NSString* name;

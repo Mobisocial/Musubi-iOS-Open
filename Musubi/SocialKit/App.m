@@ -16,22 +16,33 @@
 
 
 //
-//  App.h
+//  App.m
 //  musubi
 //
-//  Created by Willem Bult on 10/24/11.
+//  Created by Willem Bult on 11/22/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "App.h"
 
-@interface App : NSObject {
-    NSString* name;
-    NSURL* url;
+@implementation App 
+
+@synthesize id, feed, message, users;
+
+- (NSDictionary *)json {
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:3];
+    [dict setObject:[self id] forKey:@"id"];
+    [dict setObject:[[self feed] json] forKey:@"feed"];
+    [dict setObject:[[self message] json] forKey:@"message"];
+    /*
+    NSMutableArray* userDict = [[NSMutableArray alloc] init];
+    for (User* user in users) {
+        [userDict addObject:[user json]];
+    }
+    
+    [dict setObject:userDict forKey:@"users"];*/
+    
+    return dict;
 }
-
-@property (nonatomic,retain) NSString* name;
-@property (nonatomic,retain) NSURL* url;
-
 
 @end

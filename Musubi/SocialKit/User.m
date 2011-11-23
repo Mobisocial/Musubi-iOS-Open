@@ -37,6 +37,10 @@
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
     [dict setObject:name forKey:@"name"];
     [dict setObject:id forKey:@"id"];
+    
+    NSData* hash = [[self.id decodeBase64] sha1HashWithLength:40];
+    [dict setObject:[[hash hex] substringToIndex:10] forKey:@"personId"];
+
     return dict;
 }
 

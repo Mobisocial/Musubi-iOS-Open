@@ -25,13 +25,34 @@
 
 #import "Message.h"
 #import "SBJson.h"
+#import "Identity.h"
+#import "App.h"
 
 @implementation Message
 
-@synthesize obj, sender, recipients, appId, feedName, timestamp;
+@synthesize obj, sender, recipients, appId, feedName, timestamp, parent;
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<Message: %@, %@, %@, %@, %@, %@>", obj, sender, recipients, appId, feedName, timestamp];
+}
+
++ (id) createWithObj: (Obj*) obj forApp: (App*) app {
+    NSMutableArray* pubKeys = [NSMutableArray arrayWithArray:[[app feed] publicKeys]];
+    NSString* myPubKey = [[Identity sharedInstance] publicKeyBase64];
+    while ([pubKeys containsObject:myPubKey]) {
+        [pubKeys removeObject: myPubKey];
+    }
+    
+    Message* msg = [[Message alloc] init];
+    [msg setObj:obj];
+    [msg setSender:[[Identity sharedInstance] user]];
+    [msg setRecipients:pubKeys];
+    [msg setAppId:[app id]];
+    [msg setFeedName:[[app feed] session]];
+    [msg setTimestamp:[NSDate date]];
+    [msg setParent: [app message]];
+    
+    return msg;
 }
 
 @end

@@ -71,12 +71,12 @@
     ZipArchive* archive = [[[ZipArchive alloc] init] autorelease];
     [archive UnzipOpenFile: path];
     [archive UnzipFileTo:targetPath overWrite:YES];
-    
+    /*
     App* app = [[[App alloc] init] autorelease];
     [app setName: [targetPath lastPathComponent]];
     [app setUrl: [NSURL URLWithString:targetPath]];
     
-    [delegate appManager:self installedApp: app];
+    [delegate appManager:self installedApp: app];*/
 }
 
 @end
