@@ -30,7 +30,7 @@
 @synthesize id, feed, message, users;
 
 - (NSDictionary *)json {
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:3];
+    NSMutableDictionary* dict = [[[NSMutableDictionary alloc] initWithCapacity:3] autorelease];
     [dict setObject:[self id] forKey:@"id"];
     [dict setObject:[[self feed] json] forKey:@"feed"];
     [dict setObject:[[self message] json] forKey:@"message"];

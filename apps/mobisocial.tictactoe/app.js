@@ -29,7 +29,7 @@ TicTacToe.prototype.renderBoard = function() {
     // need this because "this" will be out of scope in the makeCell function
     var thisGame = this;
 
-    var table = $('<table></table>');
+    var table = $('<table cellpadding="0" cellspacing="0"></table>');
     for (var i=0; i<3; i++) {
         var row = $('<tr></tr>');
         for (var i2=0; i2<3; i2++) {
@@ -41,7 +41,7 @@ TicTacToe.prototype.renderBoard = function() {
                 });
                 row.append(cell);
             };
-            makeCell(i*3 + i2);        
+            makeCell(i*3+i2);
         }
         table.append(row);
     }
@@ -53,9 +53,8 @@ TicTacToe.prototype.placeToken = function(idx) {
     // only place token on empty spots
     if (this.board[idx] == "  ") {
         this.board[idx] = this.myToken;
+        this.takeTurn(this.makeState())
     }
-    
-    this.takeTurn(this.makeState())
 };
 
 // Returns the state
@@ -63,10 +62,24 @@ TicTacToe.prototype.makeState = function() {
     return {s: this.board};
 };
 
+TicTacToe.prototype.reset = function() {
+    if (this.isMyTurn()) {
+        this.board = ["  ","  ","  ","  ","  ","  ","  ","  ","  "];
+        this.takeTurn(this.makeState())
+    }
+};
+
 TicTacToe.prototype.feedView = function() {
-    var dummy = $('<div></div>');
-    dummy.append(this.renderBoard());
-    return '<html><head><style>td { border:1px solid black; min-width:18px; }table { background-color:#FC6; padding:8px;}</style></head><body><div>' + dummy.html() + '</div></body></html>';
+    var container = $('<div></div>');
+    container.append(this.renderBoard());
+    var cssRules = document.styleSheets[0].cssRules;
+    var css = "";
+    for (var i=0; i<cssRules.length; i++) {// cssRules.length; i++) {
+        if (cssRules[i].cssText)
+            css += cssRules[i].cssText + " ";
+        
+    }
+    return '<html><head><style>' + css + '</style></head><body><div id="board">' + container.html() + '</div></body></html>';
 }
 
 

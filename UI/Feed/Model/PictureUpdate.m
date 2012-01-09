@@ -41,7 +41,7 @@
 
 + (id)createFromObj:(Obj *)obj {
     NSData* data = [[obj data] objectForKey:@"data"];
-    return [[PictureUpdate alloc] initWithData:data];
+    return [[[PictureUpdate alloc] initWithData:data] autorelease];
 }
 
 @end

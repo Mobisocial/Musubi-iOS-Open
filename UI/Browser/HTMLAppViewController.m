@@ -46,6 +46,8 @@
     NSURL* html = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html" subdirectory:[NSString stringWithFormat: @"apps/%@", app.id]];
     [webView loadRequest:[NSURLRequest requestWithURL:html]];
     [webView setDelegate:self];
+    ((UIScrollView*)[webView.subviews objectAtIndex:0]).bounces = NO;
+
     
     [[Musubi sharedInstance] listenToGroup:[app feed] withListener:self];
 }
@@ -53,7 +55,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)wv {
     // Launch app
     NSError* err = nil;
-    SBJsonWriter* writer = [[SBJsonWriter alloc] init];
+    SBJsonWriter* writer = [[[SBJsonWriter alloc] init] autorelease];
     NSString* appJson = [writer stringWithObject: [app json] error:&err];
     if (err != nil) {
         NSLog(@"Error: %@", err);
@@ -64,8 +66,6 @@
         NSLog(@"Error: %@", err);
     }
     
-    NSLog(@"Launching app with %@", appJson);
-
     NSString* jsString = [NSString stringWithFormat:@"if (typeof Musubi !== 'undefined') {Musubi._launchApp(%@, %@);} else {alert('Musubi library not loaded. Please include musubiLib.js');}", appJson, userJson];
     /*
     NSString* jsString = [NSString stringWithFormat:@"function checkMusubi() {if (typeof Musubi !== 'undefined') {Musubi._launchApp(%@);} else {setTimeout(checkMusubi, 500);}}; checkMusubi() ", feedJson];*/
@@ -102,7 +102,7 @@
         
         NSString* json = @"";
         if (result != nil) {
-            SBJsonWriter* writer = [[SBJsonWriter alloc] init];
+            SBJsonWriter* writer = [[[SBJsonWriter alloc] init] autorelease];
             NSError* err = nil;
             json = [writer stringWithObject: result error:&err];
             
@@ -117,18 +117,23 @@
     } else if ([[url scheme] isEqualToString:@"console"]) {
         NSLog(@"Javascript: %@", [[url queryComponents] objectForKey:@"log"]);
         return NO;
+    } else if ([[url scheme] isEqualToString:@"config"]) {
+        NSLog(@"Getting config: %@", [url queryComponents]);
+        [self setTitle: [[url queryComponents] objectForKey:@"title"]];
+        return NO; 
     } else {
         return YES;
     }
 }
 
 - (void)newMessage:(SignedMessage *)message {
-    SBJsonWriter* writer = [[SBJsonWriter alloc] init];
+    SBJsonWriter* writer = [[[SBJsonWriter alloc] init] autorelease];
     NSError* err = nil;
     NSString* jsString = [NSString stringWithFormat:@"Musubi._newMessage(%@);", [writer stringWithObject:[message json] error:&err]];
     if (err != nil) {
         NSLog(@"JSON Encoding error: %@", err);
     }
+    NSLog(@"JSON: %@", jsString);
     [webView performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:FALSE];
 }
 

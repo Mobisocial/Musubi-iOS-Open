@@ -26,6 +26,7 @@
 #import <Foundation/Foundation.h>
 #import "Obj.h"
 #import "User.h"
+#import "App.h"
 #import "GroupProvider.h"
 #import "JoinNotificationObj.h"
 #import "MessageFormat.h"

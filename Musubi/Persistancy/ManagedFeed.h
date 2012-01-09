@@ -27,6 +27,7 @@
 #import <CoreData/CoreData.h>
 #import "ManagedMessage.h"
 #import "SBJson.h"
+#import "Feed.h"
 
 @interface ManagedFeed : NSManagedObject
 
@@ -40,5 +41,10 @@
 - (NSArray*) allMessages;
 - (NSArray*) allMembers;
 - (ManagedUser *) userWithId: (NSString*) id;
+- (void) updateFromFeed: (Feed*) feed;
+- (BOOL) isMember: (ManagedUser*) user;
+- (Feed*) feed;
 
++ (id)createOrSave:(Feed *)feed inContext:(NSManagedObjectContext *)context;
++ (id) withSession: (NSString*) session inContext: (NSManagedObjectContext*) context;
 @end

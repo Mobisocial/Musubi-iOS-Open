@@ -82,49 +82,11 @@ static ObjectStore* _sharedInstance = nil;
 
 
 - (ManagedFeed*) feedForSession: (NSString *) session {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:context];
-    
-    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-    [request setEntity:entity];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"session = %@", session]];
-    
-    NSError *error = nil;
-    NSArray* results = [context executeFetchRequest:request error:&error];
-    if (results != nil && [results count] > 0) {
-        return [results objectAtIndex:0];
-    }
-    
-    return nil;
+    return [ManagedFeed withSession:session inContext:context];
 }
 
 - (ManagedFeed*) storeFeed:(Feed *) feed {
-    ManagedFeed *newFeed = [NSEntityDescription
-                                insertNewObjectForEntityForName:@"Feed"
-                                inManagedObjectContext:context];
-    
-    [newFeed setValue:[feed session] forKey:@"session"];
-    [newFeed setValue:[feed name] forKey:@"name"];
-    [newFeed setValue:[feed key] forKey:@"key"];
-    [newFeed setValue:[[feed feedUri] description] forKey:@"url"];
-    
-    for (User* member in [feed members]) {
-        ManagedUser* user = [self userWithPublicKey:[[member id] decodeBase64]];
-        if (user == nil) {
-            user = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
-            [user setName: [member name]];
-            [user setPublicKey: [[member id] decodeBase64]];
-            if ([member picture] != nil) {
-                [user setPicture: UIImageJPEGRepresentation([member picture], 0.95)];
-            }
-        }
-        
-        NSManagedObject* managedMember =[NSEntityDescription insertNewObjectForEntityForName:@"FeedMember" inManagedObjectContext:context];
-        [managedMember setValue:newFeed forKey:@"feed"];
-        [managedMember setValue:user forKey:@"user"];
-    }
-    
-    [context save:NULL];
-    return newFeed;
+    return [ManagedFeed createOrSave:feed inContext:context];
 }
 
 - (NSArray *) users {

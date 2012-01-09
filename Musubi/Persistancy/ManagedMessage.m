@@ -45,7 +45,7 @@
     
     NSDictionary* dict = [NSPropertyListSerialization propertyListFromData:[self contents] mutabilityOption:NSPropertyListImmutable format:&format errorDescription:&errorStr];
     
-    Obj* obj = [[Obj alloc] initWithType:[self type]];
+    Obj* obj = [[[Obj alloc] initWithType:[self type]] autorelease];
     [obj setData: dict];
     
     SignedMessage* msg = [[[SignedMessage alloc] init] autorelease];
@@ -55,29 +55,22 @@
     [msg setSender: [[self sender] user]];
     [msg setHash: [self id]];
     [msg setObj:obj];
-    if ([self parent] != nil) {
-        [msg setParent:[self parentMessage]];
-    }
+    [msg setParentHash:[self parent]];
     
     return msg;
 }
 
-
-- (ManagedMessage*) parentMessage {
+/*
+- (NSArray*) childMessages {
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:[self managedObjectContext]];
     
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:entity];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"hash = %@", [self parent]]];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"parent = %@", [self id]]];
     
     NSError *error = nil;
-    NSArray* results = [[self managedObjectContext] executeFetchRequest:request error:&error];
-    if (results != nil && [results count] > 0) {
-        return [results objectAtIndex:0];
-    }
-    
-    return nil;
-}
+    return [[self managedObjectContext] executeFetchRequest:request error:&error];
+}*/
 
 
 

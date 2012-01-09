@@ -87,10 +87,23 @@ static Musubi* _sharedInstance = nil;
     // decode
     SignedMessage* msg = [messageFormat decodeMessage:encoded withKeyPair:[identity keyPair]];
     NSLog(@"Incoming: %@", msg);
+    NSLog(@"JSON: %@", [[msg obj] json]);
     
     // save
-    ManagedFeed* feed = [[ObjectStore sharedInstance] feedForSession: [msg feedName]];
-    [feed storeMessage:msg];
+    ManagedFeed* mgdFeed = [[ObjectStore sharedInstance] feedForSession: [msg feedName]];
+    [mgdFeed storeMessage:msg];
+    
+    if ([[[msg obj] type] isEqualToString: kObjTypeJoinNotification]) {
+        NSLog(@"Somebody joined the feed: %@", [msg sender]);
+        
+        Feed* feed = [mgdFeed feed];
+        NSLog(@"Old: %@", feed);
+        [[[[GroupProvider alloc] init] autorelease] updateGroup: feed sinceVersion:-1];
+        [mgdFeed updateFromFeed:feed];
+        NSLog(@"New: %@", feed);
+    }
+
+    
 
     // and notify
     NSArray* listeners = [feedListeners objectForKey: [msg feedName]];
@@ -106,7 +119,7 @@ static Musubi* _sharedInstance = nil;
 - (NSArray *)groups {
     NSMutableArray* groups = [NSMutableArray array];
     for (ManagedFeed* feed in [[ObjectStore sharedInstance] feeds]) {
-        Feed* group = [[Feed alloc] initWithName:[feed name] feedUri:[NSURL URLWithString:[feed url]]];
+        Feed* group = [[[Feed alloc] initWithName:[feed name] session:[feed session] key:[feed key]] autorelease];
 
         NSMutableArray* members = [NSMutableArray array];
         for (ManagedUser* member in [feed allMembers]) {
@@ -120,26 +133,27 @@ static Musubi* _sharedInstance = nil;
 }
 
 - (ManagedFeed*) joinGroup:(Feed *)group {
+    [[[[GroupProvider alloc] init] autorelease] updateGroup:group sinceVersion:-1];
+    
     ManagedFeed* existing = [[ObjectStore sharedInstance] feedForSession:[group session]];
     if (existing != nil) {
-        [[[[GroupProvider alloc] init] autorelease] updateGroup:group sinceVersion:-1];
-        JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[group feedUri] absoluteString]] autorelease];
         
-        App* app = [[App alloc] init];
+        JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[group uri] absoluteString]] autorelease];
+        
+        App* app = [[[App alloc] init] autorelease];
         [app setId: kMusubiAppId];
         [app setFeed: group];
         [self sendMessage:[Message createWithObj:jno forApp:app]];
-
+        
         return existing;
     }
     
-    [[[[GroupProvider alloc] init] autorelease] updateGroup:group sinceVersion:-1];
     
     ManagedFeed* feed = [[ObjectStore sharedInstance] storeFeed: group];
     
-    JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[group feedUri] absoluteString]] autorelease];
+    JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[group uri] absoluteString]] autorelease];
 
-    App* app = [[App alloc] init];
+    App* app = [[[App alloc] init] autorelease];
     [app setId: kMusubiAppId];
     [app setFeed: group];
     [self sendMessage:[Message createWithObj:jno forApp:app]];
@@ -164,8 +178,13 @@ static Musubi* _sharedInstance = nil;
 
 - (SignedMessage*) sendMessage: (Message*) msg {
     EncodedMessage* encoded = [messageFormat encodeMessage:msg withKeyPair:[identity keyPair]];
-    SignedMessage* signedMsg = [SignedMessage createFromMessage:msg withHash: [[[encoded signature] sha1Digest] hex]];
     
+    // TODO: Find a neater way to get the SignedMessage before it's sent
+    SignedMessage* signedMsg = [messageFormat unpackMessage: [messageFormat packMessage: msg]];
+    [signedMsg setHash: [encoded hash]];
+    [signedMsg setSender: [identity user]];
+    [signedMsg setRecipients: [msg recipients]];
+
     // send
     [transport sendMessage:encoded to:[msg recipients]];
     

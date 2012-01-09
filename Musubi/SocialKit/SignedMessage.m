@@ -31,13 +31,13 @@
 @synthesize hash;
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<SignedMessage: %@, %@, %@, %@, %@, %@, %@>", hash, obj, sender, recipients, appId, feedName, timestamp];
+    return [NSString stringWithFormat:@"<SignedMessage: %@, %@, %@, %@, %@, %@, %@, %@>", hash, parentHash, obj, sender, recipients, appId, feedName, timestamp];
 }
 
 - (NSDictionary *)json {
     long long ts = (long long)([[self timestamp] timeIntervalSince1970] * 1000);
 
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:6];
+    NSMutableDictionary* dict = [[[NSMutableDictionary alloc] initWithCapacity:6] autorelease];
 
     [dict setObject:[self appId] forKey:@"appId"];
     [dict setObject:[self feedName] forKey:@"feedName"];
@@ -45,11 +45,11 @@
     [dict setObject:[self hash] forKey:@"hash"];
     [dict setObject:[[self sender] json] forKey:@"sender"];
     [dict setObject:[[self obj] json] forKey:@"obj"];
-    if ([self parent] != nil) {
-        [dict setObject:[(SignedMessage*)[self parent] hash] forKey:@"target_hash"];
-        [dict setObject:@"parent" forKey:@"target_relation"];
-    }
     return dict;
+}
+
+- (BOOL) belongsToHash: (NSString*) h {
+    return ([[self hash] isEqualToString:h] || [[self parentHash] isEqualToString:h]);
 }
 
 + (id)createFromMessage:(Message *)msg withHash:(NSString *)hash {
@@ -61,7 +61,7 @@
     [signedMsg setHash: hash];
     [signedMsg setSender: [msg sender]];
     [signedMsg setRecipients: [msg recipients]];
-    [signedMsg setParent: [msg parent]];
+    [signedMsg setParentHash: [msg parentHash]];
     return signedMsg;
 }
 

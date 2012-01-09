@@ -115,7 +115,7 @@
     [keyPairAttr setObject:publicKeyAttr
                     forKey:(id)kSecPublicKeyAttrs];
 
-    status = SecKeyGeneratePair((CFDictionaryRef) keyPairAttr, &publicKey, &privateKey);
+    SecKeyGeneratePair((CFDictionaryRef) keyPairAttr, &publicKey, &privateKey);
     
     RSAKeyPair* kp = [[[RSAKeyPair alloc] initWithPublicTag:publicTag publicKey:publicKey privateTag:privateTag privateKey:privateKey] autorelease];
     

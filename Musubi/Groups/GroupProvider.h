@@ -39,6 +39,7 @@
 }
 
 - (void)updateGroup: (Feed*) group sinceVersion: (int) version;
+- (void)broadcastGroup: (Feed *) group atLatitude: (int) lat andLongitude: (int) lng during: (int) minutes withPassword: (NSString*) password ;
 - (NSString*) encryptAndBase64: (NSString*) str withKey: (NSData*) key;
 - (NSString*) decryptAndDecodeBase64: (NSString*) str withKey: (NSData*) key;
 

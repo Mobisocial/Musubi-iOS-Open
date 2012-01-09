@@ -27,12 +27,21 @@
 #import "Feed.h"
 #import "LocationController.h"
 
+@protocol GPSNearbyGroupsDelegate <NSObject>
+
+- (void) updatedGroups: (NSArray*) groups;
+
+@end
+
 @interface GPSNearbyGroups : NSObject<LocationControllerDelegate> {
     LocationController* locationCtrl;
+    id<GPSNearbyGroupsDelegate> delegate;
 }
 
 @property (nonatomic, retain) LocationController* locationCtrl;
-- (NSArray*) findGroupsNear: (CLLocation*) loc withPassword: (NSString*) pwd;
-- (NSArray*) findNearbyGroups;
+@property (nonatomic, retain) id<GPSNearbyGroupsDelegate> delegate;
+
+- (void) findGroups;
+- (void) broadcastGroup: (Feed *) group during: (int) minutes withPassword: (NSString*) password;
 
 @end

@@ -25,19 +25,20 @@
 
 #import <Foundation/Foundation.h>
 #import "Feed.h"
+#import "Message.h"
 
 @interface App : NSObject {
     NSString* id;
 
     Feed* feed;
-    id message;
+    Message* message;
     
     NSArray* users;
 }
 
 @property (nonatomic,retain) NSString* id;
 @property (nonatomic,retain) Feed* feed;
-@property (nonatomic,retain) id message;
+@property (nonatomic,retain) Message* message;
 @property (nonatomic,retain) NSArray* users;
 
 - (NSDictionary *)json;

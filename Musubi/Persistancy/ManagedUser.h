@@ -34,6 +34,9 @@
 @property (nonatomic, retain) NSData* picture;
 
 - (User*) user;
+- (void) updateFromUser: (User*) user;
++ (id) createOrSave: (User*) user inContext: (NSManagedObjectContext*) context;
+
 + (NSArray *) allInContext: (NSManagedObjectContext*) context;
 + (id) withPublicKey: (NSData*) publicKey inContext: (NSManagedObjectContext*) context;
 

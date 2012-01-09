@@ -29,4 +29,9 @@
 
 @synthesize message, signature;
 
+- (NSString *)hash {
+    long long hash = *(long long *)[[self signature] bytes];
+    return [NSString stringWithFormat:@"%qi", CFSwapInt64BigToHost(hash)];
+    
+}
 @end

@@ -26,13 +26,13 @@
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
     [dict setObject: text forKey: @"text"];
     
-    Obj* obj = [[Obj alloc] initWithType: kObjTypeStatus];
+    Obj* obj = [[[Obj alloc] initWithType: kObjTypeStatus] autorelease];
     [obj setData: dict];
     return obj;
 }
 
 + (id)createFromObj:(Obj *)obj {
-    return [[StatusUpdate alloc] initWithText: [[obj data] objectForKey:@"text"]];
+    return [[[StatusUpdate alloc] initWithText: [[obj data] objectForKey:@"text"]] autorelease];
 }
 
 @end

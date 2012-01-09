@@ -4,7 +4,9 @@ console.log = function(msg) {
     
     if (typeof msg == "object")
         msg = JSON.stringify(msg);
-    window.location = "console://?log=" + encodeURIComponent(msg);
+    
+    if (typeof Musubi.platform == "object")
+        Musubi.platform._log(msg);
 };
 
 SocialKit = {
@@ -23,6 +25,8 @@ Musubi = {
     
     _launchCallback: null,
     _launchApp: function(appJson, userJson) {
+        Musubi.platform._setConfig({title: document.title});
+        
         Musubi.app = new SocialKit.App(appJson);
         Musubi.user = new SocialKit.User(userJson);
         
@@ -64,6 +68,19 @@ Musubi.platform = {
         window.location = cmdUrl;
     },
     
+    _setConfig: function(config) {
+        var cmdUrl = "config://?";
+        for (var key in config) {
+            cmdUrl += encodeURIComponent(key) + "=" + encodeURIComponent(config[key]) + "&";
+        }
+        
+        window.location = cmdUrl;
+    },
+    
+    _log: function(msg) {
+        window.location = "console://?log=" + encodeURIComponent(msg);
+    },
+    
     _commandResult: function(result) {
         var cb = Musubi.platform._commandCallbacks[0];
         delete Musubi.platform._commandCallbacks[0];
@@ -81,11 +98,11 @@ Musubi.platform = {
 SocialKit.App = function(json) {
     this.id = json.id;
     this.feed = new SocialKit.Feed(json.feed);
-    this.obj = new SocialKit.Obj(json.obj);
+    this.message = new SocialKit.SignedMessage(json.message);
 };
 
 SocialKit.App.prototype.toString = function() {
-    return "<App: " + this.id + "," + this.feed.toString() + "," + this.obj.toString() + ">";
+    return "<App: " + this.id + "," + this.feed.toString() + "," + this.message.toString() + ">";
 };
 
 /*
@@ -199,7 +216,7 @@ SocialKit.Message.prototype.init = function(json) {
 };
 
 SocialKit.Message.prototype.toString = function() {
-    return "<Message: " + this.obj.toString() + "," + this.sender.toString() + "," + this.appId + "," + this.feedName + "," + this.timestamp + ">";
+    return "<Message: " + this.obj.toString() + "," + this.sender.toString() + "," + this.appId + "," + this.feedName + "," + this.date + ">";
 };
 
 /*

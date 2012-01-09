@@ -19,7 +19,7 @@
     
     NSLog(@"Creating %@:%@", className, methodName);
     
-    URLFeedCommand* cmd = [[NSClassFromString(className) alloc] init];
+    URLFeedCommand* cmd = [[[NSClassFromString(className) alloc] init] autorelease];
     if (!cmd) {
         NSLog(@"ERROR: Command class '%@' not defined", className);
         return nil;
@@ -40,7 +40,7 @@
     [cmd setParameters:params];
     [cmd setMethodName:methodName];
     [cmd setApp:app];
-    
+        
     return cmd;
 }
 
@@ -65,10 +65,10 @@
 }
 
 - (id) postWithParams:(NSDictionary *)params {
-    SBJsonParser* parser = [[SBJsonParser alloc] init];
+    SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
     NSDictionary* json = [parser objectWithString:[params objectForKey:@"obj"]];
     
-    Obj* obj = [[Obj alloc] init];
+    Obj* obj = [[[Obj alloc] init] autorelease];
     [obj setType:[json objectForKey:@"type"]];
     [obj setData:[json objectForKey:@"data"]];
     

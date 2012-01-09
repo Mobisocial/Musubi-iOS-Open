@@ -32,6 +32,7 @@
 @property (nonatomic, retain) NSString* hash;
 
 - (NSDictionary*) json;
+- (BOOL) belongsToHash: (NSString*) h;
 + (id) createFromMessage: (Message*) msg withHash: (NSString*) hash;
 
 @end

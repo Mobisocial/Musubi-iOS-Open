@@ -12,7 +12,7 @@
 
 @implementation FeedViewController
 
-@synthesize feed, messages, updateField, pictureButton, updates;
+@synthesize feed;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -31,32 +31,43 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+- (void) displayMessage:(SignedMessage*) message
+{
+    NSString* parent = [message parentHash];
+    if (parent != nil) {
+        for (int i=0; i<[messages count]; i++) {
+            SignedMessage* curMsg = (SignedMessage*)[messages objectAtIndex:i];
+            if (curMsg != nil && [curMsg belongsToHash:parent]) {
+                [messages replaceObjectAtIndex:i withObject:message];
+            }
+        }
+    } else {
+        [messages insertObject:message atIndex:0];
+    }
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setTitle:[feed name]];
 
     cellHeights = [[NSMutableDictionary alloc] init];
-    [self setUpdates: [[NSMutableDictionary alloc] init]];
+    updates = [[NSMutableDictionary alloc] init];
     renderer = [[ObjRenderer alloc] init];
+
+    messages = [[NSMutableArray alloc] init];
     
-    ManagedFeed* managedFeed = [[Musubi sharedInstance] feedByName: [feed session]];
-    
-    [self setMessages:[NSMutableArray array]];
-    for (ManagedMessage* msg in [managedFeed allMessages]) {
-        [[self messages] insertObject:[msg message] atIndex:0];
+    for (ManagedMessage* msg in [[[Musubi sharedInstance] feedByName: [feed session]] allMessages]) {
+        [self displayMessage:[msg message]];
     }
-    
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:FALSE];
+
     [[Musubi sharedInstance] listenToGroup: feed withListener:self];
 
     [updateField setDelegate:self];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
@@ -113,7 +124,7 @@
 
         [cell setItemView: [renderer renderUpdate: [self updateForMessage: msg]]];
         
-        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+        NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
         [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
         [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 
@@ -168,13 +179,12 @@
 
     if (update == nil) {
         if ([objType isEqualToString:kObjTypeJoinNotification]) 
-            update = [[StatusUpdate alloc] initWithText:@"I'm here"];
+            update = [[[StatusUpdate alloc] initWithText:@"I'm here"] autorelease];
         else if ([objType isEqualToString:kObjTypeStatus]) 
             update = [StatusUpdate createFromObj:[msg obj]];
         else if ([objType isEqualToString:kObjTypePicture]) 
             update = [PictureUpdate createFromObj:[msg obj]];
         else if ([objType isEqualToString:kObjTypeAppState]) 
-//            update = [[StatusUpdate alloc] initWithText:[msg appId]];
             update = [AppStateUpdate createFromObj:[msg obj]];
      
         if (update != nil)
@@ -185,61 +195,88 @@
 }
 
 - (SignedMessage* ) msgForIndexPath: (NSIndexPath *)indexPath {
-    return [messages objectAtIndex:([indexPath row] - 1)];
+    if ([indexPath row] > 0)
+        return [messages objectAtIndex:([indexPath row] - 1)];
+    else
+        return nil;
 }
 
 - (void)newMessage:(SignedMessage *)message {
     if (message != nil) {
-        [messages insertObject:message atIndex:0];
+        [self displayMessage:message];
+        [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:FALSE];
     }
-    
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:FALSE];
 }
 
-- (void)appButtonPushed:(id)sender {
-    NSString* appId = @"edu.stanford.mobisocial.tictactoe";
+- (void)commandButtonPushed:(id)sender {
+    UIActionSheet* commandPicker = [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Picture", @"Apps", @"Broadcast", nil] autorelease];
     
-    NSMutableArray* userKeys = [NSMutableArray array];
-    for (User* user in [feed members]) {
-        if ([[user name] rangeOfString:@"willem" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            [userKeys addObject:[user id]];
-        }
-        
-        if ([userKeys count] >= 2)
+    [commandPicker showInView:self.view];
+}
+
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+        case 0: // picture
+        {
+            UIImagePickerController* picker = [[[UIImagePickerController alloc] init] autorelease];
+            [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
+            [picker setDelegate:self];
+            
+            [self presentModalViewController:picker animated:YES];
             break;
+        }
+        case 1:// apps
+        {   
+            NSString* appId = @"edu.stanford.mobisocial.tictactoe";
+            
+            NSMutableArray* userKeys = [NSMutableArray array];
+            for (User* user in [feed members]) {
+                if ([[user name] rangeOfString:@"willem" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                    [userKeys addObject:[user id]];
+                }
+                
+                if ([userKeys count] >= 2)
+                    break;
+            }
+            
+            NSMutableDictionary* appDict = [[[NSMutableDictionary alloc] init] autorelease];
+            [appDict setObject:userKeys forKey:@"membership"];
+            
+            Obj* obj = [[[Obj alloc] initWithType:@"appstate"] autorelease];
+            [obj setData:appDict];
+            
+            App* app = [[[App alloc] init] autorelease];
+            [app setId: appId];
+            [app setFeed: feed];
+            
+            SignedMessage* msg = [[Musubi sharedInstance] sendMessage:[Message createWithObj:obj forApp:app]];
+            [app setMessage:msg];
+            
+            [self launchApp: app];
+        }
+        case 2: // broadcast
+        {
+            GPSNearbyGroups* nearby = [[[GPSNearbyGroups alloc] init] autorelease];
+            @try {
+                [nearby broadcastGroup:feed during:5 withPassword:@""];
+            } @catch (NSException* e) {
+                UIAlertView* alert = [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not broadcast group" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
+                [alert show];
+            }
+            break;
+        }
     }
-    
-    NSMutableDictionary* appDict = [[NSMutableDictionary alloc] init];
-    [appDict setObject:userKeys forKey:@"membership"];
-    
-    Obj* obj = [[Obj alloc] initWithType:@"appstate"];
-    [obj setData:appDict];
-    
-    App* app = [[App alloc] init];
-    [app setId: appId];
-    [app setFeed: feed];
-    
-    SignedMessage* msg = [[Musubi sharedInstance] sendMessage:[Message createWithObj:obj forApp:app]];
-    [app setMessage:msg];
-    
-    [self launchApp: app];
 }
 
-- (void)pictureButtonPushed:(id)sender {
-    UIImagePickerController* picker =[[UIImagePickerController alloc] init];
-    [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
-    [picker setDelegate:self];
-    
-    [self presentModalViewController:picker animated:YES];
-}
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     
-    App* app = [[App alloc] init];
+    App* app = [[[App alloc] init] autorelease];
     [app setId:kMusubiAppId];
     [app setFeed:feed];
     
-    PictureUpdate* update = [[PictureUpdate alloc] initWithImage: image];
+    PictureUpdate* update = [[[PictureUpdate alloc] initWithImage: image] autorelease];
     [[Musubi sharedInstance] sendMessage: [Message createWithObj:[update obj] forApp:app]];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
@@ -297,17 +334,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SignedMessage* msg = [self msgForIndexPath:indexPath];
-    NSString* appId = [msg appId];
-    if (appId == nil) {
-        appId = kMusubiAppId;
+    if (msg != nil) {
+        NSString* appId = [msg appId];
+        if (appId == nil) {
+            appId = kMusubiAppId;
+        }
+        
+        App* app = [[[App alloc] init] autorelease];
+        [app setId: appId];
+        [app setFeed: feed];
+        [app setMessage: msg];
+        
+        [self launchApp:app];
     }
-    
-    App* app = [[App alloc] init];
-    [app setId: appId];
-    [app setFeed: feed];
-    [app setMessage: msg];
-    
-    [self launchApp:app];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -317,9 +356,9 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if ([textField text].length > 0) {
-        StatusUpdate* update = [[StatusUpdate alloc] initWithText: [textField text]];
+        StatusUpdate* update = [[[StatusUpdate alloc] initWithText: [textField text]] autorelease];
         
-        App* app = [[App alloc] init];
+        App* app = [[[App alloc] init] autorelease];
         [app setId: kMusubiAppId];
         [app setFeed: feed];
 

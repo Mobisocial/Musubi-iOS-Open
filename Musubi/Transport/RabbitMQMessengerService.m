@@ -41,7 +41,7 @@
         [self setIdentity: [Identity sharedInstance]];
         [self setListener: l];
         [self setQueue: [NSMutableArray arrayWithCapacity:10]];
-        [self setConnLock: [[NSLock alloc] init]];
+        [self setConnLock: [[[NSLock alloc] init] autorelease]];
     }
     
     return self;
@@ -125,7 +125,7 @@
     
     NSData* payload = [NSData dataWithBytes:ptr length:[data length]-len];
     
-    EncodedMessage* encoded = [[EncodedMessage alloc] init];
+    EncodedMessage* encoded = [[[EncodedMessage alloc] init] autorelease];
     [encoded setSignature:signature];
     [encoded setMessage:payload];
     
@@ -138,8 +138,13 @@
     while (true) {
         amqp_connection_state_t conn = [self openConnection];
         
+        if (conn == nil) {
+            break;
+        }
+        
         @try {
             while (true) {
+                
                 // Open channel
                 amqp_channel_open(conn, 1);
                 [RabbitMQMessengerService amqpCheckReplyForConn:conn inContext:@"Opening channel"];
@@ -147,6 +152,7 @@
                 // Declare our queue (by public key)
                 NSString* queueName = [RabbitMQMessengerService queueForKey:[[identity keyPair] publicKey]];
                 const char* cQueueName = [queueName cStringUsingEncoding:NSUTF8StringEncoding];
+                
                 amqp_queue_declare_ok_t *r = amqp_queue_declare(conn, 1, amqp_cstring_bytes(cQueueName), 0, 1, 0, 0, amqp_empty_table);
                 [RabbitMQMessengerService amqpCheckReplyForConn:conn inContext:@"Declaring queue"];
                 
@@ -162,8 +168,6 @@
                 
                 @try {
                     while (true) {
-                        
-                        NSLog(@"[RabbitMQMessengerService] Incoming alive");
                         
                         // Keep reading messageg
                         NSData* incoming = [self consumeMessageFromConn:conn];
@@ -263,36 +267,35 @@
             amqp_channel_open(conn, 1);
             [RabbitMQMessengerService amqpCheckReplyForConn:conn inContext:@"Opening channel"];
             
-            // keep sending and receiving messages
-            while (true) {
-                NSLog(@"[RabbitMQMessengerService] Outgoing alive");
-                
-                if ([queue count] > 0) {
-                    RabbitMQQueuedMessage* queuedMsg = [[queue objectAtIndex:0] retain];
-                    
-                    NSLog(@"[RabbitMQMessengerService] Sending message: %@", [queuedMsg message]);
-                    
-                    // send message
-                    @try {
+            //@try {
+                // keep sending and receiving messages
+                while (true) {
+                    if ([queue count] > 0) {
+                        RabbitMQQueuedMessage* queuedMsg = [queue objectAtIndex:0];
+                        
+                        NSLog(@"[RabbitMQMessengerService] Sending message: %@", [queuedMsg message]);
+                        
+                        // send message
                         [self sendData:[self dataFromMessage: [queuedMsg message]] toKeys:[queuedMsg recipients] onConn:conn];
                         [queue removeObjectAtIndex:0];
-                    } @catch (NSException* exception) {
-                        NSLog(@"TransportException: %@", exception);                    
-                    } @finally {
-                        [queuedMsg release];
                     }
-                }
-                
-                // sleep 100 ms
-                [NSThread sleepForTimeInterval:3];
-            }        
+                    
+                    // sleep 100 ms
+                    [NSThread sleepForTimeInterval:3];
+                }        
+            //} @catch (NSException* exception) {
+            //    NSLog(@"TransportException: %@", exception);                    
+            //} @finally {
+            //}
+
             // close the channel
             amqp_channel_close(conn, 1, AMQP_REPLY_SUCCESS);
             amqp_connection_close(conn, AMQP_REPLY_SUCCESS);
+            amqp_destroy_connection(conn);
         } @catch (NSException* exception) {
             NSLog(@"MessageException: %@", exception);
         } @finally {
-            amqp_destroy_connection(conn);
+            
         }
     }
  
@@ -353,8 +356,13 @@
     amqp_set_sockfd(conn, sockfd);
     
     // Login to server using default username/password
-    amqp_login(conn, "/", 0, 131072, 30, AMQP_SASL_METHOD_PLAIN, "guest", "guest");
-//    [self amqpCheckReplyForConn:conn inContext:@"Logging in"];
+    amqp_rpc_reply_t reply = amqp_login(conn, "/", 0, 131072, 30, AMQP_SASL_METHOD_PLAIN, "guest", "guest");
+    
+    /*if (reply.reply_type != AMQP_REPLY_SUCCESS) {
+        NSLog(@"Login fail");
+        amqp_destroy_connection(conn);
+        return nil;
+    }*/
     
     NSLog(@"Connected to AMQP");
     [connLock unlock];

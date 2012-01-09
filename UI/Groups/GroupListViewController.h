@@ -9,11 +9,29 @@
 #import <UIKit/UIKit.h>
 #import "ObjectStore.h"
 #import "FeedViewController.h"
+#import "GPSNearbyGroups.h"
+#import "NSData+Crypto.h"
+#import "NSData+Base64.h"
 
-@interface GroupListViewController : UITableViewController {
-    NSArray* groups;
+#define ALERT_VIEW_JOIN 0
+#define ALERT_VIEW_NEW 1
+
+@interface GroupListViewController : UITableViewController<UIAlertViewDelegate, GPSNearbyGroupsDelegate> {
+    IBOutlet UISegmentedControl* scopeSelector;
+
+@private
+    
+    NSArray* joinedGroups;
+    NSArray* nearbyGroups;
+    
+    GPSNearbyGroups* gps;
 }
 
-@property (nonatomic, retain) NSArray* groups;
+
+@property (nonatomic, retain) NSArray* joinedGroups;
+@property (nonatomic, retain) NSArray* nearbyGroups;
+@property (nonatomic, retain) GPSNearbyGroups* gps;
+
+- (Feed*) feedForIndexPath: (NSIndexPath*) indexPath;
 
 @end

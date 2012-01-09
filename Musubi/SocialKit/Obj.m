@@ -42,7 +42,7 @@
 }
 
 - (NSDictionary *)json {
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* dict = [[[NSMutableDictionary alloc] init] autorelease];
     [dict setObject:type forKey:@"type"];
     [dict setObject:data forKey:@"data"];
     return dict;

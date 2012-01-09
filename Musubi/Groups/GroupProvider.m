@@ -47,6 +47,7 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
 
 - (void)updateGroup: (Feed*) group sinceVersion: (int) version {
     NSData* key = [[group key] decodeBase64];
+    
     NSString* session = [group session];
     NSString* pubKeyB64 = [[Identity sharedInstance] publicKeyBase64];
     NSString* email = [[Identity sharedInstance] email];
@@ -54,8 +55,6 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
     
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithCapacity:4];
     [params setObject:session forKey:@"session"];
-    NSLog(@"Key: %@", pubKeyB64);
-    NSLog(@"Key: %@", [self encryptAndBase64:pubKeyB64 withKey:key]);
     [params setObject:[self encryptAndBase64:pubKeyB64 withKey:key] forKey:@"public_key"];
     [params setObject:[self encryptAndBase64:email withKey:key] forKey:@"email"];
     [params setObject:[NSString stringWithFormat:@"%d", version] forKey:@"version"];
@@ -86,7 +85,7 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
             NSString* email = [self decryptAndDecodeBase64:[userDict objectForKey:@"email"] withKey:key];
             
             if (!(pubK == nil || [pubK isEqualToString:@""])) {
-                User* member = [[User alloc] init];
+                User* member = [[[User alloc] init] autorelease];
                 [member setName: email];
                 [member setId: pubK];
                 [members addObject:member];

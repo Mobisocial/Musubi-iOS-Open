@@ -27,20 +27,32 @@
 
 @implementation Feed
 
-@synthesize name, feedUri, session, key, members;
+@synthesize name, session, key, members;
 
-- (id)initWithName:(NSString *)n feedUri:(NSURL *)uri {
+- (id)initWithName:(NSString *)n session:(NSString *)s key:(NSString *)k {
     self = [super init];
     if (self != nil) {
         [self setName: n];
-        [self setFeedUri: uri];
+        [self setSession: s];
+        [self setKey: k];
         [self setMembers: [NSArray array]];
-        
-        NSDictionary* uriComponents = [uri queryComponents];
-        [self setSession: [uriComponents objectForKey:@"session"]];
-        [self setKey: [uriComponents objectForKey:@"key"]];
     }
     return self;
+}
+
++ (id) feedFromUri:(NSURL *)uri {
+    NSDictionary* uriComponents = [uri queryComponents];
+    NSString* session = [uriComponents objectForKey:@"session"];
+    NSString* key = [uriComponents objectForKey:@"key"];
+    NSString* name = [uriComponents objectForKey:@"groupName"];
+    return [[[Feed alloc] initWithName:name session:session key:key] autorelease];
+}
+
++ (id) feedWithName:(NSString *)name {
+    NSString* key = [[NSData generateSecureRandomKeyOf:16] encodeBase64];
+    NSString* session = [NSString stringWithFormat:@"%@", CFUUIDCreateString(NULL, CFUUIDCreate(NULL))];
+    
+    return [[[Feed alloc] initWithName:name session: session key:key] autorelease];
 }
 
 - (NSArray *)publicKeys {
@@ -52,13 +64,13 @@
 }
 
 - (NSDictionary *)json {
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:6];
+    NSMutableDictionary* dict = [[[NSMutableDictionary alloc] initWithCapacity:6] autorelease];
     [dict setObject:[self name] forKey:@"name"];
-    [dict setObject:[[self feedUri] description] forKey:@"uri"];
+    [dict setObject:[[self uri] description] forKey:@"uri"];
     [dict setObject:[self session] forKey:@"session"];
     [dict setObject:[self key] forKey:@"key"];
     
-    NSMutableArray* memberDict = [[NSMutableArray alloc] init];
+    NSMutableArray* memberDict = [[[NSMutableArray alloc] init] autorelease];
     for (User* user in members) {
         [memberDict addObject:[user json]];
     }
@@ -68,11 +80,24 @@
     return dict;
 }
 
+- (NSURL *)uri {
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:3];
+    [dict setValue:[NSString stringWithFormat:@"%@", session] forKey:@"session"];
+    [dict setValue:name forKey:@"groupName"];
+    [dict setValue:key forKey:@"key"];
+    
+    return [NSURL URLWithString:[NSString stringWithFormat: @"dungbeetle-group-session://suif.stanford.edu/dungbeetle/index.php?%@", [dict stringFromQueryComponents]]];
+}
+
 
 - (NSString *)description {
     NSMutableString* desc = [NSMutableString string];
     [desc appendString:@"<Group: "];
     [desc appendString:name];
+    [desc appendString:@", "];
+    [desc appendString:session];
+    [desc appendString:@", "];
+    [desc appendString:key];
     [desc appendString:@", ["];
     for (User* member in members) {
         [desc appendString:[NSString stringWithFormat:@"%@, ", [member description]]];

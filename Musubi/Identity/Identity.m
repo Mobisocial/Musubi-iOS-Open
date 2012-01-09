@@ -58,18 +58,29 @@ static Identity* _sharedInstance = nil;
 -(id)init {
 	self = [super init];
 	if (self != nil) {
-        NSString* privKeyB64 = @"MIICXQIBAAKBgQCqEnUVom64ZzTupLcrBllqZnKlkMxV+nH9Mg78Jqo2OG5Xv7fq0RQIh3Nuis4Wq1zFIG+CNbRjB76zRKP1Dr635N9GTjiTFmnDwTKDwfotwpuJTNaZmowh92xNR+pFYtoCPZQ3ZlUd/qGYPLI4RsQZOXq3SpRdc0kMxpKUEtUCqwIDAQABAoGAKJjXUh7AB0y7meu/vYl6dqeV3me+Hxf1ddcpNI+WOfMmg9PD902JVq/eohiIMWkeb//aHl7rfGgw4WIVMT4f0Co3ju5KxuJnJtE4WA/Iut6/iR4UATX2Z8O8OfcioUtW+F7IEE64/9d0wW7wn177vsqUbC6Q3o8Ay+ljTNRFDAECQQDR+eCbBJSLq9374Iszz/Ru4xhIcM76RDdH3RrgmeC37F8xBuC5mn0yiiUDqZIjLwOTed/PjjzoCAp16L1SewiBAkEAz1l/hmcpdkk7+IVVThH2LWOctzTGu2LbRLwSeKZ2HMCsUK9kDDVh4txUEg23fcu2LMp3vAFD07mINAGlJHgVKwJBAK2jGDS49eoGZxxqFFL1TeoAy8zj1JUqohhAZICFX0pZImLVkDKL6apIiNFdgaassyVabFUkB4PNWnEk1KKHcYECQCAbV6fUKZNrW6Hr432nQltc5VNpFKzHbfSCusl73SYun4AO6IsLaRDb1RjGjvcnqBnfcBLojzwlqnWDG7M99OkCQQDJozXppqMj5HqCEGUOHGGxHigHAHCCC15vR2e9k84goUNbf9E7ICyII+ms2zpk0rIj+VtCvGWmC7WXUaowu62P";
         
-        NSString* pubKeyB64 = @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqEnUVom64ZzTupLcrBllqZnKlkMxV+nH9Mg78Jqo2OG5Xv7fq0RQIh3Nuis4Wq1zFIG+CNbRjB76zRKP1Dr635N9GTjiTFmnDwTKDwfotwpuJTNaZmowh92xNR+pFYtoCPZQ3ZlUd/qGYPLI4RsQZOXq3SpRdc0kMxpKUEtUCqwIDAQAB";
+        NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+        NSData* publicKey = [defaults objectForKey:@"publicKey"];
+        NSData* privateKey = [defaults objectForKey:@"privateKey"];
         
-        OpenSSLPrivateKey* privKey = [[[OpenSSLPrivateKey alloc] initWithDER: [privKeyB64 decodeBase64]] autorelease];
-        OpenSSLPublicKey* pubKey = [[[OpenSSLPublicKey alloc] initWithEncoded: [pubKeyB64 decodeBase64]] autorelease];
-        [self setKeyPair: [[[OpenSSLKeyPair alloc] initWithPrivateKey:privKey andPublicKey:pubKey] autorelease]];
-//		[self setKeyPair: [OpenSSLKeyPair keyPairWithLength:1024]];
+        if (publicKey != nil && privateKey != nil) {
+            OpenSSLPublicKey* pubKey = [[[OpenSSLPublicKey alloc] initWithEncoded:publicKey] autorelease];
+            OpenSSLPrivateKey* privKey = [[[OpenSSLPrivateKey alloc] initWithDER:privateKey] autorelease];
+            [self setKeyPair: [[[OpenSSLKeyPair alloc] initWithPrivateKey:privKey andPublicKey:pubKey] autorelease]];
+        } else {
+            [self setKeyPair: [OpenSSLKeyPair keyPairWithLength:1024]];
+            
+            publicKey = [[keyPair publicKey] encoded];
+            privateKey = [[keyPair privateKey] der];
+            
+            [defaults setObject:publicKey forKey:@"publicKey"];
+            [defaults setObject:privateKey forKey:@"privateKey"];
+            [defaults synchronize];
+        }
         
         NSLog(@"Private key: %@", [[[[self keyPair] privateKey] der] encodeBase64]);
         NSLog(@"Public key: %@", [[[[self keyPair] publicKey] encoded] encodeBase64]);
-        [self setEmail:@"Willem_iPhone@mobisocial.stanford.edu"];
+        [self setEmail:[UIDevice currentDevice].name];
 	}
     
 	return self;
@@ -80,7 +91,7 @@ static Identity* _sharedInstance = nil;
 }
 
 - (User *)user {
-    User* user = [[User alloc] init];
+    User* user = [[[User alloc] init] autorelease];
     [user setName:email];
     [user setId: [self publicKeyBase64]];
     return user;

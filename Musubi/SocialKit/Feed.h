@@ -29,20 +29,22 @@
 
 @interface Feed : NSObject {
     NSString* name;
-    NSURL* feedUri;
     NSString* session;
     NSString* key;
     NSArray* members;
 }
 
 @property (nonatomic, retain) NSString* name;
-@property (nonatomic, retain) NSURL* feedUri;
 @property (nonatomic, retain) NSString* session;
 @property (nonatomic, retain) NSString* key;
 @property (nonatomic, retain) NSArray* members;
 
-- (id) initWithName: (NSString*) n feedUri: (NSURL*) uri;
+- (id) initWithName: (NSString*) n session: (NSString*) s key: (NSString*) k;
 - (NSArray*) publicKeys;
 - (NSDictionary *)json;
+- (NSURL*) uri;
++ (id) feedFromUri: (NSURL*) uri;
++ (id) feedWithName: (NSString*) name;
+
 
 @end

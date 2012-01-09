@@ -39,7 +39,7 @@
 @property (nonatomic, retain) NSDate * timestamp;
 @property (nonatomic, retain) NSData * contents;
 @property (nonatomic, retain) NSString * type;
-@property (nonatomic, retain) NSString * id;
+@property (nonatomic, retain) NSString * id; // can't be named hash; reserved key
 @property (nonatomic, retain) NSString * parent;
 
 - (SignedMessage*) message;

@@ -17,12 +17,9 @@
 - (UIView *)renderUpdate:(id<Update>)update
 {
    if ([update isMemberOfClass:[StatusUpdate class]]) {
-        NSString* text;
+        NSString* text = ((StatusUpdate*) update).text;
         
-        if ([update isMemberOfClass:[StatusUpdate class]])
-            text = ((StatusUpdate*) update).text;
-        
-        UILabel* label = [[UILabel alloc] init];
+        UILabel* label = [[[UILabel alloc] init] autorelease];
         [label setFont: [UIFont systemFontOfSize:15]];
         [label setText: text];
         [label setLineBreakMode:UILineBreakModeWordWrap];
@@ -39,7 +36,7 @@
     } else if ([update isMemberOfClass:[AppStateUpdate class]]) {
         NSString* html = [[[update obj] data] objectForKey:@"html"];
         
-        UIWebView* webView = [[UIWebView alloc] init];
+        UIWebView* webView = [[[UIWebView alloc] init] autorelease];
         [webView loadHTMLString:html baseURL:nil];        
         [webView setFrame:CGRectMake(0, 0, 320, 0)];
         ((UIScrollView*)[webView.subviews objectAtIndex:0]).bounces = NO;

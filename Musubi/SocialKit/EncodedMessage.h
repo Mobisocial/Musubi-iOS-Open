@@ -33,4 +33,6 @@
 @property (nonatomic,retain) NSData* message;
 @property (nonatomic,retain) NSData* signature;
 
+- (NSString*) hash;
+
 @end

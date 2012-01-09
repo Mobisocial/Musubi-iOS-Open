@@ -14,8 +14,9 @@
 #import "PictureUpdate.h"
 #import "AppStateUpdate.h"
 #import "ObjRenderer.h"
+#import "GPSNearbyGroups.h"
 
-@interface FeedViewController : UITableViewController<MusubiFeedListener, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIWebViewDelegate> {
+@interface FeedViewController : UITableViewController<MusubiFeedListener, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIWebViewDelegate, UIActionSheetDelegate> {
     Feed* feed;
     
     NSMutableDictionary* cellHeights;
@@ -23,20 +24,14 @@
     NSMutableDictionary* updates;
     ObjRenderer* renderer;
     
-    UITextField* updateField;
-    UIButton* pictureButton;
+    IBOutlet UITextField* updateField;
     NSMutableArray* messages;
 }
 
-@property (nonatomic,retain) NSMutableDictionary* updates;
 @property (nonatomic,retain) Feed* feed;
-@property (nonatomic,retain) NSMutableArray* messages;
-@property (nonatomic, retain) IBOutlet UITextField* updateField;
-@property (nonatomic, retain) IBOutlet UIButton* pictureButton;
 
 - (SignedMessage* ) msgForIndexPath: (NSIndexPath *)indexPath;
-- (IBAction) pictureButtonPushed :(id)sender;
-- (IBAction) appButtonPushed :(id)sender;
+- (IBAction) commandButtonPushed: (id)sender;
 - (id<Update>) updateForMessage: (Message*) msg;
 - (void)launchApp: (App*) app;
 

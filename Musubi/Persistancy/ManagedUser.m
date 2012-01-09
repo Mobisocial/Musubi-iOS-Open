@@ -32,12 +32,33 @@
 @dynamic picture;
 
 - (User *)user {
-    User* user = [[User alloc] init];
+    User* user = [[[User alloc] init] autorelease];
     [user setName: [self name]];
     [user setId: [[self publicKey] encodeBase64]];
     [user setPicture: [UIImage imageWithData: [self picture]]];
     
     return user;
+}
+
+- (void)updateFromUser:(User *)user {
+    [self setName: [user name]];
+    [self setPublicKey: [[user id] decodeBase64]];
+    if ([user picture] != nil) {
+        [self setPicture: UIImageJPEGRepresentation([user picture], 0.95)];
+    }
+    [[self managedObjectContext] save:NULL];
+}
+
+
++ (id)createOrSave:(User *)user inContext:(NSManagedObjectContext *)context {
+    ManagedUser* managedUser = [ManagedUser withPublicKey: [[user id] decodeBase64] inContext: context];
+    
+    if (managedUser == nil) {
+        managedUser = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext: context];
+    }
+    
+    [managedUser updateFromUser: user];
+    return managedUser;
 }
 
 + (NSArray *) allInContext: (NSManagedObjectContext*) context {

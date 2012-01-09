@@ -58,7 +58,6 @@
 		D26D372D147B3ED400C4FE93 /* StatusUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36F3147B3ED400C4FE93 /* StatusUpdate.m */; };
 		D26D372E147B3ED400C4FE93 /* ObjRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36F6147B3ED400C4FE93 /* ObjRenderer.m */; };
 		D26D372F147B3ED400C4FE93 /* GroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36F9147B3ED400C4FE93 /* GroupListViewController.m */; };
-		D26D3730147B3ED400C4FE93 /* NearbyGroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36FB147B3ED400C4FE93 /* NearbyGroupListViewController.m */; };
 		D26D3731147B3ED400C4FE93 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D26D36FC147B3ED400C4FE93 /* InfoPlist.strings */; };
 		D26D3732147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */; };
 		D26D3733147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */; };
@@ -264,8 +263,6 @@
 		D26D36F6147B3ED400C4FE93 /* ObjRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjRenderer.m; sourceTree = "<group>"; };
 		D26D36F8147B3ED400C4FE93 /* GroupListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupListViewController.h; sourceTree = "<group>"; };
 		D26D36F9147B3ED400C4FE93 /* GroupListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupListViewController.m; sourceTree = "<group>"; };
-		D26D36FA147B3ED400C4FE93 /* NearbyGroupListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyGroupListViewController.h; sourceTree = "<group>"; };
-		D26D36FB147B3ED400C4FE93 /* NearbyGroupListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyGroupListViewController.m; sourceTree = "<group>"; };
 		D26D36FD147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D26D36FF147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		D26D3701147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
@@ -3924,8 +3921,6 @@
 			children = (
 				D26D36F8147B3ED400C4FE93 /* GroupListViewController.h */,
 				D26D36F9147B3ED400C4FE93 /* GroupListViewController.m */,
-				D26D36FA147B3ED400C4FE93 /* NearbyGroupListViewController.h */,
-				D26D36FB147B3ED400C4FE93 /* NearbyGroupListViewController.m */,
 			);
 			path = Groups;
 			sourceTree = "<group>";
@@ -9396,7 +9391,6 @@
 				D26D372D147B3ED400C4FE93 /* StatusUpdate.m in Sources */,
 				D26D372E147B3ED400C4FE93 /* ObjRenderer.m in Sources */,
 				D26D372F147B3ED400C4FE93 /* GroupListViewController.m in Sources */,
-				D26D3730147B3ED400C4FE93 /* NearbyGroupListViewController.m in Sources */,
 				D26D3734147B3ED400C4FE93 /* main.m in Sources */,
 				D2F4F23A147C1D910080474E /* App.m in Sources */,
 				D2F4F23D147C59070080474E /* AppStateUpdate.m in Sources */,
@@ -9586,6 +9580,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/musubi-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/Libraries/OpenSSL/**";
@@ -9599,6 +9594,7 @@
 					"\"$(SRCROOT)/Libraries/librabbitmq\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -9610,6 +9606,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/musubi-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/Libraries/OpenSSL/**";
@@ -9623,6 +9620,7 @@
 					"\"$(SRCROOT)/Libraries/librabbitmq\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};

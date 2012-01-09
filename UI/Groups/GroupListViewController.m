@@ -13,7 +13,7 @@
 #import "HTMLAppViewController.h"
 
 @implementation GroupListViewController
-@synthesize groups;
+@synthesize joinedGroups, nearbyGroups, gps;
 
 - (void)didReceiveMemoryWarning
 {
@@ -27,70 +27,14 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    
-    [self setGroups: [[Musubi sharedInstance] groups]];
 
-    NSLog(@"Groups: %@", groups);
+    [self setTitle: @"Groups"];
+    [self setJoinedGroups: [[Musubi sharedInstance] groups]];
+    [self setNearbyGroups: [NSArray array]];
+
+    [self setGps: [[[GPSNearbyGroups alloc] init] autorelease]];    
+    [gps setDelegate: self];
 }
-
-- (UINavigationItem *)navigationItem {
-    return [[[UINavigationItem alloc] initWithTitle:@"Groups"] autorelease];
-}
-
-- (UITabBarItem *)tabBarItem {
-    return [[[UITabBarItem alloc] initWithTitle:@"Groups" image:nil tag:0] autorelease];
-}
-/*
-- (void) appManager:(NSObject *)mgr installedApp:(NSString *)name {
-    [self loadResource: @"index.html" inApp: name];
-}
-
-- (void) loadResource: (NSString*) resource inApp: (NSString*) app {
-    @try {
-        NSURL* url = [self urlForResource: resource inApp:app];
-		NSURLRequest *appReq = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-		[self.webView loadRequest:appReq];
-    } @catch (NSException* e) {
-        NSString* html = [NSString stringWithFormat:@"<html><body> %@ </body></html>", [e description]];
-		[self.webView loadHTMLString:html baseURL:nil];
-    }
-}
-
-- (NSString*) pathForResource: (NSString*) resource inApp: (NSString*) app {
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *appFolder = [documentsDirectory stringByAppendingPathComponent:app];
-    
-    NSError* error = nil;
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:appFolder]) {
-        [[NSFileManager defaultManager] createDirectoryAtPath:appFolder withIntermediateDirectories:YES attributes:nil error:&error];
-    }
-    
-    NSString* resourcePath = [appFolder stringByAppendingPathComponent:resource];
-    return resourcePath;
-}
-
-- (NSURL*) urlForResource: (NSString*) resource inApp: (NSString*) app {
-    NSURL *appURL = [NSURL URLWithString:resource];
-
-	if([appURL scheme])
-    {
-        return appURL;
-    } else {
-		NSString* path = [self pathForResource:resource inApp:app];
-		if (path == nil)
-		{
-            [[[NSException alloc] initWithName:@"RESOURCE_NOT_FOUND" reason:[NSString stringWithFormat:@"Resource '%@/%@' was not found.", app, resource] userInfo:nil] raise];
-		}
-		else {
-			return [NSURL fileURLWithPath:path];
-		}
-	}
-    
-    return nil;
-}*/
 
 - (void)viewDidUnload
 {
@@ -129,47 +73,144 @@
     }
 }
 
+- (void)updatedGroups:(NSArray *)groups {
+    [self setNearbyGroups:groups];
+    [self.tableView reloadData];
+}
+
+- (Feed*) feedForIndexPath: (NSIndexPath*) indexPath {
+    Feed* group = nil;
+    
+    if (indexPath.section == 0)
+        group = [joinedGroups objectAtIndex: indexPath.row];
+    else
+        group = [nearbyGroups objectAtIndex: indexPath.row];
+
+    return group;
+}
+
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 3;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return @"My Groups";
+    } else if (section == 1) {
+        return @"Nearby Groups";
+    } else {
+        return @"New group";
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    if (section == 0 && [joinedGroups count] == 0) {
+        return @"You're not participating in any groups yet.";
+    } else if (section == 1 && [nearbyGroups count] == 0) {
+        return @"No broadcasting groups found nearby.";
+    } else {
+        return nil;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return [groups count];
+        return [joinedGroups count];
+    } else if (section == 1) {
+        return [nearbyGroups count];
     } else {
-        return 0;
+        return 1;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    Feed* group = [groups objectAtIndex: indexPath.row];
-    
     static NSString *cellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.textLabel.text = [group name];
+    [cell setEditing:YES];
+
+    if (indexPath.section <= 1) {
+        Feed* group = [self feedForIndexPath:indexPath];
+        cell.textLabel.text = [group name];
+    } else {
+        cell.textLabel.text = @"Create new group";
+    }
+    
     return cell;
 }
 
 #pragma mark - Table view delegate
 
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    return NO;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Feed* feed = [groups objectAtIndex: indexPath.row];
-    NSLog(@"Group: %@", feed);
+    if (indexPath.section == 0){
+        Feed* feed = [self feedForIndexPath:indexPath];
+        FeedViewController* feedViewController = (FeedViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"feed"];
+        [feedViewController setFeed: feed];
+        [[self navigationController] pushViewController:feedViewController animated:YES];
+        
+    } else if (indexPath.section == 1) {
+        Feed* feed = [self feedForIndexPath:indexPath];
+        UIAlertView* confirm = [[[UIAlertView alloc] initWithTitle:@"Join group" message:[NSString stringWithFormat:@"Join group %@?", [feed name]] delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease];        
+        [confirm setTag:ALERT_VIEW_JOIN];
+        [confirm show];
+    } else {
+        UIAlertView* newGroupName = [[[UIAlertView alloc] initWithTitle:@"New group" message:@"What do you want the new group to be named?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil] autorelease];
+        [newGroupName setTag:ALERT_VIEW_NEW];
+        [newGroupName setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        
+        [newGroupName show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    Feed* group = nil;
     
-    FeedViewController* feedViewController = (FeedViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"feed"];
-    [feedViewController setFeed: feed];
+    if ((alertView.tag == ALERT_VIEW_JOIN) && buttonIndex == 1) {        
+        group = [self feedForIndexPath:[[self tableView] indexPathForSelectedRow]];
+    } else if (alertView.tag == ALERT_VIEW_NEW && buttonIndex == 1) {
+        NSString* name = [alertView textFieldAtIndex:0].text;
+        if ([name length] > 0) {
+            group = [Feed feedWithName:name];
+        } else {
+            [[[[UIAlertView alloc] initWithTitle:@"Oops" message:@"Cannot create a group with an empty name" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] autorelease] show];
+        }
+    }
     
-    [[self navigationController] pushViewController:feedViewController animated:YES];
-    /*
-    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"app"];
-    [appViewController setFeed: feed];
+    if (group != nil) {
+        [[Musubi sharedInstance] joinGroup: group];
+        [self setJoinedGroups: [[Musubi sharedInstance] groups]];
+        [self.tableView reloadData];
+        
+        NSLog(@"Group: %@", group);
+        FeedViewController* feedViewController = (FeedViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"feed"];
+        [feedViewController setFeed: group];
+        [[self navigationController] pushViewController:feedViewController animated:YES];
+    }
     
-    [[self navigationController] pushViewController:appViewController animated:YES];*/
+    [[self tableView] deselectRowAtIndexPath:[[self tableView] indexPathForSelectedRow] animated:NO];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return (indexPath.section == 0);
+}
+
+
+- (void)scopeSelectorTouched:(id)sender {
+    [[self tableView] reloadData];
 }
 
 @end

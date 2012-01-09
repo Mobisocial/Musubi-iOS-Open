@@ -26,7 +26,6 @@
 #import <Foundation/Foundation.h>
 #import "Obj.h"
 #import "User.h"
-#import "App.h"
 
 @interface Message : NSObject {
     Obj* obj;
@@ -38,7 +37,7 @@
     NSString* feedName;
     NSDate* timestamp;
     
-    App* parent;
+    NSString* parentHash;
 }
 
 @property (nonatomic, retain) Obj* obj;
@@ -50,8 +49,8 @@
 @property (nonatomic, retain) NSString* feedName;
 @property (nonatomic, retain) NSDate* timestamp;
 
-@property (nonatomic, retain) id parent;
+@property (nonatomic, retain) NSString* parentHash;
 
-+ (id) createWithObj: (Obj*) obj forApp: (App*) app;
++ (id) createWithObj: (Obj*) obj forApp: (id) app;
 
 @end

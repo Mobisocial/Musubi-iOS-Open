@@ -51,7 +51,8 @@
     [newMessage setType: [[msg obj] type]];
     [newMessage setSender:[self userWithId: [[msg sender] id]]];
     [newMessage setId: [msg hash]];
-    [newMessage setParent: [(SignedMessage*)[msg parent] hash]];
+    if ([msg parentHash] != nil)
+        [newMessage setParent: [msg parentHash]];
     
     [[self managedObjectContext] save:NULL];
     return newMessage;
@@ -86,8 +87,80 @@
     return users;
 }
 
+- (BOOL) isMember: (ManagedUser*) user {
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"FeedMember" inManagedObjectContext:[self managedObjectContext]];
+    
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    [request setEntity:entity];
+    [request setPredicate: [NSPredicate predicateWithFormat:@"feed = %@ AND user = %@", self, user]];
+    
+    NSError *error = nil;
+    NSArray* members= [[self managedObjectContext] executeFetchRequest:request error:&error];
+    
+    return [members count] > 0;
+}
+
 - (ManagedUser *) userWithId: (NSString*) id {
     return [ManagedUser withPublicKey:[id decodeBase64] inContext:[self managedObjectContext]];
+}
+
+- (void)updateFromFeed:(Feed *)feed
+{
+    [self setValue:[feed session] forKey:@"session"];
+    [self setValue:[feed name] forKey:@"name"];
+    [self setValue:[feed key] forKey:@"key"];
+    
+    for (User* member in [feed members]) {
+        ManagedUser* user = [ManagedUser createOrSave:member inContext:[self managedObjectContext]];
+        
+        if (![self isMember:user]) {
+            NSManagedObject* managedMember =[NSEntityDescription insertNewObjectForEntityForName:@"FeedMember" inManagedObjectContext:[self managedObjectContext]];
+            [managedMember setValue:self forKey:@"feed"];
+            [managedMember setValue:user forKey:@"user"];
+        }
+    }
+    
+    [[self managedObjectContext] save:NULL];
+}
+
+- (Feed*) feed
+{
+    Feed* feed = [[Feed alloc] initWithName:[self name] session:[self session] key:[self key]];
+
+    NSMutableArray* members = [NSMutableArray array];
+    for (ManagedUser* member in [self allMembers]) {
+        [members addObject:[member user]];
+    }
+    
+    [feed setMembers:members];
+    return feed;
+}
+
++ (id)createOrSave:(Feed *)feed inContext:(NSManagedObjectContext *)context {
+    ManagedFeed* managedFeed = [ManagedFeed withSession:[feed session] inContext:context];
+    
+    if (managedFeed == nil) {
+        managedFeed = [NSEntityDescription insertNewObjectForEntityForName:@"Feed" inManagedObjectContext: context];
+    }
+    
+    [managedFeed updateFromFeed: feed];
+    return managedFeed;
+}
+
++ (id)withSession:(NSString *)session inContext:(NSManagedObjectContext *)context {
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Feed" inManagedObjectContext:context];
+    
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    [request setEntity:entity];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"session = %@", session]];
+    
+    NSError *error = nil;
+    NSArray* results = [context executeFetchRequest:request error:&error];
+    if (results != nil && [results count] > 0) {
+        return [results objectAtIndex:0];
+    }
+    
+    return nil;
 }
 
 

@@ -95,7 +95,11 @@
     [complemented setValue:[msg feedName] forKey:@"feedName"];
     [complemented setValue:[msg appId] forKey:@"appId"];
     [complemented setValue:[NSString stringWithFormat: @"%qi", ts] forKey:@"timestamp"];
-    
+    if ([msg parentHash] != nil) {
+        [complemented setValue:[NSNumber numberWithLongLong:[[msg parentHash] longLongValue]] forKey:@"target_hash"];
+        [complemented setValue:@"parent" forKey:@"target_relation"];
+    }
+
     NSError* err = nil;
     SBJsonWriter* jsonWriter = [[[SBJsonWriter alloc] init] autorelease];
     NSString* json = [jsonWriter stringWithObject: complemented error:&err];
@@ -137,13 +141,19 @@
     [msg setTimestamp: date];
     [msg setFeedName: [dict objectForKey:@"feedName"]];
     [msg setAppId: [dict objectForKey:@"appId"]];
+    id parentHash = [dict objectForKey:@"target_hash"];
+    if (![parentHash isKindOfClass:[NSString class]]) {
+        parentHash = [parentHash description];
+    }
+        
+    [msg setParentHash: parentHash];
     
-    NSMutableDictionary* props = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* props = [[[NSMutableDictionary alloc] init] autorelease];
     NSEnumerator *enumerator = [dict keyEnumerator];
     id key;
     
     while ((key = [enumerator nextObject])) {
-        if ([key isEqualToString:@"timestamp"] || [key isEqualToString:@"feedName"] || [key isEqualToString:@"appId"] || [key isEqualToString:@"type"])
+        if ([key isEqualToString:@"timestamp"] || [key isEqualToString:@"feedName"] || [key isEqualToString:@"appId"] || [key isEqualToString:@"type"] || [key isEqualToString:@"target_relation"] || [key isEqualToString:@"target_hash"])
             continue;
         
         id prop = [dict objectForKey:key];
@@ -158,7 +168,7 @@
     }
     
     
-    Obj* obj = [[Obj alloc] initWithType:[dict objectForKey:@"type"]];
+    Obj* obj = [[[Obj alloc] initWithType:[dict objectForKey:@"type"]] autorelease];
     [obj setData: props];
     [msg setObj:obj];
     
@@ -167,8 +177,13 @@
 
 
 - (EncodedMessage*) encodeMessage: (Message*) msg withKeyPair: (OpenSSLKeyPair*) keyPair {
+    NSLog(@"%@", [[[keyPair publicKey] modulus] hex]);
+    NSLog(@"%@", [[[keyPair publicKey] publicExponent] hex]);
+    NSLog(@"%@", [[[keyPair privateKey] privateExponent] hex]);
+    
     // the plain data
     NSData* plain = [self packMessage:msg];
+    NSLog(@"Sending: %@", [self unpackMessage:plain]);
     
     // 128 bit AES key used to encrypt data
     NSData* aesKey = [NSData generateSecureRandomKeyOf:16];
@@ -274,13 +289,10 @@
     NSData* plain = [cypher decryptWithAES128CBCPKCS7WithKey:aesKey andIV:aesInitVector];
     
     // Hash is the BigEndian uint64 representation of the signature
-    long long hash = *(long long *)[[msg signature] bytes];
-    hash = CFSwapInt64BigToHost(hash);
-    
     SignedMessage* signedMsg = [self unpackMessage: plain];
     [signedMsg setSender: [[Musubi sharedInstance] userWithPublicKey: senderKey]];
     [signedMsg setRecipients: recipients];
-    [signedMsg setHash: [NSString stringWithFormat:@"%qi", hash]];
+    [signedMsg setHash: [msg hash]];
     return signedMsg;
 }
 

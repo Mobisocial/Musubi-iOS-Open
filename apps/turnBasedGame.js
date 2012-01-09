@@ -81,7 +81,11 @@ SocialKit.Multiplayer.TurnBasedMultiplayerGame.prototype.init = function(app) {
     SocialKit.Multiplayer.MultiplayerGame.prototype.init.call(this, app);
     
     // listen for messages on the feed
-    app.feed.onNewMessage(this._onMessage);
+    var thisGame = this;
+    var msgListener = function(msg) {
+        thisGame._processMove(msg.obj.data);
+    }
+    app.feed.onNewMessage(msgListener);
     
     // process the obj the app was launched with
     this._processMove(app.message.obj.data);
@@ -111,11 +115,10 @@ SocialKit.Multiplayer.TurnBasedMultiplayerGame.prototype.takeTurn = function(sta
     objData[this.OBJ_TURN] = this._lastTurn;
     objData[this.OBJ_MEMBERSHIP] = this._playerIds();
     objData.html = this.feedView();
-    console.log(objData.html);
-//    objData.target_relation = "parent";
     objData.state = this.state;
 
     this.app.feed.post(new SocialKit.Obj({type: "appstate", data: objData}));
+    this._updateListener(this.state);
 };
 
 SocialKit.Multiplayer.TurnBasedMultiplayerGame.prototype._processMove = function(objData) {
@@ -131,6 +134,7 @@ SocialKit.Multiplayer.TurnBasedMultiplayerGame.prototype._processMove = function
         this._lastTurn = turn;
     }
     */
+    
     this._currentPlayerIdx = objData[this.OBJ_PLAYERINCONTROL];
 
     if (objData.state) {
@@ -138,7 +142,3 @@ SocialKit.Multiplayer.TurnBasedMultiplayerGame.prototype._processMove = function
         this._updateListener(this.state);
     }
 }
-
-SocialKit.Multiplayer.TurnBasedMultiplayerGame.prototype._onMessage = function(msg) {
-    this._processMove(msg.obj.data);
-};

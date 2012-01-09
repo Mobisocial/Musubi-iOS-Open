@@ -13,7 +13,7 @@
 @synthesize obj;
 
 + (id)createFromObj:(Obj *)obj {
-    id update = [[AppStateUpdate alloc] init];
+    id update = [[[AppStateUpdate alloc] init] autorelease];
     [update setObj: obj];
     return update;
 }
