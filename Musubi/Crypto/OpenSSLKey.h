@@ -26,6 +26,8 @@
 #import <Foundation/Foundation.h>
 #import <openssl/rsa.h>
 #import "NSData+Base64.h"
+#import "NSData+Crypto.h"
+#import "Key.h"
 
 @interface OpenSSLKey : NSObject {
     RSA* rsa;
@@ -40,13 +42,11 @@
 
 
 
-@interface OpenSSLPrivateKey : OpenSSLKey {
+@interface OpenSSLPrivateKey : OpenSSLKey<PrivateCryptoKey> {
 }
 
 - (id) initWithDER: (NSData*) der;
 - (NSData *) privateExponent;
-- (NSData *) der;
-- (NSData *) sign: (NSData*) data;
 - (NSData *) decryptNoPadding: (NSData*) input;
 - (NSData *) decryptPKCS1Padding: (NSData *)input;
 + (OpenSSLPrivateKey *) privateKeyWithLength:(int)length;
@@ -54,12 +54,11 @@
 @end
 
 
-@interface OpenSSLPublicKey : OpenSSLKey {    
+@interface OpenSSLPublicKey : OpenSSLKey<PublicCryptoKey> {    
 }
 
 - (id) initWithEncoded: (NSData*) data;
 - (NSData *) publicExponent;
-- (NSData *) encoded;
 - (NSData *) encryptNoPadding: (NSData*) input;
 - (NSData *) encryptPKCS1Padding: (NSData*) input;
 
@@ -72,7 +71,7 @@
 @end
 
 
-@interface OpenSSLKeyPair : NSObject {
+@interface OpenSSLKeyPair : NSObject<CryptoKey> {
     OpenSSLPublicKey* publicKey;
     OpenSSLPrivateKey* privateKey;
 }

@@ -36,19 +36,9 @@
 }
 
 + (id) createWithObj: (Obj*) obj forApp: (id) app {
-    NSMutableArray* pubKeys = [NSMutableArray arrayWithArray:[[app feed] publicKeys]];
-    NSString* myPubKey = [[Identity sharedInstance] publicKeyBase64];
-    while ([pubKeys containsObject:myPubKey]) {
-        [pubKeys removeObject: myPubKey];
-    }
-    
-    Message* msg = [[[Message alloc] init] autorelease];
-    [msg setObj:obj];
-    [msg setSender:[[Identity sharedInstance] user]];
-    [msg setRecipients:pubKeys];
+    Message* msg = [Message createWithObj:obj forUsers: [[app feed] members]];
     [msg setAppId:[app id]];
     [msg setFeedName:[[app feed] session]];
-    [msg setTimestamp:[NSDate date]];
     if ([[app message] parentHash] != nil) {
         [msg setParentHash: [[app message] parentHash]];
     } else {
@@ -58,4 +48,22 @@
     return msg;
 }
 
++ (id) createWithObj: (Obj*) obj forUsers: (NSArray*) users {
+    NSMutableArray* publicKeys = [NSMutableArray arrayWithCapacity:[users count]];
+    for (User* user in users) {
+        [publicKeys addObject: [user id]];
+    }
+
+    NSString* myPubKey = [[Identity sharedInstance] publicKeyBase64];
+    while ([publicKeys containsObject:myPubKey]) {
+        [publicKeys removeObject: myPubKey];
+    }
+
+    Message* msg = [[[Message alloc] init] autorelease];
+    [msg setObj:obj];
+    [msg setSender:[[Identity sharedInstance] user]];
+    [msg setRecipients:publicKeys];
+    [msg setTimestamp:[NSDate date]];
+    return msg;
+}
 @end

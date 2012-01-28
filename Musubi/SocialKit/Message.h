@@ -52,5 +52,6 @@
 @property (nonatomic, retain) NSString* parentHash;
 
 + (id) createWithObj: (Obj*) obj forApp: (id) app;
++ (id) createWithObj: (Obj*) obj forUsers: (NSArray*) users;
 
 @end

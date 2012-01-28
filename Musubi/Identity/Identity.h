@@ -27,16 +27,27 @@
 #import "OpenSSLKey.h"
 #import "User.h"
 
+@protocol IdentityDelegate
+
+- (void) userProfileChangedTo: (User*) user;
+
+@end
+
 @interface Identity : NSObject {
-    OpenSSLKeyPair* keyPair;
-    NSString* email;
+    OpenSSLKeyPair* deviceKey;
+    id<CryptoKey> identityKey;
+    
+    User* user;
+    id<IdentityDelegate> delegate;
 }
 
-@property (nonatomic, retain) OpenSSLKeyPair* keyPair;
-@property (nonatomic, retain) NSString* email;
+@property (nonatomic, retain) id<CryptoKey> identityKey;
+@property (nonatomic, retain) OpenSSLKeyPair* deviceKey;
+@property (nonatomic, retain) User* user;
+@property (nonatomic, retain) id<IdentityDelegate> delegate;
 
 + (Identity*) sharedInstance;
 - (NSString*) publicKeyBase64;
-- (User*) user;
+- (void) saveUser;
 
 @end

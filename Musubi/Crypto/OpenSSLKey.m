@@ -71,7 +71,9 @@
     return [NSData dataWithBytesNoCopy:data length:length];
 }
 
-- (NSData *)der {
+- (NSData *)raw {
+    // Return raw key data in DER format
+    
     int len = i2d_RSAPrivateKey(rsa, 0);
     unsigned char *der = malloc(len);
     unsigned char *p = der;
@@ -147,6 +149,10 @@
     return [NSData dataWithBytesNoCopy:buffer length:length];
 }
 
+- (NSData *)decrypt:(NSData *)data {
+    return [self decryptNoPadding: data];
+}
+
 + (OpenSSLKey*)privateKeyWithLength:(int)length
 {
     RSA *key = NULL;
@@ -181,7 +187,7 @@
     return self;
 }
 
-- (NSData *)encoded {
+- (NSData *)raw {
     int len = i2d_RSAPublicKey(rsa, 0);
     unsigned char *der = malloc(len);
     unsigned char *p = der;
@@ -214,6 +220,14 @@
     unsigned char *cipher = malloc(RSA_size(rsa));
     RSA_public_encrypt(MIN(length - 12, [input length]), [input bytes], cipher, rsa, RSA_PKCS1_PADDING);
     return [NSData dataWithBytesNoCopy:cipher length:length];
+}
+
+- (NSData *)encrypt:(NSData *)data {
+    return [self encryptNoPadding: data];
+}
+
+- (NSData *)hash {
+    return [[self raw] sha1Digest];
 }
 
 - (NSString *)description {
@@ -342,6 +356,7 @@
     }
     return self;
 }
+
 
 + (OpenSSLKeyPair *) keyPairWithLength: (int) bits {
     OpenSSLPrivateKey* privateKey = [OpenSSLPrivateKey privateKeyWithLength: bits];

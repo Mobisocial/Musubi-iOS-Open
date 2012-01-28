@@ -61,7 +61,7 @@
 }
 
 - (NSString*) personIdForPublicKey: (OpenSSLPublicKey*) key {
-    NSData* hash = [[key encoded] sha1HashWithLength:40];
+    NSData* hash = [[key raw] sha1HashWithLength:40];
     return [[hash hex] substringToIndex:10];
 }
 
@@ -192,7 +192,7 @@
     NSMutableData* encoded = [NSMutableData data];
     
     // user public key (ASN.1 DER with header)
-    NSData* userPubKey = [[keyPair publicKey] encoded];
+    NSData* userPubKey = [[keyPair publicKey] raw];
     //NSLog(@"Sender public key: %@", userPubKey);
     [self appendLengthBigEndian16AndData:userPubKey to:encoded];
     
@@ -203,7 +203,7 @@
     for (NSString* pubKeyStr in [msg recipients]) {
         // addressee's person id (SHA1 hash of public key)
         OpenSSLPublicKey* pubKey = [[[OpenSSLPublicKey alloc] initWithEncoded: [pubKeyStr decodeBase64]] autorelease];
-        //NSLog(@"Pub key: %@", [pubKey encoded]);
+        //NSLog(@"Pub key: %@", [pubKey raw]);
         NSData* personId = [[self personIdForPublicKey:pubKey] dataUsingEncoding:NSUTF8StringEncoding];
         //NSLog(@"Person Id: %@", personId);
         [self appendLengthBigEndian16AndData:personId to:encoded];

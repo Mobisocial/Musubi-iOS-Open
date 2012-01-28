@@ -30,12 +30,12 @@
 @interface User : NSObject {
     NSString* name;
     NSString* id;
-    UIImage* picture;
+    NSData* picture;
 }
 
 @property (nonatomic, retain) NSString* name;
 @property (nonatomic, retain) NSString* id;
-@property (nonatomic, retain) UIImage* picture;
+@property (nonatomic, retain) NSData* picture;
 
 - (NSDictionary*) json;
 

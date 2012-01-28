@@ -33,5 +33,6 @@
 @property (nonatomic, retain) GPSNearbyGroups* gps;
 
 - (Feed*) feedForIndexPath: (NSIndexPath*) indexPath;
+- (IBAction) newGroupButtonClicked: (id)sender;
 
 @end

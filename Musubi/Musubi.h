@@ -29,6 +29,8 @@
 #import "App.h"
 #import "GroupProvider.h"
 #import "JoinNotificationObj.h"
+#import "ProfileObj.h"
+#import "ProfilePictureObj.h"
 #import "MessageFormat.h"
 #import "RabbitMQMessengerService.h"
 
@@ -40,7 +42,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 @end
 
-@interface Musubi : NSObject<TransportListener> {
+@interface Musubi : NSObject<TransportListener,IdentityDelegate> {
     RabbitMQMessengerService* transport;
     MessageFormat* messageFormat;
     Identity* identity;
@@ -53,6 +55,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 + (Musubi*) sharedInstance;
 - (void) startTransport;
 
+- (NSArray*) friends;
 - (NSArray*) groups;
 - (ManagedFeed*) joinGroup: (Feed*) group;
 - (ManagedFeed*) feedByName: (NSString*) feedName;

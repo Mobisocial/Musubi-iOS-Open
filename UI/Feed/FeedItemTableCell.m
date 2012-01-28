@@ -28,10 +28,6 @@
     // Configure the view for the selected state
 }
 
-NSString* CGRectToString(CGRect r) {
-    return [NSString stringWithFormat:@"(%f, %f), (%f x %f)", r.origin.x, r.origin.y, r.size.width, r.size.height];
-}
-
 - (void)setItemView:(UIView *)iv {
     
     itemView = nil;

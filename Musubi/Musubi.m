@@ -65,6 +65,8 @@ static Musubi* _sharedInstance = nil;
         feedListeners = [[NSMutableDictionary alloc] init];
         messageFormat = [[MessageFormat defaultMessageFormat] retain];
         identity = [Identity sharedInstance];
+        
+        [identity setDelegate:self];
     }
     
     return self;
@@ -85,7 +87,7 @@ static Musubi* _sharedInstance = nil;
 
 - (int)handleIncoming:(EncodedMessage *)encoded {
     // decode
-    SignedMessage* msg = [messageFormat decodeMessage:encoded withKeyPair:[identity keyPair]];
+    SignedMessage* msg = [messageFormat decodeMessage:encoded withKeyPair:[identity deviceKey]];
     NSLog(@"Incoming: %@", msg);
     NSLog(@"JSON: %@", [[msg obj] json]);
     
@@ -130,6 +132,15 @@ static Musubi* _sharedInstance = nil;
         [groups addObject: group];
     }
     return groups;
+}
+
+- (NSArray*) friends {
+    NSMutableArray* friends = [NSMutableArray array];
+    for (ManagedUser* mgdUser in [[ObjectStore sharedInstance] users]) {
+        User* user = [mgdUser user];
+        [friends addObject: user];
+    }
+    return friends;
 }
 
 - (ManagedFeed*) joinGroup:(Feed *)group {
@@ -177,7 +188,7 @@ static Musubi* _sharedInstance = nil;
 }
 
 - (SignedMessage*) sendMessage: (Message*) msg {
-    EncodedMessage* encoded = [messageFormat encodeMessage:msg withKeyPair:[identity keyPair]];
+    EncodedMessage* encoded = [messageFormat encodeMessage:msg withKeyPair:[identity deviceKey]];
     
     // TODO: Find a neater way to get the SignedMessage before it's sent
     SignedMessage* signedMsg = [messageFormat unpackMessage: [messageFormat packMessage: msg]];
@@ -206,6 +217,18 @@ static Musubi* _sharedInstance = nil;
 - (User *)userWithPublicKey:(NSData *)publicKey {
     ManagedUser* user = [[ObjectStore sharedInstance] userWithPublicKey:publicKey];
     return [user user];
+}
+
+- (void)userProfileChangedTo:(User *)user {
+    if ([user picture] != nil) {
+        ProfilePictureObj* pictureObj = [[ProfilePictureObj alloc] initWithUser:user reply:TRUE];
+        Message* m = [Message createWithObj:pictureObj forUsers: [self friends]];
+        [self sendMessage: m];
+    }
+    
+    ProfileObj* obj = [[ProfileObj alloc] initWithUser:user];
+    Message* m = [Message createWithObj:obj forUsers:[self friends]];
+    [self sendMessage:m];
 }
 
 @end

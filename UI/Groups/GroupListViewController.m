@@ -94,7 +94,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -103,7 +103,7 @@
     } else if (section == 1) {
         return @"Nearby Groups";
     } else {
-        return @"New group";
+        return nil;
     }
 }
 
@@ -123,7 +123,7 @@
     } else if (section == 1) {
         return [nearbyGroups count];
     } else {
-        return 1;
+        return 0;
     }
 }
 
@@ -132,49 +132,11 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     [cell setEditing:YES];
 
-    if (indexPath.section <= 1) {
-        Feed* group = [self feedForIndexPath:indexPath];
-        cell.textLabel.text = [group name];
-    } else {
-        cell.textLabel.text = @"Create new group";
-    }
-    
+    Feed* group = [self feedForIndexPath:indexPath];
+    cell.textLabel.text = [group name];    
     return cell;
 }
 
-#pragma mark - Table view delegate
-
-- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath 
-{
-    return NO;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0){
-        Feed* feed = [self feedForIndexPath:indexPath];
-        FeedViewController* feedViewController = (FeedViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"feed"];
-        [feedViewController setFeed: feed];
-        [[self navigationController] pushViewController:feedViewController animated:YES];
-        
-    } else if (indexPath.section == 1) {
-        Feed* feed = [self feedForIndexPath:indexPath];
-        UIAlertView* confirm = [[[UIAlertView alloc] initWithTitle:@"Join group" message:[NSString stringWithFormat:@"Join group %@?", [feed name]] delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease];        
-        [confirm setTag:ALERT_VIEW_JOIN];
-        [confirm show];
-    } else {
-        UIAlertView* newGroupName = [[[UIAlertView alloc] initWithTitle:@"New group" message:@"What do you want the new group to be named?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil] autorelease];
-        [newGroupName setTag:ALERT_VIEW_NEW];
-        [newGroupName setAlertViewStyle:UIAlertViewStylePlainTextInput];
-        
-        [newGroupName show];
-    }
-}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     Feed* group = nil;
@@ -203,6 +165,43 @@
     
     [[self tableView] deselectRowAtIndexPath:[[self tableView] indexPathForSelectedRow] animated:NO];
 }
+
+- (void)newGroupButtonClicked:(id)sender {
+    UIAlertView* newGroupName = [[[UIAlertView alloc] initWithTitle:@"New group" message:@"Please name the new group" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil] autorelease];
+    [newGroupName setTag:ALERT_VIEW_NEW];
+    [newGroupName setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    
+    [newGroupName show];
+}
+
+#pragma mark - Table view delegate
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    return NO;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0){
+        Feed* feed = [self feedForIndexPath:indexPath];
+        FeedViewController* feedViewController = (FeedViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"feed"];
+        [feedViewController setFeed: feed];
+        [[self navigationController] pushViewController:feedViewController animated:YES];
+        
+    } else if (indexPath.section == 1) {
+        Feed* feed = [self feedForIndexPath:indexPath];
+        UIAlertView* confirm = [[[UIAlertView alloc] initWithTitle:@"Join group" message:[NSString stringWithFormat:@"Join group %@?", [feed name]] delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease];        
+        [confirm setTag:ALERT_VIEW_JOIN];
+        [confirm show];
+    }
+}
+
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return (indexPath.section == 0);

@@ -122,6 +122,7 @@
         Message* msg = [self msgForIndexPath:indexPath];
         FeedItemTableCell* cell = (FeedItemTableCell*) [tableView dequeueReusableCellWithIdentifier:@"FeedItemCell"];
 
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [cell setItemView: [renderer renderUpdate: [self updateForMessage: msg]]];
         
         NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -228,7 +229,7 @@
         }
         case 1:// apps
         {   
-            NSString* appId = @"edu.stanford.mobisocial.tictactoe";
+            /*NSString* appId = @"edu.stanford.mobisocial.tictactoe";
             
             NSMutableArray* userKeys = [NSMutableArray array];
             for (User* user in [feed members]) {
@@ -253,7 +254,7 @@
             SignedMessage* msg = [[Musubi sharedInstance] sendMessage:[Message createWithObj:obj forApp:app]];
             [app setMessage:msg];
             
-            [self launchApp: app];
+            [self launchApp: app];*/
         }
         case 2: // broadcast
         {
@@ -333,6 +334,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     SignedMessage* msg = [self msgForIndexPath:indexPath];
     if (msg != nil) {
         NSString* appId = [msg appId];
@@ -346,7 +348,7 @@
         [app setMessage: msg];
         
         [self launchApp:app];
-    }
+    }*/
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

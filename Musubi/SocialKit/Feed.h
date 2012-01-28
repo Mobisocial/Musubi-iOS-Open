@@ -28,6 +28,10 @@
 #import "User.h"
 
 @interface Feed : NSObject {
+    NSString* type;
+    
+    
+    
     NSString* name;
     NSString* session;
     NSString* key;

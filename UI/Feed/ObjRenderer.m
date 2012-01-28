@@ -17,31 +17,32 @@
 - (UIView *)renderUpdate:(id<Update>)update
 {
    if ([update isMemberOfClass:[StatusUpdate class]]) {
-        NSString* text = ((StatusUpdate*) update).text;
+       NSString* text = ((StatusUpdate*) update).text;
         
-        UILabel* label = [[[UILabel alloc] init] autorelease];
-        [label setFont: [UIFont systemFontOfSize:15]];
-        [label setText: text];
-        [label setLineBreakMode:UILineBreakModeWordWrap];
+       UILabel* label = [[[UILabel alloc] init] autorelease];
+       [label setNumberOfLines:0];
+       [label setFont: [UIFont systemFontOfSize:15]];
+       [label setText: text];
+       [label setLineBreakMode:UILineBreakModeWordWrap];
         
-        CGSize size = CGSizeMake(320, [self renderHeightForUpdate:update]);
-        [label setFrame:CGRectMake(0, 0, size.width, size.height)];
+       CGSize size = CGSizeMake(320, [self renderHeightForUpdate:update]);
+       [label setFrame:CGRectMake(0, 0, size.width, size.height)];
         
-        return label;
-    } else if ([update isMemberOfClass:[PictureUpdate class]]) {
-        UIImage* image = ((PictureUpdate*) update).image;
-        UIImageView* view = [[[UIImageView alloc] initWithImage:image] autorelease];
-        [view setFrame:CGRectMake(10, 10, [image size].width + 10, [image size].height + 10)];
-        return view;
-    } else if ([update isMemberOfClass:[AppStateUpdate class]]) {
-        NSString* html = [[[update obj] data] objectForKey:@"html"];
-        
-        UIWebView* webView = [[[UIWebView alloc] init] autorelease];
-        [webView loadHTMLString:html baseURL:nil];        
-        [webView setFrame:CGRectMake(0, 0, 320, 0)];
-        ((UIScrollView*)[webView.subviews objectAtIndex:0]).bounces = NO;
-
-        return webView;
+       return label;
+   } else if ([update isMemberOfClass:[PictureUpdate class]]) {
+       UIImage* image = ((PictureUpdate*) update).image;
+       UIImageView* view = [[[UIImageView alloc] initWithImage:image] autorelease];
+       [view setFrame:CGRectMake(10, 10, [image size].width + 10, [image size].height + 10)];
+       return view;
+   } else if ([update isMemberOfClass:[AppStateUpdate class]]) {
+       NSString* html = [[[update obj] data] objectForKey:@"html"];
+       
+       UIWebView* webView = [[[UIWebView alloc] init] autorelease];
+       [webView loadHTMLString:html baseURL:nil];        
+       [webView setFrame:CGRectMake(0, 0, 320, 0)];
+       ((UIScrollView*)[webView.subviews objectAtIndex:0]).bounces = NO;
+       
+       return webView;
     }
 
     return nil;

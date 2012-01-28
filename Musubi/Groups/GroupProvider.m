@@ -50,7 +50,7 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
     
     NSString* session = [group session];
     NSString* pubKeyB64 = [[Identity sharedInstance] publicKeyBase64];
-    NSString* email = [[Identity sharedInstance] email];
+    NSString* email = [[[Identity sharedInstance] user] name];
     NSURL* url = [NSURL URLWithString:@"http://suif.stanford.edu/dungbeetle/index.php"];
     
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithCapacity:4];

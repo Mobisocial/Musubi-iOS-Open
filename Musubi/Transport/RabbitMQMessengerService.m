@@ -150,7 +150,7 @@
                 [RabbitMQMessengerService amqpCheckReplyForConn:conn inContext:@"Opening channel"];
                 
                 // Declare our queue (by public key)
-                NSString* queueName = [RabbitMQMessengerService queueForKey:[[identity keyPair] publicKey]];
+                NSString* queueName = [RabbitMQMessengerService queueForKey:[[identity deviceKey] publicKey]];
                 const char* cQueueName = [queueName cStringUsingEncoding:NSUTF8StringEncoding];
                 
                 amqp_queue_declare_ok_t *r = amqp_queue_declare(conn, 1, amqp_cstring_bytes(cQueueName), 0, 1, 0, 0, amqp_empty_table);
