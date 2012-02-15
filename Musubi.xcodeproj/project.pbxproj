@@ -96,6 +96,9 @@
 		D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
 		D2F4F23A147C1D910080474E /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F4F239147C1D910080474E /* App.m */; };
 		D2F4F23D147C59070080474E /* AppStateUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F4F23C147C59070080474E /* AppStateUpdate.m */; };
+		D2F663A514D38415006BE8AE /* FixedFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F663A414D38415006BE8AE /* FixedFeed.m */; };
+		D2F9B28C14DC76C7003CDD43 /* FeedFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F9B28B14DC76C7003CDD43 /* FeedFactory.m */; };
+		D2F9B28F14DCAB9F003CDD43 /* GroupFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F9B28E14DCAB9F003CDD43 /* GroupFeed.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3677,6 +3680,12 @@
 		D2F4F239147C1D910080474E /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = App.m; sourceTree = "<group>"; };
 		D2F4F23B147C59060080474E /* AppStateUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppStateUpdate.h; sourceTree = "<group>"; };
 		D2F4F23C147C59070080474E /* AppStateUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppStateUpdate.m; sourceTree = "<group>"; };
+		D2F663A314D38415006BE8AE /* FixedFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedFeed.h; sourceTree = "<group>"; };
+		D2F663A414D38415006BE8AE /* FixedFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixedFeed.m; sourceTree = "<group>"; };
+		D2F9B28A14DC76C7003CDD43 /* FeedFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedFactory.h; sourceTree = "<group>"; };
+		D2F9B28B14DC76C7003CDD43 /* FeedFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedFactory.m; sourceTree = "<group>"; };
+		D2F9B28D14DCAB9F003CDD43 /* GroupFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupFeed.h; sourceTree = "<group>"; };
+		D2F9B28E14DCAB9F003CDD43 /* GroupFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupFeed.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3735,6 +3744,7 @@
 		D26D3691147B3ED300C4FE93 /* Musubi */ = {
 			isa = PBXGroup;
 			children = (
+				D2F663A214D37A74006BE8AE /* Feed */,
 				D26D3692147B3ED300C4FE93 /* App */,
 				D26D369B147B3ED300C4FE93 /* Crypto */,
 				D26D36A8147B3ED400C4FE93 /* Groups */,
@@ -3839,6 +3849,12 @@
 				D26D36CB147B3ED400C4FE93 /* User.m */,
 				D2F4F238147C1D910080474E /* App.h */,
 				D2F4F239147C1D910080474E /* App.m */,
+				D2F663A314D38415006BE8AE /* FixedFeed.h */,
+				D2F663A414D38415006BE8AE /* FixedFeed.m */,
+				D2F9B28A14DC76C7003CDD43 /* FeedFactory.h */,
+				D2F9B28B14DC76C7003CDD43 /* FeedFactory.m */,
+				D2F9B28D14DCAB9F003CDD43 /* GroupFeed.h */,
+				D2F9B28E14DCAB9F003CDD43 /* GroupFeed.m */,
 			);
 			path = SocialKit;
 			sourceTree = "<group>";
@@ -9184,6 +9200,13 @@
 			path = assets;
 			sourceTree = "<group>";
 		};
+		D2F663A214D37A74006BE8AE /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Feed;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -9434,6 +9457,9 @@
 				D2B939C714BD0C1E00C5F777 /* ProfilePictureObj.m in Sources */,
 				D2B939CA14BD196F00C5F777 /* ProfileObj.m in Sources */,
 				D21CDDEE14CA28A1005C6011 /* MultiCryptoMessageFormat.m in Sources */,
+				D2F663A514D38415006BE8AE /* FixedFeed.m in Sources */,
+				D2F9B28C14DC76C7003CDD43 /* FeedFactory.m in Sources */,
+				D2F9B28F14DCAB9F003CDD43 /* GroupFeed.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

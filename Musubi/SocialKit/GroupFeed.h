@@ -16,25 +16,28 @@
 
 
 //
-//  SignedMessage.h
-//  musubi
+//  GroupFeed.h
+//  Musubi
 //
-//  Created by Willem Bult on 11/10/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 2/3/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Message.h"
+#import "Feed.h"
 
-#define SIGNEDMESSAGE_IMPORTED 1
+#define FEED_TYPE_GROUP 0
 
-@interface SignedMessage : Message {
-    NSString* hash;    
+@interface GroupFeed : Feed {
+    NSString* key;
+    NSString* title;
 }
 
-@property (nonatomic, retain) NSString* hash;
 
-- (NSDictionary*) json;
-- (BOOL) belongsToHash: (NSString*) h;
-+ (id) createFromMessage: (Message*) msg withHash: (NSString*) hash;
+@property (nonatomic,retain) NSString* key;
+@property (nonatomic,retain) NSString* title;
+
+- (id) initWithName: (NSString*) name andURI: (NSURL*) uri;
+- (id) initWithName: (NSString*) name key: (NSString*) k title: (NSString*) title;
++ (id) createWithTitle:(NSString *)title;
 
 @end

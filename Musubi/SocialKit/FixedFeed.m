@@ -16,25 +16,23 @@
 
 
 //
-//  SignedMessage.h
-//  musubi
+//  FixedFeed.m
+//  Musubi
 //
-//  Created by Willem Bult on 11/10/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 1/27/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Message.h"
+#import "FixedFeed.h"
 
-#define SIGNEDMESSAGE_IMPORTED 1
+@implementation FixedFeed
 
-@interface SignedMessage : Message {
-    NSString* hash;    
+- (id)initWithName:(NSString *)n andURI: (NSURL*)u {
+    self = [super initWithName:n type:FEED_TYPE_FIXED uri:u];
+    if (self != nil) {
+        
+    }
+    return self;
 }
-
-@property (nonatomic, retain) NSString* hash;
-
-- (NSDictionary*) json;
-- (BOOL) belongsToHash: (NSString*) h;
-+ (id) createFromMessage: (Message*) msg withHash: (NSString*) hash;
 
 @end

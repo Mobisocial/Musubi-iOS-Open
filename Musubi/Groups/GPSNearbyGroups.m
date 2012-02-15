@@ -75,24 +75,24 @@
         SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
         NSArray* json = [parser objectWithData: responseData];
 
-        NSMutableArray* groups = [NSMutableArray arrayWithCapacity:[json count]];
+        NSMutableArray* feeds = [NSMutableArray arrayWithCapacity:[json count]];
         for (int i=0; i<[json count]; i++) {
             NSDictionary* dict = [parser objectWithString:[json objectAtIndex:i]];
-            Feed* group = [Feed feedFromUri:[NSURL URLWithString:[dict valueForKey:@"feed_uri"]]];
-            [groups addObject:group];
+            GroupFeed* feed = [FeedFactory feedFromUri:[NSURL URLWithString:[dict valueForKey:@"feed_uri"]]];
+            [feeds addObject:feed];
         }
         
-        [delegate updatedGroups:groups];
+        [delegate updatedGroups:feeds];
     }
 }
 
 
-- (void)broadcastGroup: (Feed *) group during: (int) minutes withPassword: (NSString*) password {
+- (void)broadcastGroup: (GroupFeed *) feed during: (int) minutes withPassword: (NSString*) password {
     CLLocationCoordinate2D loc = [locationCtrl location].coordinate;
     
     NSMutableDictionary* queryComponents = [NSMutableDictionary dictionaryWithCapacity:3];
-    [queryComponents setObject:group.name forKey:@"group_name"];
-    [queryComponents setObject:[group uri] forKey:@"feed_uri"];
+    [queryComponents setObject:feed.name forKey:@"group_name"];
+    [queryComponents setObject:[feed uri] forKey:@"feed_uri"];
     [queryComponents setObject:[NSString stringWithFormat:@"%d", minutes] forKey:@"length"];
     [queryComponents setObject:[NSString stringWithFormat:@"%f", loc.latitude] forKey:@"lat"];
     [queryComponents setObject:[NSString stringWithFormat:@"%f", loc.longitude] forKey:@"lng"];    

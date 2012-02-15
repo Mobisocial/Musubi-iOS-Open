@@ -27,32 +27,17 @@
 
 @implementation Feed
 
-@synthesize name, session, key, members;
+@synthesize type, name, uri, members;
 
-- (id)initWithName:(NSString *)n session:(NSString *)s key:(NSString *)k {
+- (id)initWithName:(NSString *)n type:(int) t uri:(NSURL*)u {
     self = [super init];
     if (self != nil) {
+        [self setType: t];
         [self setName: n];
-        [self setSession: s];
-        [self setKey: k];
+        [self setUri: u];
         [self setMembers: [NSArray array]];
     }
     return self;
-}
-
-+ (id) feedFromUri:(NSURL *)uri {
-    NSDictionary* uriComponents = [uri queryComponents];
-    NSString* session = [uriComponents objectForKey:@"session"];
-    NSString* key = [uriComponents objectForKey:@"key"];
-    NSString* name = [uriComponents objectForKey:@"groupName"];
-    return [[[Feed alloc] initWithName:name session:session key:key] autorelease];
-}
-
-+ (id) feedWithName:(NSString *)name {
-    NSString* key = [[NSData generateSecureRandomKeyOf:16] encodeBase64];
-    NSString* session = [NSString stringWithFormat:@"%@", CFUUIDCreateString(NULL, CFUUIDCreate(NULL))];
-    
-    return [[[Feed alloc] initWithName:name session: session key:key] autorelease];
 }
 
 - (NSArray *)publicKeys {
@@ -66,9 +51,9 @@
 - (NSDictionary *)json {
     NSMutableDictionary* dict = [[[NSMutableDictionary alloc] initWithCapacity:6] autorelease];
     [dict setObject:[self name] forKey:@"name"];
-    [dict setObject:[[self uri] description] forKey:@"uri"];
-    [dict setObject:[self session] forKey:@"session"];
-    [dict setObject:[self key] forKey:@"key"];
+//    [dict setObject:[[self uri] description] forKey:@"uri"];
+//    [dict setObject:[self session] forKey:@"session"];
+//    [dict setObject:[self key] forKey:@"key"];
     
     NSMutableArray* memberDict = [[[NSMutableArray alloc] init] autorelease];
     for (User* user in members) {
@@ -79,7 +64,7 @@
     
     return dict;
 }
-
+/*
 - (NSURL *)uri {
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:3];
     [dict setValue:[NSString stringWithFormat:@"%@", session] forKey:@"session"];
@@ -87,17 +72,13 @@
     [dict setValue:key forKey:@"key"];
     
     return [NSURL URLWithString:[NSString stringWithFormat: @"dungbeetle-group-session://suif.stanford.edu/dungbeetle/index.php?%@", [dict stringFromQueryComponents]]];
-}
+}*/
 
 
 - (NSString *)description {
     NSMutableString* desc = [NSMutableString string];
     [desc appendString:@"<Group: "];
     [desc appendString:name];
-    [desc appendString:@", "];
-    [desc appendString:session];
-    [desc appendString:@", "];
-    [desc appendString:key];
     [desc appendString:@", ["];
     for (User* member in members) {
         [desc appendString:[NSString stringWithFormat:@"%@, ", [member description]]];

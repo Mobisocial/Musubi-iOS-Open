@@ -28,7 +28,7 @@
 #import "ObjectStore.h"
 #import "NSData+Crypto.h"
 #import "SBJsonParser.h"
-#import "Feed.h"
+#import "GroupFeed.h"
 #import "User.h"
 #import "XQueryComponents.h"
 #import "NSData+Base64.h"
@@ -38,8 +38,8 @@
 @interface GroupProvider : NSObject {
 }
 
-- (void)updateGroup: (Feed*) group sinceVersion: (int) version;
-- (void)broadcastGroup: (Feed *) group atLatitude: (int) lat andLongitude: (int) lng during: (int) minutes withPassword: (NSString*) password ;
+- (void)updateFeed: (GroupFeed*) feed sinceVersion: (int) version;
+- (void)broadcastGroup: (GroupFeed *) feed atLatitude: (int) lat andLongitude: (int) lng during: (int) minutes withPassword: (NSString*) password ;
 - (NSString*) encryptAndBase64: (NSString*) str withKey: (NSData*) key;
 - (NSString*) decryptAndDecodeBase64: (NSString*) str withKey: (NSData*) key;
 

@@ -26,6 +26,12 @@
 #import "Message.h"
 #import "SBJson.h"
 #import "Identity.h"
+#import "App.h"
+
+#ifndef SIGNEDMESSAGE_IMPORTED
+#import "SignedMessage.h"
+#endif
+
 
 @implementation Message
 
@@ -35,14 +41,14 @@
     return [NSString stringWithFormat:@"<Message: %@, %@, %@, %@, %@, %@, %@>", obj, parentHash, sender, recipients, appId, feedName, timestamp];
 }
 
-+ (id) createWithObj: (Obj*) obj forApp: (id) app {
++ (id) createWithObj: (Obj*) obj forApp: (App*) app {
     Message* msg = [Message createWithObj:obj forUsers: [[app feed] members]];
     [msg setAppId:[app id]];
-    [msg setFeedName:[[app feed] session]];
+    [msg setFeedName:[[app feed] name]];
     if ([[app message] parentHash] != nil) {
         [msg setParentHash: [[app message] parentHash]];
     } else {
-        [msg setParentHash: [[app message] hash]];
+        [msg setParentHash: [(SignedMessage*)[app message] hash]];
     }
     
     return msg;

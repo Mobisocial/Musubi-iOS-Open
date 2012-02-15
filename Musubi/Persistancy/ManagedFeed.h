@@ -27,7 +27,7 @@
 #import <CoreData/CoreData.h>
 #import "ManagedMessage.h"
 #import "SBJson.h"
-#import "Feed.h"
+#import "GroupFeed.h"
 
 @interface ManagedFeed : NSManagedObject
 

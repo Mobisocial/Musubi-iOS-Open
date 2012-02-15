@@ -60,7 +60,7 @@
 
     messages = [[NSMutableArray alloc] init];
     
-    for (ManagedMessage* msg in [[[Musubi sharedInstance] feedByName: [feed session]] allMessages]) {
+    for (ManagedMessage* msg in [[[Musubi sharedInstance] feedByName: [feed name]] allMessages]) {
         [self displayMessage:[msg message]];
     }
     [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:FALSE];

@@ -36,7 +36,5 @@
 - (void) appendLengthBigEndian32AndData: (NSData*) src to: (NSMutableData*) dest;    
 - (NSString*) personIdForPublicKey: (OpenSSLPublicKey*) key;
 
-- (NSData*) packMessage: (Message*) msg;
-- (SignedMessage*) unpackMessage: (NSData *)plain;
 - (NSData*) possiblyDecodeBase64: (NSString*) str;
 @end

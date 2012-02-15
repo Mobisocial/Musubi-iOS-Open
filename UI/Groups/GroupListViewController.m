@@ -144,9 +144,9 @@
     if ((alertView.tag == ALERT_VIEW_JOIN) && buttonIndex == 1) {        
         group = [self feedForIndexPath:[[self tableView] indexPathForSelectedRow]];
     } else if (alertView.tag == ALERT_VIEW_NEW && buttonIndex == 1) {
-        NSString* name = [alertView textFieldAtIndex:0].text;
-        if ([name length] > 0) {
-            group = [Feed feedWithName:name];
+        NSString* title = [alertView textFieldAtIndex:0].text;
+        if ([title length] > 0) {
+            group = [GroupFeed createWithTitle:title];
         } else {
             [[[[UIAlertView alloc] initWithTitle:@"Oops" message:@"Cannot create a group with an empty name" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] autorelease] show];
         }

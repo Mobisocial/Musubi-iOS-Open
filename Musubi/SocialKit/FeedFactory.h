@@ -16,25 +16,18 @@
 
 
 //
-//  SignedMessage.h
-//  musubi
+//  FeedFactory.h
+//  Musubi
 //
-//  Created by Willem Bult on 11/10/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 2/3/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Message.h"
+#import "GroupFeed.h"
+#import "FixedFeed.h"
 
-#define SIGNEDMESSAGE_IMPORTED 1
 
-@interface SignedMessage : Message {
-    NSString* hash;    
-}
-
-@property (nonatomic, retain) NSString* hash;
-
-- (NSDictionary*) json;
-- (BOOL) belongsToHash: (NSString*) h;
-+ (id) createFromMessage: (Message*) msg withHash: (NSString*) hash;
-
+@interface FeedFactory : Feed
++ (id) feedFromUri: (NSURL*) uri;
++ (int) feedTypeFromName: (NSString*) name;
 @end

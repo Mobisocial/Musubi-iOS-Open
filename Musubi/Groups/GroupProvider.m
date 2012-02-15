@@ -45,10 +45,10 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
     return url;
 }
 
-- (void)updateGroup: (Feed*) group sinceVersion: (int) version {
-    NSData* key = [[group key] decodeBase64];
+- (void)updateFeed: (GroupFeed*) feed sinceVersion: (int) version {
+    NSData* key = [[feed key] decodeBase64];
     
-    NSString* session = [group session];
+    NSString* session = [feed name];
     NSString* pubKeyB64 = [[Identity sharedInstance] publicKeyBase64];
     NSString* email = [[[Identity sharedInstance] user] name];
     NSURL* url = [NSURL URLWithString:@"http://suif.stanford.edu/dungbeetle/index.php"];
@@ -92,7 +92,7 @@ static const UInt8 privateKeyIdentifier[] = "edu.stanford.mobisocial.musubi\0";
             }
         }
         
-        [group setMembers:members];
+        [feed setMembers:members];
     }
 }
 

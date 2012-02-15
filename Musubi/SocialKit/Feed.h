@@ -28,27 +28,20 @@
 #import "User.h"
 
 @interface Feed : NSObject {
-    NSString* type;
-    
-    
-    
+    int type;
     NSString* name;
-    NSString* session;
-    NSString* key;
+    NSURL* uri;
     NSArray* members;
 }
 
+@property (nonatomic, assign) int type;
 @property (nonatomic, retain) NSString* name;
-@property (nonatomic, retain) NSString* session;
-@property (nonatomic, retain) NSString* key;
+@property (nonatomic, retain) NSURL* uri;
 @property (nonatomic, retain) NSArray* members;
 
-- (id) initWithName: (NSString*) n session: (NSString*) s key: (NSString*) k;
-- (NSArray*) publicKeys;
+- (id)initWithName:(NSString *)n type:(int) t uri:(NSURL*)u;
 - (NSDictionary *)json;
-- (NSURL*) uri;
-+ (id) feedFromUri: (NSURL*) uri;
-+ (id) feedWithName: (NSString*) name;
+//- (NSURL*) uri;
 
 
 @end

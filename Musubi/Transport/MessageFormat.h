@@ -32,6 +32,9 @@
 
 - (EncodedMessage*) encodeMessage: (Message*) msg withKeyPair: (OpenSSLKeyPair*) keyPair;
 - (SignedMessage *) decodeMessage: (EncodedMessage *) msg withKeyPair: (OpenSSLKeyPair *) keyPair;
+- (NSData*) packMessage: (Message*) msg;
+- (SignedMessage*) unpackMessage: (NSData *)plain;
+
 + (MessageFormat*) defaultMessageFormat;
 
 @end

@@ -104,10 +104,10 @@
     return [ManagedUser withPublicKey:[id decodeBase64] inContext:[self managedObjectContext]];
 }
 
-- (void)updateFromFeed:(Feed *)feed
+- (void)updateFromFeed:(GroupFeed *)feed
 {
-    [self setValue:[feed session] forKey:@"session"];
-    [self setValue:[feed name] forKey:@"name"];
+    [self setValue:[feed name] forKey:@"session"];
+    [self setValue:[feed title] forKey:@"name"];
     [self setValue:[feed key] forKey:@"key"];
     
     for (User* member in [feed members]) {
@@ -125,7 +125,7 @@
 
 - (Feed*) feed
 {
-    Feed* feed = [[Feed alloc] initWithName:[self name] session:[self session] key:[self key]];
+    GroupFeed* feed = [[GroupFeed alloc] initWithName:[self session] key:[self key] title:[self name]];
 
     NSMutableArray* members = [NSMutableArray array];
     for (ManagedUser* member in [self allMembers]) {
@@ -136,8 +136,8 @@
     return feed;
 }
 
-+ (id)createOrSave:(Feed *)feed inContext:(NSManagedObjectContext *)context {
-    ManagedFeed* managedFeed = [ManagedFeed withSession:[feed session] inContext:context];
++ (id)createOrSave:(GroupFeed *)feed inContext:(NSManagedObjectContext *)context {
+    ManagedFeed* managedFeed = [ManagedFeed withSession:[feed name] inContext:context];
     
     if (managedFeed == nil) {
         managedFeed = [NSEntityDescription insertNewObjectForEntityForName:@"Feed" inManagedObjectContext: context];

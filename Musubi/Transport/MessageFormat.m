@@ -36,6 +36,14 @@
     @throw [NSException exceptionWithName:@"AbstractClass" reason:@"This method must be implemented in an extending class" userInfo:nil];
 }
 
+- (NSData *)packMessage:(Message *)msg {
+    @throw [NSException exceptionWithName:@"AbstractClass" reason:@"This method must be implemented in an extending class" userInfo:nil];
+}
+
+- (SignedMessage *)unpackMessage:(NSData *)plain {
+    @throw [NSException exceptionWithName:@"AbstractClass" reason:@"This method must be implemented in an extending class" userInfo:nil];
+}
+
 + (MessageFormat *) defaultMessageFormat {
     return [[[DefaultMessageFormat alloc] init] autorelease];
 }

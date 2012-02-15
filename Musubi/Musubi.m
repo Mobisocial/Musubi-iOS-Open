@@ -99,10 +99,14 @@ static Musubi* _sharedInstance = nil;
         NSLog(@"Somebody joined the feed: %@", [msg sender]);
         
         Feed* feed = [mgdFeed feed];
-        NSLog(@"Old: %@", feed);
-        [[[[GroupProvider alloc] init] autorelease] updateGroup: feed sinceVersion:-1];
-        [mgdFeed updateFromFeed:feed];
-        NSLog(@"New: %@", feed);
+        if ([feed isKindOfClass:GroupFeed.class]) {
+            NSLog(@"Old: %@", feed);
+            [[[[GroupProvider alloc] init] autorelease] updateFeed: (GroupFeed*) feed sinceVersion:-1];
+            [mgdFeed updateFromFeed:feed];
+            NSLog(@"New: %@", feed);
+        } else {
+            @throw @"A JoinNotificationObj was sent for a non-group feed";
+        }
     }
 
     
@@ -120,16 +124,8 @@ static Musubi* _sharedInstance = nil;
 
 - (NSArray *)groups {
     NSMutableArray* groups = [NSMutableArray array];
-    for (ManagedFeed* feed in [[ObjectStore sharedInstance] feeds]) {
-        Feed* group = [[[Feed alloc] initWithName:[feed name] session:[feed session] key:[feed key]] autorelease];
-
-        NSMutableArray* members = [NSMutableArray array];
-        for (ManagedUser* member in [feed allMembers]) {
-            [members addObject:[member user]];
-        }
-        [group setMembers:members];
-        
-        [groups addObject: group];
+    for (ManagedFeed* mgdFeed in [[ObjectStore sharedInstance] feeds]) {
+        [groups addObject: [mgdFeed feed]];
     }
     return groups;
 }
@@ -143,33 +139,33 @@ static Musubi* _sharedInstance = nil;
     return friends;
 }
 
-- (ManagedFeed*) joinGroup:(Feed *)group {
-    [[[[GroupProvider alloc] init] autorelease] updateGroup:group sinceVersion:-1];
+- (ManagedFeed*) joinGroupFeed:(GroupFeed *)feed {
+    [[[[GroupProvider alloc] init] autorelease] updateFeed:feed sinceVersion:-1];
     
-    ManagedFeed* existing = [[ObjectStore sharedInstance] feedForSession:[group session]];
+    ManagedFeed* existing = [[ObjectStore sharedInstance] feedForSession:[feed name]];
     if (existing != nil) {
         
-        JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[group uri] absoluteString]] autorelease];
+        JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[feed uri] absoluteString]] autorelease];
         
         App* app = [[[App alloc] init] autorelease];
         [app setId: kMusubiAppId];
-        [app setFeed: group];
+        [app setFeed: feed];
         [self sendMessage:[Message createWithObj:jno forApp:app]];
         
         return existing;
     }
     
     
-    ManagedFeed* feed = [[ObjectStore sharedInstance] storeFeed: group];
+    ManagedFeed* mgdFeed = [[ObjectStore sharedInstance] storeFeed: feed];
     
-    JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[group uri] absoluteString]] autorelease];
+    JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[feed uri] absoluteString]] autorelease];
 
     App* app = [[[App alloc] init] autorelease];
     [app setId: kMusubiAppId];
-    [app setFeed: group];
+    [app setFeed: feed];
     [self sendMessage:[Message createWithObj:jno forApp:app]];
     
-    return feed;
+    return mgdFeed;
 }
 
 - (ManagedFeed *)feedByName:(NSString *)feedName {
@@ -178,10 +174,10 @@ static Musubi* _sharedInstance = nil;
 
 
 - (void)listenToGroup:(Feed *)group withListener:(id<MusubiFeedListener>)listener {
-    NSMutableArray* listeners = [feedListeners objectForKey: [group session]];
+    NSMutableArray* listeners = [feedListeners objectForKey: [group name]];
     if (listeners == nil) {
         listeners = [NSMutableArray arrayWithCapacity:1];
-        [feedListeners setObject:listeners forKey:[group session]];
+        [feedListeners setObject:listeners forKey:[group name]];
     }
     
     [listeners addObject:listener];
