@@ -4,20 +4,50 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>MusubiAppTest.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
+		</dict>
+		<key>MusubiTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
 		<key>musubi.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>D216DE2A14F48761001A4166</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D216DE4014F487C0001A4166</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D216DE5814F48951001A4166</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D298F9F1143CE6DF000831DD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>D298FA13143CE6DF000831DD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D2CB074114EDDD280006D1E9</key>
 		<dict>
 			<key>primary</key>
 			<true/>

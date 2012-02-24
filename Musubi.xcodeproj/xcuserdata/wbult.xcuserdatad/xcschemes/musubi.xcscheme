@@ -31,7 +31,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D298FA13143CE6DF000831DD"
+               BlueprintIdentifier = "D216DE4014F487C0001A4166"
                BuildableName = "MusubiTests.octest"
                BlueprintName = "MusubiTests"
                ReferencedContainer = "container:Musubi.xcodeproj">

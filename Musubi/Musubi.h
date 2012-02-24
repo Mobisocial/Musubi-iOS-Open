@@ -33,6 +33,7 @@
 #import "ProfilePictureObj.h"
 #import "MessageFormat.h"
 #import "RabbitMQMessengerService.h"
+#import "IBEncryptionScheme.h"
 
 static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
