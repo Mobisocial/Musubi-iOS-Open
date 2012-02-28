@@ -25,7 +25,9 @@
 
 #import "MusubiAppTest.h"
 #import "IBEncryptionScheme.h"
-
+#import "MEncodedMessage.h"
+#import "BSONEncoder.h"
+#import "Recipient.h"
 
 #include <stdio.h>
 #include <openssl/sha.h>
@@ -169,6 +171,79 @@
     ((char*)[signature bytes])[9]++;
     ok = [userScheme verifySignature: signature forHash: hash withIdentity: ident];
     STAssertFalse(ok, @"sign => verify (wrong identity) : failed to mismatch");
+}
+
+- (void)testBSONEncodeDecodeSecret
+{
+    Secret* s = [[Secret alloc] init];
+    [s setH:[@"hash" dataUsingEncoding:NSUTF8StringEncoding]];
+    [s setQ:1234];
+    [s setK:[@"key" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSData* bson = [BSONEncoder encodeSecret: s];
+    STAssertNotNil(bson, @"BSON should not be nil");
+    
+    Secret* s2 = [BSONEncoder decodeSecret:bson];
+    
+    STAssertTrue([s.h isEqualToData: s2.h], @"Secret H don't match");
+    STAssertTrue(s.q == s2.q, @"Secret Q don't match");
+    STAssertTrue([s.k isEqualToData: s2.k], @"Secret K don't match");
+}
+
+- (void)testBSONEncodeDecodeMessage
+{
+    Recipient* r1 = [[Recipient alloc] init];
+    [r1 setI: [@"serialized hashed identity 1" dataUsingEncoding:NSUTF8StringEncoding]];
+    [r1 setK: [@"encrypted key block 1" dataUsingEncoding:NSUTF8StringEncoding]];
+    [r1 setS: [@"signature block 1" dataUsingEncoding:NSUTF8StringEncoding]];
+    [r1 setD: [@"encrypted secrets 1" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    Recipient* r2 = [[Recipient alloc] init];
+    [r2 setI: [@"serialized hashed identity 2" dataUsingEncoding:NSUTF8StringEncoding]];
+    [r2 setK: [@"encrypted key block 2" dataUsingEncoding:NSUTF8StringEncoding]];
+    [r2 setS: [@"signature block 2" dataUsingEncoding:NSUTF8StringEncoding]];
+    [r2 setD: [@"encrypted secrets 2" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSMutableArray* r = [NSMutableArray arrayWithCapacity:2];
+    [r addObject:r1];
+    [r addObject:r2];
+    
+    Sender* s = [[Sender alloc] init];
+    [s setI: [@"serialized hashed identity" dataUsingEncoding:NSUTF8StringEncoding]];
+    [s setD: [@"device identifier" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    Message* m = [[Message alloc] init];
+    [m setV: 3];
+    [m setS: s];
+    [m setI: [@"init vector" dataUsingEncoding:NSUTF8StringEncoding]];
+    [m setL: YES];
+    [m setA: [@"app" dataUsingEncoding:NSUTF8StringEncoding]];
+    [m setR: r];
+    [m setD: [@"encrypted data" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSData* bson = [BSONEncoder encodeMessage:m];
+    STAssertNotNil(bson, @"BSON should not be nil");
+    
+    Message* m2 = [BSONEncoder decodeMessage:bson];
+    
+    STAssertTrue(m.v == m2.v, @"Version doesn't match");
+    STAssertTrue([m.s.i isEqualToData: m2.s.i], @"Sender identity doesn't match");
+    STAssertTrue([m.s.d isEqualToData: m2.s.d], @"Sender device doesn't match");
+    STAssertTrue([m.i isEqualToData: m2.i], @"Init vector doesn't match");
+    STAssertTrue(m.l == m2.l, @"Blind doesn't match");
+    STAssertTrue([m.a isEqualToData: m2.a], @"App doesn't match");
+    STAssertTrue([m.r count] == [m2.r count], @"Number of recipients doesn't match");
+    for (int i=0; i<[m.r count]; i++) {
+        Recipient* r = [m.r objectAtIndex:i];
+        Recipient* r2 = [m2.r objectAtIndex:i];
+        
+        STAssertTrue([r.i isEqualToData: r2.i], @"Recipient identity doesn't match");       
+        STAssertTrue([r.k isEqualToData: r2.k], @"Recipient key block doesn't match");       
+        STAssertTrue([r.s isEqualToData: r2.s], @"Recipient signature block doesn't match");       
+        STAssertTrue([r.d isEqualToData: r2.d], @"Recipient secrets don't match");       
+    }
+    STAssertTrue([m.d isEqualToData: m2.d], @"Encrypted data doesn't match");
+    
 }
 
 @end

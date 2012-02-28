@@ -26,6 +26,7 @@
 #import "ManagedMessage.h"
 #import "ManagedFeed.h"
 #import "SignedMessage.h"
+#import "Obj.h"
 
 @implementation ManagedMessage
 
@@ -37,7 +38,7 @@
 @dynamic type;
 @dynamic parent;
 @dynamic id;
-
+/*
 - (SignedMessage*) message {
     
     NSPropertyListFormat format;
@@ -58,7 +59,7 @@
     [msg setParentHash:[self parent]];
     
     return msg;
-}
+}*/
 
 /*
 - (NSArray*) childMessages {

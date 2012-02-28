@@ -55,6 +55,14 @@
     return [self runAlgorithm:kCCAlgorithmAES128 andOptions:kCCOptionPKCS7Padding inMode:kCCDecrypt withKey:key andIV:iv];
 }
 
+- (NSData *) encryptWithAES128CBCZeroPaddedWithKey:(NSData *)key andIV:(NSData *)iv {
+    return [self runAlgorithm:kCCAlgorithmAES128 andOptions:0 inMode:kCCEncrypt withKey:key andIV:iv];    
+}
+
+- (NSData *) decryptWithAES128CBCZeroPaddedWithKey:(NSData *)key andIV:(NSData *)iv {
+    return [self runAlgorithm:kCCAlgorithmAES128 andOptions:0 inMode:kCCDecrypt withKey:key andIV:iv];
+}
+
 - (BOOL) verifySignature: (NSData*) sig withKey: (SecKeyRef) key {
     OSStatus status = SecKeyRawVerify(key, kSecPaddingPKCS1SHA1, [self bytes], [self length], [sig bytes], [sig length]);
     if(status == noErr) {
@@ -107,6 +115,16 @@
     CC_SHA1_Update(&ctx, [self bytes], [self length]);
     CC_SHA1_Final(digest, &ctx);
     return [NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH];
+}
+
+- (NSData*) sha256Digest {
+    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
+    
+    CC_SHA256_CTX ctx;
+    CC_SHA256_Init(&ctx);
+    CC_SHA256_Update(&ctx, [self bytes], [self length]);
+    CC_SHA256_Final(digest, &ctx);
+    return [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
 }
 
 - (NSString*) hex {

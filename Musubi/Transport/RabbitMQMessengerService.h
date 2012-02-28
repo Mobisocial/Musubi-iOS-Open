@@ -28,24 +28,22 @@
 #import "amqp.h"
 #import "amqp_framing.h"
 #import "utils.h"
-#import "EncodedMessage.h"
-#import "Identity.h"
 #import "Transport.h"
-
+/*
 @interface RabbitMQQueuedMessage : NSObject {
-    EncodedMessage* message;
+    MEncodedMessage* message;
     NSArray* recipients;
 }
 
-@property (nonatomic,retain) EncodedMessage* message;
+@property (nonatomic,retain) MEncodedMessage* message;
 @property (nonatomic,retain) NSArray* recipients;
 
 @end
-
+*/
 
 @interface RabbitMQMessengerService : NSObject<Transport> {
 @private
-    Identity* identity;
+//    Identity* identity;
     
     NSMutableArray* queue;
     NSLock* connLock;
@@ -59,7 +57,7 @@
 
 @property (nonatomic,retain) NSMutableArray* queue;
 @property (nonatomic,retain) NSLock* connLock;
-@property (nonatomic,retain) Identity* identity;
+//@property (nonatomic,retain) Identity* identity;
 @property (nonatomic,retain) id<TransportListener> listener;
 
 - (id) initWithListener: (id<TransportListener>) listener;
@@ -78,7 +76,7 @@
 - (amqp_connection_state_t) openConnection;
 
 
-+ (NSString*) queueForKey: (OpenSSLPublicKey*) key;
+//+ (NSString*) queueForKey: (OpenSSLPublicKey*) key;
 + (NSString*) routeForKeys: (NSArray*) keys;
 + (void) amqpCheckReplyForConn: (amqp_connection_state_t) conn inContext: (NSString*) context;
 + (NSString*) amqpErrorMessageFor: (amqp_rpc_reply_t) x inContext: (NSString*) context;

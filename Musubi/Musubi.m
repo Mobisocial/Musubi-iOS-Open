@@ -61,30 +61,31 @@ static Musubi* _sharedInstance = nil;
     self = [super init];
     
     if (self != nil) {
+        /*
         transport = [[RabbitMQMessengerService alloc] initWithListener:self];
         feedListeners = [[NSMutableDictionary alloc] init];
         messageFormat = [[MessageFormat defaultMessageFormat] retain];
         identity = [Identity sharedInstance];
         
-        [identity setDelegate:self];
+        [identity setDelegate:self];*/
     }
     
     return self;
 }
 
 - (void)dealloc {
-    [messageFormat release];
+//    [messageFormat release];
     [feedListeners release];
-    [transport release];
+//    [transport release];
     
     [super dealloc];
 }
 
 - (void)startTransport {
-    [NSThread detachNewThreadSelector:@selector(run) toTarget:transport withObject:nil];
+//    [NSThread detachNewThreadSelector:@selector(run) toTarget:transport withObject:nil];
 }
 
-
+/*
 - (int)handleIncoming:(EncodedMessage *)encoded {
     // decode
     SignedMessage* msg = [messageFormat decodeMessage:encoded withKeyPair:[identity deviceKey]];
@@ -225,6 +226,6 @@ static Musubi* _sharedInstance = nil;
     ProfileObj* obj = [[ProfileObj alloc] initWithUser:user];
     Message* m = [Message createWithObj:obj forUsers:[self friends]];
     [self sendMessage:m];
-}
+}*/
 
 @end

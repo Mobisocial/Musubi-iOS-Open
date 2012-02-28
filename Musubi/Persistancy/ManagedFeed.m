@@ -33,7 +33,7 @@
 @dynamic session;
 @dynamic url;
 @dynamic messages;
-
+/*
 - (ManagedMessage*) storeMessage: (SignedMessage*) msg{
     
     NSData* contents = [NSPropertyListSerialization dataFromPropertyList: [[msg obj] data]
@@ -57,7 +57,7 @@
     [[self managedObjectContext] save:NULL];
     return newMessage;
 }
-
+*/
 - (NSArray *) allMessages {
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Message" inManagedObjectContext:[self managedObjectContext]];
     

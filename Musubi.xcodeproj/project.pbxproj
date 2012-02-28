@@ -14,7 +14,7 @@
 		D216DE5C14F48951001A4166 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D216DE6014F48951001A4166 /* InfoPlist.strings */; };
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
-		D21CDDEE14CA28A1005C6011 /* MultiCryptoMessageFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = D21CDDED14CA28A1005C6011 /* MultiCryptoMessageFormat.m */; };
+		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
 		D25F49151471A32500AC1551 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49031471A32500AC1551 /* bson.c */; };
 		D25F49161471A32500AC1551 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49051471A32500AC1551 /* encoding.c */; };
 		D25F49171471A32500AC1551 /* gridfs.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49071471A32500AC1551 /* gridfs.c */; };
@@ -22,51 +22,24 @@
 		D25F49191471A32500AC1551 /* mongo.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490B1471A32500AC1551 /* mongo.c */; };
 		D25F491A1471A32500AC1551 /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490D1471A32500AC1551 /* net.c */; };
 		D25F491B1471A32500AC1551 /* numbers.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490F1471A32500AC1551 /* numbers.c */; };
-		D26D3704147B3ED400C4FE93 /* AppBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D3696147B3ED300C4FE93 /* AppBundle.m */; };
-		D26D3705147B3ED400C4FE93 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D3698147B3ED300C4FE93 /* AppManager.m */; };
-		D26D3706147B3ED400C4FE93 /* Download.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369A147B3ED300C4FE93 /* Download.m */; };
 		D26D3707147B3ED400C4FE93 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369D147B3ED300C4FE93 /* NSData+Base64.m */; };
 		D26D3708147B3ED400C4FE93 /* NSData+CocoaDevUsersAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369F147B3ED300C4FE93 /* NSData+CocoaDevUsersAdditions.m */; };
 		D26D3709147B3ED400C4FE93 /* NSData+Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */; };
 		D26D370A147B3ED400C4FE93 /* OpenSSLKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36A3147B3ED300C4FE93 /* OpenSSLKey.m */; };
-		D26D370D147B3ED400C4FE93 /* GPSNearbyGroups.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36AA147B3ED400C4FE93 /* GPSNearbyGroups.m */; };
-		D26D370E147B3ED400C4FE93 /* GroupProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36AC147B3ED400C4FE93 /* GroupProvider.m */; };
-		D26D370F147B3ED400C4FE93 /* JoinNotificationObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36AE147B3ED400C4FE93 /* JoinNotificationObj.m */; };
-		D26D3710147B3ED400C4FE93 /* Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36B1147B3ED400C4FE93 /* Identity.m */; };
-		D26D3711147B3ED400C4FE93 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D26D36B2147B3ED400C4FE93 /* Model.xcdatamodeld */; };
+		D26D3711147B3ED400C4FE93 /* OldModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D26D36B2147B3ED400C4FE93 /* OldModel.xcdatamodeld */; };
 		D26D3712147B3ED400C4FE93 /* Musubi.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36B5147B3ED400C4FE93 /* Musubi.m */; };
-		D26D3713147B3ED400C4FE93 /* ManagedFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36B8147B3ED400C4FE93 /* ManagedFeed.m */; };
-		D26D3714147B3ED400C4FE93 /* ManagedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36BA147B3ED400C4FE93 /* ManagedMessage.m */; };
-		D26D3715147B3ED400C4FE93 /* ManagedUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36BC147B3ED400C4FE93 /* ManagedUser.m */; };
-		D26D3716147B3ED400C4FE93 /* ObjectStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36BE147B3ED400C4FE93 /* ObjectStore.m */; };
-		D26D3717147B3ED400C4FE93 /* EncodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36C1147B3ED400C4FE93 /* EncodedMessage.m */; };
-		D26D3718147B3ED400C4FE93 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36C3147B3ED400C4FE93 /* Feed.m */; };
-		D26D3719147B3ED400C4FE93 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36C5147B3ED400C4FE93 /* Message.m */; };
-		D26D371A147B3ED400C4FE93 /* Obj.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36C7147B3ED400C4FE93 /* Obj.m */; };
-		D26D371B147B3ED400C4FE93 /* SignedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36C9147B3ED400C4FE93 /* SignedMessage.m */; };
-		D26D371C147B3ED400C4FE93 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36CB147B3ED400C4FE93 /* User.m */; };
-		D26D371D147B3ED400C4FE93 /* DefaultMessageFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36CE147B3ED400C4FE93 /* DefaultMessageFormat.m */; };
-		D26D371E147B3ED400C4FE93 /* MessageFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36D0147B3ED400C4FE93 /* MessageFormat.m */; };
-		D26D371F147B3ED400C4FE93 /* RabbitMQMessengerService.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36D2147B3ED400C4FE93 /* RabbitMQMessengerService.m */; };
 		D26D3720147B3ED400C4FE93 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36D6147B3ED400C4FE93 /* LocationController.m */; };
 		D26D3721147B3ED400C4FE93 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36D8147B3ED400C4FE93 /* UIImage+Alpha.m */; };
 		D26D3722147B3ED400C4FE93 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DA147B3ED400C4FE93 /* UIImage+Resize.m */; };
 		D26D3723147B3ED400C4FE93 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DC147B3ED400C4FE93 /* UIImage+RoundedCorner.m */; };
 		D26D3724147B3ED400C4FE93 /* XQueryComponents.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */; };
 		D26D3726147B3ED400C4FE93 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36E3147B3ED400C4FE93 /* AppDelegate.m */; };
-		D26D3727147B3ED400C4FE93 /* HTMLAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36E6147B3ED400C4FE93 /* HTMLAppViewController.m */; };
-		D26D3728147B3ED400C4FE93 /* URLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36E8147B3ED400C4FE93 /* URLCommand.m */; };
-		D26D372A147B3ED400C4FE93 /* FeedItemTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36EC147B3ED400C4FE93 /* FeedItemTableCell.m */; };
-		D26D372B147B3ED400C4FE93 /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36EE147B3ED400C4FE93 /* FeedViewController.m */; };
-		D26D372C147B3ED400C4FE93 /* PictureUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36F1147B3ED400C4FE93 /* PictureUpdate.m */; };
-		D26D372D147B3ED400C4FE93 /* StatusUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36F3147B3ED400C4FE93 /* StatusUpdate.m */; };
-		D26D372E147B3ED400C4FE93 /* ObjRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36F6147B3ED400C4FE93 /* ObjRenderer.m */; };
-		D26D372F147B3ED400C4FE93 /* GroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36F9147B3ED400C4FE93 /* GroupListViewController.m */; };
 		D26D3731147B3ED400C4FE93 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D26D36FC147B3ED400C4FE93 /* InfoPlist.strings */; };
 		D26D3732147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */; };
 		D26D3733147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */; };
 		D26D3734147B3ED400C4FE93 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D3702147B3ED400C4FE93 /* main.m */; };
 		D26D3736147B41B700C4FE93 /* apps in Resources */ = {isa = PBXBuildFile; fileRef = D298FA40143D0E84000831DD /* apps */; };
+		D277A39414F856C7007193C2 /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D277A39314F856C7007193C2 /* BSONEncoder.m */; };
 		D27965831457D37A00C5FDAB /* librabbitmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D279590B1457D36300C5FDAB /* librabbitmq.a */; };
 		D27968BE1457D97700C5FDAB /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D27967811457D97500C5FDAB /* ZipArchive.mm */; };
 		D27968BF1457D97700C5FDAB /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967841457D97600C5FDAB /* ioapi.c */; };
@@ -84,23 +57,25 @@
 		D27968E41457DB5200C5FDAB /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959091457D36300C5FDAB /* amqp_url.c */; };
 		D27968E51457DB5200C5FDAB /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = D279590C1457D36300C5FDAB /* socket.c */; };
 		D27968E61457DB5200C5FDAB /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = D279590E1457D36300C5FDAB /* utils.c */; };
-		D28DD5C614BBA61900A6CBCB /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D28DD5C514BBA61900A6CBCB /* SettingsViewController.m */; };
 		D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
+		D2B13D4914F867E40067B197 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D4814F867E40067B197 /* Message.m */; };
+		D2B13D4C14F868B60067B197 /* Sender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D4B14F868B60067B197 /* Sender.m */; };
+		D2B13D4F14F868F50067B197 /* Recipient.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D4E14F868F50067B197 /* Recipient.m */; };
+		D2B13D5214F869800067B197 /* MessageEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5114F869800067B197 /* MessageEncoder.m */; };
+		D2B13D5514F869CF0067B197 /* OutgoingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5414F869CF0067B197 /* OutgoingMessage.m */; };
+		D2B13D5B14F882590067B197 /* Secret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5A14F882580067B197 /* Secret.m */; };
+		D2B13D5E14FB0DB80067B197 /* TransportDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5D14FB0DB80067B197 /* TransportDataProvider.m */; };
+		D2B13D6414FC18300067B197 /* MOutgoingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D6314FC18300067B197 /* MOutgoingSecret.m */; };
+		D2B13D6714FC188C0067B197 /* MIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D6614FC188C0067B197 /* MIdentity.m */; };
+		D2B13D6A14FC18ED0067B197 /* MEncodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D6914FC18ED0067B197 /* MEncodedMessage.m */; };
+		D2B13D6D14FC52940067B197 /* MDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D6C14FC52940067B197 /* MDevice.m */; };
 		D2B428D214F44F5B00ED868D /* libIBE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B428CC14F44F4800ED868D /* libIBE.a */; };
-		D2B939C114BCF98F00C5F777 /* NamePictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B939C014BCF98F00C5F777 /* NamePictureCell.m */; };
 		D2B939C414BD04C700C5F777 /* missing.png in Resources */ = {isa = PBXBuildFile; fileRef = D2B939C314BD04C700C5F777 /* missing.png */; };
-		D2B939C714BD0C1E00C5F777 /* ProfilePictureObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B939C614BD0C1E00C5F777 /* ProfilePictureObj.m */; };
-		D2B939CA14BD196F00C5F777 /* ProfileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B939C914BD196F00C5F777 /* ProfileObj.m */; };
 		D2CB073C14EDCBB50006D1E9 /* IBEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */; };
 		D2CD028A1443A1830080861E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD02891443A1830080861E /* CoreLocation.framework */; };
 		D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
-		D2F4F23A147C1D910080474E /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F4F239147C1D910080474E /* App.m */; };
-		D2F4F23D147C59070080474E /* AppStateUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F4F23C147C59070080474E /* AppStateUpdate.m */; };
-		D2F663A514D38415006BE8AE /* FixedFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F663A414D38415006BE8AE /* FixedFeed.m */; };
-		D2F9B28C14DC76C7003CDD43 /* FeedFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F9B28B14DC76C7003CDD43 /* FeedFactory.m */; };
-		D2F9B28F14DCAB9F003CDD43 /* GroupFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F9B28E14DCAB9F003CDD43 /* GroupFeed.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,9 +160,8 @@
 		D216DE6314F48952001A4166 /* MusubiAppTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusubiAppTest.h; sourceTree = "<group>"; };
 		D216DE6414F48952001A4166 /* MusubiAppTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusubiAppTest.m; sourceTree = "<group>"; };
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
-		D21CDDEC14CA28A1005C6011 /* MultiCryptoMessageFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiCryptoMessageFormat.h; sourceTree = "<group>"; };
-		D21CDDED14CA28A1005C6011 /* MultiCryptoMessageFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiCryptoMessageFormat.m; sourceTree = "<group>"; };
 		D21CDDEF14CA2AA5005C6011 /* Key.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Key.h; sourceTree = "<group>"; };
+		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D25F49031471A32500AC1551 /* bson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson.c; sourceTree = "<group>"; };
 		D25F49041471A32500AC1551 /* bson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson.h; sourceTree = "<group>"; };
 		D25F49051471A32500AC1551 /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
@@ -202,12 +176,6 @@
 		D25F490E1471A32500AC1551 /* net.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
 		D25F490F1471A32500AC1551 /* numbers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = numbers.c; sourceTree = "<group>"; };
 		D25F49141471A32500AC1551 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
-		D26D3695147B3ED300C4FE93 /* AppBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppBundle.h; sourceTree = "<group>"; };
-		D26D3696147B3ED300C4FE93 /* AppBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppBundle.m; sourceTree = "<group>"; };
-		D26D3697147B3ED300C4FE93 /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
-		D26D3698147B3ED300C4FE93 /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppManager.m; sourceTree = "<group>"; };
-		D26D3699147B3ED300C4FE93 /* Download.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Download.h; sourceTree = "<group>"; };
-		D26D369A147B3ED300C4FE93 /* Download.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Download.m; sourceTree = "<group>"; };
 		D26D369C147B3ED300C4FE93 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		D26D369D147B3ED300C4FE93 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		D26D369E147B3ED300C4FE93 /* NSData+CocoaDevUsersAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CocoaDevUsersAdditions.h"; sourceTree = "<group>"; };
@@ -216,44 +184,9 @@
 		D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Crypto.m"; sourceTree = "<group>"; };
 		D26D36A2147B3ED300C4FE93 /* OpenSSLKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenSSLKey.h; sourceTree = "<group>"; };
 		D26D36A3147B3ED300C4FE93 /* OpenSSLKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenSSLKey.m; sourceTree = "<group>"; };
-		D26D36A9147B3ED400C4FE93 /* GPSNearbyGroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPSNearbyGroups.h; sourceTree = "<group>"; };
-		D26D36AA147B3ED400C4FE93 /* GPSNearbyGroups.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPSNearbyGroups.m; sourceTree = "<group>"; };
-		D26D36AB147B3ED400C4FE93 /* GroupProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupProvider.h; sourceTree = "<group>"; };
-		D26D36AC147B3ED400C4FE93 /* GroupProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupProvider.m; sourceTree = "<group>"; };
-		D26D36AD147B3ED400C4FE93 /* JoinNotificationObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoinNotificationObj.h; sourceTree = "<group>"; };
-		D26D36AE147B3ED400C4FE93 /* JoinNotificationObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JoinNotificationObj.m; sourceTree = "<group>"; };
-		D26D36B0147B3ED400C4FE93 /* Identity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Identity.h; sourceTree = "<group>"; };
-		D26D36B1147B3ED400C4FE93 /* Identity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Identity.m; sourceTree = "<group>"; };
-		D26D36B3147B3ED400C4FE93 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		D26D36B3147B3ED400C4FE93 /* OldModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OldModel.xcdatamodel; sourceTree = "<group>"; };
 		D26D36B4147B3ED400C4FE93 /* Musubi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Musubi.h; sourceTree = "<group>"; };
 		D26D36B5147B3ED400C4FE93 /* Musubi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Musubi.m; sourceTree = "<group>"; };
-		D26D36B7147B3ED400C4FE93 /* ManagedFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedFeed.h; sourceTree = "<group>"; };
-		D26D36B8147B3ED400C4FE93 /* ManagedFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedFeed.m; sourceTree = "<group>"; };
-		D26D36B9147B3ED400C4FE93 /* ManagedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedMessage.h; sourceTree = "<group>"; };
-		D26D36BA147B3ED400C4FE93 /* ManagedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedMessage.m; sourceTree = "<group>"; };
-		D26D36BB147B3ED400C4FE93 /* ManagedUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedUser.h; sourceTree = "<group>"; };
-		D26D36BC147B3ED400C4FE93 /* ManagedUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedUser.m; sourceTree = "<group>"; };
-		D26D36BD147B3ED400C4FE93 /* ObjectStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectStore.h; sourceTree = "<group>"; };
-		D26D36BE147B3ED400C4FE93 /* ObjectStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectStore.m; sourceTree = "<group>"; };
-		D26D36C0147B3ED400C4FE93 /* EncodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncodedMessage.h; sourceTree = "<group>"; };
-		D26D36C1147B3ED400C4FE93 /* EncodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncodedMessage.m; sourceTree = "<group>"; };
-		D26D36C2147B3ED400C4FE93 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
-		D26D36C3147B3ED400C4FE93 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
-		D26D36C4147B3ED400C4FE93 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		D26D36C5147B3ED400C4FE93 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
-		D26D36C6147B3ED400C4FE93 /* Obj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Obj.h; sourceTree = "<group>"; };
-		D26D36C7147B3ED400C4FE93 /* Obj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Obj.m; sourceTree = "<group>"; };
-		D26D36C8147B3ED400C4FE93 /* SignedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignedMessage.h; sourceTree = "<group>"; };
-		D26D36C9147B3ED400C4FE93 /* SignedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignedMessage.m; sourceTree = "<group>"; };
-		D26D36CA147B3ED400C4FE93 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		D26D36CB147B3ED400C4FE93 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		D26D36CD147B3ED400C4FE93 /* DefaultMessageFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultMessageFormat.h; sourceTree = "<group>"; };
-		D26D36CE147B3ED400C4FE93 /* DefaultMessageFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultMessageFormat.m; sourceTree = "<group>"; };
-		D26D36CF147B3ED400C4FE93 /* MessageFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageFormat.h; sourceTree = "<group>"; };
-		D26D36D0147B3ED400C4FE93 /* MessageFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageFormat.m; sourceTree = "<group>"; };
-		D26D36D1147B3ED400C4FE93 /* RabbitMQMessengerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RabbitMQMessengerService.h; sourceTree = "<group>"; };
-		D26D36D2147B3ED400C4FE93 /* RabbitMQMessengerService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RabbitMQMessengerService.m; sourceTree = "<group>"; };
-		D26D36D3147B3ED400C4FE93 /* Transport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transport.h; sourceTree = "<group>"; };
 		D26D36D5147B3ED400C4FE93 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
 		D26D36D6147B3ED400C4FE93 /* LocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationController.m; sourceTree = "<group>"; };
 		D26D36D7147B3ED400C4FE93 /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
@@ -268,27 +201,12 @@
 		D26D36E0147B3ED400C4FE93 /* Musubi-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Musubi-Prefix.pch"; sourceTree = "<group>"; };
 		D26D36E2147B3ED400C4FE93 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D26D36E3147B3ED400C4FE93 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		D26D36E5147B3ED400C4FE93 /* HTMLAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLAppViewController.h; sourceTree = "<group>"; };
-		D26D36E6147B3ED400C4FE93 /* HTMLAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAppViewController.m; sourceTree = "<group>"; };
-		D26D36E7147B3ED400C4FE93 /* URLCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLCommand.h; sourceTree = "<group>"; };
-		D26D36E8147B3ED400C4FE93 /* URLCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLCommand.m; sourceTree = "<group>"; };
-		D26D36EB147B3ED400C4FE93 /* FeedItemTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedItemTableCell.h; sourceTree = "<group>"; };
-		D26D36EC147B3ED400C4FE93 /* FeedItemTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedItemTableCell.m; sourceTree = "<group>"; };
-		D26D36ED147B3ED400C4FE93 /* FeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedViewController.h; sourceTree = "<group>"; };
-		D26D36EE147B3ED400C4FE93 /* FeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedViewController.m; sourceTree = "<group>"; };
-		D26D36F0147B3ED400C4FE93 /* PictureUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureUpdate.h; sourceTree = "<group>"; };
-		D26D36F1147B3ED400C4FE93 /* PictureUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureUpdate.m; sourceTree = "<group>"; };
-		D26D36F2147B3ED400C4FE93 /* StatusUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusUpdate.h; sourceTree = "<group>"; };
-		D26D36F3147B3ED400C4FE93 /* StatusUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusUpdate.m; sourceTree = "<group>"; };
-		D26D36F4147B3ED400C4FE93 /* Update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Update.h; sourceTree = "<group>"; };
-		D26D36F5147B3ED400C4FE93 /* ObjRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjRenderer.h; sourceTree = "<group>"; };
-		D26D36F6147B3ED400C4FE93 /* ObjRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjRenderer.m; sourceTree = "<group>"; };
-		D26D36F8147B3ED400C4FE93 /* GroupListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupListViewController.h; sourceTree = "<group>"; };
-		D26D36F9147B3ED400C4FE93 /* GroupListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupListViewController.m; sourceTree = "<group>"; };
 		D26D36FD147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D26D36FF147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		D26D3701147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		D26D3702147B3ED400C4FE93 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D277A39214F856C7007193C2 /* BSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoder.h; sourceTree = "<group>"; };
+		D277A39314F856C7007193C2 /* BSONEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONEncoder.m; sourceTree = "<group>"; };
 		D27959001457D36200C5FDAB /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
 		D27959011457D36200C5FDAB /* amqp_api.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_api.c; sourceTree = "<group>"; };
 		D27959021457D36200C5FDAB /* amqp_connection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_connection.c; sourceTree = "<group>"; };
@@ -639,37 +557,41 @@
 		D279678A1457D97600C5FDAB /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
 		D279678B1457D97600C5FDAB /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		D27968DC1457DA4700C5FDAB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		D28DD5C414BBA61900A6CBCB /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Settings/SettingsViewController.h; sourceTree = "<group>"; };
-		D28DD5C514BBA61900A6CBCB /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Settings/SettingsViewController.m; sourceTree = "<group>"; };
 		D298F9F2143CE6DF000831DD /* Musubi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Musubi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D298F9F6143CE6DF000831DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D298F9F8143CE6DF000831DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D298FA15143CE6DF000831DD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D298FA40143D0E84000831DD /* apps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = apps; sourceTree = "<group>"; };
 		D298FA4B143E5B4E000831DD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D2B13D4714F867E40067B197 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		D2B13D4814F867E40067B197 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		D2B13D4A14F868B60067B197 /* Sender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sender.h; sourceTree = "<group>"; };
+		D2B13D4B14F868B60067B197 /* Sender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sender.m; sourceTree = "<group>"; };
+		D2B13D4D14F868F50067B197 /* Recipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recipient.h; sourceTree = "<group>"; };
+		D2B13D4E14F868F50067B197 /* Recipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recipient.m; sourceTree = "<group>"; };
+		D2B13D5014F869800067B197 /* MessageEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageEncoder.h; sourceTree = "<group>"; };
+		D2B13D5114F869800067B197 /* MessageEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageEncoder.m; sourceTree = "<group>"; };
+		D2B13D5314F869CF0067B197 /* OutgoingMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutgoingMessage.h; sourceTree = "<group>"; };
+		D2B13D5414F869CF0067B197 /* OutgoingMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutgoingMessage.m; sourceTree = "<group>"; };
+		D2B13D5914F882580067B197 /* Secret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Secret.h; sourceTree = "<group>"; };
+		D2B13D5A14F882580067B197 /* Secret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Secret.m; sourceTree = "<group>"; };
+		D2B13D5C14FB0DB80067B197 /* TransportDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransportDataProvider.h; sourceTree = "<group>"; };
+		D2B13D5D14FB0DB80067B197 /* TransportDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransportDataProvider.m; sourceTree = "<group>"; };
+		D2B13D6214FC18300067B197 /* MOutgoingSecret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOutgoingSecret.h; sourceTree = "<group>"; };
+		D2B13D6314FC18300067B197 /* MOutgoingSecret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOutgoingSecret.m; sourceTree = "<group>"; };
+		D2B13D6514FC188C0067B197 /* MIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIdentity.h; sourceTree = "<group>"; };
+		D2B13D6614FC188C0067B197 /* MIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIdentity.m; sourceTree = "<group>"; };
+		D2B13D6814FC18ED0067B197 /* MEncodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEncodedMessage.h; sourceTree = "<group>"; };
+		D2B13D6914FC18ED0067B197 /* MEncodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEncodedMessage.m; sourceTree = "<group>"; };
+		D2B13D6B14FC52940067B197 /* MDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDevice.h; sourceTree = "<group>"; };
+		D2B13D6C14FC52940067B197 /* MDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDevice.m; sourceTree = "<group>"; };
 		D2B428BB14F44F4600ED868D /* IBE.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IBE.xcodeproj; path = IBE/IBE.xcodeproj; sourceTree = "<group>"; };
-		D2B939BF14BCF98F00C5F777 /* NamePictureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NamePictureCell.h; path = Settings/NamePictureCell.h; sourceTree = "<group>"; };
-		D2B939C014BCF98F00C5F777 /* NamePictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NamePictureCell.m; path = Settings/NamePictureCell.m; sourceTree = "<group>"; };
 		D2B939C314BD04C700C5F777 /* missing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missing.png; sourceTree = "<group>"; };
-		D2B939C514BD0C1E00C5F777 /* ProfilePictureObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePictureObj.h; sourceTree = "<group>"; };
-		D2B939C614BD0C1E00C5F777 /* ProfilePictureObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePictureObj.m; sourceTree = "<group>"; };
-		D2B939C814BD196F00C5F777 /* ProfileObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileObj.h; sourceTree = "<group>"; };
-		D2B939C914BD196F00C5F777 /* ProfileObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileObj.m; sourceTree = "<group>"; };
 		D2CB073A14EDCBB50006D1E9 /* IBEncryptionScheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBEncryptionScheme.h; sourceTree = "<group>"; };
 		D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBEncryptionScheme.m; sourceTree = "<group>"; };
 		D2CD02891443A1830080861E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D2CD05DB14450E3E0080861E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D2CD05E314462BD90080861E /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
-		D2F4F238147C1D910080474E /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
-		D2F4F239147C1D910080474E /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = App.m; sourceTree = "<group>"; };
-		D2F4F23B147C59060080474E /* AppStateUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppStateUpdate.h; sourceTree = "<group>"; };
-		D2F4F23C147C59070080474E /* AppStateUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppStateUpdate.m; sourceTree = "<group>"; };
-		D2F663A314D38415006BE8AE /* FixedFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedFeed.h; sourceTree = "<group>"; };
-		D2F663A414D38415006BE8AE /* FixedFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixedFeed.m; sourceTree = "<group>"; };
-		D2F9B28A14DC76C7003CDD43 /* FeedFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedFactory.h; sourceTree = "<group>"; };
-		D2F9B28B14DC76C7003CDD43 /* FeedFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedFactory.m; sourceTree = "<group>"; };
-		D2F9B28D14DCAB9F003CDD43 /* GroupFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupFeed.h; sourceTree = "<group>"; };
-		D2F9B28E14DCAB9F003CDD43 /* GroupFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupFeed.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -724,6 +646,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D248D2EE14F84ABC00DF96DB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */,
+				D2B13D6214FC18300067B197 /* MOutgoingSecret.h */,
+				D2B13D6314FC18300067B197 /* MOutgoingSecret.m */,
+				D2B13D6514FC188C0067B197 /* MIdentity.h */,
+				D2B13D6614FC188C0067B197 /* MIdentity.m */,
+				D2B13D6814FC18ED0067B197 /* MEncodedMessage.h */,
+				D2B13D6914FC18ED0067B197 /* MEncodedMessage.m */,
+				D2B13D6B14FC52940067B197 /* MDevice.h */,
+				D2B13D6C14FC52940067B197 /* MDevice.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D25F49021471A32500AC1551 /* bson */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,35 +686,18 @@
 		D26D3691147B3ED300C4FE93 /* Musubi */ = {
 			isa = PBXGroup;
 			children = (
-				D2F663A214D37A74006BE8AE /* Feed */,
-				D26D3692147B3ED300C4FE93 /* App */,
+				D2B13D4514F865760067B197 /* Encoding */,
+				D248D2EE14F84ABC00DF96DB /* Model */,
 				D26D369B147B3ED300C4FE93 /* Crypto */,
-				D26D36A8147B3ED400C4FE93 /* Groups */,
-				D26D36AF147B3ED400C4FE93 /* Identity */,
-				D26D36B2147B3ED400C4FE93 /* Model.xcdatamodeld */,
+				D26D36B2147B3ED400C4FE93 /* OldModel.xcdatamodeld */,
 				D26D36B4147B3ED400C4FE93 /* Musubi.h */,
 				D26D36B5147B3ED400C4FE93 /* Musubi.m */,
-				D26D36B6147B3ED400C4FE93 /* Persistancy */,
-				D26D36BF147B3ED400C4FE93 /* SocialKit */,
 				D26D36CC147B3ED400C4FE93 /* Transport */,
 				D26D36D4147B3ED400C4FE93 /* Util */,
 				D26D36DF147B3ED400C4FE93 /* Musubi-Info.plist */,
 				D26D36E0147B3ED400C4FE93 /* Musubi-Prefix.pch */,
 			);
 			path = Musubi;
-			sourceTree = "<group>";
-		};
-		D26D3692147B3ED300C4FE93 /* App */ = {
-			isa = PBXGroup;
-			children = (
-				D26D3695147B3ED300C4FE93 /* AppBundle.h */,
-				D26D3696147B3ED300C4FE93 /* AppBundle.m */,
-				D26D3697147B3ED300C4FE93 /* AppManager.h */,
-				D26D3698147B3ED300C4FE93 /* AppManager.m */,
-				D26D3699147B3ED300C4FE93 /* Download.h */,
-				D26D369A147B3ED300C4FE93 /* Download.m */,
-			);
-			path = App;
 			sourceTree = "<group>";
 		};
 		D26D369B147B3ED300C4FE93 /* Crypto */ = {
@@ -797,86 +718,11 @@
 			path = Crypto;
 			sourceTree = "<group>";
 		};
-		D26D36A8147B3ED400C4FE93 /* Groups */ = {
-			isa = PBXGroup;
-			children = (
-				D26D36A9147B3ED400C4FE93 /* GPSNearbyGroups.h */,
-				D26D36AA147B3ED400C4FE93 /* GPSNearbyGroups.m */,
-				D26D36AB147B3ED400C4FE93 /* GroupProvider.h */,
-				D26D36AC147B3ED400C4FE93 /* GroupProvider.m */,
-				D26D36AD147B3ED400C4FE93 /* JoinNotificationObj.h */,
-				D26D36AE147B3ED400C4FE93 /* JoinNotificationObj.m */,
-				D2B939C514BD0C1E00C5F777 /* ProfilePictureObj.h */,
-				D2B939C614BD0C1E00C5F777 /* ProfilePictureObj.m */,
-				D2B939C814BD196F00C5F777 /* ProfileObj.h */,
-				D2B939C914BD196F00C5F777 /* ProfileObj.m */,
-			);
-			path = Groups;
-			sourceTree = "<group>";
-		};
-		D26D36AF147B3ED400C4FE93 /* Identity */ = {
-			isa = PBXGroup;
-			children = (
-				D26D36B0147B3ED400C4FE93 /* Identity.h */,
-				D26D36B1147B3ED400C4FE93 /* Identity.m */,
-			);
-			path = Identity;
-			sourceTree = "<group>";
-		};
-		D26D36B6147B3ED400C4FE93 /* Persistancy */ = {
-			isa = PBXGroup;
-			children = (
-				D26D36B7147B3ED400C4FE93 /* ManagedFeed.h */,
-				D26D36B8147B3ED400C4FE93 /* ManagedFeed.m */,
-				D26D36B9147B3ED400C4FE93 /* ManagedMessage.h */,
-				D26D36BA147B3ED400C4FE93 /* ManagedMessage.m */,
-				D26D36BB147B3ED400C4FE93 /* ManagedUser.h */,
-				D26D36BC147B3ED400C4FE93 /* ManagedUser.m */,
-				D26D36BD147B3ED400C4FE93 /* ObjectStore.h */,
-				D26D36BE147B3ED400C4FE93 /* ObjectStore.m */,
-			);
-			path = Persistancy;
-			sourceTree = "<group>";
-		};
-		D26D36BF147B3ED400C4FE93 /* SocialKit */ = {
-			isa = PBXGroup;
-			children = (
-				D26D36C0147B3ED400C4FE93 /* EncodedMessage.h */,
-				D26D36C1147B3ED400C4FE93 /* EncodedMessage.m */,
-				D26D36C2147B3ED400C4FE93 /* Feed.h */,
-				D26D36C3147B3ED400C4FE93 /* Feed.m */,
-				D26D36C4147B3ED400C4FE93 /* Message.h */,
-				D26D36C5147B3ED400C4FE93 /* Message.m */,
-				D26D36C6147B3ED400C4FE93 /* Obj.h */,
-				D26D36C7147B3ED400C4FE93 /* Obj.m */,
-				D26D36C8147B3ED400C4FE93 /* SignedMessage.h */,
-				D26D36C9147B3ED400C4FE93 /* SignedMessage.m */,
-				D26D36CA147B3ED400C4FE93 /* User.h */,
-				D26D36CB147B3ED400C4FE93 /* User.m */,
-				D2F4F238147C1D910080474E /* App.h */,
-				D2F4F239147C1D910080474E /* App.m */,
-				D2F663A314D38415006BE8AE /* FixedFeed.h */,
-				D2F663A414D38415006BE8AE /* FixedFeed.m */,
-				D2F9B28A14DC76C7003CDD43 /* FeedFactory.h */,
-				D2F9B28B14DC76C7003CDD43 /* FeedFactory.m */,
-				D2F9B28D14DCAB9F003CDD43 /* GroupFeed.h */,
-				D2F9B28E14DCAB9F003CDD43 /* GroupFeed.m */,
-			);
-			path = SocialKit;
-			sourceTree = "<group>";
-		};
 		D26D36CC147B3ED400C4FE93 /* Transport */ = {
 			isa = PBXGroup;
 			children = (
-				D26D36CD147B3ED400C4FE93 /* DefaultMessageFormat.h */,
-				D26D36CE147B3ED400C4FE93 /* DefaultMessageFormat.m */,
-				D26D36CF147B3ED400C4FE93 /* MessageFormat.h */,
-				D26D36D0147B3ED400C4FE93 /* MessageFormat.m */,
-				D26D36D1147B3ED400C4FE93 /* RabbitMQMessengerService.h */,
-				D26D36D2147B3ED400C4FE93 /* RabbitMQMessengerService.m */,
-				D26D36D3147B3ED400C4FE93 /* Transport.h */,
-				D21CDDEC14CA28A1005C6011 /* MultiCryptoMessageFormat.h */,
-				D21CDDED14CA28A1005C6011 /* MultiCryptoMessageFormat.m */,
+				D277A39214F856C7007193C2 /* BSONEncoder.h */,
+				D277A39314F856C7007193C2 /* BSONEncoder.m */,
 			);
 			path = Transport;
 			sourceTree = "<group>";
@@ -902,10 +748,6 @@
 			isa = PBXGroup;
 			children = (
 				D2B939C214BD04C700C5F777 /* assets */,
-				D28DD5C314BBA23800A6CBCB /* Settings */,
-				D26D36E4147B3ED400C4FE93 /* Browser */,
-				D26D36EA147B3ED400C4FE93 /* Feed */,
-				D26D36F7147B3ED400C4FE93 /* Groups */,
 				D26D36FC147B3ED400C4FE93 /* InfoPlist.strings */,
 				D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */,
 				D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */,
@@ -914,54 +756,6 @@
 				D26D3702147B3ED400C4FE93 /* main.m */,
 			);
 			path = UI;
-			sourceTree = "<group>";
-		};
-		D26D36E4147B3ED400C4FE93 /* Browser */ = {
-			isa = PBXGroup;
-			children = (
-				D26D36E5147B3ED400C4FE93 /* HTMLAppViewController.h */,
-				D26D36E6147B3ED400C4FE93 /* HTMLAppViewController.m */,
-				D26D36E7147B3ED400C4FE93 /* URLCommand.h */,
-				D26D36E8147B3ED400C4FE93 /* URLCommand.m */,
-			);
-			path = Browser;
-			sourceTree = "<group>";
-		};
-		D26D36EA147B3ED400C4FE93 /* Feed */ = {
-			isa = PBXGroup;
-			children = (
-				D26D36EB147B3ED400C4FE93 /* FeedItemTableCell.h */,
-				D26D36EC147B3ED400C4FE93 /* FeedItemTableCell.m */,
-				D26D36ED147B3ED400C4FE93 /* FeedViewController.h */,
-				D26D36EE147B3ED400C4FE93 /* FeedViewController.m */,
-				D26D36EF147B3ED400C4FE93 /* Model */,
-				D26D36F5147B3ED400C4FE93 /* ObjRenderer.h */,
-				D26D36F6147B3ED400C4FE93 /* ObjRenderer.m */,
-			);
-			path = Feed;
-			sourceTree = "<group>";
-		};
-		D26D36EF147B3ED400C4FE93 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				D26D36F0147B3ED400C4FE93 /* PictureUpdate.h */,
-				D26D36F1147B3ED400C4FE93 /* PictureUpdate.m */,
-				D26D36F2147B3ED400C4FE93 /* StatusUpdate.h */,
-				D26D36F3147B3ED400C4FE93 /* StatusUpdate.m */,
-				D26D36F4147B3ED400C4FE93 /* Update.h */,
-				D2F4F23B147C59060080474E /* AppStateUpdate.h */,
-				D2F4F23C147C59070080474E /* AppStateUpdate.m */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		D26D36F7147B3ED400C4FE93 /* Groups */ = {
-			isa = PBXGroup;
-			children = (
-				D26D36F8147B3ED400C4FE93 /* GroupListViewController.h */,
-				D26D36F9147B3ED400C4FE93 /* GroupListViewController.m */,
-			);
-			path = Groups;
 			sourceTree = "<group>";
 		};
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
@@ -2036,17 +1830,6 @@
 			path = minizip;
 			sourceTree = "<group>";
 		};
-		D28DD5C314BBA23800A6CBCB /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				D28DD5C414BBA61900A6CBCB /* SettingsViewController.h */,
-				D28DD5C514BBA61900A6CBCB /* SettingsViewController.m */,
-				D2B939BF14BCF98F00C5F777 /* NamePictureCell.h */,
-				D2B939C014BCF98F00C5F777 /* NamePictureCell.m */,
-			);
-			name = Settings;
-			sourceTree = "<group>";
-		};
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
@@ -2087,6 +1870,35 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D2B13D4514F865760067B197 /* Encoding */ = {
+			isa = PBXGroup;
+			children = (
+				D2B13D4614F867CE0067B197 /* Protocol */,
+				D2B13D5014F869800067B197 /* MessageEncoder.h */,
+				D2B13D5114F869800067B197 /* MessageEncoder.m */,
+				D2B13D5314F869CF0067B197 /* OutgoingMessage.h */,
+				D2B13D5414F869CF0067B197 /* OutgoingMessage.m */,
+				D2B13D5C14FB0DB80067B197 /* TransportDataProvider.h */,
+				D2B13D5D14FB0DB80067B197 /* TransportDataProvider.m */,
+			);
+			path = Encoding;
+			sourceTree = "<group>";
+		};
+		D2B13D4614F867CE0067B197 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				D2B13D4714F867E40067B197 /* Message.h */,
+				D2B13D4814F867E40067B197 /* Message.m */,
+				D2B13D4A14F868B60067B197 /* Sender.h */,
+				D2B13D4B14F868B60067B197 /* Sender.m */,
+				D2B13D4D14F868F50067B197 /* Recipient.h */,
+				D2B13D4E14F868F50067B197 /* Recipient.m */,
+				D2B13D5914F882580067B197 /* Secret.h */,
+				D2B13D5A14F882580067B197 /* Secret.m */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		D2B428BC14F44F4600ED868D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2101,13 +1913,6 @@
 				D2B939C314BD04C700C5F777 /* missing.png */,
 			);
 			path = assets;
-			sourceTree = "<group>";
-		};
-		D2F663A214D37A74006BE8AE /* Feed */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Feed;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2321,58 +2126,33 @@
 				D25F49191471A32500AC1551 /* mongo.c in Sources */,
 				D25F491A1471A32500AC1551 /* net.c in Sources */,
 				D25F491B1471A32500AC1551 /* numbers.c in Sources */,
-				D26D3704147B3ED400C4FE93 /* AppBundle.m in Sources */,
-				D26D3705147B3ED400C4FE93 /* AppManager.m in Sources */,
-				D26D3706147B3ED400C4FE93 /* Download.m in Sources */,
 				D26D3707147B3ED400C4FE93 /* NSData+Base64.m in Sources */,
 				D26D3708147B3ED400C4FE93 /* NSData+CocoaDevUsersAdditions.m in Sources */,
 				D26D3709147B3ED400C4FE93 /* NSData+Crypto.m in Sources */,
 				D26D370A147B3ED400C4FE93 /* OpenSSLKey.m in Sources */,
-				D26D370D147B3ED400C4FE93 /* GPSNearbyGroups.m in Sources */,
-				D26D370E147B3ED400C4FE93 /* GroupProvider.m in Sources */,
-				D26D370F147B3ED400C4FE93 /* JoinNotificationObj.m in Sources */,
-				D26D3710147B3ED400C4FE93 /* Identity.m in Sources */,
-				D26D3711147B3ED400C4FE93 /* Model.xcdatamodeld in Sources */,
+				D26D3711147B3ED400C4FE93 /* OldModel.xcdatamodeld in Sources */,
 				D26D3712147B3ED400C4FE93 /* Musubi.m in Sources */,
-				D26D3713147B3ED400C4FE93 /* ManagedFeed.m in Sources */,
-				D26D3714147B3ED400C4FE93 /* ManagedMessage.m in Sources */,
-				D26D3715147B3ED400C4FE93 /* ManagedUser.m in Sources */,
-				D26D3716147B3ED400C4FE93 /* ObjectStore.m in Sources */,
-				D26D3717147B3ED400C4FE93 /* EncodedMessage.m in Sources */,
-				D26D3718147B3ED400C4FE93 /* Feed.m in Sources */,
-				D26D3719147B3ED400C4FE93 /* Message.m in Sources */,
-				D26D371A147B3ED400C4FE93 /* Obj.m in Sources */,
-				D26D371B147B3ED400C4FE93 /* SignedMessage.m in Sources */,
-				D26D371C147B3ED400C4FE93 /* User.m in Sources */,
-				D26D371D147B3ED400C4FE93 /* DefaultMessageFormat.m in Sources */,
-				D26D371E147B3ED400C4FE93 /* MessageFormat.m in Sources */,
-				D26D371F147B3ED400C4FE93 /* RabbitMQMessengerService.m in Sources */,
 				D26D3720147B3ED400C4FE93 /* LocationController.m in Sources */,
 				D26D3721147B3ED400C4FE93 /* UIImage+Alpha.m in Sources */,
 				D26D3722147B3ED400C4FE93 /* UIImage+Resize.m in Sources */,
 				D26D3723147B3ED400C4FE93 /* UIImage+RoundedCorner.m in Sources */,
 				D26D3724147B3ED400C4FE93 /* XQueryComponents.m in Sources */,
 				D26D3726147B3ED400C4FE93 /* AppDelegate.m in Sources */,
-				D26D3727147B3ED400C4FE93 /* HTMLAppViewController.m in Sources */,
-				D26D3728147B3ED400C4FE93 /* URLCommand.m in Sources */,
-				D26D372A147B3ED400C4FE93 /* FeedItemTableCell.m in Sources */,
-				D26D372B147B3ED400C4FE93 /* FeedViewController.m in Sources */,
-				D26D372C147B3ED400C4FE93 /* PictureUpdate.m in Sources */,
-				D26D372D147B3ED400C4FE93 /* StatusUpdate.m in Sources */,
-				D26D372E147B3ED400C4FE93 /* ObjRenderer.m in Sources */,
-				D26D372F147B3ED400C4FE93 /* GroupListViewController.m in Sources */,
 				D26D3734147B3ED400C4FE93 /* main.m in Sources */,
-				D2F4F23A147C1D910080474E /* App.m in Sources */,
-				D2F4F23D147C59070080474E /* AppStateUpdate.m in Sources */,
-				D28DD5C614BBA61900A6CBCB /* SettingsViewController.m in Sources */,
-				D2B939C114BCF98F00C5F777 /* NamePictureCell.m in Sources */,
-				D2B939C714BD0C1E00C5F777 /* ProfilePictureObj.m in Sources */,
-				D2B939CA14BD196F00C5F777 /* ProfileObj.m in Sources */,
-				D21CDDEE14CA28A1005C6011 /* MultiCryptoMessageFormat.m in Sources */,
-				D2F663A514D38415006BE8AE /* FixedFeed.m in Sources */,
-				D2F9B28C14DC76C7003CDD43 /* FeedFactory.m in Sources */,
-				D2F9B28F14DCAB9F003CDD43 /* GroupFeed.m in Sources */,
 				D2CB073C14EDCBB50006D1E9 /* IBEncryptionScheme.m in Sources */,
+				D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */,
+				D277A39414F856C7007193C2 /* BSONEncoder.m in Sources */,
+				D2B13D4914F867E40067B197 /* Message.m in Sources */,
+				D2B13D4C14F868B60067B197 /* Sender.m in Sources */,
+				D2B13D4F14F868F50067B197 /* Recipient.m in Sources */,
+				D2B13D5214F869800067B197 /* MessageEncoder.m in Sources */,
+				D2B13D5514F869CF0067B197 /* OutgoingMessage.m in Sources */,
+				D2B13D5B14F882590067B197 /* Secret.m in Sources */,
+				D2B13D5E14FB0DB80067B197 /* TransportDataProvider.m in Sources */,
+				D2B13D6414FC18300067B197 /* MOutgoingSecret.m in Sources */,
+				D2B13D6714FC188C0067B197 /* MIdentity.m in Sources */,
+				D2B13D6A14FC18ED0067B197 /* MEncodedMessage.m in Sources */,
+				D2B13D6D14FC52940067B197 /* MDevice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2686,13 +2466,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		D26D36B2147B3ED400C4FE93 /* Model.xcdatamodeld */ = {
+		D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				D26D36B3147B3ED400C4FE93 /* Model.xcdatamodel */,
+				D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */,
 			);
-			currentVersion = D26D36B3147B3ED400C4FE93 /* Model.xcdatamodel */;
+			currentVersion = D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */;
 			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		D26D36B2147B3ED400C4FE93 /* OldModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D26D36B3147B3ED400C4FE93 /* OldModel.xcdatamodel */,
+			);
+			currentVersion = D26D36B3147B3ED400C4FE93 /* OldModel.xcdatamodel */;
+			path = OldModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

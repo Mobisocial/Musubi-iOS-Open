@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="878" systemVersion="11D50b" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Device" representedClassName="Device" syncable="YES">
+        <attribute name="deviceName" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="identityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="maxSequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="EncodedMessage" representedClassName="EncodedMessage" syncable="YES">
+        <attribute name="encoded" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="fromDevice" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="fromIdentityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="messageHash" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="outbound" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="processed" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="sequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="Identity" representedClassName="Identity" syncable="YES">
+        <attribute name="blocked" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="bootstrap" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="claimed" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="contactId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="hasLatestProfile" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nextSequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="owned" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="principal" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="principalHash" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="principalShortHash" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="OutgoingSecret" representedClassName="OutgoingSecret" syncable="YES">
+        <attribute name="encryptedKey" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="encryptionPeriod" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="key" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="myIdentityId" optional="YES" attributeType="Integer 64" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="otherIdentityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="signature" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="signaturePeriod" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="EncodedMessage" positionX="160" positionY="192" width="128" height="165"/>
+        <element name="Identity" positionX="160" positionY="192" width="128" height="285"/>
+        <element name="OutgoingSecret" positionX="160" positionY="192" width="128" height="165"/>
+        <element name="Device" positionX="160" positionY="192" width="128" height="105"/>
+    </elements>
+</model>

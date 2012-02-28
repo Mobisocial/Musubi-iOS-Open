@@ -24,29 +24,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Obj.h"
-#import "User.h"
-#import "App.h"
-#import "GroupProvider.h"
-#import "JoinNotificationObj.h"
-#import "ProfileObj.h"
-#import "ProfilePictureObj.h"
-#import "MessageFormat.h"
-#import "RabbitMQMessengerService.h"
 #import "IBEncryptionScheme.h"
 
 static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
-@protocol MusubiFeedListener
+/*@protocol MusubiFeedListener
 
 - (void) newMessage: (SignedMessage*) message;
 
 @end
-
-@interface Musubi : NSObject<TransportListener,IdentityDelegate> {
-    RabbitMQMessengerService* transport;
-    MessageFormat* messageFormat;
-    Identity* identity;
+*/
+@interface Musubi : NSObject {//TransportListener,IdentityDelegate> {
+//    RabbitMQMessengerService* transport;
 
     NSMutableDictionary* feedListeners;
 }
@@ -55,7 +44,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 + (Musubi*) sharedInstance;
 - (void) startTransport;
-
+/*
 - (NSArray*) friends;
 - (NSArray*) groups;
 - (ManagedFeed*) joinGroup: (Feed*) group;
@@ -66,5 +55,5 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 - (SignedMessage*) sendMessage: (Message*) msg;
 
 - (User*) userWithPublicKey: (NSData*) publicKey;
-
+*/
 @end
