@@ -25,6 +25,7 @@
 
 #import <Foundation/Foundation.h>
 #import "IBEncryptionScheme.h"
+#import "AMQPTransport.h"
 
 static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
@@ -37,9 +38,11 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 @interface Musubi : NSObject {//TransportListener,IdentityDelegate> {
 //    RabbitMQMessengerService* transport;
 
+    PersistentModelStore* store;
     NSMutableDictionary* feedListeners;
 }
 
+@property (nonatomic, retain) PersistentModelStore* store;
 @property (nonatomic, retain) NSMutableDictionary* feedListeners;
 
 + (Musubi*) sharedInstance;

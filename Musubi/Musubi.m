@@ -29,7 +29,7 @@
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize feedListeners;
+@synthesize store, feedListeners;
 
 
 +(Musubi*)sharedInstance
@@ -61,6 +61,12 @@ static Musubi* _sharedInstance = nil;
     self = [super init];
     
     if (self != nil) {
+        
+        [self setStore: [[[PersistentModelStore alloc] init] autorelease]];
+        
+        //AMQPTransport* transport = [[AMQPTransport alloc] initWithTransportDataProvider: bladksfjlaskd];
+        //[transport start];
+        
         /*
         transport = [[RabbitMQMessengerService alloc] initWithListener:self];
         feedListeners = [[NSMutableDictionary alloc] init];

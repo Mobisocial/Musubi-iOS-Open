@@ -26,25 +26,56 @@
 #import <Foundation/Foundation.h>
 #import "MIdentity.h"
 #import "MDevice.h"
+#import "MIncomingSecret.h"
 #import "MOutgoingSecret.h"
 #import "MEncodedMessage.h"
+#import "IncomingMessage.h"
 #import "OutgoingMessage.h"
 #import "IBEncryptionScheme.h"
+#import "PersistentModelStore.h"
 
-@interface TransportDataProvider : NSObject
+@protocol TransportDataProvider
 
+- (PersistentModelStore*) store;
+
+/* IBE secrets */
+- (IBEncryptionScheme*) encryptionScheme;
+- (IBSignatureScheme*) signatureScheme;
+
+- (IBEncryptionUserKey*) signatureKeyFrom:(MIdentity *)from myIdentity: (IBEncryptionIdentity*) me;
+- (IBEncryptionUserKey*) encryptionKeyTo:(MIdentity *)to myIdentity: (IBEncryptionIdentity*) me;
+
+/* Compute times given an identity, might consult for revocation etc */
+- (long) signatureTimeFrom: (MIdentity*) from;
+- (long) encryptionTimeTo: (MIdentity*) to;
+
+/* My one and only */
 - (long) deviceName;
 
-- (long) signatureTimeForIdentity: (MIdentity*) ident;
-- (long) encryptionTimeForIdentity: (MIdentity*) ident;
+/* Channel secret management */
+- (MOutgoingSecret *)lookupOutgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other;
+- (void) insertOutgoingSecret: (MOutgoingSecret*) os myIdentity:(IBEncryptionIdentity*)me otherIdentity: (IBEncryptionIdentity*) other;
+- (MIncomingSecret *)lookupIncomingSecretFrom:(MIdentity *)from onDevice: (MDevice*) device to:(MIdentity *)to withSignature: (NSData*) signature otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me;
+- (void) insertIncomingSecret: (MIncomingSecret*) is otherIdentity: (IBEncryptionIdentity*) other myIdentity: (IBEncryptionIdentity*) me;
 
-- (BOOL) isMe: (IBEncryptionIdentity*) ident;
-
-- (MOutgoingSecret *)lookupOutgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to fromIdent:(IBEncryptionIdentity *)me toIdent:(IBEncryptionIdentity *)you;
-- (IBEncryptionUserKey*) signatureKeyForIdentity:(MIdentity *)ident andIBEIdentity: ibeIdent;
-- (void) insertOutgoingSecret: (MOutgoingSecret*) os from: (IBEncryptionIdentity*) from to: (IBEncryptionIdentity*) to;
+/* Sequence number manipulation */
 - (void) incrementSequenceNumberTo: (MIdentity*) to;
-- (MDevice*) addDevice: (MIdentity*) device withName: (long) deviceName;
-- (void) insertEncodedMessage: (MEncodedMessage*) encoded forOutgoingMessage: (OutgoingMessage*) om;
+- (void) receivedSequenceNumber: (long) sequenceNumber from: (MDevice*) device;
+- (BOOL) haveHash: (NSData*) hash;
+//- (NSData*) hashForSequenceNumber: (long) sequenceNumber from: (MDevice*) device;
 - (void) storeSequenceNumbers: (NSDictionary*) seqNumbers forEncodedMessage: (MEncodedMessage*) encoded;
+
+/* Misc identity info queries */
+- (BOOL) isBlackListed: (MIdentity*) ident;
+- (BOOL) isMe: (IBEncryptionIdentity*) ident;
+- (MIdentity*) addClaimedIdentity: (IBEncryptionIdentity*) ident;
+- (MIdentity*) addUnclaimedIdentity: (IBEncryptionIdentity*) ident;
+- (MDevice *) addDeviceWithName: (long) deviceName forIdentity: (MIdentity *)ident;
+
+/* Final message handled */
+- (void) updateEncodedMetadata: (MEncodedMessage*) encoded;
+- (void) insertEncodedMessage: (MEncodedMessage*) encoded forOutgoingMessage: (OutgoingMessage*) om;
+
+
+
 @end

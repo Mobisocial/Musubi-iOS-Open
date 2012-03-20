@@ -613,7 +613,7 @@ int bson_ensure_space( bson *b, const int bytesNeeded ) {
     if ( pos + bytesNeeded <= b->dataSize )
         return BSON_OK;
 
-    new_size = 1.5 * ( b->dataSize + bytesNeeded );
+    new_size = 1 * ( b->dataSize + bytesNeeded );
 
     if( new_size < b->dataSize ) {
         if( ( b->dataSize + bytesNeeded ) < INT_MAX )
@@ -962,7 +962,7 @@ void bson_fatal_msg( int ok , const char *msg ) {
     }
 
     bson_errprintf( "error: %s\n" , msg );
-    exit( -5 );
+    //exit( -5 );
 }
 
 

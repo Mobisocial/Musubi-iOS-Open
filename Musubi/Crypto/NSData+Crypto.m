@@ -108,33 +108,7 @@
 }
 
 - (NSData*) sha1Digest {
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    
-    CC_SHA1_CTX ctx;
-    CC_SHA1_Init(&ctx);
-    CC_SHA1_Update(&ctx, [self bytes], [self length]);
-    CC_SHA1_Final(digest, &ctx);
-    return [NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH];
-}
-
-- (NSData*) sha256Digest {
-    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-    
-    CC_SHA256_CTX ctx;
-    CC_SHA256_Init(&ctx);
-    CC_SHA256_Update(&ctx, [self bytes], [self length]);
-    CC_SHA256_Final(digest, &ctx);
-    return [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
-}
-
-- (NSString*) hex {
-    NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([self length] * 2)];
-	const unsigned char *dataBuffer = [self bytes];
-	int i;
-	for (i = 0; i < [self length]; ++i) {
-		[stringBuffer appendFormat:@"%02x", (unsigned long)dataBuffer[i]];
-	}
-	return [[stringBuffer copy] autorelease];
+    return [self sha1HashWithLength:CC_SHA1_DIGEST_LENGTH];
 }
 
 - (NSDate*) sha1HashWithLength: (int) length{
@@ -145,6 +119,30 @@
     CC_SHA1_Update(&ctx, [self bytes], [self length]);
     CC_SHA1_Final(hash, &ctx);
     return [NSData dataWithBytesNoCopy:hash length:length freeWhenDone:YES];
+}
+
+- (NSData*) sha256Digest {
+    return [self sha256HashWithLength:CC_SHA256_DIGEST_LENGTH];
+}
+
+- (NSData*) sha256HashWithLength: (int) length {
+    unsigned char* hash = malloc(length);
+    
+    CC_SHA256_CTX ctx;
+    CC_SHA256_Init(&ctx);
+    CC_SHA256_Update(&ctx, [self bytes], [self length]);
+    CC_SHA256_Final(hash, &ctx);
+    return [NSData dataWithBytesNoCopy:hash length:length freeWhenDone:YES];
+}
+
+- (NSString*) hex {
+    NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([self length] * 2)];
+	const unsigned char *dataBuffer = [self bytes];
+	int i;
+	for (i = 0; i < [self length]; ++i) {
+		[stringBuffer appendFormat:@"%02x", (unsigned long)dataBuffer[i]];
+	}
+	return [[stringBuffer copy] autorelease];
 }
 
 

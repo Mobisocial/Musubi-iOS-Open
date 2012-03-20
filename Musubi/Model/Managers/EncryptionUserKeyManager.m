@@ -1,0 +1,60 @@
+/*
+ * Copyright 2012 The Stanford MobiSocial Laboratory
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+//
+//  EncryptionUserKeyManager.m
+//  Musubi
+//
+//  Created by Willem Bult on 3/15/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//
+
+#import "EncryptionUserKeyManager.h"
+
+@implementation EncryptionUserKeyManager
+
+@synthesize encryptionScheme;
+
+- (id)initWithStore:(PersistentModelStore *)s encryptionScheme:(IBEncryptionScheme *)es {
+    self = [super initWithEntityName:@"EncryptionUserKey" andStore:s];
+    
+    if (self != nil) {
+        [self setEncryptionScheme: es];
+    }
+    
+    return self;
+}
+
+- (void)createEncryptionUserKey:(MEncryptionUserKey *)encryptionKey {
+	// TODO: synchronize code
+    //[[store context] save:NULL];
+}
+
+- (IBEncryptionUserKey *)encryptionKeyFrom:(MIdentity *)from to:(IBEncryptionIdentity *)to {
+    NSArray* results = [self query:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", from, to.temporalFrame]];
+    
+    for (int i=0; i<results.count; i++) {
+        return [[[IBEncryptionUserKey alloc] initWithRaw: ((MEncryptionUserKey*)[results objectAtIndex:i]).key] autorelease];
+    }
+    return nil;
+}
+
+- (void)updateEncryptionUserKey:(MEncryptionUserKey *)signatureKey {
+    
+}
+
+@end

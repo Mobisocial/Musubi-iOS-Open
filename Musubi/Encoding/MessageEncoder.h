@@ -24,23 +24,25 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PersistentModelStore.h"
 #import "MEncodedMessage.h"
 #import "MOutgoingSecret.h"
 #import "OutgoingMessage.h"
 #import "TransportDataProvider.h"
 
+
 @interface MessageEncoder : NSObject {
-    TransportDataProvider* transportDataProvider;
+    id<TransportDataProvider> transportDataProvider;
     IBEncryptionScheme* encryptionScheme;
     IBSignatureScheme* signatureScheme;
     long deviceName;
 }
 
-@property (nonatomic, retain) TransportDataProvider* transportDataProvider;
+@property (nonatomic, retain) id<TransportDataProvider> transportDataProvider;
 @property (nonatomic, retain) IBEncryptionScheme* encryptionScheme;
 @property (nonatomic, retain) IBSignatureScheme* signatureScheme;
 
-- (id) initWithTransportDataProvider: (TransportDataProvider*) tdp;
+- (id)initWithTransportDataProvider:(id<TransportDataProvider>)tdp;
 - (NSData*) computeFullSignatureForRecipients: (NSArray*) rcpts hash: (NSData*) h app: (NSData*) a blind: (BOOL) b;
 - (MOutgoingSecret*) outgoingSecretFrom: (MIdentity*) from to: (MIdentity*) to fromIdent: (IBEncryptionIdentity*) me toIdent: (IBEncryptionIdentity*) you;
 - (MEncodedMessage*) encodeOutgoingMessage: (OutgoingMessage*) om;

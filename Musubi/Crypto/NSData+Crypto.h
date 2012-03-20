@@ -44,6 +44,7 @@
 - (NSData*) sha1Digest;
 - (NSData*) sha1HashWithLength: (int) length;
 - (NSData*) sha256Digest;
+- (NSData*) sha256HashWithLength: (int) length;
 - (NSString*) hex;
 
 @end

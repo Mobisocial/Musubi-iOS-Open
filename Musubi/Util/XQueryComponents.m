@@ -29,7 +29,7 @@
 
 - (NSMutableDictionary *)dictionaryFromQueryComponents
 {
-    NSMutableDictionary *queryComponents = [NSMutableDictionary dictionary];
+    NSMutableDictionary *queryComponents = [[[NSMutableDictionary alloc] init] autorelease];
     for(NSString *keyValuePairString in [self componentsSeparatedByString:@"&"])
     {
         NSArray *keyValuePairArray = [keyValuePairString componentsSeparatedByString:@"="];

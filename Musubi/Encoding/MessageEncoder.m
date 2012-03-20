@@ -31,15 +31,18 @@
 #import "NSData+Crypto.h"
 #import "IBEncryptionScheme.h"
 #import "BSONEncoder.h"
+#import "PersistentModelStore.h"
 
 @implementation MessageEncoder
 
 @synthesize transportDataProvider, encryptionScheme, signatureScheme;
 
-- (id)initWithTransportDataProvider:(TransportDataProvider *)tdp {
+- (id)initWithTransportDataProvider:(id<TransportDataProvider>)tdp {
     self = [super init];
     if (self) {
         [self setTransportDataProvider: tdp];
+        [self setEncryptionScheme: [tdp encryptionScheme]];
+        [self setSignatureScheme: [tdp signatureScheme]];
         deviceName = [tdp deviceName];
     }
     return self;
@@ -47,47 +50,39 @@
 
 - (NSData*) computeFullSignatureForRecipients: (NSArray*) rcpts hash: (NSData*) h app: (NSData*) a blind: (BOOL) b {
     
-    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-    
-    CC_SHA256_CTX ctx;
-    CC_SHA256_Init(&ctx);
-    CC_SHA256_Update(&ctx, [h bytes], [h length]);
-    CC_SHA256_Update(&ctx, [a bytes], [a length]);
-    CC_SHA256_Update(&ctx, &b, sizeof(b));
-    for (IBEncryptionIdentity* ident in rcpts) {
-        NSData* key = [ident key];
-        CC_SHA256_Update(&ctx, [key bytes], [key length]);
+    NSMutableData* sigData = [NSMutableData dataWithData: h];
+    [sigData appendData: a];
+    [sigData appendBytes:&b length:1];
+    if (!b) {
+        for (IBEncryptionIdentity* ident in rcpts) {
+            [sigData appendData: ident.key];
+        }
     }
     
-    CC_SHA256_Final(digest, &ctx);
-    return [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
+    return [sigData sha256Digest];
 }
 
 - (MOutgoingSecret *)outgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to fromIdent:(IBEncryptionIdentity *)me toIdent:(IBEncryptionIdentity *)you {
     
     IBEncryptionConversationKey* ck = [encryptionScheme randomConversationKeyWithIdentity:you];
-    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-    CC_SHA256_CTX ctx;
-    CC_SHA256_Init(&ctx);
-    CC_SHA256_Update(&ctx, [[ck encrypted] bytes], [[ck encrypted] length]);
-    CC_SHA256_Update(&ctx, &deviceName, sizeof(deviceName));
-    CC_SHA256_Final(digest, &ctx);
-    NSData* hash = [NSData dataWithBytes:digest length:CC_SHA256_DIGEST_LENGTH];
+    NSMutableData* hashData = [NSMutableData dataWithData: ck.encrypted];
+    [hashData appendBytes:&deviceName length:sizeof(deviceName)];
+    NSData* hash = [hashData sha256Digest];
     
-    MOutgoingSecret* os = [transportDataProvider lookupOutgoingSecretFrom: from to: to fromIdent: me toIdent: you];
+    MOutgoingSecret* os = [transportDataProvider lookupOutgoingSecretFrom:from to:to myIdentity:me otherIdentity:you];
     if (os != nil) {
         return os;
     }
     
-    os = [[MOutgoingSecret alloc] init]; //TODO: create in DB
+    os = [[transportDataProvider store] createOutgoingSecret];
     [os setMyIdentityId: [from id]];
     [os setOtherIdentityId: [to id]];
     [os setKey: [ck raw]];
     [os setEncryptedKey: [ck encrypted]];
     [os setEncryptionPeriod: [you temporalFrame]];
-    [os setSignature: [signatureScheme signHash:hash withUserKey:[transportDataProvider signatureKeyForIdentity:from andIBEIdentity:me] andIdentity:me]];
+    [os setSignature: [signatureScheme signHash:hash withUserKey:[transportDataProvider signatureKeyFrom:from myIdentity:me] andIdentity:me]];
     
-    [transportDataProvider insertOutgoingSecret: os from: me to: you];
+    [transportDataProvider insertOutgoingSecret:os myIdentity:me otherIdentity:you];
     return os;
 }
 
@@ -99,12 +94,12 @@
 
 - (MEncodedMessage *) encodeOutgoingMessage:(OutgoingMessage *)om {
     // create the IBE identity for the sender
-    IBEncryptionIdentity* me = [[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type andHashedKey:[om fromIdentity].principalHash andTemporalFrame:[transportDataProvider signatureTimeForIdentity: [om fromIdentity]]];
+    IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];
 
     // create an array of IBE identities for the recipients
     NSMutableArray* rcptIdentities = [NSMutableArray arrayWithCapacity:[[om recipients] count]];
     for (MIdentity* mRcpt in [om recipients]) {
-        IBEncryptionIdentity* rcptIdent = [[IBEncryptionIdentity alloc] initWithAuthority:mRcpt.type andHashedKey:mRcpt.principalHash andTemporalFrame:[transportDataProvider encryptionTimeForIdentity: mRcpt]];
+        IBEncryptionIdentity* rcptIdent = [[[IBEncryptionIdentity alloc] initWithAuthority:mRcpt.type hashedKey:mRcpt.principalHash temporalFrame:[transportDataProvider encryptionTimeTo: mRcpt]] autorelease];
         [rcptIdentities addObject:rcptIdent];
     }
     
@@ -116,7 +111,7 @@
     NSData* messageKey = [NSData generateSecureRandomKeyOf:16];
     NSData* iv = [NSData generateSecureRandomKeyOf:16];
     
-    NSMutableDictionary* seqNumbers = [NSMutableDictionary dictionary];
+    NSMutableDictionary* seqNumbers = [NSMutableDictionary dictionaryWithCapacity:[[om recipients] count]];
 
     // Build the array of recipients (with secrets)
     NSMutableArray* recipients = [NSMutableArray arrayWithCapacity:[[om recipients] count]];
@@ -128,32 +123,31 @@
         MOutgoingSecret* os = [self outgoingSecretFrom:om.fromIdentity to:mRcpt fromIdent:me toIdent:rcptIdent];
         int seqNumber = [self assignSequenceNumberTo:mRcpt];
         
-        Secret* s = [[Secret alloc] init];
+        Secret* s = [[[Secret alloc] init] autorelease];
         [s setH: hash];
         [s setK: messageKey];
-        [s setQ: seqNumber]; 
+        [s setQ: seqNumber];
         
-        Recipient* rcpt = [[Recipient alloc] init];
+        Recipient* rcpt = [[[Recipient alloc] init] autorelease];
         [rcpt setI: [rcptIdent key]];
         [rcpt setK: os.encryptedKey];
         [rcpt setS: os.signature];
         [rcpt setD: [[BSONEncoder encodeSecret:s] encryptWithAES128CBCZeroPaddedWithKey:[os key] andIV:iv]];
         
         [recipients addObject:rcpt];
-        [seqNumbers setObject:[NSNumber numberWithLong:mRcpt.id] forKey:[NSNumber numberWithLong: seqNumber]];
+        [seqNumbers setObject:[NSNumber numberWithLong:seqNumber] forKey:[NSNumber numberWithLong:mRcpt.id]];
         
         if ([transportDataProvider isMe:rcptIdent]) {
             mySeqNumber = seqNumber;
         }
     }
-
     // Sender
-    Sender* sender = [[Sender alloc] init];
+    Sender* sender = [[[Sender alloc] init] autorelease];
     [sender setI: [me key]];
     [sender setD: [NSData dataWithBytes:&deviceName length:sizeof(deviceName)]];
 
     // Message protocol format object
-    Message* m = [[Message alloc] init];
+    Message* m = [[[Message alloc] init] autorelease];
     [m setV: 0]; //version
     [m setI: iv];
     [m setA: om.app];
@@ -161,16 +155,16 @@
     [m setS: sender];
     [m setR: recipients];
     [m setD: [[om data] encryptWithAES128CBCPKCS7WithKey:messageKey andIV:iv]];
-
-    // The encoded message that contains everything for the wire
-    MEncodedMessage* encoded = [[MEncodedMessage alloc] init]; // create in database?
+    
+    MEncodedMessage* encoded = [[transportDataProvider store] createEncodedMessage];
     [encoded setFromIdentityId: [om fromIdentity].id];
-    [encoded setFromDevice: [transportDataProvider addDevice: om.fromIdentity withName: deviceName].id];
+    [encoded setFromDevice: [transportDataProvider addDeviceWithName:deviceName forIdentity:om.fromIdentity].id];
     [encoded setMessageHash: hash];
     [encoded setProcessed: NO];
     [encoded setOutbound: YES];
     [encoded setSequenceNumber: mySeqNumber];
     [encoded setEncoded: [BSONEncoder encodeMessage:m]];
+
     
     // Track the message and sequence numbers in the TransportDataProvider
     [transportDataProvider insertEncodedMessage: encoded forOutgoingMessage: om];

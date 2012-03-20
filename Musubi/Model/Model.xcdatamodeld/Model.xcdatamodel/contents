@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="878" systemVersion="11D50b" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Device" representedClassName="Device" syncable="YES">
+    <entity name="Device" representedClassName="MDevice" syncable="YES">
         <attribute name="deviceName" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="identityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="maxSequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
-    <entity name="EncodedMessage" representedClassName="EncodedMessage" syncable="YES">
+    <entity name="EncodedMessage" representedClassName="MEncodedMessage" syncable="YES">
         <attribute name="encoded" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="fromDevice" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="fromIdentityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -16,7 +16,13 @@
         <attribute name="processed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="sequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
-    <entity name="Identity" representedClassName="Identity" syncable="YES">
+    <entity name="EncryptionUserKey" representedClassName="MEncryptionUserKey" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="key" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="period" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="identity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
+    </entity>
+    <entity name="Identity" representedClassName="MIdentity" syncable="YES">
         <attribute name="blocked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="bootstrap" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="claimed" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -34,7 +40,22 @@
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
-    <entity name="OutgoingSecret" representedClassName="OutgoingSecret" syncable="YES">
+    <entity name="IncomingSecret" representedClassName="MIncomingSecret" syncable="YES">
+        <attribute name="deviceId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="encryptedKey" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="encryptionPeriod" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="key" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="myIdentityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="otherIdentityId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="signature" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="signaturePeriod" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="MissingMessage" representedClassName="MMissingMessage" syncable="YES">
+        <attribute name="sequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="device" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" syncable="YES"/>
+    </entity>
+    <entity name="OutgoingSecret" representedClassName="MOutgoingSecret" syncable="YES">
         <attribute name="encryptedKey" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="encryptionPeriod" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -44,10 +65,26 @@
         <attribute name="signature" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="signaturePeriod" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
+    <entity name="SequenceNumber" representedClassName="MSequenceNumber" syncable="YES">
+        <attribute name="sequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="encodedMessage" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EncodedMessage" syncable="YES"/>
+        <relationship name="recipient" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
+    </entity>
+    <entity name="SignatureUserKey" representedClassName="MSignatureUserKey" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="key" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="period" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="identity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
+    </entity>
     <elements>
+        <element name="Device" positionX="160" positionY="192" width="128" height="105"/>
         <element name="EncodedMessage" positionX="160" positionY="192" width="128" height="165"/>
         <element name="Identity" positionX="160" positionY="192" width="128" height="285"/>
+        <element name="IncomingSecret" positionX="160" positionY="192" width="128" height="180"/>
         <element name="OutgoingSecret" positionX="160" positionY="192" width="128" height="165"/>
-        <element name="Device" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="SignatureUserKey" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="EncryptionUserKey" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="MissingMessage" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="SequenceNumber" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>
