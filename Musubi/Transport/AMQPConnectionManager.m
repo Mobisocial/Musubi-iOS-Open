@@ -32,7 +32,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        //[self setConnLock: [[[NSLock alloc] init] autorelease]];
+        [self setConnLock: [[[NSLock alloc] init] autorelease]];
         conn = nil;
         connectionReady = NO;
     }
@@ -320,8 +320,6 @@
         }
     }
     
-    NSLog(@"OK I'm going to wait for frame");
-    
     @try {
         amqp_frame_t frame;
         int result;
@@ -332,8 +330,6 @@
         amqp_maybe_release_buffers(conn);
         result = amqp_simple_wait_frame(conn, &frame);
         
-        NSLog(@"Gots the frame");
-
         if (result < 0) {
             @throw [NSException exceptionWithName:@"AMQPException" reason:@"Got error waiting for frame" userInfo:nil];
         }

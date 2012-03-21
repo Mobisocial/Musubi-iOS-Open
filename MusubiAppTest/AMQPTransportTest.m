@@ -24,7 +24,7 @@
 //
 
 #import "AMQPTransportTest.h"
-#import "AMQPListener.h"
+#import "MessageListener.h"
 #import "TransportManager.h"
 #import "UserKeyManager.h"
 #import "EncodedMessageManager.h"
@@ -57,7 +57,6 @@
         if ([[transport connMgrOut] connectionIsAlive] || [[transport connMngr] connectionIsAlive])
             return true;
         
-        NSLog(@"Still waiting for connection to be established");
         [NSThread sleepForTimeInterval: .1];
     }
     
@@ -73,7 +72,6 @@
         if ([transport done])
             return true;
         
-        NSLog(@"Still waiting for connection to be closed");
         [NSThread sleepForTimeInterval: .1];
     }
     
@@ -106,14 +104,14 @@
     // Set up receiving identity
     IBEncryptionIdentity* you = [self randomIdentity];
     // Start AMQP listener for receiver
-    AMQPListener* listener = [[AMQPListener alloc] initWithIdentityProvider:identityProvider andIdentity:you];
+    MessageListener* listener = [[MessageListener alloc] initWithIdentityProvider:identityProvider andIdentity:you];
     STAssertTrue([self waitForConnection: listener.transport during: 20.0], @"Connection was not established in time");
     
     // Wait a bit for the listener to be done fetching messages from the initial queue
     [NSThread sleepForTimeInterval:3];
 
     // Start AMQP transport (sender)
-    AMQPTransport* transport = [[AMQPTransport alloc] initWithTransportDataProvider:transportManager];
+    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreCoordinator:transportManager.store.context.persistentStoreCoordinator encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
     [transport start];
     //EncodedMessageManager* emManager = [[EncodedMessageManager alloc] initWithStore: [PersistentModelStore sharedInstance]];
     
@@ -191,7 +189,7 @@
     [keyManager createSignatureUserKey: signatureKey];
 
     // Start AMQP transport (sender)
-    AMQPTransport* transport = [[AMQPTransport alloc] initWithTransportDataProvider:transportManager];
+    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreCoordinator:transportManager.store.context.persistentStoreCoordinator encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
     [transport start];
     
     // Set up receiving identity
@@ -213,7 +211,7 @@
     STAssertTrue([self waitForConnection: transport during: 20.0], @"Connection was not established in time");
 
     // Start AMQP listener for receiver
-    AMQPListener* listener = [[AMQPListener alloc] initWithIdentityProvider:identityProvider andIdentity:you];
+    MessageListener* listener = [[MessageListener alloc] initWithIdentityProvider:identityProvider andIdentity:you];
     STAssertTrue([self waitForConnection: listener.transport during: 20.0], @"Connection was not established in time");
     
     MEncodedMessage* encodedIncoming = [listener waitForMessage:0 during:20.0];

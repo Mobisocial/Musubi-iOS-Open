@@ -16,18 +16,19 @@
 
 
 //
-//  AMQPListener.m
+//  MessageListener.m
 //  Musubi
 //
 //  Created by Willem Bult on 3/17/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AMQPListener.h"
+#import "MessageListener.h"
 #import "UserKeyManager.h"
 #import "EncryptionUserKeyManager.h"
+#import "EncodedMessageManager.h"
 
-@implementation AMQPListener
+@implementation MessageListener
 
 @synthesize identityProvider, identity, transportManager, transport;
 
@@ -37,30 +38,33 @@
         [self setIdentityProvider: ip];
         [self setIdentity: i];
         
-        PersistentModelStore* store = [[PersistentModelStore alloc] initWithCoordinator:[PersistentModelStore coordinatorWithName:@"TestStore2"]];
+        // Create a new store coordinator
+        NSURL* storePath = [PersistentModelStore pathForStoreWithName:@"TestStore2"];
+        [[NSFileManager defaultManager] removeItemAtPath:storePath.path error:NULL];
         
-        [self setTransportManager: [[TransportManager alloc] initWithStore: store encryptionScheme:[ip encryptionScheme] signatureScheme:[ip signatureScheme] deviceName:random()]];
+        NSPersistentStoreCoordinator* storeCoordinator = [PersistentModelStore coordinatorWithName:@"TestStore2"];
+        
+        transportManager = [[TransportManager alloc] initWithStore:[[PersistentModelStore alloc] initWithCoordinator:storeCoordinator] encryptionScheme:ip.encryptionScheme signatureScheme:ip.signatureScheme deviceName:random()];
+        
+        
+        // Store our identity, device and signature key
         
         MIdentity* mIdent0 = [transportManager addClaimedIdentity: identity];
         [mIdent0 setOwned:YES];
         [mIdent0 setPrincipal: [i principal]];
-        //[[store context] save:NULL];
         
         //MDevice* dev = [store newDevice];
-        //[dev setDeviceName:random()];
-
-        //EncryptionUserKeyManager* eukm = [[EncryptionUserKeyManager alloc] initWithStore:store encryptionScheme:[ip encryptionScheme]];
-        UserKeyManager* sukm = [[UserKeyManager alloc] initWithStore:store encryptionScheme:[ip encryptionScheme] signatureScheme:[ip signatureScheme]];
+        //[dev setDeviceName:transport.deviceName];
         
         IBEncryptionIdentity* requiredKey = [i keyAtTemporalFrame: [transportManager signatureTimeFrom:mIdent0]];
-        
-        MSignatureUserKey* sigKey = (MSignatureUserKey*)[sukm create];
+        MSignatureUserKey* sigKey = (MSignatureUserKey*)[transportManager.store createEntity: @"SignatureUserKey"];
         [sigKey setIdentity: mIdent0];
         [sigKey setKey: [identityProvider signatureKeyForIdentity:requiredKey].raw];
         [sigKey setPeriod: requiredKey.temporalFrame];
-        //[[store context] save:NULL];
-                
-        [self setTransport: [[AMQPTransport alloc] initWithTransportDataProvider:transportManager]];
+        [transportManager.store save];
+
+        // Start the transport
+        [self setTransport: [[AMQPTransport alloc] initWithStoreCoordinator:transportManager.store.context.persistentStoreCoordinator encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName]];
         [self.transport start];
     }
     return self;
@@ -76,7 +80,6 @@
         if (res != nil && res.count > seq) {
             return [res objectAtIndex: seq];
         }
-        NSLog(@"Still waiting for message");
         [NSThread sleepForTimeInterval:1];
     }
     return nil;

@@ -43,6 +43,8 @@
 - (NSManagedObject*) queryFirst: (NSPredicate*) predicate onEntity: (NSString*) entityName;
 - (NSManagedObject *)createEntity: (NSString*) entityName;
 
+- (void) save;
+
 - (NSArray*) unsentOutboundMessages;
 
 - (MIdentity*) createIdentity;

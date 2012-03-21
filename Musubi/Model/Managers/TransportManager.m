@@ -27,7 +27,7 @@
 
 @implementation TransportManager
 
-@synthesize store, encryptionScheme, signatureScheme, deviceName, identityManager, signatureUserKeyManager, encryptionUserKeyManager, outgoingSecretManager;
+@synthesize store, encryptionScheme, signatureScheme, deviceName, identityManager;
 
 - (id)initWithStore:(PersistentModelStore *)s encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName {
     self = [super init];
@@ -39,32 +39,16 @@
         [self setDeviceName: devName];
         
         [self setIdentityManager: [[[IdentityManager alloc] initWithStore: store] autorelease]];
-        [self setSignatureUserKeyManager: [[[UserKeyManager alloc] initWithStore:store encryptionScheme:es signatureScheme:ss] autorelease]];
-        [self setEncryptionUserKeyManager: [[[EncryptionUserKeyManager alloc] initWithStore:store encryptionScheme:es] autorelease]];
-        [self setOutgoingSecretManager: [[[OutgoingSecretManager alloc] initWithStore:store] autorelease]];
     }
     
     return self;
 }
 
-- (NSArray*) query: (NSString*) entityName predicate: (NSPredicate*) predicate {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:[store context]];
+- (void)setStore:(PersistentModelStore *)s {
+    [store release];
+    store = [s retain];
     
-    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-    [request setEntity:entity];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    return [[store context] executeFetchRequest:request error:&error];
-}
-
-- (NSManagedObject*) queryFirst: (NSString*) entityName predicate: (NSPredicate*) predicate {
-    NSArray* results = [self query:entityName predicate:predicate];
-    if (results.count > 0) {
-        return [results objectAtIndex:0];
-    } else {
-        return nil;
-    }
+    [identityManager setStore:s];
 }
 
 - (long)signatureTimeFrom:(MIdentity *)from {
@@ -78,29 +62,29 @@
 }
 
 -  (IBEncryptionUserKey *)signatureKeyFrom:(MIdentity *)from myIdentity:(IBEncryptionIdentity *)me {
-    MSignatureUserKey* key = (MSignatureUserKey*)[self queryFirst:@"SignatureUserKey" predicate:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", from, me.temporalFrame]];
+    MSignatureUserKey* key = (MSignatureUserKey*)[store queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", from, me.temporalFrame] onEntity:@"SignatureUserKey"];
     return key ? [[[IBEncryptionUserKey alloc] initWithRaw: key.key] autorelease] : nil;
 }
 
 - (IBEncryptionUserKey *)encryptionKeyTo:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me {
-    MEncryptionUserKey* key = (MEncryptionUserKey*)[self queryFirst:@"EncryptionUserKey" predicate:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", to, me.temporalFrame]];
+    MEncryptionUserKey* key = (MEncryptionUserKey*)[store queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", to, me.temporalFrame] onEntity:@"EncryptionUserKey"];
     return key ? [[[IBEncryptionUserKey alloc] initWithRaw: key.key] autorelease] : nil;
 }
 
 - (MOutgoingSecret *)lookupOutgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
-    return (MOutgoingSecret*)[self queryFirst:@"OutgoingSecret" predicate:[NSPredicate predicateWithFormat:@"myIdentityId = %ld AND otherIdentityId = %ld AND encryptionPeriod = %ld AND signaturePeriod = %ld", from.id, to.id, me.temporalFrame, other.temporalFrame]];
+    return (MOutgoingSecret*)[store queryFirst:[NSPredicate predicateWithFormat:@"myIdentityId = %ld AND otherIdentityId = %ld AND encryptionPeriod = %ld AND signaturePeriod = %ld", from.id, to.id, me.temporalFrame, other.temporalFrame] onEntity:@"OutgoingSecret"];
 }
 
 - (void)insertOutgoingSecret:(MOutgoingSecret *)os myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
     //TODO: Seriously, nothing?
-    //[[store context] save:NULL];
+    [[store context] save:NULL];
     [os setId: [[os objectID] hash]];
 }
 
 - (MIncomingSecret *)lookupIncomingSecretFrom:(MIdentity *)from onDevice:(MDevice *)device to:(MIdentity *)to withSignature:(NSData *)signature otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"myIdentityId = %ld AND otherIdentityId = %ld AND encryptionPeriod = %ld AND signaturePeriod = %ld AND deviceId", from.id, to.id, other.temporalFrame, me.temporalFrame, device.id];
     
-    NSArray* results = [self query:@"IncomingSecret" predicate:predicate];
+    NSArray* results = [store query:predicate onEntity:@"IncomingSecret"];
     for (int i=0; i<results.count; i++) {
         MIncomingSecret* secret = (MIncomingSecret*) [results objectAtIndex:i];
         
@@ -116,7 +100,7 @@
 
 - (void)insertIncomingSecret:(MIncomingSecret *)is otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
     //TODO: Seriously, nothing?
-    //[[store context] save:NULL];
+    [[store context] save:NULL];
     [is setId: [[is objectID] hash]];
 }
 
@@ -125,7 +109,7 @@
 }
 
 - (void)receivedSequenceNumber:(long)sequenceNumber from:(MDevice *)device {
-    MMissingMessage* mm = (MMissingMessage*) [self queryFirst:@"MissingMessage" predicate:[NSPredicate predicateWithFormat:@"device = %@ AND sequenceNumber = %ld", device, sequenceNumber]];
+    MMissingMessage* mm = (MMissingMessage*) [store queryFirst:[NSPredicate predicateWithFormat:@"device = %@ AND sequenceNumber = %ld", device, sequenceNumber] onEntity:@"MissingMessage"];
     if (mm) {
         [[store context] deleteObject:mm];
     }
@@ -138,7 +122,7 @@
         if (rcptId == nil)
             break;
         
-        MIdentity* ident = (MIdentity*)[self queryFirst:@"Identity" predicate:[NSPredicate predicateWithFormat:@"id=%ld", rcptId.longValue]];
+        MIdentity* ident = (MIdentity*)[store queryFirst:[NSPredicate predicateWithFormat:@"id=%ld", rcptId.longValue] onEntity:@"Identity"];
         
         MSequenceNumber* seqNumber = (MSequenceNumber*) [NSEntityDescription insertNewObjectForEntityForName:@"SequenceNumber" inManagedObjectContext: [store context]];
         [seqNumber setRecipient:ident];
@@ -152,7 +136,7 @@
 }
 
 - (BOOL)isMe:(IBEncryptionIdentity *)ident {
-    NSArray* results = [self query:@"Identity" predicate:[NSPredicate predicateWithFormat:@"type = %d AND principalShortHash = %ld AND principalHash = %@ AND owned = 1", ident.authority, *(long*)ident.hashed.bytes, ident.hashed]];
+    NSArray* results = [store query:[NSPredicate predicateWithFormat:@"type = %d AND principalShortHash = %ld AND principalHash = %@ AND owned = 1", ident.authority, *(long*)ident.hashed.bytes, ident.hashed] onEntity:@"Identity"];
     return (results.count > 0);
 }
 
@@ -169,8 +153,7 @@
         [mIdent setClaimed: YES];
         [mIdent setPrincipalHash: ident.hashed];
         [mIdent setPrincipalShortHash: *(long*)ident.hashed.bytes];
-        [mIdent setType: ident.authority];
-        
+        [mIdent setType: ident.authority];        
         [identityManager createIdentity:mIdent];    
     }
     
@@ -179,6 +162,7 @@
 
 - (MIdentity *)addUnclaimedIdentity:(IBEncryptionIdentity *)ident {
     MIdentity* mIdent = [identityManager identityForIBEncryptionIdentity:ident];
+  
     if (mIdent == nil) {
         [mIdent setClaimed: NO];
         [mIdent setPrincipalHash: ident.hashed];
@@ -193,7 +177,7 @@
 
 - (MDevice *)addDeviceWithName:(long)devName forIdentity:(MIdentity *)ident {
     
-    MDevice* dev = (MDevice*) [self queryFirst:@"Device" predicate:[NSPredicate predicateWithFormat:@"identityId = %ld AND deviceName = %ld", ident.id, devName]];
+    MDevice* dev = (MDevice*) [store queryFirst:[NSPredicate predicateWithFormat:@"identityId = %ld AND deviceName = %ld", ident.id, devName] onEntity:@"Device"];
     
     if (dev == nil) {
         dev = (MDevice*) [NSEntityDescription insertNewObjectForEntityForName:@"Device" inManagedObjectContext: [store context]];
@@ -206,11 +190,11 @@
 }
 
 - (void)insertEncodedMessage:(MEncodedMessage *)encoded forOutgoingMessage:(OutgoingMessage *)om {
-    //[[store context] save: NULL];
+    [[store context] save: NULL];
 }
 
 - (void)updateEncodedMetadata:(MEncodedMessage *)encoded {
-    //[[store context] save: NULL];
+    [[store context] save: NULL];
 }
 
 - (BOOL)haveHash:(NSData *)hash {

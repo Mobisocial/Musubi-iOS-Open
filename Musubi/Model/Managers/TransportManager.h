@@ -40,24 +40,16 @@
     IBEncryptionScheme* encryptionScheme;
     IBSignatureScheme* signatureScheme;
     long deviceName;
-    
+
     IdentityManager* identityManager;
-    UserKeyManager* signatureUserKeyManager;
-    EncryptionUserKeyManager* encryptionUserKeyManager;
-    OutgoingSecretManager* outgoingSecretManager;
 }
 
 @property (nonatomic, retain) PersistentModelStore* store;
 @property (nonatomic, retain) IBEncryptionScheme* encryptionScheme;
 @property (nonatomic, retain) IBSignatureScheme* signatureScheme;
 @property (nonatomic, assign) long deviceName;
-
 @property (nonatomic, retain) IdentityManager* identityManager;
-@property (nonatomic, retain) UserKeyManager* signatureUserKeyManager;
-@property (nonatomic, retain) EncryptionUserKeyManager* encryptionUserKeyManager;
-@property (nonatomic, retain) OutgoingSecretManager* outgoingSecretManager;
 
 - (id) initWithStore: (PersistentModelStore*) store encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (long) devName;
-
 
 @end

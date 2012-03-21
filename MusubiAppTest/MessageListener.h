@@ -16,7 +16,7 @@
 
 
 //
-//  AMQPListener.h
+//  MessageListener.h
 //  Musubi
 //
 //  Created by Willem Bult on 3/17/12.
@@ -30,7 +30,7 @@
 #import "AMQPTransport.h"
 #import "MEncodedMessage.h"
 
-@interface AMQPListener : NSObject {
+@interface MessageListener : NSObject {
     UnverifiedIdentityProvider* identityProvider;
     IBEncryptionIdentity* identity;
     TransportManager* transportManager;

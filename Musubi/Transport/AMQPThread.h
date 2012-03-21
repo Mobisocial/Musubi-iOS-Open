@@ -16,35 +16,34 @@
 
 
 //
-//  AMQPTransport.h
+//  AMQPThread.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/15/12.
+//  Created by Willem Bult on 3/20/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "AMQPConnectionManager.h"
-#import "AMQPSender.h"
-#import "AMQPListener.h"
+#import "TransportManager.h"
 
-@interface AMQPTransport : NSObject {
+@interface AMQPThread : NSThread {
     AMQPConnectionManager* connMngr;
-    AMQPConnectionManager* connMgrOut;
-
-    AMQPSender* sender;
-    AMQPListener* listener;
+    
+    NSPersistentStoreCoordinator* storeCoordinator;
+    TransportManager* transportDataProvider;
+    
+    int instance;
 }
 
 @property (nonatomic,retain) AMQPConnectionManager* connMngr;
-@property (nonatomic,retain) AMQPConnectionManager* connMgrOut;
+@property (nonatomic,retain) NSPersistentStoreCoordinator* storeCoordinator;
+@property (nonatomic,retain) TransportManager* transportDataProvider;
 
-@property (nonatomic,retain) AMQPSender* sender;
-@property (nonatomic,retain) AMQPListener* listener;
+- (id) initWithConnectionManager: (AMQPConnectionManager*) conn storeCoordinator: (NSPersistentStoreCoordinator*) coordinator encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (long) devName;
 
-- (id) initWithStoreCoordinator: (NSPersistentStoreCoordinator*) coordinator encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (long) devName;
+- (void) log:(NSString*) format, ...;
 
-- (void) start;
-- (void) stop;
-- (BOOL) done;
+- (NSString*) queueNameForKey: (NSData*) key withPrefix: (NSString*) prefix;
+
 @end

@@ -53,7 +53,7 @@
 }
 
 - (id) init {
-    return [self initWithName:@"Model"];
+    return [self initWithCoordinator:[PersistentModelStore coordinatorWithName:@"Model"]];
 }
 
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator {
@@ -91,6 +91,15 @@
     return entity;
 }
 
+- (void)save {
+    NSError* err = nil;
+    [context save:&err];
+    
+    if (err != nil) {
+        @throw err;
+    }
+}
+
 
 - (MIdentity *)createIdentity {
     return [NSEntityDescription insertNewObjectForEntityForName:@"Identity" inManagedObjectContext: context];
@@ -113,21 +122,7 @@
 }
 
 - (NSArray*) unsentOutboundMessages {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"EncodedMessage" inManagedObjectContext:context];
-    
-    
-    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-    [request setEntity:entity];
-    [request setPredicate:[NSPredicate predicateWithFormat:@"processed=0 AND outbound=1"]];
-
-    NSError *error = nil;
-    NSArray* res = [context executeFetchRequest:request error:&error];
-    
-    if (error != nil) {
-        NSLog(@"Error: %@", error);
-    }
-    
-    return res;
+    return [self query:[NSPredicate predicateWithFormat:@"processed=0 AND outbound=1"] onEntity:@"EncodedMessage"];
 }
 
 @end
