@@ -29,15 +29,15 @@
 #import "AMQPListener.h"
 
 @interface AMQPTransport : NSObject {
-    AMQPConnectionManager* connMngr;
-    AMQPConnectionManager* connMgrOut;
+    AMQPConnectionManager* connMngrIn;
+    AMQPConnectionManager* connMngrOut;
 
     AMQPSender* sender;
     AMQPListener* listener;
 }
 
-@property (nonatomic,retain) AMQPConnectionManager* connMngr;
-@property (nonatomic,retain) AMQPConnectionManager* connMgrOut;
+@property (nonatomic,retain) AMQPConnectionManager* connMngrIn;
+@property (nonatomic,retain) AMQPConnectionManager* connMngrOut;
 
 @property (nonatomic,retain) AMQPSender* sender;
 @property (nonatomic,retain) AMQPListener* listener;
@@ -47,4 +47,5 @@
 - (void) start;
 - (void) stop;
 - (BOOL) done;
+
 @end

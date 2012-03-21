@@ -27,18 +27,17 @@
 
 @implementation AMQPTransport
 
-@synthesize connMngr, connMgrOut, sender, listener;
+@synthesize connMngrIn, connMngrOut, sender, listener;
 
 - (id)initWithStoreCoordinator:(NSPersistentStoreCoordinator *)coordinator encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName {
 
     self = [super init];
     if (self) {
-        [self setConnMngr:[[[AMQPConnectionManager alloc] init] autorelease]];
-        [self setConnMgrOut:[[[AMQPConnectionManager alloc] init] autorelease]];
-        //        [self setConnMgrOut:connMngr];
+        [self setConnMngrIn:[[[AMQPConnectionManager alloc] init] autorelease]];
+        [self setConnMngrOut:[[[AMQPConnectionManager alloc] init] autorelease]];
 
-        [self setListener: [[AMQPListener alloc] initWithConnectionManager:connMngr storeCoordinator:coordinator encryptionScheme:es signatureScheme:ss deviceName:devName]];
-        [self setSender: [[AMQPSender alloc] initWithConnectionManager:connMgrOut storeCoordinator:coordinator encryptionScheme:es signatureScheme:ss deviceName:devName]];
+        [self setListener: [[AMQPListener alloc] initWithConnectionManager:connMngrIn storeCoordinator:coordinator encryptionScheme:es signatureScheme:ss deviceName:devName]];
+        [self setSender: [[AMQPSender alloc] initWithConnectionManager:connMngrOut storeCoordinator:coordinator encryptionScheme:es signatureScheme:ss deviceName:devName]];
 
     }
     return self;
@@ -47,9 +46,9 @@
 - (id)initWithTransportDataProvider:(id<TransportDataProvider>)tdp {
     self = [super init];
     if (self) {
-        [self setConnMngr:[[[AMQPConnectionManager alloc] init] autorelease]];
+        [self setConnMngrIn:[[[AMQPConnectionManager alloc] init] autorelease]];
 //        [self setConnMgrOut:[[[AMQPConnectionManager alloc] init] autorelease]];
-        [self setConnMgrOut:connMngr];
+        [self setConnMngrOut:connMngrIn];
     }
     return self;
 }
