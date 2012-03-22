@@ -25,6 +25,7 @@
 
 #import "IdentityManager.h"
 #include <openssl/bn.h>
+#import "NSData+Crypto.h"
 
 @implementation IdentityManager
 
@@ -72,9 +73,17 @@
 }
 
 - (IBEncryptionIdentity *)ibEncryptionIdentityForIdentity:(MIdentity *)ident forTemporalFrame:(long) tf{
-    return [[[IBEncryptionIdentity alloc] initWithAuthority:ident.type hashedKey:ident.principalHash temporalFrame:tf] autorelease];
+    if (ident.principal) {
+        return [[[IBEncryptionIdentity alloc] initWithAuthority:ident.type principal:ident.principal temporalFrame:tf] autorelease];
+    } else {
+        return [[[IBEncryptionIdentity alloc] initWithAuthority:ident.type hashedKey:ident.principalHash temporalFrame:tf] autorelease];        
+    }
+
 }
 
+- (long) computeTemporalFrameFromPrincipal: (NSString*) principal {
+    return [self computeTemporalFrameFromHash: [[principal dataUsingEncoding:NSUTF8StringEncoding] sha256Digest]];
+}
 
 - (long)computeTemporalFrameFromHash:(NSData *)hash {
     return 0;

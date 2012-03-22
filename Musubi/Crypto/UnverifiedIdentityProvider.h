@@ -24,6 +24,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IdentityProvider.h"
 #import "IBEncryptionScheme.h"
 
 #define kEncryptionMasterKey @"IaDYdb1KUmMXryyF0cM3SYa2lFcDsQ+c0H04ZaxSyiix6/T//+KT6AA="
@@ -32,16 +33,13 @@
 #define kSignatureMasterKey @"DkYMfelGGsxk8harZ0Ga/rIMeC4="
 #define kSignaturePublicParameters "Dd9pJec6fLTT2kpDu4xZaTYQDxQRdG0Yh3gC7WX4Vt3gb4BPMz42cgEQNOT5i0ihwacJxQ+6Clg5TTbKUBZrv9zwj1lRe9f8AQ23YMC3RpXpAA=="
 
-@interface UnverifiedIdentityProvider : NSObject {
+@interface UnverifiedIdentityProvider : NSObject<IdentityProvider> {
     IBEncryptionScheme* encryptionScheme;
     IBSignatureScheme* signatureScheme;
 }
 
 @property (nonatomic, retain) IBEncryptionScheme* encryptionScheme;
 @property (nonatomic, retain) IBSignatureScheme* signatureScheme;
-
-- (IBEncryptionUserKey*) signatureKeyForIdentity: (IBEncryptionIdentity*) ident;
-- (IBEncryptionUserKey*) encryptionKeyForIdentity: (IBEncryptionIdentity*) ident;
 
 
 @end

@@ -143,7 +143,7 @@
     IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIBEncryptionIdentityAuthorityEmail hashedKey:hashedKey temporalFrame:1];
     
     NSData* hash = [NSData dataWithBytes:"01234567890123456789012345678901" length:SHA256_DIGEST_LENGTH];
-    IBEncryptionUserKey* userKey = [loadedScheme userKeyWithIdentity:ident];
+    IBSignatureUserKey* userKey = [loadedScheme userKeyWithIdentity:ident];
     
     NSData* signature = [userScheme signHash: hash withUserKey: userKey andIdentity: ident];
     BOOL ok = [userScheme verifySignature: signature forHash: hash withIdentity: ident];

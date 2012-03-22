@@ -23,13 +23,13 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "UserKeyManager.h"
+#import "SignatureUserKeyManager.h"
 
-@implementation UserKeyManager
+@implementation SignatureUserKeyManager
 
 @synthesize signatureScheme;
 
-- (id)initWithStore:(PersistentModelStore *)s encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss {
+- (id)initWithStore:(PersistentModelStore *)s signatureScheme:(IBSignatureScheme *)ss {
     self = [super initWithEntityName:@"SignatureUserKey" andStore:s];
     
     if (self != nil) {
@@ -40,21 +40,20 @@
 }
 
 - (void)createSignatureUserKey:(MSignatureUserKey *)signatureKey {
-	// TODO: synchronize code
     [[store context] save:NULL];
 }
 
-- (IBEncryptionUserKey *)signatureKeyFrom:(MIdentity *)from to:(IBEncryptionIdentity *)to {
-    NSArray* results = [self query:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", from, to.temporalFrame]];
-    
-    for (int i=0; i<results.count; i++) {
-        return [[[IBEncryptionUserKey alloc] initWithRaw: ((MSignatureUserKey*)[results objectAtIndex:i]).key] autorelease];
+- (IBSignatureUserKey *)signatureKeyFrom:(MIdentity *)from me:(IBEncryptionIdentity *)me {
+    MSignatureUserKey* key = (MSignatureUserKey*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", from, me.temporalFrame]];
+    if (key != nil) {
+        return [[[IBSignatureUserKey alloc] initWithRaw: key.key] autorelease];
     }
-    return nil;
+        
+    @throw [NSException exceptionWithName:kMusubiExceptionNeedSignatureUserKey reason:@"Don't have signature key" userInfo:nil];
 }
 
 - (void)updateSignatureUserKey:(MSignatureUserKey *)signatureKey {
-    
+    [[store context] save:NULL];
 }
 
 @end

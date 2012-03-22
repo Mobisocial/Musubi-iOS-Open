@@ -30,16 +30,19 @@
 #import "MEncryptionUserKey.h"
 #import "MSignatureUserKey.h"
 
-@interface UserKeyManager : EntityManager {
+#define kMusubiExceptionNeedSignatureUserKey @"NeedSignatureUserKey"
+
+
+@interface SignatureUserKeyManager : EntityManager {
     IBSignatureScheme* signatureScheme;
 }
 
 @property (nonatomic, retain) IBSignatureScheme* signatureScheme;
 
-- (id) initWithStore: (PersistentModelStore*) store encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss;
+- (id) initWithStore: (PersistentModelStore*) store signatureScheme: (IBSignatureScheme*) ss;
 
-- (void) createSignatureUserKey:(MSignatureUserKey *)signatureKey;
+- (void) createSignatureUserKey:(MSignatureUserKey*)signatureKey;
 - (void) updateSignatureUserKey:(MSignatureUserKey*)signatureKey;
-- (IBEncryptionUserKey*) signatureKeyFrom: (MIdentity*) from to: (IBEncryptionIdentity*) to;
+- (IBSignatureUserKey*) signatureKeyFrom: (MIdentity*) from me: (IBEncryptionIdentity*) to;
 
 @end

@@ -13,7 +13,7 @@
 		D208156415128BEF00F12039 /* TransportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156315128BEF00F12039 /* TransportManager.m */; };
 		D208156715128E6100F12039 /* UnverifiedIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */; };
 		D208156A151290FE00F12039 /* IdentityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081569151290FE00F12039 /* IdentityManager.m */; };
-		D20815701512A2C200F12039 /* UserKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156F1512A2C200F12039 /* UserKeyManager.m */; };
+		D20815701512A2C200F12039 /* SignatureUserKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156F1512A2C200F12039 /* SignatureUserKeyManager.m */; };
 		D20815761512BA9300F12039 /* EncodedMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815751512BA9300F12039 /* EncodedMessageManager.m */; };
 		D20815791512EA5F00F12039 /* EncryptionUserKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815781512EA5F00F12039 /* EncryptionUserKeyManager.m */; };
 		D208157C1512EF7000F12039 /* OutgoingSecretManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208157B1512EF7000F12039 /* OutgoingSecretManager.m */; };
@@ -77,13 +77,13 @@
 		D272FB64151A90F800D2521A /* NSObject+DDExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */; };
 		D272FB65151A90F800D2521A /* DDInvocationGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB62151A90F800D2521A /* DDInvocationGrabber.m */; };
 		D272FB68151ABC1B00D2521A /* AphidIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB67151ABC1B00D2521A /* AphidIdentityProvider.m */; };
+		D272FB6B151ABCEE00D2521A /* IdentityKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB6A151ABCEE00D2521A /* IdentityKeyManager.m */; };
 		D27965831457D37A00C5FDAB /* librabbitmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D279590B1457D36300C5FDAB /* librabbitmq.a */; };
 		D27968BE1457D97700C5FDAB /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D27967811457D97500C5FDAB /* ZipArchive.mm */; };
 		D27968BF1457D97700C5FDAB /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967841457D97600C5FDAB /* ioapi.c */; };
 		D27968C01457D97700C5FDAB /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967861457D97600C5FDAB /* mztools.c */; };
 		D27968C11457D97700C5FDAB /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967881457D97600C5FDAB /* unzip.c */; };
 		D27968C21457D97700C5FDAB /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = D279678A1457D97600C5FDAB /* zip.c */; };
-		D27968D91457D9BA00C5FDAB /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D27968CF1457D97800C5FDAB /* libsbjson-ios.a */; };
 		D27968DD1457DA4800C5FDAB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27968DC1457DA4700C5FDAB /* CoreData.framework */; };
 		D27968DE1457DB5200C5FDAB /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959011457D36200C5FDAB /* amqp_api.c */; };
 		D27968DF1457DB5200C5FDAB /* amqp_connection.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959021457D36200C5FDAB /* amqp_connection.c */; };
@@ -113,6 +113,7 @@
 		D2CB073C14EDCBB50006D1E9 /* IBEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */; };
 		D2CD028A1443A1830080861E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD02891443A1830080861E /* CoreLocation.framework */; };
 		D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
+		D2D30EE2151B25E5009D1E62 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
 		D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */; };
 /* End PBXBuildFile section */
 
@@ -180,13 +181,6 @@
 			remoteGlobalIDString = BC70BE4C138C025500638110;
 			remoteInfo = TweetStream;
 		};
-		D27968DA1457D9C800C5FDAB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D279662B1457D97200C5FDAB /* SBJson.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BCC2626813920FC7003D9994;
-			remoteInfo = "sbjson-ios";
-		};
 		D2B428CB14F44F4800ED868D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D2B428BB14F44F4600ED868D /* IBE.xcodeproj */;
@@ -218,8 +212,8 @@
 		D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnverifiedIdentityProvider.m; path = Crypto/UnverifiedIdentityProvider.m; sourceTree = "<group>"; };
 		D2081568151290FE00F12039 /* IdentityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentityManager.h; sourceTree = "<group>"; };
 		D2081569151290FE00F12039 /* IdentityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentityManager.m; sourceTree = "<group>"; };
-		D208156E1512A2C200F12039 /* UserKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserKeyManager.h; sourceTree = "<group>"; };
-		D208156F1512A2C200F12039 /* UserKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserKeyManager.m; sourceTree = "<group>"; };
+		D208156E1512A2C200F12039 /* SignatureUserKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureUserKeyManager.h; sourceTree = "<group>"; };
+		D208156F1512A2C200F12039 /* SignatureUserKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureUserKeyManager.m; sourceTree = "<group>"; };
 		D20815741512BA9300F12039 /* EncodedMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncodedMessageManager.h; sourceTree = "<group>"; };
 		D20815751512BA9300F12039 /* EncodedMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncodedMessageManager.m; sourceTree = "<group>"; };
 		D20815771512EA5F00F12039 /* EncryptionUserKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncryptionUserKeyManager.h; path = Musubi/Model/Managers/EncryptionUserKeyManager.h; sourceTree = SOURCE_ROOT; };
@@ -331,6 +325,9 @@
 		D272FB63151A90F800D2521A /* DDInvocationGrabber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDInvocationGrabber.h; sourceTree = "<group>"; };
 		D272FB66151ABC1B00D2521A /* AphidIdentityProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AphidIdentityProvider.h; sourceTree = "<group>"; };
 		D272FB67151ABC1B00D2521A /* AphidIdentityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AphidIdentityProvider.m; sourceTree = "<group>"; };
+		D272FB69151ABCEE00D2521A /* IdentityKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentityKeyManager.h; sourceTree = "<group>"; };
+		D272FB6A151ABCEE00D2521A /* IdentityKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentityKeyManager.m; sourceTree = "<group>"; };
+		D272FB6C151AC06B00D2521A /* IdentityProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentityProvider.h; sourceTree = "<group>"; };
 		D27959001457D36200C5FDAB /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
 		D27959011457D36200C5FDAB /* amqp_api.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_api.c; sourceTree = "<group>"; };
 		D27959021457D36200C5FDAB /* amqp_connection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_connection.c; sourceTree = "<group>"; };
@@ -725,6 +722,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2D30EE2151B25E5009D1E62 /* Security.framework in Frameworks */,
 				D2AADE5214FEEBEC00C6ABB3 /* CoreData.framework in Frameworks */,
 				D216DE5A14F48951001A4166 /* SenTestingKit.framework in Frameworks */,
 				D216DE5B14F48951001A4166 /* UIKit.framework in Frameworks */,
@@ -739,7 +737,6 @@
 				D211D97215197F7000E38051 /* libfacebook_ios_sdk.a in Frameworks */,
 				D27965831457D37A00C5FDAB /* librabbitmq.a in Frameworks */,
 				D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */,
-				D27968D91457D9BA00C5FDAB /* libsbjson-ios.a in Frameworks */,
 				D216DDCB14F46131001A4166 /* libpbc.a in Frameworks */,
 				D2B428D214F44F5B00ED868D /* libIBE.a in Frameworks */,
 				D27968DD1457DA4800C5FDAB /* CoreData.framework in Frameworks */,
@@ -764,11 +761,11 @@
 				D20815741512BA9300F12039 /* EncodedMessageManager.h */,
 				D20815751512BA9300F12039 /* EncodedMessageManager.m */,
 				D20815771512EA5F00F12039 /* EncryptionUserKeyManager.h */,
-				D208156E1512A2C200F12039 /* UserKeyManager.h */,
-				D208156F1512A2C200F12039 /* UserKeyManager.m */,
+				D20815781512EA5F00F12039 /* EncryptionUserKeyManager.m */,
+				D208156E1512A2C200F12039 /* SignatureUserKeyManager.h */,
+				D208156F1512A2C200F12039 /* SignatureUserKeyManager.m */,
 				D208156215128BEF00F12039 /* TransportManager.h */,
 				D208156315128BEF00F12039 /* TransportManager.m */,
-				D20815781512EA5F00F12039 /* EncryptionUserKeyManager.m */,
 				D208157A1512EF6F00F12039 /* OutgoingSecretManager.h */,
 				D208157B1512EF7000F12039 /* OutgoingSecretManager.m */,
 				D20815831513C20A00F12039 /* FeedManager.h */,
@@ -849,6 +846,9 @@
 				D272FB5B151A751800D2521A /* AccountAuthManager.m */,
 				D272FB66151ABC1B00D2521A /* AphidIdentityProvider.h */,
 				D272FB67151ABC1B00D2521A /* AphidIdentityProvider.m */,
+				D272FB69151ABCEE00D2521A /* IdentityKeyManager.h */,
+				D272FB6A151ABCEE00D2521A /* IdentityKeyManager.m */,
+				D272FB6C151AC06B00D2521A /* IdentityProvider.h */,
 			);
 			name = Identity;
 			sourceTree = "<group>";
@@ -2191,7 +2191,6 @@
 			);
 			dependencies = (
 				D211D97115197F6800E38051 /* PBXTargetDependency */,
-				D27968DB1457D9C800C5FDAB /* PBXTargetDependency */,
 				D2B428D414F44FC600ED868D /* PBXTargetDependency */,
 			);
 			name = Musubi;
@@ -2413,7 +2412,7 @@
 				D208156415128BEF00F12039 /* TransportManager.m in Sources */,
 				D208156715128E6100F12039 /* UnverifiedIdentityProvider.m in Sources */,
 				D208156A151290FE00F12039 /* IdentityManager.m in Sources */,
-				D20815701512A2C200F12039 /* UserKeyManager.m in Sources */,
+				D20815701512A2C200F12039 /* SignatureUserKeyManager.m in Sources */,
 				D20815761512BA9300F12039 /* EncodedMessageManager.m in Sources */,
 				D20815791512EA5F00F12039 /* EncryptionUserKeyManager.m in Sources */,
 				D208157C1512EF7000F12039 /* OutgoingSecretManager.m in Sources */,
@@ -2443,6 +2442,7 @@
 				D272FB64151A90F800D2521A /* NSObject+DDExtensions.m in Sources */,
 				D272FB65151A90F800D2521A /* DDInvocationGrabber.m in Sources */,
 				D272FB68151ABC1B00D2521A /* AphidIdentityProvider.m in Sources */,
+				D272FB6B151ABCEE00D2521A /* IdentityKeyManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2458,11 +2458,6 @@
 			isa = PBXTargetDependency;
 			target = D298F9F1143CE6DF000831DD /* Musubi */;
 			targetProxy = D216DE6A14F48AE2001A4166 /* PBXContainerItemProxy */;
-		};
-		D27968DB1457D9C800C5FDAB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "sbjson-ios";
-			targetProxy = D27968DA1457D9C800C5FDAB /* PBXContainerItemProxy */;
 		};
 		D2B428D414F44FC600ED868D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2583,6 +2578,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "${TARGET_BUILD_DIR}/Musubi.app/Musubi";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
@@ -2600,6 +2596,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "${TARGET_BUILD_DIR}/Musubi.app/Musubi";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",

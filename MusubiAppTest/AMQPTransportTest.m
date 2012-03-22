@@ -26,7 +26,7 @@
 #import "AMQPTransportTest.h"
 #import "MessageListener.h"
 #import "TransportManager.h"
-#import "UserKeyManager.h"
+#import "SignatureUserKeyManager.h"
 #import "EncodedMessageManager.h"
 #import "NSData+Crypto.h"
 #import "MessageEncoder.h"
@@ -82,7 +82,7 @@
     // Initiate managers with the identity provider
     TransportManager* transportManager = [[TransportManager alloc] initWithStore:store encryptionScheme:[identityProvider encryptionScheme] signatureScheme:[identityProvider signatureScheme] deviceName:random()];
     
-    UserKeyManager* keyManager = [[UserKeyManager alloc] initWithStore:store encryptionScheme:[identityProvider encryptionScheme] signatureScheme:[identityProvider signatureScheme]];
+    SignatureUserKeyManager* keyManager = [[SignatureUserKeyManager alloc] initWithStore:store signatureScheme:[identityProvider signatureScheme]];
 
     // Set up our identity
     IBEncryptionIdentity* me = [self randomIdentity];
@@ -170,7 +170,7 @@
     // Initiate managers with the identity provider
     TransportManager* transportManager = [[TransportManager alloc] initWithStore:store encryptionScheme:[identityProvider encryptionScheme] signatureScheme:[identityProvider signatureScheme] deviceName:random()];
 
-    UserKeyManager* keyManager = [[UserKeyManager alloc] initWithStore:store encryptionScheme:[identityProvider encryptionScheme] signatureScheme:[identityProvider signatureScheme]];
+    SignatureUserKeyManager* keyManager = [[SignatureUserKeyManager alloc] initWithStore:store signatureScheme:[identityProvider signatureScheme]];
 
     // Set up our identity
     IBEncryptionIdentity* me = [self randomIdentity];
@@ -237,7 +237,7 @@
     // Initiate managers with the identity provider
     TransportManager* transportManager = [[TransportManager alloc] initWithStore:store encryptionScheme:[identityProvider encryptionScheme] signatureScheme:[identityProvider signatureScheme] deviceName:random()];
     
-    UserKeyManager* keyManager = [[UserKeyManager alloc] initWithStore:store encryptionScheme:[identityProvider encryptionScheme] signatureScheme:[identityProvider signatureScheme]];
+    SignatureUserKeyManager* keyManager = [[SignatureUserKeyManager alloc] initWithStore:store signatureScheme:[identityProvider signatureScheme]];
     
     // Set up our identity
     IBEncryptionIdentity* me = [self randomIdentity];

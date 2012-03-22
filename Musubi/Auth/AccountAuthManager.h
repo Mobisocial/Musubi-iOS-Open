@@ -30,7 +30,6 @@
 #import "IBEncryptionScheme.h"
 #import "IdentityManager.h"
 
-#define kAccountTypeFacebook @"com.facebook.auth.login"
 
 @protocol AccountAuthManagerDelegate
 

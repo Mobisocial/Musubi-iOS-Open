@@ -15,6 +15,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
+    [Musubi sharedInstance];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

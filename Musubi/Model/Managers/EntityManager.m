@@ -45,6 +45,8 @@
     [request setEntity:entity];
     [request setPredicate:predicate];
     
+    NSLog(@"Query: %@", request);
+    
     NSError *error = nil;
     return [[store context] executeFetchRequest:request error:&error];
 }

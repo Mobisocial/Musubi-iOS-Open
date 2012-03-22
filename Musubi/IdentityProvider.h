@@ -16,31 +16,22 @@
 
 
 //
-//  IdentityManager.h
+//  IdentityProvider.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/15/12.
+//  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "EntityManager.h"
 #import "IBEncryptionScheme.h"
 
-#define kIBEncryptionUserKeyRefreshSeconds 2592000 //30 * 24 * 60 * 60
+@protocol IdentityProvider <NSObject>
 
-@interface IdentityManager : EntityManager
+- (IBEncryptionScheme*) encryptionScheme;
+- (IBSignatureScheme*) signatureScheme;
 
-- (id) initWithStore: (PersistentModelStore*) s;
-
-- (void) updateIdentity: (MIdentity*) ident;
-- (void) createIdentity:(MIdentity *)ident;
-
-- (NSArray*) ownedIdentities;
-- (MIdentity*) identityForIBEncryptionIdentity: (IBEncryptionIdentity*) ident;
-- (IBEncryptionIdentity*) ibEncryptionIdentityForIdentity: (MIdentity*) ident forTemporalFrame: (long) tf;
-- (long) computeTemporalFrameFromHash: (NSData*) hash;
-- (long) computeTemporalFrameFromPrincipal: (NSString*) principal;
-- (void)incrementSequenceNumberTo:(MIdentity *)to;
+- (IBSignatureUserKey*) signatureKeyForIdentity: (IBEncryptionIdentity*) ident;
+- (IBEncryptionUserKey*) encryptionKeyForIdentity: (IBEncryptionIdentity*) ident;
 
 @end

@@ -44,13 +44,13 @@
     //[[store context] save:NULL];
 }
 
-- (IBEncryptionUserKey *)encryptionKeyFrom:(MIdentity *)from to:(IBEncryptionIdentity *)to {
-    NSArray* results = [self query:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", from, to.temporalFrame]];
-    
-    for (int i=0; i<results.count; i++) {
-        return [[[IBEncryptionUserKey alloc] initWithRaw: ((MEncryptionUserKey*)[results objectAtIndex:i]).key] autorelease];
+- (IBEncryptionUserKey *)encryptionKeyTo:(MIdentity *)to me:(IBEncryptionIdentity *)me {
+    MEncryptionUserKey* key = (MEncryptionUserKey*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", to, me.temporalFrame]];
+    if (key != nil) {
+        return [[[IBEncryptionUserKey alloc] initWithRaw: key.key] autorelease];
     }
-    return nil;
+    
+    @throw [NSException exceptionWithName:kMusubiExceptionNeedEncryptionUserKey reason:@"Don't have encryption key" userInfo:nil];
 }
 
 - (void)updateEncryptionUserKey:(MEncryptionUserKey *)signatureKey {

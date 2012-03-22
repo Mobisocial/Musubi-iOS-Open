@@ -31,16 +31,16 @@
     AMQPConnectionManager* connMngr;
     
     PersistentModelStoreFactory* storeFactory;
-    TransportManager* transportDataProvider;
+    PersistentModelStore* threadStore;
     
     int instance;
 }
 
 @property (nonatomic,retain) AMQPConnectionManager* connMngr;
 @property (nonatomic,retain) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic,retain) TransportManager* transportDataProvider;
+@property (nonatomic,retain) PersistentModelStore* threadStore;
 
-- (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName;
+- (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf;
 
 - (void) log:(NSString*) format, ...;
 

@@ -28,6 +28,8 @@
 #import "IBEncryptionScheme.h"
 #import "MEncryptionUserKey.h"
 
+#define kMusubiExceptionNeedEncryptionUserKey @"NeedEncryptionUserKey"
+
 @interface EncryptionUserKeyManager : EntityManager {
     IBEncryptionScheme* encryptionScheme;
 }
@@ -39,6 +41,6 @@
 - (void) createEncryptionUserKey:(MEncryptionUserKey *)signatureKey;
 - (void) updateEncryptionUserKey:(MEncryptionUserKey*)signatureKey;
 
-- (IBEncryptionUserKey*) encryptionKeyFrom: (MIdentity*) from to: (IBEncryptionIdentity*) to;
+- (IBEncryptionUserKey *)encryptionKeyTo:(MIdentity *)to me:(IBEncryptionIdentity *)me;
 
 @end

@@ -26,16 +26,15 @@
 #import "FacebookAuth.h"
 #import "AppDelegate.h"
 
-@implementation FacebookConnectOperation
+@implementation FacebookAuthManager
 
-@synthesize facebook, manager;
+@synthesize facebook;
 
-- (id)initWithManager:(AccountAuthManager *)m {
+- (id) initWithDelegate: (id<FBSessionDelegate>) d {
     self = [super init];
     if (self) {
-        [self setFacebook: [[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self]];
-        [self setManager: m];
-        
+        [self setFacebook: [[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:d]];
+    
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         if ([defaults objectForKey:@"FBAccessTokenKey"] 
             && [defaults objectForKey:@"FBExpirationDateKey"]) {
@@ -43,11 +42,42 @@
             facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
         }
     }
+
+    return self;
+}
+
+- (void)fbDidLogin {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[facebook accessToken] forKey:@"FBAccessTokenKey"];
+    [defaults setObject:[facebook expirationDate] forKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
+}
+
+- (NSString *)activeAccessToken {
+    if ([facebook isSessionValid]) {
+        return [facebook accessToken];
+    }
+    return nil;
+}
+
+@end
+
+@implementation FacebookConnectOperation
+
+@synthesize facebookMgr, manager;
+
+- (id)initWithManager:(AccountAuthManager *)m {
+    self = [super init];
+    if (self) {
+        [self setFacebookMgr: [[FacebookAuthManager alloc] initWithDelegate: self]];
+        [self setManager: m];
+    }
     
     return self;
 }
 
 - (void)fbDidLogin {
+    [facebookMgr fbDidLogin];
 }
 
 - (NSArray *)facebookAtIndexes:(NSIndexSet *)indexes {
@@ -75,8 +105,8 @@
 @implementation FacebookCheckValidOperation
 
 - (void)main {
-    if ([facebook isSessionValid]) {
-        [facebook requestWithGraphPath:@"me" andDelegate:self];
+    if ([facebookMgr.facebook isSessionValid]) {
+        [facebookMgr.facebook requestWithGraphPath:@"me" andDelegate:self];
     } else {
         [manager onAccount:kAccountTypeFacebook isValid:NO];
     }
@@ -105,7 +135,7 @@
                                  @"offline_access",
                                  @"publish_stream",
                                  nil] autorelease];
-        [facebook authorize:permissions];
+        [facebookMgr.facebook authorize:permissions];
 //    }
 }
 
@@ -117,17 +147,14 @@
 - (BOOL)handleOpenURL:(NSURL *)url {
     // Remove the reference
     [((AppDelegate*) [[UIApplication sharedApplication] delegate]) setFacebookLoginOperation: nil];
-    return [facebook handleOpenURL:url];
+    return [facebookMgr.facebook handleOpenURL:url];
 }
 
 - (void)fbDidLogin {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[facebook accessToken] forKey:@"FBAccessTokenKey"];
-    [defaults setObject:[facebook expirationDate] forKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
+    [super fbDidLogin];
     
     // Request "me" from Graph API to create the account with
-    [facebook requestWithGraphPath:@"me" andDelegate:self];
+    [facebookMgr.facebook requestWithGraphPath:@"me" andDelegate:self];
 }
 
 - (void)request:(FBRequest *)request didLoad:(id)result {

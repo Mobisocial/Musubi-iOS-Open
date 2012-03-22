@@ -30,7 +30,7 @@
 
 @synthesize connMngrIn, connMngrOut, sender, listener;
 
-- (id)initWithStoreFactory:(PersistentModelStoreFactory *)storeFactory encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName {
+- (id)initWithStoreFactory:(PersistentModelStoreFactory *)storeFactory {
 
     self = [super init];
     if (self) {
@@ -38,10 +38,10 @@
 //        [self setConnMngrOut:[[[AMQPConnectionManager alloc] init] autorelease]];
         [self setConnMngrOut: connMngrIn];
 
-        [self setListener: [[AMQPListener alloc] initWithConnectionManager:connMngrIn storeFactory:storeFactory encryptionScheme:es signatureScheme:ss deviceName:devName]];
-        [self setSender: [[AMQPSender alloc] initWithConnectionManager:connMngrOut storeFactory:storeFactory encryptionScheme:es signatureScheme:ss deviceName:devName]];
-
-        [[Musubi sharedInstance].notificationSender addObserver:listener selector:@selector(restart) name:kMusubiNotificationOwnedIdentityAvailable object:nil];
+        [self setListener: [[AMQPListener alloc] initWithConnectionManager:connMngrIn storeFactory:storeFactory]];
+        [self setSender: [[AMQPSender alloc] initWithConnectionManager:connMngrOut storeFactory:storeFactory]];
+        
+        [[Musubi sharedInstance].notificationCenter addObserver:listener selector:@selector(restart) name:kMusubiNotificationOwnedIdentityAvailable object:nil];
     }
     return self;
 }

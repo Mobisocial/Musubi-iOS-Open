@@ -30,15 +30,27 @@
 
 #define kFacebookAppId @""
 
-
-// Abstract Facebook operation
-@interface FacebookConnectOperation : NSOperation<FBSessionDelegate> {
-    AccountAuthManager* manager;
+@interface FacebookAuthManager : NSObject {
     Facebook* facebook;
 }
 
 @property (nonatomic, retain) Facebook* facebook;
+
+- (id) initWithDelegate: (id<FBSessionDelegate>) d;
+- (void) fbDidLogin;
+
+- (NSString*) activeAccessToken;
+
+@end
+
+// Abstract Facebook operation
+@interface FacebookConnectOperation : NSOperation<FBSessionDelegate> {
+    AccountAuthManager* manager;
+    FacebookAuthManager* facebookMgr;
+}
+
 @property (nonatomic, retain) AccountAuthManager* manager;
+@property (nonatomic, retain) FacebookAuthManager* facebookMgr;
 
 - (id) initWithManager: (AccountAuthManager*) m;
 

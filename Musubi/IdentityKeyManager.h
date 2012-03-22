@@ -16,44 +16,57 @@
 
 
 //
-//  TransportManager.h
+//  IdentityKeyManager.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/15/12.
+//  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "IBEncryptionScheme.h"
-#import "PersistentModelStore.h"
 #import "IdentityManager.h"
-#import "TransportDataProvider.h"
-#import "SignatureUserKeyManager.h"
+#import "IdentityProvider.h"
 #import "EncryptionUserKeyManager.h"
-#import "OutgoingSecretManager.h"
-#import "MMissingMessage.h"
-#import "MSequenceNumber.h"
-#import "MIdentity.h"
+#import "SignatureUserKeyManager.h"
 
-@interface TransportManager : NSObject<TransportDataProvider> {
+@interface IdentityKeyManager : NSObject {
+    NSMutableArray* requestedEncryptionKeys;
+    NSMutableArray* requestedSignatureKeys;
+    
+    NSMutableDictionary* encryptionBackoff;
+    NSMutableDictionary* signatureBackoff;
+}
+
+@property (atomic, retain) NSMutableArray* requestedEncryptionKeys;
+@property (atomic, retain) NSMutableArray* requestedSignatureKeys;
+@property (atomic, retain) NSMutableDictionary* encryptionBackoff;
+@property (atomic, retain) NSMutableDictionary* signatureBackoff;
+
+- (long) updateBackoffForIdentity: (IBEncryptionIdentity*) hid inMap: (NSMutableDictionary*) map;
+- (void) requestEncryptionKeyFor: (IBEncryptionIdentity*) ident;
+- (void) requestSignatureKeyFor: (IBEncryptionIdentity*) ident;
+@end
+
+@interface IdentityKeyRefreshOperation : NSOperation {
     PersistentModelStore* store;
-    IBEncryptionScheme* encryptionScheme;
-    IBSignatureScheme* signatureScheme;
-    long deviceName;
-
+    
+    IdentityKeyManager* manager;
+    
     IdentityManager* identityManager;
+    id<IdentityProvider> identityProvider;
     EncryptionUserKeyManager* encryptionUserKeyManager;
     SignatureUserKeyManager* signatureUserKeyManager;
 }
 
 @property (nonatomic, retain) PersistentModelStore* store;
-@property (nonatomic, retain) IBEncryptionScheme* encryptionScheme;
-@property (nonatomic, retain) IBSignatureScheme* signatureScheme;
-@property (nonatomic, assign) long deviceName;
+@property (nonatomic, retain) IdentityKeyManager* manager;
+
 @property (nonatomic, retain) IdentityManager* identityManager;
+@property (nonatomic, retain) id<IdentityProvider> identityProvider;
+
 @property (nonatomic, retain) EncryptionUserKeyManager* encryptionUserKeyManager;
 @property (nonatomic, retain) SignatureUserKeyManager* signatureUserKeyManager;
 
-- (id) initWithStore: (PersistentModelStore*) store encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (long) devName;
+- (id) initWithManager: (IdentityKeyManager*) manager;
 
 @end

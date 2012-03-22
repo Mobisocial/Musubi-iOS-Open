@@ -28,7 +28,9 @@
 
 #define kAccountNameProvisionalWhitelist @"provisional_whitelist"
 #define kAccountNameLocalWhitelist @"local_whitelist"
+
 #define kAccountTypeInternal @"mobisocial.musubi.internal"
+#define kAccountTypeFacebook @"com.facebook.auth.login"
 
 @class MFeed, MIdentity;
 

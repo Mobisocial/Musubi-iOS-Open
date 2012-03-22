@@ -27,12 +27,13 @@
 
 @implementation AMQPListener
 
-@synthesize deviceManager;
+@synthesize deviceManager,identityManager;
 
 - (void) main {
     // Run AMQPThread common
     [super main];
-    [self setDeviceManager:[[DeviceManager alloc] initWithStore:transportDataProvider.store]];
+    [self setDeviceManager:[[DeviceManager alloc] initWithStore:threadStore]];
+    [self setIdentityManager:[[IdentityManager alloc] initWithStore:threadStore]];
     
     while (![[NSThread currentThread] isCancelled]) {
         restartRequested = NO;
@@ -50,14 +51,14 @@
             NSData* devNameData = [NSData dataWithBytes:&deviceName length:sizeof(deviceName)];
             NSString* deviceQueueName = [self queueNameForKey:devNameData withPrefix:@"ibedevice-"];
             
-            //            [connMngr deleteQueue:deviceQueueName onChannel:kAMQPChannelIncoming];
             [connMngr declareQueue:deviceQueueName onChannel:kAMQPChannelIncoming passive:NO];
             //TODO: device_queue_name needs to involve the identities some how? or be a larger byte array
             
             // Declare queues for each identity
-            for (MIdentity* me in [[transportDataProvider identityManager] ownedIdentities]) {
-                IBEncryptionIdentity* ident = [[transportDataProvider identityManager] ibEncryptionIdentityForIdentity:me forTemporalFrame:0];
+            for (MIdentity* me in [identityManager ownedIdentities]) {
+                IBEncryptionIdentity* ident = [identityManager ibEncryptionIdentityForIdentity:me forTemporalFrame:0];
                 NSString* identityExchangeName = [self queueNameForKey:ident.key withPrefix:@"ibeidentity-"];
+                NSLog(@"Listening on %@", identityExchangeName);
                 
                 //[self log:@"Declaring exchange %@ => %@", identityExchangeName, deviceQueueName];
                 [connMngr declareExchange:identityExchangeName onChannel:kAMQPChannelIncoming passive:NO];                
@@ -79,9 +80,8 @@
                         [connMngr closeChannel:probe2];
                     }
                     
-                    // consume the initial messages
+                    // Consume the initial identity messages
                     [connMngr consumeFromQueue:initialQueueName onChannel:kAMQPChannelIncoming];
-                    //                    [self consumeMessagesFromQueue: initialQueueName perpetually:NO];
                 }
                 @catch (NSException *exception) {
                     [self log:@"Initial queue did not exist, ok"];
@@ -90,9 +90,9 @@
                     [connMngr closeChannel:probe];
                 }
             }
-            
+            // Consume from the device queue
             [connMngr consumeFromQueue:deviceQueueName onChannel:kAMQPChannelIncoming];
-            [self consumeMessagesFromQueue: nil];
+            [self consumeMessages];
         }
         @catch (NSException *exception) {
             [self log:@"Crashed in listen %@", exception];
@@ -105,16 +105,14 @@
     [connMngr closeConnection];
 }
 
-- (void) consumeMessagesFromQueue: (NSString*) queue {
-    //[connMngr consumeFromQueue:queue onChannel:kAMQPChannelIncoming];
-    
+- (void) consumeMessages {
     while (![[NSThread currentThread] isCancelled] && !restartRequested) {
         NSData* body = [connMngr readMessage];
         
         if (body != nil) {
-            MEncodedMessage* encoded = [[transportDataProvider store] createEncodedMessage];
+            MEncodedMessage* encoded = [threadStore createEncodedMessage];
             [encoded setEncoded: body];
-            [transportDataProvider.store save];
+            [threadStore save];
             
             [self log:@"Incoming: %@", body];
             

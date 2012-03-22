@@ -27,7 +27,7 @@
 
 @implementation TransportManager
 
-@synthesize store, encryptionScheme, signatureScheme, deviceName, identityManager;
+@synthesize store, encryptionScheme, signatureScheme, deviceName, identityManager, encryptionUserKeyManager, signatureUserKeyManager;
 
 - (id)initWithStore:(PersistentModelStore *)s encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName {
     self = [super init];
@@ -39,6 +39,8 @@
         [self setDeviceName: devName];
         
         [self setIdentityManager: [[[IdentityManager alloc] initWithStore: store] autorelease]];
+        [self setEncryptionUserKeyManager: [[[EncryptionUserKeyManager alloc] initWithStore: store encryptionScheme:es] autorelease]];
+        [self setSignatureUserKeyManager: [[[SignatureUserKeyManager alloc] initWithStore: store signatureScheme:ss] autorelease]];
     }
     
     return self;
@@ -61,14 +63,12 @@
     return [identityManager computeTemporalFrameFromHash: to.principalHash];
 }
 
--  (IBEncryptionUserKey *)signatureKeyFrom:(MIdentity *)from myIdentity:(IBEncryptionIdentity *)me {
-    MSignatureUserKey* key = (MSignatureUserKey*)[store queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", from, me.temporalFrame] onEntity:@"SignatureUserKey"];
-    return key ? [[[IBEncryptionUserKey alloc] initWithRaw: key.key] autorelease] : nil;
+-  (IBSignatureUserKey *)signatureKeyFrom:(MIdentity *)from myIdentity:(IBEncryptionIdentity *)me {
+    return [signatureUserKeyManager signatureKeyFrom:from me:me];
 }
 
 - (IBEncryptionUserKey *)encryptionKeyTo:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me {
-    MEncryptionUserKey* key = (MEncryptionUserKey*)[store queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", to, me.temporalFrame] onEntity:@"EncryptionUserKey"];
-    return key ? [[[IBEncryptionUserKey alloc] initWithRaw: key.key] autorelease] : nil;
+    return [encryptionUserKeyManager encryptionKeyTo:to me:me];
 }
 
 - (MOutgoingSecret *)lookupOutgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {

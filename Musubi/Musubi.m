@@ -25,12 +25,16 @@
 
 #import "Musubi.h"
 #import "UnverifiedIdentityProvider.h"
+#import "IdentityKeyManager.h"
+#import "AphidIdentityProvider.h"
+#import "NSData+Crypto.h"
+#import "MessageEncoder.h"
 
 @implementation Musubi
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, feedListeners, notificationSender;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, transport;
 
 +(Musubi*)sharedInstance
 {
@@ -61,14 +65,49 @@ static Musubi* _sharedInstance = nil;
     self = [super init];
     
     if (self != nil) {
+        // The store factory creates stores for other threads, the main store is used on the main thread
         [self setStoreFactory: [[PersistentModelStoreFactory alloc] initWithName:@"Store"]];
         [self setMainStore: [self newStore]];
         
-        [self setNotificationSender: [[NSNotificationCenter alloc] init]];
+        // The notification sender informs every major part in the system about what's going on
+        [self setNotificationCenter: [[NSNotificationCenter alloc] init]];
         
-        UnverifiedIdentityProvider* identityProvider = [[UnverifiedIdentityProvider alloc] init];
-        AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:random()];
+        // The identity provider handles our encryption and signatures
+        [self setKeyManager: [[IdentityKeyManager alloc] init]];
+        
+        // The transport sends and receives raw data from the network
+        [self setTransport: [[AMQPTransport alloc] initWithStoreFactory:storeFactory]];
         [transport start];
+        
+        // Send a message to 673137843
+        // Set up receiving identity
+        
+        AphidIdentityProvider* identityProvider = [[AphidIdentityProvider alloc] init];
+        IdentityManager* idMgr = [[IdentityManager alloc] initWithStore: mainStore];
+        TransportManager* tMgr = [[TransportManager alloc] initWithStore: mainStore encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:random()];
+        
+        IBEncryptionIdentity* you = [[IBEncryptionIdentity alloc] initWithAuthority:kIBEncryptionIdentityAuthorityFacebook principal:@"673137843" temporalFrame:[idMgr computeTemporalFrameFromPrincipal:@"673137843"]];
+        
+        // Make an outgoing message
+        OutgoingMessage* om = [[OutgoingMessage alloc] init];
+        [om setData: [NSData generateSecureRandomKeyOf:32]];
+        [om setApp: [NSData generateSecureRandomKeyOf:32]];
+        [om setFromIdentity: [[idMgr ownedIdentities] objectAtIndex: 0]];
+        [om setRecipients: [NSArray arrayWithObject: [tMgr addClaimedIdentity:you]]];
+        [om setHash: [[om data] sha256Digest]];
+
+        @try {
+            
+            IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[tMgr signatureTimeFrom:[om fromIdentity]]] autorelease];
+            
+            // Encode the message, inserts into DB, so AMQPTransport will pick it up
+            MessageEncoder* encoder = [[MessageEncoder alloc] initWithTransportDataProvider: tMgr];
+            MEncodedMessage* encodedOutgoing = [encoder encodeOutgoingMessage: om];
+            NSLog(@"Encoded: %@", encodedOutgoing);
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Bla: %@", exception);
+        }
     }
     
     return self;
@@ -78,16 +117,8 @@ static Musubi* _sharedInstance = nil;
     return [storeFactory newStore];
 }
 
-- (void)dealloc {
-//    [messageFormat release];
-    [feedListeners release];
-//    [transport release];
-    
+- (void)dealloc {    
     [super dealloc];
-}
-
-- (void)startTransport {
-//    [NSThread detachNewThreadSelector:@selector(run) toTarget:transport withObject:nil];
 }
 
 /*

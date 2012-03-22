@@ -29,12 +29,15 @@
 
 @interface AMQPListener : AMQPThread {
     DeviceManager* deviceManager;
+    IdentityManager* identityManager;
+    
     BOOL restartRequested;
 }
 
 @property (nonatomic,retain) DeviceManager* deviceManager;
+@property (nonatomic,retain) IdentityManager* identityManager;
 
-- (void) consumeMessagesFromQueue: (NSString*) queue;
+- (void) consumeMessages;
 - (void) restart;
 
 @end

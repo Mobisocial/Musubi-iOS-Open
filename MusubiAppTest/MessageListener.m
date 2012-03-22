@@ -24,7 +24,7 @@
 //
 
 #import "MessageListener.h"
-#import "UserKeyManager.h"
+#import "SignatureUserKeyManager.h"
 #import "EncryptionUserKeyManager.h"
 #import "EncodedMessageManager.h"
 

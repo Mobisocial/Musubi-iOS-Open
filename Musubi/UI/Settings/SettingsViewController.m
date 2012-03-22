@@ -246,9 +246,13 @@
         }
         case 1: {
             NSString* accountType = [accountTypes.allKeys objectAtIndex:indexPath.row];
-            //if (![authMgr isConnected: accountType]) {
+            if (![authMgr isConnected: accountType]) {
                 [authMgr performSelectorInBackground:@selector(connect:) withObject:accountType];
-            //}
+            } else {
+                // Debug notification
+
+                [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAuthTokenRefresh object:nil]];
+            }
             
             break;
         }

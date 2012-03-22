@@ -26,14 +26,13 @@
 #import "AMQPSender.h"
 #import "NSData+Base64.h"
 #import "FeedManager.h"
-#import "TransportManager.h"
 
 @implementation AMQPSender
 
 @synthesize declaredGroups, waitingForAck;
 
-- (id)initWithConnectionManager:(AMQPConnectionManager *)conn storeCoordinator:(NSPersistentStoreCoordinator *)coordinator encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName {
-    self = [super initWithConnectionManager:conn storeCoordinator:coordinator encryptionScheme:es signatureScheme:ss deviceName:devName];
+- (id)initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf {
+    self = [super initWithConnectionManager:conn storeFactory:sf];
     if (self) {
         [self setWaitingForAck:[NSMutableDictionary dictionary]];
         [self setDeclaredGroups:[NSMutableDictionary dictionary]];
@@ -55,7 +54,7 @@
         }
 
         @try {
-            NSArray* unsent = [[transportDataProvider store] unsentOutboundMessages];
+            NSArray* unsent = [threadStore unsentOutboundMessages];
             
             if (unsent != nil) {
                 if ([unsent count] > 0)
@@ -90,10 +89,10 @@
         IBEncryptionIdentity* ident = [[[[IBEncryptionIdentity alloc] initWithKey:((Recipient*)[m.r objectAtIndex:i]).i] autorelease] keyAtTemporalFrame:0];
         [hidForQueue addObject: ident];
         
-        MIdentity* mIdent = [[transportDataProvider store] createIdentity];
+        MIdentity* mIdent = [threadStore createIdentity];
         [mIdent setPrincipalHash:[ident hashed]];
         [mIdent setType: [ident authority]];
-        [transportDataProvider.store save];
+        [threadStore save];
         [ids addObject:mIdent];
     }
     
@@ -107,6 +106,7 @@
         
         for (IBEncryptionIdentity* recipient in hidForQueue) {
             NSString* dest = [self queueNameForKey:recipient.key withPrefix:@"ibeidentity-"];
+            NSLog(@"Sending message to %@", dest);
             
             int probe = [connMngr createChannel];
             @try {
@@ -153,7 +153,7 @@
         
         assert (msg.outbound);
         msg.processed = YES;
-        [[transportDataProvider store] save];
+        [threadStore save];
         
         //[connMngr ackMessage:deliveryTag onChannel:kAMQPChannelOutgoing];
     } else {

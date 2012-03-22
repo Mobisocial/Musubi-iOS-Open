@@ -144,8 +144,6 @@
         // of this processing if the account is already owned.
         MIdentity* mId = [identityManager identityForIBEncryptionIdentity:ibeId];
         if (mId != nil && mId.owned) {
-            //   return nil;
-            [[Musubi sharedInstance].notificationSender postNotification:[NSNotification notificationWithName:kMusubiNotificationOwnedIdentityAvailable object:nil]];
             return nil;
         }
         
@@ -223,9 +221,9 @@
         [store save];
         
         // Notify OwnedIdentityAvailable
-        [[Musubi sharedInstance].notificationSender postNotification:[NSNotification notificationWithName:kMusubiNotificationOwnedIdentityAvailable object:nil]];
-        [[Musubi sharedInstance].notificationSender postNotification:[NSNotification notificationWithName:kMusubiNotificationMyProfileUpdate object:nil]];
-        [[Musubi sharedInstance].notificationSender postNotification:[NSNotification notificationWithName:kMusubiNotificationAuthTokenRefresh object:nil]];
+        [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationOwnedIdentityAvailable object:nil]];
+        [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationMyProfileUpdate object:nil]];
+        [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAuthTokenRefresh object:nil]];
         
         //TODO: wizard, account linked complete
         //TODO: report account connected
