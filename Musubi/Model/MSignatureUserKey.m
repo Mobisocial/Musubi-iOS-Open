@@ -19,7 +19,7 @@
 //  MSignatureUserKey.m
 //  Musubi
 //
-//  Created by Willem Bult on 3/15/12.
+//  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -29,7 +29,6 @@
 
 @implementation MSignatureUserKey
 
-@dynamic id;
 @dynamic key;
 @dynamic period;
 @dynamic identity;

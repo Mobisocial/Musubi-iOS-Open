@@ -35,6 +35,8 @@
     [self setDeviceManager:[[DeviceManager alloc] initWithStore:transportDataProvider.store]];
     
     while (![[NSThread currentThread] isCancelled]) {
+        restartRequested = NO;
+        
         @try {
             // This opens connection and channel
             if (![connMngr connectionIsAlive]) {
@@ -106,7 +108,7 @@
 - (void) consumeMessagesFromQueue: (NSString*) queue {
     //[connMngr consumeFromQueue:queue onChannel:kAMQPChannelIncoming];
     
-    while (![[NSThread currentThread] isCancelled]) {
+    while (![[NSThread currentThread] isCancelled] && !restartRequested) {
         NSData* body = [connMngr readMessage];
         
         if (body != nil) {
@@ -121,6 +123,11 @@
         
         [NSThread sleepForTimeInterval:0.1];
     }
+}
+
+- (void)restart {
+    NSLog(@"AMQPListener: restarting");
+    restartRequested = YES;
 }
 
 

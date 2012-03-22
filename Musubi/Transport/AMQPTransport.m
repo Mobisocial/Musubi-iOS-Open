@@ -24,31 +24,24 @@
 //
 
 #import "AMQPTransport.h"
+#import "Musubi.h"
 
 @implementation AMQPTransport
 
 @synthesize connMngrIn, connMngrOut, sender, listener;
 
-- (id)initWithStoreCoordinator:(NSPersistentStoreCoordinator *)coordinator encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName {
+- (id)initWithStoreFactory:(PersistentModelStoreFactory *)storeFactory encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName {
 
     self = [super init];
     if (self) {
         [self setConnMngrIn:[[[AMQPConnectionManager alloc] init] autorelease]];
-        [self setConnMngrOut:[[[AMQPConnectionManager alloc] init] autorelease]];
+//        [self setConnMngrOut:[[[AMQPConnectionManager alloc] init] autorelease]];
+        [self setConnMngrOut: connMngrIn];
 
-        [self setListener: [[AMQPListener alloc] initWithConnectionManager:connMngrIn storeCoordinator:coordinator encryptionScheme:es signatureScheme:ss deviceName:devName]];
-        [self setSender: [[AMQPSender alloc] initWithConnectionManager:connMngrOut storeCoordinator:coordinator encryptionScheme:es signatureScheme:ss deviceName:devName]];
+        [self setListener: [[AMQPListener alloc] initWithConnectionManager:connMngrIn storeFactory:storeFactory encryptionScheme:es signatureScheme:ss deviceName:devName]];
+        [self setSender: [[AMQPSender alloc] initWithConnectionManager:connMngrOut storeFactory:storeFactory encryptionScheme:es signatureScheme:ss deviceName:devName]];
 
-    }
-    return self;
-}
-
-- (id)initWithTransportDataProvider:(id<TransportDataProvider>)tdp {
-    self = [super init];
-    if (self) {
-        [self setConnMngrIn:[[[AMQPConnectionManager alloc] init] autorelease]];
-//        [self setConnMgrOut:[[[AMQPConnectionManager alloc] init] autorelease]];
-        [self setConnMngrOut:connMngrIn];
+        [[Musubi sharedInstance].notificationSender addObserver:listener selector:@selector(restart) name:kMusubiNotificationOwnedIdentityAvailable object:nil];
     }
     return self;
 }
@@ -61,6 +54,29 @@
 - (void)stop {
     [sender cancel];
     [listener cancel];
+}
+
+- (void) restart {
+    NSLog(@"Restarting transport");
+    
+    /*
+    void (^waitUntilDone)(void) = ^(void) {
+        while (true) {
+            if ([self done]) {
+                [self start];
+                break;
+            } else {
+                NSLog(@"Waiting to stop");
+                [NSThread sleepForTimeInterval:0.1];
+            }
+        }
+    };
+    
+    [self stop];
+    
+    dispatch_queue_t thread = dispatch_queue_create("transport_restart_queue", NULL);
+    dispatch_async(thread, waitUntilDone);
+    dispatch_release(thread);*/
 }
 
 - (BOOL)done {

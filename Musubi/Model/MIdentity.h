@@ -19,7 +19,7 @@
 //  MIdentity.h
 //  Musubi
 //
-//  Created by Willem Bult on 2/27/12.
+//  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -29,21 +29,20 @@
 
 @interface MIdentity : NSManagedObject
 
-@property (nonatomic) int64_t id;
-@property (nonatomic) int16_t type;
+@property (nonatomic) BOOL blocked;
+@property (nonatomic) BOOL bootstrap;
+@property (nonatomic) BOOL claimed;
+@property (nonatomic) int64_t contactId;
+@property (nonatomic) NSTimeInterval createdAt;
+@property (nonatomic) BOOL hasLatestProfile;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic) int64_t nextSequenceNumber;
+@property (nonatomic) BOOL owned;
 @property (nonatomic, retain) NSString * principal;
 @property (nonatomic, retain) NSData * principalHash;
 @property (nonatomic) int64_t principalShortHash;
-@property (nonatomic) BOOL owned;
-@property (nonatomic) BOOL claimed;
-@property (nonatomic) BOOL blocked;
-@property (nonatomic) BOOL hasLatestProfile;
-@property (nonatomic) int64_t contactId;
-@property (nonatomic) int64_t nextSequenceNumber;
 @property (nonatomic, retain) NSData * thumbnail;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic) BOOL bootstrap;
-@property (nonatomic) NSTimeInterval createdAt;
+@property (nonatomic) int16_t type;
 @property (nonatomic) NSTimeInterval updatedAt;
 
 @end

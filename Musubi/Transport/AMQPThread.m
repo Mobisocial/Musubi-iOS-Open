@@ -30,14 +30,14 @@
 
 static int instanceCount = 0;
 
-@synthesize connMngr, storeCoordinator, transportDataProvider;
+@synthesize connMngr, storeFactory, transportDataProvider;
 
-- (id)initWithConnectionManager:(AMQPConnectionManager *)conn storeCoordinator:(NSPersistentStoreCoordinator *)coordinator encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName {
+- (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName {
     
     self = [super init];
     if (self) {
         [self setConnMngr: conn];
-        [self setStoreCoordinator: coordinator];
+        [self setStoreFactory: sf];
         [self setTransportDataProvider: [[TransportManager alloc] initWithStore:nil encryptionScheme:es signatureScheme:ss deviceName:devName]];
         
         instance = instanceCount++;
@@ -58,7 +58,7 @@ static int instanceCount = 0;
 
 - (void)main {
     // We need to create a new PersistentModelStore here, because it's not thread-safe
-    [[self transportDataProvider] setStore: [[PersistentModelStore alloc] initWithCoordinator:storeCoordinator]];
+    [[self transportDataProvider] setStore: [storeFactory newStore]];
 }
 
 

@@ -61,7 +61,7 @@
 
 - (void) checkDuplicateFromDevice: (MDevice*) from withRawHash: (NSData*) hash {
     if ([transportDataProvider haveHash: hash]) {
-        @throw [NSException exceptionWithName:@"Duplicate" reason:[NSString stringWithFormat:@"Duplicate message from device %lld", from.id] userInfo:nil];
+        @throw [NSException exceptionWithName:@"Duplicate" reason:[NSString stringWithFormat:@"Duplicate message from device %@", from] userInfo:nil];
     }
     
     /*else {
@@ -81,9 +81,9 @@
         return is;
     
     is = [[transportDataProvider store] createIncomingSecret];
-    [is setMyIdentityId: to.id];
-    [is setOtherIdentityId: from.id];
-    [is setDeviceId: device.id];
+    [is setMyIdentity: to];
+    [is setOtherIdentity: from];
+    [is setDevice: device];
 
     IBEncryptionUserKey* userKey = [transportDataProvider encryptionKeyTo:to myIdentity:meTimed];
     [is setKey: [encryptionScheme decryptConversationKey:[[[IBEncryptionConversationKey alloc] initWithRaw:nil andEncrypted:me.k] autorelease] withUserKey:userKey]];
@@ -148,7 +148,7 @@
     
     [im setFromIdentity: [self addIdentityWithKey:m.s.i]];
     if ([transportDataProvider isBlackListed:[im fromIdentity]]) {
-        @throw [NSException exceptionWithName:@"Blacklisted" reason:[NSString stringWithFormat: @"Received message from blacklisted identity: %d", im.fromIdentity.id] userInfo:nil];
+        @throw [NSException exceptionWithName:@"Blacklisted" reason:[NSString stringWithFormat: @"Received message from blacklisted identity: %@", im.fromIdentity] userInfo:nil];
     }
     
     [im setApp: m.a];
@@ -171,8 +171,8 @@
     [self checkSignatureForData:im.data againstExpected:im.hash withApp:im.app blind:im.blind forRecipients:m.r];
     //updateMissingMessages(im.fromDevice_, secret.q);
     
-    [encoded setFromDevice: im.fromDevice.id];
-    [encoded setFromIdentityId: im.fromIdentity.id];
+    [encoded setFromDevice: im.fromDevice];
+    [encoded setFromIdentity: im.fromIdentity];
     [encoded setMessageHash: im.hash];
     [encoded setSequenceNumber: im.sequenceNumber];
     [transportDataProvider updateEncodedMetadata:encoded];

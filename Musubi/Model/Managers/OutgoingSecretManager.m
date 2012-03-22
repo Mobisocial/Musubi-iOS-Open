@@ -35,7 +35,7 @@
 }
 
 - (MOutgoingSecret *)outgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to myTemporalFrame:(long)tfMe theirTemporalFrame:(long)tfThem {
-    NSArray* results = [self query:[NSPredicate predicateWithFormat:@"myIdentityId = %@ AND otherIdentityId = %@ AND encryptionPeriod = %ld AND signaturePeriod = %ld", from.id, to.id, tfMe, tfThem]];
+    NSArray* results = [self query:[NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %ld AND signaturePeriod = %ld", from, to, tfMe, tfThem]];
     if (results.count > 0) {
         return (MOutgoingSecret*)[results objectAtIndex:0];
     }

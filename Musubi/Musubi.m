@@ -24,13 +24,13 @@
 //
 
 #import "Musubi.h"
+#import "UnverifiedIdentityProvider.h"
 
 @implementation Musubi
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize store, feedListeners;
-
+@synthesize mainStore, storeFactory, feedListeners, notificationSender;
 
 +(Musubi*)sharedInstance
 {
@@ -61,22 +61,21 @@ static Musubi* _sharedInstance = nil;
     self = [super init];
     
     if (self != nil) {
+        [self setStoreFactory: [[PersistentModelStoreFactory alloc] initWithName:@"Store"]];
+        [self setMainStore: [self newStore]];
         
-        [self setStore: [[[PersistentModelStore alloc] init] autorelease]];
+        [self setNotificationSender: [[NSNotificationCenter alloc] init]];
         
-        //AMQPTransport* transport = [[AMQPTransport alloc] initWithTransportDataProvider: bladksfjlaskd];
-        //[transport start];
-        
-        /*
-        transport = [[RabbitMQMessengerService alloc] initWithListener:self];
-        feedListeners = [[NSMutableDictionary alloc] init];
-        messageFormat = [[MessageFormat defaultMessageFormat] retain];
-        identity = [Identity sharedInstance];
-        
-        [identity setDelegate:self];*/
+        UnverifiedIdentityProvider* identityProvider = [[UnverifiedIdentityProvider alloc] init];
+        AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:random()];
+        [transport start];
     }
     
     return self;
+}
+
+- (PersistentModelStore *) newStore {
+    return [storeFactory newStore];
 }
 
 - (void)dealloc {

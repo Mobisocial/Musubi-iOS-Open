@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1938" systemVersion="11C74" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jge-P6-bAi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jge-P6-bAi">
     <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="933"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
     </dependencies>
     <scenes>
+        <!--Group List View Controller - Groups-->
         <scene sceneID="I8W-Vx-VbQ">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qGX-5d-qUU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -49,6 +51,7 @@
             </objects>
             <point key="canvasLocation" x="1015" y="-675"/>
         </scene>
+        <!--Feed View Controller - Feed-->
         <scene sceneID="qst-Vw-09R">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y9r-l9-z32" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -139,6 +142,7 @@
             </objects>
             <point key="canvasLocation" x="2498" y="-422"/>
         </scene>
+        <!--App View Controller - App-->
         <scene sceneID="yFB-PN-lX8">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kia-Oz-EZ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -162,6 +166,7 @@
             </objects>
             <point key="canvasLocation" x="2874" y="-422"/>
         </scene>
+        <!--Musubi-->
         <scene sceneID="tlF-hz-ZI0">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lsl-TC-gOg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -183,6 +188,7 @@
             </objects>
             <point key="canvasLocation" x="-511" y="-363"/>
         </scene>
+        <!--Navigation Controller - Groups-->
         <scene sceneID="rne-Ov-fys">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8cv-fT-czP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -208,11 +214,12 @@
             </objects>
             <point key="canvasLocation" x="489" y="-675"/>
         </scene>
+        <!--Settings View Controller - Settings-->
         <scene sceneID="IOh-bp-er8">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OIp-Mr-lwN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController title="Settings" id="ayD-7Y-iPW" customClass="SettingsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="90" sectionHeaderHeight="10" sectionFooterHeight="10" id="Hu2-ie-EkH">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Hu2-ie-EkH">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -269,6 +276,7 @@
             </objects>
             <point key="canvasLocation" x="1015" y="-69"/>
         </scene>
+        <!--Navigation Controller - Settings-->
         <scene sceneID="ZxP-gz-J33">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W2J-ec-COD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -293,35 +301,6 @@
         <image name="missing.png" width="289" height="287"/>
     </resources>
     <classes>
-        <class className="FeedItemTableCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedItemTableCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="itemContainerView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="itemView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="senderLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="timestampLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FeedViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="commandButtonPushed:"/>
-                <relationship kind="outlet" name="updateField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="GroupListViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GroupListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="newGroupButtonClicked:"/>
-                <relationship kind="outlet" name="scopeSelector" candidateClass="UISegmentedControl"/>
-            </relationships>
-        </class>
-        <class className="HTMLAppViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/HTMLAppViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
         <class className="NamePictureCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NamePictureCell.h"/>
             <relationships>

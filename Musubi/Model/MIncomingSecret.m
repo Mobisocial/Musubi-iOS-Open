@@ -19,23 +19,24 @@
 //  MIncomingSecret.m
 //  Musubi
 //
-//  Created by Willem Bult on 2/28/12.
+//  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "MIncomingSecret.h"
+#import "MDevice.h"
+#import "MIdentity.h"
 
 
 @implementation MIncomingSecret
 
-@dynamic id;
-@dynamic myIdentityId;
-@dynamic otherIdentityId;
-@dynamic signaturePeriod;
-@dynamic encryptionPeriod;
 @dynamic encryptedKey;
-@dynamic deviceId;
-@dynamic signature;
+@dynamic encryptionPeriod;
 @dynamic key;
+@dynamic signature;
+@dynamic signaturePeriod;
+@dynamic device;
+@dynamic myIdentity;
+@dynamic otherIdentity;
 
 @end

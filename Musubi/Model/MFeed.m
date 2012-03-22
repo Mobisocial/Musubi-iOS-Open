@@ -16,25 +16,24 @@
 
 
 //
-//  MEncodedMessage.m
+//  MFeed.m
 //  Musubi
 //
 //  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MEncodedMessage.h"
-#import "MIdentity.h"
+#import "MFeed.h"
 
 
-@implementation MEncodedMessage
+@implementation MFeed
 
-@dynamic encoded;
-@dynamic messageHash;
-@dynamic outbound;
-@dynamic processed;
-@dynamic sequenceNumber;
-@dynamic fromIdentity;
-@dynamic fromDevice;
+@dynamic type;
+@dynamic capability;
+@dynamic shortCapability;
+@dynamic latestRenderableObjTime;
+@dynamic numUnread;
+@dynamic name;
+@dynamic accepted;
 
 @end

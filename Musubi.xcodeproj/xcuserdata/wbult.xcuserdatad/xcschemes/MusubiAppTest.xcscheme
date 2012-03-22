@@ -20,6 +20,17 @@
                BlueprintName = "MusubiAppTest"
                ReferencedContainer = "container:Musubi.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "AMQPTransportTest">
+               </Test>
+               <Test
+                  Identifier = "IBEncryptionTest">
+               </Test>
+               <Test
+                  Identifier = "MusubiAppTest">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
@@ -29,6 +40,7 @@
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug"
+      ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <AdditionalOptions>

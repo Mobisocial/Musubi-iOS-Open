@@ -31,5 +31,5 @@
 
 - (id) initWithStore: (PersistentModelStore*) s;
 - (long) localDeviceName;
-
+- (MDevice*) deviceForName: (long) name andIdentity: (MIdentity*) mId;
 @end

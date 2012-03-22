@@ -7,10 +7,15 @@
 //
 
 #import "AppDelegate.h"
+#import "FacebookAuth.h"
 
 @implementation AppDelegate
 
-@synthesize window = _window;
+@synthesize window = _window, facebookLoginOperation;
+
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
+//    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -40,8 +45,6 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-    
-    [[Musubi sharedInstance] startTransport];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -51,6 +54,17 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+// Pre iOS 4.2 support
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [facebookLoginOperation handleOpenURL:url];
+}
+
+// For iOS 4.2+ support
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [facebookLoginOperation handleOpenURL:url];
 }
 
 @end

@@ -38,13 +38,11 @@
         [self setIdentityProvider: ip];
         [self setIdentity: i];
         
-        // Create a new store coordinator
-        NSURL* storePath = [PersistentModelStore pathForStoreWithName:@"TestStore2"];
-        [[NSFileManager defaultManager] removeItemAtPath:storePath.path error:NULL];
-        
-        NSPersistentStoreCoordinator* storeCoordinator = [PersistentModelStore coordinatorWithName:@"TestStore2"];
-        
-        transportManager = [[TransportManager alloc] initWithStore:[[PersistentModelStore alloc] initWithCoordinator:storeCoordinator] encryptionScheme:ip.encryptionScheme signatureScheme:ip.signatureScheme deviceName:random()];
+        // Create a new store factory
+        [PersistentModelStoreFactory deleteStoreWithName:@"TestStore2"];
+        PersistentModelStoreFactory* factory = [[PersistentModelStoreFactory alloc] initWithName:@"TestStore2"];
+
+        transportManager = [[TransportManager alloc] initWithStore:[factory newStore] encryptionScheme:ip.encryptionScheme signatureScheme:ip.signatureScheme deviceName:random()];
         
         
         // Store our identity, device and signature key
@@ -64,7 +62,7 @@
         [transportManager.store save];
 
         // Start the transport
-        [self setTransport: [[AMQPTransport alloc] initWithStoreCoordinator:transportManager.store.context.persistentStoreCoordinator encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName]];
+        [self setTransport: [[AMQPTransport alloc] initWithStoreFactory:factory encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName]];
         [self.transport start];
     }
     return self;

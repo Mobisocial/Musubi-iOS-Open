@@ -13,9 +13,7 @@
 		D208156415128BEF00F12039 /* TransportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156315128BEF00F12039 /* TransportManager.m */; };
 		D208156715128E6100F12039 /* UnverifiedIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */; };
 		D208156A151290FE00F12039 /* IdentityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081569151290FE00F12039 /* IdentityManager.m */; };
-		D208156D1512A28F00F12039 /* MEncryptionUserKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156C1512A28E00F12039 /* MEncryptionUserKey.m */; };
 		D20815701512A2C200F12039 /* UserKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156F1512A2C200F12039 /* UserKeyManager.m */; };
-		D20815731512A7ED00F12039 /* MSignatureUserKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815721512A7ED00F12039 /* MSignatureUserKey.m */; };
 		D20815761512BA9300F12039 /* EncodedMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815751512BA9300F12039 /* EncodedMessageManager.m */; };
 		D20815791512EA5F00F12039 /* EncryptionUserKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815781512EA5F00F12039 /* EncryptionUserKeyManager.m */; };
 		D208157C1512EF7000F12039 /* OutgoingSecretManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208157B1512EF7000F12039 /* OutgoingSecretManager.m */; };
@@ -28,12 +26,16 @@
 		D211D8B1151944E100E38051 /* AMQPListener.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D8B0151944E100E38051 /* AMQPListener.m */; };
 		D211D8B4151945D400E38051 /* AMQPThread.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D8B3151945D400E38051 /* AMQPThread.m */; };
 		D211D8B515194DD800E38051 /* MessageListener.m in Sources */ = {isa = PBXBuildFile; fileRef = D208158715152A2700F12039 /* MessageListener.m */; };
+		D211D96E151979D200E38051 /* NamePictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D96B151979D200E38051 /* NamePictureCell.m */; };
+		D211D96F151979D200E38051 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D96D151979D200E38051 /* SettingsViewController.m */; };
+		D211D97215197F7000E38051 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D211D966151978DB00E38051 /* libfacebook_ios_sdk.a */; };
 		D216DDCB14F46131001A4166 /* libpbc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D216DDCA14F46131001A4166 /* libpbc.a */; };
 		D216DE5A14F48951001A4166 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA15143CE6DF000831DD /* SenTestingKit.framework */; };
 		D216DE5B14F48951001A4166 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D216DE5C14F48951001A4166 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D216DE6014F48951001A4166 /* InfoPlist.strings */; };
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
+		D21F732E15199F5100C57BC3 /* FacebookAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D21F732D15199F5100C57BC3 /* FacebookAuth.m */; };
 		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
 		D25F49151471A32500AC1551 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49031471A32500AC1551 /* bson.c */; };
@@ -59,6 +61,22 @@
 		D26D3733147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */; };
 		D26D3734147B3ED400C4FE93 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D3702147B3ED400C4FE93 /* main.m */; };
 		D26D3736147B41B700C4FE93 /* apps in Resources */ = {isa = PBXBuildFile; fileRef = D298FA40143D0E84000831DD /* apps */; };
+		D272FB3D1519B05500D2521A /* MAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB3C1519B05500D2521A /* MAccount.m */; };
+		D272FB401519B7E300D2521A /* MEncryptionUserKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB3F1519B7E300D2521A /* MEncryptionUserKey.m */; };
+		D272FB431519B7E400D2521A /* MEncodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB421519B7E400D2521A /* MEncodedMessage.m */; };
+		D272FB461519B7E400D2521A /* MSignatureUserKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB451519B7E400D2521A /* MSignatureUserKey.m */; };
+		D272FB491519B7E400D2521A /* MIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB481519B7E400D2521A /* MIdentity.m */; };
+		D272FB4C1519B7E500D2521A /* MDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB4B1519B7E500D2521A /* MDevice.m */; };
+		D272FB4F1519B7E500D2521A /* MIncomingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB4E1519B7E500D2521A /* MIncomingSecret.m */; };
+		D272FB521519B7E500D2521A /* MOutgoingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB511519B7E500D2521A /* MOutgoingSecret.m */; };
+		D272FB541519C19E00D2521A /* EncodingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1C14FD7A4B00C6ABB3 /* EncodingTest.m */; };
+		D272FB561519C19E00D2521A /* IBEncryptionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155E1512863000F12039 /* IBEncryptionTest.m */; };
+		D272FB59151A69DF00D2521A /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB58151A69DF00D2521A /* AccountManager.m */; };
+		D272FB5C151A751800D2521A /* AccountAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB5B151A751800D2521A /* AccountAuthManager.m */; };
+		D272FB5F151A8E4A00D2521A /* MFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB5E151A8E4900D2521A /* MFeed.m */; };
+		D272FB64151A90F800D2521A /* NSObject+DDExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */; };
+		D272FB65151A90F800D2521A /* DDInvocationGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB62151A90F800D2521A /* DDInvocationGrabber.m */; };
+		D272FB68151ABC1B00D2521A /* AphidIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB67151ABC1B00D2521A /* AphidIdentityProvider.m */; };
 		D27965831457D37A00C5FDAB /* librabbitmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D279590B1457D36300C5FDAB /* librabbitmq.a */; };
 		D27968BE1457D97700C5FDAB /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D27967811457D97500C5FDAB /* ZipArchive.mm */; };
 		D27968BF1457D97700C5FDAB /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967841457D97600C5FDAB /* ioapi.c */; };
@@ -79,7 +97,6 @@
 		D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
-		D2998CF014FF583700E1EC21 /* MIncomingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE5014FDBDB800C6ABB3 /* MIncomingSecret.m */; };
 		D2AADE1714FD792300C6ABB3 /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1614FD792300C6ABB3 /* BSONEncoder.m */; };
 		D2AADE4B14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE4A14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m */; };
 		D2AADE5214FEEBEC00C6ABB3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27968DC1457DA4700C5FDAB /* CoreData.framework */; };
@@ -89,10 +106,6 @@
 		D2B13D5214F869800067B197 /* MessageEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5114F869800067B197 /* MessageEncoder.m */; };
 		D2B13D5514F869CF0067B197 /* OutgoingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5414F869CF0067B197 /* OutgoingMessage.m */; };
 		D2B13D5B14F882590067B197 /* Secret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5A14F882580067B197 /* Secret.m */; };
-		D2B13D6414FC18300067B197 /* MOutgoingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D6314FC18300067B197 /* MOutgoingSecret.m */; };
-		D2B13D6714FC188C0067B197 /* MIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D6614FC188C0067B197 /* MIdentity.m */; };
-		D2B13D6A14FC18ED0067B197 /* MEncodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D6914FC18ED0067B197 /* MEncodedMessage.m */; };
-		D2B13D6D14FC52940067B197 /* MDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D6C14FC52940067B197 /* MDevice.m */; };
 		D2B428D214F44F5B00ED868D /* libIBE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B428CC14F44F4800ED868D /* libIBE.a */; };
 		D2B939C414BD04C700C5F777 /* missing.png in Resources */ = {isa = PBXBuildFile; fileRef = D2B939C314BD04C700C5F777 /* missing.png */; };
 		D2C0AA9B14FF035100E9D0BF /* MessageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */; };
@@ -104,6 +117,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D211D965151978DB00E38051 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = "facebook-ios-sdk";
+		};
+		D211D97015197F6800E38051 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = "facebook-ios-sdk";
+		};
 		D216DE6A14F48AE2001A4166 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D298F9E9143CE6DF000831DD /* Project object */;
@@ -187,16 +214,12 @@
 		D208155E1512863000F12039 /* IBEncryptionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBEncryptionTest.m; sourceTree = "<group>"; };
 		D208156215128BEF00F12039 /* TransportManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransportManager.h; sourceTree = "<group>"; };
 		D208156315128BEF00F12039 /* TransportManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransportManager.m; sourceTree = "<group>"; };
-		D208156515128E6100F12039 /* UnverifiedIdentityProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnverifiedIdentityProvider.h; sourceTree = "<group>"; };
-		D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnverifiedIdentityProvider.m; sourceTree = "<group>"; };
+		D208156515128E6100F12039 /* UnverifiedIdentityProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnverifiedIdentityProvider.h; path = Crypto/UnverifiedIdentityProvider.h; sourceTree = "<group>"; };
+		D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnverifiedIdentityProvider.m; path = Crypto/UnverifiedIdentityProvider.m; sourceTree = "<group>"; };
 		D2081568151290FE00F12039 /* IdentityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentityManager.h; sourceTree = "<group>"; };
 		D2081569151290FE00F12039 /* IdentityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentityManager.m; sourceTree = "<group>"; };
-		D208156B1512A28E00F12039 /* MEncryptionUserKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEncryptionUserKey.h; sourceTree = "<group>"; };
-		D208156C1512A28E00F12039 /* MEncryptionUserKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEncryptionUserKey.m; sourceTree = "<group>"; };
 		D208156E1512A2C200F12039 /* UserKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserKeyManager.h; sourceTree = "<group>"; };
 		D208156F1512A2C200F12039 /* UserKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserKeyManager.m; sourceTree = "<group>"; };
-		D20815711512A7ED00F12039 /* MSignatureUserKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSignatureUserKey.h; sourceTree = "<group>"; };
-		D20815721512A7ED00F12039 /* MSignatureUserKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSignatureUserKey.m; sourceTree = "<group>"; };
 		D20815741512BA9300F12039 /* EncodedMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncodedMessageManager.h; sourceTree = "<group>"; };
 		D20815751512BA9300F12039 /* EncodedMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncodedMessageManager.m; sourceTree = "<group>"; };
 		D20815771512EA5F00F12039 /* EncryptionUserKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncryptionUserKeyManager.h; path = Musubi/Model/Managers/EncryptionUserKeyManager.h; sourceTree = SOURCE_ROOT; };
@@ -209,7 +232,7 @@
 		D20815811513043800F12039 /* MSequenceNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSequenceNumber.m; sourceTree = "<group>"; };
 		D20815831513C20A00F12039 /* FeedManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedManager.h; sourceTree = "<group>"; };
 		D20815841513C20B00F12039 /* FeedManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedManager.m; sourceTree = "<group>"; };
-		D208158615152A2600F12039 /* MessageListener.h */ = {isa = PBXFileReference; fileEncoding = 4; path = MessageListener.h; sourceTree = "<group>"; };
+		D208158615152A2600F12039 /* MessageListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListener.h; sourceTree = "<group>"; };
 		D208158715152A2700F12039 /* MessageListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListener.m; sourceTree = "<group>"; };
 		D2081589151541D400F12039 /* DeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceManager.h; sourceTree = "<group>"; };
 		D208158A151541D500F12039 /* DeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceManager.m; sourceTree = "<group>"; };
@@ -220,6 +243,11 @@
 		D211D8B0151944E100E38051 /* AMQPListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPListener.m; sourceTree = "<group>"; };
 		D211D8B2151945D400E38051 /* AMQPThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPThread.h; sourceTree = "<group>"; };
 		D211D8B3151945D400E38051 /* AMQPThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPThread.m; sourceTree = "<group>"; };
+		D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "facebook-ios-sdk.xcodeproj"; path = "Facebook/src/facebook-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
+		D211D96A151979D200E38051 /* NamePictureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamePictureCell.h; sourceTree = "<group>"; };
+		D211D96B151979D200E38051 /* NamePictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamePictureCell.m; sourceTree = "<group>"; };
+		D211D96C151979D200E38051 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		D211D96D151979D200E38051 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		D216DDCA14F46131001A4166 /* libpbc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpbc.a; path = "Libraries/PBC/build/Release-iphoneos/libpbc.a"; sourceTree = "<group>"; };
 		D216DE5914F48951001A4166 /* MusubiAppTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusubiAppTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D216DE5F14F48951001A4166 /* MusubiAppTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MusubiAppTest-Info.plist"; sourceTree = "<group>"; };
@@ -228,6 +256,8 @@
 		D216DE6414F48952001A4166 /* MusubiAppTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusubiAppTest.m; sourceTree = "<group>"; };
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
 		D21CDDEF14CA2AA5005C6011 /* Key.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Key.h; sourceTree = "<group>"; };
+		D21F732C15199F5100C57BC3 /* FacebookAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookAuth.h; sourceTree = "<group>"; };
+		D21F732D15199F5100C57BC3 /* FacebookAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookAuth.m; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSender.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -273,6 +303,34 @@
 		D26D36FF147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		D26D3701147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		D26D3702147B3ED400C4FE93 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D272FB3B1519B05500D2521A /* MAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAccount.h; sourceTree = "<group>"; };
+		D272FB3C1519B05500D2521A /* MAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAccount.m; sourceTree = "<group>"; };
+		D272FB3E1519B7E300D2521A /* MEncryptionUserKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEncryptionUserKey.h; sourceTree = "<group>"; };
+		D272FB3F1519B7E300D2521A /* MEncryptionUserKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEncryptionUserKey.m; sourceTree = "<group>"; };
+		D272FB411519B7E400D2521A /* MEncodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEncodedMessage.h; sourceTree = "<group>"; };
+		D272FB421519B7E400D2521A /* MEncodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEncodedMessage.m; sourceTree = "<group>"; };
+		D272FB441519B7E400D2521A /* MSignatureUserKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSignatureUserKey.h; sourceTree = "<group>"; };
+		D272FB451519B7E400D2521A /* MSignatureUserKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSignatureUserKey.m; sourceTree = "<group>"; };
+		D272FB471519B7E400D2521A /* MIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIdentity.h; sourceTree = "<group>"; };
+		D272FB481519B7E400D2521A /* MIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIdentity.m; sourceTree = "<group>"; };
+		D272FB4A1519B7E500D2521A /* MDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDevice.h; sourceTree = "<group>"; };
+		D272FB4B1519B7E500D2521A /* MDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDevice.m; sourceTree = "<group>"; };
+		D272FB4D1519B7E500D2521A /* MIncomingSecret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIncomingSecret.h; sourceTree = "<group>"; };
+		D272FB4E1519B7E500D2521A /* MIncomingSecret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIncomingSecret.m; sourceTree = "<group>"; };
+		D272FB501519B7E500D2521A /* MOutgoingSecret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOutgoingSecret.h; sourceTree = "<group>"; };
+		D272FB511519B7E500D2521A /* MOutgoingSecret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOutgoingSecret.m; sourceTree = "<group>"; };
+		D272FB57151A69DF00D2521A /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
+		D272FB58151A69DF00D2521A /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
+		D272FB5A151A751800D2521A /* AccountAuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountAuthManager.h; path = Auth/AccountAuthManager.h; sourceTree = "<group>"; };
+		D272FB5B151A751800D2521A /* AccountAuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountAuthManager.m; path = Auth/AccountAuthManager.m; sourceTree = "<group>"; };
+		D272FB5D151A8E4900D2521A /* MFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFeed.h; sourceTree = "<group>"; };
+		D272FB5E151A8E4900D2521A /* MFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFeed.m; sourceTree = "<group>"; };
+		D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DDExtensions.m"; sourceTree = "<group>"; };
+		D272FB61151A90F800D2521A /* NSObject+DDExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DDExtensions.h"; sourceTree = "<group>"; };
+		D272FB62151A90F800D2521A /* DDInvocationGrabber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDInvocationGrabber.m; sourceTree = "<group>"; };
+		D272FB63151A90F800D2521A /* DDInvocationGrabber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDInvocationGrabber.h; sourceTree = "<group>"; };
+		D272FB66151ABC1B00D2521A /* AphidIdentityProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AphidIdentityProvider.h; sourceTree = "<group>"; };
+		D272FB67151ABC1B00D2521A /* AphidIdentityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AphidIdentityProvider.m; sourceTree = "<group>"; };
 		D27959001457D36200C5FDAB /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
 		D27959011457D36200C5FDAB /* amqp_api.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_api.c; sourceTree = "<group>"; };
 		D27959021457D36200C5FDAB /* amqp_connection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_connection.c; sourceTree = "<group>"; };
@@ -636,8 +694,6 @@
 		D2AADE4A14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransientTransportDataProvider.m; sourceTree = "<group>"; };
 		D2AADE4C14FDBC1A00C6ABB3 /* IncomingMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomingMessage.h; sourceTree = "<group>"; };
 		D2AADE4D14FDBC1A00C6ABB3 /* IncomingMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomingMessage.m; sourceTree = "<group>"; };
-		D2AADE4F14FDBDB800C6ABB3 /* MIncomingSecret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIncomingSecret.h; sourceTree = "<group>"; };
-		D2AADE5014FDBDB800C6ABB3 /* MIncomingSecret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIncomingSecret.m; sourceTree = "<group>"; };
 		D2AADE6014FEF0FD00C6ABB3 /* PersistentModelStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistentModelStore.h; sourceTree = "<group>"; };
 		D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistentModelStore.m; sourceTree = "<group>"; };
 		D2B13D4714F867E40067B197 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
@@ -653,14 +709,6 @@
 		D2B13D5914F882580067B197 /* Secret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Secret.h; sourceTree = "<group>"; };
 		D2B13D5A14F882580067B197 /* Secret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Secret.m; sourceTree = "<group>"; };
 		D2B13D5C14FB0DB80067B197 /* TransportDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransportDataProvider.h; sourceTree = "<group>"; };
-		D2B13D6214FC18300067B197 /* MOutgoingSecret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOutgoingSecret.h; sourceTree = "<group>"; };
-		D2B13D6314FC18300067B197 /* MOutgoingSecret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOutgoingSecret.m; sourceTree = "<group>"; };
-		D2B13D6514FC188C0067B197 /* MIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIdentity.h; sourceTree = "<group>"; };
-		D2B13D6614FC188C0067B197 /* MIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIdentity.m; sourceTree = "<group>"; };
-		D2B13D6814FC18ED0067B197 /* MEncodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEncodedMessage.h; sourceTree = "<group>"; };
-		D2B13D6914FC18ED0067B197 /* MEncodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEncodedMessage.m; sourceTree = "<group>"; };
-		D2B13D6B14FC52940067B197 /* MDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDevice.h; sourceTree = "<group>"; };
-		D2B13D6C14FC52940067B197 /* MDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDevice.m; sourceTree = "<group>"; };
 		D2B428BB14F44F4600ED868D /* IBE.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IBE.xcodeproj; path = IBE/IBE.xcodeproj; sourceTree = "<group>"; };
 		D2B939C314BD04C700C5F777 /* missing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missing.png; sourceTree = "<group>"; };
 		D2C0AA9914FF035100E9D0BF /* MessageDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDecoder.h; sourceTree = "<group>"; };
@@ -688,6 +736,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D211D97215197F7000E38051 /* libfacebook_ios_sdk.a in Frameworks */,
 				D27965831457D37A00C5FDAB /* librabbitmq.a in Frameworks */,
 				D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */,
 				D27968D91457D9BA00C5FDAB /* libsbjson-ios.a in Frameworks */,
@@ -715,19 +764,48 @@
 				D20815741512BA9300F12039 /* EncodedMessageManager.h */,
 				D20815751512BA9300F12039 /* EncodedMessageManager.m */,
 				D20815771512EA5F00F12039 /* EncryptionUserKeyManager.h */,
-				D20815781512EA5F00F12039 /* EncryptionUserKeyManager.m */,
 				D208156E1512A2C200F12039 /* UserKeyManager.h */,
 				D208156F1512A2C200F12039 /* UserKeyManager.m */,
 				D208156215128BEF00F12039 /* TransportManager.h */,
 				D208156315128BEF00F12039 /* TransportManager.m */,
+				D20815781512EA5F00F12039 /* EncryptionUserKeyManager.m */,
 				D208157A1512EF6F00F12039 /* OutgoingSecretManager.h */,
 				D208157B1512EF7000F12039 /* OutgoingSecretManager.m */,
 				D20815831513C20A00F12039 /* FeedManager.h */,
 				D20815841513C20B00F12039 /* FeedManager.m */,
 				D2081589151541D400F12039 /* DeviceManager.h */,
 				D208158A151541D500F12039 /* DeviceManager.m */,
+				D272FB57151A69DF00D2521A /* AccountManager.h */,
+				D272FB58151A69DF00D2521A /* AccountManager.m */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		D211D95F151978DB00E38051 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D211D966151978DB00E38051 /* libfacebook_ios_sdk.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D211D9681519797800E38051 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D211D969151979D200E38051 /* Settings */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		D211D969151979D200E38051 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D211D96A151979D200E38051 /* NamePictureCell.h */,
+				D211D96B151979D200E38051 /* NamePictureCell.m */,
+				D211D96C151979D200E38051 /* SettingsViewController.h */,
+				D211D96D151979D200E38051 /* SettingsViewController.m */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		D216DE5D14F48951001A4166 /* MusubiAppTest */ = {
@@ -760,31 +838,50 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D21F732B15199F1C00C57BC3 /* Identity */ = {
+			isa = PBXGroup;
+			children = (
+				D208156515128E6100F12039 /* UnverifiedIdentityProvider.h */,
+				D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */,
+				D21F732C15199F5100C57BC3 /* FacebookAuth.h */,
+				D21F732D15199F5100C57BC3 /* FacebookAuth.m */,
+				D272FB5A151A751800D2521A /* AccountAuthManager.h */,
+				D272FB5B151A751800D2521A /* AccountAuthManager.m */,
+				D272FB66151ABC1B00D2521A /* AphidIdentityProvider.h */,
+				D272FB67151ABC1B00D2521A /* AphidIdentityProvider.m */,
+			);
+			name = Identity;
+			sourceTree = "<group>";
+		};
 		D248D2EE14F84ABC00DF96DB /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				D208156115128BA800F12039 /* Managers */,
 				D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */,
-				D2B13D6514FC188C0067B197 /* MIdentity.h */,
-				D2B13D6614FC188C0067B197 /* MIdentity.m */,
-				D2B13D6814FC18ED0067B197 /* MEncodedMessage.h */,
-				D2B13D6914FC18ED0067B197 /* MEncodedMessage.m */,
-				D2B13D6B14FC52940067B197 /* MDevice.h */,
-				D2B13D6C14FC52940067B197 /* MDevice.m */,
-				D2AADE4F14FDBDB800C6ABB3 /* MIncomingSecret.h */,
-				D2AADE5014FDBDB800C6ABB3 /* MIncomingSecret.m */,
-				D2B13D6214FC18300067B197 /* MOutgoingSecret.h */,
-				D2B13D6314FC18300067B197 /* MOutgoingSecret.m */,
-				D208156B1512A28E00F12039 /* MEncryptionUserKey.h */,
-				D208156C1512A28E00F12039 /* MEncryptionUserKey.m */,
-				D20815711512A7ED00F12039 /* MSignatureUserKey.h */,
-				D20815721512A7ED00F12039 /* MSignatureUserKey.m */,
 				D2AADE6014FEF0FD00C6ABB3 /* PersistentModelStore.h */,
 				D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */,
 				D208157D1513026800F12039 /* MMissingMessage.h */,
 				D208157E1513026900F12039 /* MMissingMessage.m */,
 				D20815801513043700F12039 /* MSequenceNumber.h */,
 				D20815811513043800F12039 /* MSequenceNumber.m */,
+				D272FB3B1519B05500D2521A /* MAccount.h */,
+				D272FB3C1519B05500D2521A /* MAccount.m */,
+				D272FB501519B7E500D2521A /* MOutgoingSecret.h */,
+				D272FB511519B7E500D2521A /* MOutgoingSecret.m */,
+				D272FB4D1519B7E500D2521A /* MIncomingSecret.h */,
+				D272FB4E1519B7E500D2521A /* MIncomingSecret.m */,
+				D272FB4A1519B7E500D2521A /* MDevice.h */,
+				D272FB4B1519B7E500D2521A /* MDevice.m */,
+				D272FB471519B7E400D2521A /* MIdentity.h */,
+				D272FB481519B7E400D2521A /* MIdentity.m */,
+				D272FB441519B7E400D2521A /* MSignatureUserKey.h */,
+				D272FB451519B7E400D2521A /* MSignatureUserKey.m */,
+				D272FB411519B7E400D2521A /* MEncodedMessage.h */,
+				D272FB421519B7E400D2521A /* MEncodedMessage.m */,
+				D272FB3E1519B7E300D2521A /* MEncryptionUserKey.h */,
+				D272FB3F1519B7E300D2521A /* MEncryptionUserKey.m */,
+				D272FB5D151A8E4900D2521A /* MFeed.h */,
+				D272FB5E151A8E4900D2521A /* MFeed.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -813,6 +910,8 @@
 		D26D3691147B3ED300C4FE93 /* Musubi */ = {
 			isa = PBXGroup;
 			children = (
+				D21F732B15199F1C00C57BC3 /* Identity */,
+				D211D9681519797800E38051 /* UI */,
 				D2B13D4514F865760067B197 /* Encoding */,
 				D248D2EE14F84ABC00DF96DB /* Model */,
 				D26D369B147B3ED300C4FE93 /* Crypto */,
@@ -840,8 +939,6 @@
 				D21CDDEF14CA2AA5005C6011 /* Key.h */,
 				D2CB073A14EDCBB50006D1E9 /* IBEncryptionScheme.h */,
 				D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */,
-				D208156515128E6100F12039 /* UnverifiedIdentityProvider.h */,
-				D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */,
 			);
 			path = Crypto;
 			sourceTree = "<group>";
@@ -866,6 +963,10 @@
 		D26D36D4147B3ED400C4FE93 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */,
+				D272FB61151A90F800D2521A /* NSObject+DDExtensions.h */,
+				D272FB62151A90F800D2521A /* DDInvocationGrabber.m */,
+				D272FB63151A90F800D2521A /* DDInvocationGrabber.h */,
 				D26D36D5147B3ED400C4FE93 /* LocationController.h */,
 				D26D36D6147B3ED400C4FE93 /* LocationController.m */,
 				D26D36D7147B3ED400C4FE93 /* UIImage+Alpha.h */,
@@ -897,6 +998,7 @@
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */,
 				D2B428BB14F44F4600ED868D /* IBE.xcodeproj */,
 				D25F49021471A32500AC1551 /* bson */,
 				D27965DC1457D97200C5FDAB /* SBJson */,
@@ -2088,6 +2190,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D211D97115197F6800E38051 /* PBXTargetDependency */,
 				D27968DB1457D9C800C5FDAB /* PBXTargetDependency */,
 				D2B428D414F44FC600ED868D /* PBXTargetDependency */,
 			);
@@ -2121,6 +2224,10 @@
 					ProjectRef = D279660B1457D97200C5FDAB /* DisplayPretty.xcodeproj */;
 				},
 				{
+					ProductGroup = D211D95F151978DB00E38051 /* Products */;
+					ProjectRef = D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */;
+				},
+				{
 					ProductGroup = D2B428BC14F44F4600ED868D /* Products */;
 					ProjectRef = D2B428BB14F44F4600ED868D /* IBE.xcodeproj */;
 				},
@@ -2142,6 +2249,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		D211D966151978DB00E38051 /* libfacebook_ios_sdk.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfacebook_ios_sdk.a;
+			remoteRef = D211D965151978DB00E38051 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		D27968C51457D97800C5FDAB /* DisplayPretty.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -2237,6 +2351,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D272FB541519C19E00D2521A /* EncodingTest.m in Sources */,
+				D272FB561519C19E00D2521A /* IBEncryptionTest.m in Sources */,
 				D211D8B515194DD800E38051 /* MessageListener.m in Sources */,
 				D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */,
 				D2AADE4B14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m in Sources */,
@@ -2248,7 +2364,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2998CF014FF583700E1EC21 /* MIncomingSecret.m in Sources */,
 				D2C0AA9C14FF089600E9D0BF /* IncomingMessage.m in Sources */,
 				D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */,
 				D27968DE1457DB5200C5FDAB /* amqp_api.c in Sources */,
@@ -2292,19 +2407,13 @@
 				D2B13D5214F869800067B197 /* MessageEncoder.m in Sources */,
 				D2B13D5514F869CF0067B197 /* OutgoingMessage.m in Sources */,
 				D2B13D5B14F882590067B197 /* Secret.m in Sources */,
-				D2B13D6414FC18300067B197 /* MOutgoingSecret.m in Sources */,
-				D2B13D6714FC188C0067B197 /* MIdentity.m in Sources */,
-				D2B13D6A14FC18ED0067B197 /* MEncodedMessage.m in Sources */,
-				D2B13D6D14FC52940067B197 /* MDevice.m in Sources */,
 				D2AADE1714FD792300C6ABB3 /* BSONEncoder.m in Sources */,
 				D2C0AA9B14FF035100E9D0BF /* MessageDecoder.m in Sources */,
 				D2081556151171D800F12039 /* AMQPConnectionManager.m in Sources */,
 				D208156415128BEF00F12039 /* TransportManager.m in Sources */,
 				D208156715128E6100F12039 /* UnverifiedIdentityProvider.m in Sources */,
 				D208156A151290FE00F12039 /* IdentityManager.m in Sources */,
-				D208156D1512A28F00F12039 /* MEncryptionUserKey.m in Sources */,
 				D20815701512A2C200F12039 /* UserKeyManager.m in Sources */,
-				D20815731512A7ED00F12039 /* MSignatureUserKey.m in Sources */,
 				D20815761512BA9300F12039 /* EncodedMessageManager.m in Sources */,
 				D20815791512EA5F00F12039 /* EncryptionUserKeyManager.m in Sources */,
 				D208157C1512EF7000F12039 /* OutgoingSecretManager.m in Sources */,
@@ -2317,12 +2426,34 @@
 				D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */,
 				D211D8B1151944E100E38051 /* AMQPListener.m in Sources */,
 				D211D8B4151945D400E38051 /* AMQPThread.m in Sources */,
+				D211D96E151979D200E38051 /* NamePictureCell.m in Sources */,
+				D211D96F151979D200E38051 /* SettingsViewController.m in Sources */,
+				D21F732E15199F5100C57BC3 /* FacebookAuth.m in Sources */,
+				D272FB3D1519B05500D2521A /* MAccount.m in Sources */,
+				D272FB401519B7E300D2521A /* MEncryptionUserKey.m in Sources */,
+				D272FB431519B7E400D2521A /* MEncodedMessage.m in Sources */,
+				D272FB461519B7E400D2521A /* MSignatureUserKey.m in Sources */,
+				D272FB491519B7E400D2521A /* MIdentity.m in Sources */,
+				D272FB4C1519B7E500D2521A /* MDevice.m in Sources */,
+				D272FB4F1519B7E500D2521A /* MIncomingSecret.m in Sources */,
+				D272FB521519B7E500D2521A /* MOutgoingSecret.m in Sources */,
+				D272FB59151A69DF00D2521A /* AccountManager.m in Sources */,
+				D272FB5C151A751800D2521A /* AccountAuthManager.m in Sources */,
+				D272FB5F151A8E4A00D2521A /* MFeed.m in Sources */,
+				D272FB64151A90F800D2521A /* NSObject+DDExtensions.m in Sources */,
+				D272FB65151A90F800D2521A /* DDInvocationGrabber.m in Sources */,
+				D272FB68151ABC1B00D2521A /* AphidIdentityProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D211D97115197F6800E38051 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "facebook-ios-sdk";
+			targetProxy = D211D97015197F6800E38051 /* PBXContainerItemProxy */;
+		};
 		D216DE6B14F48AE2001A4166 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D298F9F1143CE6DF000831DD /* Musubi */;
@@ -2505,6 +2636,7 @@
 					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/**",
 					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator/**",
 					"$(SRCROOT)/Libraries/OpenSSL/**",
+					"$(SRCROOT)/Libraries/Facebook/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -2516,6 +2648,7 @@
 					"\"$(SRCROOT)/Libraries/OpenSSL/build\"",
 					"\"$(SRCROOT)/Libraries/librabbitmq\"",
 					"\"$(SRCROOT)/Libraries/GMP/build\"",
+					"\"$(SRCROOT)/Libraries/Facebook\"",
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2539,6 +2672,7 @@
 					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/**",
 					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator/**",
 					"$(SRCROOT)/Libraries/OpenSSL/**",
+					"$(SRCROOT)/Libraries/Facebook/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -2550,6 +2684,7 @@
 					"\"$(SRCROOT)/Libraries/OpenSSL/build\"",
 					"\"$(SRCROOT)/Libraries/librabbitmq\"",
 					"\"$(SRCROOT)/Libraries/GMP/build\"",
+					"\"$(SRCROOT)/Libraries/Facebook\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;

@@ -16,25 +16,26 @@
 
 
 //
-//  MEncodedMessage.m
+//  AccountManager.m
 //  Musubi
 //
 //  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MEncodedMessage.h"
-#import "MIdentity.h"
+#import "AccountManager.h"
 
+@implementation AccountManager
 
-@implementation MEncodedMessage
+- (id)initWithStore:(PersistentModelStore *)s {
+    self = [super initWithEntityName:@"Account" andStore:s];
+    if (self != nil) {
+    }
+    return self;
+}
 
-@dynamic encoded;
-@dynamic messageHash;
-@dynamic outbound;
-@dynamic processed;
-@dynamic sequenceNumber;
-@dynamic fromIdentity;
-@dynamic fromDevice;
+- (NSArray*) accountsWithType: (NSString*) type {
+    return [self query:[NSPredicate predicateWithFormat:@"type = %@", type]];
+}
 
 @end

@@ -15,26 +15,21 @@
  */
 
 
-//
-//  MEncodedMessage.m
-//  Musubi
-//
-//  Created by Willem Bult on 3/21/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
-#import "MEncodedMessage.h"
-#import "MIdentity.h"
 
 
-@implementation MEncodedMessage
+#import <Foundation/Foundation.h>
+#import "IdentityProvider.h"
 
-@dynamic encoded;
-@dynamic messageHash;
-@dynamic outbound;
-@dynamic processed;
-@dynamic sequenceNumber;
-@dynamic fromIdentity;
-@dynamic fromDevice;
+#define kMusubiExceptionAphidNeedRetry @"AphidNeedRetry"
+#define kMusubiExceptionAphidBadToken @"AphidBadToken"
+
+@class IBEncryptionScheme, IBSignatureScheme, IdentityManager;
+
+@interface AphidIdentityProvider : NSObject<IdentityProvider>
+
+@property (nonatomic, strong) IBEncryptionScheme* encryptionScheme;
+@property (nonatomic, strong) IBSignatureScheme* signatureScheme;
+@property (nonatomic, strong) IdentityManager* identityManager;
+@property (nonatomic, strong) NSMutableDictionary* knownTokens;
 
 @end

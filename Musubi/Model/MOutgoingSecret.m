@@ -19,22 +19,22 @@
 //  MOutgoingSecret.m
 //  Musubi
 //
-//  Created by Willem Bult on 2/27/12.
+//  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "MOutgoingSecret.h"
+#import "MIdentity.h"
 
 
 @implementation MOutgoingSecret
 
-@dynamic id;
-@dynamic myIdentityId;
-@dynamic otherIdentityId;
-@dynamic signaturePeriod;
-@dynamic encryptionPeriod;
 @dynamic encryptedKey;
-@dynamic signature;
+@dynamic encryptionPeriod;
 @dynamic key;
+@dynamic signature;
+@dynamic signaturePeriod;
+@dynamic myIdentity;
+@dynamic otherIdentity;
 
 @end

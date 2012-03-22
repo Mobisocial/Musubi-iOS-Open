@@ -75,8 +75,8 @@
     }
     
     os = [[transportDataProvider store] createOutgoingSecret];
-    [os setMyIdentityId: [from id]];
-    [os setOtherIdentityId: [to id]];
+    [os setMyIdentity: from];
+    [os setOtherIdentity: to];
     [os setKey: [ck raw]];
     [os setEncryptedKey: [ck encrypted]];
     [os setEncryptionPeriod: [you temporalFrame]];
@@ -135,7 +135,7 @@
         [rcpt setD: [[BSONEncoder encodeSecret:s] encryptWithAES128CBCZeroPaddedWithKey:[os key] andIV:iv]];
         
         [recipients addObject:rcpt];
-        [seqNumbers setObject:[NSNumber numberWithLong:seqNumber] forKey:[NSNumber numberWithLong:mRcpt.id]];
+        [seqNumbers setObject:[NSNumber numberWithLong:seqNumber] forKey:mRcpt.principalHash];
         
         if ([transportDataProvider isMe:rcptIdent]) {
             mySeqNumber = seqNumber;
@@ -157,8 +157,8 @@
     [m setD: [[om data] encryptWithAES128CBCPKCS7WithKey:messageKey andIV:iv]];
     
     MEncodedMessage* encoded = [[transportDataProvider store] createEncodedMessage];
-    [encoded setFromIdentityId: [om fromIdentity].id];
-    [encoded setFromDevice: [transportDataProvider addDeviceWithName:deviceName forIdentity:om.fromIdentity].id];
+    [encoded setFromIdentity: [om fromIdentity]];
+    [encoded setFromDevice: [transportDataProvider addDeviceWithName:deviceName forIdentity:om.fromIdentity]];
     [encoded setMessageHash: hash];
     [encoded setProcessed: NO];
     [encoded setOutbound: YES];

@@ -19,18 +19,18 @@
 //  MDevice.m
 //  Musubi
 //
-//  Created by Willem Bult on 2/27/12.
+//  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "MDevice.h"
+#import "MIdentity.h"
 
 
 @implementation MDevice
 
-@dynamic id;
-@dynamic identityId;
 @dynamic deviceName;
 @dynamic maxSequenceNumber;
+@dynamic identity;
 
 @end

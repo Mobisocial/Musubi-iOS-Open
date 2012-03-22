@@ -19,7 +19,7 @@
 //  MIdentity.m
 //  Musubi
 //
-//  Created by Willem Bult on 2/27/12.
+//  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -28,21 +28,20 @@
 
 @implementation MIdentity
 
-@dynamic id;
-@dynamic type;
+@dynamic blocked;
+@dynamic bootstrap;
+@dynamic claimed;
+@dynamic contactId;
+@dynamic createdAt;
+@dynamic hasLatestProfile;
+@dynamic name;
+@dynamic nextSequenceNumber;
+@dynamic owned;
 @dynamic principal;
 @dynamic principalHash;
 @dynamic principalShortHash;
-@dynamic owned;
-@dynamic claimed;
-@dynamic blocked;
-@dynamic hasLatestProfile;
-@dynamic contactId;
-@dynamic nextSequenceNumber;
 @dynamic thumbnail;
-@dynamic name;
-@dynamic bootstrap;
-@dynamic createdAt;
+@dynamic type;
 @dynamic updatedAt;
 
 @end

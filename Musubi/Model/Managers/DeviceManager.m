@@ -43,4 +43,9 @@
         return -1;
     }
 }
+
+- (MDevice*) deviceForName: (long) name andIdentity: (MIdentity*) mId {
+    return (MDevice*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND deviceName = %ld", mId, name]];
+}
+
 @end

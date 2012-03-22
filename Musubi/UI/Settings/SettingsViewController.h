@@ -16,25 +16,26 @@
 
 
 //
-//  MEncodedMessage.m
-//  Musubi
+//  SettingsViewController.h
+//  musubi
 //
-//  Created by Willem Bult on 3/21/12.
+//  Created by Willem Bult on 1/9/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MEncodedMessage.h"
-#import "MIdentity.h"
+#import <UIKit/UIKit.h>
+#import "NamePictureCell.h"
+#import "UIImage+Resize.h"
+#import "AccountAuthManager.h"
 
+@interface SettingsViewController : UITableViewController<UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,AccountAuthManagerDelegate> {
+    AccountAuthManager* authMgr;
+    NSDictionary* accountTypes;
+}
 
-@implementation MEncodedMessage
+@property (nonatomic, retain) AccountAuthManager* authMgr;
+@property (nonatomic, retain) NSDictionary* accountTypes;
 
-@dynamic encoded;
-@dynamic messageHash;
-@dynamic outbound;
-@dynamic processed;
-@dynamic sequenceNumber;
-@dynamic fromIdentity;
-@dynamic fromDevice;
+- (IBAction) pictureClicked: (id)sender;
 
 @end

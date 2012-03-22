@@ -53,9 +53,21 @@
 - (MIncomingSecret*) createIncomingSecret;
 - (MOutgoingSecret*) createOutgoingSecret;
 
+@end
 
+@interface PersistentModelStoreFactory : NSObject {
+    NSPersistentStoreCoordinator* coordinator;
+}
+
+@property (nonatomic, retain) NSPersistentStoreCoordinator* coordinator;
 
 + (NSURL*) pathForStoreWithName: (NSString*) name;
-+ (NSPersistentStoreCoordinator*) coordinatorWithName: (NSString*) name;
++ (void) deleteStoreWithName: (NSString*) name;
+
+- (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator;
+- (id) initWithPath: (NSURL*) path;
+- (id) initWithName: (NSString*) name;
+
+- (PersistentModelStore*) newStore;
 
 @end

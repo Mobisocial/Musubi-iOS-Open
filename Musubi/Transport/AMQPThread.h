@@ -30,17 +30,17 @@
 @interface AMQPThread : NSThread {
     AMQPConnectionManager* connMngr;
     
-    NSPersistentStoreCoordinator* storeCoordinator;
+    PersistentModelStoreFactory* storeFactory;
     TransportManager* transportDataProvider;
     
     int instance;
 }
 
 @property (nonatomic,retain) AMQPConnectionManager* connMngr;
-@property (nonatomic,retain) NSPersistentStoreCoordinator* storeCoordinator;
+@property (nonatomic,retain) PersistentModelStoreFactory* storeFactory;
 @property (nonatomic,retain) TransportManager* transportDataProvider;
 
-- (id) initWithConnectionManager: (AMQPConnectionManager*) conn storeCoordinator: (NSPersistentStoreCoordinator*) coordinator encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (long) devName;
+- (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName;
 
 - (void) log:(NSString*) format, ...;
 

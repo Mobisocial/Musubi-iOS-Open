@@ -59,7 +59,8 @@
     
     self = [super init];
     if (self != nil) {
-        [self setStore: [[PersistentModelStore alloc] initWithCoordinator:[PersistentModelStore coordinatorWithName:@"TestStore1"]]];
+        PersistentModelStoreFactory* factory = [[PersistentModelStoreFactory alloc] initWithName:@"TestStore1"];
+        [self setStore: [factory newStore]];
         
         [self setEncryptionScheme: es];
         [self setSignatureScheme: ss];
@@ -78,7 +79,6 @@
         [self setMissingSequenceNumbers: [[NSMutableDictionary alloc] init]];
         
         MIdentity* ident = [store createIdentity];
-        [ident setId: [identities count]];
         [ident setClaimed: YES];
         [ident setOwned: YES];
         [ident setType: kIBEncryptionIdentityAuthorityEmail];
@@ -86,7 +86,7 @@
         [ident setPrincipalHash: me.hashed];
         [ident setPrincipalShortHash: *(long*)me.hashed.bytes];
         
-        [identities setObject:ident forKey:[NSNumber numberWithLong: ident.id]];
+        [identities setObject:ident forKey:[NSNumber numberWithLong: ident.principalShortHash]];
         [identityLookup setObject:ident forKey:[NSArray arrayWithObjects:ident.principalHash, nil]];
         
         [self addDeviceWithName:[self deviceName] forIdentity:ident];
@@ -139,39 +139,39 @@
 }
 
 - (MOutgoingSecret *)lookupOutgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
-    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithLong: from.id], [NSNumber numberWithLong: to.id], [NSNumber numberWithLong: me.temporalFrame], [NSNumber numberWithLong: other.temporalFrame], nil];
+    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithLong: from.principalShortHash], [NSNumber numberWithLong: to.principalShortHash], [NSNumber numberWithLong: me.temporalFrame], [NSNumber numberWithLong: other.temporalFrame], nil];
     
     return [outgoingSecrets objectForKey:key];
 }
 
 - (void)insertOutgoingSecret:(MOutgoingSecret *)os myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
-    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithLong: os.myIdentityId], [NSNumber numberWithLong: os.otherIdentityId], [NSNumber numberWithLong: me.temporalFrame], [NSNumber numberWithLong: other.temporalFrame], nil];
+    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithLong: os.myIdentity.principalShortHash], [NSNumber numberWithLong: os.otherIdentity.principalShortHash], [NSNumber numberWithLong: me.temporalFrame], [NSNumber numberWithLong: other.temporalFrame], nil];
     
     [outgoingSecrets setObject:os forKey:key];
 }
 
 - (MIncomingSecret *)lookupIncomingSecretFrom:(MIdentity *)from onDevice:(MDevice *)device to:(MIdentity *)to withSignature:(NSData *)signature otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
-    NSArray* key = [NSArray arrayWithObjects:[NSNumber numberWithLong: device.id], [NSNumber numberWithLong:to.id], signature, me, nil];
+    NSArray* key = [NSArray arrayWithObjects:[NSNumber numberWithLong: device.deviceName], [NSNumber numberWithLong:to.principalShortHash], signature, me, nil];
     
     return [incomingSecrets objectForKey:key];
 }
 
 - (void)insertIncomingSecret:(MIncomingSecret *)is otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
-    NSArray* key = [NSArray arrayWithObjects:[NSNumber numberWithLong:is.deviceId], [NSNumber numberWithLong:is.myIdentityId], is.signature, me, nil];
+    NSArray* key = [NSArray arrayWithObjects:[NSNumber numberWithLong:is.device.deviceName], [NSNumber numberWithLong:is.myIdentity.principalShortHash], is.signature, me, nil];
     
     [incomingSecrets setObject:is forKey:key];
 }
 
 - (void)incrementSequenceNumberTo:(MIdentity *)to {
-    MIdentity* ident = [identities objectForKey:[NSNumber numberWithLong:to.id]];
+    MIdentity* ident = [identities objectForKey:[NSNumber numberWithLong:to.principalShortHash]];
     ident.nextSequenceNumber++;
 }
 
 - (void)receivedSequenceNumber:(long)sequenceNumber from:(MDevice *)device {
-    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithLong:device.identityId], [NSNumber numberWithLong:device.deviceName], nil];
-    long maxSequenceNumber = ((MDevice*)[devices objectForKey:[NSNumber numberWithLong:device.id]]).maxSequenceNumber;
+    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithLong:device.identity.principalShortHash], [NSNumber numberWithLong:device.deviceName], nil];
+    long maxSequenceNumber = ((MDevice*)[devices objectForKey:[NSNumber numberWithLong:device.deviceName]]).maxSequenceNumber;
     if (sequenceNumber > maxSequenceNumber) {
-        [((MDevice*)[devices objectForKey:[NSNumber numberWithLong:device.id]]) setMaxSequenceNumber:sequenceNumber];
+        [((MDevice*)[devices objectForKey:[NSNumber numberWithLong:device.deviceName]]) setMaxSequenceNumber:sequenceNumber];
     }
    
     NSMutableSet* missing = [missingSequenceNumbers objectForKey:key];
@@ -221,14 +221,13 @@
         return ident;
     
     ident = [store createIdentity];
-    [ident setId: [identities count] + 1];
     [ident setClaimed: YES];
     [ident setOwned: NO];
     [ident setType: kIBEncryptionIdentityAuthorityEmail];
     [ident setPrincipalHash: [hid hashed]];
     [ident setPrincipalShortHash: *(long*)hid.hashed.bytes];
     
-    [identities setObject:ident forKey:[NSNumber numberWithLong: ident.id]];
+    [identities setObject:ident forKey:[NSNumber numberWithLong: ident.principalShortHash]];
     [identityLookup setObject:ident forKey:lookupKey];
     return ident;
 }
@@ -241,32 +240,30 @@
         return ident;
     
     ident = [store createIdentity];
-    [ident setId: [identities count] + 1];
     [ident setClaimed: NO];
     [ident setOwned: NO];
     [ident setType: kIBEncryptionIdentityAuthorityEmail];
     [ident setPrincipalHash: [hid hashed]];
     [ident setPrincipalShortHash: *(long*)hid.hashed.bytes];
     
-    [identities setObject:ident forKey:[NSNumber numberWithLong: ident.id]];
+    [identities setObject:ident forKey:[NSNumber numberWithLong: ident.principalShortHash]];
     [identityLookup setObject:ident forKey:lookupKey];
     return ident;
 }
 
 - (MDevice *)addDeviceWithName:(long)devName forIdentity:(MIdentity *)ident {
-    NSArray* lookupKey = [NSArray arrayWithObjects:[NSNumber numberWithLong: ident.id], [NSNumber numberWithLong:devName], nil];
+    NSArray* lookupKey = [NSArray arrayWithObjects:[NSNumber numberWithLong: ident.principalShortHash], [NSNumber numberWithLong:devName], nil];
 
     MDevice* d = [deviceLookup objectForKey:lookupKey];
     if(d != nil)
         return d;
     
     d = [store createDevice];
-    [d setId: [devices count] + 1];
-    [d setIdentityId: [ident id]];
+    [d setIdentity: ident];
     [d setDeviceName: devName];
     [d setMaxSequenceNumber: -1];
     
-    [devices setObject:d forKey:[NSNumber numberWithLong: d.id]];
+    [devices setObject:d forKey:[NSNumber numberWithLong: d.deviceName]];
     [deviceLookup setObject:d forKey:lookupKey];
     
     return d;
@@ -280,14 +277,14 @@
     
     NSLog(@"Inserting message with message hash:\n%@\nand hash:\n%@", [encoded messageHash], [encoded.encoded sha256Digest]);
 
-    [encodedMessages setObject:encoded forKey:[NSNumber numberWithLong: encoded.id]];
+    [encodedMessages setObject:encoded forKey:encoded.messageHash];
     [encodedMessageLookup setObject:encoded forKey:[encoded.encoded sha256Digest]];
 }
 
 - (MEncodedMessage *)insertEncodedMessageData:(NSData *)data {
     MEncodedMessage* encodedMessage = [store createEncodedMessage];
     [encodedMessage setEncoded: data];
-    [encodedMessages setObject:encodedMessage forKey:[NSNumber numberWithLong: encodedMessage.id]];
+    [encodedMessages setObject:encodedMessage forKey:[NSNumber numberWithInt:encodedMessage.hash]];
     return encodedMessage;
 }
 @end

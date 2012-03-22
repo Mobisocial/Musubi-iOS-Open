@@ -16,25 +16,27 @@
 
 
 //
-//  MEncodedMessage.m
+//  MAccount.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/21/12.
+//  Created by Willem Bult on 3/20/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MEncodedMessage.h"
-#import "MIdentity.h"
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
+#define kAccountNameProvisionalWhitelist @"provisional_whitelist"
+#define kAccountNameLocalWhitelist @"local_whitelist"
+#define kAccountTypeInternal @"mobisocial.musubi.internal"
 
-@implementation MEncodedMessage
+@class MFeed, MIdentity;
 
-@dynamic encoded;
-@dynamic messageHash;
-@dynamic outbound;
-@dynamic processed;
-@dynamic sequenceNumber;
-@dynamic fromIdentity;
-@dynamic fromDevice;
+@interface MAccount : NSManagedObject
+
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * type;
+@property (nonatomic, retain) MIdentity *identity;
+@property (nonatomic, retain) MFeed *feed;
 
 @end

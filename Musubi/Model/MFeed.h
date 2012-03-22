@@ -16,25 +16,34 @@
 
 
 //
-//  MEncodedMessage.m
+//  MFeed.h
 //  Musubi
 //
 //  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MEncodedMessage.h"
-#import "MIdentity.h"
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
+#define kFeedTypeUnknown 0
+#define kFeedTypeFixed 1
+#define kFeedTypeExpanding 2
+#define kFeedTypeAsymmetric 3
+#define kFeedTypeOneTimeUse 4
+
+#define kFeedNameLocalWhitelist @"local_whitelist"
+#define kFeedNameProvisionalWhitelist @"provisional_whitelist"
 
 
-@implementation MEncodedMessage
+@interface MFeed : NSManagedObject
 
-@dynamic encoded;
-@dynamic messageHash;
-@dynamic outbound;
-@dynamic processed;
-@dynamic sequenceNumber;
-@dynamic fromIdentity;
-@dynamic fromDevice;
+@property (nonatomic) int16_t type;
+@property (nonatomic, retain) NSData * capability;
+@property (nonatomic) int64_t shortCapability;
+@property (nonatomic) int64_t latestRenderableObjTime;
+@property (nonatomic) int32_t numUnread;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic) BOOL accepted;
 
 @end

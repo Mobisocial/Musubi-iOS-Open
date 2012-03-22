@@ -29,34 +29,26 @@
 
 static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
-/*@protocol MusubiFeedListener
+#define kMusubiNotificationOwnedIdentityAvailable @"owned_identity_available"
+#define kMusubiNotificationAuthTokenRefresh @"auth_token_refresh"
+#define kMusubiNotificationMyProfileUpdate @"my_profile_update"
 
-- (void) newMessage: (SignedMessage*) message;
-
-@end
-*/
-@interface Musubi : NSObject {//TransportListener,IdentityDelegate> {
-//    RabbitMQMessengerService* transport;
-
-    PersistentModelStore* store;
+@interface Musubi : NSObject {
+    PersistentModelStore* mainStore; 
+    PersistentModelStoreFactory* storeFactory;
     NSMutableDictionary* feedListeners;
+    NSNotificationCenter* notificationCenter;
 }
 
-@property (nonatomic, retain) PersistentModelStore* store;
+// store to use on the main thread
+@property (nonatomic, retain) PersistentModelStore* mainStore;
+@property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
 @property (nonatomic, retain) NSMutableDictionary* feedListeners;
+@property (nonatomic, retain) NSNotificationCenter* notificationSender;
 
 + (Musubi*) sharedInstance;
-- (void) startTransport;
-/*
-- (NSArray*) friends;
-- (NSArray*) groups;
-- (ManagedFeed*) joinGroup: (Feed*) group;
-- (ManagedFeed*) feedByName: (NSString*) feedName;
 
+// creates a new store on the current thread
+- (PersistentModelStore*) newStore;
 
-- (void) listenToGroup: (Feed*) group withListener: (id<MusubiFeedListener>) listener;
-- (SignedMessage*) sendMessage: (Message*) msg;
-
-- (User*) userWithPublicKey: (NSData*) publicKey;
-*/
 @end

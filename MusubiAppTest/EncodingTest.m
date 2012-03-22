@@ -78,7 +78,7 @@
 }
 
 - (long)encryptionTimeForIdentity:(IBEncryptionIdentity *)hid {
-    return t++;
+    return t++; 
 }
 
 @end

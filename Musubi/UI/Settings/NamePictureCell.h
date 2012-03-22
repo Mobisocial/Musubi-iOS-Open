@@ -16,25 +16,21 @@
 
 
 //
-//  MEncodedMessage.m
+//  NamePictureCell.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/21/12.
+//  Created by Willem Bult on 1/10/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MEncodedMessage.h"
-#import "MIdentity.h"
+#import <UIKit/UIKit.h>
 
+@interface NamePictureCell : UITableViewCell {
+    IBOutlet UITextField* nameTextField;
+    IBOutlet UIButton* picture;
+}
 
-@implementation MEncodedMessage
-
-@dynamic encoded;
-@dynamic messageHash;
-@dynamic outbound;
-@dynamic processed;
-@dynamic sequenceNumber;
-@dynamic fromIdentity;
-@dynamic fromDevice;
+@property (nonatomic,retain) IBOutlet UIButton* picture;
+@property (nonatomic,retain) IBOutlet UITextField* nameTextField;
 
 @end

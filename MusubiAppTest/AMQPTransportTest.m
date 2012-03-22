@@ -34,15 +34,14 @@
 
 @implementation AMQPTransportTest
 
-@synthesize identityProvider, store;
+@synthesize identityProvider, storeFactory, store;
 
 - (void) setUp {
     [self setIdentityProvider: [[UnverifiedIdentityProvider alloc] init]];
     
-    NSURL* storePath = [PersistentModelStore pathForStoreWithName:@"TestStore1"];
-    [[NSFileManager defaultManager] removeItemAtPath:storePath.path error:NULL];
-    
-    [self setStore: [[PersistentModelStore alloc] initWithCoordinator:[PersistentModelStore coordinatorWithName:@"TestStore1"]]];
+    [PersistentModelStoreFactory deleteStoreWithName:@"TestStore1"];
+    [self setStoreFactory: [[PersistentModelStoreFactory alloc] initWithName:@"TestStore1"]];
+    [self setStore: [storeFactory newStore]];
     
     MDevice* dev = [store createDevice];
     [dev setDeviceName:random()];
@@ -111,7 +110,7 @@
     [NSThread sleepForTimeInterval:3];
 
     // Start AMQP transport (sender)
-    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreCoordinator:transportManager.store.context.persistentStoreCoordinator encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
+    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
     [transport start];
     //EncodedMessageManager* emManager = [[EncodedMessageManager alloc] initWithStore: [PersistentModelStore sharedInstance]];
     
@@ -189,7 +188,7 @@
     [keyManager createSignatureUserKey: signatureKey];
 
     // Start AMQP transport (sender)
-    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreCoordinator:transportManager.store.context.persistentStoreCoordinator encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
+    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory: storeFactory encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
     [transport start];
     
     // Set up receiving identity
@@ -256,7 +255,7 @@
     [keyManager createSignatureUserKey: signatureKey];
 
     // Start AMQP transport (sender)
-    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreCoordinator:transportManager.store.context.persistentStoreCoordinator encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
+    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
     [transport start];
 
     // Set up receiving identity

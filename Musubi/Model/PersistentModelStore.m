@@ -25,9 +25,9 @@
 
 #import "PersistentModelStore.h"
 
-@implementation PersistentModelStore
+@implementation PersistentModelStoreFactory
 
-@synthesize context;
+@synthesize coordinator;
 
 + (NSURL*) pathForStoreWithName: (NSString*) name {
     NSArray *documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
@@ -35,26 +35,44 @@
                                     stringByAppendingPathComponent: [NSString stringWithFormat: @"%@.sqlite", name]]];
 }
 
-+ (NSPersistentStoreCoordinator*) coordinatorWithName: (NSString*) name {
++ (void) deleteStoreWithName: (NSString*) name {
+    NSURL* storePath = [PersistentModelStoreFactory pathForStoreWithName:name];
+    [[NSFileManager defaultManager] removeItemAtPath:storePath.path error:NULL];
+}
+
+- (id) initWithName: (NSString*) name {
+    NSURL *path = [PersistentModelStoreFactory pathForStoreWithName:name];
+    return [self initWithPath: path];
+}
+
+- (id) initWithPath: (NSURL*) path {
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
     NSManagedObjectModel *mom = [[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL] autorelease];
     
     NSError *error = nil;
-    NSURL *path = [PersistentModelStore pathForStoreWithName:name];
-    NSPersistentStoreCoordinator *coordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom] autorelease];
-    [coordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:path options:nil error:&error];
+    NSPersistentStoreCoordinator *c = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom] autorelease];
+    [c addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:path options:nil error:&error];
     
-    if (error != nil) {
-        NSLog(@"Could not create data store: %@", error);
-        return nil;
-    }
-    
-    return coordinator;
+    return [self initWithCoordinator:c];
 }
 
-- (id) init {
-    return [self initWithCoordinator:[PersistentModelStore coordinatorWithName:@"Model"]];
+- (id)initWithCoordinator:(NSPersistentStoreCoordinator *)c {
+    self = [super init];
+    if (self) {
+        [self setCoordinator: c];
+    }
+    return self;
 }
+
+- (PersistentModelStore *) newStore {
+    return [[[PersistentModelStore alloc] initWithCoordinator: coordinator] autorelease];
+}
+
+@end
+
+@implementation PersistentModelStore
+
+@synthesize context;
 
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator {
     self = [super init];

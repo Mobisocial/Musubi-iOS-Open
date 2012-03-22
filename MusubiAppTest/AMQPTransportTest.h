@@ -32,11 +32,13 @@
 
 @interface AMQPTransportTest : MusubiAppTest {
     PersistentModelStore* store;
+    PersistentModelStoreFactory* storeFactory;
     UnverifiedIdentityProvider* identityProvider;
 }
 
 @property (nonatomic, retain) UnverifiedIdentityProvider* identityProvider;
 @property (nonatomic, retain) PersistentModelStore* store;
+@property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
 
 - (BOOL) waitForConnection: (AMQPTransport*) transport during: (NSTimeInterval) interval;
 

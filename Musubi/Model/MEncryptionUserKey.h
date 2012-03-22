@@ -19,7 +19,7 @@
 //  MEncryptionUserKey.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/15/12.
+//  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -30,9 +30,8 @@
 
 @interface MEncryptionUserKey : NSManagedObject
 
-@property (nonatomic) int64_t period;
-@property (nonatomic) int64_t id;
 @property (nonatomic, retain) NSData * key;
+@property (nonatomic) int64_t period;
 @property (nonatomic, retain) MIdentity *identity;
 
 @end

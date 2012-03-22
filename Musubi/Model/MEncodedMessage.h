@@ -19,23 +19,24 @@
 //  MEncodedMessage.h
 //  Musubi
 //
-//  Created by Willem Bult on 2/27/12.
+//  Created by Willem Bult on 3/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "MDevice.h"
 
+@class MIdentity;
 
 @interface MEncodedMessage : NSManagedObject
 
 @property (nonatomic, retain) NSData * encoded;
-@property (nonatomic) int64_t fromDevice;
-@property (nonatomic) int64_t fromIdentityId;
-@property (nonatomic) int64_t id;
 @property (nonatomic, retain) NSData * messageHash;
 @property (nonatomic) BOOL outbound;
 @property (nonatomic) BOOL processed;
 @property (nonatomic) int64_t sequenceNumber;
+@property (nonatomic, retain) MIdentity *fromIdentity;
+@property (nonatomic, retain) MDevice *fromDevice;
 
 @end

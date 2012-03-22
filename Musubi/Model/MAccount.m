@@ -16,25 +16,23 @@
 
 
 //
-//  MEncodedMessage.m
+//  MAccount.m
 //  Musubi
 //
-//  Created by Willem Bult on 3/21/12.
+//  Created by Willem Bult on 3/20/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MEncodedMessage.h"
+#import "MAccount.h"
+#import "MFeed.h"
 #import "MIdentity.h"
 
 
-@implementation MEncodedMessage
+@implementation MAccount
 
-@dynamic encoded;
-@dynamic messageHash;
-@dynamic outbound;
-@dynamic processed;
-@dynamic sequenceNumber;
-@dynamic fromIdentity;
-@dynamic fromDevice;
+@dynamic name;
+@dynamic type;
+@dynamic identity;
+@dynamic feed;
 
 @end

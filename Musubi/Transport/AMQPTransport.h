@@ -42,10 +42,11 @@
 @property (nonatomic,retain) AMQPSender* sender;
 @property (nonatomic,retain) AMQPListener* listener;
 
-- (id) initWithStoreCoordinator: (NSPersistentStoreCoordinator*) coordinator encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (long) devName;
+- (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (long) devName;
 
 - (void) start;
 - (void) stop;
+- (void) restart;
 - (BOOL) done;
 
 @end

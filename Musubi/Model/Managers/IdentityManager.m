@@ -37,7 +37,7 @@
 
 - (void)updateIdentity:(MIdentity *)ident {
     
-    assert(ident.id != 0);
+    assert(ident != nil);
     assert(ident.principalHash != nil && *(long*)ident.principalHash.bytes == ident.principalShortHash);
     
     // TOOD: synchronize code
@@ -53,7 +53,6 @@
     [ident setUpdatedAt: [[NSDate date] timeIntervalSince1970]];
     
     [[store context] save:NULL];
-    [ident setId: [[ident objectID] hash]];
 }
 
 - (NSArray *)ownedIdentities {
