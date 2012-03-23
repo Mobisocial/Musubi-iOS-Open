@@ -38,18 +38,20 @@ static long kMaximumBackoff = 30 * 60 * 1000;
 
 @implementation IdentityKeyManager
 
-@synthesize requestedEncryptionKeys, requestedSignatureKeys, encryptionBackoff, signatureBackoff;
+@synthesize requestedEncryptionKeys, requestedSignatureKeys, encryptionBackoff, signatureBackoff, identityProvider;
 
-- (id)init {
+- (id)initWithIdentityProvider:(id<IdentityProvider>)idp {
     self = [super init];
     if (self != nil) {
-        // Handle new auth tokens
-        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(refreshKeys) name:kMusubiNotificationAuthTokenRefresh object:nil];
+        [self setIdentityProvider: idp];
         
         [self setRequestedEncryptionKeys: [NSMutableArray array]];
         [self setRequestedSignatureKeys: [NSMutableArray array]];
         [self setEncryptionBackoff: [NSMutableDictionary dictionary]];
         [self setSignatureBackoff: [NSMutableDictionary dictionary]];
+        
+        // Handle new auth tokens
+        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(refreshKeys) name:kMusubiNotificationAuthTokenRefresh object:nil];
     }
     return self;
 }
@@ -76,7 +78,7 @@ static long kMaximumBackoff = 30 * 60 * 1000;
 
 @implementation IdentityKeyRefreshOperation
 
-@synthesize manager, identityManager, identityProvider, store, encryptionUserKeyManager, signatureUserKeyManager;
+@synthesize manager, identityManager, store, encryptionUserKeyManager, signatureUserKeyManager;
 
 - (id)initWithManager:(IdentityKeyManager *)m {
     self = [super init];
@@ -88,11 +90,10 @@ static long kMaximumBackoff = 30 * 60 * 1000;
 
 - (void) main {
     [self setStore: [Musubi.sharedInstance newStore]];
-    [self setIdentityProvider: [[AphidIdentityProvider alloc] init]];
     [self setIdentityManager: [[IdentityManager alloc] initWithStore: store]];
     
-    [self setEncryptionUserKeyManager: [[EncryptionUserKeyManager alloc] initWithStore:store encryptionScheme:[identityProvider encryptionScheme]]];
-    [self setSignatureUserKeyManager: [[SignatureUserKeyManager alloc] initWithStore:store signatureScheme:[identityProvider signatureScheme]]];
+    [self setEncryptionUserKeyManager: [[EncryptionUserKeyManager alloc] initWithStore:store encryptionScheme:[manager.identityProvider encryptionScheme]]];
+    [self setSignatureUserKeyManager: [[SignatureUserKeyManager alloc] initWithStore:store signatureScheme:[manager.identityProvider signatureScheme]]];
 
     NSMutableSet* idsToUpdate = [NSMutableSet set];
     
@@ -109,7 +110,7 @@ static long kMaximumBackoff = 30 * 60 * 1000;
         assert(mId != nil);
         
         // Local identities can't be refreshed
-        if (mId.type == kIBEncryptionIdentityAuthorityLocal) {
+        if (mId.type == kIdentityTypeLocal) {
             continue;
         }
         
@@ -136,7 +137,7 @@ static long kMaximumBackoff = 30 * 60 * 1000;
 }
 
 - (void) requestEncryptionKeyFor: (IBEncryptionIdentity*) ident {
-    assert (ident.authority != kIBEncryptionIdentityAuthorityLocal);
+    assert (ident.authority != kIdentityTypeLocal);
 
     [manager.requestedEncryptionKeys addObject: ident];
     
@@ -184,7 +185,7 @@ static long kMaximumBackoff = 30 * 60 * 1000;
 
 
 - (void) requestSignatureKeyFor: (IBEncryptionIdentity*) ident {
-    assert (ident.authority != kIBEncryptionIdentityAuthorityLocal);
+    assert (ident.authority != kIdentityTypeLocal);
     
     [manager.requestedSignatureKeys addObject: ident];
     

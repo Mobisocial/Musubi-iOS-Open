@@ -22,13 +22,13 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "MusubiAppTest">
+               </Test>
+               <Test
                   Identifier = "AMQPTransportTest">
                </Test>
                <Test
                   Identifier = "IBEncryptionTest">
-               </Test>
-               <Test
-                  Identifier = "MusubiAppTest">
                </Test>
             </SkippedTests>
          </TestableReference>

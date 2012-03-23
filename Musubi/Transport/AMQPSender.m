@@ -26,6 +26,7 @@
 #import "AMQPSender.h"
 #import "NSData+Base64.h"
 #import "FeedManager.h"
+#import "EncodedMessageManager.h"
 
 @implementation AMQPSender
 
@@ -44,6 +45,8 @@
     // Run AMQPThread common
     [super main];
     
+    EncodedMessageManager* emm = [[[EncodedMessageManager alloc] initWithStore:threadStore] autorelease];
+    
     // Perpetually wait for messages to become available
     while (![[NSThread currentThread] isCancelled]) {
         
@@ -54,7 +57,7 @@
         }
 
         @try {
-            NSArray* unsent = [threadStore unsentOutboundMessages];
+            NSArray* unsent = [emm unsentOutboundMessages];
             
             if (unsent != nil) {
                 if ([unsent count] > 0)
@@ -72,7 +75,7 @@
         } @finally {
         }
         
-        // sleep 100 ms
+        // TODO: notification wait
         [NSThread sleepForTimeInterval:0.5];
     }
     
@@ -135,7 +138,7 @@
     
     [self log:@"Outgoing: %@", msg.encoded];
     
-    [waitingForAck setObject:msg forKey:[NSNumber numberWithInt:deliveryTag]];
+    [waitingForAck setObject:msg forKey:[NSNumber numberWithUnsignedInt:deliveryTag]];
     
     // TODO: wait for ack;
     [self confirmDelivery:deliveryTag succeeded:YES];
@@ -143,7 +146,7 @@
 
 - (void)confirmDelivery:(uint32_t)deliveryTag succeeded:(BOOL)ack {
     
-    NSNumber* key = [NSNumber numberWithInt:deliveryTag];
+    NSNumber* key = [NSNumber numberWithUnsignedInt:deliveryTag];
     
     if (ack) {
         MEncodedMessage* msg = [waitingForAck objectForKey:key];

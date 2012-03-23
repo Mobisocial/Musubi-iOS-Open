@@ -16,21 +16,19 @@
 
 
 //
-//  DeviceManager.h
+//  IntroductionObj.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/17/12.
+//  Created by Willem Bult on 3/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "EntityManager.h"
+#import "Obj.h"
 
-@interface DeviceManager : EntityManager {
-}
+#define kObjTypeIntroduction @"introduction"
 
-- (id) initWithStore: (PersistentModelStore*) s;
-- (uint64_t) localDeviceName;
-- (MDevice*) deviceForName: (uint64_t) name andIdentity: (MIdentity*) mId;
-- (MDevice*) localDevice;
+@interface IntroductionObj : Obj
+
+- (id) initWithIdentities: (NSArray*) ids;
+
 @end

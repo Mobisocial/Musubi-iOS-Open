@@ -16,21 +16,21 @@
 
 
 //
-//  DeviceManager.h
+//  MFeedMember.m
 //  Musubi
 //
-//  Created by Willem Bult on 3/17/12.
+//  Created by Willem Bult on 3/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "EntityManager.h"
+#import "MFeedMember.h"
+#import "MFeed.h"
+#import "MIdentity.h"
 
-@interface DeviceManager : EntityManager {
-}
 
-- (id) initWithStore: (PersistentModelStore*) s;
-- (uint64_t) localDeviceName;
-- (MDevice*) deviceForName: (uint64_t) name andIdentity: (MIdentity*) mId;
-- (MDevice*) localDevice;
+@implementation MFeedMember
+
+@dynamic feed;
+@dynamic identity;
+
 @end

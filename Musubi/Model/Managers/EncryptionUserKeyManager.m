@@ -45,7 +45,7 @@
 }
 
 - (IBEncryptionUserKey *)encryptionKeyTo:(MIdentity *)to me:(IBEncryptionIdentity *)me {
-    MEncryptionUserKey* key = (MEncryptionUserKey*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", to, me.temporalFrame]];
+    MEncryptionUserKey* key = (MEncryptionUserKey*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %llu", to, me.temporalFrame]];
     if (key != nil) {
         return [[[IBEncryptionUserKey alloc] initWithRaw: key.key] autorelease];
     }

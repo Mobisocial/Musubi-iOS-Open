@@ -96,17 +96,18 @@
     [mIdent setOwned: YES];
     //    [mIdent setWhiteListed: YES];
     //    [mIdent setHasSentEmail: YES];
-    [mIdent setPrincipal: accountName];
+    [mIdent setName: accountName];
+    [mIdent setPrincipal: ibeId.principal];
     [mIdent setType: ibeId.authority];
     [mIdent setPrincipalHash: ibeId.hashed];
-    [mIdent setPrincipalShortHash: *(long*)ibeId.hashed.bytes];
+    [mIdent setPrincipalShortHash: *(uint64_t*)ibeId.hashed.bytes];
     //    [mIdent setSentProfileVersion: 1];
     //    [mIdent setMusubiName: original.musubiName];
     //    [mIdent setMusubiThumbnail: identityManager.musubiThumbNailFor: original];
     //    [mIdent setReceivedProfileVersion: original.receivedProfileVersion];
     
     switch (mIdent.type) {
-        case kIBEncryptionIdentityAuthorityFacebook:
+        case kIdentityTypeFacebook:
         {
             //TODO: fetch name and photo from facebook
             //break;
@@ -129,7 +130,7 @@
     IBEncryptionIdentity* ibeId = nil;
     
     if ([type isEqualToString:kAccountTypeFacebook]) {
-        ibeId = [[IBEncryptionIdentity alloc] initWithAuthority:kIBEncryptionIdentityAuthorityFacebook principal:principal temporalFrame:0];
+        ibeId = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:principal temporalFrame:0];
     } else {
         @throw [NSException exceptionWithName:@"Unsupported" reason:[NSString stringWithFormat: @"Unsupported account type %@", type] userInfo:nil];
     }
@@ -152,10 +153,10 @@
         MIdentity* original = existing.count > 0 ? [existing objectAtIndex:0] : nil;
         if (original == nil) {
             mId = (MIdentity*)[identityManager create];
-            [self populateIdentity:mId fromIBEIdentity:ibeId andOriginal:original withManager:identityManager andAccountName:principal];
+            [self populateIdentity:mId fromIBEIdentity:ibeId andOriginal:original withManager:identityManager andAccountName:name];
             [identityManager createIdentity:mId];
         } else {
-            [self populateIdentity:mId fromIBEIdentity:ibeId andOriginal:original withManager:identityManager andAccountName:principal];
+            [self populateIdentity:mId fromIBEIdentity:ibeId andOriginal:original withManager:identityManager andAccountName:name];
             [identityManager updateIdentity:mId];
         }
         

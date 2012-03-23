@@ -35,7 +35,6 @@
 		D216DE5C14F48951001A4166 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D216DE6014F48951001A4166 /* InfoPlist.strings */; };
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
-		D21F732E15199F5100C57BC3 /* FacebookAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D21F732D15199F5100C57BC3 /* FacebookAuth.m */; };
 		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
 		D25F49151471A32500AC1551 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49031471A32500AC1551 /* bson.c */; };
@@ -72,12 +71,23 @@
 		D272FB541519C19E00D2521A /* EncodingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1C14FD7A4B00C6ABB3 /* EncodingTest.m */; };
 		D272FB561519C19E00D2521A /* IBEncryptionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155E1512863000F12039 /* IBEncryptionTest.m */; };
 		D272FB59151A69DF00D2521A /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB58151A69DF00D2521A /* AccountManager.m */; };
-		D272FB5C151A751800D2521A /* AccountAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB5B151A751800D2521A /* AccountAuthManager.m */; };
 		D272FB5F151A8E4A00D2521A /* MFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB5E151A8E4900D2521A /* MFeed.m */; };
 		D272FB64151A90F800D2521A /* NSObject+DDExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */; };
 		D272FB65151A90F800D2521A /* DDInvocationGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB62151A90F800D2521A /* DDInvocationGrabber.m */; };
-		D272FB68151ABC1B00D2521A /* AphidIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB67151ABC1B00D2521A /* AphidIdentityProvider.m */; };
-		D272FB6B151ABCEE00D2521A /* IdentityKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB6A151ABCEE00D2521A /* IdentityKeyManager.m */; };
+		D2773C8B151BD41A00A161F9 /* MessageEncodeService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773C8A151BD41A00A161F9 /* MessageEncodeService.m */; };
+		D2773C8E151BD9E700A161F9 /* MObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773C8D151BD9E700A161F9 /* MObj.m */; };
+		D2773C91151BD9FA00A161F9 /* MApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773C90151BD9FA00A161F9 /* MApp.m */; };
+		D2773C94151BE2B400A161F9 /* MFeedMember.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773C93151BE2B300A161F9 /* MFeedMember.m */; };
+		D2773CA6151C264800A161F9 /* IdentityKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CA0151C264700A161F9 /* IdentityKeyManager.m */; };
+		D2773CA8151C264800A161F9 /* AphidIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CA4151C264800A161F9 /* AphidIdentityProvider.m */; };
+		D2773CAD151C266200A161F9 /* PreparedObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CA9151C266100A161F9 /* PreparedObj.m */; };
+		D2773CAE151C266200A161F9 /* ObjEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CAB151C266100A161F9 /* ObjEncoder.m */; };
+		D2773CB2151C422500A161F9 /* Obj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CB0151C422500A161F9 /* Obj.m */; };
+		D2773CB6151C438200A161F9 /* IntroductionObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CB5151C438200A161F9 /* IntroductionObj.m */; };
+		D2773CB9151C486100A161F9 /* ObjManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CB8151C486000A161F9 /* ObjManager.m */; };
+		D2773CBF151C4CE600A161F9 /* AccountAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CBC151C4CE600A161F9 /* AccountAuthManager.m */; };
+		D2773CC0151C4CE600A161F9 /* FacebookAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CBE151C4CE600A161F9 /* FacebookAuth.m */; };
+		D2773CC3151C85BE00A161F9 /* IncomingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CC1151C85BA00A161F9 /* IncomingMessage.m */; };
 		D27965831457D37A00C5FDAB /* librabbitmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D279590B1457D36300C5FDAB /* librabbitmq.a */; };
 		D27968BE1457D97700C5FDAB /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D27967811457D97500C5FDAB /* ZipArchive.mm */; };
 		D27968BF1457D97700C5FDAB /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967841457D97600C5FDAB /* ioapi.c */; };
@@ -109,7 +119,6 @@
 		D2B428D214F44F5B00ED868D /* libIBE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B428CC14F44F4800ED868D /* libIBE.a */; };
 		D2B939C414BD04C700C5F777 /* missing.png in Resources */ = {isa = PBXBuildFile; fileRef = D2B939C314BD04C700C5F777 /* missing.png */; };
 		D2C0AA9B14FF035100E9D0BF /* MessageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */; };
-		D2C0AA9C14FF089600E9D0BF /* IncomingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE4D14FDBC1A00C6ABB3 /* IncomingMessage.m */; };
 		D2CB073C14EDCBB50006D1E9 /* IBEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */; };
 		D2CD028A1443A1830080861E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD02891443A1830080861E /* CoreLocation.framework */; };
 		D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
@@ -250,8 +259,6 @@
 		D216DE6414F48952001A4166 /* MusubiAppTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusubiAppTest.m; sourceTree = "<group>"; };
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
 		D21CDDEF14CA2AA5005C6011 /* Key.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Key.h; sourceTree = "<group>"; };
-		D21F732C15199F5100C57BC3 /* FacebookAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookAuth.h; sourceTree = "<group>"; };
-		D21F732D15199F5100C57BC3 /* FacebookAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookAuth.m; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSender.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -315,19 +322,41 @@
 		D272FB511519B7E500D2521A /* MOutgoingSecret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOutgoingSecret.m; sourceTree = "<group>"; };
 		D272FB57151A69DF00D2521A /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
 		D272FB58151A69DF00D2521A /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
-		D272FB5A151A751800D2521A /* AccountAuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountAuthManager.h; path = Auth/AccountAuthManager.h; sourceTree = "<group>"; };
-		D272FB5B151A751800D2521A /* AccountAuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountAuthManager.m; path = Auth/AccountAuthManager.m; sourceTree = "<group>"; };
 		D272FB5D151A8E4900D2521A /* MFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFeed.h; sourceTree = "<group>"; };
 		D272FB5E151A8E4900D2521A /* MFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFeed.m; sourceTree = "<group>"; };
 		D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DDExtensions.m"; sourceTree = "<group>"; };
 		D272FB61151A90F800D2521A /* NSObject+DDExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DDExtensions.h"; sourceTree = "<group>"; };
 		D272FB62151A90F800D2521A /* DDInvocationGrabber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDInvocationGrabber.m; sourceTree = "<group>"; };
 		D272FB63151A90F800D2521A /* DDInvocationGrabber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDInvocationGrabber.h; sourceTree = "<group>"; };
-		D272FB66151ABC1B00D2521A /* AphidIdentityProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AphidIdentityProvider.h; sourceTree = "<group>"; };
-		D272FB67151ABC1B00D2521A /* AphidIdentityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AphidIdentityProvider.m; sourceTree = "<group>"; };
-		D272FB69151ABCEE00D2521A /* IdentityKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentityKeyManager.h; sourceTree = "<group>"; };
-		D272FB6A151ABCEE00D2521A /* IdentityKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentityKeyManager.m; sourceTree = "<group>"; };
-		D272FB6C151AC06B00D2521A /* IdentityProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentityProvider.h; sourceTree = "<group>"; };
+		D2773C89151BD41A00A161F9 /* MessageEncodeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageEncodeService.h; sourceTree = "<group>"; };
+		D2773C8A151BD41A00A161F9 /* MessageEncodeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageEncodeService.m; sourceTree = "<group>"; };
+		D2773C8C151BD9E700A161F9 /* MObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MObj.h; sourceTree = "<group>"; };
+		D2773C8D151BD9E700A161F9 /* MObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MObj.m; sourceTree = "<group>"; };
+		D2773C8F151BD9FA00A161F9 /* MApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MApp.h; sourceTree = "<group>"; };
+		D2773C90151BD9FA00A161F9 /* MApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MApp.m; sourceTree = "<group>"; };
+		D2773C92151BE2B300A161F9 /* MFeedMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFeedMember.h; sourceTree = "<group>"; };
+		D2773C93151BE2B300A161F9 /* MFeedMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFeedMember.m; sourceTree = "<group>"; };
+		D2773C9F151C264700A161F9 /* IdentityProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IdentityProvider.h; path = Identity/IdentityProvider.h; sourceTree = "<group>"; };
+		D2773CA0151C264700A161F9 /* IdentityKeyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IdentityKeyManager.m; path = Identity/IdentityKeyManager.m; sourceTree = "<group>"; };
+		D2773CA1151C264700A161F9 /* IdentityKeyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IdentityKeyManager.h; path = Identity/IdentityKeyManager.h; sourceTree = "<group>"; };
+		D2773CA4151C264800A161F9 /* AphidIdentityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AphidIdentityProvider.m; path = Identity/AphidIdentityProvider.m; sourceTree = "<group>"; };
+		D2773CA5151C264800A161F9 /* AphidIdentityProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AphidIdentityProvider.h; path = Identity/AphidIdentityProvider.h; sourceTree = "<group>"; };
+		D2773CA9151C266100A161F9 /* PreparedObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreparedObj.m; sourceTree = "<group>"; };
+		D2773CAA151C266100A161F9 /* PreparedObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreparedObj.h; sourceTree = "<group>"; };
+		D2773CAB151C266100A161F9 /* ObjEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjEncoder.m; sourceTree = "<group>"; };
+		D2773CAC151C266100A161F9 /* ObjEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjEncoder.h; sourceTree = "<group>"; };
+		D2773CB0151C422500A161F9 /* Obj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Obj.m; path = SocialKit/Obj.m; sourceTree = "<group>"; };
+		D2773CB1151C422500A161F9 /* Obj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Obj.h; path = SocialKit/Obj.h; sourceTree = "<group>"; };
+		D2773CB4151C438200A161F9 /* IntroductionObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntroductionObj.h; path = SocialKit/Obj/IntroductionObj.h; sourceTree = "<group>"; };
+		D2773CB5151C438200A161F9 /* IntroductionObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntroductionObj.m; path = SocialKit/Obj/IntroductionObj.m; sourceTree = "<group>"; };
+		D2773CB7151C485F00A161F9 /* ObjManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjManager.h; sourceTree = "<group>"; };
+		D2773CB8151C486000A161F9 /* ObjManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjManager.m; sourceTree = "<group>"; };
+		D2773CBB151C4CE600A161F9 /* AccountAuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountAuthManager.h; sourceTree = "<group>"; };
+		D2773CBC151C4CE600A161F9 /* AccountAuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountAuthManager.m; sourceTree = "<group>"; };
+		D2773CBD151C4CE600A161F9 /* FacebookAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookAuth.h; sourceTree = "<group>"; };
+		D2773CBE151C4CE600A161F9 /* FacebookAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookAuth.m; sourceTree = "<group>"; };
+		D2773CC1151C85BA00A161F9 /* IncomingMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomingMessage.m; sourceTree = "<group>"; };
+		D2773CC2151C85BC00A161F9 /* IncomingMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomingMessage.h; sourceTree = "<group>"; };
 		D27959001457D36200C5FDAB /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
 		D27959011457D36200C5FDAB /* amqp_api.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_api.c; sourceTree = "<group>"; };
 		D27959021457D36200C5FDAB /* amqp_connection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_connection.c; sourceTree = "<group>"; };
@@ -689,8 +718,6 @@
 		D2AADE1C14FD7A4B00C6ABB3 /* EncodingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncodingTest.m; sourceTree = "<group>"; };
 		D2AADE4914FD8AFB00C6ABB3 /* TransientTransportDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransientTransportDataProvider.h; sourceTree = "<group>"; };
 		D2AADE4A14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransientTransportDataProvider.m; sourceTree = "<group>"; };
-		D2AADE4C14FDBC1A00C6ABB3 /* IncomingMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomingMessage.h; sourceTree = "<group>"; };
-		D2AADE4D14FDBC1A00C6ABB3 /* IncomingMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomingMessage.m; sourceTree = "<group>"; };
 		D2AADE6014FEF0FD00C6ABB3 /* PersistentModelStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistentModelStore.h; sourceTree = "<group>"; };
 		D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistentModelStore.m; sourceTree = "<group>"; };
 		D2B13D4714F867E40067B197 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
@@ -774,6 +801,8 @@
 				D208158A151541D500F12039 /* DeviceManager.m */,
 				D272FB57151A69DF00D2521A /* AccountManager.h */,
 				D272FB58151A69DF00D2521A /* AccountManager.m */,
+				D2773CB7151C485F00A161F9 /* ObjManager.h */,
+				D2773CB8151C486000A161F9 /* ObjManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -838,17 +867,13 @@
 		D21F732B15199F1C00C57BC3 /* Identity */ = {
 			isa = PBXGroup;
 			children = (
+				D2773C9F151C264700A161F9 /* IdentityProvider.h */,
+				D2773CA0151C264700A161F9 /* IdentityKeyManager.m */,
+				D2773CA1151C264700A161F9 /* IdentityKeyManager.h */,
+				D2773CA4151C264800A161F9 /* AphidIdentityProvider.m */,
+				D2773CA5151C264800A161F9 /* AphidIdentityProvider.h */,
 				D208156515128E6100F12039 /* UnverifiedIdentityProvider.h */,
 				D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */,
-				D21F732C15199F5100C57BC3 /* FacebookAuth.h */,
-				D21F732D15199F5100C57BC3 /* FacebookAuth.m */,
-				D272FB5A151A751800D2521A /* AccountAuthManager.h */,
-				D272FB5B151A751800D2521A /* AccountAuthManager.m */,
-				D272FB66151ABC1B00D2521A /* AphidIdentityProvider.h */,
-				D272FB67151ABC1B00D2521A /* AphidIdentityProvider.m */,
-				D272FB69151ABCEE00D2521A /* IdentityKeyManager.h */,
-				D272FB6A151ABCEE00D2521A /* IdentityKeyManager.m */,
-				D272FB6C151AC06B00D2521A /* IdentityProvider.h */,
 			);
 			name = Identity;
 			sourceTree = "<group>";
@@ -882,6 +907,12 @@
 				D272FB3F1519B7E300D2521A /* MEncryptionUserKey.m */,
 				D272FB5D151A8E4900D2521A /* MFeed.h */,
 				D272FB5E151A8E4900D2521A /* MFeed.m */,
+				D2773C8C151BD9E700A161F9 /* MObj.h */,
+				D2773C8D151BD9E700A161F9 /* MObj.m */,
+				D2773C8F151BD9FA00A161F9 /* MApp.h */,
+				D2773C90151BD9FA00A161F9 /* MApp.m */,
+				D2773C92151BE2B300A161F9 /* MFeedMember.h */,
+				D2773C93151BE2B300A161F9 /* MFeedMember.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -910,6 +941,8 @@
 		D26D3691147B3ED300C4FE93 /* Musubi */ = {
 			isa = PBXGroup;
 			children = (
+				D2773CBA151C4CE400A161F9 /* Auth */,
+				D2773CAF151C420000A161F9 /* SocialKit */,
 				D21F732B15199F1C00C57BC3 /* Identity */,
 				D211D9681519797800E38051 /* UI */,
 				D2B13D4514F865760067B197 /* Encoding */,
@@ -993,6 +1026,36 @@
 				D26D3702147B3ED400C4FE93 /* main.m */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		D2773CAF151C420000A161F9 /* SocialKit */ = {
+			isa = PBXGroup;
+			children = (
+				D2773CB3151C436700A161F9 /* Obj */,
+				D2773CB0151C422500A161F9 /* Obj.m */,
+				D2773CB1151C422500A161F9 /* Obj.h */,
+			);
+			name = SocialKit;
+			sourceTree = "<group>";
+		};
+		D2773CB3151C436700A161F9 /* Obj */ = {
+			isa = PBXGroup;
+			children = (
+				D2773CB4151C438200A161F9 /* IntroductionObj.h */,
+				D2773CB5151C438200A161F9 /* IntroductionObj.m */,
+			);
+			name = Obj;
+			sourceTree = "<group>";
+		};
+		D2773CBA151C4CE400A161F9 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				D2773CBB151C4CE600A161F9 /* AccountAuthManager.h */,
+				D2773CBC151C4CE600A161F9 /* AccountAuthManager.m */,
+				D2773CBD151C4CE600A161F9 /* FacebookAuth.h */,
+				D2773CBE151C4CE600A161F9 /* FacebookAuth.m */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
@@ -2111,6 +2174,10 @@
 			isa = PBXGroup;
 			children = (
 				D2B13D4614F867CE0067B197 /* Protocol */,
+				D2773CAA151C266100A161F9 /* PreparedObj.h */,
+				D2773CA9151C266100A161F9 /* PreparedObj.m */,
+				D2773CAC151C266100A161F9 /* ObjEncoder.h */,
+				D2773CAB151C266100A161F9 /* ObjEncoder.m */,
 				D2AADE1514FD792300C6ABB3 /* BSONEncoder.h */,
 				D2AADE1614FD792300C6ABB3 /* BSONEncoder.m */,
 				D2B13D5014F869800067B197 /* MessageEncoder.h */,
@@ -2119,9 +2186,11 @@
 				D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */,
 				D2B13D5314F869CF0067B197 /* OutgoingMessage.h */,
 				D2B13D5414F869CF0067B197 /* OutgoingMessage.m */,
+				D2773CC1151C85BA00A161F9 /* IncomingMessage.m */,
+				D2773CC2151C85BC00A161F9 /* IncomingMessage.h */,
 				D2B13D5C14FB0DB80067B197 /* TransportDataProvider.h */,
-				D2AADE4C14FDBC1A00C6ABB3 /* IncomingMessage.h */,
-				D2AADE4D14FDBC1A00C6ABB3 /* IncomingMessage.m */,
+				D2773C89151BD41A00A161F9 /* MessageEncodeService.h */,
+				D2773C8A151BD41A00A161F9 /* MessageEncodeService.m */,
 			);
 			path = Encoding;
 			sourceTree = "<group>";
@@ -2363,7 +2432,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2C0AA9C14FF089600E9D0BF /* IncomingMessage.m in Sources */,
 				D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */,
 				D27968DE1457DB5200C5FDAB /* amqp_api.c in Sources */,
 				D27968DF1457DB5200C5FDAB /* amqp_connection.c in Sources */,
@@ -2427,7 +2495,6 @@
 				D211D8B4151945D400E38051 /* AMQPThread.m in Sources */,
 				D211D96E151979D200E38051 /* NamePictureCell.m in Sources */,
 				D211D96F151979D200E38051 /* SettingsViewController.m in Sources */,
-				D21F732E15199F5100C57BC3 /* FacebookAuth.m in Sources */,
 				D272FB3D1519B05500D2521A /* MAccount.m in Sources */,
 				D272FB401519B7E300D2521A /* MEncryptionUserKey.m in Sources */,
 				D272FB431519B7E400D2521A /* MEncodedMessage.m in Sources */,
@@ -2437,12 +2504,23 @@
 				D272FB4F1519B7E500D2521A /* MIncomingSecret.m in Sources */,
 				D272FB521519B7E500D2521A /* MOutgoingSecret.m in Sources */,
 				D272FB59151A69DF00D2521A /* AccountManager.m in Sources */,
-				D272FB5C151A751800D2521A /* AccountAuthManager.m in Sources */,
 				D272FB5F151A8E4A00D2521A /* MFeed.m in Sources */,
 				D272FB64151A90F800D2521A /* NSObject+DDExtensions.m in Sources */,
 				D272FB65151A90F800D2521A /* DDInvocationGrabber.m in Sources */,
-				D272FB68151ABC1B00D2521A /* AphidIdentityProvider.m in Sources */,
-				D272FB6B151ABCEE00D2521A /* IdentityKeyManager.m in Sources */,
+				D2773C8B151BD41A00A161F9 /* MessageEncodeService.m in Sources */,
+				D2773C8E151BD9E700A161F9 /* MObj.m in Sources */,
+				D2773C91151BD9FA00A161F9 /* MApp.m in Sources */,
+				D2773C94151BE2B400A161F9 /* MFeedMember.m in Sources */,
+				D2773CA6151C264800A161F9 /* IdentityKeyManager.m in Sources */,
+				D2773CA8151C264800A161F9 /* AphidIdentityProvider.m in Sources */,
+				D2773CAD151C266200A161F9 /* PreparedObj.m in Sources */,
+				D2773CAE151C266200A161F9 /* ObjEncoder.m in Sources */,
+				D2773CB2151C422500A161F9 /* Obj.m in Sources */,
+				D2773CB6151C438200A161F9 /* IntroductionObj.m in Sources */,
+				D2773CB9151C486100A161F9 /* ObjManager.m in Sources */,
+				D2773CBF151C4CE600A161F9 /* AccountAuthManager.m in Sources */,
+				D2773CC0151C4CE600A161F9 /* FacebookAuth.m in Sources */,
+				D2773CC3151C85BE00A161F9 /* IncomingMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

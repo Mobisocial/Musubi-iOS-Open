@@ -16,29 +16,42 @@
 
 
 //
-//  OutgoingSecretManager.m
+//  ObjManager.m
 //  Musubi
 //
-//  Created by Willem Bult on 3/15/12.
+//  Created by Willem Bult on 3/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "OutgoingSecretManager.h"
+#import "ObjManager.h"
+#import "SBJSON.h"
 
-@implementation OutgoingSecretManager
+@implementation ObjManager
 
 - (id)initWithStore:(PersistentModelStore *)s {
-    self = [super initWithEntityName:@"OutgoingSecret" andStore:s];
-    if (self != nil) {
+    self = [super initWithEntityName:@"Obj" andStore:s];
+    if (self) {
+        
     }
     return self;
 }
 
-- (MOutgoingSecret *)outgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to myTemporalFrame:(uint64_t)tfMe theirTemporalFrame:(uint64_t)tfThem {
-    NSArray* results = [self query:[NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %llu AND signaturePeriod = %llu", from, to, tfMe, tfThem]];
-    if (results.count > 0) {
-        return (MOutgoingSecret*)[results objectAtIndex:0];
-    }
-    return nil;
+- (MObj*) create {
+    return (MObj*) [super create];
 }
+
+- (MObj*) createFromObj: (Obj*) obj onFeed: (MFeed*) feed {
+    
+    SBJsonWriter* writer = [[[SBJsonWriter alloc] init] autorelease];
+    NSString* json = [writer stringWithObject:obj.data];
+    
+    MObj* mObj = [self create];
+    [mObj setType: obj.type];
+    [mObj setJson: json];
+    [mObj setRaw: obj.raw];
+    [mObj setFeed: feed];
+    
+    return mObj;
+}
+
 @end

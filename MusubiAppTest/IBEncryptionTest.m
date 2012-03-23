@@ -115,7 +115,7 @@
     IBEncryptionScheme* loadedScheme = [[IBEncryptionScheme alloc] initWithParameters: [scheme parameters] andMasterKey:mk];
     
     NSData* hashedKey = [@"wbult@stanford.edu" dataUsingEncoding:NSUTF8StringEncoding];
-    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIBEncryptionIdentityAuthorityEmail hashedKey:hashedKey temporalFrame:1];
+    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail hashedKey:hashedKey temporalFrame:1];
     
     IBEncryptionUserKey* userKey = [loadedScheme userKeyWithIdentity:ident];
     IBEncryptionConversationKey* convKey = [userScheme randomConversationKeyWithIdentity:ident];
@@ -124,7 +124,7 @@
     STAssertTrue([key isEqualToData:[convKey raw]], @"encrypt => decrypt (right identity) : failed to match conversation key");
     
     NSData* otherHashedKey = [@"stfan@stanford.edu" dataUsingEncoding:NSUTF8StringEncoding];
-    IBEncryptionIdentity* otherIdent = [[IBEncryptionIdentity alloc] initWithAuthority:kIBEncryptionIdentityAuthorityEmail hashedKey:otherHashedKey temporalFrame:1];
+    IBEncryptionIdentity* otherIdent = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail hashedKey:otherHashedKey temporalFrame:1];
     IBEncryptionUserKey* otherUserKey = [loadedScheme userKeyWithIdentity:otherIdent];
     
     key = [userScheme decryptConversationKey:convKey withUserKey:otherUserKey];
@@ -140,7 +140,7 @@
     IBSignatureScheme* loadedScheme = [[IBSignatureScheme alloc] initWithParameters: [scheme parameters] andMasterKey:mk];
     
     NSData* hashedKey = [@"wbult@stanford.edu" dataUsingEncoding:NSUTF8StringEncoding];
-    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIBEncryptionIdentityAuthorityEmail hashedKey:hashedKey temporalFrame:1];
+    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail hashedKey:hashedKey temporalFrame:1];
     
     NSData* hash = [NSData dataWithBytes:"01234567890123456789012345678901" length:SHA256_DIGEST_LENGTH];
     IBSignatureUserKey* userKey = [loadedScheme userKeyWithIdentity:ident];
@@ -158,7 +158,7 @@
 
 - (void) testIdentity
 {
-    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIBEncryptionIdentityAuthorityEmail principal:@"wbult@stanford.edu" temporalFrame:12345];
+    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"wbult@stanford.edu" temporalFrame:12345];
     
     NSData* key = [ident key];
     NSLog(@"Hashed: %@", [ident hashed]);

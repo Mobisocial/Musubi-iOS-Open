@@ -28,6 +28,7 @@
 @interface NSData (Base64)
 
 - (NSString *) encodeBase64;
+- (NSString *) encodeBase64WebSafe;
 
 @end
 
@@ -35,5 +36,6 @@
 
 - (NSString *) encodeBase64;
 - (NSData *) decodeBase64;
+- (NSData *) decodeBase64WebSafe;
 
 @end

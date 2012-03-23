@@ -110,7 +110,7 @@
     [NSThread sleepForTimeInterval:3];
 
     // Start AMQP transport (sender)
-    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
+    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory];
     [transport start];
     //EncodedMessageManager* emManager = [[EncodedMessageManager alloc] initWithStore: [PersistentModelStore sharedInstance]];
     
@@ -188,7 +188,7 @@
     [keyManager createSignatureUserKey: signatureKey];
 
     // Start AMQP transport (sender)
-    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory: storeFactory encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
+    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory];
     [transport start];
     
     // Set up receiving identity
@@ -255,7 +255,7 @@
     [keyManager createSignatureUserKey: signatureKey];
 
     // Start AMQP transport (sender)
-    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName];
+    AMQPTransport* transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory];
     [transport start];
 
     // Set up receiving identity

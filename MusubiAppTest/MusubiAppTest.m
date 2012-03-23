@@ -45,7 +45,7 @@
 }
 
 - (IBEncryptionIdentity *)randomIdentity {
-    return [[IBEncryptionIdentity alloc] initWithAuthority:kIBEncryptionIdentityAuthorityEmail principal:[self randomUniquePrincipal] temporalFrame:0];
+    return [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:[self randomUniquePrincipal] temporalFrame:0];
 }
 
 - (void) assertMessage: (OutgoingMessage*) om isEqualTo: (IncomingMessage*) im {

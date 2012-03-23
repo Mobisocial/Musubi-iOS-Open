@@ -27,12 +27,12 @@
 
 @interface Secret : NSObject {
     NSData* h; // the hash of the the decrypted data field
-    long q; // the sequence number for the message
+    uint64_t q; // the sequence number for the message
     NSData* k; // the actual aes key for the message body
 }
 
 @property (nonatomic, retain) NSData* h;
-@property (nonatomic, assign) long q;
+@property (nonatomic, assign) uint64_t q;
 @property (nonatomic, retain) NSData* k;
 
 @end

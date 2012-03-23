@@ -44,12 +44,12 @@
 }
 
 - (IBSignatureUserKey *)signatureKeyFrom:(MIdentity *)from me:(IBEncryptionIdentity *)me {
-    MSignatureUserKey* key = (MSignatureUserKey*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %ld", from, me.temporalFrame]];
+    MSignatureUserKey* key = (MSignatureUserKey*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %llu", from, me.temporalFrame]];
     if (key != nil) {
         return [[[IBSignatureUserKey alloc] initWithRaw: key.key] autorelease];
     }
         
-    @throw [NSException exceptionWithName:kMusubiExceptionNeedSignatureUserKey reason:@"Don't have signature key" userInfo:nil];
+    @throw [NSException exceptionWithName:kMusubiExceptionNeedSignatureUserKey reason:@"Don't have signature key" userInfo:[NSDictionary dictionaryWithObjectsAndKeys:me, @"identity", nil]];
 }
 
 - (void)updateSignatureUserKey:(MSignatureUserKey *)signatureKey {

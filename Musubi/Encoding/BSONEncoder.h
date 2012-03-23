@@ -26,12 +26,15 @@
 #import <Foundation/Foundation.h>
 #import "Message.h"
 #import "Secret.h"
+#import "PreparedObj.h"
 
 @interface BSONEncoder : NSObject
 
 + (NSData*) encodeMessage: (Message*) m;
 + (NSData*) encodeSecret: (Secret*) s;
++ (NSData*) encodeObj: (PreparedObj*) o;
+
 + (Message*) decodeMessage: (NSData*) data;
 + (Secret*) decodeSecret: (NSData*) data;
-
++ (PreparedObj*) decodeObj: (NSData*) data;
 @end

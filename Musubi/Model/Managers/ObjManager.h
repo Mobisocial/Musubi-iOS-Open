@@ -16,21 +16,22 @@
 
 
 //
-//  DeviceManager.h
+//  ObjManager.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/17/12.
+//  Created by Willem Bult on 3/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "EntityManager.h"
+#import "MObj.h"
+#import "MFeed.h"
+#import "Obj.h"
 
-@interface DeviceManager : EntityManager {
-}
+@interface ObjManager : EntityManager
 
 - (id) initWithStore: (PersistentModelStore*) s;
-- (uint64_t) localDeviceName;
-- (MDevice*) deviceForName: (uint64_t) name andIdentity: (MIdentity*) mId;
-- (MDevice*) localDevice;
+- (MObj*) create;
+- (MObj*) createFromObj: (Obj*) obj onFeed: (MFeed*) feed;
+
 @end

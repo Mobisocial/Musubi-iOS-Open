@@ -25,11 +25,32 @@
 
 #import <Foundation/Foundation.h>
 #import "EntityManager.h"
+#import "IdentityManager.h"
+#import "DeviceManager.h"
+#import "MFeed.h"
+#import "MObj.h"
+#import "MFeedMember.h"
+#import "MIdentity.h"
+#import "Obj.h"
+#import "SBJSON.h"
 
 @interface FeedManager : EntityManager {
 }
 
 - (id) initWithStore: (PersistentModelStore*) s;
+
+- (MFeed*) createExpandingFeedWithParticipants: (NSArray*) participants;
+- (void) attachMembers: (NSArray*) participants toFeed: (MFeed*) feed;
+- (int) countIdentitiesFrom: (NSArray*) participants inFeed: (MFeed*) feed;
+
+- (MObj*)sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app;
+
+- (BOOL) app: (MApp*) app isAllowedInFeed:(MFeed*) feed;
+- (MIdentity*) ownedIdentityForFeed: (MFeed*) feed;
+
 + (NSData*) fixedIdentifierForIdentities: (NSArray*) identities;
++ (BOOL) hasOwnedIdentity: (NSArray*) participants;
++ (NSURL*) uriForFeed: (MFeed*) feed;
+
 
 @end

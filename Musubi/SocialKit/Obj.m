@@ -27,7 +27,7 @@
 
 @implementation Obj
 
-@synthesize type, data;
+@synthesize type, data, raw;
 
 - (id)initWithType:(NSString *)t {
     self = [super init];
@@ -40,13 +40,13 @@
 - (NSString *)description {
     return [NSString stringWithFormat:@"<Obj: %@, %@>", type, data];
 }
-
+/*
 - (NSDictionary *)json {
     NSMutableDictionary* dict = [[[NSMutableDictionary alloc] init] autorelease];
     [dict setObject:type forKey:@"type"];
     [dict setObject:data forKey:@"data"];
     return dict;
-}
+}*/
 
 
 @end

@@ -180,4 +180,71 @@ void err_handler() {
     return s;
 }
 
++ (NSData *)encodeObj:(PreparedObj *)o {
+    bson b;
+    bson_init(&b);
+    
+    if (o.feedType)
+        bson_append_int(&b, "feedType", o.feedType);
+    if (o.feedCapability)
+        bson_append_binary(&b, "feedCapability", 128, [o.feedCapability bytes], [o.feedCapability length]);
+    if (o.appId)
+        bson_append_string(&b, "appId", [o.appId cStringUsingEncoding:NSUTF8StringEncoding]);
+    if (o.timestamp)
+        bson_append_long(&b, "timestamp", o.timestamp);
+    if (o.type)
+        bson_append_string(&b, "type", [o.type cStringUsingEncoding:NSUTF8StringEncoding]);
+    if (o.jsonSrc)
+        bson_append_string(&b, "jsonSrc", [o.jsonSrc cStringUsingEncoding:NSUTF8StringEncoding]);
+    if (o.raw)
+        bson_append_binary(&b, "raw", 128, [o.raw bytes], [o.raw length]);
+    
+    bson_finish(&b);
+    
+    NSData* raw = [NSData dataWithBytes:b.data length:b.dataSize];
+    
+    bson_destroy(&b);
+    
+    return raw;
+}
+
++ (PreparedObj *)decodeObj:(NSData *)data {
+    bson b;
+    bson_iterator iter;
+    bson_init_finished_data(&b, (char*)[data bytes]);
+    
+    PreparedObj* o = [[[PreparedObj alloc] init] autorelease];
+    int type;
+    
+    type = bson_find(&iter, &b, "feedType");
+    if (type != 6)
+        [o setFeedType: bson_iterator_int(&iter)];
+
+    type = bson_find(&iter, &b, "feedCapability");
+    if (type != 6)
+        [o setFeedCapability:[NSData dataWithBytes:bson_iterator_bin_data(&iter) length:bson_iterator_bin_len(&iter)]];
+
+    type = bson_find(&iter, &b, "appId");
+    if (type != 6)
+        [o setAppId:[NSString stringWithCString:bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]];
+
+    type = bson_find(&iter, &b, "timestamp");
+    if (type != 6)
+        [o setTimestamp: bson_iterator_long(&iter)];
+    
+    type = bson_find(&iter, &b, "type");
+    if (type != 6)
+        [o setType:[NSString stringWithCString:bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]];
+    
+    type = bson_find(&iter, &b, "jsonSrc");
+    if (type != 6)
+        [o setJsonSrc:[NSString stringWithCString:bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]];
+    
+    type = bson_find(&iter, &b, "raw");
+    if (type != 6)
+        [o setRaw:[NSData dataWithBytes:bson_iterator_bin_data(&iter) length:bson_iterator_bin_len(&iter)]];
+    
+    return o;
+}
+
 @end

@@ -29,5 +29,6 @@
 
 - (id) initWithStore: (PersistentModelStore*) s;
 - (NSArray*) accountsWithType: (NSString*) type;
+- (NSArray*) claimedAccounts;
 
 @end

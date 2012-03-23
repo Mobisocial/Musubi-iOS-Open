@@ -27,6 +27,7 @@
 #import "IBEncryptionScheme.h"
 #import "AMQPTransport.h"
 #import "IdentityKeyManager.h"
+#import "MessageEncodeService.h"
 
 static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
@@ -35,6 +36,8 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 #define kMusubiNotificationMyProfileUpdate @"my_profile_update"
 #define kMusubiNotificationEncodedMessageReceived @"encoded_message_received"
 #define kMusubiNotificationPlainObjReady @"plain_obj_ready"
+#define kMusubiNotificationPreparedEncoded @"prepared_encoded"
+#define kMusubiNotificationAppObjReady @"app_obj_ready"
 
 @interface Musubi : NSObject {
     PersistentModelStore* mainStore; 
@@ -42,8 +45,10 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
     NSNotificationCenter* notificationCenter;
 
-    AMQPTransport* transport;
+    id<IdentityProvider> identityProvider;
     IdentityKeyManager* keyManager;
+    MessageEncodeService* encodeService;
+    AMQPTransport* transport;
 }
 
 // store to use on the main thread
@@ -54,6 +59,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 @property (nonatomic, retain) AMQPTransport* transport;
 @property (nonatomic, retain) IdentityKeyManager* keyManager;
+@property (nonatomic, retain) MessageEncodeService* encodeService;
 
 
 + (Musubi*) sharedInstance;

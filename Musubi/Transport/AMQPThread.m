@@ -52,7 +52,7 @@ static int instanceCount = 0;
 }
 
 - (NSString*) queueNameForKey: (NSData*) key withPrefix: (NSString*) prefix {
-    return [NSString stringWithFormat:@"%@%@", prefix, [key encodeBase64]];
+    return [NSString stringWithFormat:@"%@%@", prefix, [key encodeBase64WebSafe]];
 }
 
 - (void)main {

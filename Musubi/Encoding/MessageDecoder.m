@@ -49,13 +49,15 @@
 }
 
 - (MDevice*) addDevice: (MIdentity*) ident withId:(NSData*)devId {
-    return [transportDataProvider addDeviceWithName:*(long*)[devId bytes] forIdentity:ident];
+    return [transportDataProvider addDeviceWithName:*(uint64_t*)[devId bytes] forIdentity:ident];
 }
 
 
-- (NSData*) computeSignatureWithKey: (NSData*) key andDeviceId: (long) deviceId {
+- (NSData*) computeSignatureWithKey: (NSData*) key andDeviceId: (uint64_t) deviceId {
+    uint64_t deviceIdBigEndian = CFSwapInt64HostToBig(deviceId);
+    
     NSMutableData* sigData = [NSMutableData dataWithData: key];
-    [sigData appendBytes:&deviceId length:sizeof(deviceId)];
+    [sigData appendBytes:&deviceIdBigEndian length:sizeof(deviceIdBigEndian)];
     return [sigData sha256Digest];
 }
 
@@ -108,7 +110,7 @@
     
     NSMutableData* sigData = [NSMutableData dataWithData: hash];
     [sigData appendData:app];
-    [sigData appendBytes: &blind length: sizeof(blind)];
+    [sigData appendBytes:&blind length: sizeof(blind)];
     if (!blind) {
         for (Recipient* r in rs) {
             [sigData appendData: r.i];

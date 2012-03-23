@@ -42,15 +42,15 @@
 - (IBEncryptionScheme*) encryptionScheme;
 - (IBSignatureScheme*) signatureScheme;
 
-- (IBEncryptionUserKey*) signatureKeyFrom:(MIdentity *)from myIdentity: (IBEncryptionIdentity*) me;
+- (IBSignatureUserKey*) signatureKeyFrom:(MIdentity *)from myIdentity: (IBEncryptionIdentity*) me;
 - (IBEncryptionUserKey*) encryptionKeyTo:(MIdentity *)to myIdentity: (IBEncryptionIdentity*) me;
 
 /* Compute times given an identity, might consult for revocation etc */
-- (long) signatureTimeFrom: (MIdentity*) from;
-- (long) encryptionTimeTo: (MIdentity*) to;
+- (uint64_t) signatureTimeFrom: (MIdentity*) from;
+- (uint64_t) encryptionTimeTo: (MIdentity*) to;
 
 /* My one and only */
-- (long) deviceName;
+- (uint64_t) deviceName;
 
 /* Channel secret management */
 - (MOutgoingSecret *)lookupOutgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other;
@@ -60,7 +60,7 @@
 
 /* Sequence number manipulation */
 - (void) incrementSequenceNumberTo: (MIdentity*) to;
-- (void) receivedSequenceNumber: (long) sequenceNumber from: (MDevice*) device;
+- (void) receivedSequenceNumber: (uint64_t) sequenceNumber from: (MDevice*) device;
 - (BOOL) haveHash: (NSData*) hash;
 //- (NSData*) hashForSequenceNumber: (long) sequenceNumber from: (MDevice*) device;
 - (void) storeSequenceNumbers: (NSDictionary*) seqNumbers forEncodedMessage: (MEncodedMessage*) encoded;
@@ -70,7 +70,7 @@
 - (BOOL) isMe: (IBEncryptionIdentity*) ident;
 - (MIdentity*) addClaimedIdentity: (IBEncryptionIdentity*) ident;
 - (MIdentity*) addUnclaimedIdentity: (IBEncryptionIdentity*) ident;
-- (MDevice *) addDeviceWithName: (long) deviceName forIdentity: (MIdentity *)ident;
+- (MDevice *) addDeviceWithName: (uint64_t) deviceName forIdentity: (MIdentity *)ident;
 
 /* Final message handled */
 - (void) updateEncodedMetadata: (MEncodedMessage*) encoded;

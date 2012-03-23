@@ -39,7 +39,7 @@
     PersistentModelStore* store;
     IBEncryptionScheme* encryptionScheme;
     IBSignatureScheme* signatureScheme;
-    long deviceName;
+    uint64_t deviceName;
 
     IdentityManager* identityManager;
     EncryptionUserKeyManager* encryptionUserKeyManager;
@@ -49,11 +49,11 @@
 @property (nonatomic, retain) PersistentModelStore* store;
 @property (nonatomic, retain) IBEncryptionScheme* encryptionScheme;
 @property (nonatomic, retain) IBSignatureScheme* signatureScheme;
-@property (nonatomic, assign) long deviceName;
+@property (nonatomic, assign) uint64_t deviceName;
 @property (nonatomic, retain) IdentityManager* identityManager;
 @property (nonatomic, retain) EncryptionUserKeyManager* encryptionUserKeyManager;
 @property (nonatomic, retain) SignatureUserKeyManager* signatureUserKeyManager;
 
-- (id) initWithStore: (PersistentModelStore*) store encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (long) devName;
+- (id) initWithStore: (PersistentModelStore*) store encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (uint64_t) devName;
 
 @end

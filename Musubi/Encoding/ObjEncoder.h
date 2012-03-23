@@ -16,21 +16,23 @@
 
 
 //
-//  DeviceManager.h
+//  ObjEncoder.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/17/12.
+//  Created by Willem Bult on 3/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "EntityManager.h"
+#import "PreparedObj.h"
+#import "MObj.h"
+#import "MFeed.h"
+#import "MApp.h"
 
-@interface DeviceManager : EntityManager {
-}
+@interface ObjEncoder : NSObject
 
-- (id) initWithStore: (PersistentModelStore*) s;
-- (uint64_t) localDeviceName;
-- (MDevice*) deviceForName: (uint64_t) name andIdentity: (MIdentity*) mId;
-- (MDevice*) localDevice;
+- (PreparedObj*) prepareObj: (MObj*)obj forFeed: (MFeed*) feed andApp: (MApp*) app;
+- (NSData*) encodeObj: (PreparedObj*) obj;
+- (NSData*) computeUniversalHashFor: (NSData*) hash from: (MIdentity*) from onDevice: (MDevice*) device;
+
 @end

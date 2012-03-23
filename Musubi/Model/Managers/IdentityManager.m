@@ -26,6 +26,9 @@
 #import "IdentityManager.h"
 #include <openssl/bn.h>
 #import "NSData+Crypto.h"
+#import "FeedManager.h"
+#import "AccountManager.h"
+#import "MAccount.h"
 
 @implementation IdentityManager
 
@@ -39,19 +42,19 @@
 - (void)updateIdentity:(MIdentity *)ident {
     
     assert(ident != nil);
-    assert(ident.principalHash != nil && *(long*)ident.principalHash.bytes == ident.principalShortHash);
+    assert(ident.principalHash != nil && *(uint64_t*)ident.principalHash.bytes == ident.principalShortHash);
     
     // TOOD: synchronize code
-    [ident setUpdatedAt: [[NSDate date] timeIntervalSince1970]];
+    [ident setUpdatedAt: [[NSDate date] timeIntervalSinceReferenceDate]];
     [[store context] save:NULL];
 }
 
 - (void) createIdentity:(MIdentity *)ident {
-    assert(ident.principalHash != nil && *((long*)ident.principalHash.bytes) == ident.principalShortHash);
+    assert(ident.principalHash != nil && *(uint64_t*)ident.principalHash.bytes == ident.principalShortHash);
     
 	// TOOD: synchronize code
-    [ident setCreatedAt: [[NSDate date] timeIntervalSince1970]];
-    [ident setUpdatedAt: [[NSDate date] timeIntervalSince1970]];
+    [ident setCreatedAt: [[NSDate date] timeIntervalSinceReferenceDate]];
+    [ident setUpdatedAt: [[NSDate date] timeIntervalSinceReferenceDate]];
     
     [[store context] save:NULL];
 }
@@ -60,8 +63,66 @@
     return [self query:[NSPredicate predicateWithFormat:@"owned=1"]];
 }
 
+- (MIdentity*) defaultIdentity {
+    NSArray* owned = [self ownedIdentities];
+    if (owned.count > 0)
+        return [owned objectAtIndex: owned.count > 1 ? 1 : 0];
+    
+    return nil;
+}
+
+- (MIdentity*) defaultIdentityForParticipants: (NSArray*) participants {
+    if (participants.count == 0)
+        return [self defaultIdentity];
+    
+    for (MIdentity* mId in participants) {
+        if (mId.owned)
+            return mId;
+    }
+    
+    FeedManager* feedManager = [[FeedManager alloc] initWithStore: store];
+    AccountManager* accountManager = [[AccountManager alloc] initWithStore: store];
+    
+    NSArray* accounts = [accountManager claimedAccounts];
+    if (accounts.count == 0)
+        return [self defaultIdentity];
+    if (accounts.count == 1)
+        return ((MAccount*)[accounts objectAtIndex:0]).identity;
+    
+    NSMutableDictionary* map = [NSMutableDictionary dictionary];
+    for (MAccount* acc in accounts) {
+        if (acc.feed == nil)
+            continue;
+        
+        int count = 0;
+        if ([[map allKeys] containsObject:acc.identity.objectID])
+            count = ((NSNumber*)[map objectForKey: acc.identity.objectID]).intValue;
+        else
+            count = 0;
+        
+        count += [feedManager countIdentitiesFrom: participants inFeed: acc.feed];
+        [map setObject:[NSNumber numberWithInt:count] forKey:acc.identity.objectID];
+    }
+    
+    NSManagedObjectID* bestIdentity = nil;
+    int bestCount = 0;
+    
+    for (NSManagedObjectID* mId in [map allKeys]) {
+        int curCount = ((NSNumber*)[map objectForKey:mId]).intValue;
+        if (curCount > bestCount) {
+            bestCount = curCount;
+            bestIdentity = mId;
+        }
+    }
+    
+    if (bestIdentity)
+        return (MIdentity*)[self query:[NSPredicate predicateWithFormat:@"self = %@", bestIdentity]];
+    else
+        return [self defaultIdentity];
+}
+
 - (MIdentity *)identityForIBEncryptionIdentity:(IBEncryptionIdentity *)ident {
-    NSArray* results = [self query: [NSPredicate predicateWithFormat:@"type = %d AND principalShortHash = %d", ident.authority, *(long*)[ident.hashed bytes]]];
+    NSArray* results = [self query: [NSPredicate predicateWithFormat:@"type = %d AND principalShortHash = %llu", ident.authority, *(uint64_t*)[ident.hashed bytes]]];
     
     for (int i=0; i<results.count; i++) {
         MIdentity* match = [results objectAtIndex:i];
@@ -72,7 +133,7 @@
     return nil;
 }
 
-- (IBEncryptionIdentity *)ibEncryptionIdentityForIdentity:(MIdentity *)ident forTemporalFrame:(long) tf{
+- (IBEncryptionIdentity *)ibEncryptionIdentityForIdentity:(MIdentity *)ident forTemporalFrame:(uint64_t) tf{
     if (ident.principal) {
         return [[[IBEncryptionIdentity alloc] initWithAuthority:ident.type principal:ident.principal temporalFrame:tf] autorelease];
     } else {
@@ -81,11 +142,11 @@
 
 }
 
-- (long) computeTemporalFrameFromPrincipal: (NSString*) principal {
+- (uint64_t) computeTemporalFrameFromPrincipal: (NSString*) principal {
     return [self computeTemporalFrameFromHash: [[principal dataUsingEncoding:NSUTF8StringEncoding] sha256Digest]];
 }
 
-- (long)computeTemporalFrameFromHash:(NSData *)hash {
+- (uint64_t)computeTemporalFrameFromHash:(NSData *)hash {
     return 0;
 }
 

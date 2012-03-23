@@ -16,28 +16,26 @@
 
 
 //
-//  ManagedUser.h
-//  musubi
+//  MApp.h
+//  Musubi
 //
-//  Created by Willem Bult on 11/14/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 3/22/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "User.h"
-#import "NSData+Base64.h"
 
-@interface ManagedUser : NSManagedObject
 
-@property (nonatomic, retain) NSString* name;
-@property (nonatomic, retain) NSData* publicKey;
-@property (nonatomic, retain) NSData* picture;
+@interface MApp : NSManagedObject
 
-- (User*) user;
-- (void) updateFromUser: (User*) user;
-+ (id) createOrSave: (User*) user inContext: (NSManagedObjectContext*) context;
-
-+ (NSArray *) allInContext: (NSManagedObjectContext*) context;
-+ (id) withPublicKey: (NSData*) publicKey inContext: (NSManagedObjectContext*) context;
+@property (nonatomic, retain) NSString * appId;
+@property (nonatomic, retain) NSString * manifestUri;
+@property (nonatomic) NSTimeInterval refreshedAt;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSData * icon;
+@property (nonatomic, retain) NSData * smallIcon;
+@property (nonatomic, retain) NSString * packageName;
+@property (nonatomic, retain) NSString * mimeTypes;
 
 @end

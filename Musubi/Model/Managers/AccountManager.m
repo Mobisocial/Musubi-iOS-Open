@@ -38,4 +38,9 @@
     return [self query:[NSPredicate predicateWithFormat:@"type = %@", type]];
 }
 
+- (NSArray*) claimedAccounts {
+    return [self query:[NSPredicate predicateWithFormat:@"identity.owned = %d", YES]];
+}
+
+
 @end

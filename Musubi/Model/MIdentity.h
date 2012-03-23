@@ -26,6 +26,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+#define kIdentityTypeEmail 0
+#define kIdentityTypePhoneNumber 1
+#define kIdentityTypeOpenID 2
+#define kIdentityTypeTwitter 3
+#define kIdentityTypeFacebook 4
+#define kIdentityTypeLocal 5
 
 @interface MIdentity : NSManagedObject
 

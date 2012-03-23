@@ -34,8 +34,8 @@
 @end
 
 @implementation DefaultSignatureController
-- (long)signingTimeForIdentity:(IBEncryptionIdentity *)hid {
-    return *(long*)hid.hashed.bytes;
+- (uint64_t)signingTimeForIdentity:(IBEncryptionIdentity *)hid {
+    return *(uint64_t*)hid.hashed.bytes;
 }
 - (BOOL)hasSignatureKey:(IBEncryptionIdentity *)hid {
     return YES;
@@ -43,8 +43,8 @@
 @end
 
 @implementation DefaultEncryptionController
-- (long)encryptionTimeForIdentity:(IBEncryptionIdentity *)hid {
-    return *(long*)hid.hashed.bytes;
+- (uint64_t)encryptionTimeForIdentity:(IBEncryptionIdentity *)hid {
+    return *(uint64_t*)hid.hashed.bytes;
 }
 - (BOOL)hasEncryptionKey:(IBEncryptionIdentity *)hid {
     return YES;
@@ -81,12 +81,12 @@
         MIdentity* ident = [store createIdentity];
         [ident setClaimed: YES];
         [ident setOwned: YES];
-        [ident setType: kIBEncryptionIdentityAuthorityEmail];
+        [ident setType: kIdentityTypeEmail];
         [ident setPrincipal: me.principal];
         [ident setPrincipalHash: me.hashed];
-        [ident setPrincipalShortHash: *(long*)me.hashed.bytes];
+        [ident setPrincipalShortHash: *(uint64_t*)me.hashed.bytes];
         
-        [identities setObject:ident forKey:[NSNumber numberWithLong: ident.principalShortHash]];
+        [identities setObject:ident forKey:[NSNumber numberWithLongLong: ident.principalShortHash]];
         [identityLookup setObject:ident forKey:[NSArray arrayWithObjects:ident.principalHash, nil]];
         
         [self addDeviceWithName:[self deviceName] forIdentity:ident];
@@ -114,7 +114,7 @@
     return self;
 }
 
-- (IBEncryptionUserKey *)signatureKeyFrom:(MIdentity *)from myIdentity:(IBEncryptionIdentity *)me {
+- (IBSignatureUserKey *)signatureKeyFrom:(MIdentity *)from myIdentity:(IBEncryptionIdentity *)me {
     if (![self.signatureController hasSignatureKey:me])
         @throw [NSException exceptionWithName:@"Missing Signature Key" reason:@"Signature key not found for identity" userInfo:nil];
     
@@ -128,63 +128,63 @@
     return [self.encryptionScheme userKeyWithIdentity:me];
 }
 
-- (long)signatureTimeFrom:(MIdentity *)from {
+- (uint64_t)signatureTimeFrom:(MIdentity *)from {
     IBEncryptionIdentity* ibeIdent = [[IBEncryptionIdentity alloc] initWithAuthority:from.type hashedKey:from.principalHash temporalFrame:0];
     return [self.signatureController signingTimeForIdentity:ibeIdent];
 }
 
-- (long)encryptionTimeTo:(MIdentity *)to {
+- (uint64_t)encryptionTimeTo:(MIdentity *)to {
     IBEncryptionIdentity* ibeIdent = [[IBEncryptionIdentity alloc] initWithAuthority:to.type hashedKey:to.principalHash temporalFrame:0];
     return [self.encryptionController encryptionTimeForIdentity:ibeIdent];
 }
 
 - (MOutgoingSecret *)lookupOutgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
-    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithLong: from.principalShortHash], [NSNumber numberWithLong: to.principalShortHash], [NSNumber numberWithLong: me.temporalFrame], [NSNumber numberWithLong: other.temporalFrame], nil];
+    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithUnsignedLongLong: from.principalShortHash], [NSNumber numberWithUnsignedLongLong: to.principalShortHash], [NSNumber numberWithUnsignedLongLong: me.temporalFrame], [NSNumber numberWithUnsignedLongLong: other.temporalFrame], nil];
     
     return [outgoingSecrets objectForKey:key];
 }
 
 - (void)insertOutgoingSecret:(MOutgoingSecret *)os myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
-    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithLong: os.myIdentity.principalShortHash], [NSNumber numberWithLong: os.otherIdentity.principalShortHash], [NSNumber numberWithLong: me.temporalFrame], [NSNumber numberWithLong: other.temporalFrame], nil];
+    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithUnsignedLongLong: os.myIdentity.principalShortHash], [NSNumber numberWithUnsignedLongLong: os.otherIdentity.principalShortHash], [NSNumber numberWithUnsignedLongLong: me.temporalFrame], [NSNumber numberWithUnsignedLongLong: other.temporalFrame], nil];
     
     [outgoingSecrets setObject:os forKey:key];
 }
 
 - (MIncomingSecret *)lookupIncomingSecretFrom:(MIdentity *)from onDevice:(MDevice *)device to:(MIdentity *)to withSignature:(NSData *)signature otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
-    NSArray* key = [NSArray arrayWithObjects:[NSNumber numberWithLong: device.deviceName], [NSNumber numberWithLong:to.principalShortHash], signature, me, nil];
+    NSArray* key = [NSArray arrayWithObjects:[NSNumber numberWithUnsignedLongLong: device.deviceName], [NSNumber numberWithUnsignedLongLong:to.principalShortHash], signature, me, nil];
     
     return [incomingSecrets objectForKey:key];
 }
 
 - (void)insertIncomingSecret:(MIncomingSecret *)is otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
-    NSArray* key = [NSArray arrayWithObjects:[NSNumber numberWithLong:is.device.deviceName], [NSNumber numberWithLong:is.myIdentity.principalShortHash], is.signature, me, nil];
+    NSArray* key = [NSArray arrayWithObjects:[NSNumber numberWithUnsignedLongLong:is.device.deviceName], [NSNumber numberWithUnsignedLongLong:is.myIdentity.principalShortHash], is.signature, me, nil];
     
     [incomingSecrets setObject:is forKey:key];
 }
 
 - (void)incrementSequenceNumberTo:(MIdentity *)to {
-    MIdentity* ident = [identities objectForKey:[NSNumber numberWithLong:to.principalShortHash]];
+    MIdentity* ident = [identities objectForKey:[NSNumber numberWithUnsignedLongLong:to.principalShortHash]];
     ident.nextSequenceNumber++;
 }
 
-- (void)receivedSequenceNumber:(long)sequenceNumber from:(MDevice *)device {
-    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithLong:device.identity.principalShortHash], [NSNumber numberWithLong:device.deviceName], nil];
-    long maxSequenceNumber = ((MDevice*)[devices objectForKey:[NSNumber numberWithLong:device.deviceName]]).maxSequenceNumber;
+- (void)receivedSequenceNumber:(uint64_t)sequenceNumber from:(MDevice *)device {
+    NSArray* key = [NSArray arrayWithObjects: [NSNumber numberWithUnsignedLongLong:device.identity.principalShortHash], [NSNumber numberWithUnsignedLongLong:device.deviceName], nil];
+    uint64_t maxSequenceNumber = ((MDevice*)[devices objectForKey:[NSNumber numberWithUnsignedLongLong:device.deviceName]]).maxSequenceNumber;
     if (sequenceNumber > maxSequenceNumber) {
-        [((MDevice*)[devices objectForKey:[NSNumber numberWithLong:device.deviceName]]) setMaxSequenceNumber:sequenceNumber];
+        [((MDevice*)[devices objectForKey:[NSNumber numberWithUnsignedLongLong:device.deviceName]]) setMaxSequenceNumber:sequenceNumber];
     }
    
     NSMutableSet* missing = [missingSequenceNumbers objectForKey:key];
     if (missing != nil)
-        [missing removeObject: [NSNumber numberWithLong: sequenceNumber]];
+        [missing removeObject: [NSNumber numberWithUnsignedLongLong: sequenceNumber]];
     
     if (sequenceNumber > maxSequenceNumber + 1) {
         if (missing == nil) {
             missing = [[NSMutableSet alloc] init];
             [missingSequenceNumbers setObject:missing forKey:key];
         }
-        for (long q = maxSequenceNumber + 1; q < sequenceNumber; ++q) {
-            [missing addObject: [NSNumber numberWithLong: q]];
+        for (uint64_t q = maxSequenceNumber + 1; q < sequenceNumber; ++q) {
+            [missing addObject: [NSNumber numberWithUnsignedLongLong: q]];
         }
     }
 }
@@ -214,7 +214,7 @@
 }
 
 - (MIdentity *)addClaimedIdentity:(IBEncryptionIdentity *)hid {
-    NSArray* lookupKey = [NSArray arrayWithObjects:[NSNumber numberWithInt: [hid authority]], [hid hashed], nil];
+    NSArray* lookupKey = [NSArray arrayWithObjects:[NSNumber numberWithUnsignedChar: [hid authority]], [hid hashed], nil];
     
     MIdentity* ident = [identityLookup objectForKey:lookupKey];
     if (ident != nil)
@@ -223,17 +223,17 @@
     ident = [store createIdentity];
     [ident setClaimed: YES];
     [ident setOwned: NO];
-    [ident setType: kIBEncryptionIdentityAuthorityEmail];
+    [ident setType: kIdentityTypeEmail];
     [ident setPrincipalHash: [hid hashed]];
-    [ident setPrincipalShortHash: *(long*)hid.hashed.bytes];
+    [ident setPrincipalShortHash: *(uint64_t*)hid.hashed.bytes];
     
-    [identities setObject:ident forKey:[NSNumber numberWithLong: ident.principalShortHash]];
+    [identities setObject:ident forKey:[NSNumber numberWithUnsignedLongLong: ident.principalShortHash]];
     [identityLookup setObject:ident forKey:lookupKey];
     return ident;
 }
 
 - (MIdentity *)addUnclaimedIdentity:(IBEncryptionIdentity *)hid {
-    NSArray* lookupKey = [NSArray arrayWithObjects:[NSNumber numberWithInt: [hid authority]], [hid hashed], nil];
+    NSArray* lookupKey = [NSArray arrayWithObjects:[NSNumber numberWithUnsignedChar: [hid authority]], [hid hashed], nil];
     
     MIdentity* ident = [identityLookup objectForKey:lookupKey];
     if (ident != nil)
@@ -242,17 +242,17 @@
     ident = [store createIdentity];
     [ident setClaimed: NO];
     [ident setOwned: NO];
-    [ident setType: kIBEncryptionIdentityAuthorityEmail];
+    [ident setType: kIdentityTypeEmail];
     [ident setPrincipalHash: [hid hashed]];
-    [ident setPrincipalShortHash: *(long*)hid.hashed.bytes];
+    [ident setPrincipalShortHash: *(uint64_t*)hid.hashed.bytes];
     
-    [identities setObject:ident forKey:[NSNumber numberWithLong: ident.principalShortHash]];
+    [identities setObject:ident forKey:[NSNumber numberWithUnsignedLongLong: ident.principalShortHash]];
     [identityLookup setObject:ident forKey:lookupKey];
     return ident;
 }
 
-- (MDevice *)addDeviceWithName:(long)devName forIdentity:(MIdentity *)ident {
-    NSArray* lookupKey = [NSArray arrayWithObjects:[NSNumber numberWithLong: ident.principalShortHash], [NSNumber numberWithLong:devName], nil];
+- (MDevice *)addDeviceWithName:(uint64_t)devName forIdentity:(MIdentity *)ident {
+    NSArray* lookupKey = [NSArray arrayWithObjects:[NSNumber numberWithUnsignedLongLong: ident.principalShortHash], [NSNumber numberWithUnsignedLongLong:devName], nil];
 
     MDevice* d = [deviceLookup objectForKey:lookupKey];
     if(d != nil)
@@ -263,7 +263,7 @@
     [d setDeviceName: devName];
     [d setMaxSequenceNumber: -1];
     
-    [devices setObject:d forKey:[NSNumber numberWithLong: d.deviceName]];
+    [devices setObject:d forKey:[NSNumber numberWithUnsignedLongLong: d.deviceName]];
     [deviceLookup setObject:d forKey:lookupKey];
     
     return d;

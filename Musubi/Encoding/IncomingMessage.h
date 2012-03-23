@@ -34,7 +34,7 @@
     NSArray* recipients; // a list of all of the recipients, some of which I may or may not really know
     NSData* hash; // the hash of the data which was validated
     NSData* data; // the actual private message bytes that are decrypted
-    long sequenceNumber; // the sequence number of the message from this device
+    uint64_t sequenceNumber; // the sequence number of the message from this device
     BOOL blind; // whether or not this was state update, e.g. blind cc
     NSData* app; // application namespace
 }
@@ -45,7 +45,7 @@
 @property (nonatomic,retain) NSArray* recipients;
 @property (nonatomic,retain) NSData* hash;
 @property (nonatomic,retain) NSData* data;
-@property (nonatomic,assign) long sequenceNumber;
+@property (nonatomic,assign) uint64_t sequenceNumber;
 @property (nonatomic,assign) BOOL blind;
 @property (nonatomic,retain) NSData* app;
 

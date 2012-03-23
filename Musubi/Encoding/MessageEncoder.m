@@ -65,8 +65,10 @@
 - (MOutgoingSecret *)outgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to fromIdent:(IBEncryptionIdentity *)me toIdent:(IBEncryptionIdentity *)you {
     
     IBEncryptionConversationKey* ck = [encryptionScheme randomConversationKeyWithIdentity:you];
+    
+    uint64_t deviceNameBigEndian = CFSwapInt64HostToBig((uint64_t) deviceName);    
     NSMutableData* hashData = [NSMutableData dataWithData: ck.encrypted];
-    [hashData appendBytes:&deviceName length:sizeof(deviceName)];
+    [hashData appendBytes:&deviceNameBigEndian length:sizeof(deviceNameBigEndian)];
     NSData* hash = [hashData sha256Digest];
     
     MOutgoingSecret* os = [transportDataProvider lookupOutgoingSecretFrom:from to:to myIdentity:me otherIdentity:you];
@@ -86,15 +88,22 @@
     return os;
 }
 
-- (long) assignSequenceNumberTo: (MIdentity*) to {
-    long next = [to nextSequenceNumber];
+- (uint64_t) assignSequenceNumberTo: (MIdentity*) to {
+    uint64_t next = [to nextSequenceNumber];
     [transportDataProvider incrementSequenceNumberTo: to];
     return next;
 }
 
 - (MEncodedMessage *) encodeOutgoingMessage:(OutgoingMessage *)om {
     // create the IBE identity for the sender
-    IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];
+    /* TODO: verify if principal was intentionaly left out here. It crashes the refetch when signature is missing.
+    IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];*/
+    IBEncryptionIdentity* me = nil;
+    if ([om fromIdentity].principal != nil) {
+        me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type principal:[om fromIdentity].principal temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];        
+    } else {
+        me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];        
+    }
 
     // create an array of IBE identities for the recipients
     NSMutableArray* rcptIdentities = [NSMutableArray arrayWithCapacity:[[om recipients] count]];
@@ -116,12 +125,12 @@
     // Build the array of recipients (with secrets)
     NSMutableArray* recipients = [NSMutableArray arrayWithCapacity:[[om recipients] count]];
     int i = 0;
-    long mySeqNumber = -1;
+    uint64_t mySeqNumber = -1;
     for (MIdentity* mRcpt in [om recipients]) {
         IBEncryptionIdentity* rcptIdent = [rcptIdentities objectAtIndex:i++];
         
         MOutgoingSecret* os = [self outgoingSecretFrom:om.fromIdentity to:mRcpt fromIdent:me toIdent:rcptIdent];
-        int seqNumber = [self assignSequenceNumberTo:mRcpt];
+        uint64_t seqNumber = [self assignSequenceNumberTo:mRcpt];
         
         Secret* s = [[[Secret alloc] init] autorelease];
         [s setH: hash];
@@ -135,7 +144,7 @@
         [rcpt setD: [[BSONEncoder encodeSecret:s] encryptWithAES128CBCZeroPaddedWithKey:[os key] andIV:iv]];
         
         [recipients addObject:rcpt];
-        [seqNumbers setObject:[NSNumber numberWithLong:seqNumber] forKey:mRcpt.principalHash];
+        [seqNumbers setObject:[NSNumber numberWithLongLong:seqNumber] forKey:mRcpt.principalHash];
         
         if ([transportDataProvider isMe:rcptIdent]) {
             mySeqNumber = seqNumber;

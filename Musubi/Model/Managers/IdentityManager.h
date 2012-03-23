@@ -37,10 +37,12 @@
 - (void) createIdentity:(MIdentity *)ident;
 
 - (NSArray*) ownedIdentities;
+- (MIdentity*) defaultIdentity;
+- (MIdentity*) defaultIdentityForParticipants: (NSArray*) participants;
 - (MIdentity*) identityForIBEncryptionIdentity: (IBEncryptionIdentity*) ident;
-- (IBEncryptionIdentity*) ibEncryptionIdentityForIdentity: (MIdentity*) ident forTemporalFrame: (long) tf;
-- (long) computeTemporalFrameFromHash: (NSData*) hash;
-- (long) computeTemporalFrameFromPrincipal: (NSString*) principal;
+- (IBEncryptionIdentity*) ibEncryptionIdentityForIdentity: (MIdentity*) ident forTemporalFrame: (uint64_t) tf;
+- (uint64_t) computeTemporalFrameFromHash: (NSData*) hash;
+- (uint64_t) computeTemporalFrameFromPrincipal: (NSString*) principal;
 - (void)incrementSequenceNumberTo:(MIdentity *)to;
 
 @end

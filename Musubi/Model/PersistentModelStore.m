@@ -139,8 +139,4 @@
     return [NSEntityDescription insertNewObjectForEntityForName:@"OutgoingSecret" inManagedObjectContext: context];
 }
 
-- (NSArray*) unsentOutboundMessages {
-    return [self query:[NSPredicate predicateWithFormat:@"processed=0 AND outbound=1"] onEntity:@"EncodedMessage"];
-}
-
 @end

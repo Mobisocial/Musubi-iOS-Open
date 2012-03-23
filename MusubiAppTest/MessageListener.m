@@ -62,7 +62,7 @@
         [transportManager.store save];
 
         // Start the transport
-        [self setTransport: [[AMQPTransport alloc] initWithStoreFactory:factory encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:transportManager.deviceName]];
+        [self setTransport: [[AMQPTransport alloc] initWithStoreFactory:factory]];
         [self.transport start];
     }
     return self;

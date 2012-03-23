@@ -28,12 +28,14 @@
 @interface Obj : NSObject {
     NSString* type;
     NSDictionary* data;
+    NSData* raw;
 }
 
 @property (nonatomic, retain) NSString* type;
 @property (nonatomic, retain) NSDictionary* data;
+@property (nonatomic, retain) NSData* raw;
 
 - (id) initWithType: (NSString*) t;
-- (NSDictionary*) json;
+//- (NSDictionary*) json;
 
 @end

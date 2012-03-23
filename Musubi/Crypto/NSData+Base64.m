@@ -27,6 +27,8 @@
 #import "NSData+Base64.h"
 
 static const char _base64EncodingTable[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+static const char _base64EncodingTableWebSafe[64] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
 static const short _base64DecodingTable[256] = {
 	-2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, -2, -1, -1, -2, -2,
 	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
@@ -46,13 +48,42 @@ static const short _base64DecodingTable[256] = {
 	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2
 };
 
+static const short _base64DecodingTableWebSafe[256] = {
+	-2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, -2, -1, -1, -2, -2,
+	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+	-1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 62, -2, -2, -2,
+	52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -2, -2, -2, -2, -2, -2,
+	-2,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
+	15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -2, -2, -2, -2, 63,
+	-2, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+	41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -2, -2, -2, -2, -2,
+	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
+	-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2
+};
+
+
+
 @implementation NSData (Base64)
 
 - (NSString *) proxyForJson {
     return [self encodeBase64];
 }
 
+- (NSString *) encodeBase64WebSafe {
+    return [self encodeBase64UsingTable: _base64EncodingTableWebSafe];
+}
+
 - (NSString *) encodeBase64 {
+    return [self encodeBase64UsingTable: _base64EncodingTable];
+}
+
+- (NSString *) encodeBase64UsingTable: (const char[64]) table {
 	const unsigned char * objRawData = [self bytes];
 	char * objPointer;
 	char * strResult;
@@ -67,10 +98,10 @@ static const short _base64DecodingTable[256] = {
 	
 	// Iterate through everything
 	while (intLength > 2) { // keep going until we have less than 24 bits
-		*objPointer++ = _base64EncodingTable[objRawData[0] >> 2];
-		*objPointer++ = _base64EncodingTable[((objRawData[0] & 0x03) << 4) + (objRawData[1] >> 4)];
-		*objPointer++ = _base64EncodingTable[((objRawData[1] & 0x0f) << 2) + (objRawData[2] >> 6)];
-		*objPointer++ = _base64EncodingTable[objRawData[2] & 0x3f];
+		*objPointer++ = table[objRawData[0] >> 2];
+		*objPointer++ = table[((objRawData[0] & 0x03) << 4) + (objRawData[1] >> 4)];
+		*objPointer++ = table[((objRawData[1] & 0x0f) << 2) + (objRawData[2] >> 6)];
+		*objPointer++ = table[objRawData[2] & 0x3f];
 		
 		// we just handled 3 octets (24 bits) of data
 		objRawData += 3;
@@ -79,13 +110,13 @@ static const short _base64DecodingTable[256] = {
     
 	// now deal with the tail end of things
 	if (intLength != 0) {
-		*objPointer++ = _base64EncodingTable[objRawData[0] >> 2];
+		*objPointer++ = table[objRawData[0] >> 2];
 		if (intLength > 1) {
-			*objPointer++ = _base64EncodingTable[((objRawData[0] & 0x03) << 4) + (objRawData[1] >> 4)];
-			*objPointer++ = _base64EncodingTable[(objRawData[1] & 0x0f) << 2];
+			*objPointer++ = table[((objRawData[0] & 0x03) << 4) + (objRawData[1] >> 4)];
+			*objPointer++ = table[(objRawData[1] & 0x0f) << 2];
 			*objPointer++ = '=';
 		} else {
-			*objPointer++ = _base64EncodingTable[(objRawData[0] & 0x03) << 4];
+			*objPointer++ = table[(objRawData[0] & 0x03) << 4];
 			*objPointer++ = '=';
 			*objPointer++ = '=';
 		}
@@ -107,6 +138,14 @@ static const short _base64DecodingTable[256] = {
 }
 
 - (NSData *) decodeBase64 {
+    return [self decodeBase64UsingTable: _base64DecodingTable];
+}
+
+- (NSData *) decodeBase64WebSafe {
+    return [self decodeBase64UsingTable: _base64DecodingTableWebSafe];
+}
+
+- (NSData *) decodeBase64UsingTable: (const short[256]) table {
 	const char * objPointer = [self cStringUsingEncoding:NSASCIIStringEncoding];
 	int intLength = strlen(objPointer);
 	int intCurrent;
@@ -126,7 +165,7 @@ static const short _base64DecodingTable[256] = {
 			continue;
 		}
         
-		intCurrent = _base64DecodingTable[intCurrent];
+		intCurrent = table[intCurrent];
 		if (intCurrent == -1) {
 			// we're at a whitespace -- simply skip over
 			continue;

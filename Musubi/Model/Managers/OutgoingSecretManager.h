@@ -31,6 +31,6 @@
 }
 
 - (id) initWithStore: (PersistentModelStore*) s;
-- (MOutgoingSecret*) outgoingSecretFrom: (MIdentity*) from to: (MIdentity*) to myTemporalFrame: (long) tfMe theirTemporalFrame: (long) tfThem;
+- (MOutgoingSecret*) outgoingSecretFrom: (MIdentity*) from to: (MIdentity*) to myTemporalFrame: (uint64_t) tfMe theirTemporalFrame: (uint64_t) tfThem;
 
 @end

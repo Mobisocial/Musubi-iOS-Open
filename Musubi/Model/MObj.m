@@ -16,21 +16,39 @@
 
 
 //
-//  DeviceManager.h
+//  MObj.m
 //  Musubi
 //
-//  Created by Willem Bult on 3/17/12.
+//  Created by Willem Bult on 3/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "EntityManager.h"
+#import "MObj.h"
+#import "MApp.h"
+#import "MDevice.h"
+#import "MEncodedMessage.h"
+#import "MFeed.h"
+#import "MIdentity.h"
+#import "MObj.h"
 
-@interface DeviceManager : EntityManager {
-}
 
-- (id) initWithStore: (PersistentModelStore*) s;
-- (uint64_t) localDeviceName;
-- (MDevice*) deviceForName: (uint64_t) name andIdentity: (MIdentity*) mId;
-- (MDevice*) localDevice;
+@implementation MObj
+
+@dynamic timestamp;
+@dynamic universalHash;
+@dynamic shortUniversalHash;
+@dynamic type;
+@dynamic json;
+@dynamic raw;
+@dynamic lastModified;
+@dynamic deleted;
+@dynamic renderable;
+@dynamic processed;
+@dynamic feed;
+@dynamic identity;
+@dynamic device;
+@dynamic parent;
+@dynamic app;
+@dynamic encoded;
+
 @end

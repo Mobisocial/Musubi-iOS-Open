@@ -34,7 +34,7 @@
     return self;
 }
 
-- (long)localDeviceName {
+- (uint64_t)localDeviceName {
     MDevice* dev = (MDevice*)[self queryFirst:nil];
     
     if (dev != nil) {
@@ -44,8 +44,8 @@
     }
 }
 
-- (MDevice*) deviceForName: (long) name andIdentity: (MIdentity*) mId {
-    return (MDevice*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND deviceName = %ld", mId, name]];
+- (MDevice*) deviceForName: (uint64_t) name andIdentity: (MIdentity*) mId {
+    return (MDevice*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND deviceName = %llu", mId, name]];
 }
 
 @end

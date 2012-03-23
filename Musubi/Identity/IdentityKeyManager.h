@@ -35,16 +35,19 @@
     
     NSMutableDictionary* encryptionBackoff;
     NSMutableDictionary* signatureBackoff;
+    
+    id<IdentityProvider> identityProvider;
 }
 
 @property (atomic, retain) NSMutableArray* requestedEncryptionKeys;
 @property (atomic, retain) NSMutableArray* requestedSignatureKeys;
 @property (atomic, retain) NSMutableDictionary* encryptionBackoff;
 @property (atomic, retain) NSMutableDictionary* signatureBackoff;
+@property (atomic, retain) id<IdentityProvider> identityProvider;
 
+- (id) initWithIdentityProvider: (id<IdentityProvider>) idp;
 - (long) updateBackoffForIdentity: (IBEncryptionIdentity*) hid inMap: (NSMutableDictionary*) map;
-- (void) requestEncryptionKeyFor: (IBEncryptionIdentity*) ident;
-- (void) requestSignatureKeyFor: (IBEncryptionIdentity*) ident;
+
 @end
 
 @interface IdentityKeyRefreshOperation : NSOperation {

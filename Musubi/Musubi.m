@@ -29,12 +29,18 @@
 #import "AphidIdentityProvider.h"
 #import "NSData+Crypto.h"
 #import "MessageEncoder.h"
+#import "MApp.h"
+#import "MFeed.h"
+#import "FeedManager.h"
+#import "AccountManager.h"
+#import "IntroductionObj.h"
+#import "NSData+Base64.h"
 
 @implementation Musubi
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, transport;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, transport;
 
 +(Musubi*)sharedInstance
 {
@@ -71,22 +77,23 @@ static Musubi* _sharedInstance = nil;
         
         // The notification sender informs every major part in the system about what's going on
         [self setNotificationCenter: [[NSNotificationCenter alloc] init]];
+                
+        [self performSelectorInBackground:@selector(setup) withObject:nil];
         
-        // The identity provider handles our encryption and signatures
-        [self setKeyManager: [[IdentityKeyManager alloc] init]];
         
-        // The transport sends and receives raw data from the network
-        [self setTransport: [[AMQPTransport alloc] initWithStoreFactory:storeFactory]];
-        [transport start];
+        
+        IBEncryptionIdentity* test = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"willem.bult@gmail.com" temporalFrame:0];
+        NSLog(@"Queue: %@", [test.key encodeBase64WebSafe]);
+
         
         // Send a message to 673137843
         // Set up receiving identity
-        
+        /*
         AphidIdentityProvider* identityProvider = [[AphidIdentityProvider alloc] init];
         IdentityManager* idMgr = [[IdentityManager alloc] initWithStore: mainStore];
         TransportManager* tMgr = [[TransportManager alloc] initWithStore: mainStore encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:random()];
         
-        IBEncryptionIdentity* you = [[IBEncryptionIdentity alloc] initWithAuthority:kIBEncryptionIdentityAuthorityFacebook principal:@"673137843" temporalFrame:[idMgr computeTemporalFrameFromPrincipal:@"673137843"]];
+        IBEncryptionIdentity* you = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:@"673137843" temporalFrame:[idMgr computeTemporalFrameFromPrincipal:@"673137843"]];
         
         // Make an outgoing message
         OutgoingMessage* om = [[OutgoingMessage alloc] init];
@@ -107,10 +114,72 @@ static Musubi* _sharedInstance = nil;
         }
         @catch (NSException *exception) {
             NSLog(@"Bla: %@", exception);
-        }
+        }*/
     }
     
     return self;
+}
+
+- (void) setup {    
+    
+    
+    // The identity provider is our main IBE point of contact
+    //id<IdentityProvider> 
+    identityProvider = [[[AphidIdentityProvider alloc] init] autorelease];
+    
+    PersistentModelStore* store=  [storeFactory newStore];
+    IdentityManager* idManager = [[IdentityManager alloc] initWithStore:store];
+    /*IBEncryptionIdentity* anotherMe = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"willem.bult@gmail.com" temporalFrame:[idManager computeTemporalFrameFromPrincipal:@"willem.bult@gmail.com"]];
+    
+    TransportManager* tManager = [[TransportManager alloc] initWithStore:store encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:0];
+    MIdentity* mId = [tManager addClaimedIdentity:anotherMe];
+    mId.owned = YES;
+    [store save];
+    */
+    
+
+    // The key manager handles our encryption and signature keys
+    [self setKeyManager: [[IdentityKeyManager alloc] initWithIdentityProvider: identityProvider]];
+    
+    // The encoding service encodes all our messages, to be picked up by the transport
+    [self setEncodeService: [[MessageEncodeService alloc] initWithStoreFactory: storeFactory andIdentityProvider:identityProvider]];
+    
+    // The transport sends and receives raw data from the network
+    [self setTransport: [[AMQPTransport alloc] initWithStoreFactory:storeFactory]];
+    [transport start];
+    
+    [NSThread sleepForTimeInterval:5];
+    
+    [self sendTestMessage];
+}
+
+- (void) sendTestMessage {
+    PersistentModelStore* store=  [storeFactory newStore];
+    
+    IdentityManager* idManager = [[IdentityManager alloc] initWithStore:store];
+    FeedManager* feedManager = [[FeedManager alloc] initWithStore:store];
+    AccountManager* accManager = [[AccountManager alloc] initWithStore:store];
+    TransportManager* tManager = [[TransportManager alloc] initWithStore:store encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:0];
+        
+    IBEncryptionIdentity* you = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"willem.bult@gmail.com" temporalFrame:[idManager computeTemporalFrameFromPrincipal:@"willem.bult@gmail.com"]];
+    MIdentity* mYou = [tManager addClaimedIdentity:you];
+    
+    NSArray* participants = [NSArray arrayWithObjects:mYou, nil];
+    
+    MApp* app = (MApp*)[store createEntity: @"App"];
+    [app setAppId:@"mobisocial.musubi"];
+    [app setRefreshedAt: NSTimeIntervalSince1970];
+    [app setName: @"Musubi"];
+    
+    MFeed* feed = [feedManager createExpandingFeedWithParticipants:participants];
+    
+    //addToWhitlistsIfNecessary(feedmembers)
+    
+    // Introduce the participants so they have names for each other
+    Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:participants];
+    MObj* obj = [feedManager sendObj: invitationObj toFeed:feed fromApp:app];
+    
+    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationPlainObjReady object:nil]];
 }
 
 - (PersistentModelStore *) newStore {

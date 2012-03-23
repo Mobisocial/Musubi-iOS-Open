@@ -35,7 +35,7 @@
 @end
 
 @protocol SignatureController
-- (long) signingTimeForIdentity: (IBEncryptionIdentity*) hid;
+- (uint64_t) signingTimeForIdentity: (IBEncryptionIdentity*) hid;
 - (BOOL) hasSignatureKey: (IBEncryptionIdentity*) hid;
 @end
 
@@ -43,7 +43,7 @@
 @end
 
 @protocol EncryptionController
-- (long) encryptionTimeForIdentity: (IBEncryptionIdentity*) hid;
+- (uint64_t) encryptionTimeForIdentity: (IBEncryptionIdentity*) hid;
 - (BOOL) hasEncryptionKey: (IBEncryptionIdentity*) hid;
 @end
 
@@ -61,7 +61,7 @@
     IBSignatureScheme* signatureScheme;
     IBEncryptionIdentity* myIdentity;
     
-    long deviceName;
+    uint64_t deviceName;
     
     NSMutableDictionary* identities;
     NSMutableDictionary* identityLookup;
@@ -88,7 +88,7 @@
 @property (nonatomic, retain) IBSignatureScheme* signatureScheme;
 @property (nonatomic, retain) IBEncryptionIdentity* myIdentity;
 
-@property (nonatomic, assign) long deviceName;
+@property (nonatomic, assign) uint64_t deviceName;
 
 @property (nonatomic, retain) NSMutableDictionary* identities;
 @property (nonatomic, retain) NSMutableDictionary* identityLookup;

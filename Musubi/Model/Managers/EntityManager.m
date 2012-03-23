@@ -39,25 +39,11 @@
 }
 
 - (NSArray*) query: (NSPredicate*) predicate {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:[store context]];
-    
-    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-    [request setEntity:entity];
-    [request setPredicate:predicate];
-    
-    NSLog(@"Query: %@", request);
-    
-    NSError *error = nil;
-    return [[store context] executeFetchRequest:request error:&error];
+    return [store query:predicate onEntity:entityName];
 }
 
 - (NSManagedObject*) queryFirst: (NSPredicate*) predicate {
-    NSArray* results = [self query:predicate];
-    if (results.count > 0) {
-        return [results objectAtIndex:0];
-    } else {
-        return nil;
-    }
+    return [store queryFirst:predicate onEntity:entityName];
 }
 
 - (NSManagedObject *)create {

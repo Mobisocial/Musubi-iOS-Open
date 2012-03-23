@@ -27,7 +27,7 @@
 #import "Sender.h"
 
 @interface Message : NSObject {
-    int v; // version
+    uint32_t v; // version
     Sender* s; // information about the sender
     NSData* i; // the iv for the key blocks
     BOOL l; // the blind flag
@@ -36,7 +36,7 @@
     NSData* d; // the encrypted data
 }
 
-@property (nonatomic, assign) int v;
+@property (nonatomic, assign) uint32_t v;
 @property (nonatomic, retain) Sender* s;
 @property (nonatomic, retain) NSData* i;
 @property (nonatomic, assign) BOOL l;

@@ -16,21 +16,34 @@
 
 
 //
-//  DeviceManager.h
+//  PreparedObj.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/17/12.
+//  Created by Willem Bult on 3/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "EntityManager.h"
+#import "MObj.h"
 
-@interface DeviceManager : EntityManager {
+@interface PreparedObj : NSObject {
+    int feedType;
+    NSData* feedCapability;
+    NSString* appId;
+    long timestamp;
+    NSString* type;
+    NSString* jsonSrc;
+    NSData* raw;
 }
 
-- (id) initWithStore: (PersistentModelStore*) s;
-- (uint64_t) localDeviceName;
-- (MDevice*) deviceForName: (uint64_t) name andIdentity: (MIdentity*) mId;
-- (MDevice*) localDevice;
+@property (nonatomic, assign) int feedType;
+@property (nonatomic, retain) NSData* feedCapability;
+@property (nonatomic, retain) NSString* appId;
+@property (nonatomic, assign) long timestamp;
+@property (nonatomic, retain) NSString* type;
+@property (nonatomic, retain) NSString* jsonSrc;
+@property (nonatomic, retain) NSData* raw;
+
+- (id) initWithFeedType: (int) ft feedCapability: (NSData*) fc appId: (NSString*) aId timestamp: (long) ts data: (MObj*) obj;
+
 @end

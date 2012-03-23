@@ -45,8 +45,6 @@
 
 - (void) save;
 
-- (NSArray*) unsentOutboundMessages;
-
 - (MIdentity*) createIdentity;
 - (MDevice*) createDevice;
 - (MEncodedMessage*) createEncodedMessage;

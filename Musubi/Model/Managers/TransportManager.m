@@ -29,7 +29,7 @@
 
 @synthesize store, encryptionScheme, signatureScheme, deviceName, identityManager, encryptionUserKeyManager, signatureUserKeyManager;
 
-- (id)initWithStore:(PersistentModelStore *)s encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(long)devName {
+- (id)initWithStore:(PersistentModelStore *)s encryptionScheme:(IBEncryptionScheme *)es signatureScheme:(IBSignatureScheme *)ss deviceName:(uint64_t)devName {
     self = [super init];
     
     if (self != nil) {
@@ -53,12 +53,12 @@
     [identityManager setStore:s];
 }
 
-- (long)signatureTimeFrom:(MIdentity *)from {
+- (uint64_t)signatureTimeFrom:(MIdentity *)from {
     //TODO: consider revocation/online offline status, etc
     return [identityManager computeTemporalFrameFromHash: from.principalHash];
 }
 
-- (long)encryptionTimeTo:(MIdentity *)to {
+- (uint64_t)encryptionTimeTo:(MIdentity *)to {
     //TODO: consider revocation/online offline status, etc
     return [identityManager computeTemporalFrameFromHash: to.principalHash];
 }
@@ -72,7 +72,7 @@
 }
 
 - (MOutgoingSecret *)lookupOutgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
-    return (MOutgoingSecret*)[store queryFirst:[NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %ld AND signaturePeriod = %ld", from, to, me.temporalFrame, other.temporalFrame] onEntity:@"OutgoingSecret"];
+    return (MOutgoingSecret*)[store queryFirst:[NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %llu AND signaturePeriod = %llu", from, to, me.temporalFrame, other.temporalFrame] onEntity:@"OutgoingSecret"];
 }
 
 - (void)insertOutgoingSecret:(MOutgoingSecret *)os myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
@@ -81,7 +81,7 @@
 }
 
 - (MIncomingSecret *)lookupIncomingSecretFrom:(MIdentity *)from onDevice:(MDevice *)device to:(MIdentity *)to withSignature:(NSData *)signature otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %ld AND signaturePeriod = %ld AND device = %@", from, to, other.temporalFrame, me.temporalFrame, device];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %llu AND signaturePeriod = %llu AND device = %@", from, to, other.temporalFrame, me.temporalFrame, device];
     
     NSArray* results = [store query:predicate onEntity:@"IncomingSecret"];
     for (int i=0; i<results.count; i++) {
@@ -106,8 +106,8 @@
     [identityManager incrementSequenceNumberTo: to];
 }
 
-- (void)receivedSequenceNumber:(long)sequenceNumber from:(MDevice *)device {
-    MMissingMessage* mm = (MMissingMessage*) [store queryFirst:[NSPredicate predicateWithFormat:@"device = %@ AND sequenceNumber = %ld", device, sequenceNumber] onEntity:@"MissingMessage"];
+- (void)receivedSequenceNumber:(uint64_t)sequenceNumber from:(MDevice *)device {
+    MMissingMessage* mm = (MMissingMessage*) [store queryFirst:[NSPredicate predicateWithFormat:@"device = %@ AND sequenceNumber = %llu", device, sequenceNumber] onEntity:@"MissingMessage"];
     if (mm) {
         [[store context] deleteObject:mm];
     }
@@ -124,7 +124,7 @@
         
         MSequenceNumber* seqNumber = (MSequenceNumber*) [NSEntityDescription insertNewObjectForEntityForName:@"SequenceNumber" inManagedObjectContext: [store context]];
         [seqNumber setRecipient:ident];
-        [seqNumber setSequenceNumber: [(NSNumber*)[seqNumbers objectForKey:ident] longValue]];
+        [seqNumber setSequenceNumber: [(NSNumber*)[seqNumbers objectForKey:ident] longLongValue]];
         [seqNumber setEncodedMessage: encoded];
     }
 }
@@ -134,7 +134,7 @@
 }
 
 - (BOOL)isMe:(IBEncryptionIdentity *)ident {
-    NSArray* results = [store query:[NSPredicate predicateWithFormat:@"type = %d AND principalShortHash = %ld AND principalHash = %@ AND owned = 1", ident.authority, *(long*)ident.hashed.bytes, ident.hashed] onEntity:@"Identity"];
+    NSArray* results = [store query:[NSPredicate predicateWithFormat:@"type = %d AND principalShortHash = %llu AND principalHash = %@ AND owned = 1", ident.authority, *(uint64_t*)ident.hashed.bytes, ident.hashed] onEntity:@"Identity"];
     return (results.count > 0);
 }
 
@@ -150,7 +150,7 @@
         mIdent = (MIdentity*)[identityManager create];
         [mIdent setClaimed: YES];
         [mIdent setPrincipalHash: ident.hashed];
-        [mIdent setPrincipalShortHash: *(long*)ident.hashed.bytes];
+        [mIdent setPrincipalShortHash: *(uint64_t*)ident.hashed.bytes];
         [mIdent setType: ident.authority];        
         [identityManager createIdentity:mIdent];    
     }
@@ -164,7 +164,7 @@
     if (mIdent == nil) {
         [mIdent setClaimed: NO];
         [mIdent setPrincipalHash: ident.hashed];
-        [mIdent setPrincipalShortHash: *(long*)ident.hashed.bytes];
+        [mIdent setPrincipalShortHash: *(uint64_t*)ident.hashed.bytes];
         [mIdent setType: ident.authority];
         
         [identityManager createIdentity:mIdent];    
@@ -173,9 +173,9 @@
     return mIdent;
 }
 
-- (MDevice *)addDeviceWithName:(long)devName forIdentity:(MIdentity *)ident {
+- (MDevice *)addDeviceWithName:(uint64_t)devName forIdentity:(MIdentity *)ident {
     
-    MDevice* dev = (MDevice*) [store queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND deviceName = %ld", ident, devName] onEntity:@"Device"];
+    MDevice* dev = (MDevice*) [store queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND deviceName = %llu", ident, devName] onEntity:@"Device"];
     
     if (dev == nil) {
         dev = (MDevice*) [NSEntityDescription insertNewObjectForEntityForName:@"Device" inManagedObjectContext: [store context]];

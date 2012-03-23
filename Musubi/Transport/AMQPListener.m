@@ -47,7 +47,7 @@
             }
             
             // Declare the device queue
-            long deviceName = [deviceManager localDeviceName];
+            uint64_t deviceName = [deviceManager localDeviceName];
             NSData* devNameData = [NSData dataWithBytes:&deviceName length:sizeof(deviceName)];
             NSString* deviceQueueName = [self queueNameForKey:devNameData withPrefix:@"ibedevice-"];
             

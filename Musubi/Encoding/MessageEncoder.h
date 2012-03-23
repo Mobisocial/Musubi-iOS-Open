@@ -35,7 +35,7 @@
     id<TransportDataProvider> transportDataProvider;
     IBEncryptionScheme* encryptionScheme;
     IBSignatureScheme* signatureScheme;
-    long deviceName;
+    uint64_t deviceName;
 }
 
 @property (nonatomic, retain) id<TransportDataProvider> transportDataProvider;

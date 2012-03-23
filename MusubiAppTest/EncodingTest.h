@@ -39,12 +39,12 @@
 @end
 
 @interface EncodingTestSignatureController : NSObject<SignatureController> {
-    long t;
+    uint64_t t;
 }
 @end
     
 @interface EncodingTestEncryptionController : NSObject<EncryptionController> {
-    long t;
+    uint64_t t;
 }
 @end
 

@@ -65,7 +65,7 @@
     return hid.temporalFrame == 0;
 }
 
-- (long)signingTimeForIdentity:(IBEncryptionIdentity *)hid {
+- (uint64_t)signingTimeForIdentity:(IBEncryptionIdentity *)hid {
     return t++;
 }
 
@@ -77,7 +77,7 @@
     return hid.temporalFrame == 0;
 }
 
-- (long)encryptionTimeForIdentity:(IBEncryptionIdentity *)hid {
+- (uint64_t)encryptionTimeForIdentity:(IBEncryptionIdentity *)hid {
     return t++; 
 }
 
@@ -163,7 +163,7 @@
     IBEncryptionIdentity* me = [self randomIdentity];
     
     STAssertTrue([[me hashed] length] == 32, @"Hash is not 32 bytes");
-    STAssertTrue([[me key] length] == 32 + sizeof(int) + sizeof(long), @"Key is of wrong length");
+    STAssertTrue([[me key] length] == 32 + 1 + 8, @"Key is of wrong length");
     
     IBEncryptionScheme* encryptionScheme = [[IBEncryptionScheme alloc] init];
     IBSignatureScheme* signatureScheme = [[IBSignatureScheme alloc] init];

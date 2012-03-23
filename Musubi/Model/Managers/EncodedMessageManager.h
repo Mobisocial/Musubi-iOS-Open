@@ -30,5 +30,5 @@
 
 - (id) initWithStore: (PersistentModelStore*) s;
 - (MEncodedMessage*) lookupById: (uint32_t) i;
-
+- (NSArray*) unsentOutboundMessages;
 @end
