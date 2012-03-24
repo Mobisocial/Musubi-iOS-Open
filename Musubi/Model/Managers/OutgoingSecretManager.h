@@ -25,7 +25,8 @@
 
 #import <Foundation/Foundation.h>
 #import "EntityManager.h"
-#import "MOutgoingSecret.h"
+
+@class MOutgoingSecret, MIdentity;
 
 @interface OutgoingSecretManager : EntityManager {
 }

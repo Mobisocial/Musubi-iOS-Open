@@ -16,22 +16,21 @@
 
 
 //
-//  ObjEncoder.h
+//  MFeedApp.m
 //  Musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by Willem Bult on 3/23/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "MFeedApp.h"
+#import "MApp.h"
+#import "MFeed.h"
 
-@class PreparedObj, MObj, MFeed, MApp, MDevice, MIdentity;
 
-@interface ObjEncoder : NSObject
+@implementation MFeedApp
 
-+ (PreparedObj*) prepareObj: (MObj*)obj forFeed: (MFeed*) feed andApp: (MApp*) app;
-+ (NSData*) encodeObj: (PreparedObj*) obj;
-+ (PreparedObj*) decodeObj: (NSData*) data;
-+ (NSData*) computeUniversalHashFor: (NSData*) hash from: (MIdentity*) from onDevice: (MDevice*) device;
+@dynamic feed;
+@dynamic app;
 
 @end

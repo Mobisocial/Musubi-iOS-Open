@@ -24,11 +24,24 @@
 //
 
 #import "MessageDecoder.h"
-#import "BSONEncoder.h"
-#import "Message.h"
-#import "PersistentModelStore.h"
 #import "NSData+Crypto.h"
 #import "NSData+Base64.h"
+#import "Musubi.h"
+
+#import "BSONEncoder.h"
+#import "PersistentModelStore.h"
+#import "MIncomingSecret.h"
+#import "MIdentity.h"
+#import "MDevice.h"
+#import "MEncodedMessage.h"
+
+#import "IncomingMessage.h"
+
+#import "IBEncryptionScheme.h"
+#import "Sender.h"
+#import "Recipient.h"
+#import "Message.h"
+#import "Secret.h"
 
 @implementation MessageDecoder
 
@@ -63,11 +76,11 @@
 
 - (void) checkDuplicateFromDevice: (MDevice*) from withRawHash: (NSData*) hash {
     if ([transportDataProvider haveHash: hash]) {
-        @throw [NSException exceptionWithName:@"Duplicate" reason:[NSString stringWithFormat:@"Duplicate message from device %@", from] userInfo:nil];
+        @throw [NSException exceptionWithName:kMusubiExceptionDuplicateMessage reason:[NSString stringWithFormat:@"Duplicate message from device %@", from] userInfo:[NSDictionary dictionaryWithObjectsAndKeys:from, @"from", nil]];
     }
     
     /*else {
-        @throw [NSException exceptionWithName:@"Collision" reason:[NSString stringWithFormat:@"Collision message from device %lld", from.id] userInfo:nil];
+        @throw [NSException exceptionWithName:kMusubiExceptionCollission reason:[NSString stringWithFormat:@"Collision message from device %lld", from.id] userInfo:nil];
     }*/
 }
 
@@ -82,7 +95,7 @@
     if(is != nil)
         return is;
     
-    is = [[transportDataProvider store] createIncomingSecret];
+    is = (MIncomingSecret*)[[transportDataProvider store] createEntity:@"IncomingSecret"];
     [is setMyIdentity: to];
     [is setOtherIdentity: from];
     [is setDevice: device];
@@ -98,16 +111,14 @@
     NSData* hash = [self computeSignatureWithKey:is.encryptedKey andDeviceId:device.deviceName];
     
     if (![signatureScheme verifySignature:is.signature forHash:hash withIdentity:sid]) {
-        @throw [NSException exceptionWithName:@"Bad signature" reason:@"Message failed to have a valid signature for my recipient key" userInfo:nil];
+        @throw [NSException exceptionWithName:kMusubiExceptionBadSignature reason:@"Message failed to have a valid signature for my recipient key" userInfo:nil];
     }
     
     [transportDataProvider insertIncomingSecret:is otherIdentity:sid myIdentity:meTimed];
     return is;
 }
 
-- (void) checkSignatureForData: (NSData*) data againstExpected: (NSData*) expected withApp: (NSData*) app blind: (BOOL) blind forRecipients: (NSArray*) rs {
-    NSData* hash = [data sha256Digest];
-    
+- (void) checkSignatureForHash: (NSData*) hash withApp: (NSData*) app blind: (BOOL) blind forRecipients: (NSArray*) rs againstExpected: (NSData*) expected  {
     NSMutableData* sigData = [NSMutableData dataWithData: hash];
     [sigData appendData:app];
     [sigData appendBytes:&blind length: sizeof(blind)];
@@ -120,7 +131,7 @@
     NSData* signature = [sigData sha256Digest];
     
     if (![signature isEqualToData:expected]) {
-        @throw [NSException exceptionWithName:@"Bad signature" reason:[NSString stringWithFormat: @"Signature mismatch for data, was %@ should be %@", [hash encodeBase64], [expected encodeBase64]] userInfo:nil];
+        @throw [NSException exceptionWithName:kMusubiExceptionBadSignature reason:[NSString stringWithFormat: @"Signature mismatch for data, was %@ should be %@", [hash encodeBase64], [expected encodeBase64]] userInfo:nil];
     }
 }
 
@@ -129,17 +140,16 @@
     Message* m = [BSONEncoder decodeMessage: encoded.encoded];
     
     // Find my recipient data from the list of recipients in the message
-    Recipient* me = nil;
+    NSMutableArray* mine = [NSMutableArray array];
     for (Recipient* r in m.r) {
         IBEncryptionIdentity* ident = [[[IBEncryptionIdentity alloc] initWithKey:r.i] autorelease];
         if ([transportDataProvider isMe:ident]) {
-            me = r;
-            break;
+            [mine addObject: r];
         }
     }
     
-    if(me == nil)
-        @throw [NSException exceptionWithName:@"Recipient mismatch" reason:@"Couldn't find a recipient that matches me" userInfo:nil];
+    if (mine.count == 0)
+        @throw [NSException exceptionWithName:kMusubiExceptionRecipientMismatch reason:@"Couldn't find a recipient that matches me" userInfo:nil];
     
     // This will add all of the relevant identities and devices to the tables
     
@@ -150,29 +160,65 @@
     
     [im setFromIdentity: [self addIdentityWithKey:m.s.i]];
     if ([transportDataProvider isBlackListed:[im fromIdentity]]) {
-        @throw [NSException exceptionWithName:@"Blacklisted" reason:[NSString stringWithFormat: @"Received message from blacklisted identity: %@", im.fromIdentity] userInfo:nil];
+        @throw [NSException exceptionWithName:kMusubiExceptionSenderBlacklisted reason:[NSString stringWithFormat: @"Received message from blacklisted identity: %@", im.fromIdentity] userInfo:nil];
     }
+    
+    [im setFromDevice: [self addDevice:im.fromIdentity withId:m.s.d]];
+    [self checkDuplicateFromDevice:im.fromDevice withRawHash:[encoded.encoded sha256Digest]];
+    
     
     [im setApp: m.a];
     [im setBlind: m.l];
-    [im setPersona: [self addIdentityWithKey:me.i]];
-    [im setFromDevice: [self addDevice:im.fromIdentity withId:m.s.d]];
-    [im setRecipients: rcpts];
+        
+    NSMutableArray* personas = [NSMutableArray array];
+    for (Recipient* me in mine) {
+        [personas addObject: [self addIdentityWithKey: me.i]];
+    }
+    [im setPersonas: personas];
     
-    // Check the secret if it is actually added
-    MIncomingSecret* inSecret = [self addIncomingSecretFrom:im.fromIdentity atDevice:im.fromDevice to:im.persona sender:m.s recipient:me];
-    NSData* rcptSecret = [me.d decryptWithAES128CBCZeroPaddedWithKey:inSecret.key andIV:m.i];
-    Secret* secret = [BSONEncoder decodeSecret: rcptSecret];
-    
-    [im setHash: secret.h];
-    [im setSequenceNumber: secret.q];
-    NSLog(@"Checking duplicate for message with message hash:\n%@\nand hash:\n%@", [encoded messageHash], [encoded.encoded sha256Digest]);
-    [self checkDuplicateFromDevice:im.fromDevice withRawHash:[encoded.encoded sha256Digest]];
-    [im setData: [m.d decryptWithAES128CBCPKCS7WithKey:secret.k andIV:m.i]];
-    
-    [self checkSignatureForData:im.data againstExpected:im.hash withApp:im.app blind:im.blind forRecipients:m.r];
-    //updateMissingMessages(im.fromDevice_, secret.q);
-    
+    if (im.blind) {
+        [im setRecipients:personas];
+    } else {
+        NSMutableArray* recipients = [NSMutableArray array];
+        for (Recipient* r in m.r) {
+            IBEncryptionIdentity* hid = [[IBEncryptionIdentity alloc] initWithKey:r.i];
+            
+            // Don't accept messages from clients that erroneously include
+            // a local user in the group
+            if (hid.authority == kIdentityTypeLocal) {
+                @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:@"Can't be local here" userInfo:nil];
+            }
+            
+            [recipients addObject: [transportDataProvider addUnclaimedIdentity: hid]];
+        }
+        [im setRecipients: recipients];
+    }
+        
+    for(int i = 0; i < im.personas.count; ++i) {
+        Recipient* me = [mine objectAtIndex:i];
+        MIdentity* persona = [im.personas objectAtIndex:i];
+        
+        //checks the secret if it is actually added
+        MIncomingSecret* inSecret = [self addIncomingSecretFrom:im.fromIdentity atDevice:im.fromDevice to:persona sender:m.s recipient:me];
+        
+        NSData* rcptSecret = [me.d decryptWithAES128CBCZeroPaddedWithKey:inSecret.key andIV:m.i];
+        Secret* secret = [BSONEncoder decodeSecret: rcptSecret];
+        
+        [im setSequenceNumber: secret.q];
+        
+        //This makes it so that we only compute
+        //the data and the hash once per message
+        if (im.data == nil) {
+            [im setData: [m.d decryptWithAES128CBCPKCS7WithKey:secret.k andIV:m.i]];
+        }
+        if (im.hash == nil) {
+            [im setHash: [im.data sha256Digest]];
+        }
+        
+        [self checkSignatureForHash:im.hash withApp:im.app blind:im.blind forRecipients:m.r againstExpected:secret.h];
+        //updateMissingMessages(im.fromDevice_, secret.q);
+    }
+        
     [encoded setFromDevice: im.fromDevice];
     [encoded setFromIdentity: im.fromIdentity];
     [encoded setMessageHash: im.hash];

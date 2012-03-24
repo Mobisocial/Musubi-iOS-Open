@@ -24,6 +24,7 @@
 //
 
 #import "OutgoingSecretManager.h"
+#import "MOutgoingSecret.h"
 
 @implementation OutgoingSecretManager
 

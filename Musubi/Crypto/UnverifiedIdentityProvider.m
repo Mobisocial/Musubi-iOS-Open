@@ -24,12 +24,13 @@
 //
 
 #import "UnverifiedIdentityProvider.h"
+#import "IBEncryptionScheme.h"
 
 @implementation UnverifiedIdentityProvider
 
 @synthesize encryptionScheme,signatureScheme;
 
-- (IBEncryptionUserKey *)signatureKeyForIdentity:(IBEncryptionIdentity *)ident {
+- (IBSignatureUserKey *)signatureKeyForIdentity:(IBEncryptionIdentity *)ident {
     return [signatureScheme userKeyWithIdentity:ident];
 }
 

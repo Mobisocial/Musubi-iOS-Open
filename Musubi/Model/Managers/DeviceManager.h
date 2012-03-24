@@ -26,11 +26,13 @@
 #import <Foundation/Foundation.h>
 #import "EntityManager.h"
 
+@class MDevice, MIdentity;
+
 @interface DeviceManager : EntityManager {
 }
 
 - (id) initWithStore: (PersistentModelStore*) s;
 - (uint64_t) localDeviceName;
 - (MDevice*) deviceForName: (uint64_t) name andIdentity: (MIdentity*) mId;
-- (MDevice*) localDevice;
+
 @end

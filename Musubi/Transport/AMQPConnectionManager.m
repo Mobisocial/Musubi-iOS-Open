@@ -24,6 +24,12 @@
 //
 
 #import "AMQPConnectionManager.h"
+#import "MEncodedMessage.h"
+#import "BSONEncoder.h"
+#import "IBEncryptionScheme.h"
+#import "Recipient.h"
+#import "MIdentity.h"
+#import "PersistentModelStore.h"
 
 @implementation AMQPConnectionManager
 
@@ -44,7 +50,7 @@
         [connLock unlock];
         NSString* reason = [self amqpErrorMessageFor: amqp_get_rpc_reply(conn) inContext: context];
         //NSLog(@"AMQP Exception: %@", reason);
-        @throw [NSException exceptionWithName:@"AMQPException" reason: reason userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: reason userInfo: nil];
     }
 }
 
@@ -160,7 +166,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     amqp_channel_open(conn, ++last_channel);
@@ -174,7 +180,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     amqp_channel_close(conn, channel, AMQP_REPLY_SUCCESS);
@@ -186,7 +192,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     const char* name = [queue cStringUsingEncoding:NSUTF8StringEncoding];
@@ -204,7 +210,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     const char* name = [queue cStringUsingEncoding:NSUTF8StringEncoding];
@@ -218,7 +224,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     const char* name = [exchange cStringUsingEncoding:NSUTF8StringEncoding];
@@ -235,7 +241,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     const char* queueName = [queue cStringUsingEncoding:NSUTF8StringEncoding];
@@ -250,7 +256,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     const char* queueName = [queue cStringUsingEncoding:NSUTF8StringEncoding];
@@ -265,7 +271,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     const char* destName = [dest cStringUsingEncoding:NSUTF8StringEncoding];
@@ -280,7 +286,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     // Consume from the queue
@@ -296,7 +302,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     if (amqp_frames_enqueued(conn) == 0 && amqp_data_in_buffer(conn) == 0) {
@@ -331,7 +337,7 @@
         result = amqp_simple_wait_frame(conn, &frame);
         
         if (result < 0) {
-            @throw [NSException exceptionWithName:@"AMQPException" reason:@"Got error waiting for frame" userInfo:nil];
+            @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Got error waiting for frame" userInfo:nil];
         }
         
         if (frame.frame_type != AMQP_FRAME_METHOD) {
@@ -348,11 +354,11 @@
         
         result = amqp_simple_wait_frame(conn, &frame);
         if (result < 0) {
-            @throw [NSException exceptionWithName:@"AMQPException" reason:@"Got error waiting for frame" userInfo:nil];
+            @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Got error waiting for frame" userInfo:nil];
         }
         
         if (frame.frame_type != AMQP_FRAME_HEADER) {
-            @throw [NSException exceptionWithName:@"AMQPException" reason:@"Expected frame header but got something else" userInfo:nil];
+            @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Expected frame header but got something else" userInfo:nil];
         }
         
         body_target = frame.payload.properties.body_size;
@@ -363,11 +369,11 @@
         while (body_received < body_target) {
             result = amqp_simple_wait_frame(conn, &frame);
             if (result < 0) {
-                @throw [NSException exceptionWithName:@"AMQPException" reason:@"Got error waiting for frame" userInfo:nil];
+                @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Got error waiting for frame" userInfo:nil];
             }
             
             if (frame.frame_type != AMQP_FRAME_BODY) {
-                @throw [NSException exceptionWithName:@"AMQPException" reason:@"Expected body" userInfo:nil];
+                @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Expected body" userInfo:nil];
             }
             
             body_received += frame.payload.body_fragment.len;
@@ -389,7 +395,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     const char* destName = [dest cStringUsingEncoding:NSUTF8StringEncoding];
@@ -401,7 +407,7 @@
     
     int result = amqp_basic_publish(conn, channel, amqp_cstring_bytes(destName), amqp_cstring_bytes(""), 1, 0, NULL, message);
     if (result > 0) {
-        @throw [NSException exceptionWithName:@"AMQPException" reason:@"Error while publishing" userInfo:nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Error while publishing" userInfo:nil];
     }
     
     sequenceNumber++;
@@ -413,7 +419,7 @@
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
-        @throw [NSException exceptionWithName:@"AMQPException" reason: @"Connection not ready" userInfo: nil];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
     amqp_basic_ack(conn, channel, deliveryTag, FALSE);

@@ -116,14 +116,14 @@
 
 - (IBSignatureUserKey *)signatureKeyFrom:(MIdentity *)from myIdentity:(IBEncryptionIdentity *)me {
     if (![self.signatureController hasSignatureKey:me])
-        @throw [NSException exceptionWithName:@"Missing Signature Key" reason:@"Signature key not found for identity" userInfo:nil];
+        @throw [NSException exceptionWithName:kMusubiExceptionNeedSignatureUserKey reason:@"Signature key not found for identity" userInfo:nil];
     
     return [self.signatureScheme userKeyWithIdentity:me];
 }
 
 - (IBEncryptionUserKey *)encryptionKeyTo:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me {
     if (![self.encryptionController hasEncryptionKey:me])
-        @throw [NSException exceptionWithName:@"Missing Encryption Key" reason:@"Encryption key not found for identity" userInfo:nil];
+        @throw [NSException exceptionWithName:kMusubiExceptionNeedEncryptionUserKey reason:@"Encryption key not found for identity" userInfo:nil];
     
     return [self.encryptionScheme userKeyWithIdentity:me];
 }

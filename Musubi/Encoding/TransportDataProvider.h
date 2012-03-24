@@ -24,15 +24,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MIdentity.h"
-#import "MDevice.h"
-#import "MIncomingSecret.h"
-#import "MOutgoingSecret.h"
-#import "MEncodedMessage.h"
-#import "IncomingMessage.h"
-#import "OutgoingMessage.h"
-#import "IBEncryptionScheme.h"
-#import "PersistentModelStore.h"
+
+@class IBEncryptionScheme, IBSignatureScheme, IBEncryptionUserKey, IBSignatureUserKey, IBEncryptionIdentity;
+@class PersistentModelStore, MIdentity, MOutgoingSecret, MIncomingSecret, MDevice, MEncodedMessage, OutgoingMessage;
 
 @protocol TransportDataProvider
 

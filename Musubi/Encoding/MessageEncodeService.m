@@ -24,18 +24,28 @@
 //
 
 #import "MessageEncodeService.h"
-#import "MObj.h"
-#import "OutgoingMessage.h"
-#import "FeedManager.h"
-#import "ObjEncoder.h"
-#import "BSONEncoder.h"
+
 #import "NSData+Crypto.h"
-#import "DeviceManager.h"
-#import "MessageEncoder.h"
-#import "TransportManager.h"
-#import "AphidIdentityProvider.h"
+
 #import "Musubi.h"
+
+#import "PersistentModelStore.h"
+#import "DeviceManager.h"
+#import "TransportManager.h"
 #import "SignatureUserKeyManager.h"
+#import "IBEncryptionScheme.h"
+
+#import "MObj.h"
+#import "MFeed.h"
+#import "MDevice.h"
+#import "MIdentity.h"
+#import "MApp.h"
+#import "MFeedMember.h"
+#import "MSignatureUserKey.h"
+
+#import "MessageEncoder.h"
+#import "ObjEncoder.h"
+#import "OutgoingMessage.h"
 
 #define kSmallProcessorCutOff 20
 
@@ -48,9 +58,6 @@
     if (self) {
         [self setStoreFactory:sf];
         [self setIdentityProvider: ip];
-        
-        // Store to use on this thread
-        //[self setStore: [sf newStore]];
         
         // List of objs pending encoding
         [self setPending: [NSMutableArray arrayWithCapacity:10]];
@@ -68,23 +75,9 @@
     
     return self;
 }
-/*
-- (MessageEncodeThread*) threadForObj: (MObj*) o {
-    
-    NSArray* members = [store query:[NSPredicate predicateWithFormat:@"feed = %@", o.feed] onEntity:@"FeedMember"];
-    if (members.count > kSmallProcessorCutOff) {
-        return [threads objectAtIndex:0];
-    } else {
-        return [threads objectAtIndex:1];
-    }
-}
 
-- (NSArray*) objsToEncode {
-    return [store query:[NSPredicate predicateWithFormat:@"encoded = %@", nil] onEntity:@"Obj"];
-}
-*/
 - (void) process {
-    NSLog(@"Processing messages!");
+    // This is called on some background thread (through notificationCenter), so we need a new store
     PersistentModelStore* store = [storeFactory newStore];
     
     for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(encoded == nil)"] onEntity:@"Obj"]) {
@@ -99,8 +92,6 @@
         } else {
             [pending addObject: obj.objectID];
         }
-        
-        NSLog(@"Encoding %@", obj);
 
         // Find the thread to run this on
         MessageEncodeThread* thread = nil;
@@ -114,7 +105,10 @@
         [thread.queue insertObject: [[MessageEncodeOperation alloc] initWithObjId:obj.objectID onThread:thread] atIndex:0]; 
     }
     
-    NSLog(@"Done processing");
+    // At the end, notify everybody
+    for (MessageEncodeThread* thread in threads) {
+        [thread.queue insertObject: [[MessageEncodedNotifyOperation alloc] init] atIndex:0]; 
+    }
 }
 
 @end
@@ -141,8 +135,6 @@
     NSLog(@"MessageEncodeThread: Setting up");
     
     // Have to create these in main to be on the running thread
-//    [self setIdentityProvider: [[AphidIdentityProvider alloc] init]];
-
     [self setStore: [service.storeFactory newStore]];
     [self setDeviceManager: [[DeviceManager alloc] initWithStore: store]];
     [self setTransportManager: [[TransportManager alloc] initWithStore:store encryptionScheme: service.identityProvider.encryptionScheme signatureScheme:service.identityProvider.signatureScheme deviceName:[deviceManager localDeviceName]]];
@@ -222,11 +214,10 @@
         [recipients addObject: fm.identity];
     }
     
-    // Create the OutgoingMessage
-    ObjEncoder* objEncoder = [[[ObjEncoder alloc] init] autorelease];
-    
+    // Create the OutgoingMessage    
     OutgoingMessage* om = [[OutgoingMessage alloc] init];
-    PreparedObj* outbound = [objEncoder prepareObj:obj forFeed:feed andApp:app];
+    PreparedObj* outbound = [ObjEncoder prepareObj:obj forFeed:feed andApp:app];
+    NSLog(@"Prepared obj: %@", outbound);
     
     if (feed.type == kFeedTypeAsymmetric || feed.type == kFeedTypeOneTimeUse) {
         // When broadcasting a message to all friends, don't
@@ -234,7 +225,7 @@
         [om setBlind: YES];
     }
     
-    [om setData: [objEncoder encodeObj:outbound]];
+    [om setData: [ObjEncoder encodeObj:outbound]];
     [om setFromIdentity: sender];
     // TODO: insert actual app id here
     [om setApp: [[@"musubi.mobisocial.stanford.edu" dataUsingEncoding:NSUTF8StringEncoding] sha256Digest]];
@@ -262,7 +253,7 @@
     MDevice* device = obj.device;
     assert (device.deviceName == [thread.deviceManager localDeviceName]);
     
-    [obj setUniversalHash: [objEncoder computeUniversalHashFor:om.hash from:sender onDevice:device]];
+    [obj setUniversalHash: [ObjEncoder computeUniversalHashFor:om.hash from:sender onDevice:device]];
     [obj setShortUniversalHash: CFSwapInt64BigToHost(*(uint64_t*)obj.universalHash)];
     
     

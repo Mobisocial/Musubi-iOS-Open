@@ -35,5 +35,6 @@
 @dynamic numUnread;
 @dynamic name;
 @dynamic accepted;
+@dynamic knownId;
 
 @end

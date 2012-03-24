@@ -26,6 +26,8 @@
 #import <Foundation/Foundation.h>
 #import "EntityManager.h"
 
+@class MEncodedMessage;
+
 @interface EncodedMessageManager : EntityManager 
 
 - (id) initWithStore: (PersistentModelStore*) s;

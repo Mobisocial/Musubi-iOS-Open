@@ -24,16 +24,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IBEncryptionScheme.h"
-#import "PersistentModelStore.h"
-#import "IdentityManager.h"
 #import "TransportDataProvider.h"
-#import "SignatureUserKeyManager.h"
-#import "EncryptionUserKeyManager.h"
-#import "OutgoingSecretManager.h"
-#import "MMissingMessage.h"
-#import "MSequenceNumber.h"
-#import "MIdentity.h"
+
+@class PersistentModelStore, IBEncryptionScheme, IBSignatureScheme;
+@class IdentityManager, EncryptionUserKeyManager, SignatureUserKeyManager;
 
 @interface TransportManager : NSObject<TransportDataProvider> {
     PersistentModelStore* store;

@@ -24,9 +24,21 @@
 //
 
 #import "AMQPSender.h"
+#import "AMQPConnectionManager.h"
 #import "NSData+Base64.h"
+
+#import "Musubi.h"
+#import "IBEncryptionScheme.h"
+
+#import "PersistentModelStore.h"
 #import "FeedManager.h"
 #import "EncodedMessageManager.h"
+#import "MEncodedMessage.h"
+#import "MIdentity.h"
+
+#import "BSONEncoder.h"
+#import "Message.h"
+#import "Recipient.h"
 
 @implementation AMQPSender
 
@@ -92,7 +104,7 @@
         IBEncryptionIdentity* ident = [[[[IBEncryptionIdentity alloc] initWithKey:((Recipient*)[m.r objectAtIndex:i]).i] autorelease] keyAtTemporalFrame:0];
         [hidForQueue addObject: ident];
         
-        MIdentity* mIdent = [threadStore createIdentity];
+        MIdentity* mIdent = (MIdentity*)[threadStore createEntity:@"Identity"];
         [mIdent setPrincipalHash:[ident hashed]];
         [mIdent setType: [ident authority]];
         [threadStore save];
@@ -151,7 +163,7 @@
     if (ack) {
         MEncodedMessage* msg = [waitingForAck objectForKey:key];
         if (msg == nil) {
-            @throw [NSException exceptionWithName:@"Message not found" reason:@"No message for delivery tag" userInfo:nil];
+            @throw [NSException exceptionWithName:kMusubiExceptionNotFound reason:@"No message for delivery tag" userInfo:nil];
         }
         
         assert (msg.outbound);

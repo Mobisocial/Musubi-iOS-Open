@@ -24,9 +24,8 @@
 //
 
 #import "EntityManager.h"
-#import "MObj.h"
-#import "MFeed.h"
-#import "Obj.h"
+
+@class MObj, MFeed, Obj;
 
 @interface ObjManager : EntityManager
 

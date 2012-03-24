@@ -16,26 +16,28 @@
 
 
 //
-//  MessageEncodeService.h
+//  MessageDecodeService.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by Willem Bult on 3/23/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+
 #import "IdentityProvider.h"
 
-@class MessageEncoder;
-@class PersistentModelStoreFactory, PersistentModelStore, DeviceManager, IdentityManager, TransportManager;
+@class PersistentModelStoreFactory, PersistentModelStore;
+@class FeedManager, DeviceManager, TransportManager, AccountManager, AppManager, IdentityManager;
+@class MessageDecoder;
 
-@interface MessageEncodeService : NSObject {
+@interface MessageDecodeService : NSObject {
     //PersistentModelStore* store;
     PersistentModelStoreFactory* storeFactory;
     id<IdentityProvider> identityProvider;
     
-    NSArray* threads;
+    NSThread* thread;
     
     NSMutableArray* pending;
 }
@@ -45,62 +47,72 @@
 @property (nonatomic, retain) id<IdentityProvider> identityProvider;
 
 // List of operation threads
-@property (nonatomic, retain) NSArray* threads;
+@property (nonatomic, retain) NSThread* thread;
 
 // List of objs that are pending processing
 @property (atomic, retain) NSMutableArray* pending;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) sf andIdentityProvider: (id<IdentityProvider>) ip;
 
+
 @end
 
-@interface MessageEncodeThread : NSThread {
-    MessageEncodeService* service;
+@interface MessageDecodeThread : NSThread {
+    MessageDecodeService* service;
     
     PersistentModelStore* store;
     DeviceManager* deviceManager;
     IdentityManager* identityManager;
     TransportManager* transportManager;
-    MessageEncoder* encoder;
+    FeedManager* feedManager;
+    AccountManager* accountManager;
+    AppManager* appManager;
+    MessageDecoder* decoder;
     
-   // id<IdentityProvider> identityProvider;
-//    NSOperationQueue* queue;
+    // id<IdentityProvider> identityProvider;
+    //    NSOperationQueue* queue;
     NSMutableArray* queue;
 }
 
-@property (nonatomic, retain) MessageEncodeService* service;
+@property (nonatomic, retain) MessageDecodeService* service;
 //@property (nonatomic, retain) NSOperationQueue* queue;
 @property (nonatomic, retain) NSMutableArray* queue;
 
-@property (nonatomic, retain) MessageEncoder* encoder;
+@property (nonatomic, retain) MessageDecoder* decoder;
 //@property (nonatomic, retain) id<IdentityProvider> identityProvider;
 
 @property (nonatomic, retain) PersistentModelStore* store;
 @property (nonatomic, retain) DeviceManager* deviceManager;
 @property (nonatomic, retain) IdentityManager* identityManager;
 @property (nonatomic, retain) TransportManager* transportManager;
+@property (nonatomic, retain) FeedManager* feedManager;
+@property (nonatomic, retain) AccountManager* accountManager;
+@property (nonatomic, retain) AppManager* appManager;
 
-- (id) initWithService: (MessageEncodeService*) service;
+- (id) initWithService: (MessageDecodeService*) service;
 
 @end
 
-@interface MessageEncodedNotifyOperation : NSOperation {
+@interface MessageDecodedNotifyOperation : NSOperation {
 }
 
 @end
 
 
-@interface MessageEncodeOperation : NSOperation {
+@interface MessageDecodeOperation : NSOperation {
     // ManagedObject is not thread-safe, ObjectID is
-    NSManagedObjectID* objId;
-    MessageEncodeThread* thread;
+    NSManagedObjectID* messageId;
+    MessageDecodeThread* thread;
+    NSMutableArray* dirtyFeeds;
     BOOL success;
 }
 
-@property (nonatomic, retain) NSManagedObjectID* objId;
-@property (nonatomic, retain) MessageEncodeThread* thread;
+@property (nonatomic, retain) NSManagedObjectID* messageId;
+@property (nonatomic, retain) MessageDecodeThread* thread;
+@property (nonatomic, retain) NSMutableArray* dirtyFeeds;
+@property (nonatomic, assign) BOOL shouldRunProfilePush;
 @property (nonatomic, assign) BOOL success;
 
-- (id) initWithObjId: (NSManagedObjectID*) oId onThread: (MessageEncodeThread*) thread;
+- (id) initWithMessageId: (NSManagedObjectID*) msgId onThread: (MessageDecodeThread*) thread;
 
 @end

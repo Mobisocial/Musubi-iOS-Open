@@ -24,6 +24,7 @@
 //
 
 #import "EntityManager.h"
+#import "PersistentModelStore.h"
 
 @implementation EntityManager
 

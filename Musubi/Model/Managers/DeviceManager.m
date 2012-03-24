@@ -24,6 +24,8 @@
 //
 
 #import "DeviceManager.h"
+#import "PersistentModelStore.h"
+#import "MDevice.h"
 
 @implementation DeviceManager
 

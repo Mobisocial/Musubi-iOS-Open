@@ -24,12 +24,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PersistentModelStore.h"
-#import "MEncodedMessage.h"
-#import "MOutgoingSecret.h"
-#import "OutgoingMessage.h"
 #import "TransportDataProvider.h"
 
+@class IBEncryptionScheme, IBSignatureScheme, MEncodedMessage, MOutgoingSecret;
 
 @interface MessageEncoder : NSObject {
     id<TransportDataProvider> transportDataProvider;

@@ -25,11 +25,6 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "MIdentity.h"
-#import "MDevice.h"
-#import "MEncodedMessage.h"
-#import "MIncomingSecret.h"
-#import "MOutgoingSecret.h"
 
 @interface PersistentModelStore : NSObject {
     NSManagedObjectContext* context;
@@ -44,12 +39,6 @@
 - (NSManagedObject *)createEntity: (NSString*) entityName;
 
 - (void) save;
-
-- (MIdentity*) createIdentity;
-- (MDevice*) createDevice;
-- (MEncodedMessage*) createEncodedMessage;
-- (MIncomingSecret*) createIncomingSecret;
-- (MOutgoingSecret*) createOutgoingSecret;
 
 @end
 

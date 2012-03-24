@@ -24,6 +24,10 @@
 //
 
 #import "SignatureUserKeyManager.h"
+#import "Musubi.h"
+#import "IBEncryptionScheme.h"
+#import "PersistentModelStore.h"
+#import "MSignatureUserKey.h"
 
 @implementation SignatureUserKeyManager
 
@@ -40,7 +44,7 @@
 }
 
 - (void)createSignatureUserKey:(MSignatureUserKey *)signatureKey {
-    [[store context] save:NULL];
+    [store save];
 }
 
 - (IBSignatureUserKey *)signatureKeyFrom:(MIdentity *)from me:(IBEncryptionIdentity *)me {
@@ -53,7 +57,7 @@
 }
 
 - (void)updateSignatureUserKey:(MSignatureUserKey *)signatureKey {
-    [[store context] save:NULL];
+    [store save];
 }
 
 @end

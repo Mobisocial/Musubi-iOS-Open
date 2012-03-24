@@ -24,13 +24,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MObj.h"
+
+@class MObj;
 
 @interface PreparedObj : NSObject {
     int feedType;
     NSData* feedCapability;
     NSString* appId;
-    long timestamp;
+    uint64_t timestamp;
     NSString* type;
     NSString* jsonSrc;
     NSData* raw;
@@ -39,11 +40,11 @@
 @property (nonatomic, assign) int feedType;
 @property (nonatomic, retain) NSData* feedCapability;
 @property (nonatomic, retain) NSString* appId;
-@property (nonatomic, assign) long timestamp;
+@property (nonatomic, assign) uint64_t timestamp;
 @property (nonatomic, retain) NSString* type;
 @property (nonatomic, retain) NSString* jsonSrc;
 @property (nonatomic, retain) NSData* raw;
 
-- (id) initWithFeedType: (int) ft feedCapability: (NSData*) fc appId: (NSString*) aId timestamp: (long) ts data: (MObj*) obj;
+- (id) initWithFeedType: (int) ft feedCapability: (NSData*) fc appId: (NSString*) aId timestamp: (uint64_t) ts data: (MObj*) obj;
 
 @end

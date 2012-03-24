@@ -23,12 +23,17 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "IdentityManager.h"
 #include <openssl/bn.h>
 #import "NSData+Crypto.h"
+
+#import "IBEncryptionScheme.h"
+
+#import "PersistentModelStore.h"
+#import "IdentityManager.h"
 #import "FeedManager.h"
 #import "AccountManager.h"
 #import "MAccount.h"
+#import "MIdentity.h"
 
 @implementation IdentityManager
 
@@ -45,18 +50,18 @@
     assert(ident.principalHash != nil && *(uint64_t*)ident.principalHash.bytes == ident.principalShortHash);
     
     // TOOD: synchronize code
-    [ident setUpdatedAt: [[NSDate date] timeIntervalSinceReferenceDate]];
-    [[store context] save:NULL];
+    [ident setUpdatedAt: [NSDate date]];
+    [store save];
 }
 
 - (void) createIdentity:(MIdentity *)ident {
     assert(ident.principalHash != nil && *(uint64_t*)ident.principalHash.bytes == ident.principalShortHash);
     
 	// TOOD: synchronize code
-    [ident setCreatedAt: [[NSDate date] timeIntervalSinceReferenceDate]];
-    [ident setUpdatedAt: [[NSDate date] timeIntervalSinceReferenceDate]];
+    [ident setCreatedAt: [NSDate date]];
+    [ident setUpdatedAt: [NSDate date]];
     
-    [[store context] save:NULL];
+    [store save];
 }
 
 - (NSArray *)ownedIdentities {

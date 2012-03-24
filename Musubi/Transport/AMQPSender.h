@@ -26,6 +26,8 @@
 #import <Foundation/Foundation.h>
 #import "AMQPThread.h"
 
+@class MEncodedMessage;
+
 @interface AMQPSender : AMQPThread {
     NSMutableArray* declaredGroups;
     NSMutableDictionary* waitingForAck;

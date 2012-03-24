@@ -27,6 +27,6 @@
 
 @implementation IncomingMessage
 
-@synthesize persona, fromIdentity, fromDevice, recipients, hash, data, sequenceNumber, blind, app;
+@synthesize personas, fromIdentity, fromDevice, recipients, hash, data, sequenceNumber, blind, app;
 
 @end

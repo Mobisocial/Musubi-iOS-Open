@@ -25,14 +25,9 @@
 
 #import <Foundation/Foundation.h>
 #import "EntityManager.h"
-#import "IdentityManager.h"
-#import "DeviceManager.h"
-#import "MFeed.h"
-#import "MObj.h"
-#import "MFeedMember.h"
-#import "MIdentity.h"
-#import "Obj.h"
-#import "SBJSON.h"
+
+@class PersistentModelStore, MFeed, MApp, MIdentity, MObj;
+@class Obj;
 
 @interface FeedManager : EntityManager {
 }
@@ -40,13 +35,19 @@
 - (id) initWithStore: (PersistentModelStore*) s;
 
 - (MFeed*) createExpandingFeedWithParticipants: (NSArray*) participants;
+- (void) attachMember: (MIdentity*) mId toFeed: (MFeed*) feed;
 - (void) attachMembers: (NSArray*) participants toFeed: (MFeed*) feed;
+- (void) attachApp: (MApp*) app toFeed: (MFeed*) feed;
 - (int) countIdentitiesFrom: (NSArray*) participants inFeed: (MFeed*) feed;
 
-- (MObj*)sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app;
+- (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app;
 
 - (BOOL) app: (MApp*) app isAllowedInFeed:(MFeed*) feed;
 - (MIdentity*) ownedIdentityForFeed: (MFeed*) feed;
+- (NSArray *)identitiesInFeed: (MFeed*) feed;
+
+- (MFeed*) global;
+- (MFeed*) feedWithType:(uint16_t)type andCapability:(NSData *)capability;
 
 + (NSData*) fixedIdentifierForIdentities: (NSArray*) identities;
 + (BOOL) hasOwnedIdentity: (NSArray*) participants;

@@ -24,7 +24,10 @@
 //
 
 #import "AMQPThread.h"
+
 #import "NSData+Base64.h"
+#import "AMQPConnectionManager.h"
+#import "PersistentModelStore.h"
 
 @implementation AMQPThread
 

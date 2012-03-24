@@ -33,6 +33,7 @@
 @dynamic messageHash;
 @dynamic outbound;
 @dynamic processed;
+@dynamic processedTime;
 @dynamic sequenceNumber;
 @dynamic fromIdentity;
 @dynamic fromDevice;

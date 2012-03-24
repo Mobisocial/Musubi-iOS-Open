@@ -24,14 +24,21 @@
 //
 
 #import "MessageEncoder.h"
+#import "NSData+Crypto.h"
+
+#import "IBEncryptionScheme.h"
+#import "BSONEncoder.h"
+
+#import "PersistentModelStore.h"
+#import "MOutgoingSecret.h"
+#import "MEncodedMessage.h"
+#import "MIdentity.h"
+
 #import "Message.h"
 #import "Sender.h"
 #import "Recipient.h"
 #import "Secret.h"
-#import "NSData+Crypto.h"
-#import "IBEncryptionScheme.h"
-#import "BSONEncoder.h"
-#import "PersistentModelStore.h"
+#import "OutgoingMessage.h"
 
 @implementation MessageEncoder
 
@@ -76,7 +83,7 @@
         return os;
     }
     
-    os = [[transportDataProvider store] createOutgoingSecret];
+    os = (MOutgoingSecret*)[[transportDataProvider store] createEntity:@"OutgoingSecret"];
     [os setMyIdentity: from];
     [os setOtherIdentity: to];
     [os setKey: [ck raw]];
@@ -96,14 +103,16 @@
 
 - (MEncodedMessage *) encodeOutgoingMessage:(OutgoingMessage *)om {
     // create the IBE identity for the sender
+    IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];
+    
     /* TODO: verify if principal was intentionaly left out here. It crashes the refetch when signature is missing.
-    IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];*/
+    IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];
     IBEncryptionIdentity* me = nil;
     if ([om fromIdentity].principal != nil) {
         me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type principal:[om fromIdentity].principal temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];        
     } else {
         me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];        
-    }
+    }*/
 
     // create an array of IBE identities for the recipients
     NSMutableArray* rcptIdentities = [NSMutableArray arrayWithCapacity:[[om recipients] count]];
@@ -165,7 +174,7 @@
     [m setR: recipients];
     [m setD: [[om data] encryptWithAES128CBCPKCS7WithKey:messageKey andIV:iv]];
     
-    MEncodedMessage* encoded = [[transportDataProvider store] createEncodedMessage];
+    MEncodedMessage* encoded = (MEncodedMessage*)[[transportDataProvider store] createEntity:@"EncodedMessage"];
     [encoded setFromIdentity: [om fromIdentity]];
     [encoded setFromDevice: [transportDataProvider addDeviceWithName:deviceName forIdentity:om.fromIdentity]];
     [encoded setMessageHash: hash];

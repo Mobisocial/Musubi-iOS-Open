@@ -24,7 +24,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Sender.h"
+
+@class Sender;
 
 @interface Message : NSObject {
     uint32_t v; // version

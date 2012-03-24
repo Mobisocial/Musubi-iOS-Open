@@ -35,6 +35,7 @@
 @property (nonatomic, retain) NSData * messageHash;
 @property (nonatomic) BOOL outbound;
 @property (nonatomic) BOOL processed;
+@property (nonatomic, retain) NSDate * processedTime;
 @property (nonatomic) int64_t sequenceNumber;
 @property (nonatomic, retain) MIdentity *fromIdentity;
 @property (nonatomic, retain) MDevice *fromDevice;

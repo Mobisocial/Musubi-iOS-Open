@@ -24,7 +24,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IBEncryptionScheme.h"
+
+@class IBEncryptionScheme, IBSignatureScheme, IBEncryptionUserKey, IBSignatureUserKey, IBEncryptionIdentity;
 
 @protocol IdentityProvider <NSObject>
 

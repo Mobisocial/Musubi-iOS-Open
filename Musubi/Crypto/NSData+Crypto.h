@@ -37,10 +37,10 @@
 - (NSData *) decryptWithAES128ECBPKCS7WithKey:(NSData*)key;
 - (NSData *) decryptWithAES128CBCPKCS7WithKey:(NSData*)key andIV:(NSData*)iv;
 - (NSData *) decryptWithAES128CBCZeroPaddedWithKey:(NSData *)key andIV:(NSData *)iv;
-- (NSData *) encryptWithRSAECBPKCS1WithKey:(SecKeyRef)key;
+//- (NSData *) encryptWithRSAECBPKCS1WithKey:(SecKeyRef)key;
 + (NSData *) generateSecureRandomKeyOf: (int) bits;
-- (NSData *) signatureForKey:(SecKeyRef) key;
-- (BOOL) verifySignature: (NSData*) sig withKey: (SecKeyRef) key ;
+//- (NSData *) signatureForKey:(SecKeyRef) key;
+//- (BOOL) verifySignature: (NSData*) sig withKey: (SecKeyRef) key ;
 - (NSData*) sha1Digest;
 - (NSData*) sha1HashWithLength: (int) length;
 - (NSData*) sha256Digest;

@@ -26,6 +26,7 @@
 #import "SettingsViewController.h"
 #import "AppDelegate.h"
 #import "FacebookAuth.h"
+#import "MAccount.h"
 
 @implementation SettingsViewController
 

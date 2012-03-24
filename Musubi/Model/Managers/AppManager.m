@@ -16,22 +16,38 @@
 
 
 //
-//  ObjEncoder.h
+//  AppManager.m
 //  Musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by Willem Bult on 3/23/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "AppManager.h"
+#import "MApp.h"
 
-@class PreparedObj, MObj, MFeed, MApp, MDevice, MIdentity;
+@implementation AppManager
 
-@interface ObjEncoder : NSObject
+- (id)initWithStore:(PersistentModelStore *)s {
+    self = [super initWithEntityName:@"App" andStore:s];
+    if (self) {
+        
+    }
+    return self;
+}
 
-+ (PreparedObj*) prepareObj: (MObj*)obj forFeed: (MFeed*) feed andApp: (MApp*) app;
-+ (NSData*) encodeObj: (PreparedObj*) obj;
-+ (PreparedObj*) decodeObj: (NSData*) data;
-+ (NSData*) computeUniversalHashFor: (NSData*) hash from: (MIdentity*) from onDevice: (MDevice*) device;
+- (id)ensureAppWithAppId:(NSString *)appId {
+    MApp* app = (MApp*)[self queryFirst:[NSPredicate predicateWithFormat:@"appId = %@", appId]];
+    if (app == nil) {
+        app = (MApp*)[self create];
+        [app setAppId:appId];
+    }
+    
+    return app;
+}
+
+- (BOOL)isSuperApp:(MApp *)app {
+    return [app.appId isEqualToString:kSuperAppId];
+}
 
 @end

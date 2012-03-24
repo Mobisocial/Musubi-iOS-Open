@@ -118,25 +118,4 @@
     }
 }
 
-
-- (MIdentity *)createIdentity {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"Identity" inManagedObjectContext: context];
-}
-
-- (MDevice *)createDevice {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"Device" inManagedObjectContext: context];
-}
-
-- (MEncodedMessage *)createEncodedMessage {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"EncodedMessage" inManagedObjectContext: context];
-}
-
-- (MIncomingSecret *)createIncomingSecret {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"IncomingSecret" inManagedObjectContext: context];
-}
-
-- (MOutgoingSecret *)createOutgoingSecret {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"OutgoingSecret" inManagedObjectContext: context];
-}
-
 @end

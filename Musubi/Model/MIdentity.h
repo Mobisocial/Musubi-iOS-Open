@@ -39,7 +39,7 @@
 @property (nonatomic) BOOL bootstrap;
 @property (nonatomic) BOOL claimed;
 @property (nonatomic) int64_t contactId;
-@property (nonatomic) NSTimeInterval createdAt;
+@property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic) BOOL hasLatestProfile;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic) int64_t nextSequenceNumber;
@@ -49,6 +49,6 @@
 @property (nonatomic) int64_t principalShortHash;
 @property (nonatomic, retain) NSData * thumbnail;
 @property (nonatomic) int16_t type;
-@property (nonatomic) NSTimeInterval updatedAt;
+@property (nonatomic, retain) NSDate * updatedAt;
 
 @end

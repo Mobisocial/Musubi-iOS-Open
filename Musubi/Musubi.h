@@ -24,20 +24,34 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IBEncryptionScheme.h"
-#import "AMQPTransport.h"
-#import "IdentityKeyManager.h"
-#import "MessageEncodeService.h"
+#import "IdentityProvider.h"
 
 static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
-#define kMusubiNotificationOwnedIdentityAvailable @"owned_identity_available"
-#define kMusubiNotificationAuthTokenRefresh @"auth_token_refresh"
-#define kMusubiNotificationMyProfileUpdate @"my_profile_update"
-#define kMusubiNotificationEncodedMessageReceived @"encoded_message_received"
-#define kMusubiNotificationPlainObjReady @"plain_obj_ready"
-#define kMusubiNotificationPreparedEncoded @"prepared_encoded"
-#define kMusubiNotificationAppObjReady @"app_obj_ready"
+#define kMusubiNotificationOwnedIdentityAvailable @"OwnedIdentityAvailable"
+#define kMusubiNotificationAuthTokenRefresh @"AuthTokenRefresh"
+#define kMusubiNotificationMyProfileUpdate @"MyProfileUpdated"
+#define kMusubiNotificationEncodedMessageReceived @"EncodedMessageReceived"
+#define kMusubiNotificationPreparedEncoded @"EncodedMessagePrepared"
+#define kMusubiNotificationPlainObjReady @"PlainObjReady"
+#define kMusubiNotificationAppObjReady @"AppObjRead"
+#define kMusubiExceptionDuplicateMessage @"DuplicateMessage"
+#define kMusubiExceptionRecipientMismatch @"RecipientMismatch"
+#define kMusubiExceptionSenderBlacklisted @"SenderBlacklisted"
+#define kMusubiExceptionMessageCorrupted @"MessageCorrupted"
+#define kMusubiExceptionBadSignature @"BadSignature"
+#define kMusubiExceptionNeedEncryptionUserKey @"NeedEncryptionUserKey"
+#define kMusubiExceptionNeedSignatureUserKey @"NeedSignatureUserKey"
+#define kMusubiExceptionInvalidAccountType @"InvalidAccountType"
+#define kMusubiExceptionNotFound @"NotFound"
+#define kMusubiExceptionInvalidRequest @"InvalidRequest"
+#define kMusubiExceptionFeedWithoutOwnedIdentity @"NoOwnedIdentityInFeed"
+#define kMusubiExceptionAppNotAllowedInFeed @"AppNotAllowedInFeed"
+#define kMusubiExceptionMessageTooLarge @"MessageTooLarge"
+#define kMusubiExceptionBadObjFormat @"BadObjFormat"
+
+@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport;
+
 
 @interface Musubi : NSObject {
     PersistentModelStore* mainStore; 
@@ -48,6 +62,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
     id<IdentityProvider> identityProvider;
     IdentityKeyManager* keyManager;
     MessageEncodeService* encodeService;
+    MessageDecodeService* decodeService;
     AMQPTransport* transport;
 }
 
@@ -60,6 +75,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 @property (nonatomic, retain) AMQPTransport* transport;
 @property (nonatomic, retain) IdentityKeyManager* keyManager;
 @property (nonatomic, retain) MessageEncodeService* encodeService;
+@property (nonatomic, retain) MessageDecodeService* decodeService;
 
 
 + (Musubi*) sharedInstance;

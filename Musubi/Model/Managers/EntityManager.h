@@ -24,7 +24,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PersistentModelStore.h"
+#import <CoreData/CoreData.h>
+
+@class PersistentModelStore;
 
 @interface EntityManager : NSObject{
     PersistentModelStore* store;

@@ -25,6 +25,9 @@
 
 #import "ObjManager.h"
 #import "SBJSON.h"
+#import "MObj.h"
+#import "MFeed.h"
+#import "Obj.h"
 
 @implementation ObjManager
 

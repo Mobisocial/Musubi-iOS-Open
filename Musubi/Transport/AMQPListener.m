@@ -24,6 +24,13 @@
 //
 
 #import "AMQPListener.h"
+#import "Musubi.h"
+#import "AMQPConnectionManager.h"
+#import "DeviceManager.h"
+#import "IdentityManager.h"
+#import "MEncodedMessage.h"
+#import "IBEncryptionScheme.h"
+#import "PersistentModelStore.h"
 
 @implementation AMQPListener
 
@@ -110,12 +117,16 @@
         NSData* body = [connMngr readMessage];
         
         if (body != nil) {
-            MEncodedMessage* encoded = [threadStore createEncodedMessage];
+            MEncodedMessage* encoded = (MEncodedMessage*)[threadStore createEntity:@"EncodedMessage"];
             [encoded setEncoded: body];
+            [encoded setProcessed: NO];
+            [encoded setOutbound: NO];
             [threadStore save];
             
             [self log:@"Incoming: %@", body];
+            [self log:@"Incoming: %@", encoded];
             
+            [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:nil]];
             [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
         }
         

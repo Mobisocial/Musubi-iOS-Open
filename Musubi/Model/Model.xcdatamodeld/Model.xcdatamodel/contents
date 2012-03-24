@@ -26,6 +26,7 @@
         <attribute name="messageHash" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="outbound" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="processed" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="processedTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="sequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="fromDevice" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" syncable="YES"/>
         <relationship name="fromIdentity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
@@ -38,11 +39,16 @@
     <entity name="Feed" representedClassName="MFeed" syncable="YES">
         <attribute name="accepted" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="capability" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="knownId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="latestRenderableObjTime" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numUnread" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="shortCapability" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="FeedApp" representedClassName="MFeedApp" syncable="YES">
+        <relationship name="app" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="App" syncable="YES"/>
+        <relationship name="feed" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" syncable="YES"/>
     </entity>
     <entity name="FeedMember" representedClassName="MFeedMember" syncable="YES">
         <relationship name="feed" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" syncable="YES"/>
@@ -131,5 +137,6 @@
         <element name="Obj" positionX="160" positionY="192" width="128" height="285"/>
         <element name="App" positionX="160" positionY="192" width="128" height="165"/>
         <element name="FeedMember" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="FeedApp" positionX="160" positionY="192" width="128" height="75"/>
     </elements>
 </model>

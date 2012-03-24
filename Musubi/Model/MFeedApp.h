@@ -16,35 +16,21 @@
 
 
 //
-//  MObj.h
+//  MFeedApp.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by Willem Bult on 3/23/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class MApp, MDevice, MEncodedMessage, MFeed, MIdentity, MObj;
+@class MApp, MFeed;
 
-@interface MObj : NSManagedObject
+@interface MFeedApp : NSManagedObject
 
-@property (nonatomic, retain) NSDate * timestamp;
-@property (nonatomic, retain) NSData * universalHash;
-@property (nonatomic) int64_t shortUniversalHash;
-@property (nonatomic, retain) NSString * type;
-@property (nonatomic, retain) NSString * json;
-@property (nonatomic, retain) NSData * raw;
-@property (nonatomic, retain) NSDate * lastModified;
-@property (nonatomic) BOOL deleted;
-@property (nonatomic) BOOL renderable;
-@property (nonatomic) BOOL processed;
 @property (nonatomic, retain) MFeed *feed;
-@property (nonatomic, retain) MIdentity *identity;
-@property (nonatomic, retain) MDevice *device;
-@property (nonatomic, retain) MObj *parent;
 @property (nonatomic, retain) MApp *app;
-@property (nonatomic, retain) MEncodedMessage *encoded;
 
 @end

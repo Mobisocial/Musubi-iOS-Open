@@ -24,12 +24,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MAccount.h"
-#import "MIdentity.h"
-#import "MFeed.h"
-#import "IBEncryptionScheme.h"
-#import "IdentityManager.h"
 
+@class MIdentity, MAccount, IdentityManager, IBEncryptionIdentity;
 
 @protocol AccountAuthManagerDelegate
 

@@ -28,6 +28,13 @@
 #import "IdentityProvider.h"
 #import "AphidIdentityProvider.h"
 #import "Musubi.h"
+#import "EncryptionUserKeyManager.h"
+#import "SignatureUserKeyManager.h"
+#import "MIdentity.h"
+#import "MEncryptionUserKey.h"
+#import "MSignatureUserKey.h"
+#import "IBEncryptionScheme.h"
+#import "PersistentModelStore.h"
 
 static long kMinimumBackoff = 10 * 1000;
 static long kMaximumBackoff = 30 * 60 * 1000;
@@ -152,15 +159,17 @@ static long kMaximumBackoff = 30 * 60 * 1000;
         IBEncryptionIdentity* ibeId = [[IBEncryptionIdentity alloc] initWithAuthority:hid.authority principal:hid.principal temporalFrame:hid.temporalFrame];
         
         @try {
-            IBEncryptionUserKey* userKey = [identityProvider encryptionKeyForIdentity: ibeId];
+            IBEncryptionUserKey* userKey = [manager.identityProvider encryptionKeyForIdentity: ibeId];
             assert(userKey != nil);
             
             MEncryptionUserKey* key = (MEncryptionUserKey*)[store createEntity:@"EncryptionUserKey"];
             [key setIdentity: mId];
             [key setPeriod: hid.temporalFrame];
             [key setKey: userKey.raw];
+            [store save];
             
-            [encryptionUserKeyManager createEncryptionUserKey:key];
+            NSLog(@"New encryption key: %@", key);
+            
             [manager.encryptionBackoff removeObjectForKey: hid];
             addedNewKeys = YES;
         }
@@ -200,7 +209,7 @@ static long kMaximumBackoff = 30 * 60 * 1000;
         IBEncryptionIdentity* ibeId = [[IBEncryptionIdentity alloc] initWithAuthority:hid.authority principal:hid.principal temporalFrame:hid.temporalFrame];
         
         @try {
-            IBSignatureUserKey* userKey = [identityProvider signatureKeyForIdentity: ibeId];
+            IBSignatureUserKey* userKey = [manager.identityProvider signatureKeyForIdentity: ibeId];
             assert(userKey != nil);
             
             MSignatureUserKey* key = (MSignatureUserKey*)[store createEntity:@"SignatureUserKey"];

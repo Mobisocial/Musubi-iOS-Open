@@ -47,7 +47,6 @@
 		D26D3707147B3ED400C4FE93 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369D147B3ED300C4FE93 /* NSData+Base64.m */; };
 		D26D3708147B3ED400C4FE93 /* NSData+CocoaDevUsersAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369F147B3ED300C4FE93 /* NSData+CocoaDevUsersAdditions.m */; };
 		D26D3709147B3ED400C4FE93 /* NSData+Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */; };
-		D26D370A147B3ED400C4FE93 /* OpenSSLKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36A3147B3ED300C4FE93 /* OpenSSLKey.m */; };
 		D26D3712147B3ED400C4FE93 /* Musubi.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36B5147B3ED400C4FE93 /* Musubi.m */; };
 		D26D3720147B3ED400C4FE93 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36D6147B3ED400C4FE93 /* LocationController.m */; };
 		D26D3721147B3ED400C4FE93 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36D8147B3ED400C4FE93 /* UIImage+Alpha.m */; };
@@ -88,6 +87,9 @@
 		D2773CBF151C4CE600A161F9 /* AccountAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CBC151C4CE600A161F9 /* AccountAuthManager.m */; };
 		D2773CC0151C4CE600A161F9 /* FacebookAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CBE151C4CE600A161F9 /* FacebookAuth.m */; };
 		D2773CC3151C85BE00A161F9 /* IncomingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CC1151C85BA00A161F9 /* IncomingMessage.m */; };
+		D2773CC6151D133300A161F9 /* MessageDecodeService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CC5151D133100A161F9 /* MessageDecodeService.m */; };
+		D2773CCC151D638900A161F9 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CCB151D638600A161F9 /* AppManager.m */; };
+		D2773CD2151D7BD600A161F9 /* MFeedApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CD1151D7BD100A161F9 /* MFeedApp.m */; };
 		D27965831457D37A00C5FDAB /* librabbitmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D279590B1457D36300C5FDAB /* librabbitmq.a */; };
 		D27968BE1457D97700C5FDAB /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D27967811457D97500C5FDAB /* ZipArchive.mm */; };
 		D27968BF1457D97700C5FDAB /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967841457D97600C5FDAB /* ioapi.c */; };
@@ -258,7 +260,6 @@
 		D216DE6314F48952001A4166 /* MusubiAppTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusubiAppTest.h; sourceTree = "<group>"; };
 		D216DE6414F48952001A4166 /* MusubiAppTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusubiAppTest.m; sourceTree = "<group>"; };
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
-		D21CDDEF14CA2AA5005C6011 /* Key.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Key.h; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSender.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -282,8 +283,6 @@
 		D26D369F147B3ED300C4FE93 /* NSData+CocoaDevUsersAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CocoaDevUsersAdditions.m"; sourceTree = "<group>"; };
 		D26D36A0147B3ED300C4FE93 /* NSData+Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Crypto.h"; sourceTree = "<group>"; };
 		D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Crypto.m"; sourceTree = "<group>"; };
-		D26D36A2147B3ED300C4FE93 /* OpenSSLKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenSSLKey.h; sourceTree = "<group>"; };
-		D26D36A3147B3ED300C4FE93 /* OpenSSLKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenSSLKey.m; sourceTree = "<group>"; };
 		D26D36B4147B3ED400C4FE93 /* Musubi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Musubi.h; sourceTree = "<group>"; };
 		D26D36B5147B3ED400C4FE93 /* Musubi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Musubi.m; sourceTree = "<group>"; };
 		D26D36D5147B3ED400C4FE93 /* LocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationController.h; sourceTree = "<group>"; };
@@ -357,6 +356,12 @@
 		D2773CBE151C4CE600A161F9 /* FacebookAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookAuth.m; sourceTree = "<group>"; };
 		D2773CC1151C85BA00A161F9 /* IncomingMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomingMessage.m; sourceTree = "<group>"; };
 		D2773CC2151C85BC00A161F9 /* IncomingMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomingMessage.h; sourceTree = "<group>"; };
+		D2773CC4151D132F00A161F9 /* MessageDecodeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDecodeService.h; sourceTree = "<group>"; };
+		D2773CC5151D133100A161F9 /* MessageDecodeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDecodeService.m; sourceTree = "<group>"; };
+		D2773CCA151D638400A161F9 /* AppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
+		D2773CCB151D638600A161F9 /* AppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppManager.m; sourceTree = "<group>"; };
+		D2773CD0151D7BCC00A161F9 /* MFeedApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFeedApp.h; sourceTree = "<group>"; };
+		D2773CD1151D7BD100A161F9 /* MFeedApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFeedApp.m; sourceTree = "<group>"; };
 		D27959001457D36200C5FDAB /* amqp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amqp.h; sourceTree = "<group>"; };
 		D27959011457D36200C5FDAB /* amqp_api.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_api.c; sourceTree = "<group>"; };
 		D27959021457D36200C5FDAB /* amqp_connection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amqp_connection.c; sourceTree = "<group>"; };
@@ -803,6 +808,8 @@
 				D272FB58151A69DF00D2521A /* AccountManager.m */,
 				D2773CB7151C485F00A161F9 /* ObjManager.h */,
 				D2773CB8151C486000A161F9 /* ObjManager.m */,
+				D2773CCA151D638400A161F9 /* AppManager.h */,
+				D2773CCB151D638600A161F9 /* AppManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -868,10 +875,10 @@
 			isa = PBXGroup;
 			children = (
 				D2773C9F151C264700A161F9 /* IdentityProvider.h */,
-				D2773CA0151C264700A161F9 /* IdentityKeyManager.m */,
 				D2773CA1151C264700A161F9 /* IdentityKeyManager.h */,
-				D2773CA4151C264800A161F9 /* AphidIdentityProvider.m */,
+				D2773CA0151C264700A161F9 /* IdentityKeyManager.m */,
 				D2773CA5151C264800A161F9 /* AphidIdentityProvider.h */,
+				D2773CA4151C264800A161F9 /* AphidIdentityProvider.m */,
 				D208156515128E6100F12039 /* UnverifiedIdentityProvider.h */,
 				D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */,
 			);
@@ -913,6 +920,8 @@
 				D2773C90151BD9FA00A161F9 /* MApp.m */,
 				D2773C92151BE2B300A161F9 /* MFeedMember.h */,
 				D2773C93151BE2B300A161F9 /* MFeedMember.m */,
+				D2773CD0151D7BCC00A161F9 /* MFeedApp.h */,
+				D2773CD1151D7BD100A161F9 /* MFeedApp.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -967,9 +976,6 @@
 				D26D369F147B3ED300C4FE93 /* NSData+CocoaDevUsersAdditions.m */,
 				D26D36A0147B3ED300C4FE93 /* NSData+Crypto.h */,
 				D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */,
-				D26D36A2147B3ED300C4FE93 /* OpenSSLKey.h */,
-				D26D36A3147B3ED300C4FE93 /* OpenSSLKey.m */,
-				D21CDDEF14CA2AA5005C6011 /* Key.h */,
 				D2CB073A14EDCBB50006D1E9 /* IBEncryptionScheme.h */,
 				D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */,
 			);
@@ -1032,8 +1038,8 @@
 			isa = PBXGroup;
 			children = (
 				D2773CB3151C436700A161F9 /* Obj */,
-				D2773CB0151C422500A161F9 /* Obj.m */,
 				D2773CB1151C422500A161F9 /* Obj.h */,
+				D2773CB0151C422500A161F9 /* Obj.m */,
 			);
 			name = SocialKit;
 			sourceTree = "<group>";
@@ -2186,11 +2192,13 @@
 				D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */,
 				D2B13D5314F869CF0067B197 /* OutgoingMessage.h */,
 				D2B13D5414F869CF0067B197 /* OutgoingMessage.m */,
-				D2773CC1151C85BA00A161F9 /* IncomingMessage.m */,
 				D2773CC2151C85BC00A161F9 /* IncomingMessage.h */,
+				D2773CC1151C85BA00A161F9 /* IncomingMessage.m */,
 				D2B13D5C14FB0DB80067B197 /* TransportDataProvider.h */,
 				D2773C89151BD41A00A161F9 /* MessageEncodeService.h */,
 				D2773C8A151BD41A00A161F9 /* MessageEncodeService.m */,
+				D2773CC4151D132F00A161F9 /* MessageDecodeService.h */,
+				D2773CC5151D133100A161F9 /* MessageDecodeService.m */,
 			);
 			path = Encoding;
 			sourceTree = "<group>";
@@ -2457,7 +2465,6 @@
 				D26D3707147B3ED400C4FE93 /* NSData+Base64.m in Sources */,
 				D26D3708147B3ED400C4FE93 /* NSData+CocoaDevUsersAdditions.m in Sources */,
 				D26D3709147B3ED400C4FE93 /* NSData+Crypto.m in Sources */,
-				D26D370A147B3ED400C4FE93 /* OpenSSLKey.m in Sources */,
 				D26D3712147B3ED400C4FE93 /* Musubi.m in Sources */,
 				D26D3720147B3ED400C4FE93 /* LocationController.m in Sources */,
 				D26D3721147B3ED400C4FE93 /* UIImage+Alpha.m in Sources */,
@@ -2521,6 +2528,9 @@
 				D2773CBF151C4CE600A161F9 /* AccountAuthManager.m in Sources */,
 				D2773CC0151C4CE600A161F9 /* FacebookAuth.m in Sources */,
 				D2773CC3151C85BE00A161F9 /* IncomingMessage.m in Sources */,
+				D2773CC6151D133300A161F9 /* MessageDecodeService.m in Sources */,
+				D2773CCC151D638900A161F9 /* AppManager.m in Sources */,
+				D2773CD2151D7BD600A161F9 /* MFeedApp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

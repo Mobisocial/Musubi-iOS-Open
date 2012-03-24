@@ -62,6 +62,7 @@
 - (NSData *) decryptWithAES128CBCZeroPaddedWithKey:(NSData *)key andIV:(NSData *)iv {
     return [self runAlgorithm:kCCAlgorithmAES128 andOptions:0 inMode:kCCDecrypt withKey:key andIV:iv];
 }
+/*
 
 - (BOOL) verifySignature: (NSData*) sig withKey: (SecKeyRef) key {
     OSStatus status = SecKeyRawVerify(key, kSecPaddingPKCS1SHA1, [self bytes], [self length], [sig bytes], [sig length]);
@@ -71,6 +72,7 @@
         return FALSE;
     }
 }
+
 
 - (NSData *) signatureForKey:(SecKeyRef) key {
     size_t signatureLen = SecKeyGetBlockSize(key);
@@ -105,7 +107,7 @@
 
     free(encrypted);
     @throw [NSException exceptionWithName:@"EncryptionFailed" reason:[NSString stringWithFormat:@"Encryption failed. Return code: %d, Input size was %d", status, [self length]] userInfo:nil];
-}
+}*/
 
 - (NSData*) sha1Digest {
     return [self sha1HashWithLength:CC_SHA1_DIGEST_LENGTH];

@@ -27,15 +27,12 @@
 #import "amqp.h"
 #import "amqp_framing.h"
 #import "utils.h"
-#import "MEncodedMessage.h"
-#import "BSONEncoder.h"
-#import "IBEncryptionScheme.h"
-#import "Recipient.h"
-#import "MIdentity.h"
-#import "PersistentModelStore.h"
 
 #define kAMQPChannelIncoming 1
 #define kAMQPChannelOutgoing 2
+
+#define kAMQPConnectionException @"AMQPConnectionException"
+
 
 @interface AMQPConnectionManager : NSObject {
     amqp_connection_state_t conn;

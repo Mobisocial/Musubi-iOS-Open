@@ -25,6 +25,9 @@
 
 #import "AMQPTransport.h"
 #import "Musubi.h"
+#import "AMQPConnectionManager.h"
+#import "AMQPSender.h"
+#import "AMQPListener.h"
 
 @implementation AMQPTransport
 
@@ -35,8 +38,9 @@
     self = [super init];
     if (self) {
         [self setConnMngrIn:[[[AMQPConnectionManager alloc] init] autorelease]];
-//        [self setConnMngrOut:[[[AMQPConnectionManager alloc] init] autorelease]];
         [self setConnMngrOut: connMngrIn];
+        // Use one connection for both incoming and outgoing, seems to work ok
+        //        [self setConnMngrOut:[[[AMQPConnectionManager alloc] init] autorelease]];
 
         [self setListener: [[AMQPListener alloc] initWithConnectionManager:connMngrIn storeFactory:storeFactory]];
         [self setSender: [[AMQPSender alloc] initWithConnectionManager:connMngrOut storeFactory:storeFactory]];

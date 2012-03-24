@@ -24,11 +24,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FBConnect.h"
-#import "MAccount.h"
-#import "SettingsViewController.h"
+#import "Facebook.h"
 
 #define kFacebookAppId @""
+
+@class MAccount, AccountAuthManager, SettingsViewController;
 
 @interface FacebookAuthManager : NSObject {
     Facebook* facebook;

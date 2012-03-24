@@ -24,13 +24,13 @@
 //
 
 #import "PreparedObj.h"
+#import "MObj.h"
 
 @implementation PreparedObj
 
 @synthesize appId, feedCapability, feedType, jsonSrc, raw, timestamp, type;
 
-
-- (id)initWithFeedType:(int)ft feedCapability:(NSData *)fc appId:(NSString *)aId timestamp:(long)ts data:(MObj *)obj {
+- (id)initWithFeedType:(int)ft feedCapability:(NSData *)fc appId:(NSString *)aId timestamp:(uint64_t)ts data:(MObj *)obj {
     self = [super init];
     if (self) {
         [self setAppId: aId];

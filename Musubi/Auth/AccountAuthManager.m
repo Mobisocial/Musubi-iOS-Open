@@ -24,10 +24,23 @@
 //
 
 #import "AccountAuthManager.h"
-#import "Musubi.h"
-#import "FacebookAuth.h"
-#import "AccountManager.h"
+
 #import "NSObject+DDExtensions.h"
+
+#import "Musubi.h"
+
+#import "FacebookAuth.h"
+#import "IBEncryptionScheme.h"
+
+#import "PersistentModelStore.h"
+#import "AccountManager.h"
+#import "DeviceManager.h"
+#import "IdentityManager.h"
+
+#import "MIdentity.h"
+#import "MAccount.h"
+#import "MDevice.h"
+#import "MFeed.h"
 
 @implementation AccountAuthManager
 
@@ -68,7 +81,7 @@
         FacebookCheckValidOperation* op = [[[FacebookCheckValidOperation alloc] initWithManager:self] autorelease];
         [queue addOperation: op];
     } else {
-        @throw [NSException exceptionWithName:@"Invalid account type" reason:[NSString stringWithFormat:@"Account type %@ unknown", type] userInfo:nil];
+        @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat:@"Account type %@ unknown", type] userInfo:nil];
     }
 }
 
@@ -78,7 +91,7 @@
         FacebookLoginOperation* op = [[[FacebookLoginOperation alloc] initWithManager:self] autorelease];
         [queue addOperation: op];
     } else {
-        @throw [NSException exceptionWithName:@"Invalid account type" reason:[NSString stringWithFormat:@"Account type %@ unknown", type] userInfo:nil];
+        @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat:@"Account type %@ unknown", type] userInfo:nil];
     }
 }
 
@@ -132,7 +145,7 @@
     if ([type isEqualToString:kAccountTypeFacebook]) {
         ibeId = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:principal temporalFrame:0];
     } else {
-        @throw [NSException exceptionWithName:@"Unsupported" reason:[NSString stringWithFormat: @"Unsupported account type %@", type] userInfo:nil];
+        @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat: @"Unsupported account type %@", type] userInfo:nil];
     }
     
     @try {
@@ -180,7 +193,7 @@
         DeviceManager* deviceManager = [[DeviceManager alloc] initWithStore:store];
         MDevice* device = [deviceManager deviceForName: [deviceManager localDeviceName] andIdentity: mId];
         if (device == nil) {
-            device = [store createDevice];
+            device = (MDevice*)[store createEntity:@"Device"];
             [device setDeviceName: [deviceManager localDeviceName]];
             [device setIdentity: mId];
             //[store save];

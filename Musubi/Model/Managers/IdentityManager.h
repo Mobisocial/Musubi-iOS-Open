@@ -25,9 +25,10 @@
 
 #import <Foundation/Foundation.h>
 #import "EntityManager.h"
-#import "IBEncryptionScheme.h"
 
 #define kIBEncryptionUserKeyRefreshSeconds 2592000 //30 * 24 * 60 * 60
+
+@class IBEncryptionIdentity, MIdentity;
 
 @interface IdentityManager : EntityManager
 
@@ -43,6 +44,6 @@
 - (IBEncryptionIdentity*) ibEncryptionIdentityForIdentity: (MIdentity*) ident forTemporalFrame: (uint64_t) tf;
 - (uint64_t) computeTemporalFrameFromHash: (NSData*) hash;
 - (uint64_t) computeTemporalFrameFromPrincipal: (NSString*) principal;
-- (void)incrementSequenceNumberTo:(MIdentity *)to;
+- (void) incrementSequenceNumberTo:(MIdentity *)to;
 
 @end

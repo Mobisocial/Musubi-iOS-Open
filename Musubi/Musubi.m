@@ -24,23 +24,37 @@
 //
 
 #import "Musubi.h"
-#import "UnverifiedIdentityProvider.h"
-#import "IdentityKeyManager.h"
-#import "AphidIdentityProvider.h"
+
 #import "NSData+Crypto.h"
+#import "NSData+Base64.h"
+
+#import "UnverifiedIdentityProvider.h"
+#import "AphidIdentityProvider.h"
+
+#import "IBEncryptionScheme.h"
+
 #import "MessageEncoder.h"
-#import "MApp.h"
-#import "MFeed.h"
+#import "MessageEncodeService.h"
+#import "MessageDecodeService.h"
+#import "AMQPTransport.h"
+
+#import "PersistentModelStore.h"
 #import "FeedManager.h"
 #import "AccountManager.h"
+#import "IdentityManager.h"
+#import "IdentityKeyManager.h"
+#import "TransportManager.h"
+#import "MApp.h"
+#import "MFeed.h"
+#import "MIdentity.h"
+
 #import "IntroductionObj.h"
-#import "NSData+Base64.h"
 
 @implementation Musubi
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, transport;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport;
 
 +(Musubi*)sharedInstance
 {
@@ -79,42 +93,6 @@ static Musubi* _sharedInstance = nil;
         [self setNotificationCenter: [[NSNotificationCenter alloc] init]];
                 
         [self performSelectorInBackground:@selector(setup) withObject:nil];
-        
-        
-        
-        IBEncryptionIdentity* test = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"willem.bult@gmail.com" temporalFrame:0];
-        NSLog(@"Queue: %@", [test.key encodeBase64WebSafe]);
-
-        
-        // Send a message to 673137843
-        // Set up receiving identity
-        /*
-        AphidIdentityProvider* identityProvider = [[AphidIdentityProvider alloc] init];
-        IdentityManager* idMgr = [[IdentityManager alloc] initWithStore: mainStore];
-        TransportManager* tMgr = [[TransportManager alloc] initWithStore: mainStore encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:random()];
-        
-        IBEncryptionIdentity* you = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:@"673137843" temporalFrame:[idMgr computeTemporalFrameFromPrincipal:@"673137843"]];
-        
-        // Make an outgoing message
-        OutgoingMessage* om = [[OutgoingMessage alloc] init];
-        [om setData: [NSData generateSecureRandomKeyOf:32]];
-        [om setApp: [NSData generateSecureRandomKeyOf:32]];
-        [om setFromIdentity: [[idMgr ownedIdentities] objectAtIndex: 0]];
-        [om setRecipients: [NSArray arrayWithObject: [tMgr addClaimedIdentity:you]]];
-        [om setHash: [[om data] sha256Digest]];
-
-        @try {
-            
-            IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[tMgr signatureTimeFrom:[om fromIdentity]]] autorelease];
-            
-            // Encode the message, inserts into DB, so AMQPTransport will pick it up
-            MessageEncoder* encoder = [[MessageEncoder alloc] initWithTransportDataProvider: tMgr];
-            MEncodedMessage* encodedOutgoing = [encoder encodeOutgoingMessage: om];
-            NSLog(@"Encoded: %@", encodedOutgoing);
-        }
-        @catch (NSException *exception) {
-            NSLog(@"Bla: %@", exception);
-        }*/
     }
     
     return self;
@@ -127,7 +105,7 @@ static Musubi* _sharedInstance = nil;
     //id<IdentityProvider> 
     identityProvider = [[[AphidIdentityProvider alloc] init] autorelease];
     
-    PersistentModelStore* store=  [storeFactory newStore];
+    PersistentModelStore* store=  [storeFactory newStore];  
     IdentityManager* idManager = [[IdentityManager alloc] initWithStore:store];
     /*IBEncryptionIdentity* anotherMe = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"willem.bult@gmail.com" temporalFrame:[idManager computeTemporalFrameFromPrincipal:@"willem.bult@gmail.com"]];
     
@@ -143,6 +121,9 @@ static Musubi* _sharedInstance = nil;
     
     // The encoding service encodes all our messages, to be picked up by the transport
     [self setEncodeService: [[MessageEncodeService alloc] initWithStoreFactory: storeFactory andIdentityProvider:identityProvider]];
+    
+    // The decoding service decodes incoming encoded messages
+    [self setDecodeService: [[MessageDecodeService alloc] initWithStoreFactory: storeFactory andIdentityProvider:identityProvider]];
     
     // The transport sends and receives raw data from the network
     [self setTransport: [[AMQPTransport alloc] initWithStoreFactory:storeFactory]];
@@ -168,7 +149,7 @@ static Musubi* _sharedInstance = nil;
     
     MApp* app = (MApp*)[store createEntity: @"App"];
     [app setAppId:@"mobisocial.musubi"];
-    [app setRefreshedAt: NSTimeIntervalSince1970];
+    [app setRefreshedAt: [NSDate date]];
     [app setName: @"Musubi"];
     
     MFeed* feed = [feedManager createExpandingFeedWithParticipants:participants];

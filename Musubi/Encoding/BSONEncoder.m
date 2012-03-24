@@ -23,14 +23,20 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "BSONEncoder.h"
 #import "bson.h"
+#import "Musubi.h"
+#import "BSONEncoder.h"
 #import "Recipient.h"
+#import "Message.h"
+#import "Sender.h"
+#import "Secret.h"
+#import "PreparedObj.h"
 
 @implementation BSONEncoder
 
+void err_handler();
 void err_handler() {
-    @throw [NSException exceptionWithName:@"Corrupted" reason:@"Message could not be decoded" userInfo:nil];
+    @throw [NSException exceptionWithName:kMusubiExceptionMessageCorrupted reason:@"Message could not be decoded" userInfo:nil];
 }
 
 
@@ -176,7 +182,7 @@ void err_handler() {
     
     bson_find(&iter, &b, "k");
     [s setK:[NSData dataWithBytes:bson_iterator_bin_data(&iter) length:bson_iterator_bin_len(&iter)]];
-
+    
     return s;
 }
 

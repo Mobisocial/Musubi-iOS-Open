@@ -24,6 +24,11 @@
 //
 
 #import "EncryptionUserKeyManager.h"
+#import "Musubi.h"
+
+#import "IBEncryptionScheme.h"
+#import "MIdentity.h"
+#import "MEncryptionUserKey.h"
 
 @implementation EncryptionUserKeyManager
 
@@ -39,10 +44,6 @@
     return self;
 }
 
-- (void)createEncryptionUserKey:(MEncryptionUserKey *)encryptionKey {
-	// TODO: synchronize code
-    //[[store context] save:NULL];
-}
 
 - (IBEncryptionUserKey *)encryptionKeyTo:(MIdentity *)to me:(IBEncryptionIdentity *)me {
     MEncryptionUserKey* key = (MEncryptionUserKey*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %llu", to, me.temporalFrame]];
@@ -50,7 +51,7 @@
         return [[[IBEncryptionUserKey alloc] initWithRaw: key.key] autorelease];
     }
     
-    @throw [NSException exceptionWithName:kMusubiExceptionNeedEncryptionUserKey reason:@"Don't have encryption key" userInfo:nil];
+    @throw [NSException exceptionWithName:kMusubiExceptionNeedEncryptionUserKey reason:@"Don't have encryption key" userInfo:[NSDictionary dictionaryWithObjectsAndKeys:me, @"identity", nil]];
 }
 
 - (void)updateEncryptionUserKey:(MEncryptionUserKey *)signatureKey {

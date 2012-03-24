@@ -24,11 +24,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MIdentity.h"
-#import "MDevice.h"
+
+@class MIdentity, MDevice;
 
 @interface IncomingMessage : NSObject {
-    MIdentity* persona; // the identity used by me to decode or encode messages
+    NSArray* personas; // the identities used by me to decode or encode messages
     MIdentity* fromIdentity;  // the reference to the identity that sent the message, could be me
     MDevice* fromDevice; // the device that sent the message
     NSArray* recipients; // a list of all of the recipients, some of which I may or may not really know
@@ -39,7 +39,7 @@
     NSData* app; // application namespace
 }
 
-@property (nonatomic,retain) MIdentity* persona;
+@property (nonatomic,retain) NSArray* personas;
 @property (nonatomic,retain) MIdentity* fromIdentity;
 @property (nonatomic,retain) MDevice* fromDevice;
 @property (nonatomic,retain) NSArray* recipients;

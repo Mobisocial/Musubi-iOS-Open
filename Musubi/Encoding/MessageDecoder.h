@@ -25,9 +25,9 @@
 
 #import <Foundation/Foundation.h>
 #import "TransportDataProvider.h"
-#import "IBEncryptionScheme.h"
-#import "Sender.h"
-#import "Recipient.h"
+
+@class IBEncryptionScheme, IBSignatureScheme, MDevice, MIdentity, MEncodedMessage, MIncomingSecret;
+@class Sender, Recipient, IncomingMessage;
 
 @interface MessageDecoder : NSObject {
     id<TransportDataProvider> transportDataProvider;
@@ -43,7 +43,7 @@
 - (MIdentity*) addIdentityWithKey: (NSData*) key;
 - (MDevice*) addDevice: (MIdentity*) ident withId:(NSData*)devId;
 - (MIncomingSecret*) addIncomingSecretFrom: (MIdentity*) from atDevice: (MDevice*) device to: (MIdentity*) to sender: (Sender*) s recipient: (Recipient*) me;
-
+- (void) checkSignatureForHash: (NSData*) hash withApp: (NSData*) app blind: (BOOL) blind forRecipients: (NSArray*) rs againstExpected: (NSData*) expected;
 - (IncomingMessage*) decodeMessage: (MEncodedMessage*) encoded;
 
 

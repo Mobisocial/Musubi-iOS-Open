@@ -24,10 +24,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IdentityManager.h"
 #import "IdentityProvider.h"
-#import "EncryptionUserKeyManager.h"
-#import "SignatureUserKeyManager.h"
+
+@class IBEncryptionIdentity, PersistentModelStore, IdentityManager, IdentityKeyManager, EncryptionUserKeyManager, SignatureUserKeyManager;
 
 @interface IdentityKeyManager : NSObject {
     NSMutableArray* requestedEncryptionKeys;
@@ -56,7 +55,6 @@
     IdentityKeyManager* manager;
     
     IdentityManager* identityManager;
-    id<IdentityProvider> identityProvider;
     EncryptionUserKeyManager* encryptionUserKeyManager;
     SignatureUserKeyManager* signatureUserKeyManager;
 }
@@ -65,7 +63,6 @@
 @property (nonatomic, retain) IdentityKeyManager* manager;
 
 @property (nonatomic, retain) IdentityManager* identityManager;
-@property (nonatomic, retain) id<IdentityProvider> identityProvider;
 
 @property (nonatomic, retain) EncryptionUserKeyManager* encryptionUserKeyManager;
 @property (nonatomic, retain) SignatureUserKeyManager* signatureUserKeyManager;

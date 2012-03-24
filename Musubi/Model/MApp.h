@@ -31,7 +31,7 @@
 
 @property (nonatomic, retain) NSString * appId;
 @property (nonatomic, retain) NSString * manifestUri;
-@property (nonatomic) NSTimeInterval refreshedAt;
+@property (nonatomic, retain) NSDate * refreshedAt;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSData * icon;
 @property (nonatomic, retain) NSData * smallIcon;

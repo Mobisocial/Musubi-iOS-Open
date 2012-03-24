@@ -24,9 +24,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Message.h"
-#import "Secret.h"
-#import "PreparedObj.h"
+
+@class Message, Secret, PreparedObj;
 
 @interface BSONEncoder : NSObject
 

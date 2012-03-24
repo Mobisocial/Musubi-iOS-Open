@@ -25,10 +25,9 @@
 
 #import <Foundation/Foundation.h>
 #import "EntityManager.h"
-#import "IBEncryptionScheme.h"
-#import "MEncryptionUserKey.h"
 
-#define kMusubiExceptionNeedEncryptionUserKey @"NeedEncryptionUserKey"
+@class IBEncryptionScheme, IBEncryptionIdentity, IBEncryptionUserKey;
+@class PersistentModelStore, MIdentity, MEncryptionUserKey;
 
 @interface EncryptionUserKeyManager : EntityManager {
     IBEncryptionScheme* encryptionScheme;
@@ -38,8 +37,8 @@
 
 - (id) initWithStore: (PersistentModelStore*) store encryptionScheme: (IBEncryptionScheme*) es;
 
-- (void) createEncryptionUserKey:(MEncryptionUserKey *)signatureKey;
-- (void) updateEncryptionUserKey:(MEncryptionUserKey*)signatureKey;
+- (void) createEncryptionUserKey:(MEncryptionUserKey*) cryptoKey;
+- (void) updateEncryptionUserKey:(MEncryptionUserKey*) cryptoKey;
 
 - (IBEncryptionUserKey *)encryptionKeyTo:(MIdentity *)to me:(IBEncryptionIdentity *)me;
 

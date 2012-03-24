@@ -34,6 +34,7 @@
 #import "OutgoingMessage.h"
 #import "IncomingMessage.h"
 #import "NSData+Crypto.h"
+#import "Musubi.h"
 #import <stdlib.h>
 
 @implementation EncodingTestBlacklistProvider
@@ -286,7 +287,7 @@
         STFail(@"Message should have been detected as duplicate");
     }
     @catch (NSException *exception) {
-        if (![[exception name] isEqualToString:@"Duplicate"]) {
+        if (![[exception name] isEqualToString:kMusubiExceptionDuplicateMessage]) {
             @throw exception;
         }
     }
@@ -323,7 +324,7 @@
         STFail(@"Message should have been detected as misrouted");
     }
     @catch (NSException *exception) {
-        if (![[exception name] isEqualToString:@"Recipient mismatch"]) {
+        if (![[exception name] isEqualToString:kMusubiExceptionRecipientMismatch]) {
             @throw exception;
         }
     }
@@ -363,7 +364,7 @@
         STFail(@"Message should have failed because of blacklist");
     }
     @catch (NSException *exception) {
-        if (![[exception name] isEqualToString:@"Blacklisted"]) {
+        if (![[exception name] isEqualToString:kMusubiExceptionSenderBlacklisted]) {
             @throw exception;
         }
     }
@@ -398,7 +399,7 @@
         STFail(@"Encoding should have failed because of missing key");
     }
     @catch (NSException *exception) {
-        if (![[exception name] isEqualToString:@"Missing Signature Key"]) {
+        if (![[exception name] isEqualToString:kMusubiExceptionNeedSignatureUserKey]) {
             @throw exception;
         }
     }
@@ -441,7 +442,7 @@
         STFail(@"Message should have needed a different encryption key");
     }
     @catch (NSException *exception) {
-        if (![[exception name] isEqualToString:@"Missing Encryption Key"]) {
+        if (![[exception name] isEqualToString:kMusubiExceptionNeedEncryptionUserKey]) {
             @throw exception;
         }
     }
@@ -481,7 +482,7 @@
         STFail(@"Message should have been detected as corrupted");
     }
     @catch (NSException *exception) {
-        if (![[exception name] isEqualToString:@"Corrupted"]) {
+        if (![[exception name] isEqualToString:kMusubiExceptionMessageCorrupted]) {
             @throw exception;
         }
     }
@@ -519,7 +520,7 @@
         STFail(@"Message should have been detected having bad signature");
     }
     @catch (NSException *exception) {
-        if (![[exception name] isEqualToString:@"Bad signature"]) {
+        if (![[exception name] isEqualToString:kMusubiExceptionBadSignature]) {
             @throw exception;
         }
     }

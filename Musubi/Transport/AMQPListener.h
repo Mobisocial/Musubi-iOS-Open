@@ -25,7 +25,8 @@
 
 #import <Foundation/Foundation.h>
 #import "AMQPThread.h"
-#import "DeviceManager.h"
+
+@class DeviceManager, IdentityManager;
 
 @interface AMQPListener : AMQPThread {
     DeviceManager* deviceManager;

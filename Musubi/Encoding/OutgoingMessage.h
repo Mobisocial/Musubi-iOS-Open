@@ -24,7 +24,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MIdentity.h"
+
+@class MIdentity;
 
 @interface OutgoingMessage : NSObject {
     MIdentity* fromIdentity; // the reference to the identity that i send the message as

@@ -25,6 +25,8 @@
 
 #import "FacebookAuth.h"
 #import "AppDelegate.h"
+#import "AccountAuthManager.h"
+#import "MAccount.h"
 
 @implementation FacebookAuthManager
 

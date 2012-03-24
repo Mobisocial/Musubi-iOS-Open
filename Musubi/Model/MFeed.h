@@ -45,5 +45,6 @@
 @property (nonatomic) int32_t numUnread;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic) BOOL accepted;
+@property (nonatomic) int16_t knownId;
 
 @end

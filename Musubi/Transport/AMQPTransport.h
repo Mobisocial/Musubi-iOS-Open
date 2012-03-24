@@ -24,9 +24,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AMQPConnectionManager.h"
-#import "AMQPSender.h"
-#import "AMQPListener.h"
+
+@class AMQPConnectionManager, AMQPSender, AMQPListener, PersistentModelStoreFactory;
 
 @interface AMQPTransport : NSObject {
     AMQPConnectionManager* connMngrIn;

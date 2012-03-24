@@ -26,6 +26,7 @@
 #import <Foundation/Foundation.h>
 #import "TransportDataProvider.h"
 #import "PersistentModelStore.h"
+#import "Musubi.h"
 
 @protocol BlackListProvider
 - (BOOL) isBlackListed: (IBEncryptionIdentity*) identity;

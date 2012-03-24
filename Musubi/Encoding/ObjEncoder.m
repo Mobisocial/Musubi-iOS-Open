@@ -24,11 +24,17 @@
 //
 
 #import "ObjEncoder.h"
+#import "Musubi.h"
+
+#import "NSData+Crypto.h"
 #import "SBJSON.h"
 #import "BSONEncoder.h"
 #import "MIdentity.h"
 #import "MDevice.h"
-#import "NSData+Crypto.h"
+#import "MObj.h"
+#import "MFeed.h"
+#import "MApp.h"
+#import "PreparedObj.h"
 
 @implementation ObjEncoder
 
@@ -36,20 +42,20 @@ static uint32_t kVersionHeader = 30050081;
 static uint32_t kDefaultFlags = 0x0;
 static uint32_t kHeaderGuesstimate = 200;
 
-- (PreparedObj *)prepareObj:(MObj *)obj forFeed:(MFeed *)feed andApp:(MApp *)app {
++ (PreparedObj *)prepareObj:(MObj *)obj forFeed:(MFeed *)feed andApp:(MApp *)app {
     
     // Verify that the JSON is valid
     SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
     [parser objectWithString:obj.json];
     
-    return [[[PreparedObj alloc] initWithFeedType:feed.type feedCapability:feed.capability appId:app.appId timestamp:obj.timestamp data:obj] autorelease];
+    return [[[PreparedObj alloc] initWithFeedType:feed.type feedCapability:feed.capability appId:app.appId timestamp:[obj.timestamp timeIntervalSince1970] data:obj] autorelease];
 }
 
-- (NSData *)encodeObj:(PreparedObj *)obj {
++ (NSData *)encodeObj:(PreparedObj *)obj {
     
     int approx = (obj.raw == nil) ? kHeaderGuesstimate : (obj.raw.length + kHeaderGuesstimate);
     
-    NSMutableData* encoded = [NSMutableData dataWithLength:approx];
+    NSMutableData* encoded = [NSMutableData dataWithCapacity:approx];
     
     uint32_t versionBigEndian = CFSwapInt32HostToBig(kVersionHeader);
     uint32_t flagsBigEndian = CFSwapInt32HostToBig(kDefaultFlags);
@@ -57,10 +63,30 @@ static uint32_t kHeaderGuesstimate = 200;
     [encoded appendBytes:&versionBigEndian length:sizeof(versionBigEndian)];
     [encoded appendBytes:&flagsBigEndian length:sizeof(flagsBigEndian)];
     [encoded appendData:[BSONEncoder encodeObj: obj]];
+    
     return encoded;
 }
 
-- (NSData*) computeUniversalHashFor: (NSData*) hash from: (MIdentity*) from onDevice: (MDevice*) device {
+
++ (PreparedObj *)decodeObj:(NSData *)data {
+    const void* dataPtr = data.bytes;
+    
+    uint32_t version = CFSwapInt32BigToHost(*(uint32_t*)dataPtr);
+    if (version != kVersionHeader) {
+        @throw [NSException exceptionWithName:kMusubiExceptionBadObjFormat reason:[NSString stringWithFormat: @"Bad version header: %lu", version] userInfo:nil];
+    }
+    dataPtr += sizeof(uint32_t);
+        
+    uint32_t flags = CFSwapInt32BigToHost(*(uint32_t*)dataPtr);
+    dataPtr += sizeof(uint32_t);
+    
+    NSData* encoded = [NSData dataWithBytes:dataPtr length:data.length - (dataPtr - data.bytes)];
+    
+    return [BSONEncoder decodeObj:encoded];
+}
+
+
++ (NSData*) computeUniversalHashFor: (NSData*) hash from: (MIdentity*) from onDevice: (MDevice*) device {
     uint8_t type = (uint8_t) from.type;
     uint64_t deviceName = CFSwapInt64HostToBig((uint64_t) device.deviceName);
     

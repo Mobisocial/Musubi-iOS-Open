@@ -25,6 +25,20 @@
 
 #import "TransportManager.h"
 
+#import "IBEncryptionScheme.h"
+
+#import "PersistentModelStore.h"
+#import "IdentityManager.h"
+#import "SignatureUserKeyManager.h"
+#import "EncryptionUserKeyManager.h"
+#import "OutgoingSecretManager.h"
+
+#import "MMissingMessage.h"
+#import "MSequenceNumber.h"
+#import "MIdentity.h"
+#import "MIncomingSecret.h"
+#import "MDevice.h"
+
 @implementation TransportManager
 
 @synthesize store, encryptionScheme, signatureScheme, deviceName, identityManager, encryptionUserKeyManager, signatureUserKeyManager;
