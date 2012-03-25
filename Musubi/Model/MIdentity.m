@@ -19,7 +19,7 @@
 //  MIdentity.m
 //  Musubi
 //
-//  Created by MokaFive User on 3/24/12.
+//  Created by MokaFive User on 3/25/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -32,19 +32,19 @@
 @dynamic claimed;
 @dynamic contactId;
 @dynamic createdAt;
+@dynamic musubiName;
+@dynamic musubiThumbnail;
 @dynamic name;
 @dynamic nextSequenceNumber;
 @dynamic owned;
 @dynamic principal;
 @dynamic principalHash;
 @dynamic principalShortHash;
+@dynamic receivedProfileVersion;
+@dynamic sentProfileVersion;
 @dynamic thumbnail;
 @dynamic type;
 @dynamic updatedAt;
-@dynamic receivedProfileVersion;
-@dynamic sentProfileVersion;
-@dynamic musubiThumbnail;
-@dynamic musubiName;
 @dynamic whitelisted;
 
 @end

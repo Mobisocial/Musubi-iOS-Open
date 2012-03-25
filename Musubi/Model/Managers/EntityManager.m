@@ -47,7 +47,7 @@
     return [store queryFirst:predicate onEntity:entityName];
 }
 
-- (NSManagedObject *)create {
+- (id)create {
     NSManagedObject* entity = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext: [store context]];
     return entity;
 }

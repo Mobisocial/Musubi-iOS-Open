@@ -50,7 +50,7 @@
     assert(ident.principalHash != nil && *(uint64_t*)ident.principalHash.bytes == ident.principalShortHash);
     
     // TOOD: synchronize code
-    [ident setUpdatedAt: [NSDate date]];
+    ident.updatedAt = [[NSDate date] timeIntervalSince1970] * 1000;
     [store save];
 }
 
@@ -58,8 +58,9 @@
     assert(ident.principalHash != nil && *(uint64_t*)ident.principalHash.bytes == ident.principalShortHash);
     
 	// TOOD: synchronize code
-    [ident setCreatedAt: [NSDate date]];
-    [ident setUpdatedAt: [NSDate date]];
+    int64_t now = [[NSDate date] timeIntervalSince1970] * 1000;
+    ident.createdAt = now;
+    ident.updatedAt = now;
     
     [store save];
 }

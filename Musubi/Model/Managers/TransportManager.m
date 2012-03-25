@@ -161,7 +161,7 @@
             [identityManager updateIdentity:mIdent];
         }
     } else {
-        mIdent = (MIdentity*)[identityManager create];
+        mIdent = [identityManager create];
         [mIdent setClaimed: YES];
         [mIdent setPrincipalHash: ident.hashed];
         [mIdent setPrincipalShortHash: *(uint64_t*)ident.hashed.bytes];

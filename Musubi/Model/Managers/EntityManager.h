@@ -37,7 +37,7 @@
 @property (nonatomic,retain) PersistentModelStore* store;
 
 - (id) initWithEntityName: (NSString*) name andStore: (PersistentModelStore*) s;
-- (NSManagedObject*) create;
+- (id) create;
 - (NSArray*) query: (NSPredicate*) predicate;
 - (NSManagedObject*) queryFirst: (NSPredicate*) predicate;
 

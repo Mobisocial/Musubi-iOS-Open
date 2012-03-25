@@ -19,7 +19,7 @@
 //  MIdentity.h
 //  Musubi
 //
-//  Created by MokaFive User on 3/24/12.
+//  Created by MokaFive User on 3/25/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -33,19 +33,19 @@
 @property (nonatomic) BOOL claimed;
 @property (nonatomic) int64_t contactId;
 @property (nonatomic) int64_t createdAt;
+@property (nonatomic, retain) NSString * musubiName;
+@property (nonatomic, retain) NSData * musubiThumbnail;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic) int64_t nextSequenceNumber;
 @property (nonatomic) BOOL owned;
 @property (nonatomic, retain) NSString * principal;
 @property (nonatomic, retain) NSData * principalHash;
 @property (nonatomic) int64_t principalShortHash;
+@property (nonatomic) int64_t receivedProfileVersion;
+@property (nonatomic) int64_t sentProfileVersion;
 @property (nonatomic, retain) NSData * thumbnail;
 @property (nonatomic) int16_t type;
 @property (nonatomic) int64_t updatedAt;
-@property (nonatomic) int64_t receivedProfileVersion;
-@property (nonatomic) int64_t sentProfileVersion;
-@property (nonatomic, retain) NSData * musubiThumbnail;
-@property (nonatomic, retain) NSString * musubiName;
 @property (nonatomic) BOOL whitelisted;
 
 @end
