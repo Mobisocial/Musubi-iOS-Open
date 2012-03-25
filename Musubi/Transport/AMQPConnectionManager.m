@@ -220,7 +220,7 @@
     [connLock unlock];
 }
 
-- (BOOL) declareExchange: (NSString*) exchange onChannel: (int) channel passive: (BOOL) passive {
+- (BOOL) declareExchange: (NSString*) exchange onChannel: (int) channel passive: (BOOL) passive durable:(BOOL)durable{
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
@@ -228,7 +228,7 @@
     }
     
     const char* name = [exchange cStringUsingEncoding:NSUTF8StringEncoding];
-    amqp_exchange_declare_ok_t* res = amqp_exchange_declare(conn, channel, amqp_cstring_bytes(name), amqp_cstring_bytes("fanout"), passive ? 1 : 0, 0, amqp_empty_table);
+    amqp_exchange_declare_ok_t* res = amqp_exchange_declare(conn, channel, amqp_cstring_bytes(name), amqp_cstring_bytes("fanout"), passive ? 1 : 0, durable ? 1 : 0, amqp_empty_table);
     
     [self amqpCheckReplyInContext:@"Declaring exchange"];
 

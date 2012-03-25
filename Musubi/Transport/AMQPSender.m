@@ -112,11 +112,11 @@
     }
     
     NSData* groupExchangeNameBytes = [FeedManager fixedIdentifierForIdentities: ids];
-    NSString* groupExchangeName = [self queueNameForKey:groupExchangeNameBytes withPrefix:@"ibegroup-"];
+    NSString* groupExchangeName = [self queueNameForKey:groupExchangeNameBytes withPrefix:@"ibetgroup-"];
     
     
     if (![declaredGroups containsObject:groupExchangeName]) {
-        [connMngr declareExchange:groupExchangeName onChannel:kAMQPChannelOutgoing passive:NO];
+        [connMngr declareExchange:groupExchangeName onChannel:kAMQPChannelOutgoing passive:NO durable:NO];
         //[self log:@"Creating group exchange: %@", groupExchangeName];
         
         for (IBEncryptionIdentity* recipient in hidForQueue) {
@@ -126,13 +126,13 @@
             int probe = [connMngr createChannel];
             @try {
                 // This will fail if the exchange doesn't exist
-                [connMngr declareExchange:dest onChannel:probe passive:YES];
+                [connMngr declareExchange:dest onChannel:probe passive:YES durable:NO];
             } @catch (NSException *exception) {
                 [self log:@"Identity change was not bound, define initial queue"];
                 
                 NSString* initialQueueName = [NSString stringWithFormat:@"initial-%@", dest];
                 [connMngr declareQueue:initialQueueName onChannel:kAMQPChannelOutgoing passive:NO];
-                [connMngr declareExchange:dest onChannel:kAMQPChannelOutgoing passive:NO];
+                [connMngr declareExchange:dest onChannel:kAMQPChannelOutgoing passive:NO durable:YES];
                 [connMngr bindQueue:initialQueueName toExchange:dest onChannel:kAMQPChannelOutgoing];
             } @finally {
                 [connMngr closeChannel:probe];

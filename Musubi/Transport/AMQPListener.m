@@ -68,7 +68,7 @@
                 NSLog(@"Listening on %@", identityExchangeName);
                 
                 //[self log:@"Declaring exchange %@ => %@", identityExchangeName, deviceQueueName];
-                [connMngr declareExchange:identityExchangeName onChannel:kAMQPChannelIncoming passive:NO];                
+                [connMngr declareExchange:identityExchangeName onChannel:kAMQPChannelIncoming passive:NO durable:YES];                
                 [connMngr bindQueue:deviceQueueName toExchange:identityExchangeName onChannel:kAMQPChannelIncoming];
                 
                 // If the initial queue exists, get its messages and remove it
