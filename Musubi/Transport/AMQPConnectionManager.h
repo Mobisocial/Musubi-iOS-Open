@@ -56,7 +56,7 @@
 - (void) closeChannel: (int) channel;
 - (amqp_bytes_t) declareQueue: (NSString*) queue onChannel: (int) channel passive: (BOOL) passive;
 - (void) deleteQueue: (NSString*) queue onChannel: (int) channel;
-- (BOOL) declareExchange: (NSString*) exchange onChannel: (int) channel passive: (BOOL) passive;
+- (BOOL) declareExchange: (NSString*) exchange onChannel: (int) channel passive: (BOOL) passive durable:(BOOL)durable;
 - (void) bindQueue: (NSString*) queue toExchange: (NSString*) exchange onChannel: (int) channel;
 - (void) unbindQueue: (NSString*) queue fromExchange: (NSString*) exchange onChannel: (int) channel;
 - (void) bindExchange: (NSString*) dest to: (NSString*) src onChannel: (int) channel;
