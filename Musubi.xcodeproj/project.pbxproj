@@ -106,6 +106,113 @@
 		D27968E41457DB5200C5FDAB /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959091457D36300C5FDAB /* amqp_url.c */; };
 		D27968E51457DB5200C5FDAB /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = D279590C1457D36300C5FDAB /* socket.c */; };
 		D27968E61457DB5200C5FDAB /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = D279590E1457D36300C5FDAB /* utils.c */; };
+		D27A8320151EB89A00489809 /* PersistentModelStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */; };
+		D27A8321151EB89A00489809 /* amqp_api.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959011457D36200C5FDAB /* amqp_api.c */; };
+		D27A8322151EB89A00489809 /* amqp_connection.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959021457D36200C5FDAB /* amqp_connection.c */; };
+		D27A8323151EB89A00489809 /* amqp_framing.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959031457D36200C5FDAB /* amqp_framing.c */; };
+		D27A8324151EB89A00489809 /* amqp_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959051457D36300C5FDAB /* amqp_mem.c */; };
+		D27A8325151EB89A00489809 /* amqp_socket.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959071457D36300C5FDAB /* amqp_socket.c */; };
+		D27A8326151EB89A00489809 /* amqp_table.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959081457D36300C5FDAB /* amqp_table.c */; };
+		D27A8327151EB89A00489809 /* amqp_url.c in Sources */ = {isa = PBXBuildFile; fileRef = D27959091457D36300C5FDAB /* amqp_url.c */; };
+		D27A8328151EB89A00489809 /* socket.c in Sources */ = {isa = PBXBuildFile; fileRef = D279590C1457D36300C5FDAB /* socket.c */; };
+		D27A8329151EB89A00489809 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = D279590E1457D36300C5FDAB /* utils.c */; };
+		D27A832A151EB89A00489809 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = D27967811457D97500C5FDAB /* ZipArchive.mm */; };
+		D27A832B151EB89A00489809 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967841457D97600C5FDAB /* ioapi.c */; };
+		D27A832C151EB89A00489809 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967861457D97600C5FDAB /* mztools.c */; };
+		D27A832D151EB89A00489809 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967881457D97600C5FDAB /* unzip.c */; };
+		D27A832E151EB89A00489809 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = D279678A1457D97600C5FDAB /* zip.c */; };
+		D27A832F151EB89A00489809 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49031471A32500AC1551 /* bson.c */; };
+		D27A8330151EB89A00489809 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49051471A32500AC1551 /* encoding.c */; };
+		D27A8331151EB89A00489809 /* gridfs.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49071471A32500AC1551 /* gridfs.c */; };
+		D27A8332151EB89A00489809 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49091471A32500AC1551 /* md5.c */; };
+		D27A8333151EB89A00489809 /* mongo.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490B1471A32500AC1551 /* mongo.c */; };
+		D27A8334151EB89A00489809 /* net.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490D1471A32500AC1551 /* net.c */; };
+		D27A8335151EB89A00489809 /* numbers.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F490F1471A32500AC1551 /* numbers.c */; };
+		D27A8336151EB89A00489809 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369D147B3ED300C4FE93 /* NSData+Base64.m */; };
+		D27A8337151EB89A00489809 /* NSData+CocoaDevUsersAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369F147B3ED300C4FE93 /* NSData+CocoaDevUsersAdditions.m */; };
+		D27A8338151EB89A00489809 /* NSData+Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */; };
+		D27A8339151EB89A00489809 /* Musubi.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36B5147B3ED400C4FE93 /* Musubi.m */; };
+		D27A833A151EB89A00489809 /* LocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36D6147B3ED400C4FE93 /* LocationController.m */; };
+		D27A833B151EB89A00489809 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36D8147B3ED400C4FE93 /* UIImage+Alpha.m */; };
+		D27A833C151EB89A00489809 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DA147B3ED400C4FE93 /* UIImage+Resize.m */; };
+		D27A833D151EB89A00489809 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DC147B3ED400C4FE93 /* UIImage+RoundedCorner.m */; };
+		D27A833E151EB89A00489809 /* XQueryComponents.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */; };
+		D27A833F151EB89A00489809 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36E3147B3ED400C4FE93 /* AppDelegate.m */; };
+		D27A8340151EB89A00489809 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D3702147B3ED400C4FE93 /* main.m */; };
+		D27A8341151EB89A00489809 /* IBEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */; };
+		D27A8342151EB89A00489809 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
+		D27A8343151EB89A00489809 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D4814F867E40067B197 /* Message.m */; };
+		D27A8344151EB89A00489809 /* Sender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D4B14F868B60067B197 /* Sender.m */; };
+		D27A8345151EB89A00489809 /* Recipient.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D4E14F868F50067B197 /* Recipient.m */; };
+		D27A8346151EB89A00489809 /* MessageEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5114F869800067B197 /* MessageEncoder.m */; };
+		D27A8347151EB89A00489809 /* OutgoingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5414F869CF0067B197 /* OutgoingMessage.m */; };
+		D27A8348151EB89A00489809 /* Secret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5A14F882580067B197 /* Secret.m */; };
+		D27A8349151EB89A00489809 /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1614FD792300C6ABB3 /* BSONEncoder.m */; };
+		D27A834A151EB89A00489809 /* MessageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */; };
+		D27A834B151EB89A00489809 /* AMQPConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081555151171D800F12039 /* AMQPConnectionManager.m */; };
+		D27A834C151EB89A00489809 /* TransportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156315128BEF00F12039 /* TransportManager.m */; };
+		D27A834D151EB89A00489809 /* UnverifiedIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */; };
+		D27A834E151EB89A00489809 /* IdentityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081569151290FE00F12039 /* IdentityManager.m */; };
+		D27A834F151EB89A00489809 /* SignatureUserKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208156F1512A2C200F12039 /* SignatureUserKeyManager.m */; };
+		D27A8350151EB89A00489809 /* EncodedMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815751512BA9300F12039 /* EncodedMessageManager.m */; };
+		D27A8351151EB89A00489809 /* EncryptionUserKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815781512EA5F00F12039 /* EncryptionUserKeyManager.m */; };
+		D27A8352151EB89A00489809 /* OutgoingSecretManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208157B1512EF7000F12039 /* OutgoingSecretManager.m */; };
+		D27A8353151EB89A00489809 /* MMissingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D208157E1513026900F12039 /* MMissingMessage.m */; };
+		D27A8354151EB89A00489809 /* MSequenceNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815811513043800F12039 /* MSequenceNumber.m */; };
+		D27A8355151EB89A00489809 /* FeedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815841513C20B00F12039 /* FeedManager.m */; };
+		D27A8356151EB89A00489809 /* DeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208158A151541D500F12039 /* DeviceManager.m */; };
+		D27A8357151EB89A00489809 /* EntityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208158D1515421200F12039 /* EntityManager.m */; };
+		D27A8358151EB89A00489809 /* AMQPTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081558151273C400F12039 /* AMQPTransport.m */; };
+		D27A8359151EB89A00489809 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
+		D27A835A151EB89A00489809 /* AMQPListener.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D8B0151944E100E38051 /* AMQPListener.m */; };
+		D27A835B151EB89A00489809 /* AMQPThread.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D8B3151945D400E38051 /* AMQPThread.m */; };
+		D27A835C151EB89A00489809 /* NamePictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D96B151979D200E38051 /* NamePictureCell.m */; };
+		D27A835D151EB89A00489809 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D96D151979D200E38051 /* SettingsViewController.m */; };
+		D27A835E151EB89A00489809 /* MAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB3C1519B05500D2521A /* MAccount.m */; };
+		D27A835F151EB89A00489809 /* MEncryptionUserKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB3F1519B7E300D2521A /* MEncryptionUserKey.m */; };
+		D27A8360151EB89A00489809 /* MEncodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB421519B7E400D2521A /* MEncodedMessage.m */; };
+		D27A8361151EB89A00489809 /* MSignatureUserKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB451519B7E400D2521A /* MSignatureUserKey.m */; };
+		D27A8362151EB89A00489809 /* MIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB481519B7E400D2521A /* MIdentity.m */; };
+		D27A8363151EB89A00489809 /* MDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB4B1519B7E500D2521A /* MDevice.m */; };
+		D27A8364151EB89A00489809 /* MIncomingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB4E1519B7E500D2521A /* MIncomingSecret.m */; };
+		D27A8365151EB89A00489809 /* MOutgoingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB511519B7E500D2521A /* MOutgoingSecret.m */; };
+		D27A8366151EB89A00489809 /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB58151A69DF00D2521A /* AccountManager.m */; };
+		D27A8367151EB89A00489809 /* MFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB5E151A8E4900D2521A /* MFeed.m */; };
+		D27A8368151EB89A00489809 /* NSObject+DDExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */; };
+		D27A8369151EB89A00489809 /* DDInvocationGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB62151A90F800D2521A /* DDInvocationGrabber.m */; };
+		D27A836A151EB89A00489809 /* MessageEncodeService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773C8A151BD41A00A161F9 /* MessageEncodeService.m */; };
+		D27A836B151EB89A00489809 /* MObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773C8D151BD9E700A161F9 /* MObj.m */; };
+		D27A836C151EB89A00489809 /* MApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773C90151BD9FA00A161F9 /* MApp.m */; };
+		D27A836D151EB89A00489809 /* MFeedMember.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773C93151BE2B300A161F9 /* MFeedMember.m */; };
+		D27A836E151EB89A00489809 /* IdentityKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CA0151C264700A161F9 /* IdentityKeyManager.m */; };
+		D27A836F151EB89A00489809 /* AphidIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CA4151C264800A161F9 /* AphidIdentityProvider.m */; };
+		D27A8370151EB89A00489809 /* PreparedObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CA9151C266100A161F9 /* PreparedObj.m */; };
+		D27A8371151EB89A00489809 /* ObjEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CAB151C266100A161F9 /* ObjEncoder.m */; };
+		D27A8372151EB89A00489809 /* Obj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CB0151C422500A161F9 /* Obj.m */; };
+		D27A8373151EB89A00489809 /* IntroductionObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CB5151C438200A161F9 /* IntroductionObj.m */; };
+		D27A8374151EB89A00489809 /* ObjManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CB8151C486000A161F9 /* ObjManager.m */; };
+		D27A8375151EB89A00489809 /* AccountAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CBC151C4CE600A161F9 /* AccountAuthManager.m */; };
+		D27A8376151EB89A00489809 /* FacebookAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CBE151C4CE600A161F9 /* FacebookAuth.m */; };
+		D27A8377151EB89A00489809 /* IncomingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CC1151C85BA00A161F9 /* IncomingMessage.m */; };
+		D27A8378151EB89A00489809 /* MessageDecodeService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CC5151D133100A161F9 /* MessageDecodeService.m */; };
+		D27A8379151EB89A00489809 /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CCB151D638600A161F9 /* AppManager.m */; };
+		D27A837A151EB89A00489809 /* MFeedApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D2773CD1151D7BD100A161F9 /* MFeedApp.m */; };
+		D27A837C151EB89A00489809 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D211D966151978DB00E38051 /* libfacebook_ios_sdk.a */; };
+		D27A837D151EB89A00489809 /* librabbitmq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D279590B1457D36300C5FDAB /* librabbitmq.a */; };
+		D27A837E151EB89A00489809 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
+		D27A8381151EB89A00489809 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27968DC1457DA4700C5FDAB /* CoreData.framework */; };
+		D27A8382151EB89A00489809 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD02891443A1830080861E /* CoreLocation.framework */; };
+		D27A8383151EB89A00489809 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D20E422C1461EEC60096A272 /* CoreGraphics.framework */; };
+		D27A8384151EB89A00489809 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
+		D27A8385151EB89A00489809 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
+		D27A8386151EB89A00489809 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
+		D27A8388151EB89A00489809 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D26D36FC147B3ED400C4FE93 /* InfoPlist.strings */; };
+		D27A8389151EB89A00489809 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */; };
+		D27A838A151EB89A00489809 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */; };
+		D27A838B151EB89A00489809 /* apps in Resources */ = {isa = PBXBuildFile; fileRef = D298FA40143D0E84000831DD /* apps */; };
+		D27A838C151EB89A00489809 /* missing.png in Resources */ = {isa = PBXBuildFile; fileRef = D2B939C314BD04C700C5F777 /* missing.png */; };
+		D27A8393151EB92B00489809 /* libIBE copy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D27A8318151EB7D900489809 /* libIBE copy.a */; };
+		D27A8395151EB93400489809 /* libpbc-Simulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D27A8394151EB93400489809 /* libpbc-Simulator.a */; };
 		D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
@@ -191,6 +298,27 @@
 			proxyType = 2;
 			remoteGlobalIDString = BC70BE4C138C025500638110;
 			remoteInfo = TweetStream;
+		};
+		D27A8317151EB7D900489809 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2B428BB14F44F4600ED868D /* IBE.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D27A8239151EB51000489809;
+			remoteInfo = "IBE-Simulator";
+		};
+		D27A831C151EB89A00489809 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = "facebook-ios-sdk";
+		};
+		D27A8396151EBA3300489809 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2B428BB14F44F4600ED868D /* IBE.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D27A8223151EB51000489809;
+			remoteInfo = "IBE-Simulator";
 		};
 		D2B428CB14F44F4800ED868D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -711,6 +839,9 @@
 		D279678A1457D97600C5FDAB /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
 		D279678B1457D97600C5FDAB /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		D27968DC1457DA4700C5FDAB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D27A8390151EB89A00489809 /* Musubi-iPhoneSimulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Musubi-iPhoneSimulator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D27A8392151EB89B00489809 /* Musubi copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Musubi copy-Info.plist"; path = "/Users/wbult/Code/xcode/Musubi/musubi/Musubi copy-Info.plist"; sourceTree = "<absolute>"; };
+		D27A8394151EB93400489809 /* libpbc-Simulator.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = "libpbc-Simulator.a"; path = "Libraries/PBC/build/Release-iphoneos/libpbc-Simulator.a"; sourceTree = "<group>"; };
 		D298F9F2143CE6DF000831DD /* Musubi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Musubi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D298F9F6143CE6DF000831DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D298F9F8143CE6DF000831DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -759,6 +890,24 @@
 				D216DE5A14F48951001A4166 /* SenTestingKit.framework in Frameworks */,
 				D216DE5B14F48951001A4166 /* UIKit.framework in Frameworks */,
 				D216DE5C14F48951001A4166 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D27A837B151EB89A00489809 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D27A837C151EB89A00489809 /* libfacebook_ios_sdk.a in Frameworks */,
+				D27A837D151EB89A00489809 /* librabbitmq.a in Frameworks */,
+				D27A837E151EB89A00489809 /* libz.dylib in Frameworks */,
+				D27A8395151EB93400489809 /* libpbc-Simulator.a in Frameworks */,
+				D27A8393151EB92B00489809 /* libIBE copy.a in Frameworks */,
+				D27A8381151EB89A00489809 /* CoreData.framework in Frameworks */,
+				D27A8382151EB89A00489809 /* CoreLocation.framework in Frameworks */,
+				D27A8383151EB89A00489809 /* CoreGraphics.framework in Frameworks */,
+				D27A8384151EB89A00489809 /* Security.framework in Frameworks */,
+				D27A8385151EB89A00489809 /* UIKit.framework in Frameworks */,
+				D27A8386151EB89A00489809 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2140,6 +2289,7 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
+				D27A8394151EB93400489809 /* libpbc-Simulator.a */,
 				D216DDCA14F46131001A4166 /* libpbc.a */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
 				D26D36E1147B3ED400C4FE93 /* UI */,
@@ -2148,6 +2298,7 @@
 				D216DE5D14F48951001A4166 /* MusubiAppTest */,
 				D298F9F5143CE6DF000831DD /* Frameworks */,
 				D298F9F3143CE6DF000831DD /* Products */,
+				D27A8392151EB89B00489809 /* Musubi copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2156,6 +2307,7 @@
 			children = (
 				D298F9F2143CE6DF000831DD /* Musubi.app */,
 				D216DE5914F48951001A4166 /* MusubiAppTest.octest */,
+				D27A8390151EB89A00489809 /* Musubi-iPhoneSimulator.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2222,6 +2374,7 @@
 			isa = PBXGroup;
 			children = (
 				D2B428CC14F44F4800ED868D /* libIBE.a */,
+				D27A8318151EB7D900489809 /* libIBE copy.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2255,6 +2408,25 @@
 			productName = MusubiAppTest;
 			productReference = D216DE5914F48951001A4166 /* MusubiAppTest.octest */;
 			productType = "com.apple.product-type.bundle";
+		};
+		D27A831A151EB89A00489809 /* Musubi-IPhoneSimulator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D27A838D151EB89A00489809 /* Build configuration list for PBXNativeTarget "Musubi-IPhoneSimulator" */;
+			buildPhases = (
+				D27A831F151EB89A00489809 /* Sources */,
+				D27A837B151EB89A00489809 /* Frameworks */,
+				D27A8387151EB89A00489809 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D27A831B151EB89A00489809 /* PBXTargetDependency */,
+				D27A8397151EBA3300489809 /* PBXTargetDependency */,
+			);
+			name = "Musubi-IPhoneSimulator";
+			productName = musubi;
+			productReference = D27A8390151EB89A00489809 /* Musubi-iPhoneSimulator.app */;
+			productType = "com.apple.product-type.application";
 		};
 		D298F9F1143CE6DF000831DD /* Musubi */ = {
 			isa = PBXNativeTarget;
@@ -2320,6 +2492,7 @@
 			targets = (
 				D298F9F1143CE6DF000831DD /* Musubi */,
 				D216DE5814F48951001A4166 /* MusubiAppTest */,
+				D27A831A151EB89A00489809 /* Musubi-IPhoneSimulator */,
 			);
 		};
 /* End PBXProject section */
@@ -2374,6 +2547,13 @@
 			remoteRef = D27968D31457D97800C5FDAB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D27A8318151EB7D900489809 /* libIBE copy.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libIBE copy.a";
+			remoteRef = D27A8317151EB7D900489809 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		D2B428CC14F44F4800ED868D /* libIBE.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2389,6 +2569,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D27A8387151EB89A00489809 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D27A8388151EB89A00489809 /* InfoPlist.strings in Resources */,
+				D27A8389151EB89A00489809 /* MainStoryboard_iPhone.storyboard in Resources */,
+				D27A838A151EB89A00489809 /* MainStoryboard_iPad.storyboard in Resources */,
+				D27A838B151EB89A00489809 /* apps in Resources */,
+				D27A838C151EB89A00489809 /* missing.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2433,6 +2625,104 @@
 				D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */,
 				D2AADE4B14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m in Sources */,
 				D208155C1512851700F12039 /* AMQPTransportTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D27A831F151EB89A00489809 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D27A8320151EB89A00489809 /* PersistentModelStore.m in Sources */,
+				D27A8321151EB89A00489809 /* amqp_api.c in Sources */,
+				D27A8322151EB89A00489809 /* amqp_connection.c in Sources */,
+				D27A8323151EB89A00489809 /* amqp_framing.c in Sources */,
+				D27A8324151EB89A00489809 /* amqp_mem.c in Sources */,
+				D27A8325151EB89A00489809 /* amqp_socket.c in Sources */,
+				D27A8326151EB89A00489809 /* amqp_table.c in Sources */,
+				D27A8327151EB89A00489809 /* amqp_url.c in Sources */,
+				D27A8328151EB89A00489809 /* socket.c in Sources */,
+				D27A8329151EB89A00489809 /* utils.c in Sources */,
+				D27A832A151EB89A00489809 /* ZipArchive.mm in Sources */,
+				D27A832B151EB89A00489809 /* ioapi.c in Sources */,
+				D27A832C151EB89A00489809 /* mztools.c in Sources */,
+				D27A832D151EB89A00489809 /* unzip.c in Sources */,
+				D27A832E151EB89A00489809 /* zip.c in Sources */,
+				D27A832F151EB89A00489809 /* bson.c in Sources */,
+				D27A8330151EB89A00489809 /* encoding.c in Sources */,
+				D27A8331151EB89A00489809 /* gridfs.c in Sources */,
+				D27A8332151EB89A00489809 /* md5.c in Sources */,
+				D27A8333151EB89A00489809 /* mongo.c in Sources */,
+				D27A8334151EB89A00489809 /* net.c in Sources */,
+				D27A8335151EB89A00489809 /* numbers.c in Sources */,
+				D27A8336151EB89A00489809 /* NSData+Base64.m in Sources */,
+				D27A8337151EB89A00489809 /* NSData+CocoaDevUsersAdditions.m in Sources */,
+				D27A8338151EB89A00489809 /* NSData+Crypto.m in Sources */,
+				D27A8339151EB89A00489809 /* Musubi.m in Sources */,
+				D27A833A151EB89A00489809 /* LocationController.m in Sources */,
+				D27A833B151EB89A00489809 /* UIImage+Alpha.m in Sources */,
+				D27A833C151EB89A00489809 /* UIImage+Resize.m in Sources */,
+				D27A833D151EB89A00489809 /* UIImage+RoundedCorner.m in Sources */,
+				D27A833E151EB89A00489809 /* XQueryComponents.m in Sources */,
+				D27A833F151EB89A00489809 /* AppDelegate.m in Sources */,
+				D27A8340151EB89A00489809 /* main.m in Sources */,
+				D27A8341151EB89A00489809 /* IBEncryptionScheme.m in Sources */,
+				D27A8342151EB89A00489809 /* Model.xcdatamodeld in Sources */,
+				D27A8343151EB89A00489809 /* Message.m in Sources */,
+				D27A8344151EB89A00489809 /* Sender.m in Sources */,
+				D27A8345151EB89A00489809 /* Recipient.m in Sources */,
+				D27A8346151EB89A00489809 /* MessageEncoder.m in Sources */,
+				D27A8347151EB89A00489809 /* OutgoingMessage.m in Sources */,
+				D27A8348151EB89A00489809 /* Secret.m in Sources */,
+				D27A8349151EB89A00489809 /* BSONEncoder.m in Sources */,
+				D27A834A151EB89A00489809 /* MessageDecoder.m in Sources */,
+				D27A834B151EB89A00489809 /* AMQPConnectionManager.m in Sources */,
+				D27A834C151EB89A00489809 /* TransportManager.m in Sources */,
+				D27A834D151EB89A00489809 /* UnverifiedIdentityProvider.m in Sources */,
+				D27A834E151EB89A00489809 /* IdentityManager.m in Sources */,
+				D27A834F151EB89A00489809 /* SignatureUserKeyManager.m in Sources */,
+				D27A8350151EB89A00489809 /* EncodedMessageManager.m in Sources */,
+				D27A8351151EB89A00489809 /* EncryptionUserKeyManager.m in Sources */,
+				D27A8352151EB89A00489809 /* OutgoingSecretManager.m in Sources */,
+				D27A8353151EB89A00489809 /* MMissingMessage.m in Sources */,
+				D27A8354151EB89A00489809 /* MSequenceNumber.m in Sources */,
+				D27A8355151EB89A00489809 /* FeedManager.m in Sources */,
+				D27A8356151EB89A00489809 /* DeviceManager.m in Sources */,
+				D27A8357151EB89A00489809 /* EntityManager.m in Sources */,
+				D27A8358151EB89A00489809 /* AMQPTransport.m in Sources */,
+				D27A8359151EB89A00489809 /* AMQPSender.m in Sources */,
+				D27A835A151EB89A00489809 /* AMQPListener.m in Sources */,
+				D27A835B151EB89A00489809 /* AMQPThread.m in Sources */,
+				D27A835C151EB89A00489809 /* NamePictureCell.m in Sources */,
+				D27A835D151EB89A00489809 /* SettingsViewController.m in Sources */,
+				D27A835E151EB89A00489809 /* MAccount.m in Sources */,
+				D27A835F151EB89A00489809 /* MEncryptionUserKey.m in Sources */,
+				D27A8360151EB89A00489809 /* MEncodedMessage.m in Sources */,
+				D27A8361151EB89A00489809 /* MSignatureUserKey.m in Sources */,
+				D27A8362151EB89A00489809 /* MIdentity.m in Sources */,
+				D27A8363151EB89A00489809 /* MDevice.m in Sources */,
+				D27A8364151EB89A00489809 /* MIncomingSecret.m in Sources */,
+				D27A8365151EB89A00489809 /* MOutgoingSecret.m in Sources */,
+				D27A8366151EB89A00489809 /* AccountManager.m in Sources */,
+				D27A8367151EB89A00489809 /* MFeed.m in Sources */,
+				D27A8368151EB89A00489809 /* NSObject+DDExtensions.m in Sources */,
+				D27A8369151EB89A00489809 /* DDInvocationGrabber.m in Sources */,
+				D27A836A151EB89A00489809 /* MessageEncodeService.m in Sources */,
+				D27A836B151EB89A00489809 /* MObj.m in Sources */,
+				D27A836C151EB89A00489809 /* MApp.m in Sources */,
+				D27A836D151EB89A00489809 /* MFeedMember.m in Sources */,
+				D27A836E151EB89A00489809 /* IdentityKeyManager.m in Sources */,
+				D27A836F151EB89A00489809 /* AphidIdentityProvider.m in Sources */,
+				D27A8370151EB89A00489809 /* PreparedObj.m in Sources */,
+				D27A8371151EB89A00489809 /* ObjEncoder.m in Sources */,
+				D27A8372151EB89A00489809 /* Obj.m in Sources */,
+				D27A8373151EB89A00489809 /* IntroductionObj.m in Sources */,
+				D27A8374151EB89A00489809 /* ObjManager.m in Sources */,
+				D27A8375151EB89A00489809 /* AccountAuthManager.m in Sources */,
+				D27A8376151EB89A00489809 /* FacebookAuth.m in Sources */,
+				D27A8377151EB89A00489809 /* IncomingMessage.m in Sources */,
+				D27A8378151EB89A00489809 /* MessageDecodeService.m in Sources */,
+				D27A8379151EB89A00489809 /* AppManager.m in Sources */,
+				D27A837A151EB89A00489809 /* MFeedApp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2546,6 +2836,16 @@
 			isa = PBXTargetDependency;
 			target = D298F9F1143CE6DF000831DD /* Musubi */;
 			targetProxy = D216DE6A14F48AE2001A4166 /* PBXContainerItemProxy */;
+		};
+		D27A831B151EB89A00489809 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "facebook-ios-sdk";
+			targetProxy = D27A831C151EB89A00489809 /* PBXContainerItemProxy */;
+		};
+		D27A8397151EBA3300489809 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "IBE-Simulator";
+			targetProxy = D27A8396151EBA3300489809 /* PBXContainerItemProxy */;
 		};
 		D2B428D414F44FC600ED868D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2698,6 +2998,44 @@
 			};
 			name = Release;
 		};
+		D27A838E151EB89A00489809 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ARC_MIGRATION = donothing;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_FAST_MATH = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
+				GCC_VERSION = "";
+				INFOPLIST_FILE = "Musubi copy-Info.plist";
+				PRODUCT_NAME = "Musubi-iPhoneSimulator";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D27A838F151EB89A00489809 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ARC_MIGRATION = donothing;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_FAST_MATH = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
+				GCC_VERSION = "";
+				INFOPLIST_FILE = "Musubi copy-Info.plist";
+				PRODUCT_NAME = "Musubi-iPhoneSimulator";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 		D298FA24143CE6DF000831DD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2825,6 +3163,15 @@
 			buildConfigurations = (
 				D216DE6814F48952001A4166 /* Debug */,
 				D216DE6914F48952001A4166 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D27A838D151EB89A00489809 /* Build configuration list for PBXNativeTarget "Musubi-IPhoneSimulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D27A838E151EB89A00489809 /* Debug */,
+				D27A838F151EB89A00489809 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
