@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D27A831A151EB89A00489809"
-               BuildableName = "Musubi.app"
+               BuildableName = "Musubi-iPhoneSimulator.app"
                BlueprintName = "Musubi-IPhoneSimulator"
                ReferencedContainer = "container:Musubi.xcodeproj">
             </BuildableReference>
@@ -32,7 +32,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D27A831A151EB89A00489809"
-            BuildableName = "Musubi.app"
+            BuildableName = "Musubi-iPhoneSimulator.app"
             BlueprintName = "Musubi-IPhoneSimulator"
             ReferencedContainer = "container:Musubi.xcodeproj">
          </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D27A831A151EB89A00489809"
-            BuildableName = "Musubi.app"
+            BuildableName = "Musubi-iPhoneSimulator.app"
             BlueprintName = "Musubi-IPhoneSimulator"
             ReferencedContainer = "container:Musubi.xcodeproj">
          </BuildableReference>
@@ -69,7 +69,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D27A831A151EB89A00489809"
-            BuildableName = "Musubi.app"
+            BuildableName = "Musubi-iPhoneSimulator.app"
             BlueprintName = "Musubi-IPhoneSimulator"
             ReferencedContainer = "container:Musubi.xcodeproj">
          </BuildableReference>

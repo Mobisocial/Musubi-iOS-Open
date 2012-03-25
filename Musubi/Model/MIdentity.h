@@ -19,28 +19,20 @@
 //  MIdentity.h
 //  Musubi
 //
-//  Created by Willem Bult on 3/21/12.
+//  Created by MokaFive User on 3/24/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#define kIdentityTypeEmail 0
-#define kIdentityTypePhoneNumber 1
-#define kIdentityTypeOpenID 2
-#define kIdentityTypeTwitter 3
-#define kIdentityTypeFacebook 4
-#define kIdentityTypeLocal 5
 
 @interface MIdentity : NSManagedObject
 
 @property (nonatomic) BOOL blocked;
-@property (nonatomic) BOOL bootstrap;
 @property (nonatomic) BOOL claimed;
 @property (nonatomic) int64_t contactId;
-@property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic) BOOL hasLatestProfile;
+@property (nonatomic) int64_t createdAt;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic) int64_t nextSequenceNumber;
 @property (nonatomic) BOOL owned;
@@ -49,6 +41,11 @@
 @property (nonatomic) int64_t principalShortHash;
 @property (nonatomic, retain) NSData * thumbnail;
 @property (nonatomic) int16_t type;
-@property (nonatomic, retain) NSDate * updatedAt;
+@property (nonatomic) int64_t updatedAt;
+@property (nonatomic) int64_t receivedProfileVersion;
+@property (nonatomic) int64_t sentProfileVersion;
+@property (nonatomic, retain) NSData * musubiThumbnail;
+@property (nonatomic, retain) NSString * musubiName;
+@property (nonatomic) BOOL whitelisted;
 
 @end

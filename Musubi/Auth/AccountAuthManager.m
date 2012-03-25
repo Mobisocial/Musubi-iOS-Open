@@ -41,6 +41,7 @@
 #import "MAccount.h"
 #import "MDevice.h"
 #import "MFeed.h"
+#import "Authorities.h"
 
 @implementation AccountAuthManager
 

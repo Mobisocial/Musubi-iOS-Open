@@ -42,6 +42,7 @@
 #import "Recipient.h"
 #import "Message.h"
 #import "Secret.h"
+#import "Authorities.h"
 
 @implementation MessageDecoder
 

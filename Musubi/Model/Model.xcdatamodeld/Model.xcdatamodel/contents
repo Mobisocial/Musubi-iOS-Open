@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50b" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50d" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Account" representedClassName="MAccount" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
@@ -56,20 +56,23 @@
     </entity>
     <entity name="Identity" representedClassName="MIdentity" syncable="YES">
         <attribute name="blocked" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="bootstrap" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="claimed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="contactId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="hasLatestProfile" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="musubiName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="musubiThumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nextSequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="owned" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="principal" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="principalHash" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="principalShortHash" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="receivedProfileVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="sentProfileVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="whitelisted" optional="YES" attributeType="Boolean" syncable="YES"/>
     </entity>
     <entity name="IncomingSecret" representedClassName="MIncomingSecret" syncable="YES">
         <attribute name="encryptedKey" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -124,19 +127,19 @@
     </entity>
     <elements>
         <element name="Account" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="App" positionX="160" positionY="192" width="128" height="165"/>
         <element name="Device" positionX="160" positionY="192" width="128" height="105"/>
         <element name="EncodedMessage" positionX="160" positionY="192" width="128" height="165"/>
         <element name="EncryptionUserKey" positionX="160" positionY="192" width="128" height="105"/>
         <element name="Feed" positionX="160" positionY="192" width="128" height="150"/>
-        <element name="Identity" positionX="160" positionY="192" width="128" height="285"/>
+        <element name="FeedApp" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="FeedMember" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="Identity" positionX="160" positionY="192" width="128" height="315"/>
         <element name="IncomingSecret" positionX="160" positionY="192" width="128" height="180"/>
         <element name="MissingMessage" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="Obj" positionX="160" positionY="192" width="128" height="285"/>
         <element name="OutgoingSecret" positionX="160" positionY="192" width="128" height="165"/>
         <element name="SequenceNumber" positionX="160" positionY="192" width="128" height="90"/>
         <element name="SignatureUserKey" positionX="160" positionY="192" width="128" height="105"/>
-        <element name="Obj" positionX="160" positionY="192" width="128" height="285"/>
-        <element name="App" positionX="160" positionY="192" width="128" height="165"/>
-        <element name="FeedMember" positionX="160" positionY="192" width="128" height="75"/>
-        <element name="FeedApp" positionX="160" positionY="192" width="128" height="75"/>
     </elements>
 </model>

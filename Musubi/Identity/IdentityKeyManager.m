@@ -35,6 +35,7 @@
 #import "MSignatureUserKey.h"
 #import "IBEncryptionScheme.h"
 #import "PersistentModelStore.h"
+#import "Authorities.h"
 
 static long kMinimumBackoff = 10 * 1000;
 static long kMaximumBackoff = 30 * 60 * 1000;

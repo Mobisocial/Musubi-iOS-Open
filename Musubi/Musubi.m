@@ -49,6 +49,7 @@
 #import "MIdentity.h"
 
 #import "IntroductionObj.h"
+#import "Authorities.h"
 
 @implementation Musubi
 
@@ -112,8 +113,9 @@ static Musubi* _sharedInstance = nil;
     IBEncryptionIdentity* anotherMe = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"wbult@stanford.edu" temporalFrame:[idManager computeTemporalFrameFromPrincipal:@"wbult@stanford.edu"]];
     
     TransportManager* tManager = [[TransportManager alloc] initWithStore:store encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:0];
+    //this doesn't set principal because principal doesnt come over the network
     MIdentity* mId = [tManager addClaimedIdentity:anotherMe];
-    mId.owned = YES;
+    //mId.owned = YES; // can't have owned without principal
     [store save];   
 
     // The key manager handles our encryption and signature keys

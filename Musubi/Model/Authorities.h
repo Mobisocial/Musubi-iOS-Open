@@ -16,35 +16,21 @@
 
 
 //
-//  MIdentity.m
+//  Authorities.h
 //  Musubi
 //
-//  Created by MokaFive User on 3/24/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by T.J. Purtell on 3/24/12.
+//  Copyright (c) 2012 Stanford MobiSocial Lab. All rights reserved.
 //
 
-#import "MIdentity.h"
+#ifndef Musubi_Authorities_h
+#define Musubi_Authorities_h
 
+#define kIdentityTypeEmail 0
+#define kIdentityTypePhoneNumber 1
+#define kIdentityTypeOpenID 2
+#define kIdentityTypeTwitter 3
+#define kIdentityTypeFacebook 4
+#define kIdentityTypeLocal 5
 
-@implementation MIdentity
-
-@dynamic blocked;
-@dynamic claimed;
-@dynamic contactId;
-@dynamic createdAt;
-@dynamic name;
-@dynamic nextSequenceNumber;
-@dynamic owned;
-@dynamic principal;
-@dynamic principalHash;
-@dynamic principalShortHash;
-@dynamic thumbnail;
-@dynamic type;
-@dynamic updatedAt;
-@dynamic receivedProfileVersion;
-@dynamic sentProfileVersion;
-@dynamic musubiThumbnail;
-@dynamic musubiName;
-@dynamic whitelisted;
-
-@end
+#endif

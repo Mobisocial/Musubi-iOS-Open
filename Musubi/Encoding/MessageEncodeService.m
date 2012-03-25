@@ -46,6 +46,7 @@
 #import "MessageEncoder.h"
 #import "ObjEncoder.h"
 #import "OutgoingMessage.h"
+#import "Authorities.h"
 
 #define kSmallProcessorCutOff 20
 
