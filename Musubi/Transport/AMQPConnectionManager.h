@@ -63,7 +63,7 @@
 - (void) bindExchange: (NSString*) dest to: (NSString*) src onChannel: (int) channel;
 - (void) publish: (NSData*) data to: (NSString*) dest onChannel: (int) channel;
 //- (void)consumeFromQueue:(amqp_bytes_t)queue onChannel:(int)channel;
-- (void)consumeFromQueue:(NSString*)queue onChannel:(int)channel;
+- (void)consumeFromQueue:(NSString*)queue onChannel:(int)channel nolocal:(BOOL)nolocal exclusive:(BOOL)exclusive;
 - (NSData*) readMessage;
 - (void) ackMessage: (int) deliveryTag onChannel: (int) channel;
 - (uint32_t) nextSequenceNumber;

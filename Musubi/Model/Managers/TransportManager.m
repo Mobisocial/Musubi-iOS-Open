@@ -148,7 +148,7 @@
 }
 
 - (BOOL)isMe:(IBEncryptionIdentity *)ident {
-    NSArray* results = [store query:[NSPredicate predicateWithFormat:@"type = %d AND principalShortHash = %llu AND principalHash = %@ AND owned = 1", ident.authority, *(uint64_t*)ident.hashed.bytes, ident.hashed] onEntity:@"Identity"];
+    NSArray* results = [store query:[NSPredicate predicateWithFormat:@"type = %d AND principalShortHash = %llu AND owned = 1", (int32_t)ident.authority, *(uint64_t*)ident.hashed.bytes] onEntity:@"Identity"];
     return (results.count > 0);
 }
 

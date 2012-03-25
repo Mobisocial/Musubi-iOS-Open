@@ -296,7 +296,7 @@
     [connLock unlock];
 }
 
-- (void)consumeFromQueue:(NSString*)queue onChannel:(int)channel {
+- (void)consumeFromQueue:(NSString*)queue onChannel:(int)channel nolocal:(BOOL)nolocal exclusive:(BOOL)exclusive {
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
@@ -306,7 +306,7 @@
     // Consume from the queue
     const char* queueName = [queue cStringUsingEncoding:NSUTF8StringEncoding];
     
-    amqp_basic_consume(conn, channel, amqp_cstring_bytes(queueName), amqp_empty_bytes, 0, 0, 0, amqp_empty_table);
+    amqp_basic_consume(conn, channel, amqp_cstring_bytes(queueName), amqp_empty_bytes, nolocal ? 1 : 0, 0, exclusive ? 1 : 0, amqp_empty_table);
     [self amqpCheckReplyInContext:@"Basic consume"];
     
     [connLock unlock];
@@ -353,7 +353,18 @@
         if (result < 0) {
             @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Got error waiting for frame" userInfo:nil];
         }
-        
+        if (frame.frame_type == AMQP_FRAME_HEARTBEAT) {
+            amqp_frame_t f;
+            f.frame_type = AMQP_FRAME_HEARTBEAT;
+            f.channel = 0;
+            //this is wrong, we are supposed to time our own based on idle
+            int res = amqp_send_frame(conn, &f);
+            if (res < 0) {
+                @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Error sending heartbeat" userInfo:nil];
+            }
+            [connLock unlock];
+            return nil;
+        }        
         if (frame.frame_type != AMQP_FRAME_METHOD) {
             [connLock unlock];
             return nil;
