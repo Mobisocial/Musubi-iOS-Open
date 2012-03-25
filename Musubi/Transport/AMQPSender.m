@@ -126,12 +126,12 @@
             int probe = [connMngr createChannel];
             @try {
                 // This will fail if the exchange doesn't exist
-                [connMngr declareExchange:dest onChannel:probe passive:YES durable:NO];
+                [connMngr declareExchange:dest onChannel:probe passive:YES durable:YES];
             } @catch (NSException *exception) {
                 [self log:@"Identity change was not bound, define initial queue"];
                 
                 NSString* initialQueueName = [NSString stringWithFormat:@"initial-%@", dest];
-                [connMngr declareQueue:initialQueueName onChannel:kAMQPChannelOutgoing passive:NO];
+                [connMngr declareQueue:initialQueueName onChannel:kAMQPChannelOutgoing passive:NO durable:YES exclusive:NO];
                 [connMngr declareExchange:dest onChannel:kAMQPChannelOutgoing passive:NO durable:YES];
                 [connMngr bindQueue:initialQueueName toExchange:dest onChannel:kAMQPChannelOutgoing];
             } @finally {

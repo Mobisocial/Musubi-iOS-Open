@@ -54,7 +54,7 @@
 - (NSString*) amqpErrorMessageFor: (amqp_rpc_reply_t) x inContext: (NSString*) context;
 - (int) createChannel;
 - (void) closeChannel: (int) channel;
-- (amqp_bytes_t) declareQueue: (NSString*) queue onChannel: (int) channel passive: (BOOL) passive;
+- (amqp_bytes_t) declareQueue: (NSString*) queue onChannel: (int) channel passive: (BOOL) passive durable:(BOOL)durable exclusive:(BOOL)exclusive;
 - (void) deleteQueue: (NSString*) queue onChannel: (int) channel;
 - (BOOL) declareExchange: (NSString*) exchange onChannel: (int) channel passive: (BOOL) passive durable:(BOOL)durable;
 - (void) deleteExchange: (NSString*) exchange onChannel: (int) channel;
