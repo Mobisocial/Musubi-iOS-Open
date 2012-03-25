@@ -109,7 +109,7 @@
     //        amqp_destroy_connection(conn);
     
     // Open socket to AMQP server
-    int sockfd = amqp_open_socket("pepperjack.stanford.edu", 5672);
+    int sockfd = amqp_open_socket("bumblebee.musubi.us", 5672);
     if (sockfd < 0) {
         amqp_destroy_connection(new_conn);
         [connLock unlock];

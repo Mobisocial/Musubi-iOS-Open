@@ -126,6 +126,15 @@
         return [self defaultIdentity];
 }
 
+- (IBEncryptionIdentity *) ibEncryptionIdentityForHasedIdentity: (IBEncryptionIdentity*) ident {
+    if (ident.principal) {
+        return ident;
+    } else {
+        MIdentity* mId = [self identityForIBEncryptionIdentity:ident];
+        return [self ibEncryptionIdentityForIdentity:mId forTemporalFrame:ident.temporalFrame];
+    }
+}
+
 - (MIdentity *)identityForIBEncryptionIdentity:(IBEncryptionIdentity *)ident {
     NSArray* results = [self query: [NSPredicate predicateWithFormat:@"type = %d AND principalShortHash = %llu", ident.authority, *(uint64_t*)[ident.hashed bytes]]];
     

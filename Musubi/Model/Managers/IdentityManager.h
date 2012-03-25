@@ -41,6 +41,7 @@
 - (MIdentity*) defaultIdentity;
 - (MIdentity*) defaultIdentityForParticipants: (NSArray*) participants;
 - (MIdentity*) identityForIBEncryptionIdentity: (IBEncryptionIdentity*) ident;
+- (IBEncryptionIdentity *) ibEncryptionIdentityForHasedIdentity: (IBEncryptionIdentity*) ident;
 - (IBEncryptionIdentity*) ibEncryptionIdentityForIdentity: (MIdentity*) ident forTemporalFrame: (uint64_t) tf;
 - (uint64_t) computeTemporalFrameFromHash: (NSData*) hash;
 - (uint64_t) computeTemporalFrameFromPrincipal: (NSString*) principal;
