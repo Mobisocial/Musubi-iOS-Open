@@ -74,30 +74,6 @@
                 // If the initial queue exists, get its messages and remove it
                 NSString* initialQueueName = [NSString stringWithFormat:@"initial-%@", identityExchangeName];
 
-                /*
-                int probe = [connMngr createChannel];
-                @try {
-                    [connMngr declareQueue:initialQueueName onChannel:probe passive:YES];
-                    
-                    int probe2 = [connMngr createChannel];
-                    @try {
-                        [connMngr unbindQueue:initialQueueName fromExchange:identityExchangeName onChannel:probe2];                    
-                    } @catch (NSException *exception) {
-                        [self log:@"Initial queue was not bound, ok"];
-                    } @finally {
-                        [connMngr closeChannel:probe2];
-                    }
-                    
-                    // Consume the initial identity messages
-                    [connMngr consumeFromQueue:initialQueueName onChannel:kAMQPChannelIncoming];
-                }
-                @catch (NSException *exception) {
-                    [self log:@"Initial queue did not exist, ok"];
-                }
-                @finally {
-                    [connMngr closeChannel:probe];
-                }*/
-                
                 int probe = [connMngr createChannel];
                 @try {
                     [connMngr declareQueue:initialQueueName onChannel:probe passive:NO];

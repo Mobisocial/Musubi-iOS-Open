@@ -237,6 +237,20 @@
     return res != NULL;
 }
 
+- (void) deleteExchange: (NSString*) exchange onChannel: (int) channel {
+    [connLock lock];
+    if (!connectionReady) {
+        [connLock unlock];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
+    }
+    
+    const char* name = [exchange cStringUsingEncoding:NSUTF8StringEncoding];
+    amqp_exchange_delete(conn, channel, amqp_cstring_bytes(name), NO);
+    [self amqpCheckReplyInContext:@"Deleting exchange"];
+    
+    [connLock unlock];
+}
+
 - (void) bindQueue: (NSString*) queue toExchange: (NSString*) exchange onChannel: (int) channel {
     [connLock lock];
     if (!connectionReady) {
