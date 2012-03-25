@@ -188,7 +188,7 @@
     [connLock unlock];
 }
 
-- (amqp_bytes_t) declareQueue: (NSString*) queue onChannel: (int) channel passive: (BOOL) passive {
+- (amqp_bytes_t) declareQueue: (NSString*) queue onChannel: (int) channel passive: (BOOL) passive  durable:(BOOL)durable exclusive:(BOOL)exclusive{
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
@@ -196,7 +196,7 @@
     }
     
     const char* name = [queue cStringUsingEncoding:NSUTF8StringEncoding];
-    amqp_queue_declare_ok_t* res = amqp_queue_declare(conn, channel, amqp_cstring_bytes(name), passive ? 1 : 0, 1, 0, 0, amqp_empty_table);
+    amqp_queue_declare_ok_t* res = amqp_queue_declare(conn, channel, amqp_cstring_bytes(name), passive ? 1 : 0, durable ? 1 : 0, exclusive ? 1 : 0, 0, amqp_empty_table);
     [self amqpCheckReplyInContext:@"Declaring queue"];
     
     amqp_bytes_t q = amqp_bytes_malloc_dup(res->queue);

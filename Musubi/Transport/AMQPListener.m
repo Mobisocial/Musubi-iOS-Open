@@ -58,7 +58,7 @@
             NSData* devNameData = [NSData dataWithBytes:&deviceName length:sizeof(deviceName)];
             NSString* deviceQueueName = [self queueNameForKey:devNameData withPrefix:@"ibedevice-"];
             
-            [connMngr declareQueue:deviceQueueName onChannel:kAMQPChannelIncoming passive:NO];
+            [connMngr declareQueue:deviceQueueName onChannel:kAMQPChannelIncoming passive:NO durable:YES exclusive:NO];
             //TODO: device_queue_name needs to involve the identities some how? or be a larger byte array
             
             // Declare queues for each identity
@@ -76,7 +76,7 @@
                 
                 int probe = [connMngr createChannel];
                 @try {
-                    [connMngr declareQueue:initialQueueName onChannel:probe passive:YES];
+                    [connMngr declareQueue:initialQueueName onChannel:probe passive:YES durable:YES exclusive:NO];
                     
                     int probe2 = [connMngr createChannel];
                     @try {

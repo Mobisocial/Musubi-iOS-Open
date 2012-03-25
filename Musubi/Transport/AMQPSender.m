@@ -131,7 +131,7 @@
                 [self log:@"Identity change was not bound, define initial queue"];
                 
                 NSString* initialQueueName = [NSString stringWithFormat:@"initial-%@", dest];
-                [connMngr declareQueue:initialQueueName onChannel:kAMQPChannelOutgoing passive:NO];
+                [connMngr declareQueue:initialQueueName onChannel:kAMQPChannelOutgoing passive:NO durable:YES exclusive:NO];
                 [connMngr declareExchange:dest onChannel:kAMQPChannelOutgoing passive:NO durable:YES];
                 [connMngr bindQueue:initialQueueName toExchange:dest onChannel:kAMQPChannelOutgoing];
             } @finally {
