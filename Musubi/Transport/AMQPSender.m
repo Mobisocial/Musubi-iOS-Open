@@ -112,7 +112,7 @@
     }
     
     NSData* groupExchangeNameBytes = [FeedManager fixedIdentifierForIdentities: ids];
-    NSString* groupExchangeName = [self queueNameForKey:groupExchangeNameBytes withPrefix:@"ibetgroup-"];
+    NSString* groupExchangeName = [self queueNameForKey:groupExchangeNameBytes withPrefix:@"ibegroup-"];
     
     
     if (![declaredGroups containsObject:groupExchangeName]) {
