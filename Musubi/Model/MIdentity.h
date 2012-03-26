@@ -17,9 +17,9 @@
 
 //
 //  MIdentity.h
-//  Musubi
+//  musubi
 //
-//  Created by MokaFive User on 3/25/12.
+//  Created by MokaFive User on 3/26/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
