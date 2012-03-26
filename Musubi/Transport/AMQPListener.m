@@ -54,7 +54,7 @@
             }
             
             // Declare the device queue
-            uint64_t deviceName = [deviceManager localDeviceName] + 1000;
+            uint64_t deviceName = [deviceManager localDeviceName];
             NSData* devNameData = [NSData dataWithBytes:&deviceName length:sizeof(deviceName)];
             NSString* deviceQueueName = [self queueNameForKey:devNameData withPrefix:@"ibedevice-"];
             
@@ -88,7 +88,7 @@
                     }
                     
                     // Consume the initial identity messages
-                    [connMngr consumeFromQueue:initialQueueName onChannel:probe nolocal:YES exclusive:YES];
+                    [connMngr consumeFromQueue:initialQueueName onChannel:kAMQPChannelIncoming nolocal:YES exclusive:YES];
                 }
                 @catch (NSException *exception) {
                     [self log:@"Exception: %@", exception];

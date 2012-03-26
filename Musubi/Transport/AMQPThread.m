@@ -55,7 +55,8 @@ static int instanceCount = 0;
 }
 
 - (NSString*) queueNameForKey: (NSData*) key withPrefix: (NSString*) prefix {
-    return [NSString stringWithFormat:@"%@%@", prefix, [key encodeBase64WebSafe]];
+    // the \n is because the android version shoved that in on base64 encode... not really URL safe...lol
+    return [NSString stringWithFormat:@"%@%@\n", prefix, [key encodeBase64WebSafe]];
 }
 
 - (void)main {
