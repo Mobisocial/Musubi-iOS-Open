@@ -112,7 +112,9 @@
     }
     
     NSData* groupExchangeNameBytes = [FeedManager fixedIdentifierForIdentities: ids];
-    NSString* groupExchangeName = [self queueNameForKey:groupExchangeNameBytes withPrefix:@"ibegroup-"];
+    //the original android group exchanges were ibegroup and they were durable.  the non-durable version
+    //has a t in the name, for temporary.
+    NSString* groupExchangeName = [self queueNameForKey:groupExchangeNameBytes withPrefix:@"ibetgroup-"];
     
     
     if (![declaredGroups containsObject:groupExchangeName]) {
