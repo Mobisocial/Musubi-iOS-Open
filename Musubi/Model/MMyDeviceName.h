@@ -19,15 +19,15 @@
 //  MyDeviceName.h
 //  musubi
 //
-//  Created by MokaFive User on 3/27/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by T.J. Purtell on 3/27/12.
+//  Copyright (c) 2012 Stanford MobiSocial Lab. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
 
-@interface MyDeviceName : NSManagedObject
+@interface MMyDeviceName : NSManagedObject
 
 @property (nonatomic) int64_t deviceName;
 

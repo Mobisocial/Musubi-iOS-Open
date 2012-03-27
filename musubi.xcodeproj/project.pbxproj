@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C0395FA31521BFD700F5AF3B /* MyDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = C0395FA21521BFD700F5AF3B /* MyDeviceName.m */; };
-		C0395FA41521BFD700F5AF3B /* MyDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = C0395FA21521BFD700F5AF3B /* MyDeviceName.m */; };
+		C0395FA31521BFD700F5AF3B /* MMyDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */; };
+		C0395FA41521BFD700F5AF3B /* MMyDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */; };
 		D2081556151171D800F12039 /* AMQPConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081555151171D800F12039 /* AMQPConnectionManager.m */; };
 		D2081559151273C400F12039 /* AMQPTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081558151273C400F12039 /* AMQPTransport.m */; };
 		D208155C1512851700F12039 /* AMQPTransportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155B1512851700F12039 /* AMQPTransportTest.m */; };
@@ -341,8 +341,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C0395FA11521BFD700F5AF3B /* MyDeviceName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDeviceName.h; sourceTree = "<group>"; };
-		C0395FA21521BFD700F5AF3B /* MyDeviceName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDeviceName.m; sourceTree = "<group>"; };
+		C0395FA11521BFD700F5AF3B /* MMyDeviceName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMyDeviceName.h; sourceTree = "<group>"; };
+		C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMyDeviceName.m; sourceTree = "<group>"; };
 		D2081554151171D800F12039 /* AMQPConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionManager.h; sourceTree = "<group>"; };
 		D2081555151171D800F12039 /* AMQPConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionManager.m; sourceTree = "<group>"; };
 		D2081557151273C400F12039 /* AMQPTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPTransport.h; sourceTree = "<group>"; };
@@ -1049,43 +1049,43 @@
 		D248D2EE14F84ABC00DF96DB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D208156115128BA800F12039 /* Managers */,
 				D2A1FC051521009400C10BE2 /* Authorities.h */,
-				D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */,
-				C0395FA11521BFD700F5AF3B /* MyDeviceName.h */,
-				C0395FA21521BFD700F5AF3B /* MyDeviceName.m */,
-				D2AADE6014FEF0FD00C6ABB3 /* PersistentModelStore.h */,
-				D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */,
-				D208157D1513026800F12039 /* MMissingMessage.h */,
-				D208157E1513026900F12039 /* MMissingMessage.m */,
-				D20815801513043700F12039 /* MSequenceNumber.h */,
-				D20815811513043800F12039 /* MSequenceNumber.m */,
 				D272FB3B1519B05500D2521A /* MAccount.h */,
 				D272FB3C1519B05500D2521A /* MAccount.m */,
-				D272FB501519B7E500D2521A /* MOutgoingSecret.h */,
-				D272FB511519B7E500D2521A /* MOutgoingSecret.m */,
-				D272FB4D1519B7E500D2521A /* MIncomingSecret.h */,
-				D272FB4E1519B7E500D2521A /* MIncomingSecret.m */,
+				D208156115128BA800F12039 /* Managers */,
+				D2773C8F151BD9FA00A161F9 /* MApp.h */,
+				D2773C90151BD9FA00A161F9 /* MApp.m */,
 				D272FB4A1519B7E500D2521A /* MDevice.h */,
 				D272FB4B1519B7E500D2521A /* MDevice.m */,
-				D272FB471519B7E400D2521A /* MIdentity.h */,
-				D272FB481519B7E400D2521A /* MIdentity.m */,
-				D272FB441519B7E400D2521A /* MSignatureUserKey.h */,
-				D272FB451519B7E400D2521A /* MSignatureUserKey.m */,
 				D272FB411519B7E400D2521A /* MEncodedMessage.h */,
 				D272FB421519B7E400D2521A /* MEncodedMessage.m */,
 				D272FB3E1519B7E300D2521A /* MEncryptionUserKey.h */,
 				D272FB3F1519B7E300D2521A /* MEncryptionUserKey.m */,
 				D272FB5D151A8E4900D2521A /* MFeed.h */,
 				D272FB5E151A8E4900D2521A /* MFeed.m */,
-				D2773C8C151BD9E700A161F9 /* MObj.h */,
-				D2773C8D151BD9E700A161F9 /* MObj.m */,
-				D2773C8F151BD9FA00A161F9 /* MApp.h */,
-				D2773C90151BD9FA00A161F9 /* MApp.m */,
-				D2773C92151BE2B300A161F9 /* MFeedMember.h */,
-				D2773C93151BE2B300A161F9 /* MFeedMember.m */,
 				D2773CD0151D7BCC00A161F9 /* MFeedApp.h */,
 				D2773CD1151D7BD100A161F9 /* MFeedApp.m */,
+				D2773C92151BE2B300A161F9 /* MFeedMember.h */,
+				D2773C93151BE2B300A161F9 /* MFeedMember.m */,
+				D272FB471519B7E400D2521A /* MIdentity.h */,
+				D272FB481519B7E400D2521A /* MIdentity.m */,
+				D272FB4D1519B7E500D2521A /* MIncomingSecret.h */,
+				D272FB4E1519B7E500D2521A /* MIncomingSecret.m */,
+				D208157D1513026800F12039 /* MMissingMessage.h */,
+				D208157E1513026900F12039 /* MMissingMessage.m */,
+				C0395FA11521BFD700F5AF3B /* MMyDeviceName.h */,
+				C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */,
+				D2773C8C151BD9E700A161F9 /* MObj.h */,
+				D2773C8D151BD9E700A161F9 /* MObj.m */,
+				D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */,
+				D272FB501519B7E500D2521A /* MOutgoingSecret.h */,
+				D272FB511519B7E500D2521A /* MOutgoingSecret.m */,
+				D20815801513043700F12039 /* MSequenceNumber.h */,
+				D20815811513043800F12039 /* MSequenceNumber.m */,
+				D272FB441519B7E400D2521A /* MSignatureUserKey.h */,
+				D272FB451519B7E400D2521A /* MSignatureUserKey.m */,
+				D2AADE6014FEF0FD00C6ABB3 /* PersistentModelStore.h */,
+				D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2746,7 +2746,7 @@
 				D27A837A151EB89A00489809 /* MFeedApp.m in Sources */,
 				D2A1FC1315211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */,
 				D2A1FC1C1521A99700C10BE2 /* FriendPickerTableViewController.m in Sources */,
-				C0395FA41521BFD700F5AF3B /* MyDeviceName.m in Sources */,
+				C0395FA41521BFD700F5AF3B /* MMyDeviceName.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2846,7 +2846,7 @@
 				D2773CD2151D7BD600A161F9 /* MFeedApp.m in Sources */,
 				D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */,
 				D2A1FC1B1521A99700C10BE2 /* FriendPickerTableViewController.m in Sources */,
-				C0395FA31521BFD700F5AF3B /* MyDeviceName.m in Sources */,
+				C0395FA31521BFD700F5AF3B /* MMyDeviceName.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

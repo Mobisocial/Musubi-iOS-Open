@@ -19,14 +19,14 @@
 //  MyDeviceName.m
 //  musubi
 //
-//  Created by MokaFive User on 3/27/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by T.J. Purtell on 3/27/12.
+//  Copyright (c) 2012 Stanford MobiSocial Lab. All rights reserved.
 //
 
-#import "MyDeviceName.h"
+#import "MMyDeviceName.h"
 
 
-@implementation MyDeviceName
+@implementation MMyDeviceName
 
 @dynamic deviceName;
 

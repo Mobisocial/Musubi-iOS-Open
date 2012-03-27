@@ -88,7 +88,7 @@
         <attribute name="sequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="device" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" syncable="YES"/>
     </entity>
-    <entity name="MyDeviceName" representedClassName="MyDeviceName" syncable="YES">
+    <entity name="MyDeviceName" representedClassName="MMyDeviceName" syncable="YES">
         <attribute name="deviceName" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="Obj" representedClassName="MObj" syncable="YES">

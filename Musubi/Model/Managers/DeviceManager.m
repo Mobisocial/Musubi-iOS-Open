@@ -26,8 +26,11 @@
 #import "DeviceManager.h"
 #import "PersistentModelStore.h"
 #import "MDevice.h"
+#import "MMyDeviceName.h"
 
-@implementation DeviceManager
+@implementation DeviceManager {
+    uint64_t __localDeviceName;
+}
 
 - (id)initWithStore:(PersistentModelStore *)s {
     self = [super initWithEntityName:@"Device" andStore:s];
@@ -37,13 +40,27 @@
 }
 
 - (uint64_t)localDeviceName {
-    MDevice* dev = (MDevice*)[self queryFirst:nil];
+    if(__localDeviceName != 0)
+        return __localDeviceName;
     
-    if (dev != nil) {
-        return dev.deviceName;
-    } else {
-        return -1;
+    MMyDeviceName* deviceName = [store queryFirst:nil onEntity:@"MyDeviceName"];
+    
+    if(deviceName != nil) {
+        __localDeviceName = deviceName.deviceName;
+        return __localDeviceName;
     }
+    
+    //generated a unique name
+    uint64_t generated;
+    generated = (uint64_t)arc4random();
+    generated = (generated << 32) + (uint64_t)arc4random();
+    __localDeviceName = generated;
+    
+    //save it to the database
+    deviceName = [store createEntity:@"MyDeviceName"];
+    deviceName.deviceName = generated;
+    [store save];
+    return __localDeviceName;
 }
 
 - (MDevice*) deviceForName: (uint64_t) name andIdentity: (MIdentity*) mId {
