@@ -24,19 +24,26 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Three20/Three20.h"
 
 @class IdentityManager, MIdentity;
 
-@interface FriendPickerTableViewController : UITableViewController {
-    IdentityManager* identityManager;
-    NSMutableDictionary* identities;
-    NSArray* index;
-    NSMutableArray* selection;
+@interface FriendPickerTableViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, TTTableViewDataSource, UITextFieldDelegate> {
+    IdentityManager* _identityManager;
+    NSMutableDictionary* _identities;
+    NSArray* _index;
+    NSMutableArray* _selection;
+    
+    IBOutlet UIScrollView* recipientView;
+    IBOutlet UITableView* tableView;
+    
+    TTPickerTextField* pickerTextField;
 }
 
 @property (nonatomic,retain) IdentityManager* identityManager;
 @property (nonatomic,retain) NSMutableDictionary* identities;
 @property (nonatomic,retain) NSArray* index;
 @property (nonatomic,retain) NSMutableArray* selection;
+
 
 @end

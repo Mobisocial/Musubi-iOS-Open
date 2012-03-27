@@ -236,6 +236,17 @@
 		D2CD028A1443A1830080861E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD02891443A1830080861E /* CoreLocation.framework */; };
 		D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
 		D2D30EE2151B25E5009D1E62 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
+		D2D9302315223F4A006E4F58 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D9302215223F4A006E4F58 /* QuartzCore.framework */; };
+		D2D9302415223F51006E4F58 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D9302215223F4A006E4F58 /* QuartzCore.framework */; };
+		D2D930A615224964006E4F58 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930511522417E006E4F58 /* libThree20.a */; };
+		D2D930AD15224964006E4F58 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930A715224964006E4F58 /* libThree20Core.a */; };
+		D2D930AE15224964006E4F58 /* libThree20Network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930A815224964006E4F58 /* libThree20Network.a */; };
+		D2D930AF15224964006E4F58 /* libThree20Style.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930A915224964006E4F58 /* libThree20Style.a */; };
+		D2D930B015224964006E4F58 /* libThree20UI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930AA15224964006E4F58 /* libThree20UI.a */; };
+		D2D930B115224964006E4F58 /* libThree20UICommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930AB15224964006E4F58 /* libThree20UICommon.a */; };
+		D2D930B215224964006E4F58 /* libThree20UINavigator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930AC15224964006E4F58 /* libThree20UINavigator.a */; };
+		D2D930B515225E99006E4F58 /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D2D930B415225E99006E4F58 /* Three20.bundle */; };
+		D2D930B615225E99006E4F58 /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D2D930B415225E99006E4F58 /* Three20.bundle */; };
 		D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */; };
 /* End PBXBuildFile section */
 
@@ -337,6 +348,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = D2B4278E14F42D5B00ED868D;
 			remoteInfo = IBE;
+		};
+		D2D930501522417E006E4F58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2D930251522417D006E4F58 /* Three20.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BEF31F3A0F352DF5000DE5D2;
+			remoteInfo = Three20;
+		};
+		D2D930521522417E006E4F58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2D930251522417D006E4F58 /* Three20.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EB9E6C6210B6A8F800DE563C;
+			remoteInfo = Three20UnitTests;
+		};
+		D2D930551522419B006E4F58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2D930251522417D006E4F58 /* Three20.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BEF31F390F352DF5000DE5D2;
+			remoteInfo = Three20;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -887,6 +919,21 @@
 		D2CD02891443A1830080861E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D2CD05DB14450E3E0080861E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D2CD05E314462BD90080861E /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
+		D2D9302215223F4A006E4F58 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D2D930251522417D006E4F58 /* Three20.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20.xcodeproj; path = Three20/src/Three20/Three20.xcodeproj; sourceTree = "<group>"; };
+		D2D930581522420A006E4F58 /* libThree20Core.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20Core.a; path = "Libraries/Three20/src/Three20Core/../../Build/Products/Release-iphoneos/libThree20Core.a"; sourceTree = "<group>"; };
+		D2D930591522420A006E4F58 /* libThree20Network.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20Network.a; path = "Libraries/Three20/src/Three20Network/../../Build/Products/Release-iphoneos/libThree20Network.a"; sourceTree = "<group>"; };
+		D2D9305A1522420A006E4F58 /* libThree20Style.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20Style.a; path = "Libraries/Three20/src/Three20Style/../../Build/Products/Release-iphoneos/libThree20Style.a"; sourceTree = "<group>"; };
+		D2D9305B1522420A006E4F58 /* libThree20UI.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20UI.a; path = "Libraries/Three20/src/Three20UI/../../Build/Products/Release-iphoneos/libThree20UI.a"; sourceTree = "<group>"; };
+		D2D9305C1522420A006E4F58 /* libThree20UICommon.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20UICommon.a; path = "Libraries/Three20/src/Three20UICommon/../../Build/Products/Release-iphoneos/libThree20UICommon.a"; sourceTree = "<group>"; };
+		D2D9305D1522420A006E4F58 /* libThree20UINavigator.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20UINavigator.a; path = "Libraries/Three20/src/Three20UINavigator/../../Build/Products/Release-iphoneos/libThree20UINavigator.a"; sourceTree = "<group>"; };
+		D2D930A715224964006E4F58 /* libThree20Core.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20Core.a; path = "Libraries/Three20/src/Three20Core/../../Build/Products/Release-iphoneos/libThree20Core.a"; sourceTree = "<group>"; };
+		D2D930A815224964006E4F58 /* libThree20Network.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20Network.a; path = "Libraries/Three20/src/Three20Network/../../Build/Products/Release-iphoneos/libThree20Network.a"; sourceTree = "<group>"; };
+		D2D930A915224964006E4F58 /* libThree20Style.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20Style.a; path = "Libraries/Three20/src/Three20Style/../../Build/Products/Release-iphoneos/libThree20Style.a"; sourceTree = "<group>"; };
+		D2D930AA15224964006E4F58 /* libThree20UI.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20UI.a; path = "Libraries/Three20/src/Three20UI/../../Build/Products/Release-iphoneos/libThree20UI.a"; sourceTree = "<group>"; };
+		D2D930AB15224964006E4F58 /* libThree20UICommon.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20UICommon.a; path = "Libraries/Three20/src/Three20UICommon/../../Build/Products/Release-iphoneos/libThree20UICommon.a"; sourceTree = "<group>"; };
+		D2D930AC15224964006E4F58 /* libThree20UINavigator.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libThree20UINavigator.a; path = "Libraries/Three20/src/Three20UINavigator/../../Build/Products/Release-iphoneos/libThree20UINavigator.a"; sourceTree = "<group>"; };
+		D2D930B415225E99006E4F58 /* Three20.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Three20.bundle; path = Three20/src/Three20.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -906,6 +953,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2D930AD15224964006E4F58 /* libThree20Core.a in Frameworks */,
+				D2D930AE15224964006E4F58 /* libThree20Network.a in Frameworks */,
+				D2D930AF15224964006E4F58 /* libThree20Style.a in Frameworks */,
+				D2D930B015224964006E4F58 /* libThree20UI.a in Frameworks */,
+				D2D930B115224964006E4F58 /* libThree20UICommon.a in Frameworks */,
+				D2D930B215224964006E4F58 /* libThree20UINavigator.a in Frameworks */,
+				D2D930A615224964006E4F58 /* libThree20.a in Frameworks */,
+				D2D9302415223F51006E4F58 /* QuartzCore.framework in Frameworks */,
 				D27A837C151EB89A00489809 /* libfacebook_ios_sdk.a in Frameworks */,
 				D27A837D151EB89A00489809 /* librabbitmq.a in Frameworks */,
 				D27A837E151EB89A00489809 /* libz.dylib in Frameworks */,
@@ -924,6 +979,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2D9302315223F4A006E4F58 /* QuartzCore.framework in Frameworks */,
 				D211D97215197F7000E38051 /* libfacebook_ios_sdk.a in Frameworks */,
 				D27965831457D37A00C5FDAB /* librabbitmq.a in Frameworks */,
 				D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */,
@@ -1229,6 +1285,8 @@
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D2D930B415225E99006E4F58 /* Three20.bundle */,
+				D2D930251522417D006E4F58 /* Three20.xcodeproj */,
 				D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */,
 				D2B428BB14F44F4600ED868D /* IBE.xcodeproj */,
 				D25F49021471A32500AC1551 /* bson */,
@@ -2302,6 +2360,19 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
+				D2D930A715224964006E4F58 /* libThree20Core.a */,
+				D2D930A815224964006E4F58 /* libThree20Network.a */,
+				D2D930A915224964006E4F58 /* libThree20Style.a */,
+				D2D930AA15224964006E4F58 /* libThree20UI.a */,
+				D2D930AB15224964006E4F58 /* libThree20UICommon.a */,
+				D2D930AC15224964006E4F58 /* libThree20UINavigator.a */,
+				D2D930581522420A006E4F58 /* libThree20Core.a */,
+				D2D930591522420A006E4F58 /* libThree20Network.a */,
+				D2D9305A1522420A006E4F58 /* libThree20Style.a */,
+				D2D9305B1522420A006E4F58 /* libThree20UI.a */,
+				D2D9305C1522420A006E4F58 /* libThree20UICommon.a */,
+				D2D9305D1522420A006E4F58 /* libThree20UINavigator.a */,
+				D2D9302215223F4A006E4F58 /* QuartzCore.framework */,
 				D27A8394151EB93400489809 /* libpbc-Simulator.a */,
 				D216DDCA14F46131001A4166 /* libpbc.a */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
@@ -2409,6 +2480,15 @@
 			path = assets;
 			sourceTree = "<group>";
 		};
+		D2D930261522417D006E4F58 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2D930511522417E006E4F58 /* libThree20.a */,
+				D2D930531522417E006E4F58 /* Three20UnitTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2442,6 +2522,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D2D930561522419B006E4F58 /* PBXTargetDependency */,
 				D27A831B151EB89A00489809 /* PBXTargetDependency */,
 				D27A8397151EBA3300489809 /* PBXTargetDependency */,
 			);
@@ -2504,6 +2585,10 @@
 				{
 					ProductGroup = D279662C1457D97200C5FDAB /* Products */;
 					ProjectRef = D279662B1457D97200C5FDAB /* SBJson.xcodeproj */;
+				},
+				{
+					ProductGroup = D2D930261522417D006E4F58 /* Products */;
+					ProjectRef = D2D930251522417D006E4F58 /* Three20.xcodeproj */;
 				},
 				{
 					ProductGroup = D27966201457D97200C5FDAB /* Products */;
@@ -2583,6 +2668,20 @@
 			remoteRef = D2B428CB14F44F4800ED868D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D2D930511522417E006E4F58 /* libThree20.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libThree20.a;
+			remoteRef = D2D930501522417E006E4F58 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D2D930531522417E006E4F58 /* Three20UnitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Three20UnitTests.octest;
+			remoteRef = D2D930521522417E006E4F58 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -2603,6 +2702,7 @@
 				D27A838A151EB89A00489809 /* MainStoryboard_iPad.storyboard in Resources */,
 				D27A838B151EB89A00489809 /* apps in Resources */,
 				D27A838C151EB89A00489809 /* missing.png in Resources */,
+				D2D930B615225E99006E4F58 /* Three20.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2615,6 +2715,7 @@
 				D26D3732147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard in Resources */,
 				D26D3736147B41B700C4FE93 /* apps in Resources */,
 				D2B939C414BD04C700C5F777 /* missing.png in Resources */,
+				D2D930B515225E99006E4F58 /* Three20.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2878,6 +2979,11 @@
 			name = IBE;
 			targetProxy = D2B428D314F44FC600ED868D /* PBXContainerItemProxy */;
 		};
+		D2D930561522419B006E4F58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Three20;
+			targetProxy = D2D930551522419B006E4F58 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -3038,9 +3144,19 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Libraries/IBE/**",
+					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/**",
+					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator/**",
+					"$(SRCROOT)/Libraries/OpenSSL/**",
+					"$(SRCROOT)/Libraries/Facebook/**",
+					"$(BUILT_PRODUCTS_DIR)/../three20",
+				);
 				INFOPLIST_FILE = "Musubi copy-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "Musubi-iPhoneSimulator";
 				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SDKROOT)/usr/lib/system\" \"$(SRCROOT)/Libraries/IBE\"/** \"$(SRCROOT)/Libraries/PBC\"/** \"$(SRCROOT)\" \"$(SRCROOT)/Libraries/OpenSSL/build\" \"$(SRCROOT)/Libraries/librabbitmq\" \"$(SRCROOT)/Libraries/GMP/build\" \"$(BUILT_PRODUCTS_DIR)/three20";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3057,9 +3173,19 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Libraries/IBE/**",
+					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/**",
+					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator/**",
+					"$(SRCROOT)/Libraries/OpenSSL/**",
+					"$(SRCROOT)/Libraries/Facebook/**",
+					"$(BUILT_PRODUCTS_DIR)/three20",
+				);
 				INFOPLIST_FILE = "Musubi copy-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "Musubi-iPhoneSimulator";
 				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SDKROOT)/usr/lib/system\" \"$(SRCROOT)/Libraries/IBE\"/** \"$(SRCROOT)/Libraries/PBC\"/** \"$(SRCROOT)\" \"$(SRCROOT)/Libraries/OpenSSL/build\" \"$(SRCROOT)/Libraries/librabbitmq\" \"$(SRCROOT)/Libraries/GMP/build\" \"$(BUILT_PRODUCTS_DIR)/three20";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
