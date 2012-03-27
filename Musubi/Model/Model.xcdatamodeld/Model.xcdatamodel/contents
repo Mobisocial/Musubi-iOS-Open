@@ -88,6 +88,9 @@
         <attribute name="sequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="device" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" syncable="YES"/>
     </entity>
+    <entity name="MyDeviceName" representedClassName="MyDeviceName" syncable="YES">
+        <attribute name="deviceName" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="Obj" representedClassName="MObj" syncable="YES">
         <attribute name="deleted" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="json" optional="YES" attributeType="String" syncable="YES"/>
@@ -141,5 +144,6 @@
         <element name="OutgoingSecret" positionX="160" positionY="192" width="128" height="165"/>
         <element name="SequenceNumber" positionX="160" positionY="192" width="128" height="90"/>
         <element name="SignatureUserKey" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="MyDeviceName" positionX="160" positionY="192" width="128" height="60"/>
     </elements>
 </model>
