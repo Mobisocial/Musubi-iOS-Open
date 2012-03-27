@@ -40,16 +40,55 @@
                             <outlet property="delegate" destination="XDU-Me-xmm" id="1Pq-vF-jbA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Groups" id="6Pg-kV-lXV">
+                    <navigationItem key="navigationItem" title="Conversations" id="6Pg-kV-lXV">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="o9G-oe-VLB">
                             <connections>
                                 <action selector="newGroupButtonClicked:" destination="XDU-Me-xmm" id="9CV-jV-1c2"/>
+                                <segue destination="Umz-vo-K32" kind="push" id="93Q-22-uvD"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1015" y="-675"/>
+        </scene>
+        <!--Friend Picker Table View Controller - People-->
+        <scene sceneID="o7n-X1-Re5">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VfI-5e-sND" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="Umz-vo-K32" customClass="FriendPickerTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="VYG-gR-oAr">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FriendCell" id="aOB-T1-IYZ">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="M2r-sx-0gn">
+                                            <rect key="frame" x="10" y="4" width="35" height="35"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Umz-vo-K32" id="DoY-6n-6kc"/>
+                            <outlet property="delegate" destination="Umz-vo-K32" id="WqJ-2V-vq0"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="People" id="iB7-oq-L30">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="vcO-ED-hCl"/>
+                    </navigationItem>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="1458" y="-675"/>
         </scene>
         <!--Feed View Controller - Feed-->
         <scene sceneID="qst-Vw-09R">
@@ -193,7 +232,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8cv-fT-czP" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController title="Groups" definesPresentationContext="YES" id="vh5-YM-htJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Groups" id="OOt-cZ-lhS"/>
+                    <tabBarItem key="tabBarItem" title="Conversations" id="OOt-cZ-lhS"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="uxw-co-NbP">
@@ -301,6 +340,9 @@
         <image name="missing.png" width="289" height="287"/>
     </resources>
     <classes>
+        <class className="FriendPickerTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FriendPickerTableViewController.h"/>
+        </class>
         <class className="NamePictureCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NamePictureCell.h"/>
             <relationships>

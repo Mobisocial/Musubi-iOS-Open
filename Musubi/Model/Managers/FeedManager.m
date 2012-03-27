@@ -190,6 +190,26 @@ static int kGlobalBroadcastFeedId = 10;
     return mObj;
 }
 
+- (NSArray*) unacceptedFeedsFromIdentity: (MIdentity*) ident {
+    NSMutableArray* feeds = [NSMutableArray array];
+    for (MFeedMember* mFeedMember in [store query:[NSPredicate predicateWithFormat:@"identity = %@", ident] onEntity:@"FeedMember"]) {
+        [feeds addObject: mFeedMember.feed];
+    }
+    
+    NSArray* unaccepted = [self query: [NSPredicate predicateWithFormat:@"(self IN %@) AND ((type == %d) OR (type == %d)) AND (accepted == NO)", feeds, kFeedTypeFixed, kFeedTypeExpanding]];
+    return unaccepted;
+}
+
+- (void) acceptFeedsFromIdentity: (MIdentity*) ident {
+    for (MFeed* feed in [self unacceptedFeedsFromIdentity:ident]) {
+        int64_t now = [[NSDate date] timeIntervalSince1970] * 1000;
+
+        [feed setAccepted: YES];
+        [feed setLatestRenderableObjTime: now];
+        [store save];
+    }
+}
+
 + (BOOL) hasOwnedIdentity: (NSArray*) participants {
     for (MIdentity* mId in participants) {
         if (mId.owned) {

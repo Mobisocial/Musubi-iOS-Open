@@ -37,6 +37,7 @@
 #import "MessageEncodeService.h"
 #import "MessageDecodeService.h"
 #import "AMQPTransport.h"
+#import "FacebookIdentityUpdater.h"
 
 #import "PersistentModelStore.h"
 #import "FeedManager.h"
@@ -106,10 +107,10 @@ static Musubi* _sharedInstance = nil;
     //id<IdentityProvider> 
     identityProvider = [[[AphidIdentityProvider alloc] init] autorelease];
     
-    PersistentModelStore* store=  [storeFactory newStore];  
+    PersistentModelStore* store=  [storeFactory newStore];
     IdentityManager* idManager = [[IdentityManager alloc] initWithStore:store];
     
-    
+    /*
     IBEncryptionIdentity* anotherMe = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"wbult@stanford.edu" temporalFrame:[idManager computeTemporalFrameFromPrincipal:@"wbult@stanford.edu"]];
     
     TransportManager* tManager = [[TransportManager alloc] initWithStore:store encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:0];
@@ -117,7 +118,7 @@ static Musubi* _sharedInstance = nil;
     MIdentity* mId = [tManager addClaimedIdentity:anotherMe];
     //mId.owned = YES; // can't have owned without principal
     [store save];   
-
+*/
     // The key manager handles our encryption and signature keys
     [self setKeyManager: [[IdentityKeyManager alloc] initWithIdentityProvider: identityProvider]];
     
@@ -131,20 +132,27 @@ static Musubi* _sharedInstance = nil;
     [self setTransport: [[AMQPTransport alloc] initWithStoreFactory:storeFactory]];
     [transport start];
     
+    // Make sure we keep the facebook friends up to date
+    [[FacebookIdentityUpdater alloc] initWithStoreFactory: storeFactory];
+    
     [NSThread sleepForTimeInterval:5];
     
-//    [self sendTestMessage];
+    //[self sendTestMessage];
 }
 
 - (void) sendTestMessage {
     PersistentModelStore* store=  [storeFactory newStore];
     
     IdentityManager* idManager = [[IdentityManager alloc] initWithStore:store];
+    
+    if ([idManager ownedIdentities].count == 0)
+        return;
+    
     FeedManager* feedManager = [[FeedManager alloc] initWithStore:store];
     AccountManager* accManager = [[AccountManager alloc] initWithStore:store];
     TransportManager* tManager = [[TransportManager alloc] initWithStore:store encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:0];
         
-    IBEncryptionIdentity* you = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:@"" temporalFrame:[idManager computeTemporalFrameFromPrincipal:@""]];
+    IBEncryptionIdentity* you = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"willem.bult@gmail.com" temporalFrame:[idManager computeTemporalFrameFromPrincipal:@"willem.bult@gmail.com"]];
     MIdentity* mYou = [tManager addClaimedIdentity:you];
     
     NSArray* participants = [NSArray arrayWithObjects:mYou, nil];

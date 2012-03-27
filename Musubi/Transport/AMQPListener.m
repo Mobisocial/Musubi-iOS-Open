@@ -88,14 +88,14 @@
                     }
                     
                     // Consume the initial identity messages
-                    [connMngr consumeFromQueue:initialQueueName onChannel:kAMQPChannelIncoming nolocal:YES exclusive:YES];
+                    [connMngr consumeFromQueue:initialQueueName onChannel:probe nolocal:YES exclusive:YES];
                 }
                 @catch (NSException *exception) {
                     [self log:@"Exception: %@", exception];
                     [self log:@"Initial queue did not exist, ok"];
+                    [connMngr closeChannel:probe];
                 }
                 @finally {
-                    [connMngr closeChannel:probe];
                 }
 
             }

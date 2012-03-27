@@ -24,6 +24,7 @@
 //
 
 #import "AccountManager.h"
+#import "MAccount.h"
 
 @implementation AccountManager
 
@@ -40,6 +41,10 @@
 
 - (NSArray*) claimedAccounts {
     return [self query:[NSPredicate predicateWithFormat:@"identity.owned = %d", YES]];
+}
+
+- (MAccount*) accountWithName: (NSString*) name andType: (uint8_t) type {
+    return (MAccount*)[self queryFirst: [NSPredicate predicateWithFormat:@"name = %@ AND type = %d", name, type]];
 }
 
 

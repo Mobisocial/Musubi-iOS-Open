@@ -48,7 +48,7 @@ static uint32_t kHeaderGuesstimate = 200;
     SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
     [parser objectWithString:obj.json];
     
-    return [[[PreparedObj alloc] initWithFeedType:feed.type feedCapability:feed.capability appId:app.appId timestamp:[obj.timestamp timeIntervalSince1970] data:obj] autorelease];
+    return [[[PreparedObj alloc] initWithFeedType:feed.type feedCapability:feed.capability appId:app.appId timestamp:[obj.timestamp timeIntervalSince1970] * 1000 data:obj] autorelease];
 }
 
 + (NSData *)encodeObj:(PreparedObj *)obj {

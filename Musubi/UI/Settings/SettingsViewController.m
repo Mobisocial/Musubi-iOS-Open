@@ -27,6 +27,7 @@
 #import "AppDelegate.h"
 #import "FacebookAuth.h"
 #import "MAccount.h"
+#import "Musubi.h"
 
 @implementation SettingsViewController
 
@@ -252,7 +253,7 @@
             } else {
                 // Debug notification
 
-                [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAuthTokenRefresh object:nil]];
+                [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationFacebookFriendRefresh object:nil]];
             }
             
             break;

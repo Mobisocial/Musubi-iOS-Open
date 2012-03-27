@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Musubi.h"
-#import "FacebookAuth.h"
+
+@class FacebookLoginOperation;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
