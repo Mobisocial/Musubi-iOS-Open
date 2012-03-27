@@ -940,30 +940,30 @@
 		D208156115128BA800F12039 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				D208158C1515421100F12039 /* EntityManager.h */,
-				D208158D1515421200F12039 /* EntityManager.m */,
-				D2081568151290FE00F12039 /* IdentityManager.h */,
-				D2081569151290FE00F12039 /* IdentityManager.m */,
+				D272FB57151A69DF00D2521A /* AccountManager.h */,
+				D272FB58151A69DF00D2521A /* AccountManager.m */,
+				D2773CCA151D638400A161F9 /* AppManager.h */,
+				D2773CCB151D638600A161F9 /* AppManager.m */,
+				D2081589151541D400F12039 /* DeviceManager.h */,
+				D208158A151541D500F12039 /* DeviceManager.m */,
 				D20815741512BA9300F12039 /* EncodedMessageManager.h */,
 				D20815751512BA9300F12039 /* EncodedMessageManager.m */,
 				D20815771512EA5F00F12039 /* EncryptionUserKeyManager.h */,
 				D20815781512EA5F00F12039 /* EncryptionUserKeyManager.m */,
+				D208158C1515421100F12039 /* EntityManager.h */,
+				D208158D1515421200F12039 /* EntityManager.m */,
+				D20815831513C20A00F12039 /* FeedManager.h */,
+				D20815841513C20B00F12039 /* FeedManager.m */,
+				D2081568151290FE00F12039 /* IdentityManager.h */,
+				D2081569151290FE00F12039 /* IdentityManager.m */,
+				D2773CB7151C485F00A161F9 /* ObjManager.h */,
+				D2773CB8151C486000A161F9 /* ObjManager.m */,
+				D208157A1512EF6F00F12039 /* OutgoingSecretManager.h */,
+				D208157B1512EF7000F12039 /* OutgoingSecretManager.m */,
 				D208156E1512A2C200F12039 /* SignatureUserKeyManager.h */,
 				D208156F1512A2C200F12039 /* SignatureUserKeyManager.m */,
 				D208156215128BEF00F12039 /* TransportManager.h */,
 				D208156315128BEF00F12039 /* TransportManager.m */,
-				D208157A1512EF6F00F12039 /* OutgoingSecretManager.h */,
-				D208157B1512EF7000F12039 /* OutgoingSecretManager.m */,
-				D20815831513C20A00F12039 /* FeedManager.h */,
-				D20815841513C20B00F12039 /* FeedManager.m */,
-				D2081589151541D400F12039 /* DeviceManager.h */,
-				D208158A151541D500F12039 /* DeviceManager.m */,
-				D272FB57151A69DF00D2521A /* AccountManager.h */,
-				D272FB58151A69DF00D2521A /* AccountManager.m */,
-				D2773CB7151C485F00A161F9 /* ObjManager.h */,
-				D2773CB8151C486000A161F9 /* ObjManager.m */,
-				D2773CCA151D638400A161F9 /* AppManager.h */,
-				D2773CCB151D638600A161F9 /* AppManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1109,18 +1109,18 @@
 			isa = PBXGroup;
 			children = (
 				D2773CBA151C4CE400A161F9 /* Auth */,
-				D2773CAF151C420000A161F9 /* SocialKit */,
-				D21F732B15199F1C00C57BC3 /* Identity */,
-				D211D9681519797800E38051 /* UI */,
-				D2B13D4514F865760067B197 /* Encoding */,
-				D248D2EE14F84ABC00DF96DB /* Model */,
 				D26D369B147B3ED300C4FE93 /* Crypto */,
-				D26D36B4147B3ED400C4FE93 /* Musubi.h */,
-				D26D36B5147B3ED400C4FE93 /* Musubi.m */,
-				D26D36CC147B3ED400C4FE93 /* Transport */,
-				D26D36D4147B3ED400C4FE93 /* Util */,
+				D2B13D4514F865760067B197 /* Encoding */,
+				D21F732B15199F1C00C57BC3 /* Identity */,
+				D248D2EE14F84ABC00DF96DB /* Model */,
 				D26D36DF147B3ED400C4FE93 /* Musubi-Info.plist */,
 				D26D36E0147B3ED400C4FE93 /* Musubi-Prefix.pch */,
+				D26D36B4147B3ED400C4FE93 /* Musubi.h */,
+				D26D36B5147B3ED400C4FE93 /* Musubi.m */,
+				D2773CAF151C420000A161F9 /* SocialKit */,
+				D26D36CC147B3ED400C4FE93 /* Transport */,
+				D211D9681519797800E38051 /* UI */,
+				D26D36D4147B3ED400C4FE93 /* Util */,
 			);
 			path = Musubi;
 			sourceTree = "<group>";
@@ -2471,7 +2471,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "Musubi" */;
+			buildConfigurationList = D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "musubi" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -3194,7 +3194,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "Musubi" */ = {
+		D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "musubi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D298FA24143CE6DF000831DD /* Debug */,
