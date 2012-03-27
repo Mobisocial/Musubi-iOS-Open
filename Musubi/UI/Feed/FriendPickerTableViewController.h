@@ -16,31 +16,25 @@
 
 
 //
-//  App.h
-//  musubi
+//  FriendPickerTableViewController.h
+//  Musubi
 //
-//  Created by Willem Bult on 11/22/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 3/27/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "Feed.h"
-#import "Message.h"
+#import <UIKit/UIKit.h>
 
-@interface App : NSObject {
-    NSString* id;
+@class IdentityManager, MIdentity;
 
-    Feed* feed;
-    Message* message;
-    
-    NSArray* users;
+@interface FriendPickerTableViewController : UITableViewController {
+    IdentityManager* identityManager;
+    NSArray* identities;
+    NSMutableArray* selection;
 }
 
-@property (nonatomic,retain) NSString* id;
-@property (nonatomic,retain) Feed* feed;
-@property (nonatomic,retain) Message* message;
-@property (nonatomic,retain) NSArray* users;
-
-- (NSDictionary *)json;
+@property (nonatomic,retain) IdentityManager* identityManager;
+@property (nonatomic,retain) NSArray* identities;
+@property (nonatomic,retain) NSMutableArray* selection;
 
 @end

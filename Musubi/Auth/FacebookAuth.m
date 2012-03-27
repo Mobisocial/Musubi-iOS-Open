@@ -27,10 +27,15 @@
 #import "AppDelegate.h"
 #import "AccountAuthManager.h"
 #import "MAccount.h"
+#import "Musubi.h"
 
 @implementation FacebookAuthManager
 
 @synthesize facebook;
+
+- (id) init {
+    return [self initWithDelegate:nil];
+}
 
 - (id) initWithDelegate: (id<FBSessionDelegate>) d {
     self = [super init];
@@ -163,6 +168,10 @@
     if (result != nil && [result objectForKey:@"id"] != nil) {
         MAccount* account = [manager storeAccount:kAccountTypeFacebook name:[result objectForKey:@"email"] principal:[result objectForKey:@"id"]];
         [manager onAccount:kAccountTypeFacebook isValid:account != nil];
+        
+        if (account) {
+            [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationFacebookFriendRefresh object:nil];
+        }
     } else {
         [manager onAccount:kAccountTypeFacebook isValid:NO];
     }

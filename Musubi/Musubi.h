@@ -30,6 +30,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 #define kMusubiNotificationOwnedIdentityAvailable @"OwnedIdentityAvailable"
 #define kMusubiNotificationAuthTokenRefresh @"AuthTokenRefresh"
+#define kMusubiNotificationFacebookFriendRefresh @"FacebookFriendRefresh"
 #define kMusubiNotificationMyProfileUpdate @"MyProfileUpdated"
 #define kMusubiNotificationEncodedMessageReceived @"EncodedMessageReceived"
 #define kMusubiNotificationPreparedEncoded @"EncodedMessagePrepared"
@@ -49,6 +50,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 #define kMusubiExceptionAppNotAllowedInFeed @"AppNotAllowedInFeed"
 #define kMusubiExceptionMessageTooLarge @"MessageTooLarge"
 #define kMusubiExceptionBadObjFormat @"BadObjFormat"
+#define kMusubiExceptionUnexpected @"Unexpected"
 
 @class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport;
 

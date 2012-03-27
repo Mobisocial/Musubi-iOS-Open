@@ -176,6 +176,9 @@
 }
 
 - (BOOL) decodeMessage: (MEncodedMessage*) msg {
+    if (msg == nil)
+        @throw [NSException exceptionWithName:kMusubiExceptionUnexpected reason:@"Message was nil!" userInfo:nil];
+    
     assert (msg != nil);
     IncomingMessage* im = nil;
     @try {

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "FacebookAuth.h"
+#import "Musubi.h"
 
 @implementation AppDelegate
 

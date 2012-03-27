@@ -137,7 +137,7 @@
 }
 
 - (MIdentity *)identityForIBEncryptionIdentity:(IBEncryptionIdentity *)ident {
-    NSArray* results = [self query: [NSPredicate predicateWithFormat:@"type = %d AND principalShortHash = %llu", ident.authority, *(uint64_t*)[ident.hashed bytes]]];
+    NSArray* results = [self query: [NSPredicate predicateWithFormat:@"(type == %d) AND (principalShortHash == %llu)", ident.authority, *(uint64_t*)[ident.hashed bytes]]];
     
     for (int i=0; i<results.count; i++) {
         MIdentity* match = [results objectAtIndex:i];

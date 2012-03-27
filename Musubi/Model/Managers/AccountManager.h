@@ -25,10 +25,12 @@
 
 #import "EntityManager.h"
 
+@class MAccount;
+
 @interface AccountManager : EntityManager
 
 - (id) initWithStore: (PersistentModelStore*) s;
 - (NSArray*) accountsWithType: (NSString*) type;
 - (NSArray*) claimedAccounts;
-
+- (MAccount*) accountWithName: (NSString*) name andType: (uint8_t) type;
 @end

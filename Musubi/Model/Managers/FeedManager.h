@@ -49,6 +49,9 @@
 - (MFeed*) global;
 - (MFeed*) feedWithType:(uint16_t)type andCapability:(NSData *)capability;
 
+- (NSArray*) unacceptedFeedsFromIdentity: (MIdentity*) ident;
+- (void) acceptFeedsFromIdentity: (MIdentity*) ident;
+
 + (NSData*) fixedIdentifierForIdentities: (NSArray*) identities;
 + (BOOL) hasOwnedIdentity: (NSArray*) participants;
 + (NSURL*) uriForFeed: (MFeed*) feed;
