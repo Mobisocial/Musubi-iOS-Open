@@ -983,6 +983,8 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */,
+				D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */,
 				D2A1FC141521A6C500C10BE2 /* Feed */,
 				D211D969151979D200E38051 /* Settings */,
 			);
@@ -1119,14 +1121,14 @@
 				D2B13D4514F865760067B197 /* Encoding */,
 				D21F732B15199F1C00C57BC3 /* Identity */,
 				D248D2EE14F84ABC00DF96DB /* Model */,
-				D26D36DF147B3ED400C4FE93 /* Musubi-Info.plist */,
-				D26D36E0147B3ED400C4FE93 /* Musubi-Prefix.pch */,
-				D26D36B4147B3ED400C4FE93 /* Musubi.h */,
-				D26D36B5147B3ED400C4FE93 /* Musubi.m */,
 				D2773CAF151C420000A161F9 /* SocialKit */,
 				D26D36CC147B3ED400C4FE93 /* Transport */,
 				D211D9681519797800E38051 /* UI */,
 				D26D36D4147B3ED400C4FE93 /* Util */,
+				D26D36DF147B3ED400C4FE93 /* Musubi-Info.plist */,
+				D26D36E0147B3ED400C4FE93 /* Musubi-Prefix.pch */,
+				D26D36B4147B3ED400C4FE93 /* Musubi.h */,
+				D26D36B5147B3ED400C4FE93 /* Musubi.m */,
 			);
 			path = Musubi;
 			sourceTree = "<group>";
@@ -1187,8 +1189,6 @@
 			children = (
 				D2B939C214BD04C700C5F777 /* assets */,
 				D26D36FC147B3ED400C4FE93 /* InfoPlist.strings */,
-				D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */,
-				D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */,
 				D26D36E2147B3ED400C4FE93 /* AppDelegate.h */,
 				D26D36E3147B3ED400C4FE93 /* AppDelegate.m */,
 				D26D3702147B3ED400C4FE93 /* main.m */,
@@ -2903,6 +2903,7 @@
 				D26D36FF147B3ED400C4FE93 /* en */,
 			);
 			name = MainStoryboard_iPad.storyboard;
+			path = ../../UI;
 			sourceTree = "<group>";
 		};
 		D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */ = {
@@ -2911,6 +2912,7 @@
 				D26D3701147B3ED400C4FE93 /* en */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
+			path = ../../UI;
 			sourceTree = "<group>";
 		};
 		D27966041457D97200C5FDAB /* Credits.rtf */ = {

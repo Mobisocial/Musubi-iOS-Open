@@ -29,12 +29,14 @@
 
 @interface FriendPickerTableViewController : UITableViewController {
     IdentityManager* identityManager;
-    NSArray* identities;
+    NSMutableDictionary* identities;
+    NSArray* index;
     NSMutableArray* selection;
 }
 
 @property (nonatomic,retain) IdentityManager* identityManager;
-@property (nonatomic,retain) NSArray* identities;
+@property (nonatomic,retain) NSMutableDictionary* identities;
+@property (nonatomic,retain) NSArray* index;
 @property (nonatomic,retain) NSMutableArray* selection;
 
 @end

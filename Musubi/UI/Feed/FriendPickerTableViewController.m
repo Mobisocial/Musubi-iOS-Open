@@ -34,7 +34,7 @@
 
 @implementation FriendPickerTableViewController
 
-@synthesize identityManager, identities, selection;
+@synthesize identityManager, identities, index, selection;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -61,8 +61,35 @@
     
     NSComparisonResult (^compare) (MIdentity*, MIdentity*) = ^(MIdentity* obj1, MIdentity* obj2) {
         return [obj1.name compare:obj2.name];
-    };
-    [self setIdentities: [idents sortedArrayUsingComparator:compare]];
+    };    
+    [idents sortUsingComparator: compare];
+    
+    
+    NSMutableArray* index = [NSMutableArray arrayWithCapacity:26];
+    NSMutableDictionary* indexedIds = [NSMutableDictionary dictionaryWithCapacity:26];    
+    
+    char charPtr = 0;
+    NSMutableArray* charIdentities = nil;
+    for (int i=0; i<idents.count; i++) {
+        MIdentity* ident = [idents objectAtIndex:i];
+
+        char curChar = [ident.name characterAtIndex:0];
+        if (curChar <= 'Z')
+            curChar += ('a' - 'A');
+        
+        if (curChar > charPtr) {
+            charPtr = curChar;
+            charIdentities = [NSMutableArray array];
+            
+            [index addObject:[NSString stringWithFormat:@"%c", charPtr]];
+            [indexedIds setObject:charIdentities forKey:[NSString stringWithFormat:@"%c", charPtr]];
+        }
+        
+        [charIdentities addObject:ident];
+    }
+    
+    [self setIndex: index];
+    [self setIdentities: indexedIds];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -87,12 +114,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return index.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return identities.count;
+    return [[identities objectForKey: [index objectAtIndex:section]] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -101,7 +128,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
-    MIdentity* ident = [identities objectAtIndex:indexPath.row];
+    MIdentity* ident = [[identities objectForKey: [index objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     [[cell textLabel] setText: ident.name];
     [[cell imageView] setImage: [UIImage imageWithData:ident.thumbnail]];
     
@@ -112,6 +139,10 @@
     }
 
     return cell;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    return index;
 }
 
 /*
@@ -157,7 +188,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MIdentity* ident = [identities objectAtIndex:indexPath.row];
+    MIdentity* ident = [[identities objectForKey: [index objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     
     if ([selection containsObject:ident]) {
         [selection removeObject: ident];

@@ -54,7 +54,6 @@
 - (void) refreshFriends {
     FacebookIdentityFetchOperation* op = [[FacebookIdentityFetchOperation alloc] initWithStoreFactory:_storeFactory];
     [queue addOperation: op];
-    //[op start];
 }
 
 @end
@@ -78,17 +77,7 @@
 }
 
 - (void)start {
-    // Have to run in the main thread for the Facebook fetch to work
-    if (![NSThread isMainThread])
-    {
-        [self performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:NO];
-        return;
-    }
-    
-    [self willChangeValueForKey:@"isExecuting"];
     [self setIsExecuting: YES];
-    [self didChangeValueForKey:@"isExecuting"];
-    
     [self setStore: [_storeFactory newStore]];
     
     if ([_authManager.facebook isSessionValid]) {
@@ -99,22 +88,16 @@
         [params setObject:@"fql.query" forKey:@"method"];
         [params setObject:@"SELECT uid, name, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())" forKey:@"query"];
         [_authManager.facebook requestWithParams:params andDelegate:self];
+        
+        CFRunLoopRun(); // Avoid thread exiting
     } else {
         NSLog(@"Facebook not valid!");
-        [self finish];
     }
 }
 
 - (void)finish
 {
-    [self willChangeValueForKey:@"isExecuting"];
-    [self willChangeValueForKey:@"isFinished"];
-    
-    [self setIsExecuting: NO];
-    [self setIsFinished: YES];
-    
-    [self didChangeValueForKey:@"isExecuting"];
-    [self didChangeValueForKey:@"isFinished"];
+    CFRunLoopStop(CFRunLoopGetCurrent());
 }
 
 - (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
