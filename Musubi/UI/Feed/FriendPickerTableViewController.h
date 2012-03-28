@@ -45,5 +45,6 @@
 @property (nonatomic,retain) NSArray* index;
 @property (nonatomic,retain) NSMutableArray* selection;
 
+- (IBAction) createFeed: (id) sender;
 
 @end

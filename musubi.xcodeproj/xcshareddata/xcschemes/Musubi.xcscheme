@@ -17,7 +17,7 @@
                BlueprintIdentifier = "D298F9F1143CE6DF000831DD"
                BuildableName = "Musubi.app"
                BlueprintName = "Musubi"
-               ReferencedContainer = "container:Musubi.xcodeproj">
+               ReferencedContainer = "container:musubi.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,13 +35,13 @@
             BlueprintIdentifier = "D298F9F1143CE6DF000831DD"
             BuildableName = "Musubi.app"
             BlueprintName = "Musubi"
-            ReferencedContainer = "container:Musubi.xcodeproj">
+            ReferencedContainer = "container:musubi.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug"
@@ -54,25 +54,10 @@
             BlueprintIdentifier = "D298F9F1143CE6DF000831DD"
             BuildableName = "Musubi.app"
             BlueprintName = "Musubi"
-            ReferencedContainer = "container:Musubi.xcodeproj">
+            ReferencedContainer = "container:musubi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
-         <AdditionalOption
-            key = "MallocScribble"
-            value = ""
-            isEnabled = "YES">
-         </AdditionalOption>
-         <AdditionalOption
-            key = "DYLD_INSERT_LIBRARIES"
-            value = "/usr/lib/libgmalloc.dylib"
-            isEnabled = "YES">
-         </AdditionalOption>
-         <AdditionalOption
-            key = "MallocGuardEdges"
-            value = ""
-            isEnabled = "YES">
-         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
@@ -87,7 +72,7 @@
             BlueprintIdentifier = "D298F9F1143CE6DF000831DD"
             BuildableName = "Musubi.app"
             BlueprintName = "Musubi"
-            ReferencedContainer = "container:Musubi.xcodeproj">
+            ReferencedContainer = "container:musubi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

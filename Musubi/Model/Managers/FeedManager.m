@@ -35,6 +35,7 @@
 #import "ObjManager.h"
 #import "IdentityManager.h"
 #import "DeviceManager.h"
+#import "IntroductionObj.h"
 
 #import "MFeed.h"
 #import "MFeedMember.h"
@@ -149,6 +150,18 @@ static int kGlobalBroadcastFeedId = 10;
     return identities;
 }
 
+- (MFeed*) createExpandingFeedWithParticipants:(NSArray *)participants andSendIntroductionFromApp:(MApp*) app {
+    MFeed* feed = [self createExpandingFeedWithParticipants:participants];
+    
+    //addToWhitlistsIfNecessary(feedmembers)
+    
+    // Introduce the participants so they have names for each other
+    Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:participants];
+    MObj* obj = [self sendObj: invitationObj toFeed:feed fromApp:app];
+    
+    return feed;
+}
+
 - (MObj*)sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app {
 
     if (![self app: app isAllowedInFeed: feed]) {
@@ -185,6 +198,7 @@ static int kGlobalBroadcastFeedId = 10;
     [mObj setProcessed: NO];
     [mObj setRenderable: NO];
     
+    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationPlainObjReady object:nil];
     [store save];
     
     return mObj;

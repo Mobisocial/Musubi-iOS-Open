@@ -26,7 +26,10 @@
 #import "FriendPickerTableViewController.h"
 #import "IdentityManager.h"
 #import "MIdentity.h"
+#import "MApp.h"
 #import "Musubi.h"
+#import "FeedManager.h"
+#import "AppManager.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Three20/Three20.h"
 
@@ -116,7 +119,7 @@
     pickerTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     pickerTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     pickerTextField.rightViewMode = UITextFieldViewModeAlways;
-    pickerTextField.returnKeyType = UIReturnKeyNext;
+    pickerTextField.returnKeyType = UIReturnKeyDone;
     pickerTextField.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     pickerTextField.font = [UIFont systemFontOfSize:14.0];
 
@@ -230,7 +233,8 @@
     if (add) {
         [_selection addObject: ident];
     } else {
-        [_selection removeObject: ident];
+        // Don't remove here. 
+        // Remove from picker, which will call delegate to remove from table
     }
 
     [tv reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -271,11 +275,27 @@
 }
 
 #pragma mark -- TTPickerTextField delegate
-- (void) textField: (UITextField*) didRemoveCellAtIndex: (int) idx {
-    
+- (void) textField: (UITextField*)tf didRemoveCellAtIndex: (int) idx {
+    NSLog(@"Removed %d", idx);
+    [_selection removeObject: [_selection objectAtIndex:idx]];
+    [tableView reloadData];
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
+- (IBAction)createFeed:(id)sender {
+    NSLog(@"Creating feed");
+    
+    PersistentModelStore* store = [Musubi sharedInstance].mainStore;
+    
+//    [[Musubi sharedInstance].storeFactory newStore];
+    
+    AppManager* am = [[AppManager alloc] initWithStore:store];
+    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+    
+    FeedManager* fm = [[FeedManager alloc] initWithStore: store];
+    MFeed* f = [fm createExpandingFeedWithParticipants:_selection andSendIntroductionFromApp:app];
+    NSLog(@"Feed: %@", f);
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

@@ -35,6 +35,8 @@
 - (id) initWithStore: (PersistentModelStore*) s;
 
 - (MFeed*) createExpandingFeedWithParticipants: (NSArray*) participants;
+- (MFeed*) createExpandingFeedWithParticipants:(NSArray *)participants andSendIntroductionFromApp:(MApp*) app;
+
 - (void) attachMember: (MIdentity*) mId toFeed: (MFeed*) feed;
 - (void) attachMembers: (NSArray*) participants toFeed: (MFeed*) feed;
 - (void) attachApp: (MApp*) app toFeed: (MFeed*) feed;
