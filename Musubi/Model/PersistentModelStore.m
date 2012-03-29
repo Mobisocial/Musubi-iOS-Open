@@ -24,6 +24,7 @@
 //
 
 #import "PersistentModelStore.h"
+#import "Musubi.h"
 
 @implementation PersistentModelStoreFactory
 
@@ -77,11 +78,24 @@
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator {
     self = [super init];
     if (self != nil) {
-        context = [[NSManagedObjectContext alloc] init];
+        [self setContext: [[[NSManagedObjectContext alloc] init] autorelease]];
         [context setPersistentStoreCoordinator: coordinator];
+                
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(otherContextSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
     }
     
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
+    [super dealloc];
+}
+
+- (void) otherContextSaved: (NSNotification*) notification {
+    if (notification.object != context) {
+        [context mergeChangesFromContextDidSaveNotification:notification];
+    }
 }
 
 - (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName {
@@ -114,7 +128,7 @@
     [context save:&err];
     
     if (err != nil) {
-        @throw err;
+        @throw [NSException exceptionWithName:kMusubiExceptionUnexpected reason:[NSString stringWithFormat:@"Unexpected error occurred: %@", err] userInfo:nil];
     }
 }
 

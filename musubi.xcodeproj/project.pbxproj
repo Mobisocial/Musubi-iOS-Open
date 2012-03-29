@@ -38,12 +38,12 @@
 		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
 		D25BA6381522A5A200B87687 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930511522417E006E4F58 /* libThree20.a */; };
-		D25BA65B1522AB5C00B87687 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6551522AB5C00B87687 /* libThree20Core.a */; };
-		D25BA65C1522AB5C00B87687 /* libThree20Network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6561522AB5C00B87687 /* libThree20Network.a */; };
-		D25BA65D1522AB5C00B87687 /* libThree20Style.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6571522AB5C00B87687 /* libThree20Style.a */; };
-		D25BA65E1522AB5C00B87687 /* libThree20UI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6581522AB5C00B87687 /* libThree20UI.a */; };
-		D25BA65F1522AB5C00B87687 /* libThree20UICommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6591522AB5C00B87687 /* libThree20UICommon.a */; };
-		D25BA6601522AB5C00B87687 /* libThree20UINavigator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA65A1522AB5C00B87687 /* libThree20UINavigator.a */; };
+		D25BA6BC1522B19A00B87687 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6551522AB5C00B87687 /* libThree20Core.a */; };
+		D25BA6BD1522B19A00B87687 /* libThree20Network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6561522AB5C00B87687 /* libThree20Network.a */; };
+		D25BA6BE1522B19A00B87687 /* libThree20Style.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6571522AB5C00B87687 /* libThree20Style.a */; };
+		D25BA6BF1522B19A00B87687 /* libThree20UI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6581522AB5C00B87687 /* libThree20UI.a */; };
+		D25BA6C01522B19A00B87687 /* libThree20UICommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6591522AB5C00B87687 /* libThree20UICommon.a */; };
+		D25BA6C11522B19A00B87687 /* libThree20UINavigator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA65A1522AB5C00B87687 /* libThree20UINavigator.a */; };
 		D25F49151471A32500AC1551 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49031471A32500AC1551 /* bson.c */; };
 		D25F49161471A32500AC1551 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49051471A32500AC1551 /* encoding.c */; };
 		D25F49171471A32500AC1551 /* gridfs.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49071471A32500AC1551 /* gridfs.c */; };
@@ -300,12 +300,12 @@
 		D2313BDC1519319000BB0526 /* AMQPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSender.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		D25BA6551522AB5C00B87687 /* libThree20Core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Core.a; path = "../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Core.a"; sourceTree = "<group>"; };
-		D25BA6561522AB5C00B87687 /* libThree20Network.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Network.a; path = "../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Network.a"; sourceTree = "<group>"; };
-		D25BA6571522AB5C00B87687 /* libThree20Style.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Style.a; path = "../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Style.a"; sourceTree = "<group>"; };
-		D25BA6581522AB5C00B87687 /* libThree20UI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20UI.a; path = "../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20UI.a"; sourceTree = "<group>"; };
-		D25BA6591522AB5C00B87687 /* libThree20UICommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20UICommon.a; path = "../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20UICommon.a"; sourceTree = "<group>"; };
-		D25BA65A1522AB5C00B87687 /* libThree20UINavigator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20UINavigator.a; path = "../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20UINavigator.a"; sourceTree = "<group>"; };
+		D25BA6551522AB5C00B87687 /* libThree20Core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Core.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Core.a"; sourceTree = "<group>"; };
+		D25BA6561522AB5C00B87687 /* libThree20Network.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Network.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Network.a"; sourceTree = "<group>"; };
+		D25BA6571522AB5C00B87687 /* libThree20Style.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Style.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Style.a"; sourceTree = "<group>"; };
+		D25BA6581522AB5C00B87687 /* libThree20UI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20UI.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20UI.a"; sourceTree = "<group>"; };
+		D25BA6591522AB5C00B87687 /* libThree20UICommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20UICommon.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20UICommon.a"; sourceTree = "<group>"; };
+		D25BA65A1522AB5C00B87687 /* libThree20UINavigator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20UINavigator.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20UINavigator.a"; sourceTree = "<group>"; };
 		D25F49031471A32500AC1551 /* bson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson.c; sourceTree = "<group>"; };
 		D25F49041471A32500AC1551 /* bson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson.h; sourceTree = "<group>"; };
 		D25F49051471A32500AC1551 /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
@@ -800,12 +800,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D25BA65B1522AB5C00B87687 /* libThree20Core.a in Frameworks */,
-				D25BA65C1522AB5C00B87687 /* libThree20Network.a in Frameworks */,
-				D25BA65D1522AB5C00B87687 /* libThree20Style.a in Frameworks */,
-				D25BA65E1522AB5C00B87687 /* libThree20UI.a in Frameworks */,
-				D25BA65F1522AB5C00B87687 /* libThree20UICommon.a in Frameworks */,
-				D25BA6601522AB5C00B87687 /* libThree20UINavigator.a in Frameworks */,
+				D25BA6BC1522B19A00B87687 /* libThree20Core.a in Frameworks */,
+				D25BA6BD1522B19A00B87687 /* libThree20Network.a in Frameworks */,
+				D25BA6BE1522B19A00B87687 /* libThree20Style.a in Frameworks */,
+				D25BA6BF1522B19A00B87687 /* libThree20UI.a in Frameworks */,
+				D25BA6C01522B19A00B87687 /* libThree20UICommon.a in Frameworks */,
+				D25BA6C11522B19A00B87687 /* libThree20UINavigator.a in Frameworks */,
 				D25BA6381522A5A200B87687 /* libThree20.a in Frameworks */,
 				D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */,
 				D2D9311B1522A307006E4F58 /* libRabbitMQ.a in Frameworks */,
@@ -1112,6 +1112,12 @@
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D25BA6551522AB5C00B87687 /* libThree20Core.a */,
+				D25BA6561522AB5C00B87687 /* libThree20Network.a */,
+				D25BA6571522AB5C00B87687 /* libThree20Style.a */,
+				D25BA6581522AB5C00B87687 /* libThree20UI.a */,
+				D25BA6591522AB5C00B87687 /* libThree20UICommon.a */,
+				D25BA65A1522AB5C00B87687 /* libThree20UINavigator.a */,
 				D2D930B415225E99006E4F58 /* Three20.bundle */,
 				D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */,
 				D2D930251522417D006E4F58 /* Three20.xcodeproj */,
@@ -2164,12 +2170,6 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
-				D25BA6551522AB5C00B87687 /* libThree20Core.a */,
-				D25BA6561522AB5C00B87687 /* libThree20Network.a */,
-				D25BA6571522AB5C00B87687 /* libThree20Style.a */,
-				D25BA6581522AB5C00B87687 /* libThree20UI.a */,
-				D25BA6591522AB5C00B87687 /* libThree20UICommon.a */,
-				D25BA65A1522AB5C00B87687 /* libThree20UINavigator.a */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
 				D26D36E1147B3ED400C4FE93 /* UI */,
 				D298FA40143D0E84000831DD /* apps */,
@@ -2882,6 +2882,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Musubi;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -2905,6 +2906,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Musubi;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;

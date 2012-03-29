@@ -133,10 +133,9 @@
 }
 
 - (void)main {
-    NSLog(@"MessageEncodeThread: Setting up");
-    
     // Have to create these in main to be on the running thread
     [self setStore: [service.storeFactory newStore]];
+    
     [self setDeviceManager: [[DeviceManager alloc] initWithStore: store]];
     [self setTransportManager: [[TransportManager alloc] initWithStore:store encryptionScheme: service.identityProvider.encryptionScheme signatureScheme:service.identityProvider.signatureScheme deviceName:[deviceManager localDeviceName]]];
     [self setIdentityManager: transportManager.identityManager];
@@ -306,8 +305,8 @@
     }
     
     obj.encoded = encoded;
+        
     [thread.store save];
-
 }
 
 @end

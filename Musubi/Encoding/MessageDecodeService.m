@@ -67,6 +67,7 @@
         [thread start];
         
         [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationEncodedMessageReceived object:nil];
+        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationEncodedMessageReceived object:nil];
     }
     
     return self;
@@ -111,9 +112,7 @@
     return self;
 }
 
-- (void)main {
-    NSLog(@"MessageDecodeThread: Setting up");
-    
+- (void)main {    
     // Have to create these in main to be on the running thread
     [self setStore: [service.storeFactory newStore]];
     [self setDeviceManager: [[DeviceManager alloc] initWithStore: store]];
@@ -165,11 +164,13 @@
 }
 
 - (void)main {
-    // Get the obj and encode it
+    // Get the obj and decode it
     MEncodedMessage* msg = (MEncodedMessage*)[thread.store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", messageId] onEntity:@"EncodedMessage"];
-    NSLog(@"Decoding %@", msg);
     
-    [self decodeMessage:msg];
+    if (msg) {
+        NSLog(@"Decoding %@", msg);
+        [self decodeMessage:msg];
+    }
     
     // Remove from the pending queue
     [thread.service.pending removeObject:messageId];
@@ -249,7 +250,6 @@
     PreparedObj* obj = nil;
     @try {
         obj = [ObjEncoder decodeObj: im.data];
-        NSLog(@"Decoded obj: %@", obj);
     } @catch (NSException *exception) {
         NSLog(@"Failed to decode message %@: %@", im, exception);
         [thread.store.context deleteObject:msg];
@@ -257,13 +257,17 @@
     }
     
     // Look for profile updates, which don't require whitelisting
-    /*TODO:
-    if (handleProfileUpdate(sender, obj)) {
-        //TODO: this may be a lame way of handling this
-        Log.d(TAG, "Found profile update from " + sender.musubiName_);
-        mEncodedMessageManager.delete(encoded.id_);
+    if ([obj.type isEqualToString:@"profile"]) {
+        /*TODO:
+         if (handleProfileUpdate(sender, obj)) {
+         //TODO: this may be a lame way of handling this
+         Log.d(TAG, "Found profile update from " + sender.musubiName_);
+         mEncodedMessageManager.delete(encoded.id_);
+         return true;
+         }*/
+        [thread.store.context deleteObject:msg];
         return true;
-    }*/
+    }
     
     // Handle feed details
     

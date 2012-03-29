@@ -45,4 +45,8 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<PreparedObj: %@, %d, %@, %llu, %@, %@>", appId, feedType, feedCapability, timestamp, type, jsonSrc];
+}
+
 @end

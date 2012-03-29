@@ -160,9 +160,10 @@
         }
     }
     // Sender
+    uint64_t deviceNameBigEndian = CFSwapInt64HostToBig(deviceName);
     Sender* sender = [[[Sender alloc] init] autorelease];
     [sender setI: [me key]];
-    [sender setD: [NSData dataWithBytes:&deviceName length:sizeof(deviceName)]];
+    [sender setD: [NSData dataWithBytes:&deviceNameBigEndian length:sizeof(deviceNameBigEndian)]];
 
     // Message protocol format object
     Message* m = [[[Message alloc] init] autorelease];

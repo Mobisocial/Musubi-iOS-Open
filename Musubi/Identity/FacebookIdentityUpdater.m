@@ -81,8 +81,6 @@
     [self setStore: [_storeFactory newStore]];
     
     if ([_authManager.facebook isSessionValid]) {
-        NSLog(@"Updating");
-
         // Fetch list of friends, handled by request:didLoad:
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithCapacity:2];
         [params setObject:@"fql.query" forKey:@"method"];
@@ -106,22 +104,20 @@
 }
 
 - (void)request:(FBRequest *)request didLoad:(id)result {
-    
     NSMutableArray* identities = [NSMutableArray array];
     NSMutableDictionary* photoURIs = [NSMutableDictionary dictionary];
 
     // Create/update the identities
     for (NSDictionary* f in result) {
-        long uid = [[f objectForKey:@"uid"] longValue];
-        IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:[NSString stringWithFormat:@"%lu", uid] temporalFrame:0];
+        long long uid = [[f objectForKey:@"uid"] longLongValue];
+        IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:[NSString stringWithFormat:@"%llu", uid] temporalFrame:0];
+        
         MIdentity* mId = [self ensureIdentity: uid name:[f objectForKey:@"name"] andIdentity: ident];
         
         [identities addObject: mId];
         if ([f objectForKey:@"pic_square"])
             [photoURIs setObject:[f objectForKey:@"pic_square"] forKey:mId.objectID];
     }
-    
-    NSLog(@"FRIENDS: %@", identities);
     
     // Update the profile photos
     for (MIdentity* mId in identities) {
@@ -166,6 +162,7 @@
     }
     
     [fm attachMembers:identities toFeed:account.feed];    
+    NSLog(@"Facebook import done");
     [self finish];
 }
 

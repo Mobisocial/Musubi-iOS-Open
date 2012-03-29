@@ -197,9 +197,9 @@ static int kGlobalBroadcastFeedId = 10;
     [mObj setLastModified: mObj.timestamp];
     [mObj setProcessed: NO];
     [mObj setRenderable: NO];
+    [store save];
     
     [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationPlainObjReady object:nil];
-    [store save];
     
     return mObj;
 }

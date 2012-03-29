@@ -63,7 +63,7 @@
 }
 
 - (MDevice*) addDevice: (MIdentity*) ident withId:(NSData*)devId {
-    return [transportDataProvider addDeviceWithName:*(uint64_t*)[devId bytes] forIdentity:ident];
+    return [transportDataProvider addDeviceWithName:CFSwapInt64BigToHost(*(uint64_t*)[devId bytes]) forIdentity:ident];
 }
 
 

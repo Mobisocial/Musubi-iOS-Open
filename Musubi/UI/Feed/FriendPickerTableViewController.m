@@ -31,7 +31,6 @@
 #import "FeedManager.h"
 #import "AppManager.h"
 #import <QuartzCore/QuartzCore.h>
-#import "Three20/Three20.h"
 
 @interface FriendPickerTableViewController ()
 
@@ -244,7 +243,7 @@
     } else {
         [pickerTextField removeCellWithObject: ident];
     }
-        
+    
     if (pickerTextField.lineCount > 1) {
         [pickerTextField setFrame:CGRectMake(0, 0, 320, 30 * pickerTextField.lineCount + 6)];
         
@@ -279,6 +278,9 @@
     NSLog(@"Removed %d", idx);
     [_selection removeObject: [_selection objectAtIndex:idx]];
     [tableView reloadData];
+    
+    int newY = MAX(0, 30 * (pickerTextField.lineCount - 2));
+    [recipientView setContentOffset:CGPointMake(0, newY) animated:NO];
 }
 
 - (IBAction)createFeed:(id)sender {

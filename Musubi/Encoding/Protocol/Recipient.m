@@ -29,4 +29,9 @@
 
 @synthesize i,k,s,d;
 
+- (NSString *)description {
+    return [NSString stringWithFormat: @"<Recipient: %@, %@, %@, %@>", i, k, s, d];
+}
+
+
 @end

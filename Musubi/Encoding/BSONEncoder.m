@@ -223,31 +223,31 @@ void err_handler() {
     int type;
     
     type = bson_find(&iter, &b, "feedType");
-    if (type != 6)
+    if (type == 16)
         [o setFeedType: bson_iterator_int(&iter)];
 
     type = bson_find(&iter, &b, "feedCapability");
-    if (type != 6)
+    if (type == 5)
         [o setFeedCapability:[NSData dataWithBytes:bson_iterator_bin_data(&iter) length:bson_iterator_bin_len(&iter)]];
 
     type = bson_find(&iter, &b, "appId");
-    if (type != 6)
+    if (type == 2)
         [o setAppId:[NSString stringWithCString:bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]];
 
     type = bson_find(&iter, &b, "timestamp");
-    if (type != 6)
+    if (type == 18)
         [o setTimestamp: bson_iterator_long(&iter)];
     
     type = bson_find(&iter, &b, "type");
-    if (type != 6)
+    if (type == 2)
         [o setType:[NSString stringWithCString:bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]];
     
     type = bson_find(&iter, &b, "jsonSrc");
-    if (type != 6)
+    if (type == 2)
         [o setJsonSrc:[NSString stringWithCString:bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]];
     
     type = bson_find(&iter, &b, "raw");
-    if (type != 6)
+    if (type == 5)
         [o setRaw:[NSData dataWithBytes:bson_iterator_bin_data(&iter) length:bson_iterator_bin_len(&iter)]];
     
     return o;

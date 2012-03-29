@@ -29,4 +29,8 @@
 
 @synthesize v,s,i,l,a,r,d;
 
+- (NSString *)description {
+    return [NSString stringWithFormat: @"<Message: %lu, %@, %@, %@, %@>", v, s, i, a, r];
+}
+
 @end
