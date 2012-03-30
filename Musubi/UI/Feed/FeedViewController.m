@@ -71,7 +71,6 @@
     [self setObjs: [objManager renderableObjsInFeed:feed]];
     [self setTitle: [feedManager identityStringForFeed: feed]];
     
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     
     [updateField setDelegate:self];
 }
@@ -90,7 +89,6 @@
 
 - (void)viewDidUnload
 {
-    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -98,6 +96,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     [super viewWillAppear:animated];
 }
 
@@ -108,6 +107,9 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    NSLog(@"Removing feed view observer");
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
+    
     [super viewWillDisappear:animated];
 }
 

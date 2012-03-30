@@ -41,15 +41,13 @@ static uint64_t __localDeviceName;
 }
 
 - (uint64_t)localDeviceName {
-    //if(__localDeviceName != 0)
-    //    return __localDeviceName;
+    if(__localDeviceName != 0)
+        return __localDeviceName;
     
     MMyDeviceName* deviceName = [store queryFirst:nil onEntity:@"MyDeviceName"];
     
     if(deviceName != nil) {
         __localDeviceName = deviceName.deviceName;
-        NSLog(@"Devices for %llu: %@", __localDeviceName, [self query:[NSPredicate predicateWithFormat:@"deviceName = %llu", __localDeviceName]]);
-
         return __localDeviceName;
     }
     
