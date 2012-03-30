@@ -252,8 +252,7 @@
                 [authMgr performSelectorInBackground:@selector(connect:) withObject:accountType];
             } else {
                 // Debug notification
-
-                [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationFacebookFriendRefresh object:nil]];
+                //[[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationFacebookFriendRefresh object:nil]];
             }
             
             break;

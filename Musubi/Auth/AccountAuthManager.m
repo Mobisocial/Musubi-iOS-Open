@@ -162,7 +162,6 @@
             return nil;
         }
         
-        
         NSArray* existing = [identityManager ownedIdentities];
         MIdentity* original = existing.count > 0 ? [existing objectAtIndex:0] : nil;
         if (original == nil) {
@@ -197,6 +196,8 @@
             device = (MDevice*)[store createEntity:@"Device"];
             [device setDeviceName: [deviceManager localDeviceName]];
             [device setIdentity: mId];
+            
+            NSLog(@"Devices stored: %@", device);
             //[store save];
         }
         

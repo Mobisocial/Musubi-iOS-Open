@@ -25,10 +25,14 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol RenderableObj
+
+@end
+
 @interface Obj : NSObject {
-    NSString* type;
-    NSDictionary* data;
-    NSData* raw;
+    NSString* _type;
+    NSDictionary* _data;
+    NSData* _raw;
 }
 
 @property (nonatomic, retain) NSString* type;
@@ -36,6 +40,6 @@
 @property (nonatomic, retain) NSData* raw;
 
 - (id) initWithType: (NSString*) t;
-//- (NSDictionary*) json;
+- (id) initWithType: (NSString*) t data: (NSDictionary*) data andRaw: (NSData*) raw;
 
 @end

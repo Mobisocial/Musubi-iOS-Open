@@ -16,58 +16,51 @@
 
 
 //
-//  MessageEncodeService.h
-//  Musubi
+//  ObjPipelineService.h
+//  musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by Willem Bult on 3/29/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "IdentityProvider.h"
 
-@class MessageEncoder;
-@class PersistentModelStoreFactory, PersistentModelStore, DeviceManager, IdentityManager, TransportManager;
+@class PersistentModelStoreFactory, PersistentModelStore, MObj, ObjProcessorThread, IdentityManager;
 
-@interface MessageEncodeService : NSObject {
-    PersistentModelStoreFactory* _storeFactory;
-    id<IdentityProvider> _identityProvider;
+@interface ObjPipelineService : NSObject {
+    PersistentModelStoreFactory* storeFactory;
     
-    NSArray* _queues;
+    NSMutableArray* pending;
+    NSOperationQueue* operations;
     
-    NSMutableArray* _pending;
+    NSMutableArray* feedsToNotify;
 }
 
 @property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic, retain) id<IdentityProvider> identityProvider;
-
-// List of operation threads
-@property (nonatomic, retain) NSArray* queues;
 
 // List of objs that are pending processing
 @property (atomic, retain) NSMutableArray* pending;
+@property (nonatomic, retain) NSOperationQueue* operations;
+@property (atomic, retain) NSMutableArray* feedsToNotify;
 
-- (id) initWithStoreFactory: (PersistentModelStoreFactory*) sf andIdentityProvider: (id<IdentityProvider>) ip;
+- (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf;
 
 @end
 
 
-@interface MessageEncodeOperation : NSOperation {
-    // ManagedObject is not thread-safe, ObjectID is
+
+@interface ObjProcessorOperation : NSOperation {
     NSManagedObjectID* _objId;
-    MessageEncodeService* _service;
+    ObjPipelineService* _service;
+    
     PersistentModelStore* _store;
-    BOOL success;
 }
 
 @property (nonatomic, retain) NSManagedObjectID* objId;
-@property (nonatomic, retain) MessageEncodeService* service;
 @property (nonatomic, retain) PersistentModelStore* store;
-@property (nonatomic, assign) BOOL success;
 
-- (id) initWithObjId: (NSManagedObjectID*) oId andService: (MessageEncodeService*) service;
-@end
+- (id) initWithObjId: (NSManagedObjectID*) objId andService: (ObjPipelineService*) service;
+- (void) processObj: (MObj*) obj;
 
-@interface MessageEncodedNotifyOperation : NSOperation
 @end

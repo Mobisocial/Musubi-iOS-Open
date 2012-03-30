@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 The Stanford MobiSocial Laboratory
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 //
 //  FeedViewController.m
 //  musubi
@@ -8,20 +25,25 @@
 
 #import "FeedViewController.h"
 #import "FeedItemTableCell.h"
-#import "HTMLAppViewController.h"
+#import "FeedManager.h"
+#import "ObjManager.h"
+#import "MFeed.h"
+#import "MObj.h"
+#import "MIdentity.h"
+#import "MApp.h"
+#import "AppManager.h"
+#import "FeedManager.h"
+#import "Musubi.h"
+#import "Obj.h"
+#import "ObjRenderer.h"
+#import "ObjFactory.h"
+#import "StatusObj.h"
+#import "NSDate+TimeAgo.h"
+#import "PersistentModelStore.h"
 
 @implementation FeedViewController
 
-@synthesize feed;
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize feed, feedManager, objManager, objViews, cellHeights, objRenderer, objs;
 
 - (void)didReceiveMemoryWarning
 {
@@ -31,47 +53,44 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void) displayMessage:(SignedMessage*) message
-{
-    NSString* parent = [message parentHash];
-    if (parent != nil) {
-        for (int i=0; i<[messages count]; i++) {
-            SignedMessage* curMsg = (SignedMessage*)[messages objectAtIndex:i];
-            if (curMsg != nil && [curMsg belongsToHash:parent]) {
-                [messages replaceObjectAtIndex:i withObject:message];
-            }
-        }
-    } else {
-        [messages insertObject:message atIndex:0];
-    }
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self setTitle:[feed name]];
-
-    cellHeights = [[NSMutableDictionary alloc] init];
-    updates = [[NSMutableDictionary alloc] init];
-    renderer = [[ObjRenderer alloc] init];
-
-    messages = [[NSMutableArray alloc] init];
+    NSLog(@"Feed %@", feed);
     
-    for (ManagedMessage* msg in [[[Musubi sharedInstance] feedByName: [feed name]] allMessages]) {
-        [self displayMessage:[msg message]];
-    }
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:FALSE];
+    [self setFeedManager: [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
+    [self setObjManager: [[ObjManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
+    [self setObjRenderer: [[ObjRenderer alloc] init]];
 
-    [[Musubi sharedInstance] listenToGroup: feed withListener:self];
+    [self setObjViews: [NSMutableDictionary dictionaryWithCapacity:256]];
+    [self setCellHeights: [NSMutableDictionary dictionaryWithCapacity:256]];
 
+    [self setObjs: [objManager renderableObjsInFeed:feed]];
+    [self setTitle: [feedManager identityStringForFeed: feed]];
+    
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
+    
     [updateField setDelegate:self];
+}
+
+- (void)feedUpdated: (NSNotification*) notification {
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(feedUpdated:) withObject:notification waitUntilDone:NO];
+        return;
+    }
+    
+    if ([notification.object isEqual:feed.objectID]) {
+        [self setObjs: [objManager renderableObjsInFeed:feed]];      
+        [tableView reloadData];
+    }
 }
 
 - (void)viewDidUnload
 {
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -113,51 +132,64 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [messages count] + 1;
+    return [objs count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (MObj*) objForIndexPath: (NSIndexPath*) indexPath {
+    return [objs objectAtIndex: objs.count - indexPath.row - 1];
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row > 0) {
-        Message* msg = [self msgForIndexPath:indexPath];
-        FeedItemTableCell* cell = (FeedItemTableCell*) [tableView dequeueReusableCellWithIdentifier:@"FeedItemCell"];
-
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        [cell setItemView: [renderer renderUpdate: [self updateForMessage: msg]]];
-        
-        NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-
-        [[cell senderLabel] setText: [[msg sender] name]];
-        [[cell timestampLabel] setText:[dateFormatter stringFromDate:[msg timestamp]]];
-        
-        if ([[cell itemView] isKindOfClass:[UIWebView class]]) {
-            UIWebView* webView = (UIWebView*) [cell itemView];
-            if ([webView delegate] == nil) {
-                [webView setTag:[indexPath row]];
-                [webView setDelegate:self];
-            }
-        }
-        
-        return cell;
-    } else {
-        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"StatusCell"];
-        return cell;
+    MObj* mObj = [self objForIndexPath:indexPath];
+    
+    FeedItemTableCell* cell = (FeedItemTableCell*) [tv dequeueReusableCellWithIdentifier:@"FeedItemCell"];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+    UIView* cellView = [objViews objectForKey:mObj.objectID];
+    if (cellView == nil) {
+        Obj* obj = [ObjFactory objFromManagedObj:mObj];
+        cellView = [objRenderer renderObj: obj];        
+        [objViews setObject:cellView forKey:mObj.objectID];        
     }
+    
+    NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+    
+    [cell.senderLabel setText: mObj.identity.name];
+    [cell.timestampLabel setText:[mObj.timestamp timeAgo]];
+    [cell.profilePictureView setImage: [UIImage imageWithData:mObj.identity.thumbnail]];
+    [cell setItemView: cellView];
+    
+    if ([[cell itemView] isKindOfClass:[UIWebView class]]) {
+        UIWebView* webView = (UIWebView*) [cell itemView];
+        if ([webView delegate] == nil) {
+            [webView setTag:[indexPath row]];
+            [webView setDelegate:self];
+        }
+    }
+    
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row > 0) {
-        NSNumber* storedHeight = [cellHeights objectForKey:[NSNumber numberWithInteger:[indexPath row]]];
+    MObj* mObj = [self objForIndexPath:indexPath];
+    if (mObj) {
+        NSNumber* storedHeight = [cellHeights objectForKey:mObj.objectID];
         if (storedHeight != nil) {
-            return [storedHeight floatValue] + 73;
+            return [storedHeight floatValue];
         }
         
-        return [renderer renderHeightForUpdate:[self updateForMessage:[self msgForIndexPath:indexPath]]] + 73;
+        Obj* obj = [ObjFactory objFromManagedObj:mObj];
+        int height = [objRenderer renderHeightForObj: obj] + 28;
+                
+        [cellHeights setObject:[NSNumber numberWithInt:height] forKey:mObj.objectID];
+        return height;
     } else {
-        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+        return 44;
     }
 }
 
@@ -169,39 +201,12 @@
     CGRect frame = [webView frame];
     [webView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [height floatValue])];
     
-    [[self tableView] beginUpdates];
-    [[self tableView] setNeedsLayout];
-    [[self tableView] endUpdates];
+    [tableView beginUpdates];
+    [tableView setNeedsLayout];
+    [tableView endUpdates];
 }
 
-- (id<Update>) updateForMessage: (SignedMessage*) msg {
-    id<Update> update = [updates objectForKey: [msg hash]];
-    NSString* objType = [msg obj].type;
-
-    if (update == nil) {
-        if ([objType isEqualToString:kObjTypeJoinNotification]) 
-            update = [[[StatusUpdate alloc] initWithText:@"I'm here"] autorelease];
-        else if ([objType isEqualToString:kObjTypeStatus]) 
-            update = [StatusUpdate createFromObj:[msg obj]];
-        else if ([objType isEqualToString:kObjTypePicture]) 
-            update = [PictureUpdate createFromObj:[msg obj]];
-        else if ([objType isEqualToString:kObjTypeAppState]) 
-            update = [AppStateUpdate createFromObj:[msg obj]];
-     
-        if (update != nil)
-            [updates setObject:update forKey:[msg hash]];
-    }
-    
-    return update;
-}
-
-- (SignedMessage* ) msgForIndexPath: (NSIndexPath *)indexPath {
-    if ([indexPath row] > 0)
-        return [messages objectAtIndex:([indexPath row] - 1)];
-    else
-        return nil;
-}
-
+/*
 - (void)newMessage:(SignedMessage *)message {
     if (message != nil) {
         [self displayMessage:message];
@@ -213,7 +218,7 @@
     UIActionSheet* commandPicker = [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Picture", @"Apps", @"Broadcast", nil] autorelease];
     
     [commandPicker showInView:self.view];
-}
+}*/
 
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
@@ -256,23 +261,12 @@
             
             [self launchApp: app];*/
         }
-        case 2: // broadcast
-        {
-            GPSNearbyGroups* nearby = [[[GPSNearbyGroups alloc] init] autorelease];
-            @try {
-                [nearby broadcastGroup:feed during:5 withPassword:@""];
-            } @catch (NSException* e) {
-                UIAlertView* alert = [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not broadcast group" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
-                [alert show];
-            }
-            break;
-        }
     }
 }
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
-    
+    /*
     App* app = [[[App alloc] init] autorelease];
     [app setId:kMusubiAppId];
     [app setFeed:feed];
@@ -280,7 +274,7 @@
     PictureUpdate* update = [[[PictureUpdate alloc] initWithImage: image] autorelease];
     [[Musubi sharedInstance] sendMessage: [Message createWithObj:[update obj] forApp:app]];
     
-    [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    [[self modalViewController] dismissModalViewControllerAnimated:YES];*/
 }
 
 /*
@@ -323,14 +317,14 @@
 */
 
 #pragma mark - Table view delegate
-
+/*
 - (void)launchApp: (App*) app {
     
     HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"app"];
     [appViewController setApp: app];
     
     [[self navigationController] pushViewController:appViewController animated:YES];
-}
+}*/
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -358,13 +352,14 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if ([textField text].length > 0) {
-        StatusUpdate* update = [[[StatusUpdate alloc] initWithText: [textField text]] autorelease];
+        StatusObj* status = [[[StatusObj alloc] initWithText: [textField text]] autorelease];
         
-        App* app = [[[App alloc] init] autorelease];
-        [app setId: kMusubiAppId];
-        [app setFeed: feed];
-
-        [[Musubi sharedInstance] sendMessage: [Message createWithObj:[update obj] forApp:app]];
+        AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+        
+        FeedManager* fm = [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+        [fm sendObj:status toFeed:feed fromApp:app];
+        
         [textField setText:@""];
     }
 }

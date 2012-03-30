@@ -31,6 +31,7 @@
 
 @dynamic encoded;
 @dynamic messageHash;
+@dynamic shortMessageHash;
 @dynamic outbound;
 @dynamic processed;
 @dynamic processedTime;

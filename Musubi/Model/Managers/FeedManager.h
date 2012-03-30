@@ -37,22 +37,27 @@
 - (MFeed*) createExpandingFeedWithParticipants: (NSArray*) participants;
 - (MFeed*) createExpandingFeedWithParticipants:(NSArray *)participants andSendIntroductionFromApp:(MApp*) app;
 
+- (void) deleteFeedAndMembers: (MFeed*) feed;
+
+- (MFeed*) global;
+
+- (MFeed *)feedWithType:(int16_t)type andCapability:(NSData *)capability;
+- (NSArray*) displayFeeds;
+- (NSArray*) unacceptedFeedsFromIdentity: (MIdentity*) ident;
+
+- (MIdentity*) ownedIdentityForFeed: (MFeed*) feed;
+- (int) countIdentitiesFrom: (NSArray*) participants inFeed: (MFeed*) feed;
+- (NSArray *)identitiesInFeed: (MFeed*) feed;
+- (NSString*) identityStringForFeed: (MFeed*) feed;
 - (void) attachMember: (MIdentity*) mId toFeed: (MFeed*) feed;
 - (void) attachMembers: (NSArray*) participants toFeed: (MFeed*) feed;
 - (void) attachApp: (MApp*) app toFeed: (MFeed*) feed;
-- (int) countIdentitiesFrom: (NSArray*) participants inFeed: (MFeed*) feed;
+- (BOOL) app: (MApp*) app isAllowedInFeed:(MFeed*) feed;
+
+- (void) acceptFeedsFromIdentity: (MIdentity*) ident;
 
 - (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app;
 
-- (BOOL) app: (MApp*) app isAllowedInFeed:(MFeed*) feed;
-- (MIdentity*) ownedIdentityForFeed: (MFeed*) feed;
-- (NSArray *)identitiesInFeed: (MFeed*) feed;
-
-- (MFeed*) global;
-- (MFeed*) feedWithType:(uint16_t)type andCapability:(NSData *)capability;
-
-- (NSArray*) unacceptedFeedsFromIdentity: (MIdentity*) ident;
-- (void) acceptFeedsFromIdentity: (MIdentity*) ident;
 
 + (NSData*) fixedIdentifierForIdentities: (NSArray*) identities;
 + (BOOL) hasOwnedIdentity: (NSArray*) participants;

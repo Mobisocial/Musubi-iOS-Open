@@ -40,6 +40,7 @@
 #import "MFeed.h"
 #import "MFeedMember.h"
 #import "MFeedApp.h"
+#import "MDevice.h"
 #import "MObj.h"
 #import "MIdentity.h"
 
@@ -91,6 +92,14 @@ static int kGlobalBroadcastFeedId = 10;
     return feed;
 }
 
+- (void)deleteFeedAndMembers:(MFeed *)feed {
+    for (MFeedMember* member in [store query: [NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedManager"]) {
+        [store.context deleteObject:member];
+    }
+    
+    [store.context deleteObject:feed];    
+}
+
 - (void) attachMember: (MIdentity*) mId toFeed: (MFeed*) feed {
     if ([store queryFirst:[NSPredicate predicateWithFormat:@"feed = %@ AND identity = %@", feed, mId] onEntity:@"FeedMember"] == nil) {
         MFeedMember* fm = (MFeedMember*)[store createEntity:@"FeedMember"];
@@ -138,8 +147,12 @@ static int kGlobalBroadcastFeedId = 10;
     return (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"knownId = %u", kGlobalBroadcastFeedId]];
 }
 
-- (MFeed *)feedWithType:(uint16_t)type andCapability:(NSData *)capability {
-    return (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"type == %u AND shortCapability = %ull", type, *(uint64_t*)capability.bytes]];
+- (MFeed *)feedWithType:(int16_t)type andCapability:(NSData *)capability {
+    return (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (shortCapability == %llu)", type, *(uint64_t*)capability.bytes]];
+}
+
+- (NSArray *) displayFeeds {
+    return [self query:[NSPredicate predicateWithFormat:@"(latestRenderableObjTime > 0) AND (accepted == 1)"]];
 }
 
 - (NSArray *)identitiesInFeed: (MFeed*) feed {
@@ -150,8 +163,22 @@ static int kGlobalBroadcastFeedId = 10;
     return identities;
 }
 
+- (NSString*) identityStringForFeed: (MFeed*) feed {
+    NSMutableArray* otherParticipants = [NSMutableArray array];
+    for (MIdentity* ident in [self identitiesInFeed:feed]) {
+        if (!ident.owned) {
+            [otherParticipants addObject: ident.name];
+        }
+    }
+    
+    return [otherParticipants componentsJoinedByString:@", "];
+}
+
+
 - (MFeed*) createExpandingFeedWithParticipants:(NSArray *)participants andSendIntroductionFromApp:(MApp*) app {
     MFeed* feed = [self createExpandingFeedWithParticipants:participants];
+    
+    NSLog(@"Created feed: %@", feed.capability);
     
     //addToWhitlistsIfNecessary(feedmembers)
     
@@ -175,6 +202,8 @@ static int kGlobalBroadcastFeedId = 10;
 
     DeviceManager* devManager = [[DeviceManager alloc] initWithStore: store];
     MDevice* device = [devManager deviceForName:[devManager localDeviceName] andIdentity:ownedId];
+    assert (device != nil);
+    assert (device.deviceName == [devManager localDeviceName]);
     
     SBJsonWriter* writer = [[[SBJsonWriter alloc] init] autorelease];
     NSString* json = [writer stringWithObject:obj.data];
@@ -197,6 +226,8 @@ static int kGlobalBroadcastFeedId = 10;
     [mObj setLastModified: mObj.timestamp];
     [mObj setProcessed: NO];
     [mObj setRenderable: NO];
+    [mObj setEncoded: nil];
+    [mObj setParent: nil];
     [store save];
     
     [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationPlainObjReady object:nil];

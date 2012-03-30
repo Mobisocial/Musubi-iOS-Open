@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 The Stanford MobiSocial Laboratory
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 //
 //  ObjRenderer.m
 //  musubi
@@ -7,15 +24,15 @@
 //
 
 #import "ObjRenderer.h"
-#import "StatusUpdate.h"
-#import "JoinNotificationObj.h"
-#import "PictureUpdate.h"
-#import "AppStateUpdate.h"
+#import "Obj.h"
+#import "StatusObj.h"
+#import "IntroductionObj.h"
 
 @implementation ObjRenderer
 
-- (UIView *)renderUpdate:(id<Update>)update
+- (UIView *)renderObj:(Obj*)obj
 {
+    /*
    if ([update isMemberOfClass:[StatusUpdate class]]) {
        NSString* text = ((StatusUpdate*) update).text;
         
@@ -43,21 +60,43 @@
        ((UIScrollView*)[webView.subviews objectAtIndex:0]).bounces = NO;
        
        return webView;
+    }*/
+    
+    if ([obj isMemberOfClass:[StatusObj class]]) {
+        NSString* text = ((StatusObj*) obj).text;
+        
+        UILabel* label = [[[UILabel alloc] init] autorelease];
+        [label setNumberOfLines:0];
+        [label setFont: [UIFont systemFontOfSize:15]];
+        [label setText: text];
+        [label setLineBreakMode:UILineBreakModeWordWrap];
+        
+        CGSize size = CGSizeMake(320, [self renderHeightForObj: obj]);
+        [label setFrame:CGRectMake(0, 0, size.width, size.height)];
+        
+        return label;
+    } else {
+        UILabel* label = [[[UILabel alloc] init] autorelease];
+        [label setFont: [UIFont systemFontOfSize:15]];
+        [label setText: @"Error: failed to render"];
+        
+        CGSize size = CGSizeMake(320, [self renderHeightForObj:obj]);
+        [label setFrame:CGRectMake(0, 0, size.width, size.height)];
+        
+        return label;
     }
-
-    return nil;
 }
 
-- (int)renderHeightForUpdate:(id<Update>)update {
+- (int)renderHeightForObj:(Obj*)obj {
 
-    if ([update isMemberOfClass:[StatusUpdate class]]) {
-        CGSize size = [((StatusUpdate*) update).text sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(320, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    if ([obj isMemberOfClass:[StatusObj class]]) {
+        CGSize size = [((StatusObj*) obj).text sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(320, 1024) lineBreakMode:UILineBreakModeWordWrap];
         return size.height;
-    } else if ([update isMemberOfClass:[PictureUpdate class]]) {
+    } /*else if ([update isMemberOfClass:[PictureUpdate class]]) {
         return [((PictureUpdate*) update).image size].height + 20;
+    } */else {
+        return 0;
     }
-    
-    return 0;
 }
 
 @end

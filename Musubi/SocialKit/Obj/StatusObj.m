@@ -16,35 +16,34 @@
 
 
 //
-//  Obj.m
+//  StatusObj.m
 //  musubi
 //
-//  Created by Willem Bult on 10/13/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 3/29/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Obj.h"
+#import "StatusObj.h"
 
-@implementation Obj
+static NSString* kTextField = @"text";
 
-@synthesize type = _type, data = _data, raw = _raw;
+@implementation StatusObj
 
-- (id)initWithType:(NSString *)t {
-    return [self initWithType:t data:nil andRaw:nil];
-}
+@synthesize text = _text;
 
-- (id)initWithType:(NSString *)t data:(NSDictionary *)data andRaw:(NSData *)raw {
+- (id)initWithText:(NSString *)text {
     self = [super init];
-    if (self != nil) {
-        [self setType: t];
-        [self setData: data];
-        [self setRaw: raw];
+    if (self) {
+        [self setType: kObjTypeStatus];
+        [self setText: text];
+        [self setData: [NSDictionary dictionaryWithObjectsAndKeys:text, kTextField, nil]];        
     }
+    
     return self;
 }
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<Obj: %@, %@>", _type, _data];
+- (id)initWithData:(NSDictionary *)data {
+    return [self initWithText: [data objectForKey:kTextField]];
 }
 
 @end

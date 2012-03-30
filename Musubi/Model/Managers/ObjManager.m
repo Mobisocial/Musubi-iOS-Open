@@ -57,4 +57,8 @@
     return mObj;
 }
 
+- (NSArray *)renderableObjsInFeed:(MFeed *)feed {
+    return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (processed == YES) AND (renderable == YES) AND (parent == nil)", feed.objectID]];
+}
+
 @end

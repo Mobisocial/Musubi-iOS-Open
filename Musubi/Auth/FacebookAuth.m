@@ -34,10 +34,12 @@
 @synthesize facebook;
 
 - (id) init {
-    return [self initWithDelegate:nil];
+    return [self initWithDelegate:self];
 }
 
 - (id) initWithDelegate: (id<FBSessionDelegate>) d {
+    assert (d != nil);
+    
     self = [super init];
     if (self) {
         [self setFacebook: [[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:d]];
@@ -57,6 +59,13 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[facebook accessToken] forKey:@"FBAccessTokenKey"];
     [defaults setObject:[facebook expirationDate] forKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
+}
+
+- (void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:accessToken forKey:@"FBAccessTokenKey"];
+    [defaults setObject:expiresAt forKey:@"FBExpirationDateKey"];
     [defaults synchronize];
 }
 
@@ -166,7 +175,10 @@
 
 - (void)request:(FBRequest *)request didLoad:(id)result {
     if (result != nil && [result objectForKey:@"id"] != nil) {
-        MAccount* account = [manager storeAccount:kAccountTypeFacebook name:[result objectForKey:@"email"] principal:[result objectForKey:@"id"]];
+        NSString* accountName = [result objectForKey:@"name"];
+        if (accountName == nil)
+            accountName = [result objectForKey:@"email"];
+        MAccount* account = [manager storeAccount:kAccountTypeFacebook name:accountName principal:[result objectForKey:@"id"]];
         [manager onAccount:kAccountTypeFacebook isValid:account != nil];
         
         if (account) {

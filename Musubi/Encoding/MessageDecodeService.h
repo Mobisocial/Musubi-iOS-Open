@@ -33,54 +33,52 @@
 @class MessageDecoder;
 
 @interface MessageDecodeService : NSObject {
-    //PersistentModelStore* store;
-    PersistentModelStoreFactory* storeFactory;
-    id<IdentityProvider> identityProvider;
+    PersistentModelStoreFactory* _storeFactory;
+    id<IdentityProvider> _identityProvider;
     
-    NSThread* thread;
+    NSOperationQueue* _queue;
     
-    NSMutableArray* pending;
+    NSMutableArray* _pending;
 }
 
 @property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
-//@property (nonatomic, retain) PersistentModelStore* store;
 @property (nonatomic, retain) id<IdentityProvider> identityProvider;
 
 // List of operation threads
-@property (nonatomic, retain) NSThread* thread;
+@property (nonatomic, retain) NSOperationQueue* queue;
 
 // List of objs that are pending processing
 @property (atomic, retain) NSMutableArray* pending;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) sf andIdentityProvider: (id<IdentityProvider>) ip;
 
-
 @end
 
-@interface MessageDecodeThread : NSThread {
-    MessageDecodeService* service;
+
+@interface MessageDecodeOperation : NSOperation {
+    // ManagedObject is not thread-safe, ObjectID is
+    NSManagedObjectID* _messageId;
+    MessageDecodeService* _service;
+    NSMutableArray* _dirtyFeeds;
+    BOOL _success;
     
-    PersistentModelStore* store;
-    DeviceManager* deviceManager;
-    IdentityManager* identityManager;
-    TransportManager* transportManager;
-    FeedManager* feedManager;
-    AccountManager* accountManager;
-    AppManager* appManager;
-    MessageDecoder* decoder;
-    
-    // id<IdentityProvider> identityProvider;
-    //    NSOperationQueue* queue;
-    NSMutableArray* queue;
+    PersistentModelStore* _store;
+    DeviceManager* _deviceManager;
+    IdentityManager* _identityManager;
+    TransportManager* _transportManager;
+    FeedManager* _feedManager;
+    AccountManager* _accountManager;
+    AppManager* _appManager;
+    MessageDecoder* _decoder;
 }
 
+@property (nonatomic, retain) NSManagedObjectID* messageId;
 @property (nonatomic, retain) MessageDecodeService* service;
-//@property (nonatomic, retain) NSOperationQueue* queue;
-@property (nonatomic, retain) NSMutableArray* queue;
+@property (nonatomic, retain) NSMutableArray* dirtyFeeds;
+@property (nonatomic, assign) BOOL shouldRunProfilePush;
+@property (nonatomic, assign) BOOL success;
 
 @property (nonatomic, retain) MessageDecoder* decoder;
-//@property (nonatomic, retain) id<IdentityProvider> identityProvider;
-
 @property (nonatomic, retain) PersistentModelStore* store;
 @property (nonatomic, retain) DeviceManager* deviceManager;
 @property (nonatomic, retain) IdentityManager* identityManager;
@@ -89,30 +87,11 @@
 @property (nonatomic, retain) AccountManager* accountManager;
 @property (nonatomic, retain) AppManager* appManager;
 
-- (id) initWithService: (MessageDecodeService*) service;
-
-@end
-
-@interface MessageDecodedNotifyOperation : NSOperation {
-}
+- (id) initWithMessageId: (NSManagedObjectID*) msgId andService: (MessageDecodeService*) service;
 
 @end
 
 
-@interface MessageDecodeOperation : NSOperation {
-    // ManagedObject is not thread-safe, ObjectID is
-    NSManagedObjectID* messageId;
-    MessageDecodeThread* thread;
-    NSMutableArray* dirtyFeeds;
-    BOOL success;
-}
-
-@property (nonatomic, retain) NSManagedObjectID* messageId;
-@property (nonatomic, retain) MessageDecodeThread* thread;
-@property (nonatomic, retain) NSMutableArray* dirtyFeeds;
-@property (nonatomic, assign) BOOL shouldRunProfilePush;
-@property (nonatomic, assign) BOOL success;
-
-- (id) initWithMessageId: (NSManagedObjectID*) msgId onThread: (MessageDecodeThread*) thread;
-
+@interface MessageDecodedNotifyOperation : NSOperation
 @end
+

@@ -31,6 +31,7 @@
 #import "Sender.h"
 #import "Secret.h"
 #import "PreparedObj.h"
+#import "MFeed.h"
 
 @implementation BSONEncoder
 
@@ -191,7 +192,7 @@ void err_handler() {
     bson_init(&b);
     
     if (o.feedType)
-        bson_append_int(&b, "feedType", o.feedType);
+        bson_append_string(&b, "feedType", [[BSONEncoder feedTypeToString:o.feedType] cStringUsingEncoding:NSUTF8StringEncoding]);
     if (o.feedCapability)
         bson_append_binary(&b, "feedCapability", 128, [o.feedCapability bytes], [o.feedCapability length]);
     if (o.appId)
@@ -223,8 +224,8 @@ void err_handler() {
     int type;
     
     type = bson_find(&iter, &b, "feedType");
-    if (type == 16)
-        [o setFeedType: bson_iterator_int(&iter)];
+    if (type == 2)
+        [o setFeedType: [BSONEncoder feedTypeFromString:[NSString stringWithCString: bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]]];
 
     type = bson_find(&iter, &b, "feedCapability");
     if (type == 5)
@@ -251,6 +252,34 @@ void err_handler() {
         [o setRaw:[NSData dataWithBytes:bson_iterator_bin_data(&iter) length:bson_iterator_bin_len(&iter)]];
     
     return o;
+}
+
++ (NSString*) feedTypeToString: (int) type {
+    switch (type) {
+        case kFeedTypeFixed:
+            return @"FIXED";
+        case kFeedTypeExpanding:
+            return @"EXPANDING";
+        case kFeedTypeAsymmetric:
+            return @"ASYMMETRIC";
+        case kFeedTypeOneTimeUse:
+            return @"ONE_TIME_USE";
+        default:
+            return @"UNKNOWN";
+    }    
+}
+
++ (int) feedTypeFromString: (NSString*) type {
+    if ([type isEqualToString:@"FIXED"])
+        return kFeedTypeFixed;
+    if ([type isEqualToString:@"EXPANDING"])
+        return kFeedTypeExpanding;
+    if ([type isEqualToString:@"ASYMMETRIC"])
+        return kFeedTypeAsymmetric;
+    if ([type isEqualToString:@"ONE_TIME_USE"])
+        return kFeedTypeOneTimeUse;
+    
+    return kFeedTypeUnknown;
 }
 
 @end

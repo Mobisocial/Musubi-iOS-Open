@@ -16,35 +16,25 @@
 
 
 //
-//  Obj.m
+//  StatusObj.h
 //  musubi
 //
-//  Created by Willem Bult on 10/13/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 3/29/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "Obj.h"
 
-@implementation Obj
+#define kObjTypeStatus @"status"
 
-@synthesize type = _type, data = _data, raw = _raw;
-
-- (id)initWithType:(NSString *)t {
-    return [self initWithType:t data:nil andRaw:nil];
+@interface StatusObj : Obj<RenderableObj> {
+    NSString* _text;
 }
 
-- (id)initWithType:(NSString *)t data:(NSDictionary *)data andRaw:(NSData *)raw {
-    self = [super init];
-    if (self != nil) {
-        [self setType: t];
-        [self setData: data];
-        [self setRaw: raw];
-    }
-    return self;
-}
+@property (nonatomic, retain) NSString* text;
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<Obj: %@, %@>", _type, _data];
-}
+- (id) initWithText: (NSString*) text;
+- (id) initWithData: (NSDictionary*) data;
 
 @end

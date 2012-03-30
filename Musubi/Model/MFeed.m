@@ -32,6 +32,7 @@
 @dynamic capability;
 @dynamic shortCapability;
 @dynamic latestRenderableObjTime;
+@dynamic latestRenderableObj;
 @dynamic numUnread;
 @dynamic name;
 @dynamic accepted;

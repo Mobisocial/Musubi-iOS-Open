@@ -30,7 +30,7 @@
 
 @class MAccount, AccountAuthManager, SettingsViewController;
 
-@interface FacebookAuthManager : NSObject {
+@interface FacebookAuthManager : NSObject<FBSessionDelegate> {
     Facebook* facebook;
 }
 

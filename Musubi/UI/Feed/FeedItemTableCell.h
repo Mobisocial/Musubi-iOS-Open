@@ -16,35 +16,27 @@
 
 
 //
-//  Obj.m
+//  FeedItemTableCell.h
 //  musubi
 //
-//  Created by Willem Bult on 10/13/11.
+//  Created by Willem Bult on 11/7/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Obj.h"
+#import <UIKit/UIKit.h>
 
-@implementation Obj
-
-@synthesize type = _type, data = _data, raw = _raw;
-
-- (id)initWithType:(NSString *)t {
-    return [self initWithType:t data:nil andRaw:nil];
+@interface FeedItemTableCell : UITableViewCell {
+@private
+    IBOutlet UILabel* senderLabel;
+    IBOutlet UILabel* timestampLabel;
+    IBOutlet UIView* itemContainerView;
+    IBOutlet UIView* itemView;
+    IBOutlet UIImageView* profilePictureView;
 }
 
-- (id)initWithType:(NSString *)t data:(NSDictionary *)data andRaw:(NSData *)raw {
-    self = [super init];
-    if (self != nil) {
-        [self setType: t];
-        [self setData: data];
-        [self setRaw: raw];
-    }
-    return self;
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<Obj: %@, %@>", _type, _data];
-}
+@property (nonatomic,retain) IBOutlet UILabel* senderLabel;
+@property (nonatomic,retain) IBOutlet UILabel* timestampLabel;
+@property (nonatomic,retain) IBOutlet UIImageView* profilePictureView;
+@property (nonatomic,retain) UIView* itemView;
 
 @end

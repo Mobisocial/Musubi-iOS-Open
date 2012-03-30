@@ -27,10 +27,11 @@
 #import "PersistentModelStore.h"
 #import "MDevice.h"
 #import "MMyDeviceName.h"
+#import "IdentityManager.h"
 
-@implementation DeviceManager {
-    uint64_t __localDeviceName;
-}
+@implementation DeviceManager
+
+static uint64_t __localDeviceName;
 
 - (id)initWithStore:(PersistentModelStore *)s {
     self = [super initWithEntityName:@"Device" andStore:s];
@@ -40,13 +41,15 @@
 }
 
 - (uint64_t)localDeviceName {
-    if(__localDeviceName != 0)
-        return __localDeviceName;
+    //if(__localDeviceName != 0)
+    //    return __localDeviceName;
     
     MMyDeviceName* deviceName = [store queryFirst:nil onEntity:@"MyDeviceName"];
     
     if(deviceName != nil) {
         __localDeviceName = deviceName.deviceName;
+        NSLog(@"Devices for %llu: %@", __localDeviceName, [self query:[NSPredicate predicateWithFormat:@"deviceName = %llu", __localDeviceName]]);
+
         return __localDeviceName;
     }
     

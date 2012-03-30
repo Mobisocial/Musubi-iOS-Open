@@ -33,6 +33,7 @@
 
 @property (nonatomic, retain) NSData * encoded;
 @property (nonatomic, retain) NSData * messageHash;
+@property (nonatomic) int64_t shortMessageHash;
 @property (nonatomic) BOOL outbound;
 @property (nonatomic) BOOL processed;
 @property (nonatomic, retain) NSDate * processedTime;

@@ -52,7 +52,7 @@
 
 @implementation MessageDecodeService
 
-@synthesize storeFactory, identityProvider, pending, thread;
+@synthesize storeFactory = _storeFactory, identityProvider = _identityProvider, pending = _pending, queue = _queue;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf andIdentityProvider:(id<IdentityProvider>)ip {
     self = [super init];
@@ -63,8 +63,8 @@
         // List of objs pending encoding
         [self setPending: [NSMutableArray arrayWithCapacity:10]];
         
-        [self setThread: [[MessageDecodeThread alloc] initWithService:self]];
-        [thread start];
+        [self setQueue: [NSOperationQueue new]];
+        [_queue setMaxConcurrentOperationCount:1];
         
         [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationEncodedMessageReceived object:nil];
         [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationEncodedMessageReceived object:nil];
@@ -75,87 +75,50 @@
 
 - (void) process {
     // This is called on some background thread (through notificationCenter), so we need a new store
-    PersistentModelStore* store = [storeFactory newStore];
-    
+    PersistentModelStore* store = [_storeFactory newStore];
+
+    BOOL messagesQueued = NO;
     for (MEncodedMessage* msg in [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"]) {
         assert(msg.processed == NO);
+        messagesQueued = YES;
         
         // Don't process the same obj twice in different threads
         // pending is atomic, so we should be able to do this safely
         // Store ObjectID instead of object, because that is thread-safe
-        if ([pending containsObject: msg.objectID]) {
+        if ([_pending containsObject: msg.objectID]) {
             continue;
         } else {
-            [pending addObject: msg.objectID];
+            [_pending addObject: msg.objectID];
         }
         
         // Find the thread to run this on
-        [((MessageDecodeThread*)thread).queue insertObject: [[MessageDecodeOperation alloc] initWithMessageId:msg.objectID onThread:((MessageDecodeThread*)thread)] atIndex:0]; 
+        [_queue addOperation: [[MessageDecodeOperation alloc] initWithMessageId:msg.objectID andService:self]]; 
     }
     
-    [((MessageDecodeThread*)thread).queue insertObject: [[MessageDecodedNotifyOperation alloc] init] atIndex:0]; 
+    if (messagesQueued)
+        [_queue addOperation: [[MessageDecodedNotifyOperation alloc] init]]; 
 }
 
 @end
 
-
-@implementation MessageDecodeThread
-
-@synthesize service,queue,store,deviceManager,transportManager,identityManager,feedManager,accountManager,appManager,decoder;
-
-- (id)initWithService:(MessageDecodeService *)s {
-    self = [super init];
-    if (self) {
-        [self setService: s];
-        [self setQueue:[NSMutableArray array]];
-    }
-    return self;
-}
-
-- (void)main {    
-    // Have to create these in main to be on the running thread
-    [self setStore: [service.storeFactory newStore]];
-    [self setDeviceManager: [[DeviceManager alloc] initWithStore: store]];
-    [self setTransportManager: [[TransportManager alloc] initWithStore:store encryptionScheme: service.identityProvider.encryptionScheme signatureScheme:service.identityProvider.signatureScheme deviceName:[deviceManager localDeviceName]]];
-    [self setIdentityManager: transportManager.identityManager];
-    [self setFeedManager: [[FeedManager alloc] initWithStore:store]];
-    [self setAccountManager: [[AccountManager alloc] initWithStore: store]];
-    [self setAppManager: [[AppManager alloc] initWithStore: store]];
-    
-    [self setDecoder: [[MessageDecoder alloc] initWithTransportDataProvider:transportManager]];
-    
-    NSLog(@"MessageDecodeThread: Waiting for messages");
-    // Perpetually wait for new messages to encode
-    while (!self.isCancelled) {
-        if (queue.count > 0) {
-            NSOperation* op = [queue lastObject];
-            [queue removeObject:op];            
-            [op start];
-        }
-        
-        // TODO: notification wait
-        [NSThread sleepForTimeInterval:0.1];
-    }
-}
-
-@end
 
 @implementation MessageDecodedNotifyOperation
 
 - (void)main {
-    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationPlainObjReady object:nil]];
+    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAppObjReady object:nil]];
 }
 
 @end
 
 @implementation MessageDecodeOperation
 
-@synthesize thread, messageId, dirtyFeeds, shouldRunProfilePush, success;
+@synthesize service = _service, messageId = _messageId, dirtyFeeds = _dirtyFeeds, shouldRunProfilePush = _shouldRunProfilePush, success = _success;
+@synthesize store = _store, deviceManager = _deviceManager, transportManager = _transportManager, identityManager = _identityManager, feedManager = _feedManager, accountManager = _accountManager, appManager = _appManager, decoder = _decoder;
 
-- (id)initWithMessageId:(NSManagedObjectID *)msgId onThread:(MessageDecodeThread *)t {
+- (id)initWithMessageId:(NSManagedObjectID *)msgId andService:(MessageDecodeService *)service {
     self = [super init];
     if (self) {
-        [self setThread: t];
+        [self setService: service];
         [self setMessageId: msgId];
         
         [self setDirtyFeeds: [NSMutableArray array]];
@@ -165,15 +128,24 @@
 
 - (void)main {
     // Get the obj and decode it
-    MEncodedMessage* msg = (MEncodedMessage*)[thread.store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", messageId] onEntity:@"EncodedMessage"];
+    [self setStore: [_service.storeFactory newStore]];
+    MEncodedMessage* msg = (MEncodedMessage*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _messageId] onEntity:@"EncodedMessage"];
     
     if (msg) {
+        [self setDeviceManager: [[DeviceManager alloc] initWithStore: _store]];
+        [self setTransportManager: [[TransportManager alloc] initWithStore:_store encryptionScheme: _service.identityProvider.encryptionScheme signatureScheme:_service.identityProvider.signatureScheme deviceName:[_deviceManager localDeviceName]]];
+        [self setIdentityManager: _transportManager.identityManager];
+        [self setFeedManager: [[FeedManager alloc] initWithStore:_store]];
+        [self setAccountManager: [[AccountManager alloc] initWithStore: _store]];
+        [self setAppManager: [[AppManager alloc] initWithStore: _store]];        
+        [self setDecoder: [[MessageDecoder alloc] initWithTransportDataProvider:_transportManager]];
+        
         NSLog(@"Decoding %@", msg);
         [self decodeMessage:msg];
     }
     
     // Remove from the pending queue
-    [thread.service.pending removeObject:messageId];
+    [_service.pending removeObject:_messageId];
 }
 
 - (BOOL) decodeMessage: (MEncodedMessage*) msg {
@@ -183,7 +155,7 @@
     assert (msg != nil);
     IncomingMessage* im = nil;
     @try {
-        im = [thread.decoder decodeMessage:msg];
+        im = [_decoder decodeMessage:msg];
     }
     @catch (NSException *exception) {
         if ([exception.name isEqualToString:kMusubiExceptionNeedEncryptionUserKey]) {
@@ -194,11 +166,11 @@
                 if (errId) {
                     NSLog(@"Getting new encryption key for %@", errId);
                     
-                    MIdentity* to = [thread.identityManager identityForIBEncryptionIdentity:errId];
-                    IBEncryptionUserKey* userKey = [thread.service.identityProvider encryptionKeyForIdentity:errId];
+                    MIdentity* to = [_identityManager identityForIBEncryptionIdentity:errId];
+                    IBEncryptionUserKey* userKey = [_service.identityProvider encryptionKeyForIdentity:errId];
                     
                     if (userKey) {
-                        EncryptionUserKeyManager* cryptoUserKeyMgr = thread.transportManager.encryptionUserKeyManager;
+                        EncryptionUserKeyManager* cryptoUserKeyMgr = _transportManager.encryptionUserKeyManager;
                         MEncryptionUserKey* cryptoKey = (MEncryptionUserKey*)[cryptoUserKeyMgr create];
                         [cryptoKey setIdentity: to];
                         [cryptoKey setPeriod: errId.temporalFrame];
@@ -206,7 +178,7 @@
                         [cryptoUserKeyMgr createEncryptionUserKey:cryptoKey];
                         
                         // Try again, should work now :)
-                        im = [thread.decoder decodeMessage:msg];
+                        im = [_decoder decodeMessage:msg];
                     } else {
                         @throw exception;
                     }
@@ -229,15 +201,16 @@
             
             // RabbitMQ does not support the "no deliver to self" routing policy.
             // don't log self-routed device duplicates, everything else we want to know about
-            if (from.deviceName != thread.deviceManager.localDeviceName) {
+            if (from.deviceName != _deviceManager.localDeviceName) {
                 NSLog(@"Failed to decode message %@: %@", msg, exception);
             }
-            [thread.store.context deleteObject:msg];
+            
+            [_store.context deleteObject:msg];
             return YES;
             
         } else {
             NSLog(@"Failed to decode message: %@: %@", msg, exception);
-            [thread.store.context deleteObject:msg];
+            [_store.context deleteObject:msg];
             return YES;
         }
     }
@@ -252,7 +225,7 @@
         obj = [ObjEncoder decodeObj: im.data];
     } @catch (NSException *exception) {
         NSLog(@"Failed to decode message %@: %@", im, exception);
-        [thread.store.context deleteObject:msg];
+        [_store.context deleteObject:msg];
         return YES;
     }
     
@@ -265,7 +238,7 @@
          mEncodedMessageManager.delete(encoded.id_);
          return true;
          }*/
-        [thread.store.context deleteObject:msg];
+        [_store.context deleteObject:msg];
         return true;
     }
     
@@ -276,35 +249,37 @@
         NSData* computedCapability = [FeedManager fixedIdentifierForIdentities: im.recipients];
         if (![computedCapability isEqualToData:obj.feedCapability]) {
             NSLog(@"Capability mismatch");
-            [thread.store.context deleteObject:msg];
+            [_store.context deleteObject:msg];
             return YES;
         }
     }
     
+    NSLog(@"Obj for feed, type: %@, %d", obj.feedCapability, obj.feedType);
+
     MFeed* feed = nil;
     BOOL asymmetric = NO;
     if (obj.feedType == kFeedTypeAsymmetric || obj.feedType == kFeedTypeOneTimeUse) {
         // Never create well-known broadcast feeds
-        feed = [thread.feedManager global];
+        feed = [_feedManager global];
         asymmetric = YES;
     } else {
-        feed = [thread.feedManager feedWithType: obj.feedType andCapability: obj.feedCapability];
+        feed = [_feedManager feedWithType: obj.feedType andCapability: obj.feedCapability];
     }
     
     if (feed == nil) {
-        MFeed* newFeed = (MFeed*)[thread.feedManager create];
+        MFeed* newFeed = (MFeed*)[_feedManager create];
         [newFeed setCapability: obj.feedCapability];
         if (newFeed.capability) {
             [newFeed setShortCapability: *(uint64_t*) newFeed.capability.bytes];
         }
         [newFeed setType: obj.feedType];
         [newFeed setAccepted: whiteListed];
-        [thread.store save];
+        [_store save];
         
-        [thread.feedManager attachMember: sender toFeed:newFeed];
+        [_feedManager attachMember: sender toFeed:newFeed];
         
         for (MIdentity* recipient in im.recipients) {
-            [thread.feedManager attachMember: recipient toFeed: newFeed];
+            [_feedManager attachMember: recipient toFeed: newFeed];
             
             /*TODO:
              // Send a profile request if we don't have one from them yet
@@ -338,19 +313,19 @@
     } else {
         if (!feed.accepted && whiteListed && !asymmetric) {
             feed.accepted = YES;
-            [dirtyFeeds addObject:feed];
+            [_dirtyFeeds addObject:feed];
         }
         if (feed.type == kFeedTypeExpanding) {
             NSArray* res = [self expandMembershipOfFeed: feed forRecipients: im.recipients andPersonas: im.personas];
             if (((NSNumber*)[res objectAtIndex:0]).boolValue) {
-                [dirtyFeeds addObject: feed];
+                [_dirtyFeeds addObject: feed];
             }
-            shouldRunProfilePush |= ((NSNumber*)[res objectAtIndex:1]).boolValue;
+            _shouldRunProfilePush |= ((NSNumber*)[res objectAtIndex:1]).boolValue;
         }
     }
     
-    MObj* mObj = (MObj*)[thread.store createEntity:@"Obj"]; 
-    MApp* mApp = [thread.appManager ensureAppWithAppId: obj.appId];
+    MObj* mObj = (MObj*)[_store createEntity:@"Obj"]; 
+    MApp* mApp = [_appManager ensureAppWithAppId: obj.appId];
     NSData* uHash = [ObjEncoder computeUniversalHashFor:im.hash from:sender onDevice:device];
     
     [mObj setFeed:feed];
@@ -358,29 +333,29 @@
     [mObj setDevice: device];
     [mObj setParent: nil];
     [mObj setApp: mApp];
-    [mObj setTimestamp: [NSDate dateWithTimeIntervalSince1970:obj.timestamp]];
+    [mObj setTimestamp: [NSDate dateWithTimeIntervalSince1970:obj.timestamp / 1000]];
     [mObj setUniversalHash: uHash];
     [mObj setShortUniversalHash: *(uint64_t*)uHash.bytes];
     [mObj setType: obj.type];
     [mObj setJson: obj.jsonSrc];
     [mObj setRaw: obj.raw];
-    [mObj setLastModified: [NSDate dateWithTimeIntervalSince1970:obj.timestamp]];
+    [mObj setLastModified: [NSDate dateWithTimeIntervalSince1970:obj.timestamp / 1000]];
     [mObj setEncoded: msg];
     [mObj setDeleted: NO];
     [mObj setRenderable: NO];
     [mObj setProcessed: NO];
     
     // Grant app access
-    if (![thread.appManager isSuperApp: mApp]) {
-        [thread.feedManager attachApp: mApp toFeed: feed];
+    if (![_appManager isSuperApp: mApp]) {
+        [_feedManager attachApp: mApp toFeed: feed];
     }
     
     // Finish up
     [msg setProcessed: YES];
     [msg setProcessedTime: [NSDate date]];
     
-    [thread.store save];        
-    success = YES;
+    [_store save];        
+    _success = YES;
     
     NSLog(@"Decoded: %@", mObj);
     
@@ -394,7 +369,7 @@
         [participants setObject:participant forKey:participant.objectID];
     }
     
-    for (MIdentity* existing in [thread.feedManager identitiesInFeed: feed]) {
+    for (MIdentity* existing in [_feedManager identitiesInFeed: feed]) {
         [participants removeObjectForKey: existing.objectID];
     }
     /* TODO: whitelist
@@ -408,7 +383,7 @@
     
     BOOL shouldRunProfilePushBecauseOfExpand = NO;
     for (MIdentity* participant in participants) {
-        [thread.feedManager attachMember:participant toFeed:feed];
+        [_feedManager attachMember:participant toFeed:feed];
         
         /* TODO: profile requests
         // Send a profile request if we don't have one from them yet

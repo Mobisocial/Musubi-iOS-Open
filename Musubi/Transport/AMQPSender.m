@@ -42,15 +42,29 @@
 
 @implementation AMQPSender
 
-@synthesize declaredGroups, waitingForAck;
+@synthesize declaredGroups, waitingForAck, messagesWaitingCondition = _messagesWaitingCondition;
 
 - (id)initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf {
     self = [super initWithConnectionManager:conn storeFactory:sf];
     if (self) {
         [self setWaitingForAck:[NSMutableDictionary dictionary]];
         [self setDeclaredGroups:[NSMutableDictionary dictionary]];
+        
+        [self setMessagesWaitingCondition:[[NSCondition alloc] init]];
+        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(signalMessagesReady) name:kMusubiNotificationPreparedEncoded object:nil];
     }
     return self;
+}
+
+- (void) signalMessagesReady {
+    if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(signalMessagesReady) withObject:nil waitUntilDone:YES];
+        return;
+    }
+    
+    [_messagesWaitingCondition lock];
+    [_messagesWaitingCondition signal];
+    [_messagesWaitingCondition unlock];
 }
 
 - (void)main {
@@ -62,10 +76,21 @@
     // Perpetually wait for messages to become available
     while (![[NSThread currentThread] isCancelled]) {
         
-        if (![connMngr connectionIsAlive]){
+        [_messagesWaitingCondition lock];
+        
+        NSArray* unsent = nil;
+        while (unsent == nil || unsent.count == 0) {
+            // Timeout is only used in case the connection crashes while messages are still waiting to be sent
+            // We can afford a long delay in that border case. In the usual case, we will be signaled
+            // as soon as a message is ready.
+            [_messagesWaitingCondition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+            unsent = [emm unsentOutboundMessages];            
+        }
+        
+        while (![connMngr connectionIsAlive]){
             [connMngr initializeConnection];
             // wait until the connection has revived
-            continue;
+            [NSThread sleepForTimeInterval:0.1];
         }
 
         @try {
@@ -87,8 +112,7 @@
         } @finally {
         }
         
-        // TODO: notification wait
-        [NSThread sleepForTimeInterval:0.5];
+        [_messagesWaitingCondition unlock];
     }
     
     [connMngr closeConnection];

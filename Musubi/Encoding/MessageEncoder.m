@@ -178,11 +178,12 @@
     MEncodedMessage* encoded = (MEncodedMessage*)[[transportDataProvider store] createEntity:@"EncodedMessage"];
     [encoded setFromIdentity: [om fromIdentity]];
     [encoded setFromDevice: [transportDataProvider addDeviceWithName:deviceName forIdentity:om.fromIdentity]];
-    [encoded setMessageHash: hash];
+    [encoded setEncoded: [BSONEncoder encodeMessage:m]];
+    [encoded setMessageHash: [encoded.encoded sha256Digest]];
+    [encoded setShortMessageHash: *(uint64_t*)encoded.messageHash.bytes];
     [encoded setProcessed: NO];
     [encoded setOutbound: YES];
     [encoded setSequenceNumber: mySeqNumber];
-    [encoded setEncoded: [BSONEncoder encodeMessage:m]];
 
     
     // Track the message and sequence numbers in the TransportDataProvider

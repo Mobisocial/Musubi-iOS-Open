@@ -16,35 +16,24 @@
 
 
 //
-//  Obj.m
+//  ObjHelper.m
 //  musubi
 //
-//  Created by Willem Bult on 10/13/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 3/29/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import "ObjHelper.h"
 #import "Obj.h"
 
-@implementation Obj
+@implementation ObjHelper
 
-@synthesize type = _type, data = _data, raw = _raw;
-
-- (id)initWithType:(NSString *)t {
-    return [self initWithType:t data:nil andRaw:nil];
-}
-
-- (id)initWithType:(NSString *)t data:(NSDictionary *)data andRaw:(NSData *)raw {
-    self = [super init];
-    if (self != nil) {
-        [self setType: t];
-        [self setData: data];
-        [self setRaw: raw];
++ (BOOL)isRenderable:(Obj *)obj {
+    if ([obj conformsToProtocol:@protocol(RenderableObj)]) {
+        return YES;
     }
-    return self;
-}
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<Obj: %@, %@>", _type, _data];
+    return obj.data != nil && [obj.data objectForKey:@"html"];
 }
 
 @end

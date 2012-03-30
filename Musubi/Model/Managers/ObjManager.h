@@ -30,7 +30,10 @@
 @interface ObjManager : EntityManager
 
 - (id) initWithStore: (PersistentModelStore*) s;
+
 - (MObj*) create;
 - (MObj*) createFromObj: (Obj*) obj onFeed: (MFeed*) feed;
+
+- (NSArray*) renderableObjsInFeed: (MFeed*) feed;
 
 @end

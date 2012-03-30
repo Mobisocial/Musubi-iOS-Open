@@ -127,6 +127,15 @@
 		D2D930B515225E99006E4F58 /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D2D930B415225E99006E4F58 /* Three20.bundle */; };
 		D2D9311B1522A307006E4F58 /* libRabbitMQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D931181522A2DE006E4F58 /* libRabbitMQ.a */; };
 		D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */; };
+		D2F8C66C1524B4D1005AD880 /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C66B1524B4D1005AD880 /* FeedListViewController.m */; };
+		D2F8C6731524D356005AD880 /* FeedItemTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C66E1524D355005AD880 /* FeedItemTableCell.m */; };
+		D2F8C6741524D356005AD880 /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C6701524D355005AD880 /* FeedViewController.m */; };
+		D2F8C6751524D356005AD880 /* ObjRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C6721524D356005AD880 /* ObjRenderer.m */; };
+		D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67C1524FB0C005AD880 /* ObjFactory.m */; };
+		D2F8C6801524FB29005AD880 /* ObjPipelineService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67F1524FB29005AD880 /* ObjPipelineService.m */; };
+		D2F8C68315250713005AD880 /* ObjHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C68215250713005AD880 /* ObjHelper.m */; };
+		D2F8C686152524DF005AD880 /* StatusObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C685152524DF005AD880 /* StatusObj.m */; };
+		D2F8C689152533D6005AD880 /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -781,6 +790,24 @@
 		D2D930251522417D006E4F58 /* Three20.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20.xcodeproj; path = Three20/src/Three20/Three20.xcodeproj; sourceTree = "<group>"; };
 		D2D930B415225E99006E4F58 /* Three20.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Three20.bundle; path = Three20/src/Three20.bundle; sourceTree = "<group>"; };
 		D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RabbitMQ.xcodeproj; path = RabbitMQ/RabbitMQ/RabbitMQ.xcodeproj; sourceTree = "<group>"; };
+		D2F8C66A1524B4D1005AD880 /* FeedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListViewController.h; path = Feed/FeedListViewController.h; sourceTree = "<group>"; };
+		D2F8C66B1524B4D1005AD880 /* FeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListViewController.m; path = Feed/FeedListViewController.m; sourceTree = "<group>"; };
+		D2F8C66D1524D355005AD880 /* FeedItemTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedItemTableCell.h; path = Feed/FeedItemTableCell.h; sourceTree = "<group>"; };
+		D2F8C66E1524D355005AD880 /* FeedItemTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedItemTableCell.m; path = Feed/FeedItemTableCell.m; sourceTree = "<group>"; };
+		D2F8C66F1524D355005AD880 /* FeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedViewController.h; path = Feed/FeedViewController.h; sourceTree = "<group>"; };
+		D2F8C6701524D355005AD880 /* FeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedViewController.m; path = Feed/FeedViewController.m; sourceTree = "<group>"; };
+		D2F8C6711524D355005AD880 /* ObjRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjRenderer.h; path = Feed/ObjRenderer.h; sourceTree = "<group>"; };
+		D2F8C6721524D356005AD880 /* ObjRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjRenderer.m; path = Feed/ObjRenderer.m; sourceTree = "<group>"; };
+		D2F8C67B1524FB0C005AD880 /* ObjFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFactory.h; sourceTree = "<group>"; };
+		D2F8C67C1524FB0C005AD880 /* ObjFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjFactory.m; sourceTree = "<group>"; };
+		D2F8C67E1524FB29005AD880 /* ObjPipelineService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjPipelineService.h; sourceTree = "<group>"; };
+		D2F8C67F1524FB29005AD880 /* ObjPipelineService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjPipelineService.m; sourceTree = "<group>"; };
+		D2F8C68115250713005AD880 /* ObjHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjHelper.h; sourceTree = "<group>"; };
+		D2F8C68215250713005AD880 /* ObjHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjHelper.m; sourceTree = "<group>"; };
+		D2F8C684152524DF005AD880 /* StatusObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusObj.h; path = SocialKit/Obj/StatusObj.h; sourceTree = "<group>"; };
+		D2F8C685152524DF005AD880 /* StatusObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusObj.m; path = SocialKit/Obj/StatusObj.m; sourceTree = "<group>"; };
+		D2F8C687152533D6005AD880 /* NSDate+TimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgo.h"; sourceTree = "<group>"; };
+		D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgo.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1004,6 +1031,7 @@
 				D2B13D4514F865760067B197 /* Encoding */,
 				D21F732B15199F1C00C57BC3 /* Identity */,
 				D248D2EE14F84ABC00DF96DB /* Model */,
+				D2F8C67A1524FB0B005AD880 /* Pipeline */,
 				D2773CAF151C420000A161F9 /* SocialKit */,
 				D26D36CC147B3ED400C4FE93 /* Transport */,
 				D211D9681519797800E38051 /* UI */,
@@ -1063,6 +1091,8 @@
 				D26D36DC147B3ED400C4FE93 /* UIImage+RoundedCorner.m */,
 				D26D36DD147B3ED400C4FE93 /* XQueryComponents.h */,
 				D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */,
+				D2F8C687152533D6005AD880 /* NSDate+TimeAgo.h */,
+				D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1094,6 +1124,8 @@
 			children = (
 				D2773CB4151C438200A161F9 /* IntroductionObj.h */,
 				D2773CB5151C438200A161F9 /* IntroductionObj.m */,
+				D2F8C684152524DF005AD880 /* StatusObj.h */,
+				D2F8C685152524DF005AD880 /* StatusObj.m */,
 			);
 			name = Obj;
 			sourceTree = "<group>";
@@ -2209,6 +2241,14 @@
 		D2A1FC141521A6C500C10BE2 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				D2F8C66A1524B4D1005AD880 /* FeedListViewController.h */,
+				D2F8C66B1524B4D1005AD880 /* FeedListViewController.m */,
+				D2F8C66F1524D355005AD880 /* FeedViewController.h */,
+				D2F8C6701524D355005AD880 /* FeedViewController.m */,
+				D2F8C66D1524D355005AD880 /* FeedItemTableCell.h */,
+				D2F8C66E1524D355005AD880 /* FeedItemTableCell.m */,
+				D2F8C6711524D355005AD880 /* ObjRenderer.h */,
+				D2F8C6721524D356005AD880 /* ObjRenderer.m */,
 				D2A1FC191521A99700C10BE2 /* FriendPickerTableViewController.h */,
 				D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */,
 			);
@@ -2288,6 +2328,19 @@
 				D2D931181522A2DE006E4F58 /* libRabbitMQ.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D2F8C67A1524FB0B005AD880 /* Pipeline */ = {
+			isa = PBXGroup;
+			children = (
+				D2F8C67B1524FB0C005AD880 /* ObjFactory.h */,
+				D2F8C67C1524FB0C005AD880 /* ObjFactory.m */,
+				D2F8C67E1524FB29005AD880 /* ObjPipelineService.h */,
+				D2F8C67F1524FB29005AD880 /* ObjPipelineService.m */,
+				D2F8C68115250713005AD880 /* ObjHelper.h */,
+				D2F8C68215250713005AD880 /* ObjHelper.m */,
+			);
+			path = Pipeline;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2612,6 +2665,15 @@
 				D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */,
 				D2A1FC1B1521A99700C10BE2 /* FriendPickerTableViewController.m in Sources */,
 				C0395FA31521BFD700F5AF3B /* MMyDeviceName.m in Sources */,
+				D2F8C66C1524B4D1005AD880 /* FeedListViewController.m in Sources */,
+				D2F8C6731524D356005AD880 /* FeedItemTableCell.m in Sources */,
+				D2F8C6741524D356005AD880 /* FeedViewController.m in Sources */,
+				D2F8C6751524D356005AD880 /* ObjRenderer.m in Sources */,
+				D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */,
+				D2F8C6801524FB29005AD880 /* ObjPipelineService.m in Sources */,
+				D2F8C68315250713005AD880 /* ObjHelper.m in Sources */,
+				D2F8C686152524DF005AD880 /* StatusObj.m in Sources */,
+				D2F8C689152533D6005AD880 /* NSDate+TimeAgo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

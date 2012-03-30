@@ -57,4 +57,10 @@ static NSString* kNameField = @"name";
     return self;
 }
 
+- (id)initWithData:(NSDictionary *)data {
+    self = [super initWithType:kObjTypeIntroduction];
+    NSLog(@"Introduction with %@", data);
+    return self;
+}
+
 @end

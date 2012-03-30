@@ -223,6 +223,7 @@
     [encoded setFromDevice: im.fromDevice];
     [encoded setFromIdentity: im.fromIdentity];
     [encoded setMessageHash: im.hash];
+    [encoded setShortMessageHash: *(uint64_t*)encoded.messageHash.bytes];
     [encoded setSequenceNumber: im.sequenceNumber];
     [transportDataProvider updateEncodedMetadata:encoded];
     

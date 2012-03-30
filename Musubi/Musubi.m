@@ -38,6 +38,7 @@
 #import "MessageDecodeService.h"
 #import "AMQPTransport.h"
 #import "FacebookIdentityUpdater.h"
+#import "ObjPipelineService.h"
 
 #import "PersistentModelStore.h"
 #import "FeedManager.h"
@@ -104,21 +105,8 @@ static Musubi* _sharedInstance = nil;
     
     
     // The identity provider is our main IBE point of contact
-    //id<IdentityProvider> 
     identityProvider = [[[AphidIdentityProvider alloc] init] autorelease];
-    
-    PersistentModelStore* store=  [storeFactory newStore];
-    IdentityManager* idManager = [[IdentityManager alloc] initWithStore:store];
-    
-    /*
-    IBEncryptionIdentity* anotherMe = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"wbult@stanford.edu" temporalFrame:[idManager computeTemporalFrameFromPrincipal:@"wbult@stanford.edu"]];
-    
-    TransportManager* tManager = [[TransportManager alloc] initWithStore:store encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:0];
-    //this doesn't set principal because principal doesnt come over the network
-    MIdentity* mId = [tManager addClaimedIdentity:anotherMe];
-    //mId.owned = YES; // can't have owned without principal
-    [store save];   
-*/
+        
     // The key manager handles our encryption and signature keys
     [self setKeyManager: [[IdentityKeyManager alloc] initWithIdentityProvider: identityProvider]];
     
@@ -132,45 +120,15 @@ static Musubi* _sharedInstance = nil;
     [self setTransport: [[AMQPTransport alloc] initWithStoreFactory:storeFactory]];
     [transport start];
     
+    // The obj pipeline will process our objs so we can render them
+    [[ObjPipelineService alloc] initWithStoreFactory: storeFactory];
+    
     // Make sure we keep the facebook friends up to date
     [[FacebookIdentityUpdater alloc] initWithStoreFactory: storeFactory];
     
     [NSThread sleepForTimeInterval:5];
     
     //[self sendTestMessage];
-}
-
-- (void) sendTestMessage {
-    PersistentModelStore* store=  [storeFactory newStore];
-    
-    IdentityManager* idManager = [[IdentityManager alloc] initWithStore:store];
-    
-    if ([idManager ownedIdentities].count == 0)
-        return;
-    
-    FeedManager* feedManager = [[FeedManager alloc] initWithStore:store];
-    AccountManager* accManager = [[AccountManager alloc] initWithStore:store];
-    TransportManager* tManager = [[TransportManager alloc] initWithStore:store encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:0];
-        
-    IBEncryptionIdentity* you = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:@"willem.bult@gmail.com" temporalFrame:[idManager computeTemporalFrameFromPrincipal:@"willem.bult@gmail.com"]];
-    MIdentity* mYou = [tManager addClaimedIdentity:you];
-    
-    NSArray* participants = [NSArray arrayWithObjects:mYou, nil];
-    
-    MApp* app = (MApp*)[store createEntity: @"App"];
-    [app setAppId:@"mobisocial.musubi"];
-    [app setRefreshedAt: [NSDate date]];
-    [app setName: @"Musubi"];
-    
-    MFeed* feed = [feedManager createExpandingFeedWithParticipants:participants];
-    
-    //addToWhitlistsIfNecessary(feedmembers)
-    
-    // Introduce the participants so they have names for each other
-    Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:participants];
-    MObj* obj = [feedManager sendObj: invitationObj toFeed:feed fromApp:app];
-    
-    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationPlainObjReady object:nil]];
 }
 
 - (PersistentModelStore *) newStore {
@@ -180,148 +138,5 @@ static Musubi* _sharedInstance = nil;
 - (void)dealloc {    
     [super dealloc];
 }
-
-/*
-- (int)handleIncoming:(EncodedMessage *)encoded {
-    // decode
-    SignedMessage* msg = [messageFormat decodeMessage:encoded withKeyPair:[identity deviceKey]];
-    NSLog(@"Incoming: %@", msg);
-    NSLog(@"JSON: %@", [[msg obj] json]);
-    
-    // save
-    ManagedFeed* mgdFeed = [[ObjectStore sharedInstance] feedForSession: [msg feedName]];
-    [mgdFeed storeMessage:msg];
-    
-    if ([[[msg obj] type] isEqualToString: kObjTypeJoinNotification]) {
-        NSLog(@"Somebody joined the feed: %@", [msg sender]);
-        
-        Feed* feed = [mgdFeed feed];
-        if ([feed isKindOfClass:GroupFeed.class]) {
-            NSLog(@"Old: %@", feed);
-            [[[[GroupProvider alloc] init] autorelease] updateFeed: (GroupFeed*) feed sinceVersion:-1];
-            [mgdFeed updateFromFeed:feed];
-            NSLog(@"New: %@", feed);
-        } else {
-            @throw @"A JoinNotificationObj was sent for a non-group feed";
-        }
-    }
-
-    
-
-    // and notify
-    NSArray* listeners = [feedListeners objectForKey: [msg feedName]];
-    if (listeners != nil) {
-        for (id<MusubiFeedListener> listener in listeners) {
-            [listener newMessage:msg];
-        }
-    }
-    
-    return 1;
-}
-
-- (NSArray *)groups {
-    NSMutableArray* groups = [NSMutableArray array];
-    for (ManagedFeed* mgdFeed in [[ObjectStore sharedInstance] feeds]) {
-        [groups addObject: [mgdFeed feed]];
-    }
-    return groups;
-}
-
-- (NSArray*) friends {
-    NSMutableArray* friends = [NSMutableArray array];
-    for (ManagedUser* mgdUser in [[ObjectStore sharedInstance] users]) {
-        User* user = [mgdUser user];
-        [friends addObject: user];
-    }
-    return friends;
-}
-
-- (ManagedFeed*) joinGroupFeed:(GroupFeed *)feed {
-    [[[[GroupProvider alloc] init] autorelease] updateFeed:feed sinceVersion:-1];
-    
-    ManagedFeed* existing = [[ObjectStore sharedInstance] feedForSession:[feed name]];
-    if (existing != nil) {
-        
-        JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[feed uri] absoluteString]] autorelease];
-        
-        App* app = [[[App alloc] init] autorelease];
-        [app setId: kMusubiAppId];
-        [app setFeed: feed];
-        [self sendMessage:[Message createWithObj:jno forApp:app]];
-        
-        return existing;
-    }
-    
-    
-    ManagedFeed* mgdFeed = [[ObjectStore sharedInstance] storeFeed: feed];
-    
-    JoinNotificationObj* jno = [[[JoinNotificationObj alloc] initWithURI:[[feed uri] absoluteString]] autorelease];
-
-    App* app = [[[App alloc] init] autorelease];
-    [app setId: kMusubiAppId];
-    [app setFeed: feed];
-    [self sendMessage:[Message createWithObj:jno forApp:app]];
-    
-    return mgdFeed;
-}
-
-- (ManagedFeed *)feedByName:(NSString *)feedName {
-    return [[ObjectStore sharedInstance] feedForSession:feedName];
-}
-
-
-- (void)listenToGroup:(Feed *)group withListener:(id<MusubiFeedListener>)listener {
-    NSMutableArray* listeners = [feedListeners objectForKey: [group name]];
-    if (listeners == nil) {
-        listeners = [NSMutableArray arrayWithCapacity:1];
-        [feedListeners setObject:listeners forKey:[group name]];
-    }
-    
-    [listeners addObject:listener];
-}
-
-- (SignedMessage*) sendMessage: (Message*) msg {
-    EncodedMessage* encoded = [messageFormat encodeMessage:msg withKeyPair:[identity deviceKey]];
-    
-    // TODO: Find a neater way to get the SignedMessage before it's sent
-    SignedMessage* signedMsg = [messageFormat unpackMessage: [messageFormat packMessage: msg]];
-    [signedMsg setHash: [encoded hash]];
-    [signedMsg setSender: [identity user]];
-    [signedMsg setRecipients: [msg recipients]];
-
-    // send
-    [transport sendMessage:encoded to:[msg recipients]];
-    
-    // and save
-    ManagedFeed* feed = [[ObjectStore sharedInstance] feedForSession: [msg feedName]];
-    [feed storeMessage:signedMsg];
-    
-    // and notify
-    NSArray* listeners = [feedListeners objectForKey: [msg feedName]];
-    if (listeners != nil) {
-        for (id<MusubiFeedListener> listener in listeners) {
-            [listener newMessage:signedMsg];
-        }
-    }
-    
-    return signedMsg;
-}
-
-- (User *)userWithPublicKey:(NSData *)publicKey {
-    ManagedUser* user = [[ObjectStore sharedInstance] userWithPublicKey:publicKey];
-    return [user user];
-}
-
-- (void)userProfileChangedTo:(User *)user {
-    if ([user picture] != nil) {
-        ProfilePictureObj* pictureObj = [[ProfilePictureObj alloc] initWithUser:user reply:TRUE];
-        Message* m = [Message createWithObj:pictureObj forUsers: [self friends]];
-        [self sendMessage: m];
-    }
-    
-    ProfileObj* obj = [[ProfileObj alloc] initWithUser:user];
-    Message* m = [Message createWithObj:obj forUsers:[self friends]];
-    [self sendMessage:m];
-}*/
 
 @end

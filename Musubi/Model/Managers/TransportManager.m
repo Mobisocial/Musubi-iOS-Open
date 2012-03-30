@@ -210,9 +210,8 @@
 }
 
 - (BOOL)haveHash:(NSData *)hash {
-    
-    //TODO: actual implementation
-    return NO;
+    MEncodedMessage* msg = (MEncodedMessage*)[store queryFirst:[NSPredicate predicateWithFormat:@"(shortMessageHash == %llu) AND (messageHash == %@)", *(uint64_t*)hash.bytes, hash] onEntity:@"EncodedMessage"];
+    return msg != nil;
 }
 
 

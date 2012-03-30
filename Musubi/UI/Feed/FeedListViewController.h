@@ -16,35 +16,23 @@
 
 
 //
-//  Obj.m
+//  FeedListViewController.h
 //  musubi
 //
-//  Created by Willem Bult on 10/13/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 3/29/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Obj.h"
+#import <UIKit/UIKit.h>
 
-@implementation Obj
+@class FeedManager;
 
-@synthesize type = _type, data = _data, raw = _raw;
-
-- (id)initWithType:(NSString *)t {
-    return [self initWithType:t data:nil andRaw:nil];
+@interface FeedListViewController : UITableViewController {
+    NSArray* feeds;
+    FeedManager* feedManager;
 }
 
-- (id)initWithType:(NSString *)t data:(NSDictionary *)data andRaw:(NSData *)raw {
-    self = [super init];
-    if (self != nil) {
-        [self setType: t];
-        [self setData: data];
-        [self setRaw: raw];
-    }
-    return self;
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<Obj: %@, %@>", _type, _data];
-}
+@property (nonatomic,retain) NSArray* feeds;
+@property (nonatomic,retain) FeedManager* feedManager;
 
 @end

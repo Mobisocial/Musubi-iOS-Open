@@ -237,7 +237,6 @@ static long kMaximumBackoff = 30 * 60 * 1000;
     }
     
     if (addedNewKeys) {
-        NSLog(@"Notifying new keys");
         [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationPlainObjReady object:nil]];
     }
 

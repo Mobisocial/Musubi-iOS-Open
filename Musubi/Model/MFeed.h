@@ -35,6 +35,7 @@
 #define kFeedNameLocalWhitelist @"local_whitelist"
 #define kFeedNameProvisionalWhitelist @"provisional_whitelist"
 
+@class MObj;
 
 @interface MFeed : NSManagedObject
 
@@ -42,6 +43,7 @@
 @property (nonatomic, retain) NSData * capability;
 @property (nonatomic) int64_t shortCapability;
 @property (nonatomic) int64_t latestRenderableObjTime;
+@property (nonatomic, retain) MObj* latestRenderableObj;
 @property (nonatomic) int32_t numUnread;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic) BOOL accepted;

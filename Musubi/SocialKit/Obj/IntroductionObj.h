@@ -27,8 +27,9 @@
 
 #define kObjTypeIntroduction @"introduction"
 
-@interface IntroductionObj : Obj
+@interface IntroductionObj : Obj<RenderableObj>
 
 - (id) initWithIdentities: (NSArray*) ids;
+- (id) initWithData: (NSDictionary*) data;
 
 @end

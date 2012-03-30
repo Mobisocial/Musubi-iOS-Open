@@ -52,7 +52,7 @@
 
 @implementation MessageEncodeService
 
-@synthesize storeFactory, identityProvider, pending, threads;
+@synthesize storeFactory = _storeFactory, identityProvider = _identityProvider, pending = _pending, queues = _queues;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf andIdentityProvider:(id<IdentityProvider>)ip {
     self = [super init];
@@ -64,11 +64,11 @@
         [self setPending: [NSMutableArray arrayWithCapacity:10]];
 
         // Two processing threads, one for small feeds, one for large.
-        [self setThreads:[NSArray arrayWithObjects:[[MessageEncodeThread alloc] initWithService:self],[[MessageEncodeThread alloc] initWithService:self], nil]];
+        [self setQueues:[NSArray arrayWithObjects:[NSOperationQueue new], [NSOperationQueue new], nil]];
         
         // Start the thread
-        for (MessageEncodeThread* thread in threads) {
-            [thread start];
+        for (NSOperationQueue* queue in _queues) {
+            [queue setMaxConcurrentOperationCount:1];
         }
         
         [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationPlainObjReady object:nil];
@@ -79,8 +79,10 @@
 
 - (void) process {
     // This is called on some background thread (through notificationCenter), so we need a new store
-    PersistentModelStore* store = [storeFactory newStore];
+    PersistentModelStore* store = [_storeFactory newStore];
     
+    NSMutableSet* usedQueues = [NSMutableSet setWithCapacity:2];
+
     for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(encoded == nil)"] onEntity:@"Obj"]) {
         
         assert (obj.encoded == nil);
@@ -88,72 +90,28 @@
         // Don't process the same obj twice in different threads
         // pending is atomic, so we should be able to do this safely
         // Store ObjectID instead of object, because that is thread-safe
-        if ([pending containsObject: obj.objectID]) {
+        if ([_pending containsObject: obj.objectID]) {
             continue;
         } else {
-            [pending addObject: obj.objectID];
+            [_pending addObject: obj.objectID];
         }
 
         // Find the thread to run this on
-        MessageEncodeThread* thread = nil;
+        NSOperationQueue* queue = nil;
         NSArray* members = [store query:[NSPredicate predicateWithFormat:@"feed = %@", obj.feed] onEntity:@"FeedMember"];
         if (members.count > kSmallProcessorCutOff) {
-            thread = [threads objectAtIndex:0];
+            queue = [_queues objectAtIndex:0];
         } else {
-            thread = [threads objectAtIndex:1];
+            queue = [_queues objectAtIndex:1];
         }
         
-        [thread.queue insertObject: [[MessageEncodeOperation alloc] initWithObjId:obj.objectID onThread:thread] atIndex:0]; 
+        [usedQueues addObject: queue];
+        [queue addOperation: [[MessageEncodeOperation alloc] initWithObjId:obj.objectID andService:self]]; 
     }
     
     // At the end, notify everybody
-    for (MessageEncodeThread* thread in threads) {
-        [thread.queue insertObject: [[MessageEncodedNotifyOperation alloc] init] atIndex:0]; 
-    }
-}
-
-@end
-
-@implementation MessageEncodeThread
-
-@synthesize service,queue,store,deviceManager,transportManager,identityManager,encoder;
-
-- (id)initWithService:(MessageEncodeService *)s {
-    self = [super init];
-    if (self) {
-        [self setService: s];
-        
-        // Only use one thread in the operation queue, because we're not thread safe within (shared store)
-        /*[self setQueue: [[NSOperationQueue alloc] init]];
-        [queue setMaxConcurrentOperationCount:1];*/
-        
-        [self setQueue:[NSMutableArray array]];
-    }
-    return self;
-}
-
-- (void)main {
-    // Have to create these in main to be on the running thread
-    [self setStore: [service.storeFactory newStore]];
-    
-    [self setDeviceManager: [[DeviceManager alloc] initWithStore: store]];
-    [self setTransportManager: [[TransportManager alloc] initWithStore:store encryptionScheme: service.identityProvider.encryptionScheme signatureScheme:service.identityProvider.signatureScheme deviceName:[deviceManager localDeviceName]]];
-    [self setIdentityManager: transportManager.identityManager];
-    
-    [self setEncoder: [[MessageEncoder alloc] initWithTransportDataProvider:transportManager]];
-    
-    NSLog(@"MessageEncodeThread: Waiting for messages");
-    // Perpetually wait for new messages to encode
-    while (!self.isCancelled) {
-        if (queue.count > 0) {
-            NSOperation* op = [queue lastObject];
-            [queue removeObject:op];
-            
-            [op start];
-        }
-        
-        // TODO: notification wait
-        [NSThread sleepForTimeInterval:0.1];
+    for (NSOperationQueue* queue in usedQueues) {
+        [queue addOperation: [[MessageEncodedNotifyOperation alloc] init]]; 
     }
 }
 
@@ -170,26 +128,27 @@
 
 @implementation MessageEncodeOperation
 
-@synthesize thread, objId, success;
+@synthesize objId = _objId, success, store = _store, service = _service;
 
-- (id)initWithObjId:(NSManagedObjectID *)oId onThread:(MessageEncodeThread *)t {
+- (id)initWithObjId:(NSManagedObjectID *)oId andService:(MessageEncodeService *)service {
     self = [super init];
     if (self) {
-        [self setThread: t];
+        [self setService: service];
         [self setObjId: oId];
     }
     return self;
 }
 
 - (void)main {
+    [self setStore: [_service.storeFactory newStore]];
+    
     // Get the obj and encode it
-    MObj* obj = (MObj*)[thread.store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", objId] onEntity:@"Obj"];
-    NSLog(@"Encoding %@", obj);
+    MObj* obj = (MObj*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _objId] onEntity:@"Obj"];
 
     [self encodeObj: obj];
     
     // Remove from the pending queue
-    [thread.service.pending removeObject:objId];
+    [_service.pending removeObject:_objId];
 }
 
 - (void) encodeObj: (MObj*) obj {
@@ -210,14 +169,13 @@
     assert (app != nil);
     
     NSMutableArray* recipients = [NSMutableArray array];
-    for (MFeedMember* fm in [thread.store query:[NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
+    for (MFeedMember* fm in [_store query:[NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
         [recipients addObject: fm.identity];
     }
     
     // Create the OutgoingMessage    
     OutgoingMessage* om = [[OutgoingMessage alloc] init];
     PreparedObj* outbound = [ObjEncoder prepareObj:obj forFeed:feed andApp:app];
-    NSLog(@"Prepared obj: %@", outbound);
     
     if (feed.type == kFeedTypeAsymmetric || feed.type == kFeedTypeOneTimeUse) {
         // When broadcasting a message to all friends, don't
@@ -250,11 +208,12 @@
     
     // Universal hash it, must happen before the encoding step so
     // Local messages can still run through the pipeline
+    DeviceManager* deviceManager = [[DeviceManager alloc] initWithStore:_store];
     MDevice* device = obj.device;
-    assert (device.deviceName == [thread.deviceManager localDeviceName]);
+    assert (device.deviceName == [deviceManager localDeviceName]);
     
     [obj setUniversalHash: [ObjEncoder computeUniversalHashFor:om.hash from:sender onDevice:device]];
-    [obj setShortUniversalHash: CFSwapInt64BigToHost(*(uint64_t*)obj.universalHash)];
+    [obj setShortUniversalHash: *(uint64_t*)obj.universalHash.bytes];
     
     
     if (localOnly) {
@@ -262,24 +221,25 @@
         return;
     }
     
+    id<IdentityProvider> identityProvider = _service.identityProvider;
+    TransportManager* transportManager = [[TransportManager alloc] initWithStore:_store encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:deviceManager.localDeviceName];
+    MessageEncoder* encoder = [[MessageEncoder alloc] initWithTransportDataProvider:transportManager];
     MEncodedMessage* encoded = nil;
     @try {
-        encoded = [thread.encoder encodeOutgoingMessage:om];        
+        encoded = [encoder encodeOutgoingMessage:om];        
         success = YES;
     }
     @catch (NSException *exception) {
         if ([exception.name isEqualToString:kMusubiExceptionNeedSignatureUserKey]) {
-            NSLog(@"Err: %@", exception);
-            
             @try {
                 IBEncryptionIdentity* errId = (IBEncryptionIdentity*)[exception.userInfo objectForKey:@"identity"];
                 if (errId) {
                     NSLog(@"Making new signature key for %@", errId);
                     
-                    IBSignatureUserKey* userKey = [thread.service.identityProvider signatureKeyForIdentity:errId];
+                    IBSignatureUserKey* userKey = [_service.identityProvider signatureKeyForIdentity:errId];
                     
                     if (userKey) {
-                        SignatureUserKeyManager* sigUserKeyMgr = thread.transportManager.signatureUserKeyManager;
+                        SignatureUserKeyManager* sigUserKeyMgr = transportManager.signatureUserKeyManager;
                         MSignatureUserKey* sigKey = (MSignatureUserKey*)[sigUserKeyMgr create];
                         [sigKey setIdentity: sender];
                         [sigKey setPeriod: errId.temporalFrame];
@@ -287,7 +247,7 @@
                         [sigUserKeyMgr createSignatureUserKey:sigKey];
                         
                         // Try again, should work now :)
-                        encoded = [thread.encoder encodeOutgoingMessage:om];
+                        encoded = [encoder encodeOutgoingMessage:om];
                     } else {
                         @throw exception;
                     }
@@ -306,7 +266,7 @@
     
     obj.encoded = encoded;
         
-    [thread.store save];
+    [_store save];
 }
 
 @end
