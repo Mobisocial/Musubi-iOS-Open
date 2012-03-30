@@ -35,7 +35,6 @@
 - (id) initWithStore: (PersistentModelStore*) s;
 
 - (MFeed*) createExpandingFeedWithParticipants: (NSArray*) participants;
-- (MFeed*) createExpandingFeedWithParticipants:(NSArray *)participants andSendIntroductionFromApp:(MApp*) app;
 
 - (void) deleteFeedAndMembers: (MFeed*) feed;
 
@@ -55,8 +54,6 @@
 - (BOOL) app: (MApp*) app isAllowedInFeed:(MFeed*) feed;
 
 - (void) acceptFeedsFromIdentity: (MIdentity*) ident;
-
-- (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app;
 
 
 + (NSData*) fixedIdentifierForIdentities: (NSArray*) identities;

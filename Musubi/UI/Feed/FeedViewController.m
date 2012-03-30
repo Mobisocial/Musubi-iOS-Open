@@ -37,6 +37,7 @@
 #import "Obj.h"
 #import "ObjRenderer.h"
 #import "ObjFactory.h"
+#import "ObjHelper.h"
 #import "StatusObj.h"
 #import "NSDate+TimeAgo.h"
 #import "PersistentModelStore.h"
@@ -82,9 +83,14 @@
     }
     
     if ([notification.object isEqual:feed.objectID]) {
-        [self setObjs: [objManager renderableObjsInFeed:feed]];      
-        [tableView reloadData];
+        [self reloadFeed];
     }
+}
+
+- (void) reloadFeed {
+    NSLog(@"Reloading");
+    [self setObjs: [objManager renderableObjsInFeed:feed]];      
+    [tableView reloadData];
 }
 
 - (void)viewDidUnload
@@ -161,7 +167,7 @@
     [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
     
     [cell.senderLabel setText: mObj.identity.name];
-    [cell.timestampLabel setText:[mObj.timestamp timeAgo]];
+    [cell.timestampLabel setText:mObj.processed ? [mObj.timestamp timeAgo] : @"sending..."];
     [cell.profilePictureView setImage: [UIImage imageWithData:mObj.identity.thumbnail]];
     [cell setItemView: cellView];
     
@@ -359,10 +365,10 @@
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
         
-        FeedManager* fm = [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
-        [fm sendObj:status toFeed:feed fromApp:app];
+        [ObjHelper sendObj:status toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
         
         [textField setText:@""];
+        [self reloadFeed];
     }
 }
 

@@ -30,6 +30,8 @@
 #import "Musubi.h"
 #import "FeedManager.h"
 #import "AppManager.h"
+#import "IntroductionObj.h"
+#import "ObjHelper.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface FriendPickerTableViewController ()
@@ -294,7 +296,10 @@
     MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
     
     FeedManager* fm = [[FeedManager alloc] initWithStore: store];
-    MFeed* f = [fm createExpandingFeedWithParticipants:_selection andSendIntroductionFromApp:app];
+    MFeed* f = [fm createExpandingFeedWithParticipants:_selection];
+    
+    Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:_selection];
+    MObj* obj = [ObjHelper sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
     NSLog(@"Feed: %@", f);
     
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];

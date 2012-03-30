@@ -58,7 +58,7 @@
 
 - (void) signalMessagesReady {
     if (![NSThread isMainThread]) {
-        [self performSelectorOnMainThread:@selector(signalMessagesReady) withObject:nil waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(signalMessagesReady) withObject:nil waitUntilDone:NO];
         return;
     }
     

@@ -25,10 +25,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class Obj;
+@class Obj, MObj, MFeed, MApp, PersistentModelStore;
 
 @interface ObjHelper : NSObject
 
 + (BOOL) isRenderable: (Obj*) obj;
++ (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store;
 
 @end
