@@ -23,7 +23,11 @@
 		D20815851513C20C00F12039 /* FeedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815841513C20B00F12039 /* FeedManager.m */; };
 		D208158B151541D600F12039 /* DeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208158A151541D500F12039 /* DeviceManager.m */; };
 		D208158E1515421200F12039 /* EntityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208158D1515421200F12039 /* EntityManager.m */; };
+		D208BDDA15339CE700F6FC5C /* PictureObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D208BDD915339CE700F6FC5C /* PictureObj.m */; };
 		D20E422D1461EEC60096A272 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D20E422C1461EEC60096A272 /* CoreGraphics.framework */; };
+		D210C1761526716E00280605 /* libOAuthTouch2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2E812ED1526631200649FB2 /* libOAuthTouch2.a */; };
+		D210C1781526795300280605 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = D210C1771526795300280605 /* GTMOAuth2ViewTouch.xib */; };
+		D210C17B1526D70B00280605 /* GoogleIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D210C17A1526D70B00280605 /* GoogleIdentityUpdater.m */; };
 		D211D8B1151944E100E38051 /* AMQPListener.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D8B0151944E100E38051 /* AMQPListener.m */; };
 		D211D8B4151945D400E38051 /* AMQPThread.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D8B3151945D400E38051 /* AMQPThread.m */; };
 		D211D8B515194DD800E38051 /* MessageListener.m in Sources */ = {isa = PBXBuildFile; fileRef = D208158715152A2700F12039 /* MessageListener.m */; };
@@ -136,9 +140,18 @@
 		D2F8C68315250713005AD880 /* ObjHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C68215250713005AD880 /* ObjHelper.m */; };
 		D2F8C686152524DF005AD880 /* StatusObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C685152524DF005AD880 /* StatusObj.m */; };
 		D2F8C689152533D6005AD880 /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */; };
+		D2F8C68C1526438F005AD880 /* GoogleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C68B1526438F005AD880 /* GoogleAuth.m */; };
+		D2F8C6CB152655C5005AD880 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D210C1731526708300280605 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = OAuthTouchStaticLib;
+		};
 		D211D965151978DB00E38051 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */;
@@ -251,6 +264,20 @@
 			remoteGlobalIDString = D2D930D91522A1C8006E4F58;
 			remoteInfo = RabbitMQ;
 		};
+		D2E812EC1526631200649FB2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = OAuthTouchStaticLib;
+		};
+		D2E812EE1526631200649FB2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4FC754FA13E77E25006A0C26;
+			remoteInfo = OAuthTouchNonGoogleStaticLib;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -290,7 +317,12 @@
 		D208158A151541D500F12039 /* DeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceManager.m; sourceTree = "<group>"; };
 		D208158C1515421100F12039 /* EntityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityManager.h; sourceTree = "<group>"; };
 		D208158D1515421200F12039 /* EntityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntityManager.m; sourceTree = "<group>"; };
+		D208BDD815339CE700F6FC5C /* PictureObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PictureObj.h; path = SocialKit/Obj/PictureObj.h; sourceTree = "<group>"; };
+		D208BDD915339CE700F6FC5C /* PictureObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PictureObj.m; path = SocialKit/Obj/PictureObj.m; sourceTree = "<group>"; };
 		D20E422C1461EEC60096A272 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D210C1771526795300280605 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GTMOAuth2ViewTouch.xib; path = ../../../Libraries/OAuth2/Touch/GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
+		D210C1791526D70B00280605 /* GoogleIdentityUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GoogleIdentityUpdater.h; path = Identity/GoogleIdentityUpdater.h; sourceTree = "<group>"; };
+		D210C17A1526D70B00280605 /* GoogleIdentityUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GoogleIdentityUpdater.m; path = Identity/GoogleIdentityUpdater.m; sourceTree = "<group>"; };
 		D211D8AF151944E100E38051 /* AMQPListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPListener.h; sourceTree = "<group>"; };
 		D211D8B0151944E100E38051 /* AMQPListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPListener.m; sourceTree = "<group>"; };
 		D211D8B2151945D400E38051 /* AMQPThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPThread.h; sourceTree = "<group>"; };
@@ -347,8 +379,8 @@
 		D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XQueryComponents.m; sourceTree = "<group>"; };
 		D26D36DF147B3ED400C4FE93 /* Musubi-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Musubi-Info.plist"; sourceTree = "<group>"; };
 		D26D36E0147B3ED400C4FE93 /* Musubi-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Musubi-Prefix.pch"; sourceTree = "<group>"; };
-		D26D36E2147B3ED400C4FE93 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D26D36E3147B3ED400C4FE93 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D26D36E2147B3ED400C4FE93 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../UI/AppDelegate.h; sourceTree = "<group>"; };
+		D26D36E3147B3ED400C4FE93 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../UI/AppDelegate.m; sourceTree = "<group>"; };
 		D26D36FD147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D26D36FF147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		D26D3701147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
@@ -808,6 +840,11 @@
 		D2F8C685152524DF005AD880 /* StatusObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusObj.m; path = SocialKit/Obj/StatusObj.m; sourceTree = "<group>"; };
 		D2F8C687152533D6005AD880 /* NSDate+TimeAgo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+TimeAgo.h"; sourceTree = "<group>"; };
 		D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TimeAgo.m"; sourceTree = "<group>"; };
+		D2F8C68A1526438F005AD880 /* GoogleAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleAuth.h; sourceTree = "<group>"; };
+		D2F8C68B1526438F005AD880 /* GoogleAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAuth.m; sourceTree = "<group>"; };
+		D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GTMOAuth2.xcodeproj; path = OAuth2/GTMOAuth2.xcodeproj; sourceTree = "<group>"; };
+		D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		D2F8C6CC152655EA005AD880 /* libOAuthTouch2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthTouch2.a; path = "OAuth2/build/Release-iphoneos/libOAuthTouch2.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -827,6 +864,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D210C1761526716E00280605 /* libOAuthTouch2.a in Frameworks */,
+				D2F8C6CB152655C5005AD880 /* SystemConfiguration.framework in Frameworks */,
 				D25BA6BC1522B19A00B87687 /* libThree20Core.a in Frameworks */,
 				D25BA6BD1522B19A00B87687 /* libThree20Network.a in Frameworks */,
 				D25BA6BE1522B19A00B87687 /* libThree20Style.a in Frameworks */,
@@ -893,6 +932,8 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D26D36E2147B3ED400C4FE93 /* AppDelegate.h */,
+				D26D36E3147B3ED400C4FE93 /* AppDelegate.m */,
 				D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */,
 				D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */,
 				D2A1FC141521A6C500C10BE2 /* Feed */,
@@ -904,6 +945,7 @@
 		D211D969151979D200E38051 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				D210C1771526795300280605 /* GTMOAuth2ViewTouch.xib */,
 				D211D96A151979D200E38051 /* NamePictureCell.h */,
 				D211D96B151979D200E38051 /* NamePictureCell.m */,
 				D211D96C151979D200E38051 /* SettingsViewController.h */,
@@ -954,6 +996,8 @@
 				D208156615128E6100F12039 /* UnverifiedIdentityProvider.m */,
 				D2A1FC1015211F6B00C10BE2 /* FacebookIdentityUpdater.h */,
 				D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */,
+				D210C1791526D70B00280605 /* GoogleIdentityUpdater.h */,
+				D210C17A1526D70B00280605 /* GoogleIdentityUpdater.m */,
 			);
 			name = Identity;
 			sourceTree = "<group>";
@@ -1102,8 +1146,6 @@
 			children = (
 				D2B939C214BD04C700C5F777 /* assets */,
 				D26D36FC147B3ED400C4FE93 /* InfoPlist.strings */,
-				D26D36E2147B3ED400C4FE93 /* AppDelegate.h */,
-				D26D36E3147B3ED400C4FE93 /* AppDelegate.m */,
 				D26D3702147B3ED400C4FE93 /* main.m */,
 			);
 			path = UI;
@@ -1126,6 +1168,8 @@
 				D2773CB5151C438200A161F9 /* IntroductionObj.m */,
 				D2F8C684152524DF005AD880 /* StatusObj.h */,
 				D2F8C685152524DF005AD880 /* StatusObj.m */,
+				D208BDD815339CE700F6FC5C /* PictureObj.h */,
+				D208BDD915339CE700F6FC5C /* PictureObj.m */,
 			);
 			name = Obj;
 			sourceTree = "<group>";
@@ -1137,6 +1181,8 @@
 				D2773CBC151C4CE600A161F9 /* AccountAuthManager.m */,
 				D2773CBD151C4CE600A161F9 /* FacebookAuth.h */,
 				D2773CBE151C4CE600A161F9 /* FacebookAuth.m */,
+				D2F8C68A1526438F005AD880 /* GoogleAuth.h */,
+				D2F8C68B1526438F005AD880 /* GoogleAuth.m */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1144,6 +1190,7 @@
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D2F8C6CC152655EA005AD880 /* libOAuthTouch2.a */,
 				D25BA6551522AB5C00B87687 /* libThree20Core.a */,
 				D25BA6561522AB5C00B87687 /* libThree20Network.a */,
 				D25BA6571522AB5C00B87687 /* libThree20Style.a */,
@@ -1154,6 +1201,7 @@
 				D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */,
 				D2D930251522417D006E4F58 /* Three20.xcodeproj */,
 				D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */,
+				D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */,
 				D2B428BB14F44F4600ED868D /* IBE.xcodeproj */,
 				D25F49021471A32500AC1551 /* bson */,
 				D27965DC1457D97200C5FDAB /* SBJson */,
@@ -2226,6 +2274,7 @@
 			children = (
 				D2CD05E314462BD90080861E /* libcommonCrypto.dylib */,
 				D298FA4B143E5B4E000831DD /* libz.dylib */,
+				D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */,
 				D2D9302215223F4A006E4F58 /* QuartzCore.framework */,
 				D20E422C1461EEC60096A272 /* CoreGraphics.framework */,
 				D27968DC1457DA4700C5FDAB /* CoreData.framework */,
@@ -2330,6 +2379,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D2E812E61526631200649FB2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2E812ED1526631200649FB2 /* libOAuthTouch2.a */,
+				D2E812EF1526631200649FB2 /* libOAuthTouch2.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D2F8C67A1524FB0B005AD880 /* Pipeline */ = {
 			isa = PBXGroup;
 			children = (
@@ -2376,6 +2434,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D210C1741526708300280605 /* PBXTargetDependency */,
 				D25BA6541522AB5200B87687 /* PBXTargetDependency */,
 				D2D9311A1522A302006E4F58 /* PBXTargetDependency */,
 				D211D97115197F6800E38051 /* PBXTargetDependency */,
@@ -2413,6 +2472,10 @@
 				{
 					ProductGroup = D211D95F151978DB00E38051 /* Products */;
 					ProjectRef = D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */;
+				},
+				{
+					ProductGroup = D2E812E61526631200649FB2 /* Products */;
+					ProjectRef = D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */;
 				},
 				{
 					ProductGroup = D2B428BC14F44F4600ED868D /* Products */;
@@ -2521,6 +2584,20 @@
 			remoteRef = D2D931171522A2DE006E4F58 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D2E812ED1526631200649FB2 /* libOAuthTouch2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOAuthTouch2.a;
+			remoteRef = D2E812EC1526631200649FB2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D2E812EF1526631200649FB2 /* libOAuthTouch2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOAuthTouch2.a;
+			remoteRef = D2E812EE1526631200649FB2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -2542,6 +2619,7 @@
 				D26D3736147B41B700C4FE93 /* apps in Resources */,
 				D2B939C414BD04C700C5F777 /* missing.png in Resources */,
 				D2D930B515225E99006E4F58 /* Three20.bundle in Resources */,
+				D210C1781526795300280605 /* GTMOAuth2ViewTouch.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2674,12 +2752,20 @@
 				D2F8C68315250713005AD880 /* ObjHelper.m in Sources */,
 				D2F8C686152524DF005AD880 /* StatusObj.m in Sources */,
 				D2F8C689152533D6005AD880 /* NSDate+TimeAgo.m in Sources */,
+				D2F8C68C1526438F005AD880 /* GoogleAuth.m in Sources */,
+				D210C17B1526D70B00280605 /* GoogleIdentityUpdater.m in Sources */,
+				D208BDDA15339CE700F6FC5C /* PictureObj.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D210C1741526708300280605 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OAuthTouchStaticLib;
+			targetProxy = D210C1731526708300280605 /* PBXContainerItemProxy */;
+		};
 		D211D97115197F6800E38051 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "facebook-ios-sdk";
@@ -2933,12 +3019,24 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Thomas Purtell (Y7NMFRQMAA)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_FAST_MATH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Libraries/IBE/IBE",
+					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
+					"$(SRCROOT)/Libraries/GMP/build/include",
+					"$(SRCROOT)/Libraries/GMP/build/include32",
+					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator",
+					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
+					"$(SRCROOT)/Libraries/Facebook/src",
+					"$(SRCROOT)/Libraries/RabbitMQ",
+					"$(BUILT_PRODUCTS_DIR)/../three20",
+					"$(SRCROOT)/Libraries/OAuth2/**",
+				);
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2946,7 +3044,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Musubi;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "D01C1562-7606-4E61-B3B5-2D896A4A97AB";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2957,7 +3055,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Thomas Purtell (Y7NMFRQMAA)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_FAST_MATH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2970,7 +3068,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Musubi;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "D01C1562-7606-4E61-B3B5-2D896A4A97AB";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

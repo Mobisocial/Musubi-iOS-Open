@@ -38,20 +38,38 @@
 
 @implementation FacebookIdentityUpdater
 
+#define kMusubiSettingsFacebookLastIdentityFetch @"FBLastIdentityFetch"
+
 @synthesize queue, storeFactory = _storeFactory;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)storeFactory {
     self = [super init];
     if (self) {
-        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(refreshFriends) name:kMusubiNotificationFacebookFriendRefresh object:nil];
-        
         [self setQueue: [NSOperationQueue new]];
+        [queue setMaxConcurrentOperationCount:1];
+        
         [self setStoreFactory: storeFactory];
+        
+        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(refreshFriends) name:kMusubiNotificationFacebookFriendRefresh object:nil];
+        [self refreshFriendsIfNeeded];
     }
     return self;
 }
 
+-(void) refreshFriendsIfNeeded {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDate* lastFetch = [defaults objectForKey:kMusubiSettingsFacebookLastIdentityFetch];
+    
+    if (lastFetch == nil || [lastFetch timeIntervalSinceNow] < -kFacebookIdentityUpdaterFrequency / 2) {
+        [self refreshFriends];
+        
+        [defaults setObject:[NSDate date] forKey:kMusubiSettingsFacebookLastIdentityFetch];
+        [defaults synchronize];
+    }
+}
+
 - (void) refreshFriends {
+    NSLog(@"Fetching Facebook friends");
     FacebookIdentityFetchOperation* op = [[FacebookIdentityFetchOperation alloc] initWithStoreFactory:_storeFactory];
     [queue addOperation: op];
 }
@@ -106,13 +124,17 @@
 - (void)request:(FBRequest *)request didLoad:(id)result {
     NSMutableArray* identities = [NSMutableArray array];
     NSMutableDictionary* photoURIs = [NSMutableDictionary dictionary];
+    
+    IdentityManager* im = [[IdentityManager alloc] initWithStore: _store];
+    AccountManager* am = [[AccountManager alloc] initWithStore: _store];
+    FeedManager* fm = [[FeedManager alloc] initWithStore:_store];
 
     // Create/update the identities
     for (NSDictionary* f in result) {
         long long uid = [[f objectForKey:@"uid"] longLongValue];
         IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:[NSString stringWithFormat:@"%llu", uid] temporalFrame:0];
         
-        MIdentity* mId = [self ensureIdentity: uid name:[f objectForKey:@"name"] andIdentity: ident];
+        MIdentity* mId = [im ensureIdentity:ident withName:[f objectForKey:@"name"] identityAdded:&_identityAdded profileDataChanged:&_profileDataChanged];
         
         [identities addObject: mId];
         if ([f objectForKey:@"pic_square"])
@@ -134,9 +156,6 @@
     NSString* facebookId = @""; // facebook user id
     assert (email != nil && facebookId != nil);
     
-    AccountManager* am = [[AccountManager alloc] initWithStore: _store];
-    IdentityManager* im = [[IdentityManager alloc] initWithStore: _store];
-    FeedManager* fm = [[FeedManager alloc] initWithStore:_store];
 
     MAccount* account = [am accountWithName: email andType: kAccountTypeFacebook];
     if (account == nil) {
@@ -170,55 +189,6 @@
     NSURLResponse* response;
     NSError* error;
     return [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:url]] returningResponse:&response error:&error];
-}
-
-- (MIdentity*) ensureIdentity: (long) fbId name: (NSString*) name andIdentity: (IBEncryptionIdentity*) ibeId {
-    IdentityManager* idManager = [[IdentityManager alloc] initWithStore:_store];
-    FeedManager* feedManager = [[FeedManager alloc] initWithStore:_store];
-    MIdentity* mId = [idManager identityForIBEncryptionIdentity: ibeId];
-    
-    BOOL changed = NO;
-    BOOL insert = NO;
-    
-    if (mId == nil) {
-        insert = YES;
-        
-        mId = [idManager create];
-        [mId setType: ibeId.authority];
-        [mId setPrincipal: ibeId.principal];
-        [mId setPrincipalHash: ibeId.hashed];
-        [mId setPrincipalShortHash: *(uint64_t*)ibeId.hashed.bytes];
-        [mId setName: name];
-        
-        _identityAdded = YES;
-    }
-    
-    if (!mId.whitelisted) {
-        changed = YES;
-        [mId setWhitelisted: YES];
-        
-        // Dont' change the blocked flag here, because it could only have
-        // been set through explicit user interaction
-        _identityAdded = YES;
-    }
-    
-    if (name != nil && mId.name == nil) {
-        changed = YES;
-        [mId setName: name];
-    }
-    
-    if (insert) {
-        NSLog(@"Inserted facebook user %@", name);
-        [mId setWhitelisted: YES];
-        [idManager createIdentity: mId];
-        [feedManager acceptFeedsFromIdentity: mId];
-    } else if (changed) {
-        NSLog(@"Updated facebook user %@", name);
-        [idManager updateIdentity: mId];
-        _profileDataChanged = YES;
-    }
-    
-    return mId;
 }
 
 @end

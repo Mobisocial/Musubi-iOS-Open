@@ -73,7 +73,6 @@
     NSDate* start = [NSDate date];
     
     while ([[NSDate date] timeIntervalSinceDate:start] < interval) {
-//        MEncodedMessage* res = [emm lookupById: seq];
         NSArray* res = [emm query:nil];
         if (res != nil && res.count > seq) {
             return [res objectAtIndex: seq];

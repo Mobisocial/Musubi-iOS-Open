@@ -39,6 +39,7 @@
 - (id) initWithEntityName: (NSString*) name andStore: (PersistentModelStore*) s;
 - (id) create;
 - (NSArray*) query: (NSPredicate*) predicate;
+- (NSArray *)query:(NSPredicate *)predicate sortBy:(NSSortDescriptor*) sortDescriptor;
 - (NSManagedObject*) queryFirst: (NSPredicate*) predicate;
 
 @end

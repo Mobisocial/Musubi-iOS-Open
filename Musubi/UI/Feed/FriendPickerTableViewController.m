@@ -167,7 +167,9 @@
     
     // Configure the cell...
     MIdentity* ident = [[_identities objectForKey: [_index objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+
     [[cell textLabel] setText: ident.name];
+    [[cell detailTextLabel] setText: ident.principal];
     [[cell imageView] setImage: [UIImage imageWithData:ident.thumbnail]];
     
     if ([_selection containsObject:ident]) {
@@ -265,6 +267,10 @@
 
 - (NSString*) tableView:(UITableView*)tv labelForObject:(id) obj {
     return ((MIdentity*)obj).name;
+}
+
+- (NSString*) tableView:(UITableView *)tableView subLabelForObject:(id)obj {
+    return ((MIdentity*)obj).principal;
 }
 
 - (void)search:(NSString *)text {

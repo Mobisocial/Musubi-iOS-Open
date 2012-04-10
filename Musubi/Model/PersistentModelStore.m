@@ -98,12 +98,18 @@
     }
 }
 
-- (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName {
+- (NSArray *)query:(NSPredicate *)predicate onEntity:(NSString *)entityName {
+    return [self query:predicate onEntity:entityName sortBy:nil];
+}
+
+- (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor{
     NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
     
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:entity];
     [request setPredicate:predicate];
+    if (sortDescriptor)
+        [request setSortDescriptors: [NSArray arrayWithObject: sortDescriptor]];
     
     NSError *error = nil;
     return [context executeFetchRequest:request error:&error];

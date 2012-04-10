@@ -54,8 +54,4 @@
     @throw [NSException exceptionWithName:kMusubiExceptionNeedEncryptionUserKey reason:@"Don't have encryption key" userInfo:[NSDictionary dictionaryWithObjectsAndKeys:me, @"identity", nil]];
 }
 
-- (void)updateEncryptionUserKey:(MEncryptionUserKey *)signatureKey {
-    
-}
-
 @end

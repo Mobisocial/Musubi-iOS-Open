@@ -30,6 +30,7 @@
 
 #import "StatusObj.h"
 #import "IntroductionObj.h"
+#import "PictureObj.h"
 
 @implementation ObjFactory
 
@@ -44,6 +45,8 @@
         return [[[StatusObj alloc] initWithData:data] autorelease];
     } else if ([objType isEqualToString:kObjTypeIntroduction]) {
         return [[[IntroductionObj alloc] initWithData:data] autorelease];
+    } else if ([objType isEqualToString:kObjTypePicture]) {
+        return [[[PictureObj alloc] initWithRaw:mObj.raw] autorelease];
     }
     
     return nil;

@@ -35,6 +35,7 @@
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator;
 
 - (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName;
+- (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor;
 - (NSManagedObject*) queryFirst: (NSPredicate*) predicate onEntity: (NSString*) entityName;
 - (NSManagedObject *)createEntity: (NSString*) entityName;
 

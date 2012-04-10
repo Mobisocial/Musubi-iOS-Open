@@ -25,6 +25,8 @@
 
 #import "AccountManager.h"
 #import "MAccount.h"
+#import "PersistentModelStore.h"
+#import "MFeed.h"
 
 @implementation AccountManager
 
@@ -43,9 +45,26 @@
     return [self query:[NSPredicate predicateWithFormat:@"identity.owned = %d", YES]];
 }
 
-- (MAccount*) accountWithName: (NSString*) name andType: (uint8_t) type {
-    return (MAccount*)[self queryFirst: [NSPredicate predicateWithFormat:@"name = %@ AND type = %d", name, type]];
+- (MAccount*) accountWithName: (NSString*) name andType: (NSString*) type {
+    return (MAccount*)[self queryFirst: [NSPredicate predicateWithFormat:@"name = %@ AND type = %@", name, type]];
 }
 
+- (void) deleteAccount: (MAccount*) account {
+    MAccount* provWhitelistAcc = (MAccount*)[self queryFirst:[NSPredicate predicateWithFormat:@"name = %@ AND identity = %@", kAccountNameProvisionalWhitelist, account.identity]];
+    if (provWhitelistAcc) {
+        if (provWhitelistAcc.feed)
+            [store.context deleteObject: provWhitelistAcc.feed];
+        [store.context deleteObject: provWhitelistAcc];
+    }
+
+    MAccount* localWhitelistAcc = (MAccount*)[self queryFirst:[NSPredicate predicateWithFormat:@"name = %@ AND identity = %@", kAccountNameLocalWhitelist, account.identity]];
+    if (localWhitelistAcc) {
+        if (localWhitelistAcc.feed)
+            [store.context deleteObject: localWhitelistAcc.feed];
+        [store.context deleteObject: localWhitelistAcc];
+    }
+    
+    [store.context deleteObject: account];
+}
 
 @end

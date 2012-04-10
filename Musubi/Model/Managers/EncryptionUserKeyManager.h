@@ -37,8 +37,6 @@
 
 - (id) initWithStore: (PersistentModelStore*) store encryptionScheme: (IBEncryptionScheme*) es;
 
-- (void) createEncryptionUserKey:(MEncryptionUserKey*) cryptoKey;
-- (void) updateEncryptionUserKey:(MEncryptionUserKey*) cryptoKey;
 
 - (IBEncryptionUserKey *)encryptionKeyTo:(MIdentity *)to me:(IBEncryptionIdentity *)me;
 

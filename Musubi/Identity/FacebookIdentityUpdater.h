@@ -26,6 +26,8 @@
 #import <Foundation/Foundation.h>
 #import "Facebook.h"
 
+#define kFacebookIdentityUpdaterFrequency 14400.0
+
 @class PersistentModelStoreFactory, PersistentModelStore, FacebookAuthManager, IBEncryptionIdentity, MIdentity;
 
 @interface FacebookIdentityUpdater : NSObject {

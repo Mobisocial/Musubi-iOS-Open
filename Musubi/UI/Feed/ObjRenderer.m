@@ -27,6 +27,7 @@
 #import "Obj.h"
 #import "StatusObj.h"
 #import "IntroductionObj.h"
+#import "PictureObj.h"
 
 @implementation ObjRenderer
 
@@ -75,6 +76,11 @@
         [label setFrame:CGRectMake(0, 0, size.width, size.height)];
         
         return label;
+    } else if ([obj isMemberOfClass:[PictureObj class]]) {
+        UIImage* image = ((PictureObj*) obj).image;
+        UIImageView* view = [[[UIImageView alloc] initWithImage:image] autorelease];
+        [view setFrame:CGRectMake(10, 10, [image size].width + 10, [image size].height + 10)];
+        return view;
     } else {
         UILabel* label = [[[UILabel alloc] init] autorelease];
         [label setFont: [UIFont systemFontOfSize:15]];
@@ -92,9 +98,9 @@
     if ([obj isMemberOfClass:[StatusObj class]]) {
         CGSize size = [((StatusObj*) obj).text sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(320, 1024) lineBreakMode:UILineBreakModeWordWrap];
         return size.height;
-    } /*else if ([update isMemberOfClass:[PictureUpdate class]]) {
-        return [((PictureUpdate*) update).image size].height + 20;
-    } */else {
+    } else if ([obj isMemberOfClass:[PictureObj class]]) {
+        return [((PictureObj*) obj).image size].height + 20;
+    } else {
         return 0;
     }
 }

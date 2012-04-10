@@ -31,6 +31,7 @@
 
 #define kAccountTypeInternal @"mobisocial.musubi.internal"
 #define kAccountTypeFacebook @"com.facebook.auth.login"
+#define kAccountTypeGoogle @"com.google"
 
 @class MFeed, MIdentity;
 

@@ -30,6 +30,7 @@
 #import "Musubi.h"
 
 #import "FacebookAuth.h"
+#import "GoogleAuth.h"
 #import "IBEncryptionScheme.h"
 
 #import "PersistentModelStore.h"
@@ -81,6 +82,9 @@
     if ([type isEqualToString:kAccountTypeFacebook]) {
         FacebookCheckValidOperation* op = [[[FacebookCheckValidOperation alloc] initWithManager:self] autorelease];
         [queue addOperation: op];
+    } else if ([type isEqualToString:kAccountTypeGoogle]) {
+        GoogleOAuthCheckValidOperation* op = [[[GoogleOAuthCheckValidOperation alloc] initWithManager:self] autorelease];
+        [queue addOperation: op];
     } else {
         @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat:@"Account type %@ unknown", type] userInfo:nil];
     }
@@ -91,14 +95,33 @@
     if ([type isEqualToString:kAccountTypeFacebook]) {
         FacebookLoginOperation* op = [[[FacebookLoginOperation alloc] initWithManager:self] autorelease];
         [queue addOperation: op];
+    } else if ([type isEqualToString:kAccountTypeGoogle]){
+        GoogleOAuthLoginOperation* op = [[[GoogleOAuthLoginOperation alloc] initWithManager:self] autorelease];
+        [queue addOperation: op];
     } else {
         @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat:@"Account type %@ unknown", type] userInfo:nil];
     }
 }
 
 - (void)disconnect:(NSString *)type {
+    AccountManager* accMgr = [[AccountManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
     
+    if ([type isEqualToString:kAccountTypeFacebook]) {
+        for (MAccount* acc in [accMgr accountsWithType:kAccountTypeFacebook]) {
+            [accMgr deleteAccount:acc];
+        }
+    } else if ([type isEqualToString:kAccountTypeGoogle]){
+        for (MAccount* acc in [accMgr accountsWithType:kAccountTypeGoogle]) {
+            [accMgr deleteAccount:acc];
+        }
+    } else {
+        @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat:@"Account type %@ unknown", type] userInfo:nil];
+    }
+    
+    [accMgr.store save];
+    [self onAccount:type isValid:NO];
 }
+
 
 - (void)onAccount:(NSString *)type isValid:(BOOL)valid {
     [[((NSObject*)delegate) invokeOnMainThread] accountWithType:type isConnected:valid];
@@ -140,11 +163,13 @@
     }
 }
 
-- (MAccount*) storeAccount: (NSString*) type name: (NSString*) name principal: (NSString*) principal {
+- (MAccount*) storeAccount: (NSString*) type name: (NSString*) name principal: (NSString*) principal{
     IBEncryptionIdentity* ibeId = nil;
     
     if ([type isEqualToString:kAccountTypeFacebook]) {
         ibeId = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:principal temporalFrame:0];
+    } else if([type isEqualToString:kAccountTypeGoogle]) {
+        ibeId = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:principal temporalFrame:0];
     } else {
         @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat: @"Unsupported account type %@", type] userInfo:nil];
     }
@@ -154,11 +179,12 @@
         IdentityManager* identityManager = [[IdentityManager alloc] initWithStore:store];
         
         //TODO: DB transaction start?
+        MAccount* mAccount = (MAccount*)[store queryFirst:[NSPredicate predicateWithFormat:@"name=%@ AND type=%@", name, type] onEntity:@"Account"];
         
         // Don't repeatedly add profile broadcast groups or do any
         // of this processing if the account is already owned.
         MIdentity* mId = [identityManager identityForIBEncryptionIdentity:ibeId];
-        if (mId != nil && mId.owned) {
+        if (mAccount != nil && mId != nil && mId.owned) {
             return nil;
         }
         
@@ -173,11 +199,10 @@
             [identityManager updateIdentity:mId];
         }
         
-        //        [identityManager updateMyProfileName: mId.musubiName];
-        //        [identityManager updateMyProfilePicture: mId.musubiThumbnail];
+        // [identityManager updateMyProfileName: mId.musubiName];
+        // [identityManager updateMyProfilePicture: mId.musubiThumbnail];
         
         // Ensure account entry exists
-        MAccount* mAccount = (MAccount*)[store queryFirst:[NSPredicate predicateWithFormat:@"name=%@ AND type=%@", name, type] onEntity:@"Account"];
         
         if (mAccount == nil) {
             mAccount = (MAccount*)[store createEntity:@"Account"];
@@ -196,8 +221,6 @@
             device = (MDevice*)[store createEntity:@"Device"];
             [device setDeviceName: [deviceManager localDeviceName]];
             [device setIdentity: mId];
-            
-            NSLog(@"Devices stored: %@", device);
             //[store save];
         }
         

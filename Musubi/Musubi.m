@@ -38,6 +38,7 @@
 #import "MessageDecodeService.h"
 #import "AMQPTransport.h"
 #import "FacebookIdentityUpdater.h"
+#import "GoogleIdentityUpdater.h"
 #import "ObjPipelineService.h"
 
 #import "PersistentModelStore.h"
@@ -124,12 +125,13 @@ static Musubi* _sharedInstance = nil;
     [[ObjPipelineService alloc] initWithStoreFactory: storeFactory];
     
     // Make sure we keep the facebook friends up to date
-    [[FacebookIdentityUpdater alloc] initWithStoreFactory: storeFactory];
-    
-    [NSThread sleepForTimeInterval:5];
-    
-    //[self sendTestMessage];
+    FacebookIdentityUpdater* facebookUpdater = [[FacebookIdentityUpdater alloc] initWithStoreFactory: storeFactory];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kFacebookIdentityUpdaterFrequency target:facebookUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+
+    GoogleIdentityUpdater* googleUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: storeFactory];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:googleUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
 }
+
 
 - (PersistentModelStore *) newStore {
     return [storeFactory newStore];

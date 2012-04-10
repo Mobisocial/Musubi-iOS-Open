@@ -154,7 +154,55 @@
     } else {
         return [[[IBEncryptionIdentity alloc] initWithAuthority:ident.type hashedKey:ident.principalHash temporalFrame:tf] autorelease];        
     }
+}
 
+
+- (MIdentity*) ensureIdentity: (IBEncryptionIdentity*) ibeId withName: (NSString*) name identityAdded: (BOOL*) identityAdded profileDataChanged: (BOOL*) profileDataChanged {
+    FeedManager* feedManager = [[FeedManager alloc] initWithStore: store];
+    MIdentity* mId = [self identityForIBEncryptionIdentity: ibeId];
+    
+    BOOL changed = NO;
+    BOOL insert = NO;
+    
+    if (mId == nil) {
+        insert = YES;
+        
+        mId = [self create];
+        [mId setType: ibeId.authority];
+        [mId setPrincipal: ibeId.principal];
+        [mId setPrincipalHash: ibeId.hashed];
+        [mId setPrincipalShortHash: *(uint64_t*)ibeId.hashed.bytes];
+        [mId setName: name];
+        
+        *identityAdded = YES;
+    }
+    
+    if (!mId.whitelisted) {
+        changed = YES;
+        [mId setWhitelisted: YES];
+        
+        // Dont' change the blocked flag here, because it could only have
+        // been set through explicit user interaction
+        *identityAdded = YES;
+    }
+    
+    if (name != nil && mId.name == nil) {
+        changed = YES;
+        [mId setName: name];
+    }
+    
+    if (insert) {
+        NSLog(@"Inserted user %@", name);
+        [mId setWhitelisted: YES];
+        [self createIdentity: mId];
+        [feedManager acceptFeedsFromIdentity: mId];
+    } else if (changed) {
+        NSLog(@"Updated user %@", name);
+        [self updateIdentity: mId];
+        *profileDataChanged = YES;
+    }
+    
+    return mId;
 }
 
 - (uint64_t) computeTemporalFrameFromPrincipal: (NSString*) principal {

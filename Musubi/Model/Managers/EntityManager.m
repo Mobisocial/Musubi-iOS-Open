@@ -43,6 +43,10 @@
     return [store query:predicate onEntity:entityName];
 }
 
+- (NSArray *)query:(NSPredicate *)predicate sortBy:(NSSortDescriptor*) sortDescriptor {
+    return [store query:predicate onEntity:entityName sortBy:sortDescriptor];
+}
+
 - (NSManagedObject*) queryFirst: (NSPredicate*) predicate {
     return [store queryFirst:predicate onEntity:entityName];
 }

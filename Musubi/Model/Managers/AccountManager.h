@@ -32,5 +32,6 @@
 - (id) initWithStore: (PersistentModelStore*) s;
 - (NSArray*) accountsWithType: (NSString*) type;
 - (NSArray*) claimedAccounts;
-- (MAccount*) accountWithName: (NSString*) name andType: (uint8_t) type;
+- (MAccount*) accountWithName: (NSString*) name andType: (NSString*) type;
+- (void) deleteAccount: (MAccount*) account;
 @end

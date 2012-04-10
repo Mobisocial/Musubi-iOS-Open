@@ -33,11 +33,6 @@
     }
     return self;
 }
-
-- (MEncodedMessage *)lookupById:(uint32_t)i {
-    return (MEncodedMessage*)[self queryFirst: [NSPredicate predicateWithFormat:@"id = %u", i]];
-}
-
 - (NSArray*) unsentOutboundMessages {
     return [self query:[NSPredicate predicateWithFormat:@"processed=0 AND outbound=1"]];
 }

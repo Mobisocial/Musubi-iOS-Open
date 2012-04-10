@@ -57,7 +57,7 @@
     [super viewDidLoad];
     
     [self setAuthMgr:[[AccountAuthManager alloc] initWithDelegate:self]];
-    [self setAccountTypes: [NSDictionary dictionaryWithObjectsAndKeys:@"Facebook", kAccountTypeFacebook, nil]];
+    [self setAccountTypes: [NSDictionary dictionaryWithObjectsAndKeys:@"Facebook", kAccountTypeFacebook, @"Google", kAccountTypeGoogle, nil]];
     
     for (NSString* type in accountTypes.allKeys) {
         [authMgr performSelectorInBackground:@selector(checkStatus:) withObject:type];
@@ -251,6 +251,7 @@
             if (![authMgr isConnected: accountType]) {
                 [authMgr performSelectorInBackground:@selector(connect:) withObject:accountType];
             } else {
+                [authMgr disconnect:accountType];
                 // Debug notification
                 //[[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationFacebookFriendRefresh object:nil]];
             }

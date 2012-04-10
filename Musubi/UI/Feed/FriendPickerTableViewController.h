@@ -48,3 +48,11 @@
 - (IBAction) createFeed: (id) sender;
 
 @end
+
+@interface FriendPickerTableViewCell : UITableViewCell {
+    IBOutlet UIImageView* imageView;
+    IBOutlet UILabel* textLabel;
+    IBOutlet UILabel* detailTextLabel;
+}
+
+@end

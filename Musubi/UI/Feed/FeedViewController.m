@@ -144,7 +144,8 @@
 }
 
 - (MObj*) objForIndexPath: (NSIndexPath*) indexPath {
-    return [objs objectAtIndex: objs.count - indexPath.row - 1];
+    //return [objs objectAtIndex: objs.count - indexPath.row - 1];
+    return [objs objectAtIndex: indexPath.row];
 }
 
 

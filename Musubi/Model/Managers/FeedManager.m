@@ -167,7 +167,12 @@ static int kGlobalBroadcastFeedId = 10;
     NSMutableArray* otherParticipants = [NSMutableArray array];
     for (MIdentity* ident in [self identitiesInFeed:feed]) {
         if (!ident.owned) {
-            [otherParticipants addObject: ident.name];
+            if (ident.name)
+                [otherParticipants addObject: ident.name];
+            else if (ident.principal)
+                [otherParticipants addObject: ident.principal];
+            else
+                [otherParticipants addObject: @"Unknown"];
         }
     }
     

@@ -126,6 +126,10 @@
     return self;
 }
 
+- (BOOL)isConcurrent {
+    return YES;
+}
+
 - (void)main {
     // Get the obj and decode it
     [self setStore: [_service.storeFactory newStore]];
@@ -175,7 +179,7 @@
                         [cryptoKey setIdentity: to];
                         [cryptoKey setPeriod: errId.temporalFrame];
                         [cryptoKey setKey: userKey.raw];
-                        [cryptoUserKeyMgr createEncryptionUserKey:cryptoKey];
+                        [_store save];
                         
                         // Try again, should work now :)
                         im = [_decoder decodeMessage:msg];
@@ -214,7 +218,7 @@
             return YES;
         }
     }
-    
+        
     MDevice* device = im.fromDevice;
     MIdentity* sender = im.fromIdentity;
     BOOL whiteListed = YES; //TODO: whitelisting (sender.owned || sender.whitelisted);
@@ -253,8 +257,6 @@
             return YES;
         }
     }
-    
-    NSLog(@"Obj for feed, type: %@, %d", obj.feedCapability, obj.feedType);
 
     MFeed* feed = nil;
     BOOL asymmetric = NO;
@@ -382,7 +384,7 @@
     }*/
     
     BOOL shouldRunProfilePushBecauseOfExpand = NO;
-    for (MIdentity* participant in participants) {
+    for (MIdentity* participant in participants.allValues) {
         [_feedManager attachMember:participant toFeed:feed];
         
         /* TODO: profile requests
