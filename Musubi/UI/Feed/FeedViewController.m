@@ -227,7 +227,7 @@
 - (IBAction)commandButtonPushed: (id) sender {
     UIActionSheet* commandPicker = [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Picture", nil] autorelease];
     
-    [commandPicker showInView:self.view];
+    [commandPicker showFromTabBar: self.tabBarController.tabBar];
 }
 
 
@@ -238,6 +238,7 @@
             UIImagePickerController* picker = [[[UIImagePickerController alloc] init] autorelease];
             [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
             [picker setDelegate:self];
+            
             
             [self presentModalViewController:picker animated:YES];
             break;
