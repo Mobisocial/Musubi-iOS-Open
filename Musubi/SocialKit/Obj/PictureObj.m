@@ -24,6 +24,7 @@
 //
 
 #import "PictureObj.h"
+#import "UIImage+Resize.h"
 
 static NSString* kMimeField = @"text";
 
@@ -34,10 +35,13 @@ static NSString* kMimeField = @"text";
 - (id)initWithImage:(UIImage *)img {
     self = [super init];
     if (self) {
+        int width = MIN(img.size.width, 480);
+        CGSize size = CGSizeMake(width, width / img.size.width * img.size.height);
+        
         [self setType: kObjTypePicture];
-        [self setRaw: UIImageJPEGRepresentation(img, .8)];
+        [self setImage: [img resizedImage:size interpolationQuality:kCGInterpolationHigh]];
+        [self setRaw: UIImageJPEGRepresentation(_image, .9)];
         [self setData: [NSDictionary dictionary]];        
-        [self setImage: img];
     }
     
     return self;

@@ -29,6 +29,8 @@
 #import "IntroductionObj.h"
 #import "PictureObj.h"
 
+#define kFeedItemTableCellWidth 267
+
 @implementation ObjRenderer
 
 - (UIView *)renderObj:(Obj*)obj
@@ -72,21 +74,23 @@
         [label setText: text];
         [label setLineBreakMode:UILineBreakModeWordWrap];
         
-        CGSize size = CGSizeMake(320, [self renderHeightForObj: obj]);
+        CGSize size = CGSizeMake(kFeedItemTableCellWidth, [self renderHeightForObj: obj]);
         [label setFrame:CGRectMake(0, 0, size.width, size.height)];
         
         return label;
     } else if ([obj isMemberOfClass:[PictureObj class]]) {
         UIImage* image = ((PictureObj*) obj).image;
         UIImageView* view = [[[UIImageView alloc] initWithImage:image] autorelease];
-        [view setFrame:CGRectMake(10, 10, [image size].width + 10, [image size].height + 10)];
+        [view setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+        [view setContentMode:UIViewContentModeScaleAspectFit];
+        [view setFrame:CGRectMake(0, 10, kFeedItemTableCellWidth, (kFeedItemTableCellWidth / image.size.width) * image.size.height)];
         return view;
     } else {
         UILabel* label = [[[UILabel alloc] init] autorelease];
         [label setFont: [UIFont systemFontOfSize:15]];
         [label setText: @"Error: failed to render"];
         
-        CGSize size = CGSizeMake(320, [self renderHeightForObj:obj]);
+        CGSize size = CGSizeMake(kFeedItemTableCellWidth, [self renderHeightForObj:obj]);
         [label setFrame:CGRectMake(0, 0, size.width, size.height)];
         
         return label;
@@ -96,10 +100,11 @@
 - (int)renderHeightForObj:(Obj*)obj {
 
     if ([obj isMemberOfClass:[StatusObj class]]) {
-        CGSize size = [((StatusObj*) obj).text sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(320, 1024) lineBreakMode:UILineBreakModeWordWrap];
+        CGSize size = [((StatusObj*) obj).text sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(kFeedItemTableCellWidth, 1024) lineBreakMode:UILineBreakModeWordWrap];
         return size.height;
     } else if ([obj isMemberOfClass:[PictureObj class]]) {
-        return [((PictureObj*) obj).image size].height + 20;
+        UIImage* image = ((PictureObj*) obj).image;
+        return (kFeedItemTableCellWidth / image.size.width) * image.size.height + 20;
     } else {
         return 0;
     }

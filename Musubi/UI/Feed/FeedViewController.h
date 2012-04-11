@@ -50,10 +50,6 @@
 @property (nonatomic,retain) NSMutableDictionary* objViews;
 @property (nonatomic,retain) NSMutableDictionary* cellHeights;
 
-/*
-- (SignedMessage* ) msgForIndexPath: (NSIndexPath *)indexPath;
-- (IBAction) commandButtonPushed: (id)sender;
-- (id<Update>) updateForMessage: (Message*) msg;
-- (void)launchApp: (App*) app;*/
+- (IBAction)commandButtonPushed: (id) sender;
 
 @end

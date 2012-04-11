@@ -39,6 +39,7 @@
 #import "ObjFactory.h"
 #import "ObjHelper.h"
 #import "StatusObj.h"
+#import "PictureObj.h"
 #import "NSDate+TimeAgo.h"
 #import "PersistentModelStore.h"
 
@@ -222,12 +223,12 @@
         [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:FALSE];
     }
 }
-
-- (void)commandButtonPushed:(id)sender {
-    UIActionSheet* commandPicker = [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Picture", @"Apps", @"Broadcast", nil] autorelease];
+*/
+- (IBAction)commandButtonPushed: (id) sender {
+    UIActionSheet* commandPicker = [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Picture", nil] autorelease];
     
     [commandPicker showInView:self.view];
-}*/
+}
 
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
@@ -275,15 +276,16 @@
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
-    /*
-    App* app = [[[App alloc] init] autorelease];
-    [app setId:kMusubiAppId];
-    [app setFeed:feed];
     
-    PictureUpdate* update = [[[PictureUpdate alloc] initWithImage: image] autorelease];
-    [[Musubi sharedInstance] sendMessage: [Message createWithObj:[update obj] forApp:app]];
+    PictureObj* pic = [[[PictureObj alloc] initWithImage: image] autorelease];
     
-    [[self modalViewController] dismissModalViewControllerAnimated:YES];*/
+    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+    
+    [ObjHelper sendObj:pic toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    
+    [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    [self reloadFeed];    
 }
 
 /*

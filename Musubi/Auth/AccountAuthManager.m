@@ -190,7 +190,7 @@
         
         NSArray* existing = [identityManager ownedIdentities];
         MIdentity* original = existing.count > 0 ? [existing objectAtIndex:0] : nil;
-        if (original == nil) {
+        if (mId == nil) {
             mId = (MIdentity*)[identityManager create];
             [self populateIdentity:mId fromIBEIdentity:ibeId andOriginal:original withManager:identityManager andAccountName:name];
             [identityManager createIdentity:mId];

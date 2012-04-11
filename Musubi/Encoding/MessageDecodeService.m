@@ -144,7 +144,6 @@
         [self setAppManager: [[AppManager alloc] initWithStore: _store]];        
         [self setDecoder: [[MessageDecoder alloc] initWithTransportDataProvider:_transportManager]];
         
-        NSLog(@"Decoding %@", msg);
         [self decodeMessage:msg];
     }
     
@@ -155,6 +154,8 @@
 - (BOOL) decodeMessage: (MEncodedMessage*) msg {
     if (msg == nil)
         @throw [NSException exceptionWithName:kMusubiExceptionUnexpected reason:@"Message was nil!" userInfo:nil];
+    
+    NSLog(@"Decoding %@", msg);
     
     assert (msg != nil);
     IncomingMessage* im = nil;
@@ -198,6 +199,7 @@
                  if (DBG) Log.i(TAG, "Updating key for identity #" + e.identity_, e);
                  mKeyUpdateHandler.requestEncryptionKey(e.identity_);
                  }*/
+//                [_store save];
                 return true;
             }
         } else if ([exception.name isEqualToString:kMusubiExceptionDuplicateMessage]){
@@ -210,11 +212,13 @@
             }
             
             [_store.context deleteObject:msg];
+            [_store save];
             return YES;
             
         } else {
             NSLog(@"Failed to decode message: %@: %@", msg, exception);
             [_store.context deleteObject:msg];
+            [_store save];
             return YES;
         }
     }
@@ -230,6 +234,7 @@
     } @catch (NSException *exception) {
         NSLog(@"Failed to decode message %@: %@", im, exception);
         [_store.context deleteObject:msg];
+        [_store save];
         return YES;
     }
     
@@ -242,7 +247,10 @@
          mEncodedMessageManager.delete(encoded.id_);
          return true;
          }*/
+        
+        NSLog(@"Message was profile message %@", msg);
         [_store.context deleteObject:msg];
+        [_store save];
         return true;
     }
     
@@ -254,6 +262,7 @@
         if (![computedCapability isEqualToData:obj.feedCapability]) {
             NSLog(@"Capability mismatch");
             [_store.context deleteObject:msg];
+            [_store save];
             return YES;
         }
     }

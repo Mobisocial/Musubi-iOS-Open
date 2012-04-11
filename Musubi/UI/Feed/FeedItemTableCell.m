@@ -51,32 +51,26 @@
     [itemView release];
     
     itemView = [iv retain];
-    CGRect itemViewFrame = [itemView frame];
-    itemViewFrame.origin.x = 0; itemViewFrame.origin.y = 0;
-    [itemView setFrame:itemViewFrame];
+    //CGRect itemViewFrame = [itemView frame];
+    //itemViewFrame.origin.x = 0; itemViewFrame.origin.y = 0;
+    //[itemView setFrame:itemViewFrame];
     if ([[itemContainerView subviews] count] > 0)
         [[[itemContainerView subviews] objectAtIndex:0] removeFromSuperview];
     
     [itemContainerView addSubview: itemView];
+    [itemContainerView setAutoresizesSubviews: YES];
+    //[itemContainerView setAutoresizingMask: UIViewAutoresizingFlexibleHeight];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+//    [itemContainerView layoutSubviews];
     
     [profilePictureView setFrame: CGRectMake(5, 5, 36, 36)];
     
     CGRect itemContainerViewFrame = [itemContainerView frame];
-    itemContainerViewFrame.size.height = [itemView frame].size.height + [itemView frame].origin.y;
-    itemContainerViewFrame.size.width = [itemView frame].size.width + [itemView frame].origin.x;
-    [itemContainerView setFrame:itemContainerViewFrame];
-    
-/*    CGRect myFrame = [self frame];
-    myFrame.size.height = 30 + [itemContainerView frame].size.height;
-    [self setFrame:myFrame];*/
-    /*
-    CGRect timestampLabelFrame = [timestampLabel frame];
-    timestampLabelFrame.origin.y = [itemContainerView frame].size.height + [itemContainerView frame].origin.y + 9;
-    [timestampLabel setFrame:timestampLabelFrame];    */
+//    itemContainerViewFrame.size.height = [itemView frame].size.height + [itemView frame].origin.y;
+    itemContainerViewFrame.size.height = self.frame.size.height - itemContainerViewFrame.origin.y;
 }
 
 
