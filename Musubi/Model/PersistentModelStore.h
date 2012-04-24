@@ -40,6 +40,7 @@
 - (NSManagedObject *)createEntity: (NSString*) entityName;
 
 - (void) save;
+- (void) reset;
 
 @end
 

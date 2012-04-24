@@ -3024,7 +3024,7 @@
 				GCC_FAST_MATH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/Libraries/IBE/IBE",
 					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
@@ -3060,7 +3060,7 @@
 				GCC_FAST_MATH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

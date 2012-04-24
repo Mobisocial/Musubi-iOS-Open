@@ -137,5 +137,8 @@
         @throw [NSException exceptionWithName:kMusubiExceptionUnexpected reason:[NSString stringWithFormat:@"Unexpected error occurred: %@", err] userInfo:nil];
     }
 }
+- (void)reset {
+    [context reset];
+}
 
 @end

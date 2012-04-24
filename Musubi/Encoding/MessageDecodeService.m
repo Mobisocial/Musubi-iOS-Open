@@ -79,7 +79,20 @@
 
     BOOL messagesQueued = NO;
     for (MEncodedMessage* msg in [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"]) {
-        assert(msg.processed == NO);
+        @try
+        {
+            if(msg.processed == YES) {
+                NSLog(@"Shut 'er down clancy, she's a pumpin' mud!!");
+            }
+            assert(msg.processed == NO);
+        }
+        @catch (NSException *exception)
+        {
+            if ([[exception name] isEqualToString:NSObjectInaccessibleException]) {
+                //another thread deleted this row, so just move on
+                continue;
+            }
+        }
         messagesQueued = YES;
         
         // Don't process the same obj twice in different threads
@@ -368,7 +381,7 @@
     [_store save];        
     _success = YES;
     
-    NSLog(@"Decoded: %@", mObj);
+    NSLog(@"Decoded: %@", mObj.objectID);
     
     return YES;
 }
