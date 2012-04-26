@@ -38,11 +38,11 @@
     id<IdentityProvider> identityProvider;
 }
 
-@property (atomic, retain) NSMutableArray* requestedEncryptionKeys;
-@property (atomic, retain) NSMutableArray* requestedSignatureKeys;
-@property (atomic, retain) NSMutableDictionary* encryptionBackoff;
-@property (atomic, retain) NSMutableDictionary* signatureBackoff;
-@property (atomic, retain) id<IdentityProvider> identityProvider;
+@property (atomic) NSMutableArray* requestedEncryptionKeys;
+@property (atomic) NSMutableArray* requestedSignatureKeys;
+@property (atomic) NSMutableDictionary* encryptionBackoff;
+@property (atomic) NSMutableDictionary* signatureBackoff;
+@property (atomic) id<IdentityProvider> identityProvider;
 
 - (id) initWithIdentityProvider: (id<IdentityProvider>) idp;
 - (long) updateBackoffForIdentity: (IBEncryptionIdentity*) hid inMap: (NSMutableDictionary*) map;
@@ -59,13 +59,13 @@
     SignatureUserKeyManager* signatureUserKeyManager;
 }
 
-@property (nonatomic, retain) PersistentModelStore* store;
-@property (nonatomic, retain) IdentityKeyManager* manager;
+@property (nonatomic) PersistentModelStore* store;
+@property (nonatomic) IdentityKeyManager* manager;
 
-@property (nonatomic, retain) IdentityManager* identityManager;
+@property (nonatomic) IdentityManager* identityManager;
 
-@property (nonatomic, retain) EncryptionUserKeyManager* encryptionUserKeyManager;
-@property (nonatomic, retain) SignatureUserKeyManager* signatureUserKeyManager;
+@property (nonatomic) EncryptionUserKeyManager* encryptionUserKeyManager;
+@property (nonatomic) SignatureUserKeyManager* signatureUserKeyManager;
 
 - (id) initWithManager: (IdentityKeyManager*) manager;
 

@@ -48,7 +48,7 @@ static GTMOAuth2Authentication* active;
                  }];
 
             CFRunLoopRun();
-            active = [auth retain];
+            active = auth;
         }
         
         return active;
@@ -62,7 +62,7 @@ static GTMOAuth2Authentication* active;
 }
 
 - (void) didLoginWith: (GTMOAuth2Authentication*) auth {
-    active = [auth retain];
+    active = auth;
 }
 
 
@@ -186,7 +186,7 @@ static GTMOAuth2Authentication* active;
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     NSString* json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
+    SBJsonParser* parser = [[SBJsonParser alloc] init];
     NSDictionary* dict = [parser objectWithString:json];
     
     if (dict != nil && [dict objectForKey:@"email"] != nil) {

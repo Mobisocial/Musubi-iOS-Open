@@ -72,15 +72,15 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 }
 
 // store to use on the main thread
-@property (nonatomic, retain) PersistentModelStore* mainStore;
-@property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic) PersistentModelStore* mainStore;
+@property (nonatomic) PersistentModelStoreFactory* storeFactory;
 
-@property (nonatomic, retain) NSNotificationCenter* notificationCenter;
+@property (nonatomic) NSNotificationCenter* notificationCenter;
 
-@property (nonatomic, retain) AMQPTransport* transport;
-@property (nonatomic, retain) IdentityKeyManager* keyManager;
-@property (nonatomic, retain) MessageEncodeService* encodeService;
-@property (nonatomic, retain) MessageDecodeService* decodeService;
+@property (nonatomic) AMQPTransport* transport;
+@property (nonatomic) IdentityKeyManager* keyManager;
+@property (nonatomic) MessageEncodeService* encodeService;
+@property (nonatomic) MessageDecodeService* decodeService;
 
 
 + (Musubi*) sharedInstance;

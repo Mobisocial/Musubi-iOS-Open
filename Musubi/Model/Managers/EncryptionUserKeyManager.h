@@ -33,7 +33,7 @@
     IBEncryptionScheme* encryptionScheme;
 }
 
-@property (nonatomic, retain) IBEncryptionScheme* encryptionScheme;
+@property (nonatomic) IBEncryptionScheme* encryptionScheme;
 
 - (id) initWithStore: (PersistentModelStore*) store encryptionScheme: (IBEncryptionScheme*) es;
 

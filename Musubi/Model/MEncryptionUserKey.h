@@ -30,8 +30,8 @@
 
 @interface MEncryptionUserKey : NSManagedObject
 
-@property (nonatomic, retain) NSData * key;
+@property (nonatomic) NSData * key;
 @property (nonatomic) int64_t period;
-@property (nonatomic, retain) MIdentity *identity;
+@property (nonatomic) MIdentity *identity;
 
 @end

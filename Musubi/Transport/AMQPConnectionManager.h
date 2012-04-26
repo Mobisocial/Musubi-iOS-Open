@@ -44,7 +44,7 @@
     uint64_t lastIncomingDeliveryTag;
 }
 
-@property (nonatomic,retain) NSLock* connLock;
+@property (nonatomic) NSLock* connLock;
 
 - (BOOL) connectionIsAlive;
 - (void) initializeConnection;

@@ -35,9 +35,9 @@
     NSData* _raw;
 }
 
-@property (nonatomic, retain) NSString* type;
-@property (nonatomic, retain) NSDictionary* data;
-@property (nonatomic, retain) NSData* raw;
+@property (nonatomic) NSString* type;
+@property (nonatomic) NSDictionary* data;
+@property (nonatomic) NSData* raw;
 
 - (id) initWithType: (NSString*) t;
 - (id) initWithType: (NSString*) t data: (NSDictionary*) data andRaw: (NSData*) raw;

@@ -114,7 +114,7 @@
     [tableView setDelegate: self];
     [tableView setDataSource: self];
     
-    pickerTextField = [[[TTPickerTextField alloc] init] autorelease];
+    pickerTextField = [[TTPickerTextField alloc] init];
     pickerTextField.dataSource = self;
     pickerTextField.delegate = self;
     pickerTextField.autocorrectionType = UITextAutocorrectionTypeNo;

@@ -35,8 +35,8 @@
     BOOL restartRequested;
 }
 
-@property (nonatomic,retain) DeviceManager* deviceManager;
-@property (nonatomic,retain) IdentityManager* identityManager;
+@property (nonatomic) DeviceManager* deviceManager;
+@property (nonatomic) IdentityManager* identityManager;
 
 - (void) consumeMessages;
 - (void) restart;

@@ -33,8 +33,8 @@
     NSDictionary* accountTypes;
 }
 
-@property (nonatomic, retain) AccountAuthManager* authMgr;
-@property (nonatomic, retain) NSDictionary* accountTypes;
+@property (nonatomic) AccountAuthManager* authMgr;
+@property (nonatomic) NSDictionary* accountTypes;
 
 - (IBAction) pictureClicked: (id)sender;
 

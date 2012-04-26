@@ -32,9 +32,9 @@
     NSData* d; // the encrypted block of secrets for the message for this person
 }
 
-@property (nonatomic, retain) NSData* i;
-@property (nonatomic, retain) NSData* k;
-@property (nonatomic, retain) NSData* s;
-@property (nonatomic, retain) NSData* d;
+@property (nonatomic) NSData* i;
+@property (nonatomic) NSData* k;
+@property (nonatomic) NSData* s;
+@property (nonatomic) NSData* d;
 
 @end

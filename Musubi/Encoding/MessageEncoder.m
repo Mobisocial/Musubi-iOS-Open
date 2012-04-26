@@ -103,7 +103,7 @@
 
 - (MEncodedMessage *) encodeOutgoingMessage:(OutgoingMessage *)om {
     // create the IBE identity for the sender
-    IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];
+    IBEncryptionIdentity* me = [[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]];
     
     /* TODO: verify if principal was intentionaly left out here. It crashes the refetch when signature is missing.
     IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];
@@ -117,7 +117,7 @@
     // create an array of IBE identities for the recipients
     NSMutableArray* rcptIdentities = [NSMutableArray arrayWithCapacity:[[om recipients] count]];
     for (MIdentity* mRcpt in [om recipients]) {
-        IBEncryptionIdentity* rcptIdent = [[[IBEncryptionIdentity alloc] initWithAuthority:mRcpt.type hashedKey:mRcpt.principalHash temporalFrame:[transportDataProvider encryptionTimeTo: mRcpt]] autorelease];
+        IBEncryptionIdentity* rcptIdent = [[IBEncryptionIdentity alloc] initWithAuthority:mRcpt.type hashedKey:mRcpt.principalHash temporalFrame:[transportDataProvider encryptionTimeTo: mRcpt]];
         [rcptIdentities addObject:rcptIdent];
     }
     
@@ -141,12 +141,12 @@
         MOutgoingSecret* os = [self outgoingSecretFrom:om.fromIdentity to:mRcpt fromIdent:me toIdent:rcptIdent];
         uint64_t seqNumber = [self assignSequenceNumberTo:mRcpt];
         
-        Secret* s = [[[Secret alloc] init] autorelease];
+        Secret* s = [[Secret alloc] init];
         [s setH: hash];
         [s setK: messageKey];
         [s setQ: seqNumber];
         
-        Recipient* rcpt = [[[Recipient alloc] init] autorelease];
+        Recipient* rcpt = [[Recipient alloc] init];
         [rcpt setI: [rcptIdent key]];
         [rcpt setK: os.encryptedKey];
         [rcpt setS: os.signature];
@@ -161,12 +161,12 @@
     }
     // Sender
     uint64_t deviceNameBigEndian = CFSwapInt64HostToBig(deviceName);
-    Sender* sender = [[[Sender alloc] init] autorelease];
+    Sender* sender = [[Sender alloc] init];
     [sender setI: [me key]];
     [sender setD: [NSData dataWithBytes:&deviceNameBigEndian length:sizeof(deviceNameBigEndian)]];
 
     // Message protocol format object
-    Message* m = [[[Message alloc] init] autorelease];
+    Message* m = [[Message alloc] init];
     [m setV: 0]; //version
     [m setI: iv];
     [m setA: om.app];

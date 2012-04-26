@@ -36,9 +36,9 @@
     int instance;
 }
 
-@property (nonatomic,retain) AMQPConnectionManager* connMngr;
-@property (nonatomic,retain) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic,retain) PersistentModelStore* threadStore;
+@property (nonatomic) AMQPConnectionManager* connMngr;
+@property (nonatomic) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic) PersistentModelStore* threadStore;
 
 - (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf;
 

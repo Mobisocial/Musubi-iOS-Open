@@ -48,10 +48,10 @@
 
 - (id) initWithPath: (NSURL*) path {
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
-    NSManagedObjectModel *mom = [[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL] autorelease];
+    NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     
     NSError *error = nil;
-    NSPersistentStoreCoordinator *c = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom] autorelease];
+    NSPersistentStoreCoordinator *c = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
     [c addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:path options:nil error:&error];
     
     return [self initWithCoordinator:c];
@@ -66,7 +66,7 @@
 }
 
 - (PersistentModelStore *) newStore {
-    return [[[PersistentModelStore alloc] initWithCoordinator: coordinator] autorelease];
+    return [[PersistentModelStore alloc] initWithCoordinator: coordinator];
 }
 
 @end
@@ -78,7 +78,7 @@
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator {
     self = [super init];
     if (self != nil) {
-        [self setContext: [[[NSManagedObjectContext alloc] init] autorelease]];
+        [self setContext: [[NSManagedObjectContext alloc] init]];
         [context setPersistentStoreCoordinator: coordinator];
                 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(otherContextSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
@@ -89,7 +89,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
-    [super dealloc];
 }
 
 - (void) otherContextSaved: (NSNotification*) notification {
@@ -105,7 +104,7 @@
 - (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor{
     NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
     
-    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entity];
     [request setPredicate:predicate];
     if (sortDescriptor)

@@ -48,7 +48,7 @@
 - (IBEncryptionUserKey *)encryptionKeyTo:(MIdentity *)to me:(IBEncryptionIdentity *)me {
     MEncryptionUserKey* key = (MEncryptionUserKey*)[self queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND period = %llu", to, me.temporalFrame]];
     if (key != nil) {
-        return [[[IBEncryptionUserKey alloc] initWithRaw: key.key] autorelease];
+        return [[IBEncryptionUserKey alloc] initWithRaw: key.key];
     }
     
     @throw [NSException exceptionWithName:kMusubiExceptionNeedEncryptionUserKey reason:@"Don't have encryption key" userInfo:[NSDictionary dictionaryWithObjectsAndKeys:me, @"identity", nil]];

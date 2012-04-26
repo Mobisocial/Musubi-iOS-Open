@@ -39,14 +39,14 @@
     NSData* app; // application namespace
 }
 
-@property (nonatomic,retain) NSArray* personas;
-@property (nonatomic,retain) MIdentity* fromIdentity;
-@property (nonatomic,retain) MDevice* fromDevice;
-@property (nonatomic,retain) NSArray* recipients;
-@property (nonatomic,retain) NSData* hash;
-@property (nonatomic,retain) NSData* data;
+@property (nonatomic) NSArray* personas;
+@property (nonatomic) MIdentity* fromIdentity;
+@property (nonatomic) MDevice* fromDevice;
+@property (nonatomic) NSArray* recipients;
+@property (nonatomic) NSData* hash;
+@property (nonatomic) NSData* data;
 @property (nonatomic,assign) uint64_t sequenceNumber;
 @property (nonatomic,assign) BOOL blind;
-@property (nonatomic,retain) NSData* app;
+@property (nonatomic) NSData* app;
 
 @end

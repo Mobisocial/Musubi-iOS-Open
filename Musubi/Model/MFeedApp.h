@@ -30,7 +30,7 @@
 
 @interface MFeedApp : NSManagedObject
 
-@property (nonatomic, retain) MFeed *feed;
-@property (nonatomic, retain) MApp *app;
+@property (nonatomic) MFeed *feed;
+@property (nonatomic) MApp *app;
 
 @end

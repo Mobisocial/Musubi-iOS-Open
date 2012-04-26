@@ -31,6 +31,6 @@
 @interface MMissingMessage : NSManagedObject
 
 @property (nonatomic) int64_t sequenceNumber;
-@property (nonatomic, retain) MDevice *device;
+@property (nonatomic) MDevice *device;
 
 @end

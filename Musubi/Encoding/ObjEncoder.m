@@ -45,10 +45,10 @@ static uint32_t kHeaderGuesstimate = 200;
 + (PreparedObj *)prepareObj:(MObj *)obj forFeed:(MFeed *)feed andApp:(MApp *)app {
     
     // Verify that the JSON is valid
-    SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
+    SBJsonParser* parser = [[SBJsonParser alloc] init];
     [parser objectWithString:obj.json];
     
-    return [[[PreparedObj alloc] initWithFeedType:feed.type feedCapability:feed.capability appId:app.appId timestamp:[obj.timestamp timeIntervalSince1970] * 1000 data:obj] autorelease];
+    return [[PreparedObj alloc] initWithFeedType:feed.type feedCapability:feed.capability appId:app.appId timestamp:[obj.timestamp timeIntervalSince1970] * 1000 data:obj];
 }
 
 + (NSData *)encodeObj:(PreparedObj *)obj {

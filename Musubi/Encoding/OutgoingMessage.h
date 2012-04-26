@@ -36,11 +36,11 @@
     NSData* app; // the id of the application namespace
 }
 
-@property (nonatomic, retain) MIdentity* fromIdentity;
-@property (nonatomic, retain) NSArray* recipients;
-@property (nonatomic, retain) NSData* data;
-@property (nonatomic, retain) NSData* hash;
+@property (nonatomic) MIdentity* fromIdentity;
+@property (nonatomic) NSArray* recipients;
+@property (nonatomic) NSData* data;
+@property (nonatomic) NSData* hash;
 @property (nonatomic, assign) BOOL blind;
-@property (nonatomic, retain) NSData* app;
+@property (nonatomic) NSData* app;
 
 @end

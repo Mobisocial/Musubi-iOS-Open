@@ -30,8 +30,8 @@
     NSData* d; // the device identifier
 }
 
-@property (nonatomic, retain) NSData* i;
-@property (nonatomic, retain) NSData* d;
+@property (nonatomic) NSData* i;
+@property (nonatomic) NSData* d;
 
 
 @end

@@ -164,7 +164,7 @@
         [objViews setObject:cellView forKey:mObj.objectID];        
     }
     
-    NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
     
@@ -225,7 +225,7 @@
 }
 */
 - (IBAction)commandButtonPushed: (id) sender {
-    UIActionSheet* commandPicker = [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Picture", nil] autorelease];
+    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Picture", nil];
     
     [commandPicker showFromTabBar: self.tabBarController.tabBar];
 }
@@ -235,7 +235,7 @@
     switch (buttonIndex) {
         case 0: // picture
         {
-            UIImagePickerController* picker = [[[UIImagePickerController alloc] init] autorelease];
+            UIImagePickerController* picker = [[UIImagePickerController alloc] init];
             [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
             [picker setDelegate:self];
             
@@ -278,7 +278,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     
-    PictureObj* pic = [[[PictureObj alloc] initWithImage: image] autorelease];
+    PictureObj* pic = [[PictureObj alloc] initWithImage: image];
     
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
@@ -364,7 +364,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if ([textField text].length > 0) {
-        StatusObj* status = [[[StatusObj alloc] initWithText: [textField text]] autorelease];
+        StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
         
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];

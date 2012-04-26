@@ -30,7 +30,7 @@
 
 @interface MFeedMember : NSManagedObject
 
-@property (nonatomic, retain) MFeed *feed;
-@property (nonatomic, retain) MIdentity *identity;
+@property (nonatomic) MFeed *feed;
+@property (nonatomic) MIdentity *identity;
 
 @end

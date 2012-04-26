@@ -37,12 +37,12 @@
     NSMutableArray* feedsToNotify;
 }
 
-@property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic) PersistentModelStoreFactory* storeFactory;
 
 // List of objs that are pending processing
-@property (atomic, retain) NSMutableArray* pending;
-@property (nonatomic, retain) NSOperationQueue* operations;
-@property (atomic, retain) NSMutableArray* feedsToNotify;
+@property (atomic) NSMutableArray* pending;
+@property (nonatomic) NSOperationQueue* operations;
+@property (atomic) NSMutableArray* feedsToNotify;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf;
 
@@ -57,8 +57,8 @@
     PersistentModelStore* _store;
 }
 
-@property (nonatomic, retain) NSManagedObjectID* objId;
-@property (nonatomic, retain) PersistentModelStore* store;
+@property (nonatomic) NSManagedObjectID* objId;
+@property (nonatomic) PersistentModelStore* store;
 
 - (id) initWithObjId: (NSManagedObjectID*) objId andService: (ObjPipelineService*) service;
 - (void) processObj: (MObj*) obj;

@@ -107,7 +107,7 @@
 }
 
 - (void)pictureClicked:(id)sender {    
-    UIImagePickerController* picker = [[[UIImagePickerController alloc] init] autorelease];
+    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
     [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
     [picker setDelegate:self];
     
@@ -155,7 +155,7 @@
         case 1: {
             UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
             if (cell == nil) {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"] autorelease];
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
             }
             
             NSString* accountType = [accountTypes.allKeys objectAtIndex:indexPath.row];

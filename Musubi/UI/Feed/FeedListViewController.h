@@ -32,7 +32,7 @@
     FeedManager* feedManager;
 }
 
-@property (nonatomic,retain) NSArray* feeds;
-@property (nonatomic,retain) FeedManager* feedManager;
+@property (nonatomic) NSArray* feeds;
+@property (nonatomic) FeedManager* feedManager;
 
 @end

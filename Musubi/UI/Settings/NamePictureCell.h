@@ -30,7 +30,7 @@
     IBOutlet UIButton* picture;
 }
 
-@property (nonatomic,retain) IBOutlet UIButton* picture;
-@property (nonatomic,retain) IBOutlet UITextField* nameTextField;
+@property (nonatomic) IBOutlet UIButton* picture;
+@property (nonatomic) IBOutlet UITextField* nameTextField;
 
 @end

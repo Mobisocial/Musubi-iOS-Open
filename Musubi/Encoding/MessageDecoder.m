@@ -59,7 +59,7 @@
 }
 
 - (MIdentity*) addIdentityWithKey: (NSData*) key {
-    return [transportDataProvider addClaimedIdentity:[[[IBEncryptionIdentity alloc] initWithKey:key] autorelease]];
+    return [transportDataProvider addClaimedIdentity:[[IBEncryptionIdentity alloc] initWithKey:key]];
 }
 
 - (MDevice*) addDevice: (MIdentity*) ident withId:(NSData*)devId {
@@ -87,8 +87,8 @@
 
 - (MIncomingSecret *)addIncomingSecretFrom:(MIdentity *)from atDevice:(MDevice *)device to:(MIdentity *)to sender:(Sender *)s recipient:(Recipient *)me {
     
-    IBEncryptionIdentity* meTimed = [[[IBEncryptionIdentity alloc] initWithKey: me.i] autorelease];
-    IBEncryptionIdentity* sid = [[[IBEncryptionIdentity alloc] initWithKey: s.i] autorelease];
+    IBEncryptionIdentity* meTimed = [[IBEncryptionIdentity alloc] initWithKey: me.i];
+    IBEncryptionIdentity* sid = [[IBEncryptionIdentity alloc] initWithKey: s.i];
     
     //TODO: make sure not to waste time computing the same secret twice if someone uses
     //this in a multi-threaded way
@@ -102,7 +102,7 @@
     [is setDevice: device];
 
     IBEncryptionUserKey* userKey = [transportDataProvider encryptionKeyTo:to myIdentity:meTimed];
-    [is setKey: [encryptionScheme decryptConversationKey:[[[IBEncryptionConversationKey alloc] initWithRaw:nil andEncrypted:me.k] autorelease] withUserKey:userKey]];
+    [is setKey: [encryptionScheme decryptConversationKey:[[IBEncryptionConversationKey alloc] initWithRaw:nil andEncrypted:me.k] withUserKey:userKey]];
 
     [is setEncryptedKey: me.k];
     [is setEncryptionPeriod: meTimed.temporalFrame];
@@ -137,13 +137,13 @@
 }
 
 - (IncomingMessage *)decodeMessage:(MEncodedMessage *)encoded {
-    IncomingMessage* im = [[[IncomingMessage alloc] init] autorelease];
+    IncomingMessage* im = [[IncomingMessage alloc] init];
     Message* m = [BSONEncoder decodeMessage: encoded.encoded];
     
     // Find my recipient data from the list of recipients in the message
     NSMutableArray* mine = [NSMutableArray array];
     for (Recipient* r in m.r) {
-        IBEncryptionIdentity* ident = [[[IBEncryptionIdentity alloc] initWithKey:r.i] autorelease];
+        IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithKey:r.i];
         if ([transportDataProvider isMe:ident]) {
             [mine addObject: r];
         }

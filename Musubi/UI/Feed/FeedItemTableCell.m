@@ -48,9 +48,8 @@
 - (void)setItemView:(UIView *)iv {
     
     itemView = nil;
-    [itemView release];
     
-    itemView = [iv retain];
+    itemView = iv;
     //CGRect itemViewFrame = [itemView frame];
     //itemViewFrame.origin.x = 0; itemViewFrame.origin.y = 0;
     //[itemView setFrame:itemViewFrame];

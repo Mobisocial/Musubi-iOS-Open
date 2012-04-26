@@ -37,7 +37,7 @@
 
     self = [super init];
     if (self) {
-        [self setConnMngrIn:[[[AMQPConnectionManager alloc] init] autorelease]];
+        [self setConnMngrIn:[[AMQPConnectionManager alloc] init]];
         [self setConnMngrOut: connMngrIn];
         // Use one connection for both incoming and outgoing, seems to work ok
         //        [self setConnMngrOut:[[[AMQPConnectionManager alloc] init] autorelease]];

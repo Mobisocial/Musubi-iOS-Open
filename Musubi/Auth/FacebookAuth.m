@@ -145,12 +145,12 @@
         // App delegate is the one who gets called back after login, needs a reference here
         [((AppDelegate*) [[UIApplication sharedApplication] delegate]) setFacebookLoginOperation: self];
 
-        NSArray *permissions = [[[NSArray alloc] initWithObjects:
+        NSArray *permissions = [[NSArray alloc] initWithObjects:
                                  @"read_friendlists", 
                                  @"email",
                                  @"offline_access",
                                  @"publish_stream",
-                                 nil] autorelease];
+                                 nil];
         [facebookMgr.facebook authorize:permissions];
 //    }
 }

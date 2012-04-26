@@ -106,7 +106,7 @@ static Musubi* _sharedInstance = nil;
     
     
     // The identity provider is our main IBE point of contact
-    identityProvider = [[[AphidIdentityProvider alloc] init] autorelease];
+    identityProvider = [[AphidIdentityProvider alloc] init];
         
     // The key manager handles our encryption and signature keys
     [self setKeyManager: [[IdentityKeyManager alloc] initWithIdentityProvider: identityProvider]];
@@ -137,8 +137,5 @@ static Musubi* _sharedInstance = nil;
     return [storeFactory newStore];
 }
 
-- (void)dealloc {    
-    [super dealloc];
-}
 
 @end

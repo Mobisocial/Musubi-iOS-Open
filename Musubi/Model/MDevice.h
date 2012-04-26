@@ -32,6 +32,6 @@
 
 @property (nonatomic) int64_t deviceName;
 @property (nonatomic) int64_t maxSequenceNumber;
-@property (nonatomic, retain) MIdentity *identity;
+@property (nonatomic) MIdentity *identity;
 
 @end

@@ -38,7 +38,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        [self setConnLock: [[[NSLock alloc] init] autorelease]];
+        [self setConnLock: [[NSLock alloc] init]];
         conn = nil;
         connectionReady = NO;
     }

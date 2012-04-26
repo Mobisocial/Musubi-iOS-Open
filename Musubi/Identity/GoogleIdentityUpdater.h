@@ -34,8 +34,8 @@
     NSOperationQueue* queue;
 }
 
-@property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic, retain) NSOperationQueue* queue;
+@property (nonatomic) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic) NSOperationQueue* queue;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory;
 
@@ -54,9 +54,9 @@
     BOOL _profileDataChanged;
 }
 
-@property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic, retain) PersistentModelStore* store;
-@property (nonatomic, retain) GoogleAuthManager* authManager;
+@property (nonatomic) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic) PersistentModelStore* store;
+@property (nonatomic) GoogleAuthManager* authManager;
 @property (atomic, assign) BOOL isFinished;
 @property (atomic, assign) BOOL isExecuting;
 

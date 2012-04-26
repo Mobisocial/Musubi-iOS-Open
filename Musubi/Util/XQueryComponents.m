@@ -19,17 +19,17 @@
 
 - (NSString *)stringByEncodingURLFormat
 {
-    return [(NSString *)CFURLCreateStringByAddingPercentEscapes(
+    return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(
                                                                NULL,
-                                                               (CFStringRef)self,
+                                                               (__bridge CFStringRef)self,
                                                                NULL,
                                                                (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                               kCFStringEncodingUTF8 ) autorelease];
+                                                               kCFStringEncodingUTF8 );
 }
 
 - (NSMutableDictionary *)dictionaryFromQueryComponents
 {
-    NSMutableDictionary *queryComponents = [[[NSMutableDictionary alloc] init] autorelease];
+    NSMutableDictionary *queryComponents = [[NSMutableDictionary alloc] init];
     for(NSString *keyValuePairString in [self componentsSeparatedByString:@"&"])
     {
         NSArray *keyValuePairArray = [keyValuePairString componentsSeparatedByString:@"="];
@@ -61,12 +61,12 @@
 - (NSString *)stringFromQueryComponents
 {
     NSString *result = nil;
-    for(NSString *key in [self allKeys])
+    for(__strong NSString *key in [self allKeys])
     {
         key = [key stringByEncodingURLFormat];
         NSArray *allValues = [self objectForKey:key];
         if([allValues isKindOfClass:[NSArray class]])
-            for(NSString *value in allValues)
+            for(__strong NSString *value in allValues)
             {
                 value = [[value description] stringByEncodingURLFormat];
                 if(!result)

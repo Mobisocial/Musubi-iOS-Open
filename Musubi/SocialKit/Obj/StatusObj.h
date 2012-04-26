@@ -32,7 +32,7 @@
     NSString* _text;
 }
 
-@property (nonatomic, retain) NSString* text;
+@property (nonatomic) NSString* text;
 
 - (id) initWithText: (NSString*) text;
 - (id) initWithData: (NSDictionary*) data;

@@ -37,9 +37,9 @@
 
 @interface MAccount : NSManagedObject
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * type;
-@property (nonatomic, retain) MIdentity *identity;
-@property (nonatomic, retain) MFeed *feed;
+@property (nonatomic) NSString * name;
+@property (nonatomic) NSString * type;
+@property (nonatomic) MIdentity *identity;
+@property (nonatomic) MFeed *feed;
 
 @end

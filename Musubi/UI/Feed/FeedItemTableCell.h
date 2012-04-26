@@ -34,9 +34,9 @@
     IBOutlet UIImageView* profilePictureView;
 }
 
-@property (nonatomic,retain) IBOutlet UILabel* senderLabel;
-@property (nonatomic,retain) IBOutlet UILabel* timestampLabel;
-@property (nonatomic,retain) IBOutlet UIImageView* profilePictureView;
-@property (nonatomic,retain) UIView* itemView;
+@property (nonatomic) IBOutlet UILabel* senderLabel;
+@property (nonatomic) IBOutlet UILabel* timestampLabel;
+@property (nonatomic) IBOutlet UIImageView* profilePictureView;
+@property (nonatomic) UIView* itemView;
 
 @end

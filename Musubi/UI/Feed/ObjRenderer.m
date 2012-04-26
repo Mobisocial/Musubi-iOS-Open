@@ -68,7 +68,7 @@
     if ([obj isMemberOfClass:[StatusObj class]]) {
         NSString* text = ((StatusObj*) obj).text;
         
-        UILabel* label = [[[UILabel alloc] init] autorelease];
+        UILabel* label = [[UILabel alloc] init];
         [label setNumberOfLines:0];
         [label setFont: [UIFont systemFontOfSize:15]];
         [label setText: text];
@@ -80,13 +80,13 @@
         return label;
     } else if ([obj isMemberOfClass:[PictureObj class]]) {
         UIImage* image = ((PictureObj*) obj).image;
-        UIImageView* view = [[[UIImageView alloc] initWithImage:image] autorelease];
+        UIImageView* view = [[UIImageView alloc] initWithImage:image];
         [view setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
         [view setContentMode:UIViewContentModeScaleAspectFit];
         [view setFrame:CGRectMake(0, 10, kFeedItemTableCellWidth, (kFeedItemTableCellWidth / image.size.width) * image.size.height)];
         return view;
     } else {
-        UILabel* label = [[[UILabel alloc] init] autorelease];
+        UILabel* label = [[UILabel alloc] init];
         [label setFont: [UIFont systemFontOfSize:15]];
         [label setText: @"Error: failed to render"];
         

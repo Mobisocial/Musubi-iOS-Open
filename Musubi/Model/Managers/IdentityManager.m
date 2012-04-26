@@ -150,9 +150,9 @@
 
 - (IBEncryptionIdentity *)ibEncryptionIdentityForIdentity:(MIdentity *)ident forTemporalFrame:(uint64_t) tf{
     if (ident.principal) {
-        return [[[IBEncryptionIdentity alloc] initWithAuthority:ident.type principal:ident.principal temporalFrame:tf] autorelease];
+        return [[IBEncryptionIdentity alloc] initWithAuthority:ident.type principal:ident.principal temporalFrame:tf];
     } else {
-        return [[[IBEncryptionIdentity alloc] initWithAuthority:ident.type hashedKey:ident.principalHash temporalFrame:tf] autorelease];        
+        return [[IBEncryptionIdentity alloc] initWithAuthority:ident.type hashedKey:ident.principalHash temporalFrame:tf];        
     }
 }
 

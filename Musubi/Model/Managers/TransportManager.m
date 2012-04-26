@@ -52,17 +52,16 @@
         [self setSignatureScheme: ss];
         [self setDeviceName: devName];
         
-        [self setIdentityManager: [[[IdentityManager alloc] initWithStore: store] autorelease]];
-        [self setEncryptionUserKeyManager: [[[EncryptionUserKeyManager alloc] initWithStore: store encryptionScheme:es] autorelease]];
-        [self setSignatureUserKeyManager: [[[SignatureUserKeyManager alloc] initWithStore: store signatureScheme:ss] autorelease]];
+        [self setIdentityManager: [[IdentityManager alloc] initWithStore: store]];
+        [self setEncryptionUserKeyManager: [[EncryptionUserKeyManager alloc] initWithStore: store encryptionScheme:es]];
+        [self setSignatureUserKeyManager: [[SignatureUserKeyManager alloc] initWithStore: store signatureScheme:ss]];
     }
     
     return self;
 }
 
 - (void)setStore:(PersistentModelStore *)s {
-    [store release];
-    store = [s retain];
+    store = s;
     
     [identityManager setStore:s];
 }

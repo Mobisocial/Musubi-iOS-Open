@@ -93,7 +93,7 @@ void err_handler() {
     bson_init_finished_data(&b, (char*)[data bytes]);
     
     
-    Message* m = [[[Message alloc] init] autorelease];
+    Message* m = [[Message alloc] init];
     
     
     bson_find(&iter, &b, "v");
@@ -104,7 +104,7 @@ void err_handler() {
     // Read sender
     bson_iterator_subobject(&iter, &s);
     
-    Sender* sender = [[[Sender alloc] init] autorelease];
+    Sender* sender = [[Sender alloc] init];
     [m setS: sender];
     bson_find(&iter2, &s, "i");
     [sender setI:[NSData dataWithBytes:bson_iterator_bin_data(&iter2) length:bson_iterator_bin_len(&iter2)]];
@@ -131,7 +131,7 @@ void err_handler() {
         
         bson_iterator_subobject(&iter2, &r);
         
-        Recipient* recipient = [[[Recipient alloc] init] autorelease];
+        Recipient* recipient = [[Recipient alloc] init];
         [rcpts addObject: recipient];
         
         bson_find(&iter3, &r, "i");
@@ -173,7 +173,7 @@ void err_handler() {
     bson_iterator iter;
     bson_init_finished_data(&b, (char*)[data bytes]);
 
-    Secret* s = [[[Secret alloc] init] autorelease];
+    Secret* s = [[Secret alloc] init];
 
     bson_find(&iter, &b, "h");
     [s setH:[NSData dataWithBytes:bson_iterator_bin_data(&iter) length:bson_iterator_bin_len(&iter)]];
@@ -220,7 +220,7 @@ void err_handler() {
     bson_iterator iter;
     bson_init_finished_data(&b, (char*)[data bytes]);
     
-    PreparedObj* o = [[[PreparedObj alloc] init] autorelease];
+    PreparedObj* o = [[PreparedObj alloc] init];
     int type;
     
     type = bson_find(&iter, &b, "feedType");

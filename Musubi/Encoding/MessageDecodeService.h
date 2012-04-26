@@ -41,14 +41,14 @@
     NSMutableArray* _pending;
 }
 
-@property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic, retain) id<IdentityProvider> identityProvider;
+@property (nonatomic) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic) id<IdentityProvider> identityProvider;
 
 // List of operation threads
-@property (nonatomic, retain) NSOperationQueue* queue;
+@property (nonatomic) NSOperationQueue* queue;
 
 // List of objs that are pending processing
-@property (atomic, retain) NSMutableArray* pending;
+@property (atomic) NSMutableArray* pending;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) sf andIdentityProvider: (id<IdentityProvider>) ip;
 
@@ -72,20 +72,20 @@
     MessageDecoder* _decoder;
 }
 
-@property (nonatomic, retain) NSManagedObjectID* messageId;
-@property (nonatomic, retain) MessageDecodeService* service;
-@property (nonatomic, retain) NSMutableArray* dirtyFeeds;
+@property (nonatomic) NSManagedObjectID* messageId;
+@property (nonatomic) MessageDecodeService* service;
+@property (nonatomic) NSMutableArray* dirtyFeeds;
 @property (nonatomic, assign) BOOL shouldRunProfilePush;
 @property (nonatomic, assign) BOOL success;
 
-@property (nonatomic, retain) MessageDecoder* decoder;
-@property (nonatomic, retain) PersistentModelStore* store;
-@property (nonatomic, retain) DeviceManager* deviceManager;
-@property (nonatomic, retain) IdentityManager* identityManager;
-@property (nonatomic, retain) TransportManager* transportManager;
-@property (nonatomic, retain) FeedManager* feedManager;
-@property (nonatomic, retain) AccountManager* accountManager;
-@property (nonatomic, retain) AppManager* appManager;
+@property (nonatomic) MessageDecoder* decoder;
+@property (nonatomic) PersistentModelStore* store;
+@property (nonatomic) DeviceManager* deviceManager;
+@property (nonatomic) IdentityManager* identityManager;
+@property (nonatomic) TransportManager* transportManager;
+@property (nonatomic) FeedManager* feedManager;
+@property (nonatomic) AccountManager* accountManager;
+@property (nonatomic) AppManager* appManager;
 
 - (id) initWithMessageId: (NSManagedObjectID*) msgId andService: (MessageDecodeService*) service;
 

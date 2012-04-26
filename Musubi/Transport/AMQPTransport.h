@@ -35,11 +35,11 @@
     AMQPListener* listener;
 }
 
-@property (nonatomic,retain) AMQPConnectionManager* connMngrIn;
-@property (nonatomic,retain) AMQPConnectionManager* connMngrOut;
+@property (nonatomic) AMQPConnectionManager* connMngrIn;
+@property (nonatomic) AMQPConnectionManager* connMngrOut;
 
-@property (nonatomic,retain) AMQPSender* sender;
-@property (nonatomic,retain) AMQPListener* listener;
+@property (nonatomic) AMQPSender* sender;
+@property (nonatomic) AMQPListener* listener;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory;
 

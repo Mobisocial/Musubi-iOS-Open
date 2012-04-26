@@ -40,10 +40,10 @@
     TTPickerTextField* pickerTextField;
 }
 
-@property (nonatomic,retain) IdentityManager* identityManager;
-@property (nonatomic,retain) NSMutableDictionary* identities;
-@property (nonatomic,retain) NSArray* index;
-@property (nonatomic,retain) NSMutableArray* selection;
+@property (nonatomic) IdentityManager* identityManager;
+@property (nonatomic) NSMutableDictionary* identities;
+@property (nonatomic) NSArray* index;
+@property (nonatomic) NSMutableArray* selection;
 
 - (IBAction) createFeed: (id) sender;
 

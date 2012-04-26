@@ -63,7 +63,7 @@
     assert (device != nil);
     assert (device.deviceName == [deviceManager localDeviceName]);
     
-    SBJsonWriter* writer = [[[SBJsonWriter alloc] init] autorelease];
+    SBJsonWriter* writer = [[SBJsonWriter alloc] init];
     NSString* json = [writer stringWithObject:obj.data];
     if (json.length > 480*1024)
         @throw [NSException exceptionWithName:kMusubiExceptionMessageTooLarge reason:@"JSON is too large to send" userInfo:nil];

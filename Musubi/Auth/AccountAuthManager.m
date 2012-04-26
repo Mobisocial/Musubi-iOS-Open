@@ -51,7 +51,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        [self setQueue: [[[NSOperationQueue alloc] init] autorelease]];
+        [self setQueue: [[NSOperationQueue alloc] init]];
     }
     return self;
 }
@@ -80,10 +80,10 @@
     
     // Then see if it is still valid
     if ([type isEqualToString:kAccountTypeFacebook]) {
-        FacebookCheckValidOperation* op = [[[FacebookCheckValidOperation alloc] initWithManager:self] autorelease];
+        FacebookCheckValidOperation* op = [[FacebookCheckValidOperation alloc] initWithManager:self];
         [queue addOperation: op];
     } else if ([type isEqualToString:kAccountTypeGoogle]) {
-        GoogleOAuthCheckValidOperation* op = [[[GoogleOAuthCheckValidOperation alloc] initWithManager:self] autorelease];
+        GoogleOAuthCheckValidOperation* op = [[GoogleOAuthCheckValidOperation alloc] initWithManager:self];
         [queue addOperation: op];
     } else {
         @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat:@"Account type %@ unknown", type] userInfo:nil];
@@ -93,10 +93,10 @@
 - (void)connect:(NSString *)type {
     
     if ([type isEqualToString:kAccountTypeFacebook]) {
-        FacebookLoginOperation* op = [[[FacebookLoginOperation alloc] initWithManager:self] autorelease];
+        FacebookLoginOperation* op = [[FacebookLoginOperation alloc] initWithManager:self];
         [queue addOperation: op];
     } else if ([type isEqualToString:kAccountTypeGoogle]){
-        GoogleOAuthLoginOperation* op = [[[GoogleOAuthLoginOperation alloc] initWithManager:self] autorelease];
+        GoogleOAuthLoginOperation* op = [[GoogleOAuthLoginOperation alloc] initWithManager:self];
         [queue addOperation: op];
     } else {
         @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat:@"Account type %@ unknown", type] userInfo:nil];

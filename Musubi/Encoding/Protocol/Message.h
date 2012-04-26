@@ -38,11 +38,11 @@
 }
 
 @property (nonatomic, assign) uint32_t v;
-@property (nonatomic, retain) Sender* s;
-@property (nonatomic, retain) NSData* i;
+@property (nonatomic) Sender* s;
+@property (nonatomic) NSData* i;
 @property (nonatomic, assign) BOOL l;
-@property (nonatomic, retain) NSData* a;
-@property (nonatomic, retain) NSArray* r;
-@property (nonatomic, retain) NSData* d;
+@property (nonatomic) NSData* a;
+@property (nonatomic) NSArray* r;
+@property (nonatomic) NSData* d;
 
 @end

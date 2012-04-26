@@ -42,13 +42,13 @@
     IBOutlet UITableView* tableView;
 }
 
-@property (nonatomic,retain) MFeed* feed;
-@property (nonatomic,retain) FeedManager* feedManager;
-@property (nonatomic,retain) ObjManager* objManager;
-@property (nonatomic,retain) ObjRenderer* objRenderer;
-@property (nonatomic,retain) NSArray* objs;
-@property (nonatomic,retain) NSMutableDictionary* objViews;
-@property (nonatomic,retain) NSMutableDictionary* cellHeights;
+@property (nonatomic) MFeed* feed;
+@property (nonatomic) FeedManager* feedManager;
+@property (nonatomic) ObjManager* objManager;
+@property (nonatomic) ObjRenderer* objRenderer;
+@property (nonatomic) NSArray* objs;
+@property (nonatomic) NSMutableDictionary* objViews;
+@property (nonatomic) NSMutableDictionary* cellHeights;
 
 - (IBAction)commandButtonPushed: (id) sender;
 

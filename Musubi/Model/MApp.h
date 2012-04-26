@@ -29,13 +29,13 @@
 
 @interface MApp : NSManagedObject
 
-@property (nonatomic, retain) NSString * appId;
-@property (nonatomic, retain) NSString * manifestUri;
-@property (nonatomic, retain) NSDate * refreshedAt;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSData * icon;
-@property (nonatomic, retain) NSData * smallIcon;
-@property (nonatomic, retain) NSString * packageName;
-@property (nonatomic, retain) NSString * mimeTypes;
+@property (nonatomic) NSString * appId;
+@property (nonatomic) NSString * manifestUri;
+@property (nonatomic) NSDate * refreshedAt;
+@property (nonatomic) NSString * name;
+@property (nonatomic) NSData * icon;
+@property (nonatomic) NSData * smallIcon;
+@property (nonatomic) NSString * packageName;
+@property (nonatomic) NSString * mimeTypes;
 
 @end

@@ -40,13 +40,13 @@
     SignatureUserKeyManager* signatureUserKeyManager;
 }
 
-@property (nonatomic, retain) PersistentModelStore* store;
-@property (nonatomic, retain) IBEncryptionScheme* encryptionScheme;
-@property (nonatomic, retain) IBSignatureScheme* signatureScheme;
+@property (nonatomic) PersistentModelStore* store;
+@property (nonatomic) IBEncryptionScheme* encryptionScheme;
+@property (nonatomic) IBSignatureScheme* signatureScheme;
 @property (nonatomic, assign) uint64_t deviceName;
-@property (nonatomic, retain) IdentityManager* identityManager;
-@property (nonatomic, retain) EncryptionUserKeyManager* encryptionUserKeyManager;
-@property (nonatomic, retain) SignatureUserKeyManager* signatureUserKeyManager;
+@property (nonatomic) IdentityManager* identityManager;
+@property (nonatomic) EncryptionUserKeyManager* encryptionUserKeyManager;
+@property (nonatomic) SignatureUserKeyManager* signatureUserKeyManager;
 
 - (id) initWithStore: (PersistentModelStore*) store encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (uint64_t) devName;
 

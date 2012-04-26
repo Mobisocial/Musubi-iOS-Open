@@ -40,12 +40,12 @@
 @interface MFeed : NSManagedObject
 
 @property (nonatomic) int16_t type;
-@property (nonatomic, retain) NSData * capability;
+@property (nonatomic) NSData * capability;
 @property (nonatomic) int64_t shortCapability;
 @property (nonatomic) int64_t latestRenderableObjTime;
-@property (nonatomic, retain) MObj* latestRenderableObj;
+@property (nonatomic) MObj* latestRenderableObj;
 @property (nonatomic) int32_t numUnread;
-@property (nonatomic, retain) NSString * name;
+@property (nonatomic) NSString * name;
 @property (nonatomic) BOOL accepted;
 @property (nonatomic) int16_t knownId;
 

@@ -253,7 +253,7 @@
 			NSDate* orgDate = nil;
 			
 			//{{ thanks to brad.eaton for the solution
-			NSDateComponents *dc = [[[NSDateComponents alloc] init] autorelease];
+			NSDateComponents *dc = [[NSDateComponents alloc] init];
 			
 			dc.second = fileInfo.tmu_date.tm_sec;
 			dc.minute = fileInfo.tmu_date.tm_min;
@@ -262,8 +262,8 @@
 			dc.month = fileInfo.tmu_date.tm_mon+1;
 			dc.year = fileInfo.tmu_date.tm_year;
 			
-			NSCalendar *gregorian = [[[NSCalendar alloc] 
-									 initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+			NSCalendar *gregorian = [[NSCalendar alloc] 
+									 initWithCalendarIdentifier:NSGregorianCalendar];
 			
 			orgDate = [gregorian dateFromComponents:dc] ;
 //			[dc release];
@@ -317,12 +317,12 @@
 #pragma mark get NSDate object for 1980-01-01
 -(NSDate*) Date1980
 {
-	NSDateComponents *comps = [[[NSDateComponents alloc] init] autorelease];
+	NSDateComponents *comps = [[NSDateComponents alloc] init];
 	[comps setDay:1];
 	[comps setMonth:1];
 	[comps setYear:1980];
-	NSCalendar *gregorian = [[[NSCalendar alloc]
-							 initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSCalendar *gregorian = [[NSCalendar alloc]
+							 initWithCalendarIdentifier:NSGregorianCalendar];
 	NSDate *date = [gregorian dateFromComponents:comps];
 	
 	//[comps release];

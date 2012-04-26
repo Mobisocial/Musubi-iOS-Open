@@ -39,14 +39,14 @@
     NSMutableArray* _pending;
 }
 
-@property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic, retain) id<IdentityProvider> identityProvider;
+@property (nonatomic) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic) id<IdentityProvider> identityProvider;
 
 // List of operation threads
-@property (nonatomic, retain) NSArray* queues;
+@property (nonatomic) NSArray* queues;
 
 // List of objs that are pending processing
-@property (atomic, retain) NSMutableArray* pending;
+@property (atomic) NSMutableArray* pending;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) sf andIdentityProvider: (id<IdentityProvider>) ip;
 
@@ -61,9 +61,9 @@
     BOOL success;
 }
 
-@property (nonatomic, retain) NSManagedObjectID* objId;
-@property (nonatomic, retain) MessageEncodeService* service;
-@property (nonatomic, retain) PersistentModelStore* store;
+@property (nonatomic) NSManagedObjectID* objId;
+@property (nonatomic) MessageEncodeService* service;
+@property (nonatomic) PersistentModelStore* store;
 @property (nonatomic, assign) BOOL success;
 
 - (id) initWithObjId: (NSManagedObjectID*) oId andService: (MessageEncodeService*) service;

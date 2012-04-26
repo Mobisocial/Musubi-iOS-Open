@@ -34,7 +34,7 @@
     Facebook* facebook;
 }
 
-@property (nonatomic, retain) Facebook* facebook;
+@property (nonatomic) Facebook* facebook;
 
 - (id) initWithDelegate: (id<FBSessionDelegate>) d;
 - (void) fbDidLogin;
@@ -49,8 +49,8 @@
     FacebookAuthManager* facebookMgr;
 }
 
-@property (nonatomic, retain) AccountAuthManager* manager;
-@property (nonatomic, retain) FacebookAuthManager* facebookMgr;
+@property (nonatomic) AccountAuthManager* manager;
+@property (nonatomic) FacebookAuthManager* facebookMgr;
 
 - (id) initWithManager: (AccountAuthManager*) m;
 

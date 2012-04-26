@@ -35,9 +35,9 @@
     NSCondition* _messagesWaitingCondition;
 }
 
-@property (nonatomic,retain) NSMutableArray* declaredGroups;
-@property (nonatomic,retain) NSMutableDictionary* waitingForAck;
-@property (nonatomic,retain) NSCondition* messagesWaitingCondition;
+@property (nonatomic) NSMutableArray* declaredGroups;
+@property (nonatomic) NSMutableDictionary* waitingForAck;
+@property (nonatomic) NSCondition* messagesWaitingCondition;
 
 - (void) sendMessage: (MEncodedMessage*) msg;
 - (void) confirmDelivery: (uint32_t) deliveryTag succeeded: (BOOL) ack;

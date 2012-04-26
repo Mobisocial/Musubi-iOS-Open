@@ -39,8 +39,8 @@
     IBSignatureScheme* signatureScheme;
 }
 
-@property (nonatomic, retain) IBEncryptionScheme* encryptionScheme;
-@property (nonatomic, retain) IBSignatureScheme* signatureScheme;
+@property (nonatomic) IBEncryptionScheme* encryptionScheme;
+@property (nonatomic) IBSignatureScheme* signatureScheme;
 
 
 @end

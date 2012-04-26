@@ -31,7 +31,7 @@
     UIImage* _image;
 }
 
-@property (nonatomic, retain) UIImage* image;
+@property (nonatomic) UIImage* image;
 
 - (id) initWithImage: (UIImage*) img;
 - (id) initWithRaw: (NSData*) data;

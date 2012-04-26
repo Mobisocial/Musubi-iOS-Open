@@ -31,7 +31,7 @@
 @interface MSequenceNumber : NSManagedObject
 
 @property (nonatomic) int64_t sequenceNumber;
-@property (nonatomic, retain) MEncodedMessage *encodedMessage;
-@property (nonatomic, retain) MIdentity *recipient;
+@property (nonatomic) MEncodedMessage *encodedMessage;
+@property (nonatomic) MIdentity *recipient;
 
 @end

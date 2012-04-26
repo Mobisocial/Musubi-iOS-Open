@@ -12,10 +12,10 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (retain, nonatomic) UIWindow *window;
-@property (retain, nonatomic) UINavigationController* navController;
+@property ( nonatomic) UIWindow *window;
+@property ( nonatomic) UINavigationController* navController;
 
 // Facebook SingleSignOn always calls back the appDelegate, so we need a reference to the login
-@property (nonatomic, assign) FacebookLoginOperation* facebookLoginOperation;
+@property (nonatomic, weak) FacebookLoginOperation* facebookLoginOperation;
 
 @end

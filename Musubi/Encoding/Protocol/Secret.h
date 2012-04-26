@@ -31,8 +31,8 @@
     NSData* k; // the actual aes key for the message body
 }
 
-@property (nonatomic, retain) NSData* h;
+@property (nonatomic) NSData* h;
 @property (nonatomic, assign) uint64_t q;
-@property (nonatomic, retain) NSData* k;
+@property (nonatomic) NSData* k;
 
 @end

@@ -65,7 +65,7 @@
 
 + (id)invocationGrabber
 {
-    return([[[self alloc] init] autorelease]);
+    return([[self alloc] init]);
 }
 
 - (id)init
@@ -83,7 +83,6 @@
     [self setTarget:NULL];
     [self setInvocation:NULL];
     //
-    [super dealloc];
 }
 
 #pragma mark -
@@ -95,11 +94,7 @@
 
 - (void)setTarget:(id)inTarget
 {
-    if (_target != inTarget)
-	{
-        [_target autorelease];
-        _target = [inTarget retain];
-	}
+    _target = inTarget;
 }
 
 - (NSInvocation *)invocation
@@ -109,11 +104,7 @@
 
 - (void)setInvocation:(NSInvocation *)inInvocation
 {
-    if (_invocation != inInvocation)
-	{
-        [_invocation autorelease];
-        _invocation = [inInvocation retain];
-	}
+    _invocation = inInvocation;
 }
 
 - (BOOL)forwardInvokesOnMainThread;

@@ -30,21 +30,21 @@
 
 @interface MObj : NSManagedObject
 
-@property (nonatomic, retain) NSDate * timestamp;
-@property (nonatomic, retain) NSData * universalHash;
+@property (nonatomic) NSDate * timestamp;
+@property (nonatomic) NSData * universalHash;
 @property (nonatomic) int64_t shortUniversalHash;
-@property (nonatomic, retain) NSString * type;
-@property (nonatomic, retain) NSString * json;
-@property (nonatomic, retain) NSData * raw;
-@property (nonatomic, retain) NSDate * lastModified;
+@property (nonatomic) NSString * type;
+@property (nonatomic) NSString * json;
+@property (nonatomic) NSData * raw;
+@property (nonatomic) NSDate * lastModified;
 @property (nonatomic) BOOL deleted;
 @property (nonatomic) BOOL renderable;
 @property (nonatomic) BOOL processed;
-@property (nonatomic, retain) MFeed *feed;
-@property (nonatomic, retain) MIdentity *identity;
-@property (nonatomic, retain) MDevice *device;
-@property (nonatomic, retain) MObj *parent;
-@property (nonatomic, retain) MApp *app;
-@property (nonatomic, retain) MEncodedMessage *encoded;
+@property (nonatomic) MFeed *feed;
+@property (nonatomic) MIdentity *identity;
+@property (nonatomic) MDevice *device;
+@property (nonatomic) MObj *parent;
+@property (nonatomic) MApp *app;
+@property (nonatomic) MEncodedMessage *encoded;
 
 @end

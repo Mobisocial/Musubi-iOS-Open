@@ -47,8 +47,8 @@
     GoogleAuthManager* googleMgr;
 }
 
-@property (nonatomic, retain) AccountAuthManager* manager;
-@property (nonatomic, retain) GoogleAuthManager* googleMgr;
+@property (nonatomic) AccountAuthManager* manager;
+@property (nonatomic) GoogleAuthManager* googleMgr;
 
 - (id) initWithManager: (AccountAuthManager*) m;
 

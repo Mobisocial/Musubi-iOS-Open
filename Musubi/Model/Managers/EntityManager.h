@@ -33,8 +33,8 @@
     NSString* entityName;
 }
 
-@property (nonatomic,retain) NSString* entityName;
-@property (nonatomic,retain) PersistentModelStore* store;
+@property (nonatomic) NSString* entityName;
+@property (nonatomic) PersistentModelStore* store;
 
 - (id) initWithEntityName: (NSString*) name andStore: (PersistentModelStore*) s;
 - (id) create;

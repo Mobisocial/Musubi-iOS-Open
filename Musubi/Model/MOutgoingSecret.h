@@ -30,12 +30,12 @@
 
 @interface MOutgoingSecret : NSManagedObject
 
-@property (nonatomic, retain) NSData * encryptedKey;
+@property (nonatomic) NSData * encryptedKey;
 @property (nonatomic) int64_t encryptionPeriod;
-@property (nonatomic, retain) NSData * key;
-@property (nonatomic, retain) NSData * signature;
+@property (nonatomic) NSData * key;
+@property (nonatomic) NSData * signature;
 @property (nonatomic) int64_t signaturePeriod;
-@property (nonatomic, retain) MIdentity *myIdentity;
-@property (nonatomic, retain) MIdentity *otherIdentity;
+@property (nonatomic) MIdentity *myIdentity;
+@property (nonatomic) MIdentity *otherIdentity;
 
 @end

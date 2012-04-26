@@ -33,7 +33,7 @@
     IBSignatureScheme* signatureScheme;
 }
 
-@property (nonatomic, retain) IBSignatureScheme* signatureScheme;
+@property (nonatomic) IBSignatureScheme* signatureScheme;
 
 - (id) initWithStore: (PersistentModelStore*) store signatureScheme: (IBSignatureScheme*) ss;
 

@@ -45,7 +45,7 @@
 
 - (MObj*) createFromObj: (Obj*) obj onFeed: (MFeed*) feed {
     
-    SBJsonWriter* writer = [[[SBJsonWriter alloc] init] autorelease];
+    SBJsonWriter* writer = [[SBJsonWriter alloc] init];
     NSString* json = [writer stringWithObject:obj.data];
     
     MObj* mObj = [self create];

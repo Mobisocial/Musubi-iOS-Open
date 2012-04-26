@@ -42,11 +42,11 @@
     
     NSString* objType = mObj.type;
     if ([objType isEqualToString:kObjTypeStatus]) {
-        return [[[StatusObj alloc] initWithData:data] autorelease];
+        return [[StatusObj alloc] initWithData:data];
     } else if ([objType isEqualToString:kObjTypeIntroduction]) {
-        return [[[IntroductionObj alloc] initWithData:data] autorelease];
+        return [[IntroductionObj alloc] initWithData:data];
     } else if ([objType isEqualToString:kObjTypePicture]) {
-        return [[[PictureObj alloc] initWithRaw:mObj.raw] autorelease];
+        return [[PictureObj alloc] initWithRaw:mObj.raw];
     }
     
     return nil;
