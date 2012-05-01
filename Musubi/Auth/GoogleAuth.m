@@ -108,10 +108,7 @@ static GTMOAuth2Authentication* active;
 @end
 
 
-@implementation GoogleOAuthLoginOperation {
-    CFRunLoopRef runLoop;
-}
-
+@implementation GoogleOAuthLoginOperation
 - (BOOL)isConcurrent {
     return YES;
 }
@@ -119,15 +116,11 @@ static GTMOAuth2Authentication* active;
 - (void)start {
     [super start];
     [self openDialog];
-    
-    CFRunLoopRun(); // Avoid thread exiting
-    runLoop = CFRunLoopGetCurrent();
 }
 
 - (void)finish
 {
     [[[[UIApplication sharedApplication] keyWindow] rootViewController] dismissModalViewControllerAnimated:YES];
-    CFRunLoopStop(runLoop);
 }
 
 - (void) openDialog {
