@@ -116,11 +116,14 @@ static GTMOAuth2Authentication* active;
 - (void)start {
     [super start];
     [self openDialog];
+    
+    CFRunLoopRun(); // Avoid thread exiting
 }
 
 - (void)finish
 {
     [[[[UIApplication sharedApplication] keyWindow] rootViewController] dismissModalViewControllerAnimated:YES];
+    CFRunLoopStop(CFRunLoopGetCurrent());
 }
 
 - (void) openDialog {
