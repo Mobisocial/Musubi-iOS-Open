@@ -125,8 +125,8 @@
             [encoded setOutbound: NO];
             [threadStore save];
             
-            [self log:@"Incoming: %@", body];
-            [self log:@"Incoming: %@", encoded];
+//            [self log:@"Incoming: %@", body];
+//            [self log:@"Incoming: %@", encoded];
             
             [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:nil]];
             [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];

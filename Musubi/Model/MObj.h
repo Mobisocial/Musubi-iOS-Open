@@ -47,4 +47,6 @@
 @property (nonatomic, retain) MApp *app;
 @property (nonatomic, retain) MEncodedMessage *encoded;
 
+- (NSString*) senderDisplay;
+
 @end

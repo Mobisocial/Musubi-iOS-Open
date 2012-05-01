@@ -24,11 +24,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Three20/Three20.h"
 
 @class MFeed, FeedManager, ObjManager, ObjRenderer;
 
-@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIWebViewDelegate, UIActionSheetDelegate> {
+@interface FeedViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIWebViewDelegate, UIActionSheetDelegate> {
     
     MFeed* feed;
     FeedManager* feedManager;
@@ -40,9 +39,7 @@
     ObjRenderer* objRenderer;
     
     IBOutlet UITextField* updateField;
-    IBOutlet UIView* postView;
-    IBOutlet UIView* mainView;
-//    IBOutlet UITableView* tableView;
+    IBOutlet UITableView* tableView;
 }
 
 @property (nonatomic,retain) MFeed* feed;

@@ -28,6 +28,7 @@
 #import "StatusObj.h"
 #import "IntroductionObj.h"
 #import "PictureObj.h"
+#import "StatusObjItem.h"
 
 #define kFeedItemTableCellWidth 267
 
@@ -66,35 +67,44 @@
     }*/
     
     if ([obj isMemberOfClass:[StatusObj class]]) {
-        NSString* text = ((StatusObj*) obj).text;
-        
-        UILabel* label = [[[UILabel alloc] init] autorelease];
-        [label setNumberOfLines:0];
-        [label setFont: [UIFont systemFontOfSize:15]];
-        [label setText: text];
-        [label setLineBreakMode:UILineBreakModeWordWrap];
-        
-        CGSize size = CGSizeMake(kFeedItemTableCellWidth, [self renderHeightForObj: obj]);
-        [label setFrame:CGRectMake(0, 0, size.width, size.height)];
-        
-        return label;
-    } else if ([obj isMemberOfClass:[PictureObj class]]) {
-        UIImage* image = ((PictureObj*) obj).image;
-        UIImageView* view = [[[UIImageView alloc] initWithImage:image] autorelease];
-        [view setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-        [view setContentMode:UIViewContentModeScaleAspectFit];
-        [view setFrame:CGRectMake(0, 10, kFeedItemTableCellWidth, (kFeedItemTableCellWidth / image.size.width) * image.size.height)];
-        return view;
+        StatusObjItem* cell = [[StatusObjItem alloc] init];
+        [cell setText: ((StatusObj*) obj).text];
     } else {
-        UILabel* label = [[[UILabel alloc] init] autorelease];
-        [label setFont: [UIFont systemFontOfSize:15]];
-        [label setText: @"Error: failed to render"];
-        
-        CGSize size = CGSizeMake(kFeedItemTableCellWidth, [self renderHeightForObj:obj]);
-        [label setFrame:CGRectMake(0, 0, size.width, size.height)];
-        
-        return label;
-    }
+        StatusObjItem* cell = [[StatusObjItem alloc] init];
+        [cell setText: @"Unknown message type"];
+    }    
+    
+    /*
+     if ([obj isMemberOfClass:[StatusObj class]]) {
+     NSString* text = ((StatusObj*) obj).text;
+     
+     UILabel* label = [[[UILabel alloc] init] autorelease];
+     [label setNumberOfLines:0];
+     [label setFont: [UIFont systemFontOfSize:15]];
+     [label setText: text];
+     [label setLineBreakMode:UILineBreakModeWordWrap];
+     
+     CGSize size = CGSizeMake(kFeedItemTableCellWidth, [self renderHeightForObj: obj]);
+     [label setFrame:CGRectMake(0, 0, size.width, size.height)];
+     
+     return label;
+     } else if ([obj isMemberOfClass:[PictureObj class]]) {
+     UIImage* image = ((PictureObj*) obj).image;
+     UIImageView* view = [[[UIImageView alloc] initWithImage:image] autorelease];
+     [view setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+     [view setContentMode:UIViewContentModeScaleAspectFit];
+     [view setFrame:CGRectMake(0, 10, kFeedItemTableCellWidth, (kFeedItemTableCellWidth / image.size.width) * image.size.height)];
+     return view;
+     } else {
+     UILabel* label = [[[UILabel alloc] init] autorelease];
+     [label setFont: [UIFont systemFontOfSize:15]];
+     [label setText: @"Error: failed to render"];
+     
+     CGSize size = CGSizeMake(kFeedItemTableCellWidth, [self renderHeightForObj:obj]);
+     [label setFrame:CGRectMake(0, 0, size.width, size.height)];
+     
+     return label;
+     }*/
 }
 
 - (int)renderHeightForObj:(Obj*)obj {
