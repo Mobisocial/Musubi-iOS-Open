@@ -92,7 +92,7 @@ static Musubi* _sharedInstance = nil;
         return self;
     
     // The store factory creates stores for other threads, the main store is used on the main thread
-    self.storeFactory = [[PersistentModelStoreFactory alloc] initWithName:@"Store"];
+    self.storeFactory = [PersistentModelStoreFactory sharedInstance];
     self.mainStore = [self newStore];
     
     // The notification sender informs every major part in the system about what's going on

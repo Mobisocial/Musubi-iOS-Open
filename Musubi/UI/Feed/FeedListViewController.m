@@ -57,8 +57,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    [self setFeedManager: [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
-    [self setFeeds:[feedManager displayFeeds]];
+    self.feedManager = [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+    self.feeds = [feedManager displayFeeds];
 }
 
 - (void)viewDidUnload

@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSManagedObjectContext* context;
 
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator;
+- (id) initWithParent: (PersistentModelStore*)parent;
 
 - (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName;
 - (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor;
@@ -49,7 +50,7 @@
 }
 
 @property (nonatomic, strong) NSPersistentStoreCoordinator* coordinator;
-
++ (PersistentModelStoreFactory *)sharedInstance;
 + (NSURL*) pathForStoreWithName: (NSString*) name;
 + (void) deleteStoreWithName: (NSString*) name;
 

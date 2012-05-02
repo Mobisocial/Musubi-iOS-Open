@@ -29,8 +29,8 @@
 
 - (id)initWithStore:(PersistentModelStore *)s {
     self = [super initWithEntityName:@"EncodedMessage" andStore:s];
-    if (self != nil) {
-    }
+    if (!self)
+        return nil;
     return self;
 }
 - (NSArray*) unsentOutboundMessages {

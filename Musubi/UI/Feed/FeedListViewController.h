@@ -27,12 +27,9 @@
 
 @class FeedManager;
 
-@interface FeedListViewController : UITableViewController {
-    NSArray* feeds;
-    FeedManager* feedManager;
-}
+@interface FeedListViewController : UITableViewController
 
-@property (nonatomic) NSArray* feeds;
-@property (nonatomic) FeedManager* feedManager;
+@property (nonatomic, strong) NSArray* feeds;
+@property (nonatomic, strong) FeedManager* feedManager;
 
 @end

@@ -26,9 +26,25 @@
 #import "PersistentModelStore.h"
 #import "Musubi.h"
 
-@implementation PersistentModelStoreFactory
+@implementation PersistentModelStoreFactory {
+    PersistentModelStore* rootStore;
+}
 
 @synthesize coordinator;
+
+
+static PersistentModelStoreFactory *sharedInstance = nil;
+
++ (PersistentModelStoreFactory *)sharedInstance {
+    if (sharedInstance == nil) {
+        sharedInstance = [[PersistentModelStoreFactory alloc] initWithName:@"Store"];
+    }
+    
+    return sharedInstance;
+}
+
+//i know globals are lame but its contained to here. 
+static NSManagedObjectContext* root = nil;
 
 + (NSURL*) pathForStoreWithName: (NSString*) name {
     NSArray *documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
@@ -63,11 +79,12 @@
         return nil;
     
     self.coordinator = c;
+    rootStore = [[PersistentModelStore alloc] initWithCoordinator:self.coordinator];
     return self;
 }
 
 - (PersistentModelStore *) newStore {
-    return [[PersistentModelStore alloc] initWithCoordinator: coordinator];
+    return [[PersistentModelStore alloc] initWithParent: rootStore];
 }
 
 @end
@@ -75,16 +92,23 @@
 @implementation PersistentModelStore
 
 @synthesize context;
+- (id) initWithParent: (PersistentModelStore*)parent
+{
+    self = [super init];
+    if (!self)
+        return nil;
 
+    self.context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+    self.context.parentContext = parent.context;
+    
+    return self;
+}
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator {
     self = [super init];
     if (!self)
         return nil;
-//TODO: ahould we be doing this instead?
-//    NSManagedObjectContext* moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
-//    moc.parentContext = root CONTEXT;
     
-    self.context = [[NSManagedObjectContext alloc] init];
+    self.context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     context.persistentStoreCoordinator = coordinator;
             
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(otherContextSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
