@@ -16,7 +16,7 @@
 
 
 //
-//  PictureObjItem.h
+//  FeedItem.m
 //  musubi
 //
 //  Created by Willem Bult on 5/1/12.
@@ -25,10 +25,10 @@
 
 #import "FeedItem.h"
 
-@interface PictureObjItem : FeedItem {
-    UIImage* _picture;
-}
+@implementation FeedItem
 
-@property (nonatomic,retain) UIImage* picture;
+@synthesize sender = _sender;
+@synthesize timestamp = _timestamp;
+@synthesize profilePicture = _profilePicture;
 
 @end

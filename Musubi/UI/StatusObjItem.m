@@ -27,4 +27,6 @@
 
 @implementation StatusObjItem
 
+@synthesize text;
+
 @end

@@ -16,19 +16,23 @@
 
 
 //
-//  PictureObjItem.h
+//  FeedItem.h
 //  musubi
 //
 //  Created by Willem Bult on 5/1/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "FeedItem.h"
+#import "Three20/Three20.h"
 
-@interface PictureObjItem : FeedItem {
-    UIImage* _picture;
+@interface FeedItem : TTTableLinkedItem {
+    NSString* _sender;
+    NSDate* _timestamp;
+    UIImage* _profilePicture;
 }
 
-@property (nonatomic,retain) UIImage* picture;
+@property (nonatomic, copy) NSString* sender;
+@property (nonatomic, retain) NSDate* timestamp;
+@property (nonatomic, copy) UIImage* profilePicture;
 
 @end

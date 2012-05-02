@@ -42,17 +42,24 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.detailTextLabel.contentMode = UIViewContentModeTop | UIViewContentModeLeft;
-    self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-    self.detailTextLabel.numberOfLines = 0;
-    self.detailTextLabel.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y, 300, self.frame.size.height - self.detailTextLabel.frame.origin.y - 10);
+//    self.detailTextLabel.contentMode = UIViewContentModeTop | UIViewContentModeLeft;
+//    self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+//    self.detailTextLabel.numberOfLines = 0;
+//    self.detailTextLabel.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y, 300, self.frame.size.height - self.detailTextLabel.frame.origin.y - 10);
+}
+
+
+- (void)setObject:(id)object {
+    [super setObject:object];
+    
+    self.detailTextLabel.text = ((StatusObjItem*) object).text;
 }
 
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
     
     StatusObjItem* item = object;
-    CGSize size = [item.text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(300, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    CGSize size = [item.text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(260, 1024) lineBreakMode:UILineBreakModeWordWrap];
     return size.height + 40;
 }
 

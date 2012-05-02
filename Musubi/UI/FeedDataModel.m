@@ -28,6 +28,7 @@
 #import "ObjFactory.h"
 #import "Musubi.h"
 #import "MObj.h"
+#import "MIdentity.h"
 #import "StatusObj.h"
 #import "StatusObjItem.h"
 #import "PictureObj.h"
@@ -83,19 +84,19 @@
         id item = nil;
         if ([obj isMemberOfClass:[StatusObj class]]) {
             item = [[StatusObjItem alloc] init];
-            
-            [item setTitle: [mObj senderDisplay]];
-            [item setTimestamp: mObj.timestamp];
             [item setText: ((StatusObj*) obj).text];
         } else if ([obj isMemberOfClass:[PictureObj class]]) {
             item = [[PictureObjItem alloc] init];
-            [item setTitle: [mObj senderDisplay]];
-            [item setTimestamp: mObj.timestamp];
             [item setPicture: ((PictureObj*) obj).image];
         }
         
-        if (item)
+        if (item) {
+            [item setSender: [mObj senderDisplay]];
+            [item setTimestamp: mObj.timestamp];
+            [item setProfilePicture: [UIImage imageWithData:mObj.identity.thumbnail]];
+
             [updatedItems addObject:item];
+        }
     }
     
     [self setItems:updatedItems];

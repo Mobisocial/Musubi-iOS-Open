@@ -116,6 +116,8 @@
 		D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
+		D29CA1DF155103B700257B35 /* FeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D29CA1DE155103B700257B35 /* FeedItemCell.m */; };
+		D29CA1E2155105C200257B35 /* FeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D29CA1E1155105C100257B35 /* FeedItem.m */; };
 		D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */; };
 		D2A1FC1B1521A99700C10BE2 /* FriendPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */; };
 		D2A2678E154F4C0C00E3AD2B /* FeedDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A2678D154F4C0C00E3AD2B /* FeedDataModel.m */; };
@@ -803,6 +805,10 @@
 		D298FA15143CE6DF000831DD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D298FA40143D0E84000831DD /* apps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = apps; sourceTree = "<group>"; };
 		D298FA4B143E5B4E000831DD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D29CA1DD155103B700257B35 /* FeedItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedItemCell.h; sourceTree = "<group>"; };
+		D29CA1DE155103B700257B35 /* FeedItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedItemCell.m; sourceTree = "<group>"; };
+		D29CA1E0155105C100257B35 /* FeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedItem.h; sourceTree = "<group>"; };
+		D29CA1E1155105C100257B35 /* FeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedItem.m; sourceTree = "<group>"; };
 		D2A1FC051521009400C10BE2 /* Authorities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authorities.h; sourceTree = "<group>"; };
 		D2A1FC1015211F6B00C10BE2 /* FacebookIdentityUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookIdentityUpdater.h; path = Identity/FacebookIdentityUpdater.h; sourceTree = "<group>"; };
 		D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookIdentityUpdater.m; path = Identity/FacebookIdentityUpdater.m; sourceTree = "<group>"; };
@@ -2272,6 +2278,10 @@
 		D2956FA11544AE0000E01183 /* Objs */ = {
 			isa = PBXGroup;
 			children = (
+				D29CA1E0155105C100257B35 /* FeedItem.h */,
+				D29CA1E1155105C100257B35 /* FeedItem.m */,
+				D29CA1DD155103B700257B35 /* FeedItemCell.h */,
+				D29CA1DE155103B700257B35 /* FeedItemCell.m */,
 				D2956FA21544AE2800E01183 /* StatusObjItem.h */,
 				D2956FA31544AE2800E01183 /* StatusObjItem.m */,
 				D2956F9E1544ADFB00E01183 /* StatusObjItemCell.h */,
@@ -2807,6 +2817,8 @@
 				D2A2678E154F4C0C00E3AD2B /* FeedDataModel.m in Sources */,
 				D234DC661550D94900A80E72 /* PictureObjItem.m in Sources */,
 				D234DC691550D9A000A80E72 /* PictureObjItemCell.m in Sources */,
+				D29CA1DF155103B700257B35 /* FeedItemCell.m in Sources */,
+				D29CA1E2155105C200257B35 /* FeedItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

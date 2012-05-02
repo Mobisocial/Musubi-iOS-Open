@@ -49,7 +49,8 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.pictureView.frame = CGRectMake(10, 25, 300, self.frame.size.height - 25);
+//    self.pictureView.frame = CGRectMake(10, 25, 300, self.frame.size.height - 25);
+    self.pictureView.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, self.detailTextLabel.frame.size.height);
 }
 
 - (UIImageView *)pictureView {
@@ -66,7 +67,7 @@
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
     
     PictureObjItem* item = object;
-    return (300 /item.picture.size.width) * item.picture.size.height + 40;
+    return (267 /item.picture.size.width) * item.picture.size.height + 40;
 }
 
 @end

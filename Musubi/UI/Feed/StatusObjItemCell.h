@@ -23,8 +23,8 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Three20/Three20.h"
+#import "FeedItemCell.h"
 
-@interface StatusObjItemCell : TTTableMessageItemCell
+@interface StatusObjItemCell : FeedItemCell
 
 @end

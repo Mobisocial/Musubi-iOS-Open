@@ -23,8 +23,12 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Three20/Three20.h"
+#import "FeedItem.h"
 
-@interface StatusObjItem : TTTableMessageItem
+@interface StatusObjItem : FeedItem {
+    NSString* text;
+}
+
+@property (nonatomic,copy) NSString* text;
 
 @end
