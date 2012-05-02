@@ -58,7 +58,7 @@
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService;
 
 +(Musubi*)sharedInstance
 {
@@ -88,17 +88,18 @@ static Musubi* _sharedInstance = nil;
 - (id)init {
     self = [super init];
     
-    if (self != nil) {
-        // The store factory creates stores for other threads, the main store is used on the main thread
-        [self setStoreFactory: [[PersistentModelStoreFactory alloc] initWithName:@"Store"]];
-        [self setMainStore: [self newStore]];
-        
-        // The notification sender informs every major part in the system about what's going on
-        [self setNotificationCenter: [[NSNotificationCenter alloc] init]];
-                
-        [self performSelectorInBackground:@selector(setup) withObject:nil];
-    }
+    if (self == nil) 
+        return self;
     
+    // The store factory creates stores for other threads, the main store is used on the main thread
+    self.storeFactory = [[PersistentModelStoreFactory alloc] initWithName:@"Store"];
+    self.mainStore = [self newStore];
+    
+    // The notification sender informs every major part in the system about what's going on
+    self.notificationCenter = [[NSNotificationCenter alloc] init];
+            
+    [self performSelectorInBackground:@selector(setup) withObject:nil];
+   
     return self;
 }
 
@@ -109,20 +110,20 @@ static Musubi* _sharedInstance = nil;
     identityProvider = [[AphidIdentityProvider alloc] init];
         
     // The key manager handles our encryption and signature keys
-    [self setKeyManager: [[IdentityKeyManager alloc] initWithIdentityProvider: identityProvider]];
+    self.keyManager = [[IdentityKeyManager alloc] initWithIdentityProvider: identityProvider];
     
     // The encoding service encodes all our messages, to be picked up by the transport
-    [self setEncodeService: [[MessageEncodeService alloc] initWithStoreFactory: storeFactory andIdentityProvider:identityProvider]];
+    self.encodeService = [[MessageEncodeService alloc] initWithStoreFactory: storeFactory andIdentityProvider:identityProvider];
     
     // The decoding service decodes incoming encoded messages
-    [self setDecodeService: [[MessageDecodeService alloc] initWithStoreFactory: storeFactory andIdentityProvider:identityProvider]];
+    self.decodeService = [[MessageDecodeService alloc] initWithStoreFactory: storeFactory andIdentityProvider:identityProvider];
     
     // The transport sends and receives raw data from the network
-    [self setTransport: [[AMQPTransport alloc] initWithStoreFactory:storeFactory]];
+    self.transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory];
     [transport start];
     
     // The obj pipeline will process our objs so we can render them
-    [[ObjPipelineService alloc] initWithStoreFactory: storeFactory];
+    self.objPipelineService = [[ObjPipelineService alloc] initWithStoreFactory: storeFactory];
     
     // Make sure we keep the facebook friends up to date
     FacebookIdentityUpdater* facebookUpdater = [[FacebookIdentityUpdater alloc] initWithStoreFactory: storeFactory];

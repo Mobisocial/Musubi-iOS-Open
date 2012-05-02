@@ -55,32 +55,24 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 #define kMusubiExceptionBadObjFormat @"BadObjFormat"
 #define kMusubiExceptionUnexpected @"Unexpected"
 
-@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport;
+@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjPipelineService;
 
 
 @interface Musubi : NSObject {
-    PersistentModelStore* mainStore; 
-    PersistentModelStoreFactory* storeFactory;
-
-    NSNotificationCenter* notificationCenter;
-
     id<IdentityProvider> identityProvider;
-    IdentityKeyManager* keyManager;
-    MessageEncodeService* encodeService;
-    MessageDecodeService* decodeService;
-    AMQPTransport* transport;
 }
 
 // store to use on the main thread
-@property (nonatomic) PersistentModelStore* mainStore;
-@property (nonatomic) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic, strong) PersistentModelStore* mainStore;
+@property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
 
-@property (nonatomic) NSNotificationCenter* notificationCenter;
+@property (nonatomic, strong) NSNotificationCenter* notificationCenter;
 
-@property (nonatomic) AMQPTransport* transport;
-@property (nonatomic) IdentityKeyManager* keyManager;
-@property (nonatomic) MessageEncodeService* encodeService;
-@property (nonatomic) MessageDecodeService* decodeService;
+@property (nonatomic, strong) AMQPTransport* transport;
+@property (nonatomic, strong) IdentityKeyManager* keyManager;
+@property (nonatomic, strong) MessageEncodeService* encodeService;
+@property (nonatomic, strong) MessageDecodeService* decodeService;
+@property (nonatomic, strong) ObjPipelineService* objPipelineService;
 
 
 + (Musubi*) sharedInstance;
