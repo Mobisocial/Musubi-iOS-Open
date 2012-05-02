@@ -59,9 +59,10 @@
 
 - (id)initWithCoordinator:(NSPersistentStoreCoordinator *)c {
     self = [super init];
-    if (self) {
-        [self setCoordinator: c];
-    }
+    if (self)
+        return nil;
+    
+    self.coordinator = c;
     return self;
 }
 
@@ -77,13 +78,16 @@
 
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator {
     self = [super init];
-    if (self != nil) {
-        [self setContext: [[NSManagedObjectContext alloc] init]];
-        [context setPersistentStoreCoordinator: coordinator];
-                
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(otherContextSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
-    }
+    if (!self)
+        return nil;
+//TODO: ahould we be doing this instead?
+//    NSManagedObjectContext* moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+//    moc.parentContext = root CONTEXT;
     
+    self.context = [[NSManagedObjectContext alloc] init];
+    context.persistentStoreCoordinator = coordinator;
+            
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(otherContextSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
     return self;
 }
 

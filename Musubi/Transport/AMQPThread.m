@@ -31,26 +31,24 @@
 
 @implementation AMQPThread
 
-static int instanceCount = 0;
-
 @synthesize connMngr, storeFactory, threadStore;
 
 - (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf {
     
     self = [super init];
-    if (self) {
-        [self setConnMngr: conn];
-        [self setStoreFactory: sf];
-        
-        instance = instanceCount++;
-    }
+    if (!self)
+        return nil;
+    
+    self.connMngr = conn;
+    self.storeFactory = sf;
+
     return self;
 }
 
 - (void) log:(NSString*) format, ... {
     va_list args;
     va_start(args, format);
-    NSLogv([NSString stringWithFormat: @"AMQPTransport %d: %@", instance, format], args);
+    NSLogv([NSString stringWithFormat: @"AMQPTransport %p: %@", self, format], args);
     va_end(args);
 }
 
@@ -61,7 +59,7 @@ static int instanceCount = 0;
 
 - (void)main {
     // We need to create a new PersistentModelStore here, because it's not thread-safe
-    [self setThreadStore: [storeFactory newStore]];
+    self.threadStore = [storeFactory newStore];
 }
 
 

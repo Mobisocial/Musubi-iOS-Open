@@ -39,8 +39,8 @@
 - (void) main {
     // Run AMQPThread common
     [super main];
-    [self setDeviceManager:[[DeviceManager alloc] initWithStore:threadStore]];
-    [self setIdentityManager:[[IdentityManager alloc] initWithStore:threadStore]];
+    self.deviceManager = [[DeviceManager alloc] initWithStore:threadStore];
+    self.identityManager = [[IdentityManager alloc] initWithStore:threadStore];
     
     while (![[NSThread currentThread] isCancelled]) {
         restartRequested = NO;
@@ -120,9 +120,9 @@
         
         if (body != nil) {
             MEncodedMessage* encoded = (MEncodedMessage*)[threadStore createEntity:@"EncodedMessage"];
-            [encoded setEncoded: body];
-            [encoded setProcessed: NO];
-            [encoded setOutbound: NO];
+            encoded.encoded = body;
+            encoded.processed = NO;
+            encoded.outbound = NO;
             [threadStore save];
             
             [self log:@"Incoming: %@", body.sha256Digest];
