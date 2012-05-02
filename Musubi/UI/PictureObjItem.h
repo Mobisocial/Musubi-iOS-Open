@@ -16,15 +16,19 @@
 
 
 //
-//  UnknownObjItemCell.h
+//  PictureObjItem.h
 //  musubi
 //
-//  Created by Willem Bult on 4/27/12.
+//  Created by Willem Bult on 5/1/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "Three20/Three20.h"
 
-@interface UnknownObjItemCell : TTTableCaptionItemCell
+@interface PictureObjItem : TTTableMessageItem {
+    UIImage* _picture;
+}
+
+@property (nonatomic,retain) UIImage* picture;
 
 @end

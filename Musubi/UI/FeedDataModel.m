@@ -30,6 +30,8 @@
 #import "MObj.h"
 #import "StatusObj.h"
 #import "StatusObjItem.h"
+#import "PictureObj.h"
+#import "PictureObjItem.h"
 
 #define kFeedDataModelLoadInitialBatchSize 30
 #define kFeedDataModelLoadBatchSize 5
@@ -85,6 +87,11 @@
             [item setTitle: [mObj senderDisplay]];
             [item setTimestamp: mObj.timestamp];
             [item setText: ((StatusObj*) obj).text];
+        } else if ([obj isMemberOfClass:[PictureObj class]]) {
+            item = [[PictureObjItem alloc] init];
+            [item setTitle: [mObj senderDisplay]];
+            [item setTimestamp: mObj.timestamp];
+            [item setPicture: ((PictureObj*) obj).image];
         }
         
         if (item)

@@ -29,10 +29,12 @@
 #import "StatusObj.h"
 #import "StatusObjItem.h"
 #import "StatusObjItemCell.h"
-#import "UnknownObjItemCell.h"
+#import "PictureObjItem.h"
+#import "PictureObjItemCell.h"
 #import "ObjFactory.h"
 #import "MObj.h"
 #import "MIdentity.h"
+#import "FeedViewController.h"
 
 #define kFeedDataSourceLoadMargin 20
 
@@ -54,29 +56,23 @@
 }
 
 - (void)tableViewDidLoadModel:(UITableView *)tableView {
-  
-    if (_backgroundLoadingStarted) {
-        [self setItems: [NSMutableArray arrayWithArray:[dataModel modelItems]]];
-        _lastLoadedRow = self.items.count;
-    } else {
+    if (!_backgroundLoadingStarted) {
         _backgroundLoadingStarted = YES;
         [self performSelectorInBackground:@selector(loadMoreForTableView:) withObject:tableView];
     }
+    
+    [self setItems: [NSMutableArray arrayWithArray:[dataModel modelItems]]];
+    _lastLoadedRow = self.items.count;
 }
 
-- (void)tableView:(UITableView *)tableView cell:(UITableViewCell *)cell willAppearAtIndexPath:(NSIndexPath *)indexPath {
-    /*if ([dataModel hasMore] && indexPath.row > _lastLoadedRow - kFeedDataSourceLoadMargin) {
-        [self performSelectorInBackground:@selector(loadMoreForTableView:) withObject:tableView];
-    }*/
-}
          
 - (void) loadMoreForTableView: (UITableView*) tableView {
-        
-    [dataModel load:TTURLRequestCachePolicyDefault more: dataModel.modelItems.count > 0];
-    [((TTTableViewVarHeightDelegate*)tableView.delegate).controller performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];     
+
+    [dataModel load:TTURLRequestCachePolicyDefault more: dataModel.modelItems.count > 0];    
+    [((TTTableViewVarHeightDelegate*)tableView.delegate).controller performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES]; 
     
     if (dataModel.hasMore) {
-        [self performSelector:@selector(loadMoreForTableView:) withObject:tableView afterDelay:.100];
+        [self loadMoreForTableView:tableView];
     }
 }
 
@@ -86,6 +82,8 @@
 
     if ([object isKindOfClass:[StatusObjItem class]]) {  
         cls = [StatusObjItemCell class];  
+    } else if ([object isKindOfClass:[PictureObjItem class]]) {
+        cls = [PictureObjItemCell class];
     } else {
         cls = [super tableView:tableView cellClassForObject:object];
     }

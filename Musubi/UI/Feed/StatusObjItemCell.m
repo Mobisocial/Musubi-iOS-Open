@@ -24,44 +24,36 @@
 //
 
 #import "StatusObjItemCell.h"
-#import "StatusObj.h"
+#import "StatusObjItem.h"
 
 @implementation StatusObjItemCell
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+    if (self) {        
+        self.detailTextLabel.contentMode = UIViewContentModeTop | UIViewContentModeLeft;
+        self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+        self.detailTextLabel.numberOfLines = 0;
     }
     return self;
 }
 
-- (void)setObject:(id)object {
-    [super setObject: object];
-    return;
-//    self.textLabel.textColor = TTSTYLEVAR(myHeadingColor);  
-//    self.textLabel.font = TTSTYLEVAR(myHeadingFont);  
-//    self.textLabel.textAlignment = UITextAlignmentRight;  
-//    self.textLabel.contentMode = UIViewContentModeCenter;  
-    self.textLabel.lineBreakMode = UILineBreakModeWordWrap;  
-    self.textLabel.numberOfLines = 0;  
-    self.textLabel.text = [((StatusObj*) object) text];
+- (void)layoutSubviews {
+    [super layoutSubviews];
     
-//    self.detailTextLabel.textColor = TTSTYLEVAR(mySubtextColor);  
-//    self.detailTextLabel.font = TTSTYLEVAR(mySubtextFont);  
-//    self.detailTextLabel.textAlignment = UITextAlignmentLeft;  
-    self.detailTextLabel.contentMode = UIViewContentModeTop;  
-    self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;  
+    self.detailTextLabel.contentMode = UIViewContentModeTop | UIViewContentModeLeft;
+    self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+    self.detailTextLabel.numberOfLines = 0;
+    self.detailTextLabel.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y, 300, self.frame.size.height - self.detailTextLabel.frame.origin.y - 10);
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+
++ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
+    
+    StatusObjItem* item = object;
+    CGSize size = [item.text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(300, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    return size.height + 40;
 }
-*/
 
 @end

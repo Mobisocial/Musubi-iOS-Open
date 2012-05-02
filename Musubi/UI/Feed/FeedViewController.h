@@ -42,7 +42,6 @@
     IBOutlet UITextField* updateField;
     IBOutlet UIView* postView;
     IBOutlet UIView* mainView;
-//    IBOutlet UITableView* tableView;
 }
 
 @property (nonatomic) MFeed* feed;

@@ -16,41 +16,17 @@
 
 
 //
-//  UnknownObjItemCell.m
+//  PictureObjItem.m
 //  musubi
 //
-//  Created by Willem Bult on 4/27/12.
+//  Created by Willem Bult on 5/1/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "UnknownObjItemCell.h"
+#import "PictureObjItem.h"
 
-@implementation UnknownObjItemCell
+@implementation PictureObjItem
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
-
-- (void)setObject:(id)object {
-    self.textLabel.lineBreakMode = UILineBreakModeWordWrap;  
-    self.textLabel.numberOfLines = 0;  
-    self.textLabel.text = [NSString stringWithFormat:@"Unsupported object"];
-}
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+@synthesize picture = _picture;
 
 @end

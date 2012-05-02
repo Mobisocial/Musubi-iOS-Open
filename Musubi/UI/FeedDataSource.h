@@ -26,14 +26,14 @@
 #import "Three20/Three20.h"
 #import "MFeed.h"
 #import "FeedDataModel.h"
+@class FeedViewController;
 
 @interface FeedDataSource : TTListDataSource {
     int _lastLoadedRow;
     BOOL _backgroundLoadingStarted;
-    
+
     FeedDataModel* dataModel;
 }
-
 
 - (id) initWithFeed: (MFeed*) feed;
 

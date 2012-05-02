@@ -42,6 +42,8 @@
 		D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D216DE6014F48951001A4166 /* InfoPlist.strings */; };
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
 		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
+		D234DC661550D94900A80E72 /* PictureObjItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D234DC651550D94900A80E72 /* PictureObjItem.m */; };
+		D234DC691550D9A000A80E72 /* PictureObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D234DC681550D9A000A80E72 /* PictureObjItemCell.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
 		D25BA6381522A5A200B87687 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930511522417E006E4F58 /* libThree20.a */; };
 		D25BA6BC1522B19A00B87687 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6551522AB5C00B87687 /* libThree20Core.a */; };
@@ -116,7 +118,6 @@
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
 		D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */; };
 		D2A1FC1B1521A99700C10BE2 /* FriendPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */; };
-		D2A26729154B58C900E3AD2B /* UnknownObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A26728154B58C900E3AD2B /* UnknownObjItemCell.m */; };
 		D2A2678E154F4C0C00E3AD2B /* FeedDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A2678D154F4C0C00E3AD2B /* FeedDataModel.m */; };
 		D2AADE1714FD792300C6ABB3 /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1614FD792300C6ABB3 /* BSONEncoder.m */; };
 		D2AADE4B14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE4A14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m */; };
@@ -349,6 +350,10 @@
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSender.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
+		D234DC641550D94900A80E72 /* PictureObjItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureObjItem.h; sourceTree = "<group>"; };
+		D234DC651550D94900A80E72 /* PictureObjItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureObjItem.m; sourceTree = "<group>"; };
+		D234DC671550D9A000A80E72 /* PictureObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureObjItemCell.h; sourceTree = "<group>"; };
+		D234DC681550D9A000A80E72 /* PictureObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureObjItemCell.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D25BA6551522AB5C00B87687 /* libThree20Core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Core.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Core.a"; sourceTree = "<group>"; };
 		D25BA6561522AB5C00B87687 /* libThree20Network.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Network.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Network.a"; sourceTree = "<group>"; };
@@ -803,8 +808,6 @@
 		D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookIdentityUpdater.m; path = Identity/FacebookIdentityUpdater.m; sourceTree = "<group>"; };
 		D2A1FC191521A99700C10BE2 /* FriendPickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendPickerTableViewController.h; path = Feed/FriendPickerTableViewController.h; sourceTree = "<group>"; };
 		D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendPickerTableViewController.m; path = Feed/FriendPickerTableViewController.m; sourceTree = "<group>"; };
-		D2A26727154B58C900E3AD2B /* UnknownObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnknownObjItemCell.h; path = Feed/UnknownObjItemCell.h; sourceTree = "<group>"; };
-		D2A26728154B58C900E3AD2B /* UnknownObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnknownObjItemCell.m; path = Feed/UnknownObjItemCell.m; sourceTree = "<group>"; };
 		D2A2678C154F4C0C00E3AD2B /* FeedDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDataModel.h; sourceTree = "<group>"; };
 		D2A2678D154F4C0C00E3AD2B /* FeedDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDataModel.m; sourceTree = "<group>"; };
 		D2AADE1514FD792300C6ABB3 /* BSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoder.h; sourceTree = "<group>"; };
@@ -2269,12 +2272,14 @@
 		D2956FA11544AE0000E01183 /* Objs */ = {
 			isa = PBXGroup;
 			children = (
-				D2956F9E1544ADFB00E01183 /* StatusObjItemCell.h */,
-				D2956F9F1544ADFB00E01183 /* StatusObjItemCell.m */,
 				D2956FA21544AE2800E01183 /* StatusObjItem.h */,
 				D2956FA31544AE2800E01183 /* StatusObjItem.m */,
-				D2A26727154B58C900E3AD2B /* UnknownObjItemCell.h */,
-				D2A26728154B58C900E3AD2B /* UnknownObjItemCell.m */,
+				D2956F9E1544ADFB00E01183 /* StatusObjItemCell.h */,
+				D2956F9F1544ADFB00E01183 /* StatusObjItemCell.m */,
+				D234DC641550D94900A80E72 /* PictureObjItem.h */,
+				D234DC651550D94900A80E72 /* PictureObjItem.m */,
+				D234DC671550D9A000A80E72 /* PictureObjItemCell.h */,
+				D234DC681550D9A000A80E72 /* PictureObjItemCell.m */,
 			);
 			name = Objs;
 			sourceTree = "<group>";
@@ -2799,8 +2804,9 @@
 				D2956FA01544ADFB00E01183 /* StatusObjItemCell.m in Sources */,
 				D2956FA41544AE2800E01183 /* StatusObjItem.m in Sources */,
 				D2957009154B444500E01183 /* FeedDataSource.m in Sources */,
-				D2A26729154B58C900E3AD2B /* UnknownObjItemCell.m in Sources */,
 				D2A2678E154F4C0C00E3AD2B /* FeedDataModel.m in Sources */,
+				D234DC661550D94900A80E72 /* PictureObjItem.m in Sources */,
+				D234DC691550D9A000A80E72 /* PictureObjItemCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

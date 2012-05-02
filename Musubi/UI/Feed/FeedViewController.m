@@ -74,15 +74,9 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"Feed %@", feed);
-    
     [self setFeedManager: [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
     [self setObjManager: [[ObjManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
     [self setObjRenderer: [[ObjRenderer alloc] init]];
-    
-//    [self setObjViews: [NSMutableDictionary dictionaryWithCapacity:256]];
-//    [self setCellHeights: [NSMutableDictionary dictionaryWithCapacity:256]];
-//    [self setObjs: [objManager renderableObjsInFeed:feed]];
     
     [self setTitle: [feedManager identityStringForFeed: feed]];
     [self refresh];
@@ -100,8 +94,6 @@
     return [[TTTableViewVarHeightDelegate alloc]
              initWithController:self];
 }
-
-
 
 /*
 - (id)tableView:(UITableView *)tableView objectForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -276,7 +268,7 @@
 }
 */
 - (IBAction)commandButtonPushed: (id) sender {
-    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Picture", nil];
+    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", nil];
     
     [commandPicker showFromTabBar: self.tabBarController.tabBar];
 }
@@ -296,6 +288,13 @@
         }
         case 1:// apps
         {   
+            UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+            [picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+            [picker setDelegate:self];            
+            
+            [self presentModalViewController:picker animated:YES];
+            break;
+
             /*NSString* appId = @"edu.stanford.mobisocial.tictactoe";
             
             NSMutableArray* userKeys = [NSMutableArray array];
