@@ -59,7 +59,7 @@
 
 - (id)initWithCoordinator:(NSPersistentStoreCoordinator *)c {
     self = [super init];
-    if (self)
+    if (!self)
         return nil;
     
     self.coordinator = c;
