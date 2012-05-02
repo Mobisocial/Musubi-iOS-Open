@@ -29,6 +29,7 @@
 @interface FeedDataModel : TTModel {
     BOOL _done;
     BOOL _loading;
+    BOOL _loadingMore;
     
     int _lastLoaded;
     BOOL _hasMore;

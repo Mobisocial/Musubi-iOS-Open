@@ -94,12 +94,11 @@
 - (void)createModel {
     FeedDataSource *feedDataSource = [[FeedDataSource alloc] initWithFeed:feed];
     self.dataSource = feedDataSource;
-    TT_RELEASE_SAFELY(feedDataSource);
 }
 
 - (id<UITableViewDelegate>)createDelegate {
-    return [[[TTTableViewVarHeightDelegate alloc]
-             initWithController:self] autorelease];
+    return [[TTTableViewVarHeightDelegate alloc]
+             initWithController:self];
 }
 
 

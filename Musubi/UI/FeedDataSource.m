@@ -42,8 +42,8 @@
     self = [super init];
     
     if (self) {
-        dataModel = [[FeedDataModel alloc] initWithFeed:feed];
-        [dataModel load:TTURLRequestCachePolicyDefault more:FALSE];
+        dataModel = [[FeedDataModel alloc] initWithFeed:feed];        
+        _backgroundLoadingStarted = NO;
     }
     
     return self;
@@ -54,42 +54,30 @@
 }
 
 - (void)tableViewDidLoadModel:(UITableView *)tableView {
-    self.items = [NSMutableArray arrayWithArray:[dataModel modelItems]];
-    _lastLoadedRow = self.items.count;
-    return;
-    
-    NSArray *modelItems = [dataModel modelItems];
-    NSMutableArray *updatedItems = [NSMutableArray arrayWithCapacity:modelItems.count];
-    
-    for (MObj* mObj in modelItems) {
-        Obj* obj = [ObjFactory objFromManagedObj:mObj];
-        
-        id item = nil;
-        if ([obj isMemberOfClass:[StatusObj class]]) {
-            item = [[StatusObjItem alloc] init];
-            
-            [item setTitle: [mObj senderDisplay]];
-            [item setTimestamp: mObj.timestamp];
-            [item setText: ((StatusObj*) obj).text];
-        }
-
-        if (item != nil)
-            [updatedItems addObject:item];
-    }
-    
-    _lastLoadedRow = updatedItems.count;
-    self.items = updatedItems;
-}
-
-- (void)tableView:(UITableView *)tableView cell:(UITableViewCell *)cell willAppearAtIndexPath:(NSIndexPath *)indexPath {
-    if ([dataModel hasMore] && indexPath.row > _lastLoadedRow - kFeedDataSourceLoadMargin) {
+  
+    if (_backgroundLoadingStarted) {
+        [self setItems: [NSMutableArray arrayWithArray:[dataModel modelItems]]];
+        _lastLoadedRow = self.items.count;
+    } else {
+        _backgroundLoadingStarted = YES;
         [self performSelectorInBackground:@selector(loadMoreForTableView:) withObject:tableView];
     }
 }
+
+- (void)tableView:(UITableView *)tableView cell:(UITableViewCell *)cell willAppearAtIndexPath:(NSIndexPath *)indexPath {
+    /*if ([dataModel hasMore] && indexPath.row > _lastLoadedRow - kFeedDataSourceLoadMargin) {
+        [self performSelectorInBackground:@selector(loadMoreForTableView:) withObject:tableView];
+    }*/
+}
          
 - (void) loadMoreForTableView: (UITableView*) tableView {
-    [dataModel load:TTURLRequestCachePolicyDefault more:YES];
+        
+    [dataModel load:TTURLRequestCachePolicyDefault more: dataModel.modelItems.count > 0];
     [((TTTableViewVarHeightDelegate*)tableView.delegate).controller performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];     
+    
+    if (dataModel.hasMore) {
+        [self performSelector:@selector(loadMoreForTableView:) withObject:tableView afterDelay:.100];
+    }
 }
 
 - (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {

@@ -61,16 +61,20 @@
 #pragma mark TTModel methods
 
 - (void)load:(TTURLRequestCachePolicy)cachePolicy more:(BOOL)more {
-    _done = NO;
-    _loading = YES;
+    
+    if (!more) {
+        _done = NO;
+        _loading = YES;
+    } else {
+        _loadingMore = YES;
+    }
     
     NSMutableArray *updatedItems = [NSMutableArray arrayWithArray:_items];
     int target = MIN(_mObjs.count, _lastLoaded + (_lastLoaded ? kFeedDataModelLoadBatchSize : kFeedDataModelLoadInitialBatchSize));
+    
+    NSLog(@"Loading %d - %d", _lastLoaded, target);
         
     for (int i=_lastLoaded; i < target; i++) {
-        //Obj* obj = [ObjFactory objFromManagedObj:[_mObjs objectAtIndex:i]];
-        //[updatedItems addObject:[_mObjs objectAtIndex:i]];
-        
         MObj* mObj = [_mObjs objectAtIndex:i];
         Obj* obj = [ObjFactory objFromManagedObj:mObj];
         
@@ -90,9 +94,11 @@
     [self setItems:updatedItems];
     
     _lastLoaded = target;
-    _hasMore = _lastLoaded < _mObjs.count - 1;
+    _hasMore = _lastLoaded < (_mObjs.count - 1);
+
     _done = YES;
     _loading = NO;
+    _loadingMore = NO;
 }
 
 - (BOOL)isLoaded {
@@ -101,5 +107,9 @@
 
 - (BOOL)isLoading {
     return _loading;
+}
+
+- (BOOL)isLoadingMore {
+    return _loadingMore;
 }
 @end
