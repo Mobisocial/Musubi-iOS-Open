@@ -152,7 +152,7 @@ static int kGlobalBroadcastFeedId = 10;
 }
 
 - (NSArray *) displayFeeds {
-    return [self query:[NSPredicate predicateWithFormat:@"(latestRenderableObjTime > 0) AND (accepted == 1)"]];
+    return [self query:[NSPredicate predicateWithFormat:@"(latestRenderableObjTime > 0) AND (accepted == 1)"] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"latestRenderableObjTime" ascending:FALSE]];
 }
 
 - (NSArray *)identitiesInFeed: (MFeed*) feed {

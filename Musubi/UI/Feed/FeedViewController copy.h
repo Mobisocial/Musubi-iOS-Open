@@ -24,11 +24,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Three20/Three20.h"
 
 @class MFeed, FeedManager, ObjManager, ObjRenderer;
 
-@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIWebViewDelegate, UIActionSheetDelegate> {
+@interface FeedViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIWebViewDelegate, UIActionSheetDelegate> {
     
     MFeed* feed;
     FeedManager* feedManager;
@@ -40,17 +39,16 @@
     ObjRenderer* objRenderer;
     
     IBOutlet UITextField* updateField;
-    IBOutlet UIView* postView;
-    IBOutlet UIView* mainView;
+    IBOutlet UITableView* tableView;
 }
 
-@property (nonatomic) MFeed* feed;
-@property (nonatomic) FeedManager* feedManager;
-@property (nonatomic) ObjManager* objManager;
-@property (nonatomic) ObjRenderer* objRenderer;
-@property (nonatomic) NSArray* objs;
-@property (nonatomic) NSMutableDictionary* objViews;
-@property (nonatomic) NSMutableDictionary* cellHeights;
+@property (nonatomic,retain) MFeed* feed;
+@property (nonatomic,retain) FeedManager* feedManager;
+@property (nonatomic,retain) ObjManager* objManager;
+@property (nonatomic,retain) ObjRenderer* objRenderer;
+@property (nonatomic,retain) NSArray* objs;
+@property (nonatomic,retain) NSMutableDictionary* objViews;
+@property (nonatomic,retain) NSMutableDictionary* cellHeights;
 
 - (IBAction)commandButtonPushed: (id) sender;
 

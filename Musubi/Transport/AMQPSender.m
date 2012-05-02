@@ -174,7 +174,7 @@
     uint32_t deliveryTag = [connMngr nextSequenceNumber];
     [connMngr publish:msg.encoded to:groupExchangeName onChannel:kAMQPChannelOutgoing];
     
-    [self log:@"Outgoing: %@", msg.encoded];
+//    [self log:@"Outgoing: %@", msg.encoded];
     
     [waitingForAck setObject:msg forKey:[NSNumber numberWithUnsignedInt:deliveryTag]];
     

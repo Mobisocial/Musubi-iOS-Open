@@ -51,4 +51,14 @@
 @dynamic app;
 @dynamic encoded;
 
+- (NSString *)senderDisplay {
+    if (self.identity != nil && self.identity.name != nil) {
+        return self.identity.name;
+    } else if (self.identity != nil && self.identity.principal != nil) {
+        return self.identity.principal;
+    } else {
+        return @"Unknown";
+    }
+}
+
 @end

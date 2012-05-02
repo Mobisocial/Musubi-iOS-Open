@@ -127,7 +127,13 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    [cell.textLabel setText:[feedManager identityStringForFeed:(MFeed*)[feeds objectAtIndex:indexPath.row]]];
+    MFeed* feed = (MFeed*)[feeds objectAtIndex:indexPath.row];
+    [cell.textLabel setText:[feedManager identityStringForFeed:feed]];
+    if (feed.numUnread > 0) {
+        [cell.detailTextLabel setText:[NSString stringWithFormat:@"%d unread messages", feed.numUnread]];
+    } else {
+        [cell.detailTextLabel setText:@""];
+    }
     
     // Configure the cell...
     

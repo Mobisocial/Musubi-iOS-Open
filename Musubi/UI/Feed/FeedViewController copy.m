@@ -39,10 +39,7 @@
 #import "ObjFactory.h"
 #import "ObjHelper.h"
 #import "StatusObj.h"
-#import "StatusObjItem.h"
-#import "StatusObjItemCell.h"
 #import "PictureObj.h"
-#import "FeedDataSource.h"
 #import "NSDate+TimeAgo.h"
 #import "PersistentModelStore.h"
 
@@ -60,47 +57,28 @@
 
 #pragma mark - View lifecycle
 
-- (void)loadView {
-    [super loadView];
-
-    CGRect bounds = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + 50, self.view.bounds.size.width, self.view.bounds.size.height - 50);
-    self.tableView.frame = bounds;
-    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.variableHeightRows = YES;
-}
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    NSLog(@"Feed %@", feed);
+    
     [self setFeedManager: [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
     [self setObjManager: [[ObjManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
     [self setObjRenderer: [[ObjRenderer alloc] init]];
+
+    [self setObjViews: [NSMutableDictionary dictionaryWithCapacity:256]];
+    [self setCellHeights: [NSMutableDictionary dictionaryWithCapacity:256]];
+    
+    NSDate* start = [NSDate date];
+    [self setObjs: [objManager renderableObjsInFeed:feed]];
+    NSLog(@"Getting objs took %f", [[NSDate date] timeIntervalSinceDate:start]);
     
     [self setTitle: [feedManager identityStringForFeed: feed]];
-    [self refresh];
     
     [self resetUnreadCount];
     [updateField setDelegate:self];
 }
-
-- (void)createModel {
-    FeedDataSource *feedDataSource = [[FeedDataSource alloc] initWithFeed:feed];
-    self.dataSource = feedDataSource;
-}
-
-- (id<UITableViewDelegate>)createDelegate {
-    return [[TTTableViewVarHeightDelegate alloc]
-             initWithController:self];
-}
-
-/*
-- (id)tableView:(UITableView *)tableView objectForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"Object for row %d", indexPath.row);
-    return [objs objectAtIndex: indexPath.row];
-}*/
-
 
 - (void)feedUpdated: (NSNotification*) notification {
     if (![NSThread isMainThread]) {
@@ -123,8 +101,8 @@
 - (void) reloadFeed {
     NSLog(@"Reloading");
     
-//    [self setObjs: [objManager renderableObjsInFeed:feed]];      
-//    [tableView reloadData];
+    [self setObjs: [objManager renderableObjsInFeed:feed]];      
+    [tableView reloadData];
     [self resetUnreadCount];
 }
 
@@ -164,15 +142,8 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-/*
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"Hi: %d", objs.count);
-    return [objs count];
-}*/
 
 #pragma mark - Table view data source
-
-/*
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -207,7 +178,7 @@
         [objViews setObject:cellView forKey:mObj.objectID];        
     }
     
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
     
@@ -244,7 +215,7 @@
     } else {
         return 44;
     }
-}*/
+}
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     NSString *output = [webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"];
@@ -254,9 +225,9 @@
     CGRect frame = [webView frame];
     [webView setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [height floatValue])];
     
-    [self.tableView beginUpdates];
-    [self.tableView setNeedsLayout];
-    [self.tableView endUpdates];
+    [tableView beginUpdates];
+    [tableView setNeedsLayout];
+    [tableView endUpdates];
 }
 
 /*
@@ -268,7 +239,7 @@
 }
 */
 - (IBAction)commandButtonPushed: (id) sender {
-    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", nil];
+    UIActionSheet* commandPicker = [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Picture", nil] autorelease];
     
     [commandPicker showFromTabBar: self.tabBarController.tabBar];
 }
@@ -278,7 +249,7 @@
     switch (buttonIndex) {
         case 0: // picture
         {
-            UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+            UIImagePickerController* picker = [[[UIImagePickerController alloc] init] autorelease];
             [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
             [picker setDelegate:self];
             
@@ -288,13 +259,6 @@
         }
         case 1:// apps
         {   
-            UIImagePickerController* picker = [[UIImagePickerController alloc] init];
-            [picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-            [picker setDelegate:self];            
-            
-            [self presentModalViewController:picker animated:YES];
-            break;
-
             /*NSString* appId = @"edu.stanford.mobisocial.tictactoe";
             
             NSMutableArray* userKeys = [NSMutableArray array];
@@ -328,7 +292,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     
-    PictureObj* pic = [[PictureObj alloc] initWithImage: image];
+    PictureObj* pic = [[[PictureObj alloc] initWithImage: image] autorelease];
     
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
@@ -414,7 +378,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if ([textField text].length > 0) {
-        StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
+        StatusObj* status = [[[StatusObj alloc] initWithText: [textField text]] autorelease];
         
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
