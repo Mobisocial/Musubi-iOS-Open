@@ -30,7 +30,7 @@
     NSManagedObjectContext* context;
 }
 
-@property (nonatomic) NSManagedObjectContext* context;
+@property (nonatomic, strong) NSManagedObjectContext* context;
 
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator;
 
@@ -48,7 +48,7 @@
     NSPersistentStoreCoordinator* coordinator;
 }
 
-@property (nonatomic) NSPersistentStoreCoordinator* coordinator;
+@property (nonatomic, strong) NSPersistentStoreCoordinator* coordinator;
 
 + (NSURL*) pathForStoreWithName: (NSString*) name;
 + (void) deleteStoreWithName: (NSString*) name;

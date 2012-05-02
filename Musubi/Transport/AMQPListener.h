@@ -29,14 +29,11 @@
 @class DeviceManager, IdentityManager;
 
 @interface AMQPListener : AMQPThread {
-    DeviceManager* deviceManager;
-    IdentityManager* identityManager;
-    
     BOOL restartRequested;
 }
 
-@property (nonatomic) DeviceManager* deviceManager;
-@property (nonatomic) IdentityManager* identityManager;
+@property (nonatomic, strong) DeviceManager* deviceManager;
+@property (nonatomic, strong) IdentityManager* identityManager;
 
 - (void) consumeMessages;
 - (void) restart;

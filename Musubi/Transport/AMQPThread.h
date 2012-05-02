@@ -29,16 +29,13 @@
 
 @interface AMQPThread : NSThread {
     AMQPConnectionManager* connMngr;
-    
     PersistentModelStoreFactory* storeFactory;
     PersistentModelStore* threadStore;
-    
-    int instance;
 }
 
-@property (nonatomic) AMQPConnectionManager* connMngr;
-@property (nonatomic) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic) PersistentModelStore* threadStore;
+@property (nonatomic, strong) AMQPConnectionManager* connMngr;
+@property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic, strong) PersistentModelStore* threadStore;
 
 - (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf;
 
