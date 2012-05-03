@@ -116,16 +116,21 @@ static NSManagedObjectContext* root = nil;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
+    if(self.context.parentContext == nil) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
+    }
 }
 
 - (void) otherContextSaved: (NSNotification*) notification {
     if (notification.object != context) {
-        [context mergeChangesFromContextDidSaveNotification:notification];
-        NSError* error;
-        if(![context save:&error]) {
-            NSLog(@"failed to save changes merged from other context");
-        }
+        // call the result handler block on the main queue (i.e. main thread)
+        dispatch_async( dispatch_get_main_queue(), ^{
+            [context mergeChangesFromContextDidSaveNotification:notification];
+            NSError* error;
+            if(![context save:&error]) {
+                NSLog(@"failed to save changes merged from other context");
+            }
+        });
     }
 }
 
