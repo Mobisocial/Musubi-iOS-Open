@@ -122,6 +122,10 @@ static NSManagedObjectContext* root = nil;
 - (void) otherContextSaved: (NSNotification*) notification {
     if (notification.object != context) {
         [context mergeChangesFromContextDidSaveNotification:notification];
+        NSError* error;
+        if(![context save:&error]) {
+            NSLog(@"failed to save changes merged from other context");
+        }
     }
 }
 
