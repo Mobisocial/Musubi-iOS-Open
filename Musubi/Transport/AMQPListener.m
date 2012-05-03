@@ -26,7 +26,7 @@
 #import "AMQPListener.h"
 #import "Musubi.h"
 #import "AMQPConnectionManager.h"
-#import "DeviceManager.h"
+#import "MusubiDeviceManager.h"
 #import "IdentityManager.h"
 #import "MEncodedMessage.h"
 #import "IBEncryptionScheme.h"
@@ -39,7 +39,7 @@
 - (void) main {
     // Run AMQPThread common
     [super main];
-    self.deviceManager = [[DeviceManager alloc] initWithStore:threadStore];
+    self.deviceManager = [[MusubiDeviceManager alloc] initWithStore:threadStore];
     self.identityManager = [[IdentityManager alloc] initWithStore:threadStore];
     
     while (![[NSThread currentThread] isCancelled]) {

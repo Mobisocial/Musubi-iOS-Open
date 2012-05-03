@@ -50,15 +50,11 @@
 
 
 
-@interface ObjProcessorOperation : NSOperation {
-    NSManagedObjectID* _objId;
-    ObjPipelineService* _service;
-    
-    PersistentModelStore* _store;
-}
+@interface ObjProcessorOperation : NSOperation
 
-@property (nonatomic) NSManagedObjectID* objId;
-@property (nonatomic) PersistentModelStore* store;
+@property (nonatomic, weak) ObjPipelineService* service;
+@property (nonatomic, strong) NSManagedObjectID* objId;
+@property (nonatomic, strong) PersistentModelStore* store;
 
 - (id) initWithObjId: (NSManagedObjectID*) objId andService: (ObjPipelineService*) service;
 - (void) processObj: (MObj*) obj;

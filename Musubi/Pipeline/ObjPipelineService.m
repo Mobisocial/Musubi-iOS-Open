@@ -82,19 +82,19 @@
 
 @implementation ObjProcessorOperation
 
-@synthesize objId = _objId, store = _store;
+@synthesize objId = _objId, store = _store, service = _service;
 
 - (id)initWithObjId:(NSManagedObjectID *)objId andService:(ObjPipelineService *)service {
     self = [super init];
     if (self) {
-        _service = service;
-        [self setObjId: objId];
+        self.service = service;
+        self.objId = objId;
     }
     return self;
 }
 
 - (void)main {
-    [self setStore: [_service.storeFactory newStore]];
+    _store = [_service.storeFactory newStore];
     
     // Get the obj and decode it
     MObj* obj = (MObj*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _objId] onEntity:@"Obj"];

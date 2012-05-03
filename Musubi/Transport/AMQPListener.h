@@ -26,13 +26,13 @@
 #import <Foundation/Foundation.h>
 #import "AMQPThread.h"
 
-@class DeviceManager, IdentityManager;
+@class MusubiDeviceManager, IdentityManager;
 
 @interface AMQPListener : AMQPThread {
     BOOL restartRequested;
 }
 
-@property (nonatomic, strong) DeviceManager* deviceManager;
+@property (nonatomic, strong) MusubiDeviceManager* deviceManager;
 @property (nonatomic, strong) IdentityManager* identityManager;
 
 - (void) consumeMessages;

@@ -16,7 +16,7 @@
 
 
 //
-//  DeviceManager.h
+//  MusubiDeviceManager.h
 //  Musubi
 //
 //  Created by Willem Bult on 3/17/12.
@@ -28,7 +28,7 @@
 
 @class MDevice, MIdentity;
 
-@interface DeviceManager : EntityManager {
+@interface MusubiDeviceManager : EntityManager {
 }
 
 - (id) initWithStore: (PersistentModelStore*) s;

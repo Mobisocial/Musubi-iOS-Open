@@ -46,13 +46,14 @@
 
 - (id)initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf {
     self = [super initWithConnectionManager:conn storeFactory:sf];
-    if (self) {
-        [self setWaitingForAck:[NSMutableDictionary dictionary]];
-        [self setDeclaredGroups:[NSMutableDictionary dictionary]];
-        
-        [self setMessagesWaitingCondition:[[NSCondition alloc] init]];
-        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(signalMessagesReady) name:kMusubiNotificationPreparedEncoded object:nil];
-    }
+    if (!self)
+        return nil;
+
+    self.waitingForAck = [NSMutableDictionary dictionary];
+    self.declaredGroups = [NSMutableDictionary dictionary];
+    
+    self.messagesWaitingCondition = [[NSCondition alloc] init];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(signalMessagesReady) name:kMusubiNotificationPreparedEncoded object:nil];
     return self;
 }
 

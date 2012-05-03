@@ -16,20 +16,20 @@
 
 
 //
-//  DeviceManager.m
+//  MusubiDeviceManager.m
 //  Musubi
 //
 //  Created by Willem Bult on 3/17/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "DeviceManager.h"
+#import "MusubiDeviceManager.h"
 #import "PersistentModelStore.h"
 #import "MDevice.h"
 #import "MMyDeviceName.h"
 #import "IdentityManager.h"
 
-@implementation DeviceManager
+@implementation MusubiDeviceManager
 
 static uint64_t __localDeviceName;
 

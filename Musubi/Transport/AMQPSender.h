@@ -28,16 +28,11 @@
 
 @class MEncodedMessage;
 
-@interface AMQPSender : AMQPThread {
-    NSMutableArray* declaredGroups;
-    NSMutableDictionary* waitingForAck;
-    
-    NSCondition* _messagesWaitingCondition;
-}
+@interface AMQPSender : AMQPThread
 
-@property (nonatomic) NSMutableArray* declaredGroups;
-@property (nonatomic) NSMutableDictionary* waitingForAck;
-@property (nonatomic) NSCondition* messagesWaitingCondition;
+@property (nonatomic, strong) NSMutableArray* declaredGroups;
+@property (nonatomic, strong) NSMutableDictionary* waitingForAck;
+@property (nonatomic, strong) NSCondition* messagesWaitingCondition;
 
 - (void) sendMessage: (MEncodedMessage*) msg;
 - (void) confirmDelivery: (uint32_t) deliveryTag succeeded: (BOOL) ack;

@@ -29,7 +29,7 @@
 #import "IdentityProvider.h"
 
 @class PersistentModelStoreFactory, PersistentModelStore;
-@class FeedManager, DeviceManager, TransportManager, AccountManager, AppManager, IdentityManager;
+@class FeedManager, MusubiDeviceManager, TransportManager, AccountManager, AppManager, IdentityManager;
 @class MessageDecoder;
 
 @interface MessageDecodeService : NSObject {
@@ -63,7 +63,7 @@
     BOOL _success;
     
     PersistentModelStore* _store;
-    DeviceManager* _deviceManager;
+    MusubiDeviceManager* _deviceManager;
     IdentityManager* _identityManager;
     TransportManager* _transportManager;
     FeedManager* _feedManager;
@@ -80,7 +80,7 @@
 
 @property (nonatomic) MessageDecoder* decoder;
 @property (nonatomic) PersistentModelStore* store;
-@property (nonatomic) DeviceManager* deviceManager;
+@property (nonatomic) MusubiDeviceManager* deviceManager;
 @property (nonatomic) IdentityManager* identityManager;
 @property (nonatomic) TransportManager* transportManager;
 @property (nonatomic) FeedManager* feedManager;

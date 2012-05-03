@@ -28,25 +28,18 @@
 #import "IdentityProvider.h"
 
 @class MessageEncoder;
-@class PersistentModelStoreFactory, PersistentModelStore, DeviceManager, IdentityManager, TransportManager;
+@class PersistentModelStoreFactory, PersistentModelStore, MusubiDeviceManager, IdentityManager, TransportManager;
 
-@interface MessageEncodeService : NSObject {
-    PersistentModelStoreFactory* _storeFactory;
-    id<IdentityProvider> _identityProvider;
-    
-    NSArray* _queues;
-    
-    NSMutableArray* _pending;
-}
-
-@property (nonatomic) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic) id<IdentityProvider> identityProvider;
+@interface MessageEncodeService : NSObject
+@property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic, strong) id<IdentityProvider> identityProvider;
 
 // List of operation threads
-@property (nonatomic) NSArray* queues;
+@property (nonatomic, strong) NSArray* queues;
 
 // List of objs that are pending processing
-@property (atomic) NSMutableArray* pending;
+@property (nonatomic,strong) NSMutableArray* pending;
+@property (nonatomic,strong) NSLock* pendingLock;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) sf andIdentityProvider: (id<IdentityProvider>) ip;
 
@@ -54,16 +47,12 @@
 
 
 @interface MessageEncodeOperation : NSOperation {
-    // ManagedObject is not thread-safe, ObjectID is
-    NSManagedObjectID* _objId;
-    MessageEncodeService* _service;
-    PersistentModelStore* _store;
     BOOL success;
 }
 
-@property (nonatomic) NSManagedObjectID* objId;
-@property (nonatomic) MessageEncodeService* service;
-@property (nonatomic) PersistentModelStore* store;
+@property (nonatomic, strong) NSManagedObjectID* objId;
+@property (nonatomic, weak) MessageEncodeService* service;
+@property (nonatomic, strong) PersistentModelStore* store;
 @property (nonatomic, assign) BOOL success;
 
 - (id) initWithObjId: (NSManagedObjectID*) oId andService: (MessageEncodeService*) service;
