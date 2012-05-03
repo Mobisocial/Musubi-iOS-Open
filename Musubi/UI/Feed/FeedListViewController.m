@@ -70,8 +70,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     [super viewWillAppear:animated];
+
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
+
+    // Cardinal
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

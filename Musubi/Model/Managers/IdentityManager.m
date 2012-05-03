@@ -55,7 +55,9 @@
 }
 
 - (void) createIdentity:(MIdentity *)ident {
-    assert(ident.principalHash != nil && *(uint64_t*)ident.principalHash.bytes == ident.principalShortHash);
+    assert(ident != nil);
+    assert(ident.principalHash != nil);
+    assert((*(uint64_t*)ident.principalHash.bytes) == ident.principalShortHash);
     
 	// TOOD: synchronize code
     int64_t now = [[NSDate date] timeIntervalSince1970] * 1000;

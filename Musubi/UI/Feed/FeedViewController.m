@@ -95,13 +95,6 @@
              initWithController:self];
 }
 
-/*
-- (id)tableView:(UITableView *)tableView objectForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"Object for row %d", indexPath.row);
-    return [objs objectAtIndex: indexPath.row];
-}*/
-
-
 - (void)feedUpdated: (NSNotification*) notification {
     if (![NSThread isMainThread]) {
         [self performSelectorOnMainThread:@selector(feedUpdated:) withObject:notification waitUntilDone:NO];
@@ -123,8 +116,7 @@
 - (void) reloadFeed {
     NSLog(@"Reloading");
     
-//    [self setObjs: [objManager renderableObjsInFeed:feed]];      
-//    [tableView reloadData];
+    [self reload];
     [self resetUnreadCount];
 }
 
@@ -137,8 +129,11 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     [super viewWillAppear:animated];
+    
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
+    // Cardinal
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -164,87 +159,8 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-/*
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"Hi: %d", objs.count);
-    return [objs count];
-}*/
 
 #pragma mark - Table view data source
-
-/*
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return [objs count];
-}
-
-- (MObj*) objForIndexPath: (NSIndexPath*) indexPath {
-    //return [objs objectAtIndex: objs.count - indexPath.row - 1];
-    return [objs objectAtIndex: indexPath.row];
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    MObj* mObj = [self objForIndexPath:indexPath];
-    NSLog(@"Rendering %d", indexPath.row);
-    
-    
-    FeedItemTableCell* cell = (FeedItemTableCell*) [tv dequeueReusableCellWithIdentifier:@"FeedItemCell"];
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    
-    UIView* cellView = [objViews objectForKey:mObj.objectID];
-    if (cellView == nil) {
-        Obj* obj = [ObjFactory objFromManagedObj:mObj];
-        cellView = [objRenderer renderObj: obj];        
-        [objViews setObject:cellView forKey:mObj.objectID];        
-    }
-    
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-    
-    [cell.senderLabel setText: mObj.identity.name];
-    [cell.timestampLabel setText:mObj.processed ? [mObj.timestamp timeAgo] : @"sending..."];
-    [cell.profilePictureView setImage: [UIImage imageWithData:mObj.identity.thumbnail]];
-    [cell setItemView: cellView];
-    
-    if ([[cell itemView] isKindOfClass:[UIWebView class]]) {
-        UIWebView* webView = (UIWebView*) [cell itemView];
-        if ([webView delegate] == nil) {
-            [webView setTag:[indexPath row]];
-            [webView setDelegate:self];
-        }
-    }
-    
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    MObj* mObj = [self objForIndexPath:indexPath];
-    if (mObj) {
-        NSNumber* storedHeight = [cellHeights objectForKey:mObj.objectID];
-        if (storedHeight != nil) {
-            return [storedHeight floatValue];
-        }
-        
-        Obj* obj = [ObjFactory objFromManagedObj:mObj];
-        int height = [objRenderer renderHeightForObj: obj] + 28;
-                
-        [cellHeights setObject:[NSNumber numberWithInt:height] forKey:mObj.objectID];
-        return height;
-    } else {
-        return 44;
-    }
-}*/
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     NSString *output = [webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"];
@@ -338,45 +254,6 @@
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
     [self reloadFeed];    
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 /*

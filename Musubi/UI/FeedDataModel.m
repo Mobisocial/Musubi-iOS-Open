@@ -68,6 +68,9 @@
     if (!more) {
         _done = NO;
         _loading = YES;
+        
+        _lastLoaded = 0;
+        [self setItems:nil];
     } else {
         _loadingMore = YES;
     }
