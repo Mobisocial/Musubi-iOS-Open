@@ -175,10 +175,11 @@
     MIdentity* mIdent = [identityManager identityForIBEncryptionIdentity:ident];
   
     if (mIdent == nil) {
-        [mIdent setClaimed: NO];
-        [mIdent setPrincipalHash: ident.hashed];
-        [mIdent setPrincipalShortHash: *(uint64_t*)ident.hashed.bytes];
-        [mIdent setType: ident.authority];
+        mIdent = [identityManager create];
+        mIdent.claimed = NO;
+        mIdent.principalHash = ident.hashed;
+        mIdent.principalShortHash = *(uint64_t*)ident.hashed.bytes;
+        mIdent.type = ident.authority;
         
         [identityManager createIdentity:mIdent];    
     }
