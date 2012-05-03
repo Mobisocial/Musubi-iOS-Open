@@ -52,28 +52,31 @@
 
 @implementation MessageEncodeService
 
-@synthesize storeFactory = _storeFactory, identityProvider = _identityProvider, pending = _pending, queues = _queues;
+@synthesize storeFactory = _storeFactory, identityProvider = _identityProvider, pending = _pending, queues = _queues, pendingLock = _pendingLock;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf andIdentityProvider:(id<IdentityProvider>)ip {
     self = [super init];
-    if (self) {
-        [self setStoreFactory:sf];
-        [self setIdentityProvider: ip];
-        
-        // List of objs pending encoding
-        [self setPending: [NSMutableArray arrayWithCapacity:10]];
+    if (!self) {
+        return nil;
+    }
 
-        // Two processing threads, one for small feeds, one for large.
-        [self setQueues:[NSArray arrayWithObjects:[NSOperationQueue new], [NSOperationQueue new], nil]];
-        
-        // Start the thread
-        for (NSOperationQueue* queue in _queues) {
-            [queue setMaxConcurrentOperationCount:1];
-        }
-        
-        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationPlainObjReady object:nil];
+    self.storeFactory = sf;
+    self.identityProvider = ip;
+    
+    // List of objs pending encoding
+    self.pending = [NSMutableArray arrayWithCapacity:10];
+    self.pendingLock = [[NSLock alloc] init];
+
+    // Two processing threads, one for small feeds, one for large.
+    self.queues = [NSArray arrayWithObjects:[NSOperationQueue new], [NSOperationQueue new], nil];
+    
+    // Start the thread
+    for (NSOperationQueue* queue in _queues) {
+        [queue setMaxConcurrentOperationCount:1];
     }
     
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationPlainObjReady object:nil];
+
     return self;
 }
 
@@ -87,13 +90,12 @@
         
         assert (obj.encoded == nil);
         
-        // Don't process the same obj twice in different threads
-        // pending is atomic, so we should be able to do this safely
-        // Store ObjectID instead of object, because that is thread-safe
-        if ([_pending containsObject: obj.objectID]) {
-            continue;
-        } else {
-            [_pending addObject: obj.objectID];
+        @synchronized(_pendingLock) {
+            if ([_pending containsObject: obj.objectID]) {
+                continue;
+            } else {
+                [_pending addObject: obj.objectID];
+            }
         }
 
         // Find the thread to run this on
@@ -143,12 +145,17 @@
     self.store = [_service.storeFactory newStore];
     
     NSError* error;
-    MObj* obj = (MObj*)[_store.context existingObjectWithID:_objId error:&error];
+    MObj* obj = (MObj*)[_store.context objectWithID:_objId];
+    if(obj == nil) {
+        NSLog(@"Encode failed lookup %@: %@", _objId, error);
+    }
 
     [self encodeObj: obj];
     
     // Remove from the pending queue
-    [_service.pending removeObject:_objId];
+    @synchronized(_service.pendingLock) {
+        [_service.pending removeObject:_objId];
+    }
 }
 
 - (void) encodeObj: (MObj*) obj {

@@ -167,9 +167,7 @@ static NSManagedObjectContext* root = nil;
 
 - (void)save {
     NSError* err = nil;
-    [context save:&err];
-    
-    if (err != nil) {
+    if(![context save:&err]) {
         @throw [NSException exceptionWithName:kMusubiExceptionUnexpected reason:[NSString stringWithFormat:@"Unexpected error occurred: %@", err] userInfo:nil];
     }
 }
