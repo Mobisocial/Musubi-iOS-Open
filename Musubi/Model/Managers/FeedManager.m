@@ -34,7 +34,7 @@
 #import "PersistentModelStore.h"
 #import "ObjManager.h"
 #import "IdentityManager.h"
-#import "DeviceManager.h"
+#import "MusubiDeviceManager.h"
 #import "IntroductionObj.h"
 
 #import "MFeed.h"

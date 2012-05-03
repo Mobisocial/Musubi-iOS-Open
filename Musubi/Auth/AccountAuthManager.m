@@ -35,7 +35,7 @@
 
 #import "PersistentModelStore.h"
 #import "AccountManager.h"
-#import "DeviceManager.h"
+#import "MusubiDeviceManager.h"
 #import "IdentityManager.h"
 
 #import "MIdentity.h"
@@ -215,7 +215,7 @@
             //[store save];
         }
         
-        DeviceManager* deviceManager = [[DeviceManager alloc] initWithStore:store];
+        MusubiDeviceManager* deviceManager = [[MusubiDeviceManager alloc] initWithStore:store];
         MDevice* device = [deviceManager deviceForName: [deviceManager localDeviceName] andIdentity: mId];
         if (device == nil) {
             device = (MDevice*)[store createEntity:@"Device"];

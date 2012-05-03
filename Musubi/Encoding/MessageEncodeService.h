@@ -28,7 +28,7 @@
 #import "IdentityProvider.h"
 
 @class MessageEncoder;
-@class PersistentModelStoreFactory, PersistentModelStore, DeviceManager, IdentityManager, TransportManager;
+@class PersistentModelStoreFactory, PersistentModelStore, MusubiDeviceManager, IdentityManager, TransportManager;
 
 @interface MessageEncodeService : NSObject {
     PersistentModelStoreFactory* _storeFactory;

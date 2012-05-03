@@ -24,7 +24,7 @@
 		D208157F1513026A00F12039 /* MMissingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D208157E1513026900F12039 /* MMissingMessage.m */; };
 		D20815821513043900F12039 /* MSequenceNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815811513043800F12039 /* MSequenceNumber.m */; };
 		D20815851513C20C00F12039 /* FeedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D20815841513C20B00F12039 /* FeedManager.m */; };
-		D208158B151541D600F12039 /* DeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208158A151541D500F12039 /* DeviceManager.m */; };
+		D208158B151541D600F12039 /* MusubiDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208158A151541D500F12039 /* MusubiDeviceManager.m */; };
 		D208158E1515421200F12039 /* EntityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D208158D1515421200F12039 /* EntityManager.m */; };
 		D208B9571537EABD00D14B6A /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = D208B9561537EABD00D14B6A /* logo_57.png */; };
 		D208B9591537EB1600D14B6A /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D208B9581537EB1600D14B6A /* logo.png */; };
@@ -330,8 +330,8 @@
 		D20815841513C20B00F12039 /* FeedManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedManager.m; sourceTree = "<group>"; };
 		D208158615152A2600F12039 /* MessageListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListener.h; sourceTree = "<group>"; };
 		D208158715152A2700F12039 /* MessageListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListener.m; sourceTree = "<group>"; };
-		D2081589151541D400F12039 /* DeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceManager.h; sourceTree = "<group>"; };
-		D208158A151541D500F12039 /* DeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceManager.m; sourceTree = "<group>"; };
+		D2081589151541D400F12039 /* MusubiDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusubiDeviceManager.h; sourceTree = "<group>"; };
+		D208158A151541D500F12039 /* MusubiDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusubiDeviceManager.m; sourceTree = "<group>"; };
 		D208158C1515421100F12039 /* EntityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityManager.h; sourceTree = "<group>"; };
 		D208158D1515421200F12039 /* EntityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntityManager.m; sourceTree = "<group>"; };
 		D208B9561537EABD00D14B6A /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
@@ -944,8 +944,8 @@
 				D272FB58151A69DF00D2521A /* AccountManager.m */,
 				D2773CCA151D638400A161F9 /* AppManager.h */,
 				D2773CCB151D638600A161F9 /* AppManager.m */,
-				D2081589151541D400F12039 /* DeviceManager.h */,
-				D208158A151541D500F12039 /* DeviceManager.m */,
+				D2081589151541D400F12039 /* MusubiDeviceManager.h */,
+				D208158A151541D500F12039 /* MusubiDeviceManager.m */,
 				D20815741512BA9300F12039 /* EncodedMessageManager.h */,
 				D20815751512BA9300F12039 /* EncodedMessageManager.m */,
 				D20815771512EA5F00F12039 /* EncryptionUserKeyManager.h */,
@@ -2781,7 +2781,7 @@
 				D208157F1513026A00F12039 /* MMissingMessage.m in Sources */,
 				D20815821513043900F12039 /* MSequenceNumber.m in Sources */,
 				D20815851513C20C00F12039 /* FeedManager.m in Sources */,
-				D208158B151541D600F12039 /* DeviceManager.m in Sources */,
+				D208158B151541D600F12039 /* MusubiDeviceManager.m in Sources */,
 				D208158E1515421200F12039 /* EntityManager.m in Sources */,
 				D2081559151273C400F12039 /* AMQPTransport.m in Sources */,
 				D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */,

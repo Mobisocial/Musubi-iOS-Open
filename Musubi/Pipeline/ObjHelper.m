@@ -33,7 +33,7 @@
 #import "PersistentModelStore.h"
 #import "FeedManager.h"
 #import "IdentityManager.h"
-#import "DeviceManager.h"
+#import "MusubiDeviceManager.h"
 #import "SBJSON.h"
 
 @implementation ObjHelper
@@ -48,7 +48,7 @@
 
 + (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store {
     FeedManager* feedManager = [[FeedManager alloc] initWithStore:store];
-    DeviceManager* deviceManager = [[DeviceManager alloc] initWithStore: store];
+    MusubiDeviceManager* deviceManager = [[MusubiDeviceManager alloc] initWithStore: store];
         
     if (![feedManager app: app isAllowedInFeed: feed]) {
         @throw [NSException exceptionWithName:kMusubiExceptionAppNotAllowedInFeed reason:@"App not allowed in feed" userInfo:nil];

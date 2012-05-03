@@ -30,7 +30,7 @@
 #import "Musubi.h"
 
 #import "PersistentModelStore.h"
-#import "DeviceManager.h"
+#import "MusubiDeviceManager.h"
 #import "TransportManager.h"
 #import "SignatureUserKeyManager.h"
 #import "IBEncryptionScheme.h"
@@ -208,7 +208,7 @@
     
     // Universal hash it, must happen before the encoding step so
     // Local messages can still run through the pipeline
-    DeviceManager* deviceManager = [[DeviceManager alloc] initWithStore:_store];
+    MusubiDeviceManager* deviceManager = [[MusubiDeviceManager alloc] initWithStore:_store];
     MDevice* device = obj.device;
     assert (device.deviceName == [deviceManager localDeviceName]);
     

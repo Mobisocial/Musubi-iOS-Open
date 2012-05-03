@@ -33,7 +33,7 @@
 #import "PreparedObj.h"
 
 #import "PersistentModelStore.h"
-#import "DeviceManager.h"
+#import "MusubiDeviceManager.h"
 #import "FeedManager.h"
 #import "IdentityManager.h"
 #import "AccountManager.h"
@@ -149,7 +149,7 @@
     MEncodedMessage* msg = (MEncodedMessage*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _messageId] onEntity:@"EncodedMessage"];
     
     if (msg) {
-        [self setDeviceManager: [[DeviceManager alloc] initWithStore: _store]];
+        [self setDeviceManager: [[MusubiDeviceManager alloc] initWithStore: _store]];
         [self setTransportManager: [[TransportManager alloc] initWithStore:_store encryptionScheme: _service.identityProvider.encryptionScheme signatureScheme:_service.identityProvider.signatureScheme deviceName:[_deviceManager localDeviceName]]];
         [self setIdentityManager: _transportManager.identityManager];
         [self setFeedManager: [[FeedManager alloc] initWithStore:_store]];
