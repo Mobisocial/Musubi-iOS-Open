@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		C0395FA31521BFD700F5AF3B /* MMyDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */; };
+		C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5757D1551F94600B6624C /* libTestFlight.a */; };
+		C0D575821551F94600B6624C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757E1551F94600B6624C /* README.txt */; };
+		C0D575831551F94600B6624C /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757F1551F94600B6624C /* release_notes.txt */; };
 		D2081556151171D800F12039 /* AMQPConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081555151171D800F12039 /* AMQPConnectionManager.m */; };
 		D2081559151273C400F12039 /* AMQPTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081558151273C400F12039 /* AMQPTransport.m */; };
 		D208155C1512851700F12039 /* AMQPTransportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155B1512851700F12039 /* AMQPTransportTest.m */; };
@@ -293,6 +296,10 @@
 /* Begin PBXFileReference section */
 		C0395FA11521BFD700F5AF3B /* MMyDeviceName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMyDeviceName.h; sourceTree = "<group>"; };
 		C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMyDeviceName.m; sourceTree = "<group>"; };
+		C0D5757D1551F94600B6624C /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		C0D5757E1551F94600B6624C /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		C0D5757F1551F94600B6624C /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
+		C0D575801551F94600B6624C /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		D2081554151171D800F12039 /* AMQPConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionManager.h; sourceTree = "<group>"; };
 		D2081555151171D800F12039 /* AMQPConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionManager.m; sourceTree = "<group>"; };
 		D2081557151273C400F12039 /* AMQPTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPTransport.h; sourceTree = "<group>"; };
@@ -912,12 +919,24 @@
 				D20E422D1461EEC60096A272 /* CoreGraphics.framework in Frameworks */,
 				D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */,
 				D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */,
+				C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C0D5757C1551F94600B6624C /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				C0D5757D1551F94600B6624C /* libTestFlight.a */,
+				C0D5757E1551F94600B6624C /* README.txt */,
+				C0D5757F1551F94600B6624C /* release_notes.txt */,
+				C0D575801551F94600B6624C /* TestFlight.h */,
+			);
+			path = TestFlight;
+			sourceTree = "<group>";
+		};
 		D208156115128BA800F12039 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1218,6 +1237,10 @@
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D25F49021471A32500AC1551 /* bson */,
+				D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */,
+				D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */,
+				D2B428BB14F44F4600ED868D /* IBE.xcodeproj */,
 				D2F8C6CC152655EA005AD880 /* libOAuthTouch2.a */,
 				D25BA6551522AB5C00B87687 /* libThree20Core.a */,
 				D25BA6561522AB5C00B87687 /* libThree20Network.a */,
@@ -1225,14 +1248,11 @@
 				D25BA6581522AB5C00B87687 /* libThree20UI.a */,
 				D25BA6591522AB5C00B87687 /* libThree20UICommon.a */,
 				D25BA65A1522AB5C00B87687 /* libThree20UINavigator.a */,
-				D2D930B415225E99006E4F58 /* Three20.bundle */,
 				D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */,
-				D2D930251522417D006E4F58 /* Three20.xcodeproj */,
-				D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */,
-				D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */,
-				D2B428BB14F44F4600ED868D /* IBE.xcodeproj */,
-				D25F49021471A32500AC1551 /* bson */,
 				D27965DC1457D97200C5FDAB /* SBJson */,
+				C0D5757C1551F94600B6624C /* TestFlight */,
+				D2D930B415225E99006E4F58 /* Three20.bundle */,
+				D2D930251522417D006E4F58 /* Three20.xcodeproj */,
 				D279677F1457D97500C5FDAB /* ZipArchive */,
 			);
 			path = Libraries;
@@ -2676,6 +2696,8 @@
 				D210C1781526795300280605 /* GTMOAuth2ViewTouch.xib in Resources */,
 				D208B9571537EABD00D14B6A /* logo_57.png in Resources */,
 				D208B9591537EB1600D14B6A /* logo.png in Resources */,
+				C0D575821551F94600B6624C /* README.txt in Resources */,
+				C0D575831551F94600B6624C /* release_notes.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3110,6 +3132,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/Libraries/TestFlight\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Musubi;
@@ -3132,6 +3155,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos\"",
+					"\"$(SRCROOT)/Libraries/TestFlight\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Musubi;

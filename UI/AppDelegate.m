@@ -16,6 +16,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
+    [TestFlight takeOff:@"xxx"];
     [Musubi sharedInstance];
 }
 
