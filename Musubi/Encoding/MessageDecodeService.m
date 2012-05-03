@@ -83,8 +83,8 @@
         {
             if(msg.processed == YES) {
                 NSLog(@"Shut 'er down clancy, she's a pumpin' mud!!");
+                continue;
             }
-            assert(msg.processed == NO);
         }
         @catch (NSException *exception)
         {
