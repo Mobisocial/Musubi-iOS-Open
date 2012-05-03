@@ -54,16 +54,12 @@
 
 
 @interface MessageEncodeOperation : NSOperation {
-    // ManagedObject is not thread-safe, ObjectID is
-    NSManagedObjectID* _objId;
-    MessageEncodeService* _service;
-    PersistentModelStore* _store;
     BOOL success;
 }
 
-@property (nonatomic) NSManagedObjectID* objId;
-@property (nonatomic) MessageEncodeService* service;
-@property (nonatomic) PersistentModelStore* store;
+@property (nonatomic, strong) NSManagedObjectID* objId;
+@property (nonatomic, weak) MessageEncodeService* service;
+@property (nonatomic, strong) PersistentModelStore* store;
 @property (nonatomic, assign) BOOL success;
 
 - (id) initWithObjId: (NSManagedObjectID*) oId andService: (MessageEncodeService*) service;

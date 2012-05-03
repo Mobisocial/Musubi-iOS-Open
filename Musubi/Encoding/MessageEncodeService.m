@@ -133,17 +133,17 @@
 - (id)initWithObjId:(NSManagedObjectID *)oId andService:(MessageEncodeService *)service {
     self = [super init];
     if (self) {
-        [self setService: service];
-        [self setObjId: oId];
+        self.service = service;
+        self.objId = oId;
     }
     return self;
 }
 
 - (void)main {
-    [self setStore: [_service.storeFactory newStore]];
+    self.store = [_service.storeFactory newStore];
     
-    // Get the obj and encode it
-    MObj* obj = (MObj*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _objId] onEntity:@"Obj"];
+    NSError* error;
+    MObj* obj = (MObj*)[_store.context existingObjectWithID:_objId error:&error];
 
     [self encodeObj: obj];
     
