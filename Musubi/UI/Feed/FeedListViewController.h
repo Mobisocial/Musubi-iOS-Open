@@ -32,4 +32,6 @@
 @property (nonatomic, strong) NSArray* feeds;
 @property (nonatomic, strong) FeedManager* feedManager;
 
+- (void) reloadFeeds;
+
 @end

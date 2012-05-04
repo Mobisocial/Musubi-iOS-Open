@@ -32,6 +32,7 @@
 #import "AppManager.h"
 #import "IntroductionObj.h"
 #import "ObjHelper.h"
+#import "FeedListViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface FriendPickerTableViewController ()
@@ -292,11 +293,8 @@
 }
 
 - (IBAction)createFeed:(id)sender {
-    NSLog(@"Creating feed");
     
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
-    
-//    [[Musubi sharedInstance].storeFactory newStore];
     
     AppManager* am = [[AppManager alloc] initWithStore:store];
     MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
@@ -306,9 +304,12 @@
     
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:_selection];
     MObj* obj = [ObjHelper sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
-    NSLog(@"Feed: %@", f);
     
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    FeedListViewController* listView = [[self.navigationController viewControllers] objectAtIndex:[self.navigationController viewControllers].count - 2];
+    [listView reloadFeeds];
+    
+    [self.navigationController popViewControllerAnimated:NO];
+    [listView performSegueWithIdentifier:@"ShowFeedCustom" sender:f];
 }
 
 @end

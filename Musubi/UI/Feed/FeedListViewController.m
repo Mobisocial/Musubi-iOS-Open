@@ -92,8 +92,12 @@
         return;
     }
     
+    [self reloadFeeds];
+}
+
+- (void) reloadFeeds{
     [self setFeeds:[feedManager displayFeeds]];
-    [self.tableView reloadData];
+    [self.tableView reloadData];    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -104,14 +108,17 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([[segue identifier] isEqualToString:@"ShowFeed"]) {
-        
         FeedViewController *vc = [segue destinationViewController];
         
         MFeed* feed = [feeds objectAtIndex: self.tableView.indexPathForSelectedRow.row];
         [vc setFeed: feed];
+    } else if ([[segue identifier] isEqualToString:@"ShowFeedCustom"]) {
+        FeedViewController *vc = [segue destinationViewController];
+        [vc setFeed: (MFeed*) sender];
     }
-}
 
+}
+ 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
