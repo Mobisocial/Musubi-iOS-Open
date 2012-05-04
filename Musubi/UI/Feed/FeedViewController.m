@@ -102,7 +102,7 @@
     }
     
     if ([notification.object isEqual:feed.objectID]) {
-        [self reloadFeed];
+        [self invalidateFeed];
     }
 }
 
@@ -113,10 +113,17 @@
     }
 }
 
+- (void) invalidateFeed {
+    // if we reload right away, the context is not synced up yet or something, because the query results appear out of order. wait a little bit and it'll be ok
+    [self performSelector:@selector(reloadFeed) withObject:nil afterDelay:0.1];
+    //[self reloadFeed];    
+}
+
 - (void) reloadFeed {
-    NSLog(@"Reloading");
-    
+    // This is likely not the way to do it, but it works and can't figure out the correct flow
     [self reload];
+    [self refresh];
+    
     [self resetUnreadCount];
 }
 
@@ -252,7 +259,7 @@
     [ObjHelper sendObj:pic toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
-    [self reloadFeed];    
+    [self invalidateFeed];    
 }
 
 #pragma mark - Table view delegate
@@ -299,7 +306,7 @@
         [ObjHelper sendObj:status toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
         
         [textField setText:@""];
-        [self reloadFeed];
+        [self invalidateFeed];
     }
 }
 

@@ -30,17 +30,22 @@
     BOOL _done;
     BOOL _loading;
     BOOL _loadingMore;
+    BOOL _outdated;
     
     int _lastLoaded;
     BOOL _hasMore;
     
     NSArray* _mObjs;
     NSArray* _items;
+    
+    MFeed* _feed;
 }
 
 @property (nonatomic, retain) NSArray* mObjs;
 @property (nonatomic, retain) NSArray* items;
 @property (nonatomic, readonly) BOOL hasMore;
+@property (nonatomic, assign) BOOL isOutdated;
+@property (nonatomic, retain) MFeed* feed;
 
 - (FeedDataModel*) initWithFeed: (MFeed*) feed;
 - (NSArray *)modelItems;

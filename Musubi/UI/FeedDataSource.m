@@ -55,10 +55,12 @@
     return dataModel;
 }
 
+
 - (void)tableViewDidLoadModel:(UITableView *)tableView {
     if (!_backgroundLoadingStarted) {
         _backgroundLoadingStarted = YES;
-        [self performSelectorInBackground:@selector(loadMoreForTableView:) withObject:tableView];
+        [self loadMoreForTableView:tableView];
+//        [self performSelectorInBackground:@selector(loadMoreForTableView:) withObject:tableView];
     }
     
     [self setItems: [NSMutableArray arrayWithArray:[dataModel modelItems]]];
@@ -72,7 +74,8 @@
     [((TTTableViewVarHeightDelegate*)tableView.delegate).controller performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES]; 
     
     if (dataModel.hasMore) {
-        [self loadMoreForTableView:tableView];
+        [self performSelector:@selector(loadMoreForTableView:) withObject:tableView afterDelay:.05];
+//        [self loadMoreForTableView:tableView];
     }
 }
 

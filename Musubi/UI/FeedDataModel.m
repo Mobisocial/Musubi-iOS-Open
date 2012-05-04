@@ -39,16 +39,17 @@
 
 @implementation FeedDataModel
 
+@synthesize feed = _feed;
 @synthesize mObjs = _mObjs, items = _items;
 @synthesize hasMore = _hasMore;
+@synthesize isOutdated = _outdated;
 
 - (FeedDataModel *)initWithFeed:(MFeed *)feed {
     self = [super init];
     
     if (self) {
-        ObjManager* objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        [self setMObjs:[objManager renderableObjsInFeed:feed]];
-        
+                
+        [self setFeed: feed];
         _lastLoaded = 0;
         _hasMore = YES;
     }
@@ -64,6 +65,8 @@
 #pragma mark TTModel methods
 
 - (void)load:(TTURLRequestCachePolicy)cachePolicy more:(BOOL)more {
+
+    assert([[NSThread currentThread] isMainThread]);
     
     if (!more) {
         _done = NO;
@@ -71,15 +74,16 @@
         
         _lastLoaded = 0;
         [self setItems:nil];
+        
+        ObjManager* objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        [self setMObjs:[objManager renderableObjsInFeed:_feed]];
     } else {
         _loadingMore = YES;
     }
     
     NSMutableArray *updatedItems = [NSMutableArray arrayWithArray:_items];
     int target = MIN(_mObjs.count, _lastLoaded + (_lastLoaded ? kFeedDataModelLoadBatchSize : kFeedDataModelLoadInitialBatchSize));
-    
-    NSLog(@"Loading %d - %d", _lastLoaded, target);
-        
+            
     for (int i=_lastLoaded; i < target; i++) {
         MObj* mObj = [_mObjs objectAtIndex:i];
         Obj* obj = [ObjFactory objFromManagedObj:mObj];
@@ -110,6 +114,7 @@
     _done = YES;
     _loading = NO;
     _loadingMore = NO;
+    _outdated = NO;
 }
 
 - (BOOL)isLoaded {

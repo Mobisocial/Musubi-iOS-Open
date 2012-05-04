@@ -63,9 +63,9 @@
         return;
     }
     
-    [_messagesWaitingCondition lock];
+    //[_messagesWaitingCondition lock];
     [_messagesWaitingCondition signal];
-    [_messagesWaitingCondition unlock];
+    //[_messagesWaitingCondition unlock];
 }
 
 - (void)main {
