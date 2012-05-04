@@ -30,7 +30,7 @@
 
 @interface FeedDataSource : TTListDataSource {
     int _lastLoadedRow;
-    BOOL _backgroundLoadingStarted;
+    BOOL _loadingStarted;
 
     FeedDataModel* dataModel;
 }

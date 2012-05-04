@@ -114,9 +114,8 @@
 }
 
 - (void) invalidateFeed {
-    // if we reload right away, the context is not synced up yet or something, because the query results appear out of order. wait a little bit and it'll be ok
-    [self performSelector:@selector(reloadFeed) withObject:nil afterDelay:0.1];
-    //[self reloadFeed];    
+    // if we reload right away, the context is not synced up yet or something, because the query results appear out of order
+    [self performSelector:@selector(reloadFeed) withObject:nil afterDelay:0];
 }
 
 - (void) reloadFeed {

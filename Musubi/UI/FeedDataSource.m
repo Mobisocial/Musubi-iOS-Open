@@ -45,7 +45,7 @@
     
     if (self) {
         dataModel = [[FeedDataModel alloc] initWithFeed:feed];        
-        _backgroundLoadingStarted = NO;
+        _loadingStarted = NO;
     }
     
     return self;
@@ -57,10 +57,9 @@
 
 
 - (void)tableViewDidLoadModel:(UITableView *)tableView {
-    if (!_backgroundLoadingStarted) {
-        _backgroundLoadingStarted = YES;
+    if (!_loadingStarted) {
+        _loadingStarted = YES;
         [self loadMoreForTableView:tableView];
-//        [self performSelectorInBackground:@selector(loadMoreForTableView:) withObject:tableView];
     }
     
     [self setItems: [NSMutableArray arrayWithArray:[dataModel modelItems]]];
@@ -74,8 +73,8 @@
     [((TTTableViewVarHeightDelegate*)tableView.delegate).controller performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES]; 
     
     if (dataModel.hasMore) {
+        // wait a little bit so we don't block the UI
         [self performSelector:@selector(loadMoreForTableView:) withObject:tableView afterDelay:.05];
-//        [self loadMoreForTableView:tableView];
     }
 }
 

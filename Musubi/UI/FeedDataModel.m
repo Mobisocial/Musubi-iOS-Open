@@ -34,7 +34,7 @@
 #import "PictureObj.h"
 #import "PictureObjItem.h"
 
-#define kFeedDataModelLoadInitialBatchSize 30
+#define kFeedDataModelLoadInitialBatchSize 5
 #define kFeedDataModelLoadBatchSize 5
 
 @implementation FeedDataModel
