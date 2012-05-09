@@ -29,14 +29,10 @@
 #import "MFeed.h"
 #import "MIdentity.h"
 #import "FeedViewController.h"
+#import "FeedListDataSource.h"
 
-@interface FeedListViewController ()
-
-@end
 
 @implementation FeedListViewController
-
-@synthesize feedManager, feeds;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -47,9 +43,27 @@
     return self;
 }
 
+- (void)loadView {
+    [super loadView];
+    
+    [self setVariableHeightRows:YES];
+}
+
+
+- (void)createModel {
+    self.dataSource = [[FeedListDataSource alloc] init];
+}
+
+- (id<UITableViewDelegate>)createDelegate {
+    
+    return [[TTTableViewPlainVarHeightDelegate alloc]
+            initWithController:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self refresh];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -57,8 +71,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.feedManager = [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
-    self.feeds = [feedManager displayFeeds];
+//    self.feedManager = [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+//    self.feeds = [feedManager displayFeeds];
 }
 
 - (void)viewDidUnload
@@ -73,6 +87,7 @@
     [super viewWillAppear:animated];
 
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
+//    [self reloadFeeds];
 
     // Cardinal
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
@@ -81,7 +96,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     NSLog(@"Removing feed list view observer");    
-    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
+ //   [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
     
     [super viewWillDisappear:animated];
 }
@@ -91,9 +106,16 @@
         [self performSelectorOnMainThread:@selector(feedUpdated:) withObject:notification waitUntilDone:NO];
         return;
     }
-    
-    [self setFeeds:[feedManager displayFeeds]];
-    [self.tableView reloadData];
+
+    [self performSelector:@selector(reloadFeeds) withObject:nil afterDelay:0];
+//    [self reloadFeeds];
+}
+
+- (void) reloadFeeds{
+//    [self invalidateModel];
+    [self.dataSource load:TTURLRequestCachePolicyDefault more:NO];
+//    [self invalidateView];
+    [self refresh];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -102,18 +124,19 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    if ([[segue identifier] isEqualToString:@"ShowFeed"]) {
-        
+    if ([[segue identifier] isEqualToString:@"ShowFeedCustom"]) {
         FeedViewController *vc = [segue destinationViewController];
-        
-        MFeed* feed = [feeds objectAtIndex: self.tableView.indexPathForSelectedRow.row];
-        [vc setFeed: feed];
+        [vc setFeed: (MFeed*) sender];
     }
 }
 
+- (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
+    MFeed* feed = [((FeedListDataSource*)self.dataSource) feedForIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"ShowFeedCustom" sender:feed];
+}
+ 
 #pragma mark - Table view data source
-
+/*
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -143,58 +166,6 @@
     
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
 */
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
-}
 
 @end

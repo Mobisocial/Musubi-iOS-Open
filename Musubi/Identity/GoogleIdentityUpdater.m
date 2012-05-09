@@ -74,7 +74,7 @@
     [queue addOperation: op];
 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    //[defaults setObject:[NSDate date] forKey:kMusubiSettingsGoogleLastIdentityFetch];
+    [defaults setObject:[NSDate date] forKey:kMusubiSettingsGoogleLastIdentityFetch];
     [defaults synchronize];
 
 }
@@ -84,7 +84,6 @@
 @implementation GoogleIdentityFetchOperation
 
 @synthesize authManager = _authManager, storeFactory = _storeFactory, store = _store;
-@synthesize isFinished = _isFinished, isExecuting = _isExecuting;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)storeFactory {
     self = [super init];
@@ -100,7 +99,7 @@
 }
 
 - (void)start {
-    [self setIsExecuting: YES];
+    [super start];
     [self setStore: [_storeFactory newStore]];
     
     if ([_authManager activeAccessToken]) {

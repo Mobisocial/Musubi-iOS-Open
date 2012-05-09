@@ -24,12 +24,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Three20/Three20.h"
 
 @class FeedManager;
 
-@interface FeedListViewController : UITableViewController
+@interface FeedListViewController : TTTableViewController
 
-@property (nonatomic, strong) NSArray* feeds;
-@property (nonatomic, strong) FeedManager* feedManager;
+//@property (nonatomic, strong) NSArray* feeds;
+//@property (nonatomic, strong) FeedManager* feedManager;
+
+- (void) reloadFeeds;
 
 @end

@@ -44,6 +44,8 @@
 #import "MFeed.h"
 #import "Authorities.h"
 
+#import "GTMOAuth2ViewControllerTouch.h"
+
 @implementation AccountAuthManager
 
 @synthesize delegate, queue;
@@ -114,6 +116,8 @@
         for (MAccount* acc in [accMgr accountsWithType:kAccountTypeGoogle]) {
             [accMgr deleteAccount:acc];
         }
+        
+        [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kGoogleKeyChainItemName];
     } else {
         @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat:@"Account type %@ unknown", type] userInfo:nil];
     }

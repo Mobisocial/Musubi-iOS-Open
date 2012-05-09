@@ -35,7 +35,6 @@
 #import "FeedManager.h"
 #import "Musubi.h"
 #import "Obj.h"
-#import "ObjRenderer.h"
 #import "ObjFactory.h"
 #import "ObjHelper.h"
 #import "StatusObj.h"
@@ -48,7 +47,7 @@
 
 @implementation FeedViewController
 
-@synthesize feed, feedManager, objManager, objViews, cellHeights, objRenderer, objs;
+@synthesize feed, feedManager, objManager, objViews, cellHeights, objs;
 
 - (void)didReceiveMemoryWarning
 {
@@ -76,7 +75,6 @@
     
     [self setFeedManager: [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
     [self setObjManager: [[ObjManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
-    [self setObjRenderer: [[ObjRenderer alloc] init]];
     
     [self setTitle: [feedManager identityStringForFeed: feed]];
     [self refresh];
@@ -114,16 +112,8 @@
 }
 
 - (void) invalidateFeed {
-    // if we reload right away, the context is not synced up yet or something, because the query results appear out of order
-    [self performSelector:@selector(reloadFeed) withObject:nil afterDelay:0];
-}
-
-- (void) reloadFeed {
-    // This is likely not the way to do it, but it works and can't figure out the correct flow
-    [self reload];
+    [self invalidateModel];
     [self refresh];
-    
-    [self resetUnreadCount];
 }
 
 - (void)viewDidUnload

@@ -28,10 +28,12 @@
 #import "MIdentity.h"
 #import "MApp.h"
 #import "Musubi.h"
+#import "MFeed.h"
 #import "FeedManager.h"
 #import "AppManager.h"
 #import "IntroductionObj.h"
 #import "ObjHelper.h"
+#import "FeedListViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface FriendPickerTableViewController ()
@@ -110,7 +112,7 @@
     
     [self setIdentityManager:[[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore]];
     [self updateIdentityListWithFilter:nil];
-        
+    
     [tableView setDelegate: self];
     [tableView setDataSource: self];
     
@@ -141,6 +143,18 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ([self.identityManager ownedIdentities].count <= 0) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"No known identity" message:@"Please connect to an account from the settings screen first" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+        
+        [self.navigationController popViewControllerAnimated:TRUE];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -292,11 +306,8 @@
 }
 
 - (IBAction)createFeed:(id)sender {
-    NSLog(@"Creating feed");
     
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
-    
-//    [[Musubi sharedInstance].storeFactory newStore];
     
     AppManager* am = [[AppManager alloc] initWithStore:store];
     MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
@@ -306,9 +317,14 @@
     
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:_selection];
     MObj* obj = [ObjHelper sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
-    NSLog(@"Feed: %@", f);
     
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//    NSLog(@"Accepted? %d. Last renderable? %lld", f.accepted, f.latestRenderableObjTime);
+    
+    FeedListViewController* listView = [[self.navigationController viewControllers] objectAtIndex:[self.navigationController viewControllers].count - 2];
+//    [listView reloadFeeds];
+    
+    [self.navigationController popViewControllerAnimated:NO];
+    [listView performSegueWithIdentifier:@"ShowFeedCustom" sender:f];
 }
 
 @end

@@ -37,7 +37,6 @@
     NSArray* objs;
     NSMutableDictionary* objViews;
     NSMutableDictionary* cellHeights;
-    ObjRenderer* objRenderer;
     
     IBOutlet UITextField* updateField;
     IBOutlet UIView* postView;
@@ -47,7 +46,6 @@
 @property (nonatomic) MFeed* feed;
 @property (nonatomic) FeedManager* feedManager;
 @property (nonatomic) ObjManager* objManager;
-@property (nonatomic) ObjRenderer* objRenderer;
 @property (nonatomic) NSArray* objs;
 @property (nonatomic) NSMutableDictionary* objViews;
 @property (nonatomic) NSMutableDictionary* cellHeights;

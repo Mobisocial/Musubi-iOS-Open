@@ -37,6 +37,7 @@
 - (MFeed*) createExpandingFeedWithParticipants: (NSArray*) participants;
 
 - (void) deleteFeedAndMembers: (MFeed*) feed;
+- (void) deleteFeedAndMembersAndObjs:(MFeed *)feed;
 
 - (MFeed*) global;
 

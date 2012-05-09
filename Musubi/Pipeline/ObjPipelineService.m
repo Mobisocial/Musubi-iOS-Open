@@ -140,6 +140,7 @@
     [_store save];
     
     NSLog(@"Processed: %@", obj);
+    NSLog(@"Feed last obj: %@", feed.latestRenderableObj.json);
     
     [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:feed.objectID];
 }

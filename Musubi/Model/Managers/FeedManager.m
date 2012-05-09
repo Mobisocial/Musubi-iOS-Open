@@ -93,12 +93,26 @@ static int kGlobalBroadcastFeedId = 10;
 }
 
 - (void)deleteFeedAndMembers:(MFeed *)feed {
-    for (MFeedMember* member in [store query: [NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedManager"]) {
+    for (MFeedMember* member in [store query: [NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
         [store.context deleteObject:member];
     }
     
     [store.context deleteObject:feed];    
 }
+
+- (void)deleteFeedAndMembersAndObjs:(MFeed *)feed {
+    for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"feed == %@", feed] onEntity:@"Obj"]) {
+        [store.context deleteObject:obj];
+    }
+    
+    for (MFeedMember* member in [store query: [NSPredicate predicateWithFormat:@"feed == %@", feed] onEntity:@"FeedMember"]) {
+        [store.context deleteObject:member];
+    }
+    
+    [store.context deleteObject:feed];    
+    [store.context save:nil];
+}
+
 
 - (void) attachMember: (MIdentity*) mId toFeed: (MFeed*) feed {
     if ([store queryFirst:[NSPredicate predicateWithFormat:@"feed = %@ AND identity = %@", feed, mId] onEntity:@"FeedMember"] == nil) {
