@@ -10,14 +10,34 @@
 #import "FacebookAuth.h"
 #import "Musubi.h"
 
+NSString* NSDataToHex(NSData* data)
+{
+    const unsigned char *dbytes = [data bytes];
+    NSMutableString *hexStr =
+    [NSMutableString stringWithCapacity:[data length]*2];
+    int i;
+    for (i = 0; i < [data length]; i++) {
+        [hexStr appendFormat:@"%02x", dbytes[i]];
+    }
+    return [NSString stringWithString: hexStr];
+}
+
+
 @implementation AppDelegate
 
-@synthesize window = _window, facebookLoginOperation;
+@synthesize window = _window, facebookLoginOperation, navController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
     [TestFlight takeOff:@"xxx"];
     [Musubi sharedInstance];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert];     
+}
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {     
+    NSLog(@"Error in registration. Error: %@", err);
+}    
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {          
+    [Musubi sharedInstance].apnDeviceToken = NSDataToHex(deviceToken);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
