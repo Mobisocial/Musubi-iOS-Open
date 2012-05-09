@@ -123,7 +123,7 @@
                     NSLog(@"Failed to serialize json for registration %@", error);
                 } else {
                     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-                    [request setURL:[NSURL URLWithString:@"http://wrldsuksgo2mars.doesntexist.org:6253/api/0/register"]];
+                    [request setURL:[NSURL URLWithString:@"http://bumblebee.musubi.us:6253/api/0/register"]];
                     [request setHTTPMethod:@"POST"];
                     [request setValue:[NSString stringWithFormat:@"%u", body.length] forHTTPHeaderField:@"Content-Length"];
                     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
