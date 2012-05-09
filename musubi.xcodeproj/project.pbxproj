@@ -72,7 +72,6 @@
 		D26D3724147B3ED400C4FE93 /* XQueryComponents.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */; };
 		D26D3726147B3ED400C4FE93 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36E3147B3ED400C4FE93 /* AppDelegate.m */; };
 		D26D3731147B3ED400C4FE93 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D26D36FC147B3ED400C4FE93 /* InfoPlist.strings */; };
-		D26D3732147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */; };
 		D26D3733147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */; };
 		D26D3734147B3ED400C4FE93 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D3702147B3ED400C4FE93 /* main.m */; };
 		D26D3736147B41B700C4FE93 /* apps in Resources */ = {isa = PBXBuildFile; fileRef = D298FA40143D0E84000831DD /* apps */; };
@@ -405,7 +404,6 @@
 		D26D36E2147B3ED400C4FE93 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../UI/AppDelegate.h; sourceTree = "<group>"; };
 		D26D36E3147B3ED400C4FE93 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../UI/AppDelegate.m; sourceTree = "<group>"; };
 		D26D36FD147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D26D36FF147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		D26D3701147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		D26D3702147B3ED400C4FE93 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D272FB3B1519B05500D2521A /* MAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAccount.h; sourceTree = "<group>"; };
@@ -981,7 +979,6 @@
 			children = (
 				D26D36E2147B3ED400C4FE93 /* AppDelegate.h */,
 				D26D36E3147B3ED400C4FE93 /* AppDelegate.m */,
-				D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */,
 				D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */,
 				D2A1FC141521A6C500C10BE2 /* Feed */,
 				D211D969151979D200E38051 /* Settings */,
@@ -1153,14 +1150,14 @@
 			children = (
 				D2081554151171D800F12039 /* AMQPConnectionManager.h */,
 				D2081555151171D800F12039 /* AMQPConnectionManager.m */,
-				D2081557151273C400F12039 /* AMQPTransport.h */,
-				D2081558151273C400F12039 /* AMQPTransport.m */,
-				D2313BDC1519319000BB0526 /* AMQPSender.h */,
-				D2313BDD1519319000BB0526 /* AMQPSender.m */,
 				D211D8AF151944E100E38051 /* AMQPListener.h */,
 				D211D8B0151944E100E38051 /* AMQPListener.m */,
+				D2313BDC1519319000BB0526 /* AMQPSender.h */,
+				D2313BDD1519319000BB0526 /* AMQPSender.m */,
 				D211D8B2151945D400E38051 /* AMQPThread.h */,
 				D211D8B3151945D400E38051 /* AMQPThread.m */,
+				D2081557151273C400F12039 /* AMQPTransport.h */,
+				D2081558151273C400F12039 /* AMQPTransport.m */,
 			);
 			path = Transport;
 			sourceTree = "<group>";
@@ -2689,7 +2686,6 @@
 			files = (
 				D26D3731147B3ED400C4FE93 /* InfoPlist.strings in Resources */,
 				D26D3733147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard in Resources */,
-				D26D3732147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard in Resources */,
 				D26D3736147B41B700C4FE93 /* apps in Resources */,
 				D2B939C414BD04C700C5F777 /* missing.png in Resources */,
 				D2D930B515225E99006E4F58 /* Three20.bundle in Resources */,
@@ -2896,15 +2892,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D26D36FF147B3ED400C4FE93 /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
-			path = ../../UI;
-			sourceTree = "<group>";
-		};
 		D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3032,7 +3019,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Willem Bult (XHQXS5966U)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3062,10 +3049,10 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 					"\"$(SRCROOT)\"",
 				);
-				PROVISIONING_PROFILE = "5E05E33A-02BD-4747-9601-29E6F82BB45C";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -3076,7 +3063,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Willem Bult (XHQXS5966U)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -3099,10 +3086,10 @@
 					"\"$(SRCROOT)\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "5E05E33A-02BD-4747-9601-29E6F82BB45C";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
