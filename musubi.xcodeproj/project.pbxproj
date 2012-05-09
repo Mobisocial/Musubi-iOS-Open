@@ -3065,7 +3065,7 @@
 					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
 					"$(SRCROOT)/Libraries/GMP/build/include",
 					"$(SRCROOT)/Libraries/GMP/build/include32",
-					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator",
+					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
 					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
