@@ -19,7 +19,7 @@
                BlueprintIdentifier = "D216DE5814F48951001A4166"
                BuildableName = "MusubiAppTest.octest"
                BlueprintName = "MusubiAppTest"
-               ReferencedContainer = "container:Musubi.xcodeproj">
+               ReferencedContainer = "container:musubi.xcodeproj">
             </BuildableReference>
             <SkippedTests>
                <Test

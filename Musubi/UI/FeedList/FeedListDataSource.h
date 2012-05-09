@@ -16,19 +16,24 @@
 
 
 //
-//  ObjRenderer.h
+//  FeedListDataSource.h
 //  musubi
 //
-//  Created by Willem Bult on 11/10/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 5/4/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "Obj.h"
+#import "Three20/Three20.h"
 
-@interface ObjRenderer : NSObject<UIWebViewDelegate>
+@class FeedManager;
+@class MFeed;
 
-- (UIView *)renderObj:(Obj*)obj;
-- (int) renderHeightForObj: (Obj*) obj;
+@interface FeedListDataSource : TTListDataSource {
+    FeedManager* feedManager;
+}
+
+@property (nonatomic, retain) FeedManager* feedManager;
+
+- (MFeed*) feedForIndex: (int) i;
 
 @end

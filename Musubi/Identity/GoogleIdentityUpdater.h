@@ -47,9 +47,6 @@
     PersistentModelStore* _store;
     GoogleAuthManager* _authManager;
     
-    BOOL _isFinished;
-    BOOL _isExecuting;
-    
     BOOL _identityAdded;
     BOOL _profileDataChanged;
 }
@@ -57,8 +54,6 @@
 @property (nonatomic) PersistentModelStoreFactory* storeFactory;
 @property (nonatomic) PersistentModelStore* store;
 @property (nonatomic) GoogleAuthManager* authManager;
-@property (atomic, assign) BOOL isFinished;
-@property (atomic, assign) BOOL isExecuting;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory;
 - (MIdentity*) ensureIdentity: (long) fbId name: (NSString*) name andIdentity: (IBEncryptionIdentity*) ibeId;

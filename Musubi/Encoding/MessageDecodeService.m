@@ -216,6 +216,7 @@
                 return true;
             }
         } else if ([exception.name isEqualToString:kMusubiExceptionDuplicateMessage]){
+            
             MDevice* from = [[exception userInfo] objectForKey:@"from"];
             
             // RabbitMQ does not support the "no deliver to self" routing policy.

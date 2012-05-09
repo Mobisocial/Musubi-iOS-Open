@@ -26,12 +26,9 @@
 #import "PersistentModelStore.h"
 #import "Musubi.h"
 
-@implementation PersistentModelStoreFactory {
-    PersistentModelStore* rootStore;
-}
+@implementation PersistentModelStoreFactory
 
-@synthesize coordinator;
-
+@synthesize coordinator, rootStore;
 
 static PersistentModelStoreFactory *sharedInstance = nil;
 
@@ -123,6 +120,7 @@ static NSManagedObjectContext* root = nil;
 
 - (void) otherContextSaved: (NSNotification*) notification {
     if (notification.object != context) {
+
         // call the result handler block on the main queue (i.e. main thread)
         dispatch_async( dispatch_get_main_queue(), ^{
             [context mergeChangesFromContextDidSaveNotification:notification];

@@ -79,7 +79,6 @@
 @implementation FacebookIdentityFetchOperation
 
 @synthesize authManager = _authManager, storeFactory = _storeFactory, store = _store;
-@synthesize isFinished = _isFinished, isExecuting = _isExecuting;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)storeFactory {
     self = [super init];
@@ -95,7 +94,7 @@
 }
 
 - (void)start {
-    [self setIsExecuting: YES];
+    [super start];
     [self setStore: [_storeFactory newStore]];
     
     if ([_authManager.facebook isSessionValid]) {

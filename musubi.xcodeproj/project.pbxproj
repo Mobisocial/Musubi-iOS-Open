@@ -47,6 +47,8 @@
 		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
 		D234DC661550D94900A80E72 /* PictureObjItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D234DC651550D94900A80E72 /* PictureObjItem.m */; };
 		D234DC691550D9A000A80E72 /* PictureObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D234DC681550D9A000A80E72 /* PictureObjItemCell.m */; };
+		D23EED041554858A00B18153 /* FeedListDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D23EED031554858A00B18153 /* FeedListDataSource.m */; };
+		D23EED071554A30E00B18153 /* FeedListItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D23EED061554A30E00B18153 /* FeedListItemCell.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
 		D25BA6381522A5A200B87687 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930511522417E006E4F58 /* libThree20.a */; };
 		D25BA6BC1522B19A00B87687 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6551522AB5C00B87687 /* libThree20Core.a */; };
@@ -147,7 +149,6 @@
 		D2F8C66C1524B4D1005AD880 /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C66B1524B4D1005AD880 /* FeedListViewController.m */; };
 		D2F8C6731524D356005AD880 /* FeedItemTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C66E1524D355005AD880 /* FeedItemTableCell.m */; };
 		D2F8C6741524D356005AD880 /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C6701524D355005AD880 /* FeedViewController.m */; };
-		D2F8C6751524D356005AD880 /* ObjRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C6721524D356005AD880 /* ObjRenderer.m */; };
 		D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67C1524FB0C005AD880 /* ObjFactory.m */; };
 		D2F8C6801524FB29005AD880 /* ObjPipelineService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67F1524FB29005AD880 /* ObjPipelineService.m */; };
 		D2F8C68315250713005AD880 /* ObjHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C68215250713005AD880 /* ObjHelper.m */; };
@@ -363,6 +364,10 @@
 		D234DC651550D94900A80E72 /* PictureObjItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureObjItem.m; sourceTree = "<group>"; };
 		D234DC671550D9A000A80E72 /* PictureObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureObjItemCell.h; sourceTree = "<group>"; };
 		D234DC681550D9A000A80E72 /* PictureObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureObjItemCell.m; sourceTree = "<group>"; };
+		D23EED021554858A00B18153 /* FeedListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListDataSource.h; path = FeedList/FeedListDataSource.h; sourceTree = "<group>"; };
+		D23EED031554858A00B18153 /* FeedListDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListDataSource.m; path = FeedList/FeedListDataSource.m; sourceTree = "<group>"; };
+		D23EED051554A30E00B18153 /* FeedListItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListItemCell.h; path = FeedList/FeedListItemCell.h; sourceTree = "<group>"; };
+		D23EED061554A30E00B18153 /* FeedListItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListItemCell.m; path = FeedList/FeedListItemCell.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D25BA6551522AB5C00B87687 /* libThree20Core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Core.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Core.a"; sourceTree = "<group>"; };
 		D25BA6561522AB5C00B87687 /* libThree20Network.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Network.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Network.a"; sourceTree = "<group>"; };
@@ -863,8 +868,6 @@
 		D2F8C66E1524D355005AD880 /* FeedItemTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedItemTableCell.m; path = Feed/FeedItemTableCell.m; sourceTree = "<group>"; };
 		D2F8C66F1524D355005AD880 /* FeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedViewController.h; path = Feed/FeedViewController.h; sourceTree = "<group>"; };
 		D2F8C6701524D355005AD880 /* FeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedViewController.m; path = Feed/FeedViewController.m; sourceTree = "<group>"; };
-		D2F8C6711524D355005AD880 /* ObjRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjRenderer.h; path = Feed/ObjRenderer.h; sourceTree = "<group>"; };
-		D2F8C6721524D356005AD880 /* ObjRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjRenderer.m; path = Feed/ObjRenderer.m; sourceTree = "<group>"; };
 		D2F8C67B1524FB0C005AD880 /* ObjFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFactory.h; sourceTree = "<group>"; };
 		D2F8C67C1524FB0C005AD880 /* ObjFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjFactory.m; sourceTree = "<group>"; };
 		D2F8C67E1524FB29005AD880 /* ObjPipelineService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjPipelineService.h; sourceTree = "<group>"; };
@@ -979,6 +982,7 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D23EED011554854200B18153 /* FeedList */,
 				D26D36E2147B3ED400C4FE93 /* AppDelegate.h */,
 				D26D36E3147B3ED400C4FE93 /* AppDelegate.m */,
 				D26D36FE147B3ED400C4FE93 /* MainStoryboard_iPad.storyboard */,
@@ -1047,6 +1051,21 @@
 				D210C17A1526D70B00280605 /* GoogleIdentityUpdater.m */,
 			);
 			name = Identity;
+			sourceTree = "<group>";
+		};
+		D23EED011554854200B18153 /* FeedList */ = {
+			isa = PBXGroup;
+			children = (
+				D2A1FC191521A99700C10BE2 /* FriendPickerTableViewController.h */,
+				D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */,
+				D2F8C66A1524B4D1005AD880 /* FeedListViewController.h */,
+				D2F8C66B1524B4D1005AD880 /* FeedListViewController.m */,
+				D23EED021554858A00B18153 /* FeedListDataSource.h */,
+				D23EED031554858A00B18153 /* FeedListDataSource.m */,
+				D23EED051554A30E00B18153 /* FeedListItemCell.h */,
+				D23EED061554A30E00B18153 /* FeedListItemCell.m */,
+			);
+			name = FeedList;
 			sourceTree = "<group>";
 		};
 		D248D2EE14F84ABC00DF96DB /* Model */ = {
@@ -2360,16 +2379,10 @@
 			isa = PBXGroup;
 			children = (
 				D2956FA11544AE0000E01183 /* Objs */,
-				D2F8C66A1524B4D1005AD880 /* FeedListViewController.h */,
-				D2F8C66B1524B4D1005AD880 /* FeedListViewController.m */,
 				D2F8C66F1524D355005AD880 /* FeedViewController.h */,
 				D2F8C6701524D355005AD880 /* FeedViewController.m */,
 				D2F8C66D1524D355005AD880 /* FeedItemTableCell.h */,
 				D2F8C66E1524D355005AD880 /* FeedItemTableCell.m */,
-				D2F8C6711524D355005AD880 /* ObjRenderer.h */,
-				D2F8C6721524D356005AD880 /* ObjRenderer.m */,
-				D2A1FC191521A99700C10BE2 /* FriendPickerTableViewController.h */,
-				D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */,
 				D2957007154B444500E01183 /* FeedDataSource.h */,
 				D2957008154B444500E01183 /* FeedDataSource.m */,
 				D2A2678C154F4C0C00E3AD2B /* FeedDataModel.h */,
@@ -2501,6 +2514,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D298FA26143CE6DF000831DD /* Build configuration list for PBXNativeTarget "Musubi" */;
 			buildPhases = (
+				D29537B81558A2D10016ED04 /* ShellScript */,
 				D298F9EE143CE6DF000831DD /* Sources */,
 				D298F9EF143CE6DF000831DD /* Frameworks */,
 				D298F9F0143CE6DF000831DD /* Resources */,
@@ -2717,6 +2731,19 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		D29537B81558A2D10016ED04 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo $BUILT_PRODUCTS_DIR";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -2824,7 +2851,6 @@
 				D2F8C66C1524B4D1005AD880 /* FeedListViewController.m in Sources */,
 				D2F8C6731524D356005AD880 /* FeedItemTableCell.m in Sources */,
 				D2F8C6741524D356005AD880 /* FeedViewController.m in Sources */,
-				D2F8C6751524D356005AD880 /* ObjRenderer.m in Sources */,
 				D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */,
 				D2F8C6801524FB29005AD880 /* ObjPipelineService.m in Sources */,
 				D2F8C68315250713005AD880 /* ObjHelper.m in Sources */,
@@ -2841,6 +2867,8 @@
 				D234DC691550D9A000A80E72 /* PictureObjItemCell.m in Sources */,
 				D29CA1DF155103B700257B35 /* FeedItemCell.m in Sources */,
 				D29CA1E2155105C200257B35 /* FeedItem.m in Sources */,
+				D23EED041554858A00B18153 /* FeedListDataSource.m in Sources */,
+				D23EED071554A30E00B18153 /* FeedListItemCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3033,7 +3061,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Willem Bult (XHQXS5966U)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Willem Bult (XHQXS5966U)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3054,6 +3082,7 @@
 					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
+					"$(SRCROOT)/Libraries/OAuth2/**",
 					"$(BUILT_PRODUCTS_DIR)/../three20",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -3062,10 +3091,12 @@
 					"\"$(SDKROOT)/usr/lib/system\"",
 					"\"$(SRCROOT)\"",
 				);
-				PROVISIONING_PROFILE = "5E05E33A-02BD-4747-9601-29E6F82BB45C";
+				PROVISIONING_PROFILE = "77D5706F-8BCD-490F-A967-FECB2EE0CE0A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "77D5706F-8BCD-490F-A967-FECB2EE0CE0A";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Libraries/IBE/IBE $(SRCROOT)/Libraries/PBC/pbc-0.5.12/include $(SRCROOT)/Libraries/GMP/build/include $(SRCROOT)/Libraries/GMP/build/include32 $(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator $(SRCROOT)/Libraries/OpenSSL/openssl/include $(SRCROOT)/Libraries/Facebook/src $(SRCROOT)/Libraries/RabbitMQ $(SRCROOT)/Libraries/OAuth2/** $(BUILT_PRODUCTS_DIR)/../three20";
 			};
 			name = Debug;
 		};
@@ -3076,8 +3107,8 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Willem Bult (XHQXS5966U)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Solvix IT Solutions";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Solvix IT Solutions";
 				COPY_PHASE_STRIP = NO;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -3087,10 +3118,12 @@
 					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
 					"$(SRCROOT)/Libraries/GMP/build/include",
 					"$(SRCROOT)/Libraries/GMP/build/include32",
+					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
 					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
-					"$(BUILT_PRODUCTS_DIR)/../three20",
+					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
+					"$(SRCROOT)/Libraries/OAuth2/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -3099,10 +3132,12 @@
 					"\"$(SRCROOT)\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "5E05E33A-02BD-4747-9601-29E6F82BB45C";
+				PROVISIONING_PROFILE = "9EBB338D-7714-419E-BAC0-701E6CB62E2A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9EBB338D-7714-419E-BAC0-701E6CB62E2A";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Libraries/IBE/IBE $(SRCROOT)/Libraries/PBC/pbc-0.5.12/include $(SRCROOT)/Libraries/GMP/build/include $(SRCROOT)/Libraries/GMP/build/include32 $(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator $(SRCROOT)/Libraries/OpenSSL/openssl/include $(SRCROOT)/Libraries/Facebook/src $(SRCROOT)/Libraries/RabbitMQ $(SRCROOT)/Libraries/OAuth2/** $(BUILT_PRODUCTS_DIR)/../three20";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -3118,18 +3153,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Libraries/IBE/IBE",
-					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
-					"$(SRCROOT)/Libraries/GMP/build/include",
-					"$(SRCROOT)/Libraries/GMP/build/include32",
-					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator",
-					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
-					"$(SRCROOT)/Libraries/Facebook/src",
-					"$(SRCROOT)/Libraries/RabbitMQ",
-					"$(BUILT_PRODUCTS_DIR)/../three20",
-					"$(SRCROOT)/Libraries/OAuth2/**",
-				);
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

@@ -47,9 +47,12 @@
 
 @interface PersistentModelStoreFactory : NSObject {
     NSPersistentStoreCoordinator* coordinator;
+    PersistentModelStore* rootStore;
 }
 
 @property (nonatomic, strong) NSPersistentStoreCoordinator* coordinator;
+@property (nonatomic, strong, readonly) PersistentModelStore* rootStore;
+
 + (PersistentModelStoreFactory *)sharedInstance;
 + (NSURL*) pathForStoreWithName: (NSString*) name;
 + (void) deleteStoreWithName: (NSString*) name;
