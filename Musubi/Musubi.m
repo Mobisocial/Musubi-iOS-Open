@@ -58,7 +58,7 @@
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken;
 
 +(Musubi*)sharedInstance
 {

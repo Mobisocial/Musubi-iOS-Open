@@ -73,7 +73,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 @property (nonatomic, strong) MessageEncodeService* encodeService;
 @property (nonatomic, strong) MessageDecodeService* decodeService;
 @property (nonatomic, strong) ObjPipelineService* objPipelineService;
-
+@property (nonatomic, strong) NSString* apnDeviceToken;
 
 + (Musubi*) sharedInstance;
 

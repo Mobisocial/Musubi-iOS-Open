@@ -101,6 +101,44 @@
             }
             // Consume from the device queue
             [connMngr consumeFromQueue:deviceQueueName onChannel:kAMQPChannelIncoming nolocal:YES exclusive:YES];
+            
+            //now that we are all set up, go ahead and update the push server... ideally we would do this less often, but for now, we'll do it here.
+            
+            NSMutableArray* idents = [[NSMutableArray alloc] init];
+            for (MIdentity* me in [identityManager ownedIdentities]) {
+                IBEncryptionIdentity* ident = [identityManager ibEncryptionIdentityForIdentity:me forTemporalFrame:0];
+                NSString* identityExchangeName = [self queueNameForKey:ident.key withPrefix:@"ibeidentity-"];
+                [idents addObject:identityExchangeName];
+            }
+            //TODO: this is racy with the remote registration request in app on init
+            NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
+            
+            if(deviceToken) {
+                NSMutableDictionary* registrationRequest = [[NSMutableDictionary alloc] init];
+                [registrationRequest setValue:idents forKey:@"identityExchanges"];
+                [registrationRequest setValue:deviceToken forKey:@"deviceToken"];
+                NSError* error = nil;
+                NSData* body = [NSJSONSerialization dataWithJSONObject:registrationRequest options:0 error:&error];
+                if(!body) {
+                    NSLog(@"Failed to serialize json for registration %@", error);
+                } else {
+                    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+                    [request setURL:[NSURL URLWithString:@"http://wrldsuksgo2mars.doesntexist.org:6253/api/0/register"]];
+                    [request setHTTPMethod:@"POST"];
+                    [request setValue:[NSString stringWithFormat:@"%u", body.length] forHTTPHeaderField:@"Content-Length"];
+                    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+                    [request setHTTPBody:body];
+                    NSURLResponse* response;
+                    NSError* error = nil;
+                    
+                    //Capturing server response
+                    NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
+                    
+                    if(result) {
+                        NSLog(@"Registration returned %@", result);
+                    }
+                }
+            }
             [self consumeMessages];
         }
         @catch (NSException *exception) {
