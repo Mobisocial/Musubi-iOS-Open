@@ -53,7 +53,7 @@
         
         [self setStoreFactory: storeFactory];
         
-        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(refreshFriends) name:kMusubiSettingsGoogleLastIdentityFetch object:nil];
+        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(refreshFriends) name:kMusubiNotificationGoogleFriendRefresh object:nil];
         [self refreshFriendsIfNeeded];
     }
     return self;
@@ -76,7 +76,6 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSDate date] forKey:kMusubiSettingsGoogleLastIdentityFetch];
     [defaults synchronize];
-
 }
 
 @end
