@@ -32,7 +32,7 @@ NSString* NSDataToHex(NSData* data)
     [TestFlight takeOff:@"xxx"];
     [Musubi sharedInstance];
     
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
 }
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {     
     NSLog(@"Error in registration. Error: %@", err);
