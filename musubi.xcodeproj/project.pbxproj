@@ -3107,7 +3107,7 @@
 					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
-					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
+					"$(BUILT_PRODUCTS_DIR)/../three20",
 					"$(SRCROOT)/Libraries/OAuth2/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
