@@ -3048,7 +3048,6 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3070,7 +3069,6 @@
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
 					"$(SRCROOT)/Libraries/OAuth2/**",
-					"$(BUILT_PRODUCTS_DIR)/../three20",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -3082,7 +3080,7 @@
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Libraries/IBE/IBE $(SRCROOT)/Libraries/PBC/pbc-0.5.12/include $(SRCROOT)/Libraries/GMP/build/include $(SRCROOT)/Libraries/GMP/build/include32 $(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator $(SRCROOT)/Libraries/OpenSSL/openssl/include $(SRCROOT)/Libraries/Facebook/src $(SRCROOT)/Libraries/RabbitMQ $(SRCROOT)/Libraries/OAuth2/** $(BUILT_PRODUCTS_DIR)/../three20";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Libraries/IBE/IBE $(SRCROOT)/Libraries/PBC/pbc-0.5.12/include $(SRCROOT)/Libraries/GMP/build/include $(SRCROOT)/Libraries/GMP/build/include32 $(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator $(SRCROOT)/Libraries/OpenSSL/openssl/include $(SRCROOT)/Libraries/Facebook/src $(SRCROOT)/Libraries/RabbitMQ $(SRCROOT)/Libraries/OAuth2/** $(SRCROOT)/Libraries/Three20/src/Three20/Headers";
 			};
 			name = Debug;
 		};
@@ -3107,7 +3105,6 @@
 					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
-					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
 					"$(SRCROOT)/Libraries/OAuth2/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -3121,7 +3118,7 @@
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Libraries/IBE/IBE $(SRCROOT)/Libraries/PBC/pbc-0.5.12/include $(SRCROOT)/Libraries/GMP/build/include $(SRCROOT)/Libraries/GMP/build/include32 $(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator $(SRCROOT)/Libraries/OpenSSL/openssl/include $(SRCROOT)/Libraries/Facebook/src $(SRCROOT)/Libraries/RabbitMQ $(SRCROOT)/Libraries/OAuth2/** $(BUILT_PRODUCTS_DIR)/../three20";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Libraries/IBE/IBE $(SRCROOT)/Libraries/PBC/pbc-0.5.12/include $(SRCROOT)/Libraries/GMP/build/include $(SRCROOT)/Libraries/GMP/build/include32 $(SRCROOT)/Libraries/GMP/build/src-iPhoneSimulator $(SRCROOT)/Libraries/OpenSSL/openssl/include $(SRCROOT)/Libraries/Facebook/src $(SRCROOT)/Libraries/RabbitMQ $(SRCROOT)/Libraries/OAuth2/** $(SRCROOT)/Libraries/Three20/src/Three20/Headers";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
