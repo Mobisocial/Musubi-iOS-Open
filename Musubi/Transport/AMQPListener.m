@@ -46,12 +46,16 @@
         restartRequested = NO;
         
         @try {
+            [TestFlight passCheckpoint:@"[AMQPListener] start"];
+            
             // This opens connection and channel
             if (![connMngr connectionIsAlive]) {
                 [connMngr initializeConnection];
                 // wait until the connection has revived
                 continue;
             }
+
+            [TestFlight passCheckpoint:@"[AMQPListener] connected"];
             
             // Declare the device queue
             uint64_t deviceName = [deviceManager localDeviceName];
@@ -60,6 +64,8 @@
             
             [connMngr declareQueue:deviceQueueName onChannel:kAMQPChannelIncoming passive:NO durable:YES exclusive:NO];
             //TODO: device_queue_name needs to involve the identities some how? or be a larger byte array
+            [TestFlight passCheckpoint:@"[AMQPListener] device queue declared"];
+
             
             // Declare queues for each identity
             for (MIdentity* me in [identityManager ownedIdentities]) {
@@ -70,6 +76,7 @@
                 //[self log:@"Declaring exchange %@ => %@", identityExchangeName, deviceQueueName];
                 [connMngr declareExchange:identityExchangeName onChannel:kAMQPChannelIncoming passive:NO durable:YES];                
                 [connMngr bindQueue:deviceQueueName toExchange:identityExchangeName onChannel:kAMQPChannelIncoming];
+                [TestFlight passCheckpoint:@"[AMQPListener] identity exchange declared"];
                 
                 // If the initial queue exists, get its messages and remove it
                 NSString* initialQueueName = [NSString stringWithFormat:@"initial-%@", identityExchangeName];
@@ -101,7 +108,8 @@
             }
             // Consume from the device queue
             [connMngr consumeFromQueue:deviceQueueName onChannel:kAMQPChannelIncoming nolocal:YES exclusive:YES];
-            
+            [TestFlight passCheckpoint:@"[AMQPListener] consuming from queue"];
+
             //now that we are all set up, go ahead and update the push server... ideally we would do this less often, but for now, we'll do it here.
             
             NSMutableArray* idents = [[NSMutableArray alloc] init];
@@ -137,8 +145,11 @@
                     if(result) {
                         NSLog(@"Registration returned %@", result);
                     }
+                    
+                   [TestFlight passCheckpoint:@"[AMQPListener] registered at push server"];
                 }
             }
+            
             [self consumeMessages];
         }
         @catch (NSException *exception) {
@@ -165,6 +176,7 @@
             
             [self log:@"Incoming: %@", body.sha256Digest];
             [self log:@"Incoming: %@", encoded.objectID];
+            [TestFlight passCheckpoint:@"[AMQPListener] consumed message"];
             
             [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:nil]];
             [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];

@@ -31,7 +31,8 @@ NSString* NSDataToHex(NSData* data)
 //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
     [TestFlight takeOff:@"xxx"];
     [Musubi sharedInstance];
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert];     
+    
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert];
 }
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {     
     NSLog(@"Error in registration. Error: %@", err);

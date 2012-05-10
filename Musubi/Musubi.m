@@ -91,6 +91,9 @@ static Musubi* _sharedInstance = nil;
     if (self == nil) 
         return self;
     
+    
+    [TestFlight passCheckpoint:@"[Musubi] init"];
+    
     // The store factory creates stores for other threads, the main store is used on the main thread
     self.storeFactory = [PersistentModelStoreFactory sharedInstance];
     self.mainStore = storeFactory.rootStore;
@@ -105,6 +108,7 @@ static Musubi* _sharedInstance = nil;
 
 - (void) setup {    
     
+    [TestFlight passCheckpoint:@"[Musubi] setup"];
     
     // The identity provider is our main IBE point of contact
     identityProvider = [[AphidIdentityProvider alloc] init];
@@ -131,6 +135,9 @@ static Musubi* _sharedInstance = nil;
 
     GoogleIdentityUpdater* googleUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: storeFactory];
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:googleUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+    
+    [TestFlight passCheckpoint:@"[Musubi] setup done"];
+
 }
 
 

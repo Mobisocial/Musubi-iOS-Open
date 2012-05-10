@@ -35,7 +35,7 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>mobisocial.musubi</string>
+	<string>edu.stanford.mobisocial.Musubi</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
