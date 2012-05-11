@@ -32,7 +32,7 @@ NSString* NSDataToHex(NSData* data)
     [TestFlight takeOff:@"xxx"];
     [Musubi sharedInstance];
     
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
     return YES;
 }
 
