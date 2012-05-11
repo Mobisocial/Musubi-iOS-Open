@@ -3140,7 +3140,6 @@
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos\"",
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
@@ -3163,7 +3162,6 @@
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos\"",
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
