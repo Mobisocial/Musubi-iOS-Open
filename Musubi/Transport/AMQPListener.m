@@ -31,6 +31,7 @@
 #import "MEncodedMessage.h"
 #import "IBEncryptionScheme.h"
 #import "PersistentModelStore.h"
+#import "APNPushManager.h"
 
 @implementation AMQPListener
 
@@ -122,32 +123,7 @@
             NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
             
             if(deviceToken) {
-                NSMutableDictionary* registrationRequest = [[NSMutableDictionary alloc] init];
-                [registrationRequest setValue:idents forKey:@"identityExchanges"];
-                [registrationRequest setValue:deviceToken forKey:@"deviceToken"];
-                NSError* error = nil;
-                NSData* body = [NSJSONSerialization dataWithJSONObject:registrationRequest options:0 error:&error];
-                if(!body) {
-                    NSLog(@"Failed to serialize json for registration %@", error);
-                } else {
-                    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-                    [request setURL:[NSURL URLWithString:@"http://bumblebee.musubi.us:6253/api/0/register"]];
-                    [request setHTTPMethod:@"POST"];
-                    [request setValue:[NSString stringWithFormat:@"%u", body.length] forHTTPHeaderField:@"Content-Length"];
-                    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-                    [request setHTTPBody:body];
-                    NSURLResponse* response;
-                    NSError* error = nil;
-                    
-                    //Capturing server response
-                    NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
-                    
-                    if(result) {
-                        NSLog(@"Registration returned %@", result);
-                    }
-                    
-                   [TestFlight passCheckpoint:@"[AMQPListener] registered at push server"];
-                }
+                [APNPushManager registerDevice:deviceToken identities:idents];
             }
             
             [self consumeMessages];
@@ -162,6 +138,7 @@
     
     [connMngr closeConnection];
 }
+
 
 - (void) consumeMessages {
     while (![[NSThread currentThread] isCancelled] && !restartRequested) {

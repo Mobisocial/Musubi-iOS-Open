@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0294C4A155CEE5B005894DF /* APNPushManager.m */; };
 		C0395FA31521BFD700F5AF3B /* MMyDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */; };
 		C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5757D1551F94600B6624C /* libTestFlight.a */; };
 		C0D575821551F94600B6624C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757E1551F94600B6624C /* README.txt */; };
@@ -294,6 +295,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C0294C49155CEE5B005894DF /* APNPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APNPushManager.h; sourceTree = "<group>"; };
+		C0294C4A155CEE5B005894DF /* APNPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNPushManager.m; sourceTree = "<group>"; };
 		C0395FA11521BFD700F5AF3B /* MMyDeviceName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMyDeviceName.h; sourceTree = "<group>"; };
 		C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMyDeviceName.m; sourceTree = "<group>"; };
 		C0D5757D1551F94600B6624C /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
@@ -1177,6 +1180,8 @@
 				D211D8B3151945D400E38051 /* AMQPThread.m */,
 				D2081557151273C400F12039 /* AMQPTransport.h */,
 				D2081558151273C400F12039 /* AMQPTransport.m */,
+				C0294C49155CEE5B005894DF /* APNPushManager.h */,
+				C0294C4A155CEE5B005894DF /* APNPushManager.m */,
 			);
 			path = Transport;
 			sourceTree = "<group>";
@@ -2865,6 +2870,7 @@
 				D29CA1E2155105C200257B35 /* FeedItem.m in Sources */,
 				D23EED041554858A00B18153 /* FeedListDataSource.m in Sources */,
 				D23EED071554A30E00B18153 /* FeedListItemCell.m in Sources */,
+				C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "FacebookAuth.h"
 #import "Musubi.h"
+#import "APNPushManager.h"
 
 NSString* NSDataToHex(NSData* data)
 {
@@ -33,22 +34,37 @@ NSString* NSDataToHex(NSData* data)
     //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
     [TestFlight takeOff:@"xxx"];
     [Musubi sharedInstance];
-    
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
     return YES;
 }
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
-    [self application:application didFinishLaunchingWithOptions:nil];
-}
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSLog(@"received remote notification while running %@", userInfo);
+
+    ////TODO: do this only if amqp is not connectable, but we are still getting pushes
+    //if( [[userInfo objectForKey:@"aps"] objectForKey:@"badge"] != NULL)
+    //{
+    //    NSNumber* badge = (NSNumber*)[[userInfo objectForKey:@"aps"] objectForKey:@"badge"]; 
+    //    [application setApplicationIconBadgeNumber:badge.intValue];
+    //}    
 }
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {     
     NSLog(@"Error in registration. Error: %@", err);
 }    
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {          
     [Musubi sharedInstance].apnDeviceToken = NSDataToHex(deviceToken);
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    //TODO: this is not quite right because the messages have not yet been downloaded
+    // - one slightly better but still sucky thing would be to reset only if the AMQP thread 
+    // was currently connected
+    // - also could be better on exit in a quit background task
+    NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
+    if(deviceToken) {
+        [application setApplicationIconBadgeNumber:0];
+        [APNPushManager clearUnread:deviceToken];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -71,13 +87,6 @@ NSString* NSDataToHex(NSData* data)
 {
     /*
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-     */
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
 }
 
