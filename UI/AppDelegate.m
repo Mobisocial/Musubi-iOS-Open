@@ -28,6 +28,8 @@ NSString* NSDataToHex(NSData* data)
 @synthesize window = _window, facebookLoginOperation, navController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+    [TestFlight passCheckpoint:@"[AppDelegate] launched"];
+    
 //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
     [TestFlight takeOff:@"xxx"];
     [Musubi sharedInstance];
