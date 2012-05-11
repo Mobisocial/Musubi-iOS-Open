@@ -27,14 +27,22 @@ NSString* NSDataToHex(NSData* data)
 
 @synthesize window = _window, facebookLoginOperation, navController;
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     [TestFlight passCheckpoint:@"[AppDelegate] launched"];
-    
-//    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
+    //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
     [TestFlight takeOff:@"xxx"];
     [Musubi sharedInstance];
     
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+    return YES;
+}
+
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
+    [self application:application didFinishLaunchingWithOptions:nil];
+}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"received remote notification while running %@", userInfo);
 }
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {     
     NSLog(@"Error in registration. Error: %@", err);
