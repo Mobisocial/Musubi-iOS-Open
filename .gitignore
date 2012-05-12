@@ -9,3 +9,10 @@ Libraries/OpenSSL/openssl/test
 *.perspectivev3
 *.pbxuser
 xcuserdata
+/Libraries/OpenSSL/openssl/Makefile
+/Libraries/OpenSSL/openssl/Makefile.bak
+/Libraries/OpenSSL/openssl/apps/openssl
+/Libraries/OpenSSL/openssl/crypto/buildinf.h
+/Libraries/OpenSSL/openssl/crypto/opensslconf.h.bak
+/Libraries/OpenSSL/openssl/libcrypto.a
+/Libraries/OpenSSL/openssl/libssl.a
