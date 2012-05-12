@@ -109,6 +109,7 @@
         
         [usedQueues addObject: queue];
         [queue addOperation: [[MessageEncodeOperation alloc] initWithObjId:obj.objectID andService:self]]; 
+        NSLog(@"Queued MessageEncodeOperation");
     }
     
     // At the end, notify everybody
@@ -141,7 +142,15 @@
     return self;
 }
 
-- (void)main {
+- (BOOL)isConcurrent {
+    return YES;
+}
+
+- (void)start {
+    [super start];
+    
+    NSLog(@"Started MessageEncodeOperation");
+    
     self.store = [_service.storeFactory newStore];
     
     NSError* error;

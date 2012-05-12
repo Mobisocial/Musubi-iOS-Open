@@ -74,6 +74,8 @@
 }
 
 - (void) process {
+    NSLog(@"Processing encoded message");
+    
     // This is called on some background thread (through notificationCenter), so we need a new store
     PersistentModelStore* store = [_storeFactory newStore];
 
@@ -106,6 +108,7 @@
         
         // Find the thread to run this on
         [_queue addOperation: [[MessageDecodeOperation alloc] initWithMessageId:msg.objectID andService:self]]; 
+        NSLog(@"Queued MessageDecodeOperation");
     }
     
     if (messagesQueued)
@@ -143,7 +146,11 @@
     return YES;
 }
 
-- (void)main {
+- (void)start {
+    [super start];
+    
+    NSLog(@"Started MessageDecodeOperation");
+    
     // Get the obj and decode it
     [self setStore: [_service.storeFactory newStore]];
     MEncodedMessage* msg = (MEncodedMessage*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _messageId] onEntity:@"EncodedMessage"];
@@ -174,8 +181,10 @@
     IncomingMessage* im = nil;
     @try {
         im = [_decoder decodeMessage:msg];
+        NSLog(@"Decoded %@", im);
     }
     @catch (NSException *exception) {
+        NSLog(@"Decoding exception: %@", exception);
         if ([exception.name isEqualToString:kMusubiExceptionNeedEncryptionUserKey]) {
             NSLog(@"Err: %@", exception);
             
@@ -245,6 +254,7 @@
     PreparedObj* obj = nil;
     @try {
         obj = [ObjEncoder decodeObj: im.data];
+        NSLog(@"Prepared obj: %@", obj);
     } @catch (NSException *exception) {
         NSLog(@"Failed to decode message %@: %@", im, exception);
         [_store.context deleteObject:msg];
@@ -290,6 +300,10 @@
     } else {
         feed = [_feedManager feedWithType: obj.feedType andCapability: obj.feedCapability];
     }
+    
+    if (feed)
+        NSLog(@"Feed: %@", feed);
+
     
     if (feed == nil) {
         MFeed* newFeed = (MFeed*)[_feedManager create];
@@ -348,6 +362,8 @@
             _shouldRunProfilePush |= ((NSNumber*)[res objectAtIndex:1]).boolValue;
         }
     }
+    
+    NSLog(@"Feed: %@", feed);
     
     MObj* mObj = (MObj*)[_store createEntity:@"Obj"]; 
     MApp* mApp = [_appManager ensureAppWithAppId: obj.appId];
