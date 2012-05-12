@@ -13,7 +13,9 @@ xcodebuild -project gmpbuild.xcodeproj/ -target gen-src
 popd
 
 echo BUILDING IBE LIBRARY
-xcodebuild -scheme IBE -scheme IBE-release 
+xcodebuild -scheme IBE 
+xcodebuild -scheme IBE-release 
 
 echo BUILDING 320 LIBRARY
-xcodebuild -scheme Three20 -scheme Three20-Release
+xcodebuild -scheme Three20 
+xcodebuild -scheme Three20-Release
