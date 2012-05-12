@@ -51,55 +51,29 @@
 @interface DefaultEncryptionController : NSObject<EncryptionController>
 @end
 
-@interface TransientTransportDataProvider : NSObject<TransportDataProvider> {
-    id<BlackListProvider> blacklistProvider;
-    id<SignatureController> signatureController;
-    id<EncryptionController> encryptionController;
-    
-    PersistentModelStore* store;
-    
-    IBEncryptionScheme* encryptionScheme;
-    IBSignatureScheme* signatureScheme;
-    IBEncryptionIdentity* myIdentity;
-    
-    uint64_t deviceName;
-    
-    NSMutableDictionary* identities;
-    NSMutableDictionary* identityLookup;
-    
-    NSMutableDictionary* devices;
-    NSMutableDictionary* deviceLookup;
-    
-    NSMutableDictionary* encodedMessages;
-    NSMutableDictionary* encodedMessageLookup;
+@interface TransientTransportDataProvider : NSObject<TransportDataProvider> 
 
-    NSMutableDictionary* incomingSecrets;
-    NSMutableDictionary* outgoingSecrets;
-    
-    NSMutableDictionary* missingSequenceNumbers;
-}
+@property (nonatomic, strong) id<BlackListProvider> blacklistProvider;
+@property (nonatomic, strong) id<SignatureController> signatureController;
+@property (nonatomic, strong) id<EncryptionController> encryptionController;
 
-@property (nonatomic, retain) id<BlackListProvider> blacklistProvider;
-@property (nonatomic, retain) id<SignatureController> signatureController;
-@property (nonatomic, retain) id<EncryptionController> encryptionController;
+@property (nonatomic, strong) PersistentModelStore* store;
 
-@property (nonatomic, retain) PersistentModelStore* store;
+@property (nonatomic, strong) IBEncryptionScheme* encryptionScheme;
+@property (nonatomic, strong) IBSignatureScheme* signatureScheme;
+@property (nonatomic, strong) IBEncryptionIdentity* myIdentity;
 
-@property (nonatomic, retain) IBEncryptionScheme* encryptionScheme;
-@property (nonatomic, retain) IBSignatureScheme* signatureScheme;
-@property (nonatomic, retain) IBEncryptionIdentity* myIdentity;
+@property (nonatomic, strong) uint64_t deviceName;
 
-@property (nonatomic, assign) uint64_t deviceName;
-
-@property (nonatomic, retain) NSMutableDictionary* identities;
-@property (nonatomic, retain) NSMutableDictionary* identityLookup;
-@property (nonatomic, retain) NSMutableDictionary* devices;
-@property (nonatomic, retain) NSMutableDictionary* deviceLookup;
-@property (nonatomic, retain) NSMutableDictionary* encodedMessages;
-@property (nonatomic, retain) NSMutableDictionary* encodedMessageLookup;
-@property (nonatomic, retain) NSMutableDictionary* incomingSecrets;
-@property (nonatomic, retain) NSMutableDictionary* outgoingSecrets;
-@property (nonatomic, retain) NSMutableDictionary* missingSequenceNumbers;
+@property (nonatomic, strong) NSMutableDictionary* identities;
+@property (nonatomic, strong) NSMutableDictionary* identityLookup;
+@property (nonatomic, strong) NSMutableDictionary* devices;
+@property (nonatomic, strong) NSMutableDictionary* deviceLookup;
+@property (nonatomic, strong) NSMutableDictionary* encodedMessages;
+@property (nonatomic, strong) NSMutableDictionary* encodedMessageLookup;
+@property (nonatomic, strong) NSMutableDictionary* incomingSecrets;
+@property (nonatomic, strong) NSMutableDictionary* outgoingSecrets;
+@property (nonatomic, strong) NSMutableDictionary* missingSequenceNumbers;
 
 - (id) initWithEncryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss identity: (IBEncryptionIdentity*) me blacklistProvicer: (id<BlackListProvider>) blacklist signatureController: (id<SignatureController>) signatureController encryptionController: (id<EncryptionController>) encryptionController;
 - (MEncodedMessage*) insertEncodedMessageData: (NSData*) data;

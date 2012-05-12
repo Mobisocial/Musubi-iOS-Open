@@ -29,24 +29,15 @@
 @class PersistentModelStore, IBEncryptionScheme, IBSignatureScheme;
 @class IdentityManager, EncryptionUserKeyManager, SignatureUserKeyManager;
 
-@interface TransportManager : NSObject<TransportDataProvider> {
-    PersistentModelStore* store;
-    IBEncryptionScheme* encryptionScheme;
-    IBSignatureScheme* signatureScheme;
-    uint64_t deviceName;
+@interface TransportManager : NSObject<TransportDataProvider>
 
-    IdentityManager* identityManager;
-    EncryptionUserKeyManager* encryptionUserKeyManager;
-    SignatureUserKeyManager* signatureUserKeyManager;
-}
-
-@property (nonatomic) PersistentModelStore* store;
-@property (nonatomic) IBEncryptionScheme* encryptionScheme;
-@property (nonatomic) IBSignatureScheme* signatureScheme;
+@property (nonatomic, strong) PersistentModelStore* store;
+@property (nonatomic, strong) IBEncryptionScheme* encryptionScheme;
+@property (nonatomic, strong) IBSignatureScheme* signatureScheme;
 @property (nonatomic, assign) uint64_t deviceName;
-@property (nonatomic) IdentityManager* identityManager;
-@property (nonatomic) EncryptionUserKeyManager* encryptionUserKeyManager;
-@property (nonatomic) SignatureUserKeyManager* signatureUserKeyManager;
+@property (nonatomic, strong) IdentityManager* identityManager;
+@property (nonatomic, strong) EncryptionUserKeyManager* encryptionUserKeyManager;
+@property (nonatomic, strong) SignatureUserKeyManager* signatureUserKeyManager;
 
 - (id) initWithStore: (PersistentModelStore*) store encryptionScheme: (IBEncryptionScheme*) es signatureScheme: (IBSignatureScheme*) ss deviceName: (uint64_t) devName;
 

@@ -35,9 +35,10 @@
     uint64_t deviceName;
 }
 
-@property (nonatomic) id<TransportDataProvider> transportDataProvider;
-@property (nonatomic) IBEncryptionScheme* encryptionScheme;
-@property (nonatomic) IBSignatureScheme* signatureScheme;
+@property (nonatomic, strong) id<TransportDataProvider> transportDataProvider;
+@property (nonatomic, strong) IBEncryptionScheme* encryptionScheme;
+@property (nonatomic, strong) IBSignatureScheme* signatureScheme;
+@property (nonatomic, assign) uint64_t deviceName;
 
 - (id)initWithTransportDataProvider:(id<TransportDataProvider>)tdp;
 - (NSData*) computeFullSignatureForRecipients: (NSArray*) rcpts hash: (NSData*) h app: (NSData*) a blind: (BOOL) b;

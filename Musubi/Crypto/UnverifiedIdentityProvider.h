@@ -34,13 +34,9 @@
 
 @class IBEncryptionScheme,IBSignatureScheme;
 
-@interface UnverifiedIdentityProvider : NSObject<IdentityProvider> {
-    IBEncryptionScheme* encryptionScheme;
-    IBSignatureScheme* signatureScheme;
-}
-
-@property (nonatomic) IBEncryptionScheme* encryptionScheme;
-@property (nonatomic) IBSignatureScheme* signatureScheme;
+@interface UnverifiedIdentityProvider : NSObject<IdentityProvider>
+@property (nonatomic, strong) IBEncryptionScheme* encryptionScheme;
+@property (nonatomic, strong) IBSignatureScheme* signatureScheme;
 
 
 @end
