@@ -51,13 +51,6 @@
 		D23EED041554858A00B18153 /* FeedListDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D23EED031554858A00B18153 /* FeedListDataSource.m */; };
 		D23EED071554A30E00B18153 /* FeedListItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D23EED061554A30E00B18153 /* FeedListItemCell.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
-		D25BA6381522A5A200B87687 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D930511522417E006E4F58 /* libThree20.a */; };
-		D25BA6BC1522B19A00B87687 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6551522AB5C00B87687 /* libThree20Core.a */; };
-		D25BA6BD1522B19A00B87687 /* libThree20Network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6561522AB5C00B87687 /* libThree20Network.a */; };
-		D25BA6BE1522B19A00B87687 /* libThree20Style.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6571522AB5C00B87687 /* libThree20Style.a */; };
-		D25BA6BF1522B19A00B87687 /* libThree20UI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6581522AB5C00B87687 /* libThree20UI.a */; };
-		D25BA6C01522B19A00B87687 /* libThree20UICommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA6591522AB5C00B87687 /* libThree20UICommon.a */; };
-		D25BA6C11522B19A00B87687 /* libThree20UINavigator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D25BA65A1522AB5C00B87687 /* libThree20UINavigator.a */; };
 		D25F49151471A32500AC1551 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49031471A32500AC1551 /* bson.c */; };
 		D25F49161471A32500AC1551 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49051471A32500AC1551 /* encoding.c */; };
 		D25F49171471A32500AC1551 /* gridfs.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49071471A32500AC1551 /* gridfs.c */; };
@@ -135,7 +128,6 @@
 		D2B13D5214F869800067B197 /* MessageEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5114F869800067B197 /* MessageEncoder.m */; };
 		D2B13D5514F869CF0067B197 /* OutgoingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5414F869CF0067B197 /* OutgoingMessage.m */; };
 		D2B13D5B14F882590067B197 /* Secret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5A14F882580067B197 /* Secret.m */; };
-		D2B428D214F44F5B00ED868D /* libIBE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B428CC14F44F4800ED868D /* libIBE.a */; };
 		D2B939C414BD04C700C5F777 /* missing.png in Resources */ = {isa = PBXBuildFile; fileRef = D2B939C314BD04C700C5F777 /* missing.png */; };
 		D2C0AA9B14FF035100E9D0BF /* MessageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */; };
 		D2CB073C14EDCBB50006D1E9 /* IBEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */; };
@@ -187,13 +179,6 @@
 			remoteGlobalIDString = D298F9F1143CE6DF000831DD;
 			remoteInfo = Musubi;
 		};
-		D25BA6531522AB5200B87687 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D2D930251522417D006E4F58 /* Three20.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BEF31F390F352DF5000DE5D2;
-			remoteInfo = Three20;
-		};
 		D27968C41457D97800C5FDAB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D279660B1457D97200C5FDAB /* DisplayPretty.xcodeproj */;
@@ -241,13 +226,6 @@
 			containerPortal = D2B428BB14F44F4600ED868D /* IBE.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D2B4278F14F42D5B00ED868D;
-			remoteInfo = IBE;
-		};
-		D2B428D314F44FC600ED868D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D2B428BB14F44F4600ED868D /* IBE.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2B4278E14F42D5B00ED868D;
 			remoteInfo = IBE;
 		};
 		D2D930501522417E006E4F58 /* PBXContainerItemProxy */ = {
@@ -371,12 +349,6 @@
 		D23EED051554A30E00B18153 /* FeedListItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListItemCell.h; path = FeedList/FeedListItemCell.h; sourceTree = "<group>"; };
 		D23EED061554A30E00B18153 /* FeedListItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListItemCell.m; path = FeedList/FeedListItemCell.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		D25BA6551522AB5C00B87687 /* libThree20Core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Core.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Core.a"; sourceTree = "<group>"; };
-		D25BA6561522AB5C00B87687 /* libThree20Network.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Network.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Network.a"; sourceTree = "<group>"; };
-		D25BA6571522AB5C00B87687 /* libThree20Style.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Style.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20Style.a"; sourceTree = "<group>"; };
-		D25BA6581522AB5C00B87687 /* libThree20UI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20UI.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20UI.a"; sourceTree = "<group>"; };
-		D25BA6591522AB5C00B87687 /* libThree20UICommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20UICommon.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20UICommon.a"; sourceTree = "<group>"; };
-		D25BA65A1522AB5C00B87687 /* libThree20UINavigator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20UINavigator.a; path = "../../../../Library/Developer/Xcode/DerivedData/musubi-gplxqgfmhpihwbcacuulesptpbft/Build/Products/Debug-iphoneos/libThree20UINavigator.a"; sourceTree = "<group>"; };
 		D25F49031471A32500AC1551 /* bson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson.c; sourceTree = "<group>"; };
 		D25F49041471A32500AC1551 /* bson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson.h; sourceTree = "<group>"; };
 		D25F49051471A32500AC1551 /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
@@ -883,7 +855,6 @@
 		D2F8C68B1526438F005AD880 /* GoogleAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAuth.m; sourceTree = "<group>"; };
 		D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GTMOAuth2.xcodeproj; path = OAuth2/GTMOAuth2.xcodeproj; sourceTree = "<group>"; };
 		D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		D2F8C6CC152655EA005AD880 /* libOAuthTouch2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthTouch2.a; path = "OAuth2/build/Release-iphoneos/libOAuthTouch2.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -905,18 +876,10 @@
 			files = (
 				D210C1761526716E00280605 /* libOAuthTouch2.a in Frameworks */,
 				D2F8C6CB152655C5005AD880 /* SystemConfiguration.framework in Frameworks */,
-				D25BA6BC1522B19A00B87687 /* libThree20Core.a in Frameworks */,
-				D25BA6BD1522B19A00B87687 /* libThree20Network.a in Frameworks */,
-				D25BA6BE1522B19A00B87687 /* libThree20Style.a in Frameworks */,
-				D25BA6BF1522B19A00B87687 /* libThree20UI.a in Frameworks */,
-				D25BA6C01522B19A00B87687 /* libThree20UICommon.a in Frameworks */,
-				D25BA6C11522B19A00B87687 /* libThree20UINavigator.a in Frameworks */,
-				D25BA6381522A5A200B87687 /* libThree20.a in Frameworks */,
 				D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */,
 				D2D9311B1522A307006E4F58 /* libRabbitMQ.a in Frameworks */,
 				D211D97215197F7000E38051 /* libfacebook_ios_sdk.a in Frameworks */,
 				D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */,
-				D2B428D214F44F5B00ED868D /* libIBE.a in Frameworks */,
 				D2D9302315223F4A006E4F58 /* QuartzCore.framework in Frameworks */,
 				D27968DD1457DA4800C5FDAB /* CoreData.framework in Frameworks */,
 				D2CD028A1443A1830080861E /* CoreLocation.framework in Frameworks */,
@@ -1262,13 +1225,6 @@
 				D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */,
 				D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */,
 				D2B428BB14F44F4600ED868D /* IBE.xcodeproj */,
-				D2F8C6CC152655EA005AD880 /* libOAuthTouch2.a */,
-				D25BA6551522AB5C00B87687 /* libThree20Core.a */,
-				D25BA6561522AB5C00B87687 /* libThree20Network.a */,
-				D25BA6571522AB5C00B87687 /* libThree20Style.a */,
-				D25BA6581522AB5C00B87687 /* libThree20UI.a */,
-				D25BA6591522AB5C00B87687 /* libThree20UICommon.a */,
-				D25BA65A1522AB5C00B87687 /* libThree20UINavigator.a */,
 				D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */,
 				D27965DC1457D97200C5FDAB /* SBJson */,
 				C0D5757C1551F94600B6624C /* TestFlight */,
@@ -2525,10 +2481,8 @@
 			);
 			dependencies = (
 				D210C1741526708300280605 /* PBXTargetDependency */,
-				D25BA6541522AB5200B87687 /* PBXTargetDependency */,
 				D2D9311A1522A302006E4F58 /* PBXTargetDependency */,
 				D211D97115197F6800E38051 /* PBXTargetDependency */,
-				D2B428D414F44FC600ED868D /* PBXTargetDependency */,
 			);
 			name = Musubi;
 			productName = musubi;
@@ -2892,16 +2846,6 @@
 			target = D298F9F1143CE6DF000831DD /* Musubi */;
 			targetProxy = D216DE6A14F48AE2001A4166 /* PBXContainerItemProxy */;
 		};
-		D25BA6541522AB5200B87687 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Three20;
-			targetProxy = D25BA6531522AB5200B87687 /* PBXContainerItemProxy */;
-		};
-		D2B428D414F44FC600ED868D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = IBE;
-			targetProxy = D2B428D314F44FC600ED868D /* PBXContainerItemProxy */;
-		};
 		D2D9311A1522A302006E4F58 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RabbitMQ;
@@ -3143,12 +3087,36 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Libraries/IBE/IBE",
+					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
+					"$(SRCROOT)/Libraries/GMP/build/include",
+					"$(SRCROOT)/Libraries/GMP/build/include32",
+					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
+					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
+					"$(SRCROOT)/Libraries/Facebook/src",
+					"$(SRCROOT)/Libraries/RabbitMQ",
+					"$(SRCROOT)/Libraries/OAuth2/**",
+					"$(SRCROOT)/Libraries/Three20/build/three20",
+				);
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
+					"$(SRCROOT)/Libraries/Three20/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
+					"$(SRCROOT)/Libraries/IBE/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lThree20",
+					"-lThree20UINavigator",
+					"-lThree20UICommon",
+					"-lThree20UI",
+					"-lThree20Style",
+					"-lThree20Network",
+					"-lThree20Core",
+					"-lIBE",
+				);
 				PRODUCT_NAME = Musubi;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3160,18 +3128,44 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_FAST_MATH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Libraries/IBE/IBE",
+					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
+					"$(SRCROOT)/Libraries/GMP/build/include",
+					"$(SRCROOT)/Libraries/GMP/build/include32",
+					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
+					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
+					"$(SRCROOT)/Libraries/Facebook/src",
+					"$(SRCROOT)/Libraries/RabbitMQ",
+					"$(SRCROOT)/Libraries/OAuth2/**",
+					"$(SRCROOT)/Libraries/Three20/build/three20",
+				);
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
+					"$(SRCROOT)/Libraries/Three20/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
+					"$(SRCROOT)/Libraries/IBE/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lThree20",
+					"-lThree20UINavigator",
+					"-lThree20UICommon",
+					"-lThree20UI",
+					"-lThree20Style",
+					"-lThree20Network",
+					"-lThree20Core",
+					"-lIBE",
+				);
 				PRODUCT_NAME = Musubi;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
