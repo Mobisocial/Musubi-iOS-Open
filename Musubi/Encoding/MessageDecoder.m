@@ -90,16 +90,11 @@
     IBEncryptionIdentity* meTimed = [[IBEncryptionIdentity alloc] initWithKey: me.i];
     IBEncryptionIdentity* sid = [[IBEncryptionIdentity alloc] initWithKey: s.i];
     
-    NSLog(@"Me: %@", meTimed);
-    NSLog(@"Sender: %@", sid);
-    
     //TODO: make sure not to waste time computing the same secret twice if someone uses
     //this in a multi-threaded way
     MIncomingSecret* is = [transportDataProvider lookupIncomingSecretFrom:from onDevice:device to:to withSignature:me.s otherIdentity:meTimed myIdentity:sid];
     if(is != nil)
         return is;
-
-    NSLog(@"Didn't have IS yet");
 
     is = (MIncomingSecret*)[[transportDataProvider store] createEntity:@"IncomingSecret"];
     [is setMyIdentity: to];
@@ -107,11 +102,7 @@
     [is setDevice: device];
 
     IBEncryptionUserKey* userKey = [transportDataProvider encryptionKeyTo:to myIdentity:meTimed];
-    NSLog(@"User key: %@", userKey);
-
     [is setKey: [encryptionScheme decryptConversationKey:[[IBEncryptionConversationKey alloc] initWithRaw:nil andEncrypted:me.k] withUserKey:userKey]];
-
-    NSLog(@"Conversation key: %@", is.key);
 
     [is setEncryptedKey: me.k];
     [is setEncryptionPeriod: meTimed.temporalFrame];
@@ -119,14 +110,11 @@
     [is setSignature: me.s];
     
     NSData* hash = [self computeSignatureWithKey:is.encryptedKey andDeviceId:device.deviceName];
-    NSLog(@"Signature: %@", hash);
     
     if (![signatureScheme verifySignature:is.signature forHash:hash withIdentity:sid]) {
         @throw [NSException exceptionWithName:kMusubiExceptionBadSignature reason:@"Message failed to have a valid signature for my recipient key" userInfo:nil];
     }
     
-    NSLog(@"Verified signature");
-
     [transportDataProvider insertIncomingSecret:is otherIdentity:sid myIdentity:meTimed];
     return is;
 }
