@@ -8,5 +8,4 @@ Libraries/OpenSSL/openssl/test
 *.perspective
 *.perspectivev3
 *.pbxuser
-*.xcworkspace
 xcuserdata
