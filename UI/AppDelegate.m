@@ -61,8 +61,9 @@ NSString* NSDataToHex(NSData* data)
     // - also could be better on exit in a quit background task
     NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
     if(deviceToken) {
-        [application setApplicationIconBadgeNumber:0];
-        [APNPushManager clearUnread:deviceToken];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+            [APNPushManager clearUnread:deviceToken];
+        });
     }
 }
 

@@ -79,7 +79,9 @@
         if(result) {
             NSLog(@"Clear returned %@", [[NSString alloc] initWithData:result encoding:NSUnicodeStringEncoding]);
         }
-        
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        });
         [TestFlight passCheckpoint:@"[AMQPListener] cleared unread"];
     }
 }
