@@ -3097,7 +3097,8 @@
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
 					"$(SRCROOT)/Libraries/OAuth2/**",
-					"$(SRCROOT)/Libraries/Three20/build/three20",
+					"$(BUILT_PRODUCTS_DIR)/../three20",
+					"$(BUILT_PRODUCTS_DIR)/../../three20",
 				);
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -3144,7 +3145,8 @@
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
 					"$(SRCROOT)/Libraries/OAuth2/**",
-					"$(SRCROOT)/Libraries/Three20/build/three20",
+					"$(BUILT_PRODUCTS_DIR)/../three20",
+					"$(BUILT_PRODUCTS_DIR)/../../three20",
 				);
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
