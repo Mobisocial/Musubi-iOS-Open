@@ -14,7 +14,7 @@ popd
 
 echo BUILDING IBE LIBRARY
 xcodebuild -scheme IBE 
-xcodebuild -scheme IBE-release 
+xcodebuild -scheme IBE-Release 
 
 echo BUILDING 320 LIBRARY
 xcodebuild -scheme Three20 
