@@ -18,6 +18,6 @@ xcodebuild -scheme IBE -sdk iphone -configuration Debug
 xcodebuild -scheme IBE -sdk iphonesimulator -configuration Debug
 
 echo BUILDING 320 LIBRARY
-xcodebuild -scheme Three20 -sdk iphone -configuration Release
-xcodebuild -scheme Three20 -sdk iphone -configuration Debug
+xcodebuild -scheme Three20 -sdk iphoneos -configuration Release
+xcodebuild -scheme Three20 -sdk iphoneos -configuration Debug
 xcodebuild -scheme Three20 -sdk iphonesimulator -configuration Debug
