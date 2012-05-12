@@ -3020,8 +3020,8 @@
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
 					"$(SRCROOT)/Libraries/OAuth2/**",
-					"$(BUILD_DIR)/three20",
-					"$(BUILD_DIR)/../three20",
+					"$(BUILT_PRODUCTS_DIR)/../three20",
+					"$(BUILT_PRODUCTS_DIR)/../../three20",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -3058,8 +3058,8 @@
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
 					"$(SRCROOT)/Libraries/OAuth2/**",
-					"$(BUILD_DIR)/three20",
-					"$(BUILD_DIR)/../three20",
+					"$(BUILT_PRODUCTS_DIR)/../three20",
+					"$(BUILT_PRODUCTS_DIR)/../../three20",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -3087,19 +3087,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Libraries/IBE/IBE",
-					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
-					"$(SRCROOT)/Libraries/GMP/build/include",
-					"$(SRCROOT)/Libraries/GMP/build/include32",
-					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
-					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
-					"$(SRCROOT)/Libraries/Facebook/src",
-					"$(SRCROOT)/Libraries/RabbitMQ",
-					"$(SRCROOT)/Libraries/OAuth2/**",
-					"$(BUILT_PRODUCTS_DIR)/../three20",
-					"$(BUILT_PRODUCTS_DIR)/../../three20",
-				);
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3135,19 +3122,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Libraries/IBE/IBE",
-					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
-					"$(SRCROOT)/Libraries/GMP/build/include",
-					"$(SRCROOT)/Libraries/GMP/build/include32",
-					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
-					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
-					"$(SRCROOT)/Libraries/Facebook/src",
-					"$(SRCROOT)/Libraries/RabbitMQ",
-					"$(SRCROOT)/Libraries/OAuth2/**",
-					"$(BUILT_PRODUCTS_DIR)/../three20",
-					"$(BUILT_PRODUCTS_DIR)/../../three20",
-				);
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
