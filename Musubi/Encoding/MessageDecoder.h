@@ -29,15 +29,11 @@
 @class IBEncryptionScheme, IBSignatureScheme, MDevice, MIdentity, MEncodedMessage, MIncomingSecret;
 @class Sender, Recipient, IncomingMessage;
 
-@interface MessageDecoder : NSObject {
-    id<TransportDataProvider> transportDataProvider;
-    IBEncryptionScheme* encryptionScheme;
-    IBSignatureScheme* signatureScheme;
-}
+@interface MessageDecoder : NSObject 
 
-@property (nonatomic) id<TransportDataProvider> transportDataProvider;
-@property (nonatomic) IBEncryptionScheme* encryptionScheme;
-@property (nonatomic) IBSignatureScheme* signatureScheme;
+@property (nonatomic, strong) id<TransportDataProvider> transportDataProvider;
+@property (nonatomic, strong) IBEncryptionScheme* encryptionScheme;
+@property (nonatomic, strong) IBSignatureScheme* signatureScheme;
 
 - (id)initWithTransportDataProvider:(id<TransportDataProvider>)tdp;
 - (MIdentity*) addIdentityWithKey: (NSData*) key;

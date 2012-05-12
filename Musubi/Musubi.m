@@ -54,6 +54,121 @@
 #import "IntroductionObj.h"
 #import "Authorities.h"
 
+#include "ibecrypt.h"
+#include <stdio.h>
+
+static char* HEX_LOOKUP = "0123456789ABCDEF";
+char* hexstring(char* data, int length) {
+    char* hex = malloc(length * 2 + 1);
+    for(int i = 0; i < length; ++i) {
+        hex[2 * i + 0] = HEX_LOOKUP[data[i] & 0xF];
+        hex[2 * i + 1] = HEX_LOOKUP[(data[i] >> 4) & 0xF];
+    }
+    hex[2 * length] = 0;
+    return hex;
+}
+
+int testme(){
+    printf("generating parameters\n");
+    char* mk_data = NULL;
+    int mk_length = 0;
+    ibecrypto_public_parameters* pp = NULL;
+    pp = ibecrypto_global_public_parameters(&mk_data, &mk_length);
+    
+    element_t mk;
+    element_init_Zr(mk, pp->pairing);
+    element_from_bytes(mk, mk_data);
+    element_printf("master key = %B\n", mk);
+    element_clear(mk);
+    
+    printf("serializing and deserializing\n");
+    char* pp_data = NULL;
+    int pp_length = 0;
+    ibecrypto_serialize_parameters(&pp_data, &pp_length, pp);
+    ibecrypto_clear_public_parameters(pp);
+    pp = ibecrypto_unserialize_parameters(pp_data, pp_length);
+    
+    char* uid_data = "frank";
+    int uid_length = strlen(uid_data);
+    
+    printf("computing personal key\n");
+    char* uk_data = NULL;
+    int uk_length = 0;
+    ibecrypto_keygen(&uk_data, &uk_length, pp, mk_data, mk_length, uid_data, uid_length);
+    
+    //deserialize the user secret
+    element_t d0, d1;
+    element_init_G2(d0, pp->pairing);
+    element_init_G2(d1, pp->pairing);
+    element_from_bytes_compressed(d0, (unsigned char*)uk_data);
+    element_from_bytes_compressed(d1, (unsigned char*)uk_data + element_length_in_bytes_compressed(d0));
+    element_printf("user key = %B, %B\n", d0, d1);
+    element_clear(d0);
+    element_clear(d1);
+    
+    
+    printf("generating encrypting a key for a communication\n");
+    char* encrypted_key_data = NULL;
+    int encrypted_key_length = 0;
+    char* key_data = NULL;
+    int key_length = 0;
+    ibecrypto_encrypt(&encrypted_key_data, &encrypted_key_length, &key_data, &key_length, pp, uid_data, uid_length);
+    
+    //deserialize the encrypted key
+    element_t c0, c1;
+    element_init_G1(c0, pp->pairing);
+    element_init_G1(c1, pp->pairing);
+    element_from_bytes_compressed(c0, (unsigned char*)encrypted_key_data);
+    element_from_bytes_compressed(c1, (unsigned char*)encrypted_key_data + element_length_in_bytes_compressed(c0));
+    element_printf("encrypted key = %B, %B\n", c0, c1);
+    element_clear(c0);
+    element_clear(c1);
+    
+    char* key_string = hexstring(key_data, key_length);
+    printf("key = %s\n", key_string);
+    free(key_string);
+    
+    printf("decrypting a key for a communication\n");
+    char* decrypted_key_data = NULL;
+    int decrypted_key_length = 0;
+    ibecrypto_decrypt(&decrypted_key_data, &decrypted_key_length, pp, uk_data, uk_length, encrypted_key_data, encrypted_key_length);
+    
+    key_string = hexstring(decrypted_key_data, decrypted_key_length);
+    printf("decrypted key = %s\n", key_string);
+    free(key_string);
+    
+    if(key_length != decrypted_key_length || memcmp(key_data, decrypted_key_data, key_length)) 
+    {
+        printf("decryption failed! (bad)\n");
+    } else {
+        printf("decryption successful (good)\n");
+    }
+    
+    free(decrypted_key_data);
+    encrypted_key_data[sizeof(void*)]++;
+    printf("decrypting a corrupted key for a communication\n");
+    ibecrypto_decrypt(&decrypted_key_data, &decrypted_key_length, pp, uk_data, uk_length, encrypted_key_data, encrypted_key_length);
+    
+    key_string = hexstring(decrypted_key_data, decrypted_key_length);
+    printf("corrupted decrypted key = %s\n", key_string);
+    free(key_string);
+    
+    if(key_length != decrypted_key_length || memcmp(key_data, decrypted_key_data, key_length)) 
+    {
+        printf("decryption failed! (good)\n");
+    } else {
+        printf("decryption successful (bad)\n");
+    }
+    free(decrypted_key_data);
+    
+    free(key_data);
+    free(encrypted_key_data);
+    ibecrypto_clear_public_parameters(pp);
+    
+	return 1;
+}
+
+
 @implementation Musubi
 
 static Musubi* _sharedInstance = nil;
@@ -64,8 +179,10 @@ static Musubi* _sharedInstance = nil;
 {
 	@synchronized([Musubi class])
 	{
-		if (!_sharedInstance)
+		if (!_sharedInstance) {
+            testme();
 			[[self alloc] init];
+        }
         
 		return _sharedInstance;
 	}

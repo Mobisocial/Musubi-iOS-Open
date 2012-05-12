@@ -29,11 +29,9 @@
 @class PersistentModelStore, MSignatureUserKey, MIdentity;
 @class IBSignatureScheme, IBEncryptionIdentity, IBSignatureUserKey;
 
-@interface SignatureUserKeyManager : EntityManager {
-    IBSignatureScheme* signatureScheme;
-}
+@interface SignatureUserKeyManager : EntityManager
 
-@property (nonatomic) IBSignatureScheme* signatureScheme;
+@property (nonatomic, strong) IBSignatureScheme* signatureScheme;
 
 - (id) initWithStore: (PersistentModelStore*) store signatureScheme: (IBSignatureScheme*) ss;
 
