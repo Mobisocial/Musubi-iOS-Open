@@ -3093,8 +3093,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
-					"$(BUILT_PRODUCTS_DIR)/../../../Three20/BuildProductsPath/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
-					"$(BUILT_PRODUCTS_DIR)/../../../IBE/BuildProductsPath/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
+					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -3128,8 +3127,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
-					"$(BUILT_PRODUCTS_DIR)/../../../Three20/BuildProductsPath/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
-					"$(BUILT_PRODUCTS_DIR)/../../../IBE/BuildProductsPath/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
+					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
