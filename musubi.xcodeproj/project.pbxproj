@@ -148,6 +148,8 @@
 		D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */; };
 		D2A1FC1B1521A99700C10BE2 /* FriendPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */; };
 		D2A2678E154F4C0C00E3AD2B /* FeedDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A2678D154F4C0C00E3AD2B /* FeedDataModel.m */; };
+		D2A45A8F155EEE6D009C1D73 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A45A8E155EEE6D009C1D73 /* MessageUI.framework */; };
+		D2A45AF5155EF6DE009C1D73 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A45AF4155EF6DE009C1D73 /* DropboxSDK.framework */; };
 		D2AADE1714FD792300C6ABB3 /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1614FD792300C6ABB3 /* BSONEncoder.m */; };
 		D2AADE4B14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE4A14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m */; };
 		D2AADE5214FEEBEC00C6ABB3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27968DC1457DA4700C5FDAB /* CoreData.framework */; };
@@ -864,6 +866,8 @@
 		D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendPickerTableViewController.m; path = Feed/FriendPickerTableViewController.m; sourceTree = "<group>"; };
 		D2A2678C154F4C0C00E3AD2B /* FeedDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDataModel.h; sourceTree = "<group>"; };
 		D2A2678D154F4C0C00E3AD2B /* FeedDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDataModel.m; sourceTree = "<group>"; };
+		D2A45A8E155EEE6D009C1D73 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		D2A45AF4155EF6DE009C1D73 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = Libraries/Dropbox/DropboxSDK.framework; sourceTree = "<group>"; };
 		D2AADE1514FD792300C6ABB3 /* BSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoder.h; sourceTree = "<group>"; };
 		D2AADE1614FD792300C6ABB3 /* BSONEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONEncoder.m; sourceTree = "<group>"; };
 		D2AADE1B14FD7A4B00C6ABB3 /* EncodingTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncodingTest.h; sourceTree = "<group>"; };
@@ -957,9 +961,11 @@
 				D27968DD1457DA4800C5FDAB /* CoreData.framework in Frameworks */,
 				D2CD028A1443A1830080861E /* CoreLocation.framework in Frameworks */,
 				D20E422D1461EEC60096A272 /* CoreGraphics.framework in Frameworks */,
+				D2A45A8F155EEE6D009C1D73 /* MessageUI.framework in Frameworks */,
 				D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */,
 				D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */,
 				C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */,
+				D2A45AF5155EF6DE009C1D73 /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2463,6 +2469,7 @@
 			children = (
 				D2CD05E314462BD90080861E /* libcommonCrypto.dylib */,
 				D298FA4B143E5B4E000831DD /* libz.dylib */,
+				D2A45AF4155EF6DE009C1D73 /* DropboxSDK.framework */,
 				D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */,
 				D2D9302215223F4A006E4F58 /* QuartzCore.framework */,
 				D20E422C1461EEC60096A272 /* CoreGraphics.framework */,
@@ -3204,7 +3211,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_OBJCPP_ARC_ABI = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Thomas Purtell (Y7NMFRQMAA)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3295,6 +3302,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Libraries/Dropbox\"",
+				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_FAST_MATH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3328,7 +3339,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Libraries/Dropbox\"",
+				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_FAST_MATH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3352,7 +3366,6 @@
 					"-lIBE",
 				);
 				PRODUCT_NAME = Musubi;
-				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

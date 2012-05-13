@@ -27,10 +27,20 @@
 #import "NamePictureCell.h"
 #import "UIImage+Resize.h"
 #import "AccountAuthManager.h"
+#import <DropboxSDK/DropboxSDK.h>
 
-@interface SettingsViewController : UITableViewController<UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,AccountAuthManagerDelegate> {
+#define kDBOperationNotStarted -1
+#define kDBOperationCompleted -2
+#define kDBOperationFailed -3
+
+@interface SettingsViewController : UITableViewController<UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,AccountAuthManagerDelegate,DBRestClientDelegate> {
     AccountAuthManager* authMgr;
     NSDictionary* accountTypes;
+    
+    DBRestClient *dbRestClient;
+    int dbUploadProgress;
+    int dbDownloadProgress;
+    NSString* dbRestoreFile;
 }
 
 @property (nonatomic) AccountAuthManager* authMgr;

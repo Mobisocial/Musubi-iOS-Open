@@ -54,15 +54,12 @@
 #import "IntroductionObj.h"
 #import "Authorities.h"
 
-#include <stdio.h>
-
-
 
 @implementation Musubi
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, facebookIdentityUpdater, googleIdentityUpdater;
 
 +(Musubi*)sharedInstance
 {
@@ -84,6 +81,7 @@ static Musubi* _sharedInstance = nil;
     if (self == nil) 
         return self;
     
+    [TestFlight passCheckpoint:@"[Musubi] launched"];
       
     // The store factory creates stores for other threads, the main store is used on the main thread
     self.storeFactory = [PersistentModelStoreFactory sharedInstance];
@@ -92,16 +90,15 @@ static Musubi* _sharedInstance = nil;
     // The notification sender informs every major part in the system about what's going on
     self.notificationCenter = [[NSNotificationCenter alloc] init];
             
-    [self performSelectorInBackground:@selector(setup) withObject:nil];
+    [self performSelectorInBackground:@selector(startServices) withObject:nil];
    
     return self;
 }
 
-- (void) setup {    
-       
+- (void) startServices {
     // The identity provider is our main IBE point of contact
     identityProvider = [[AphidIdentityProvider alloc] init];
-        
+    
     // The key manager handles our encryption and signature keys
     self.keyManager = [[IdentityKeyManager alloc] initWithIdentityProvider: identityProvider];
     
@@ -119,14 +116,19 @@ static Musubi* _sharedInstance = nil;
     self.objPipelineService = [[ObjPipelineService alloc] initWithStoreFactory: storeFactory];
     
     // Make sure we keep the facebook friends up to date
-    FacebookIdentityUpdater* facebookUpdater = [[FacebookIdentityUpdater alloc] initWithStoreFactory: storeFactory];
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kFacebookIdentityUpdaterFrequency target:facebookUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
-
-    GoogleIdentityUpdater* googleUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: storeFactory];
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:googleUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+    self.facebookIdentityUpdater = [[FacebookIdentityUpdater alloc] initWithStoreFactory: storeFactory];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kFacebookIdentityUpdaterFrequency target:self.facebookIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
     
-    [TestFlight passCheckpoint:@"[Musubi] launched"];
+    self.googleIdentityUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: storeFactory];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.googleIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+}
 
+- (void) stopServices {
+}
+
+- (void) restart {    
+    [self stopServices];
+    [self startServices];
 }
 
 

@@ -15,7 +15,7 @@
  */
 
 
-//
+=//
 //  MessageDecoder.m
 //  Musubi
 //
@@ -137,7 +137,6 @@
 }
 
 - (IncomingMessage *)decodeMessage:(MEncodedMessage *)encoded {
-    NSLog(@"Decoding message: %@", encoded);
     IncomingMessage* im = [[IncomingMessage alloc] init];
     Message* m = [BSONEncoder decodeMessage: encoded.encoded];
     
@@ -159,9 +158,6 @@
     for (Recipient* r in m.r) {
         [rcpts addObject: [self addIdentityWithKey:r.i]];
     }
-    NSLog(@"[MessageDecoder] Got recipients");
-
-    
     [im setFromIdentity: [self addIdentityWithKey:m.s.i]];
     if ([transportDataProvider isBlackListed:[im fromIdentity]]) {
         @throw [NSException exceptionWithName:kMusubiExceptionSenderBlacklisted reason:[NSString stringWithFormat: @"Received message from blacklisted identity: %@", im.fromIdentity] userInfo:nil];
@@ -197,50 +193,32 @@
         }
         [im setRecipients: recipients];
     }
-        
-    NSLog(@"[MessageDecoder] Set up im");
 
     for(int i = 0; i < im.personas.count; ++i) {
         Recipient* me = [mine objectAtIndex:i];
         MIdentity* persona = [im.personas objectAtIndex:i];
         
-        NSLog(@"[MessageDecoder] Persona: %@", persona);
-        
         //checks the secret if it is actually added
         MIncomingSecret* inSecret = [self addIncomingSecretFrom:im.fromIdentity atDevice:im.fromDevice to:persona sender:m.s recipient:me];
-        
-
-        NSLog(@"[MessageDecoder] Incoming secret: %@", inSecret);
 
         NSData* rcptSecret = [me.d decryptWithAES128CBCZeroPaddedWithKey:inSecret.key andIV:m.i];
-
-        NSLog(@"[MessageDecoder] Rcpt secret: %@", rcptSecret);
-
         Secret* secret = [BSONEncoder decodeSecret: rcptSecret];
 
-        NSLog(@"[MessageDecoder] Secret: %@", secret);
-        
         [im setSequenceNumber: secret.q];
         
         //This makes it so that we only compute
         //the data and the hash once per message
         if (im.data == nil) {
             [im setData: [m.d decryptWithAES128CBCPKCS7WithKey:secret.k andIV:m.i]];
-            NSLog(@"[MessageDecoder] Data Len: %u", im.data.length);
         }
         if (im.hash == nil) {
             [im setHash: [im.data sha256Digest]];
-            NSLog(@"[MessageDecoder] Hash: %@", im.hash);
         }
         
         [self checkSignatureForHash:im.hash withApp:im.app blind:im.blind forRecipients:m.r againstExpected:secret.h];
-        NSLog(@"[MessageDecoder] Signature checked");
         //updateMissingMessages(im.fromDevice_, secret.q);
     }
     
-    NSLog(@"[MessageDecoder] Set up personas");
-
-        
     [encoded setFromDevice: im.fromDevice];
     [encoded setFromIdentity: im.fromIdentity];
     [encoded setMessageHash: im.hash];

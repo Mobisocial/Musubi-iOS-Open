@@ -28,6 +28,10 @@
 #import "FacebookAuth.h"
 #import "MAccount.h"
 #import "Musubi.h"
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+#import "PersistentModelStore.h"
+#import "AppDelegate.h"
 
 @implementation SettingsViewController
 
@@ -63,6 +67,9 @@
         [authMgr performSelectorInBackground:@selector(checkStatus:) withObject:type];
         [authMgr checkStatus: type];
     }
+    
+    dbUploadProgress = kDBOperationNotStarted;
+    dbDownloadProgress = kDBOperationNotStarted;
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -83,6 +90,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [[self dbRestClient] loadMetadata:@"/"];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -118,7 +128,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 32;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -128,6 +138,8 @@
             return 1;
         case 1:
             return accountTypes.count;
+        case 2:
+            return 2;
     }
     
     return 0;
@@ -140,6 +152,8 @@
             return @"Profile";
         case 1:
             return @"Networks";
+        case 2:
+            return @"Dropbox Backup";
     }
     
     return nil;
@@ -164,6 +178,52 @@
             [[cell detailTextLabel] setText: [authMgr isConnected:accountType] ? @"Connected" : @"Click to connect"];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
+            return cell;
+        }
+        case 2: {
+            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
+            }
+            
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
+            switch (indexPath.row) {
+                case 0: {
+                    [[cell textLabel] setText: @"Save"];
+                    
+                    if (dbUploadProgress == kDBOperationCompleted) {
+                        [[cell detailTextLabel] setText: @"Done"];
+                    } else if (dbUploadProgress == kDBOperationFailed) {
+                        [[cell detailTextLabel] setText: @"Failed"];                
+                    } else if (dbUploadProgress >= 0) {
+                        [[cell detailTextLabel] setText: [NSString stringWithFormat:@"%d%%", dbUploadProgress]];                
+                    } else {
+                        [[cell detailTextLabel] setText: [[DBSession sharedSession] isLinked] ? @"Click to save" : @"Click to connect"];
+                    }
+
+                    break;
+                }
+                case 1: {
+                    [[cell textLabel] setText: @"Restore"];
+                    
+                    if (dbDownloadProgress == kDBOperationCompleted) {
+                        [[cell detailTextLabel] setText: @"Done"];
+                    } else if (dbDownloadProgress == kDBOperationFailed) {
+                        [[cell detailTextLabel] setText: @"Failed"];                
+                    } else if (dbDownloadProgress >= 0) {
+                        [[cell detailTextLabel] setText: [NSString stringWithFormat:@"%d%%", dbDownloadProgress]];                
+                    } else if (dbRestoreFile != nil) {
+                        [[cell detailTextLabel] setText: @"Click to restore"];                            
+                    } else {
+                        [[cell detailTextLabel] setText: [[DBSession sharedSession] isLinked] ? @"No backup found" : @"Click to connect"];                        
+                    }
+                        
+                    break;
+                }
+            }
+            
+           
             return cell;
         }
     }
@@ -229,18 +289,19 @@
 }
 */
 
+- (DBRestClient *)dbRestClient {
+    if (!dbRestClient) {
+        dbRestClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+        dbRestClient.delegate = self;
+    }
+    return dbRestClient;
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[ alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.<#DetailViewController#>
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
     
     switch (indexPath.section) {
         case 0:{
@@ -258,7 +319,111 @@
             
             break;
         }
+        case 2: {
+            if (![[DBSession sharedSession] isLinked]) {
+                [[DBSession sharedSession] link];
+            } else {
+                switch (indexPath.row) {
+                    case 0: {
+                        if (dbUploadProgress == kDBOperationNotStarted || dbUploadProgress == kDBOperationFailed) {
+                            NSURL* path = [PersistentModelStoreFactory pathForStoreWithName:@"Store"];
+                            [self updateDBUploadProgress:0];
+                            
+                            [[self dbRestClient] uploadFile:@"Backup.musubiRestore" toPath:@"/"
+                                              withParentRev:nil fromPath:[path path]];
+                        }
+                        
+                        break;
+                    }
+                    case 1: {
+                        if (dbDownloadProgress == kDBOperationNotStarted || dbDownloadProgress == kDBOperationFailed) {
+                            
+                            [self updateDBDownloadProgress:0];
+                            
+                            NSURL* path = [PersistentModelStoreFactory pathForStoreWithName:@"Store_Restore"];
+                            [[self dbRestClient] loadFile:dbRestoreFile intoPath:path.path];
+                        }
+                        break;
+                    }
+                }
+            }
+                        
+            break;
+        }
     }
+}
+
+- (void) updateDBDownloadProgress: (int) progress {
+    dbDownloadProgress = progress;
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];    
+}
+
+- (void) updateDBUploadProgress: (int) progress {
+    dbUploadProgress = progress;
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];    
+}
+
+
+#pragma mark - DBRestClient delegate
+
+- (void)restClient:(DBRestClient *)client uploadProgress:(CGFloat)progress forFile:(NSString *)destPath from:(NSString *)srcPath {
+    [self updateDBUploadProgress:(int) round(progress * 100)];
+}
+
+- (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath
+              from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
+
+    [self updateDBUploadProgress:kDBOperationCompleted];
+}
+
+- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
+    [self updateDBUploadProgress:kDBOperationFailed];
+}
+
+- (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
+    if (metadata.isDirectory) {        
+        NSString* backupFile = nil;
+        NSDate* backupFileDate = nil;
+        
+        // Use the last matching file (newest)
+        for (DBMetadata *file in metadata.contents) {
+            
+            if ([file.filename rangeOfString:@".musubiRestore"].location != NSNotFound) {
+                if (backupFileDate == nil || backupFileDate.timeIntervalSince1970 < file.lastModifiedDate.timeIntervalSince1970) {
+                    backupFile = file.path;
+                    backupFileDate = file.lastModifiedDate;
+                }
+            }
+        }
+
+        dbRestoreFile = backupFile;
+        
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+    }
+}
+
+- (void)restClient:(DBRestClient *)client loadMetadataFailedWithError:(NSError *)error {
+    dbRestoreFile = nil;
+}
+
+- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)localPath {
+    @try {
+        [PersistentModelStoreFactory restoreStoreFromFile: [NSURL fileURLWithPath:localPath]];        
+        [self updateDBDownloadProgress:kDBOperationCompleted];
+        [((AppDelegate*)[UIApplication sharedApplication].delegate) restart];
+        
+    } @catch (NSError* err) {      
+        NSLog(@"Error: %@", err);
+        [self updateDBDownloadProgress:kDBOperationFailed];
+    }
+}
+
+- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
+    [self updateDBDownloadProgress:kDBOperationFailed];
+}
+
+- (void)restClient:(DBRestClient *)client loadProgress:(CGFloat)progress forFile:(NSString *)destPath {
+    [self updateDBDownloadProgress:(int) round(progress * 100)];
 }
 
 #pragma mark - AccountAuthManager delegate

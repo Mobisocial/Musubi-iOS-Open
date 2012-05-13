@@ -111,9 +111,12 @@
     }
 }
 
-- (void) invalidateFeed {
+- (void) invalidateFeed {    
+    // This is likely not the way to do it, but it works and can't figure out the correct flow
+    [self reload];
     [self invalidateModel];
     [self refresh];
+    [self resetUnreadCount];
 }
 
 - (void)viewDidUnload

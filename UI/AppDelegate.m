@@ -11,6 +11,7 @@
 #import "Musubi.h"
 #import "APNPushManager.h"
 #import "NSData+HexString.h"
+#import <DropboxSDK/DropboxSDK.h>
 
 @implementation AppDelegate
 
@@ -20,8 +21,14 @@
 {
     //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
     [TestFlight takeOff:@"xxx"];
+    
+    
+    DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"5ilykwqbdfy3wq6" appSecret:@"v5k6dskxe58ct68" root:kDBRootAppFolder];
+    [DBSession setSharedSession:dbSession];
+    
     [Musubi sharedInstance];
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+    
     return YES;
 }
 
@@ -87,14 +94,47 @@
      */
 }
 
+-(void)restart
+{
+    NSLog(@"Restarting UI");
+
+    UITabBarController* tbController = (UITabBarController*) self.window.rootViewController;
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+    
+    UIViewController* vc = [storyboard instantiateInitialViewController];
+//    [self.window addSubview:vc];
+    [self.window setRootViewController:vc];
+
+    /*
+    for (UINavigationController* navC in tbController.viewControllers) {
+        UIViewController* topVC = navC.topViewController;
+        UIViewController* newVC = (UIViewController *)([[topVC.class alloc] initWithNibName:topVC.nibName bundle:nil]);
+        
+        [navC removeFromParentViewController];
+        [navC.view removeFromSuperview];
+        navC.viewControllers = [NSArray arrayWithObject: newVC];
+
+        [tbController addChildViewController:navC];
+    }*/
+}
+
 // Pre iOS 4.2 support
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        return YES;
+    }
+    
     return [facebookLoginOperation handleOpenURL:url];
 }
 
 // For iOS 4.2+ support
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        return YES;
+    }
+    
     return [facebookLoginOperation handleOpenURL:url];
 }
 

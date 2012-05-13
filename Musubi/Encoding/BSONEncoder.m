@@ -87,6 +87,9 @@ static void err_handler(const char *errmsg) {
 + (Message *)decodeMessage:(NSData *)data {
     set_bson_err_handler(err_handler);
     
+    if (data == nil || data.length == 0)
+        @throw [NSException exceptionWithName:@"DecodeError" reason:@"No data in message" userInfo:nil];
+    
     bson b, s, r;
     bson_iterator iter, iter2, iter3;
     bson_init_finished_data(&b, (char*)[data bytes]);
