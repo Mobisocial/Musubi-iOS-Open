@@ -3022,7 +3022,7 @@
 					"$(SRCROOT)/Libraries/OAuth2/**",
 					"$(BUILT_PRODUCTS_DIR)/../three20",
 					"$(BUILT_PRODUCTS_DIR)/../../three20",
-					"$(BUILT_PRODUCTS_DIR)/../../../Three20/three20",
+					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -3061,7 +3061,7 @@
 					"$(SRCROOT)/Libraries/OAuth2/**",
 					"$(BUILT_PRODUCTS_DIR)/../three20",
 					"$(BUILT_PRODUCTS_DIR)/../../three20",
-					"$(BUILT_PRODUCTS_DIR)/../../../Three20/three20",
+					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
