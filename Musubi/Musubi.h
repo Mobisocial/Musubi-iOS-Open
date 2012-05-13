@@ -73,7 +73,9 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 @property (nonatomic, strong) MessageEncodeService* encodeService;
 @property (nonatomic, strong) MessageDecodeService* decodeService;
 @property (nonatomic, strong) ObjPipelineService* objPipelineService;
-@property (nonatomic, strong) NSString* apnDeviceToken;
+//this is updated in the main thread for notifications, but it also 
+//read from a background thread
+@property (atomic, strong) NSString* apnDeviceToken;
 
 + (Musubi*) sharedInstance;
 
