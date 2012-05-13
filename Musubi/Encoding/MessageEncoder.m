@@ -42,7 +42,7 @@
 
 @implementation MessageEncoder
 
-@synthesize transportDataProvider, encryptionScheme, signatureScheme;
+@synthesize transportDataProvider, encryptionScheme, signatureScheme, deviceName;
 
 - (id)initWithTransportDataProvider:(id<TransportDataProvider>)tdp {
     self = [super init];

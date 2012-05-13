@@ -29,21 +29,17 @@
 @class IdentityManager, MIdentity;
 
 @interface FriendPickerTableViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, TTTableViewDataSource, UITextFieldDelegate> {
-    IdentityManager* _identityManager;
-    NSMutableDictionary* _identities;
-    NSArray* _index;
-    NSMutableArray* _selection;
-    
+   
     IBOutlet UIScrollView* recipientView;
     IBOutlet UITableView* tableView;
     
     TTPickerTextField* pickerTextField;
 }
 
-@property (nonatomic) IdentityManager* identityManager;
-@property (nonatomic) NSMutableDictionary* identities;
-@property (nonatomic) NSArray* index;
-@property (nonatomic) NSMutableArray* selection;
+@property (nonatomic, strong) IdentityManager* identityManager;
+@property (nonatomic, strong) NSMutableDictionary* identities;
+@property (nonatomic, strong) NSArray* index;
+@property (nonatomic, strong) NSMutableArray* selection;
 
 - (IBAction) createFeed: (id) sender;
 

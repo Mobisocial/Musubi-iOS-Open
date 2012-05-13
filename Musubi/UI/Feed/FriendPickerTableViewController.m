@@ -31,6 +31,7 @@
 #import "MFeed.h"
 #import "FeedManager.h"
 #import "AppManager.h"
+#import "MObj.h"
 #import "IntroductionObj.h"
 #import "ObjHelper.h"
 #import "FeedListViewController.h"
@@ -278,6 +279,9 @@
 - (id<TTModel>)model {
     return nil;
 }
+- (void)setModel:(id<TTModel>)model {
+    NSLog(@"Model changes not supported continuing blindly");
+}
 
 - (NSString*) tableView:(UITableView*)tv labelForObject:(id) obj {
     return ((MIdentity*)obj).name;
@@ -317,6 +321,7 @@
     
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:_selection];
     MObj* obj = [ObjHelper sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
+    NSLog(@"Sent obj %@", obj.objectID);
     
 //    NSLog(@"Accepted? %d. Last renderable? %lld", f.accepted, f.latestRenderableObjTime);
     

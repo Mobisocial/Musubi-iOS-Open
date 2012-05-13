@@ -40,9 +40,6 @@ static PersistentModelStoreFactory *sharedInstance = nil;
     return sharedInstance;
 }
 
-//i know globals are lame but its contained to here. 
-static NSManagedObjectContext* root = nil;
-
 + (NSURL*) pathForStoreWithName: (NSString*) name {
     NSArray *documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
     return [NSURL fileURLWithPath: [[documentsPath objectAtIndex:0] 

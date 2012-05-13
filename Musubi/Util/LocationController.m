@@ -53,25 +53,10 @@ static LocationController* sharedInstance = nil;
 + (LocationController*) sharedInstance {
     @synchronized(self) {
         if (sharedInstance == nil) {
-            [[self alloc] init];
+            sharedInstance = [[self alloc] init];
         }
     }
     return sharedInstance;
-}
-
-+ (id)allocWithZone:(NSZone *)zone {
-    @synchronized(self) {
-        if (sharedInstance == nil) {
-            sharedInstance = [super allocWithZone:zone];
-            return sharedInstance;  // assignment and return on first allocation
-        }
-    }
-    return nil; // on subsequent allocation attempts return nil
-}
-
-- (id)copyWithZone:(NSZone *)zone
-{
-    return self;
 }
 
 @end

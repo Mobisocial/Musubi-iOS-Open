@@ -77,7 +77,8 @@ static uint32_t kHeaderGuesstimate = 200;
     }
     dataPtr += sizeof(uint32_t);
         
-    uint32_t flags = CFSwapInt32BigToHost(*(uint32_t*)dataPtr);
+    //uint32_t flags = CFSwapInt32BigToHost(*(uint32_t*)dataPtr);
+
     dataPtr += sizeof(uint32_t);
     
     NSData* encoded = [NSData dataWithBytes:dataPtr length:data.length - (dataPtr - data.bytes)];

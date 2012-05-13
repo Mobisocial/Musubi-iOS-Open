@@ -10,19 +10,7 @@
 #import "FacebookAuth.h"
 #import "Musubi.h"
 #import "APNPushManager.h"
-
-NSString* NSDataToHex(NSData* data)
-{
-    const unsigned char *dbytes = [data bytes];
-    NSMutableString *hexStr =
-    [NSMutableString stringWithCapacity:[data length]*2];
-    int i;
-    for (i = 0; i < [data length]; i++) {
-        [hexStr appendFormat:@"%02x", dbytes[i]];
-    }
-    return [NSString stringWithString: hexStr];
-}
-
+#import "NSData+HexString.h"
 
 @implementation AppDelegate
 
@@ -51,7 +39,7 @@ NSString* NSDataToHex(NSData* data)
     NSLog(@"Error in registration. Error: %@", err);
 }    
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {          
-    [Musubi sharedInstance].apnDeviceToken = NSDataToHex(deviceToken);
+    [Musubi sharedInstance].apnDeviceToken = [deviceToken hexString];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

@@ -138,11 +138,6 @@ static GTMOAuth2Authentication* active;
     
     UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     UINavigationController* settingsNavController = (UINavigationController*)[root.childViewControllers objectAtIndex:1];
-    UIViewController* settingsViewController = [settingsNavController topViewController];
-    
-    //NSLog(@"Children: %@", root.tabBarController.childViewControllers);
-//    [root presentModalViewController:vc animated:YES];
-//    [root pushViewController:vc animated:YES];
     
     [settingsNavController pushViewController:vc animated:YES];
 }

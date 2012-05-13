@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0294C4A155CEE5B005894DF /* APNPushManager.m */; };
 		C0395FA31521BFD700F5AF3B /* MMyDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */; };
+		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
 		C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5757D1551F94600B6624C /* libTestFlight.a */; };
 		C0D575821551F94600B6624C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757E1551F94600B6624C /* README.txt */; };
 		C0D575831551F94600B6624C /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757F1551F94600B6624C /* release_notes.txt */; };
@@ -277,6 +278,8 @@
 		C0294C4A155CEE5B005894DF /* APNPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNPushManager.m; sourceTree = "<group>"; };
 		C0395FA11521BFD700F5AF3B /* MMyDeviceName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMyDeviceName.h; sourceTree = "<group>"; };
 		C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMyDeviceName.m; sourceTree = "<group>"; };
+		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
+		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
 		C0D5757D1551F94600B6624C /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		C0D5757E1551F94600B6624C /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		C0D5757F1551F94600B6624C /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
@@ -1168,6 +1171,8 @@
 				D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */,
 				D2F8C687152533D6005AD880 /* NSDate+TimeAgo.h */,
 				D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */,
+				C075913215605A790006948E /* NSData+HexString.h */,
+				C075913315605A790006948E /* NSData+HexString.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -2825,6 +2830,7 @@
 				D23EED041554858A00B18153 /* FeedListDataSource.m in Sources */,
 				D23EED071554A30E00B18153 /* FeedListItemCell.m in Sources */,
 				C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */,
+				C075913415605A790006948E /* NSData+HexString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jge-P6-bAi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jge-P6-bAi">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
@@ -20,7 +20,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="s4b-rn-gXZ" kind="custom" identifier="ShowFeedCustom" id="nHK-F1-yOs"/>
+                        <segue destination="s4b-rn-gXZ" kind="push" identifier="ShowFeedCustom" id="nHK-F1-yOs"/>
                     </connections>
                 </tableViewController>
             </objects>
@@ -99,7 +99,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Htd-Nj-57N" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="s4b-rn-gXZ" customClass="FeedViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Xxe-yW-zPU">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="9g9-Wc-oJA">

@@ -30,13 +30,9 @@
 
 @class PersistentModelStoreFactory, PersistentModelStore, FacebookAuthManager, IBEncryptionIdentity, MIdentity;
 
-@interface FacebookIdentityUpdater : NSObject {
-    PersistentModelStoreFactory* _storeFactory;
-    NSOperationQueue* queue;
-}
-
-@property (nonatomic) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic) NSOperationQueue* queue;
+@interface FacebookIdentityUpdater : NSObject
+@property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic, strong) NSOperationQueue* queue;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory;
 
@@ -44,10 +40,6 @@
 
 
 @interface FacebookIdentityFetchOperation : NSOperation<FBRequestDelegate> {
-    PersistentModelStoreFactory* _storeFactory;
-    PersistentModelStore* _store;
-    FacebookAuthManager* _authManager;
-    
 //    BOOL _isFinished;
 //    BOOL _isExecuting;
     
@@ -55,13 +47,13 @@
     BOOL _profileDataChanged;
 }
 
-@property (nonatomic) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic) PersistentModelStore* store;
-@property (nonatomic) FacebookAuthManager* authManager;
+@property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic, strong) PersistentModelStore* store;
+@property (nonatomic, strong) FacebookAuthManager* authManager;
+@property (nonatomic, strong) FBRequest* request;
 //@property (atomic, assign) BOOL isFinished;
 //@property (atomic, assign) BOOL isExecuting;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory;
-- (MIdentity*) ensureIdentity: (long) fbId name: (NSString*) name andIdentity: (IBEncryptionIdentity*) ibeId;
 
 @end

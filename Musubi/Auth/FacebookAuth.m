@@ -61,12 +61,25 @@
     [defaults setObject:[facebook expirationDate] forKey:@"FBExpirationDateKey"];
     [defaults synchronize];
 }
+- (void)fbDidNotLogin:(BOOL)cancelled
+{
+    NSLog(@"USer cancelled facebook auth %@", cancelled ? @"YES" : @"NO"); 
+}
 
 - (void)fbDidExtendToken:(NSString *)accessToken expiresAt:(NSDate *)expiresAt {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:accessToken forKey:@"FBAccessTokenKey"];
     [defaults setObject:expiresAt forKey:@"FBExpirationDateKey"];
     [defaults synchronize];
+}
+- (void)fbDidLogout
+{
+    NSLog(@"Logged out of facebook"); 
+    
+}
+- (void)fbSessionInvalidated
+{
+    NSLog(@"Session invalidated"); 
 }
 
 - (NSString *)activeAccessToken {
@@ -120,9 +133,10 @@
 
 @implementation FacebookCheckValidOperation
 
+@synthesize request;
 - (void)main {
     if ([facebookMgr.facebook isSessionValid]) {
-        [facebookMgr.facebook requestWithGraphPath:@"me" andDelegate:self];
+        request = [facebookMgr.facebook requestWithGraphPath:@"me" andDelegate:self];
     } else {
         [manager onAccount:kAccountTypeFacebook isValid:NO];
     }
@@ -137,6 +151,8 @@
 
 
 @implementation FacebookLoginOperation
+
+@synthesize request;
 
 - (void)main {
     finished = NO;
@@ -170,7 +186,7 @@
     [super fbDidLogin];
     
     // Request "me" from Graph API to create the account with
-    [facebookMgr.facebook requestWithGraphPath:@"me" andDelegate:self];
+    request =[facebookMgr.facebook requestWithGraphPath:@"me" andDelegate:self];
 }
 
 - (void)request:(FBRequest *)request didLoad:(id)result {

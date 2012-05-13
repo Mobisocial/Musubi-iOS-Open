@@ -33,12 +33,11 @@
 #import "PreparedObj.h"
 #import "MFeed.h"
 
-@implementation BSONEncoder
-
-void err_handler();
-void err_handler() {
+static void err_handler(const char *errmsg) {
     @throw [NSException exceptionWithName:kMusubiExceptionMessageCorrupted reason:@"Message could not be decoded" userInfo:nil];
 }
+
+@implementation BSONEncoder
 
 
 + (NSData *)encodeMessage:(Message *)m {

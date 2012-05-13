@@ -30,11 +30,9 @@
 
 @class MAccount, AccountAuthManager, SettingsViewController;
 
-@interface FacebookAuthManager : NSObject<FBSessionDelegate> {
-    Facebook* facebook;
-}
+@interface FacebookAuthManager : NSObject<FBSessionDelegate> 
 
-@property (nonatomic) Facebook* facebook;
+@property (nonatomic, strong) Facebook* facebook;
 
 - (id) initWithDelegate: (id<FBSessionDelegate>) d;
 - (void) fbDidLogin;
@@ -45,12 +43,13 @@
 
 // Abstract Facebook operation
 @interface FacebookConnectOperation : NSOperation<FBSessionDelegate> {
+    //these are here so the ivars are public so there are less self.'s
     AccountAuthManager* manager;
     FacebookAuthManager* facebookMgr;
 }
 
-@property (nonatomic) AccountAuthManager* manager;
-@property (nonatomic) FacebookAuthManager* facebookMgr;
+@property (nonatomic, strong) AccountAuthManager* manager;
+@property (nonatomic, strong) FacebookAuthManager* facebookMgr;
 
 - (id) initWithManager: (AccountAuthManager*) m;
 
@@ -59,12 +58,14 @@
 
 // Operation to check the facebook auth token validity
 @interface FacebookCheckValidOperation : FacebookConnectOperation <FBRequestDelegate>
+@property (nonatomic, strong) FBRequest* request;
 @end
 
 // Operation to create a new account by connecting to FB
 @interface FacebookLoginOperation : FacebookConnectOperation <FBRequestDelegate> {
     BOOL finished;
 }
+@property (nonatomic, strong) FBRequest* request;
 
 - (BOOL) handleOpenURL: (NSURL*) url;
 
