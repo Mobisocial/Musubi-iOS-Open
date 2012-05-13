@@ -30,7 +30,9 @@
 #import "MIdentity.h"
 #import "FeedViewController.h"
 #import "FeedListDataSource.h"
-
+#import "PersistentModelStore.h"
+#import "MessageDecodeService.h"
+#import "ObjPipelineService.h"
 
 @implementation FeedListViewController
 
@@ -38,13 +40,23 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
 
 - (void)loadView {
     [super loadView];
+    
+    incomingLabel = [[UILabel alloc] init];
+    incomingLabel.font = [UIFont systemFontOfSize: 13.0];
+    incomingLabel.text = @"Decrypting:";
+    [self.view addSubview:incomingLabel];
+    
+    CGRect tableFrame = self.tableView.frame;
+    [self.tableView setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height-40)];
+    
+    
+    [incomingLabel setFrame:CGRectMake(10, 376, 300, 40)];
     
     [self setVariableHeightRows:YES];
 }
@@ -60,9 +72,17 @@
             initWithController:self];
 }
 
+- (void)viewDidLayoutSubviews {
+    NSLog(@"View: %@", self.view);
+    NSLog(@"Table: %@", self.tableView);
+    NSLog(@"Label: %@", incomingLabel);
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
     [self refresh];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -91,6 +111,19 @@
 
     // Cardinal
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
+    
+    
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1 target:self selector:@selector(updatePending) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+
+}
+
+- (void)updatePending {
+    PersistentModelStore* store = [Musubi sharedInstance].mainStore;
+    NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
+    NSArray* objs = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"];
+    
+    
+    incomingLabel.text = [NSString stringWithFormat: @"Decrypting: %d new messages (%d, %d)", encoded.count + objs.count,[MessageDecodeOperation operationCount], [ObjProcessorOperation operationCount]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

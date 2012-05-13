@@ -88,6 +88,7 @@
 @property (nonatomic) AppManager* appManager;
 
 - (id) initWithMessageId: (NSManagedObjectID*) msgId andService: (MessageDecodeService*) service;
++ (int) operationCount;
 
 @end
 

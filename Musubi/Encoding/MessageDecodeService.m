@@ -125,6 +125,8 @@
 
 @implementation MessageDecodeOperation
 
+static int operationCount;
+
 @synthesize service = _service, messageId = _messageId, dirtyFeeds = _dirtyFeeds, shouldRunProfilePush = _shouldRunProfilePush, success = _success;
 @synthesize store = _store, deviceManager = _deviceManager, transportManager = _transportManager, identityManager = _identityManager, feedManager = _feedManager, accountManager = _accountManager, appManager = _appManager, decoder = _decoder;
 
@@ -139,6 +141,10 @@
     return self;
 }
 
++ (int) operationCount {
+    return operationCount;
+}
+
 - (BOOL)isConcurrent {
     return YES;
 }
@@ -146,24 +152,32 @@
 - (void)start {
     [super start];
     
-    // Get the obj and decode it
-    [self setStore: [_service.storeFactory newStore]];
-    MEncodedMessage* msg = (MEncodedMessage*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _messageId] onEntity:@"EncodedMessage"];
-    
-    if (msg) {
-        [self setDeviceManager: [[MusubiDeviceManager alloc] initWithStore: _store]];
-        [self setTransportManager: [[TransportManager alloc] initWithStore:_store encryptionScheme: _service.identityProvider.encryptionScheme signatureScheme:_service.identityProvider.signatureScheme deviceName:[_deviceManager localDeviceName]]];
-        [self setIdentityManager: _transportManager.identityManager];
-        [self setFeedManager: [[FeedManager alloc] initWithStore:_store]];
-        [self setAccountManager: [[AccountManager alloc] initWithStore: _store]];
-        [self setAppManager: [[AppManager alloc] initWithStore: _store]];        
-        [self setDecoder: [[MessageDecoder alloc] initWithTransportDataProvider:_transportManager]];
+    operationCount += 1;
+
+    @try {
+        // Get the obj and decode it
+        [self setStore: [_service.storeFactory newStore]];
+        MEncodedMessage* msg = (MEncodedMessage*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _messageId] onEntity:@"EncodedMessage"];
         
-        [self decodeMessage:msg];
+        if (msg) {
+            [self setDeviceManager: [[MusubiDeviceManager alloc] initWithStore: _store]];
+            [self setTransportManager: [[TransportManager alloc] initWithStore:_store encryptionScheme: _service.identityProvider.encryptionScheme signatureScheme:_service.identityProvider.signatureScheme deviceName:[_deviceManager localDeviceName]]];
+            [self setIdentityManager: _transportManager.identityManager];
+            [self setFeedManager: [[FeedManager alloc] initWithStore:_store]];
+            [self setAccountManager: [[AccountManager alloc] initWithStore: _store]];
+            [self setAppManager: [[AppManager alloc] initWithStore: _store]];        
+            [self setDecoder: [[MessageDecoder alloc] initWithTransportDataProvider:_transportManager]];
+            
+            [self decodeMessage:msg];
+        }
+    } @catch (NSException* e) {
+    } @finally {
+        operationCount--;
+
+        // Remove from the pending queue
+        [_service.pending removeObject:_messageId];
     }
     
-    // Remove from the pending queue
-    [_service.pending removeObject:_messageId];
 }
 
 - (BOOL) decodeMessage: (MEncodedMessage*) msg {
