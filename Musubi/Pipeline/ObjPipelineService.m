@@ -63,7 +63,12 @@
     PersistentModelStore* store = [storeFactory newStore];
     
     for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"]) {
-        assert(obj.processed == NO);
+        if(obj.processed == YES) {
+            //TODO: there is some logic error that causes this to happen
+            
+            NSLog(@"likely logic error processing obj");
+            continue;
+        }
         
         // Don't process the same obj twice in different threads
         // pending is atomic, so we should be able to do this safely
