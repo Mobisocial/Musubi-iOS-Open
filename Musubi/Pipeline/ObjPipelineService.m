@@ -65,6 +65,9 @@
     for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"]) {
         assert(obj.processed == NO);
         
+        if (obj.processed)
+            continue;
+        
         // Don't process the same obj twice in different threads
         // pending is atomic, so we should be able to do this safely
         // Store ObjectID instead of object, because that is thread-safe
@@ -110,12 +113,14 @@
 - (void) processObj:(MObj*)mObj {
     
     MIdentity* sender = mObj.identity;
-    MFeed* feed = mObj.feed;
-    
+    MFeed* feed = mObj.feed;    
     assert (mObj != nil);
     assert (mObj.universalHash != nil);
     assert (!mObj.processed);
     assert (mObj.shortUniversalHash == *(uint64_t *)mObj.universalHash.bytes);
+    
+    if (mObj.processed)
+        return;
     
     Obj* obj = [ObjFactory objFromManagedObj:mObj];
     
@@ -140,7 +145,6 @@
     [_store save];
     
     NSLog(@"Processed: %@", obj);
-    NSLog(@"Feed last obj: %@", feed.latestRenderableObj.json);
     
     [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:feed.objectID];
 }

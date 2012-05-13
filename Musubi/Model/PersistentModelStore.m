@@ -54,6 +54,46 @@ static NSManagedObjectContext* root = nil;
     [[NSFileManager defaultManager] removeItemAtPath:storePath.path error:NULL];
 }
 
++ (void) restoreStoreFromFile: (NSURL*) path {
+    NSManagedObjectContext *context = [PersistentModelStoreFactory sharedInstance].rootStore.context;
+    NSPersistentStoreCoordinator *c = context.persistentStoreCoordinator;
+    NSPersistentStore* store = [[c persistentStores] objectAtIndex:0];
+    NSURL* storePath = store.URL;
+    
+    NSError* error = nil;
+
+    // detach store from coordinator
+    [c removePersistentStore:store error:&error];
+    if (error) @throw error;
+    
+    // move over the old file to a temp loaction
+    NSURL* tempPath = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@_TMP", storePath.path]];
+    NSLog(@"Moving old store to %@", tempPath);
+    [[NSFileManager defaultManager] moveItemAtURL:storePath toURL:tempPath error:&error];
+    if (error) @throw error;
+
+    // move over new file to store location
+    NSLog(@"Moving new store from %@", path);
+    [[NSFileManager defaultManager] moveItemAtURL:path toURL:storePath error:&error];
+    if (error) {
+        // move back the store
+        [[NSFileManager defaultManager] moveItemAtURL:tempPath toURL:storePath error:nil]; 
+        @throw error;
+    }
+    
+    // create new store
+    NSLog(@"Creating new persistent store at %@", storePath);
+    [c addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storePath options:nil error:&error];
+    if (error) {
+        // move back the store
+        [[NSFileManager defaultManager] moveItemAtURL:tempPath toURL:storePath error:nil];        
+        @throw error;
+    }
+    
+    // remove the temp backed up store
+    [[NSFileManager defaultManager] removeItemAtURL:tempPath error:nil];
+}
+
 - (id) initWithName: (NSString*) name {
     NSURL *path = [PersistentModelStoreFactory pathForStoreWithName:name];
     return [self initWithPath: path];

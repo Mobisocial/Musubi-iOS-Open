@@ -18,4 +18,6 @@
 // Facebook SingleSignOn always calls back the appDelegate, so we need a reference to the login
 @property (nonatomic, weak) FacebookLoginOperation* facebookLoginOperation;
 
+- (void) restart;
+
 @end

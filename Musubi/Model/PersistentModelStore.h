@@ -56,6 +56,7 @@
 + (PersistentModelStoreFactory *)sharedInstance;
 + (NSURL*) pathForStoreWithName: (NSString*) name;
 + (void) deleteStoreWithName: (NSString*) name;
++ (void) restoreStoreFromFile: (NSURL*) path;
 
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator;
 - (id) initWithPath: (NSURL*) path;

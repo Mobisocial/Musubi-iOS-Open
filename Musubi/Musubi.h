@@ -55,7 +55,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 #define kMusubiExceptionBadObjFormat @"BadObjFormat"
 #define kMusubiExceptionUnexpected @"Unexpected"
 
-@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjPipelineService;
+@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjPipelineService, FacebookIdentityUpdater, GoogleIdentityUpdater;
 
 
 @interface Musubi : NSObject {
@@ -74,6 +74,10 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 @property (nonatomic, strong) MessageDecodeService* decodeService;
 @property (nonatomic, strong) ObjPipelineService* objPipelineService;
 @property (nonatomic, strong) NSString* apnDeviceToken;
+
+@property (nonatomic, strong) FacebookIdentityUpdater* facebookIdentityUpdater;
+@property (nonatomic, strong) GoogleIdentityUpdater* googleIdentityUpdater;
+
 
 + (Musubi*) sharedInstance;
 
