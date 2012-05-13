@@ -226,7 +226,7 @@
         //the data and the hash once per message
         if (im.data == nil) {
             [im setData: [m.d decryptWithAES128CBCPKCS7WithKey:secret.k andIV:m.i]];
-            NSLog(@"[MessageDecoder] Data: %@", im.data);
+            NSLog(@"[MessageDecoder] Data Len: %u", im.data.length);
         }
         if (im.hash == nil) {
             [im setHash: [im.data sha256Digest]];
