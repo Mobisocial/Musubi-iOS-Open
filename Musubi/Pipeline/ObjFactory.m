@@ -32,6 +32,7 @@
 #import "IntroductionObj.h"
 #import "PictureObj.h"
 #import "LikeObj.h"
+#import "DeleteObj.h"
 
 @implementation ObjFactory
 
@@ -50,6 +51,8 @@
         return [[PictureObj alloc] initWithRaw:mObj.raw];
     } else if ([objType isEqualToString:kObjTypeLike]) {
         return [[LikeObj alloc] initWithData:data];
+    } else if ([objType isEqualToString:kObjTypeDelete]) {
+        return [[DeleteObj alloc] initWithData:data];
     }
     
     return nil;

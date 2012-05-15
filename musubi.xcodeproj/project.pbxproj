@@ -153,6 +153,7 @@
 		D480489B1561C9270066279D /* MObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D480489A1561C9260066279D /* MObj.m */; };
 		D48048A11561CC980066279D /* MLikeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D48048A01561CC980066279D /* MLikeCache.m */; };
 		D480496D1561F6C70066279D /* LikeObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D480496C1561F6C60066279D /* LikeObj.m */; };
+		D4E42AB0156224EF00C21FDA /* DeleteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E42AAF156224EE00C21FDA /* DeleteObj.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -869,6 +870,8 @@
 		D48048A01561CC980066279D /* MLikeCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLikeCache.m; sourceTree = "<group>"; };
 		D480496B1561F6C60066279D /* LikeObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LikeObj.h; path = SocialKit/Obj/LikeObj.h; sourceTree = "<group>"; };
 		D480496C1561F6C60066279D /* LikeObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LikeObj.m; path = SocialKit/Obj/LikeObj.m; sourceTree = "<group>"; };
+		D4E42AAE156224EE00C21FDA /* DeleteObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteObj.h; path = SocialKit/Obj/DeleteObj.h; sourceTree = "<group>"; };
+		D4E42AAF156224EE00C21FDA /* DeleteObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteObj.m; path = SocialKit/Obj/DeleteObj.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1225,6 +1228,8 @@
 				D208BDD915339CE700F6FC5C /* PictureObj.m */,
 				D480496B1561F6C60066279D /* LikeObj.h */,
 				D480496C1561F6C60066279D /* LikeObj.m */,
+				D4E42AAE156224EE00C21FDA /* DeleteObj.h */,
+				D4E42AAF156224EE00C21FDA /* DeleteObj.m */,
 			);
 			name = Obj;
 			sourceTree = "<group>";
@@ -2852,6 +2857,7 @@
 				D480489B1561C9270066279D /* MObj.m in Sources */,
 				D48048A11561CC980066279D /* MLikeCache.m in Sources */,
 				D480496D1561F6C70066279D /* LikeObj.m in Sources */,
+				D4E42AB0156224EF00C21FDA /* DeleteObj.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
