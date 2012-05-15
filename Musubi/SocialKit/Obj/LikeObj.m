@@ -24,15 +24,20 @@
 //
 
 #import "LikeObj.h"
+#import "ObjHelper.h"
 
 @implementation LikeObj
 
 - (id) initWithData: (NSDictionary*) data {
-    self = [super init];
+    self = [super initWithType:kObjTypeLike data:data andRaw:nil];
     return self;
 }
 
 - (BOOL)processObj {
+    NSString *parentHash = [self.data objectForKey: kObjFieldTargetHash];
+    NSLog(@"Someone likes %@!", parentHash);
+    // TODO: fill in implementation
+    // TODO: out-of-order liking probably not supported out-of-the-box.
     return NO;
 }
 

@@ -140,6 +140,7 @@
     if (keepObject) {
         mObj.processed = YES;
     } else {
+        NSLog(@"Discarding %@", mObj.type);
         [_store.context deleteObject: mObj];
     }
     
