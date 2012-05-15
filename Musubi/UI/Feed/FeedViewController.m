@@ -182,7 +182,7 @@
 - (IBAction)commandButtonPushed: (id) sender {
     UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", nil];
     
-    [commandPicker showFromTabBar: self.tabBarController.tabBar];
+    [commandPicker showInView:mainView];
 }
 
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="jge-P6-bAi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vh5-YM-htJ">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
     <scenes>
         <!--Feed List View Controller - Groups-->
@@ -12,6 +12,11 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qGX-5d-qUU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="Groups" title="Groups" id="XDU-Me-xmm" customClass="FeedListViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Conversations" id="6Pg-kV-lXV">
+                        <barButtonItem key="leftBarButtonItem" image="gear.png" id="PuR-uH-aiI">
+                            <connections>
+                                <segue destination="ayD-7Y-iPW" kind="push" id="thq-lQ-aa5"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="o9G-oe-VLB">
                             <connections>
                                 <action selector="newGroupButtonClicked:" destination="XDU-Me-xmm" id="9CV-jV-1c2"/>
@@ -32,15 +37,15 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a6R-AP-bBB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="Xha-HF-lG4" customClass="FriendPickerTableViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7aG-ba-9yQ">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" id="fHQ-7J-hmU">
-                                <rect key="frame" x="-1" y="-1" width="322" height="39"/>
+                                <rect key="frame" x="-1" y="48" width="322" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </scrollView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Qub-VK-YUS">
-                                <rect key="frame" x="0.0" y="38" width="320" height="329"/>
+                                <rect key="frame" x="0.0" y="38" width="320" height="378"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -99,7 +104,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Htd-Nj-57N" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="s4b-rn-gXZ" customClass="FeedViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Xxe-yW-zPU">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="9g9-Wc-oJA">
@@ -172,28 +177,6 @@
             </objects>
             <point key="canvasLocation" x="2874" y="-422"/>
         </scene>
-        <!--Musubi-->
-        <scene sceneID="tlF-hz-ZI0">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lsl-TC-gOg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tabBarController title="Musubi" definesPresentationContext="YES" id="jge-P6-bAi" userLabel="Musubi" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="zjy-eg-jze"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="oYh-P7-zOO">
-                        <rect key="frame" x="129" y="330" width="163" height="49"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="vh5-YM-htJ" kind="relationship" relationship="viewControllers" id="Ceg-ex-gGn"/>
-                        <segue destination="sOa-Fq-Klh" kind="relationship" relationship="viewControllers" id="p2M-Fe-qKr"/>
-                    </connections>
-                </tabBarController>
-            </objects>
-            <point key="canvasLocation" x="-511" y="-363"/>
-        </scene>
         <!--Navigation Controller - Groups-->
         <scene sceneID="rne-Ov-fys">
             <objects>
@@ -226,7 +209,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OIp-Mr-lwN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController title="Settings" id="ayD-7Y-iPW" customClass="SettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Hu2-ie-EkH">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
@@ -304,64 +287,15 @@
         </scene>
     </scenes>
     <resources>
+        <image name="gear.png" width="40" height="40"/>
         <image name="missing.png" width="289" height="287"/>
     </resources>
-    <classes>
-        <class className="FeedListViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedListViewController.h"/>
-        </class>
-        <class className="FeedViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="commandButtonPushed:"/>
-                <relationship kind="outlet" name="mainView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="postView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="updateField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FriendPickerTableViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FriendPickerTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="createFeed:"/>
-                <relationship kind="outlet" name="recipientView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="NamePictureCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NamePictureCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="nameTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="picture" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="SettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="pictureClicked:"/>
-            </relationships>
-        </class>
-        <class className="TTBaseViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTBaseViewController.h"/>
-        </class>
-        <class className="TTModelViewController" superclassName="TTViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTModelViewController.h"/>
-        </class>
-        <class className="TTNavigatorViewController" superclassName="TTBaseViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTNavigatorViewController.h"/>
-        </class>
-        <class className="TTTableViewController" superclassName="TTModelViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="TTViewController" superclassName="TTNavigatorViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="thq-lQ-aa5"/>
+    </inferredMetricsTieBreakers>
 </document>
