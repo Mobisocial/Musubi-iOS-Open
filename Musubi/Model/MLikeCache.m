@@ -16,20 +16,21 @@
 
 
 //
-//  FeedItem.m
+//  MLikeCache.m
 //  musubi
 //
-//  Created by Willem Bult on 5/1/12.
+//  Created by Ben Dodson on 5/14/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "FeedItem.h"
+#import "MLikeCache.h"
+#import "MObj.h"
 
-@implementation FeedItem
 
-@synthesize sender = _sender;
-@synthesize timestamp = _timestamp;
-@synthesize profilePicture = _profilePicture;
-@synthesize likeCount = _likeCount;
+@implementation MLikeCache
+
+@dynamic count;
+@dynamic localLike;
+@dynamic parentObj;
 
 @end

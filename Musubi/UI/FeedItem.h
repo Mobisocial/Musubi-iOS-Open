@@ -34,5 +34,6 @@
 @property (nonatomic, copy) NSString* sender;
 @property (nonatomic, retain) NSDate* timestamp;
 @property (nonatomic, copy) UIImage* profilePicture;
+@property (nonatomic) int likeCount;
 
 @end

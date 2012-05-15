@@ -17,9 +17,9 @@
 
 //
 //  MObj.m
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by Ben Dodson on 5/14/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -34,22 +34,23 @@
 
 @implementation MObj
 
-@dynamic timestamp;
-@dynamic universalHash;
-@dynamic shortUniversalHash;
-@dynamic type;
-@dynamic json;
-@dynamic raw;
-@dynamic lastModified;
 @dynamic deleted;
-@dynamic renderable;
+@dynamic json;
+@dynamic lastModified;
 @dynamic processed;
+@dynamic raw;
+@dynamic renderable;
+@dynamic shortUniversalHash;
+@dynamic timestamp;
+@dynamic type;
+@dynamic universalHash;
+@dynamic app;
+@dynamic device;
+@dynamic encoded;
 @dynamic feed;
 @dynamic identity;
-@dynamic device;
 @dynamic parent;
-@dynamic app;
-@dynamic encoded;
+@dynamic likeCount;
 
 - (NSString *)senderDisplay {
     if (self.identity != nil && self.identity.name != nil) {

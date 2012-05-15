@@ -30,6 +30,7 @@
 #import "MIdentity.h"
 #import "MFeed.h"
 #import "FeedManager.h"
+#import "ObjManager.h"
 #import "IdentityManager.h"
 #import "Obj.h"
 #import "ObjFactory.h"
@@ -134,8 +135,13 @@
         }
         [_service.feedsToNotify addObject:feed.objectID];
     }
-    
-    [mObj setProcessed: YES];
+
+    BOOL keepObject = [obj processObj];
+    if (keepObject) {
+        mObj.processed = YES;
+    } else {
+        [_store.context deleteObject: mObj];
+    }
     
     FeedManager* feedManager = [[FeedManager alloc] initWithStore: _store];
     if (feed.type == kFeedTypeOneTimeUse) {

@@ -16,20 +16,22 @@
 
 
 //
-//  FeedItem.m
+//  MLikeCache.h
 //  musubi
 //
-//  Created by Willem Bult on 5/1/12.
+//  Created by Ben Dodson on 5/14/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "FeedItem.h"
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@implementation FeedItem
+@class MObj;
 
-@synthesize sender = _sender;
-@synthesize timestamp = _timestamp;
-@synthesize profilePicture = _profilePicture;
-@synthesize likeCount = _likeCount;
+@interface MLikeCache : NSManagedObject
+
+@property (nonatomic, retain) NSNumber * count;
+@property (nonatomic, retain) NSNumber * localLike;
+@property (nonatomic, retain) MObj *parentObj;
 
 @end

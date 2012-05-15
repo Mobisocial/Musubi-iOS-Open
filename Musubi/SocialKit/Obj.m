@@ -47,4 +47,12 @@
     return [NSString stringWithFormat:@"<Obj: %@, %@>", _type, _data];
 }
 
+/**
+ Performs obj-specific processing. Return true to keep
+ the object in the data store, false to discard it.
+ */
+- (BOOL)processObj {
+    return YES;
+}
+
 @end

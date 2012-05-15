@@ -16,39 +16,24 @@
 
 
 //
-//  PictureObj.m
+//  LikeObj.m
 //  musubi
 //
-//  Created by Willem Bult on 4/9/12.
+//  Created by Ben Dodson on 5/14/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "PictureObj.h"
-#import "UIImage+Resize.h"
+#import "LikeObj.h"
 
-static NSString* kMimeField = @"mimeType";
+@implementation LikeObj
 
-@implementation PictureObj
-
-@synthesize image = _image;
-
-- (id)initWithImage:(UIImage *)img {
+- (id) initWithData: (NSDictionary*) data {
     self = [super init];
-    if (self) {
-        int width = MIN(img.size.width, 480);
-        CGSize size = CGSizeMake(width, width / img.size.width * img.size.height);
-        
-        [self setType: kObjTypePicture];
-        [self setImage: [img resizedImage:size interpolationQuality:kCGInterpolationHigh]];
-        [self setRaw: UIImageJPEGRepresentation(_image, .9)];
-        [self setData: [NSDictionary dictionary]];        
-    }
-    
     return self;
 }
 
-- (id)initWithRaw:(NSData *)data {
-    return [self initWithImage: [UIImage imageWithData:data]];
+- (BOOL)processObj {
+    return NO;
 }
 
 @end
