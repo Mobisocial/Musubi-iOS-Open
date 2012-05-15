@@ -35,7 +35,7 @@
 
 - (BOOL)processObj {
     NSString *parentHash = [self.data objectForKey: kObjFieldTargetHash];
-    NSLog(@"Someone likes %@!", parentHash);
+    NSLog(@"Someone doesnt like %@!", parentHash);
     // TODO: fill in implementation
     // TODO: out-of-order liking probably not supported out-of-the-box.
     return NO;
