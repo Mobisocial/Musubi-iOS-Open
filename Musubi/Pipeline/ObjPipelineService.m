@@ -91,6 +91,8 @@
 
 @implementation ObjProcessorOperation
 
+static int operationCount = 0;
+
 @synthesize objId = _objId, store = _store, service = _service;
 
 - (id)initWithObjId:(NSManagedObjectID *)objId andService:(ObjPipelineService *)service {
@@ -105,15 +107,26 @@
 - (void)main {
     _store = [_service.storeFactory newStore];
     
+    operationCount++;
+
     // Get the obj and decode it
     MObj* obj = (MObj*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _objId] onEntity:@"Obj"];
     
     if (obj) {
-        [self processObj: obj];
+        @try {
+            [self processObj: obj];
+        } @catch (NSException *e) {
+        } @finally {
+            operationCount--;
+        }
     }
     
     // Remove from the pending queue
     [_service.pending removeObject:_objId];
+}
+
++ (int) operationCount {
+    return operationCount;
 }
 
 - (void) processObj:(MObj*)mObj {
@@ -132,7 +145,7 @@
     
     if ([ObjHelper isRenderable: obj]) {
         [mObj setRenderable: YES];
-        [feed setLatestRenderableObjTime: [[NSDate date] timeIntervalSince1970]];
+        [feed setLatestRenderableObjTime: [mObj.timestamp timeIntervalSince1970]];
         [feed setLatestRenderableObj: mObj];
         
         if (!sender.owned) {

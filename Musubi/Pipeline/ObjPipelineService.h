@@ -58,5 +58,5 @@
 
 - (id) initWithObjId: (NSManagedObjectID*) objId andService: (ObjPipelineService*) service;
 - (void) processObj: (MObj*) obj;
-
++ (int) operationCount;
 @end

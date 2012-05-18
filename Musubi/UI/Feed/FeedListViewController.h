@@ -28,7 +28,9 @@
 
 @class FeedManager;
 
-@interface FeedListViewController : TTTableViewController
+@interface FeedListViewController : TTTableViewController {
+    UILabel* incomingLabel;
+}
 
 //@property (nonatomic, strong) NSArray* feeds;
 //@property (nonatomic, strong) FeedManager* feedManager;
