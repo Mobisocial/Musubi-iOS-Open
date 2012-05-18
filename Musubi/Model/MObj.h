@@ -17,35 +17,36 @@
 
 //
 //  MObj.h
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by Ben Dodson on 5/14/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class MApp, MDevice, MEncodedMessage, MFeed, MIdentity, MObj;
+@class MApp, MDevice, MEncodedMessage, MFeed, MIdentity, MObj, MLikeCache;
 
 @interface MObj : NSManagedObject
 
-@property (nonatomic) NSDate * timestamp;
-@property (nonatomic) NSData * universalHash;
-@property (nonatomic) int64_t shortUniversalHash;
-@property (nonatomic) NSString * type;
-@property (nonatomic) NSString * json;
-@property (nonatomic) NSData * raw;
-@property (nonatomic) NSDate * lastModified;
 @property (nonatomic) BOOL deleted;
-@property (nonatomic) BOOL renderable;
+@property (nonatomic) NSString * json;
+@property (nonatomic) NSDate * lastModified;
 @property (nonatomic) BOOL processed;
+@property (nonatomic) NSData * raw;
+@property (nonatomic) BOOL renderable;
+@property (nonatomic) int64_t shortUniversalHash;
+@property (nonatomic) NSDate * timestamp;
+@property (nonatomic) NSString * type;
+@property (nonatomic) NSData * universalHash;
+@property (nonatomic) MApp *app;
+@property (nonatomic) MDevice *device;
+@property (nonatomic) MEncodedMessage *encoded;
 @property (nonatomic) MFeed *feed;
 @property (nonatomic) MIdentity *identity;
-@property (nonatomic) MDevice *device;
 @property (nonatomic) MObj *parent;
-@property (nonatomic) MApp *app;
-@property (nonatomic) MEncodedMessage *encoded;
+@property (nonatomic) MLikeCache *likeCount;
 
 - (NSString*) senderDisplay;
 

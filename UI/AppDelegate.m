@@ -11,19 +11,7 @@
 #import "Musubi.h"
 #import "APNPushManager.h"
 #import <DropboxSDK/DropboxSDK.h>
-
-NSString* NSDataToHex(NSData* data)
-{
-    const unsigned char *dbytes = [data bytes];
-    NSMutableString *hexStr =
-    [NSMutableString stringWithCapacity:[data length]*2];
-    int i;
-    for (i = 0; i < [data length]; i++) {
-        [hexStr appendFormat:@"%02x", dbytes[i]];
-    }
-    return [NSString stringWithString: hexStr];
-}
-
+#import "NSData+HexString.h"
 
 @implementation AppDelegate
 
@@ -58,7 +46,7 @@ NSString* NSDataToHex(NSData* data)
     NSLog(@"Error in registration. Error: %@", err);
 }    
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {          
-    [Musubi sharedInstance].apnDeviceToken = NSDataToHex(deviceToken);
+    [Musubi sharedInstance].apnDeviceToken = [deviceToken hexString];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -68,8 +56,9 @@ NSString* NSDataToHex(NSData* data)
     // - also could be better on exit in a quit background task
     NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
     if(deviceToken) {
-        [application setApplicationIconBadgeNumber:0];
-        [APNPushManager clearUnread:deviceToken];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+            [APNPushManager clearUnread:deviceToken];
+        });
     }
 }
 

@@ -41,5 +41,5 @@
 
 - (id) initWithType: (NSString*) t;
 - (id) initWithType: (NSString*) t data: (NSDictionary*) data andRaw: (NSData*) raw;
-
+- (BOOL) processObj;
 @end

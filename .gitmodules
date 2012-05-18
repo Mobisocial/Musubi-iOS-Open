@@ -1,6 +1,3 @@
 [submodule "Libraries/Facebook"]
     path = Libraries/Facebook
     url = https://github.com/facebook/facebook-ios-sdk
-[submodule "Libraries/Three20"]
-	path = Libraries/Three20
-	url = https://github.com/facebook/three20

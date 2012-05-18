@@ -25,6 +25,12 @@
 
 #import <Foundation/Foundation.h>
 
+#define kObjFieldTargetHash @"target_hash"
+#define kObjFieldTargetRelation @"target_relation"
+#define kObjFieldMimeType = @"mimeType"
+#define kObjFieldLocalUri = @"localUri"
+#define kObjFieldSharedKey = @"sharedKey"
+
 @class Obj, MObj, MFeed, MApp, PersistentModelStore;
 
 @interface ObjHelper : NSObject

@@ -30,6 +30,12 @@
     NSMutableDictionary* registrationRequest = [[NSMutableDictionary alloc] init];
     [registrationRequest setValue:idents forKey:@"identityExchanges"];
     [registrationRequest setValue:deviceToken forKey:@"deviceToken"];
+#ifdef DEBUG
+    BOOL production = NO;
+#else
+    BOOL production = YES;
+#endif
+    [registrationRequest setValue:[NSNumber numberWithBool:production] forKey:@"production"];
     NSError* error = nil;
     NSData* body = [NSJSONSerialization dataWithJSONObject:registrationRequest options:0 error:&error];
     if(!body) {
@@ -48,7 +54,7 @@
         NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
         
         if(result) {
-            NSLog(@"Registration returned %@", result);
+            NSLog(@"Registration returned %@", [[NSString alloc] initWithData:result encoding:NSUnicodeStringEncoding]);
         }
         
         [TestFlight passCheckpoint:@"[AMQPListener] registered at push server"];
@@ -79,7 +85,9 @@
         if(result) {
             NSLog(@"Clear returned %@", [[NSString alloc] initWithData:result encoding:NSUnicodeStringEncoding]);
         }
-        
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        });
         [TestFlight passCheckpoint:@"[AMQPListener] cleared unread"];
     }
 }

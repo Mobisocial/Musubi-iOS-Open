@@ -54,8 +54,6 @@
 #import "IntroductionObj.h"
 #import "Authorities.h"
 
-
-
 @implementation Musubi
 
 static Musubi* _sharedInstance = nil;
@@ -67,21 +65,9 @@ static Musubi* _sharedInstance = nil;
 	@synchronized([Musubi class])
 	{
 		if (!_sharedInstance) {
-			[[self alloc] init];
+			_sharedInstance = [[self alloc] init];
         }
         
-		return _sharedInstance;
-	}
-    
-	return nil;
-}
-
-+(id)alloc
-{
-	@synchronized([Musubi class])
-	{
-		NSAssert(_sharedInstance == nil, @"Attempted to allocate a second instance of a singleton.");
-		_sharedInstance = [super alloc];
 		return _sharedInstance;
 	}
     

@@ -28,17 +28,12 @@
 
 @class IBEncryptionScheme, IBSignatureScheme, MEncodedMessage, MOutgoingSecret;
 
-@interface MessageEncoder : NSObject {
-    id<TransportDataProvider> transportDataProvider;
-    IBEncryptionScheme* encryptionScheme;
-    IBSignatureScheme* signatureScheme;
-    uint64_t deviceName;
-}
+@interface MessageEncoder : NSObject
 
 @property (nonatomic, strong) id<TransportDataProvider> transportDataProvider;
 @property (nonatomic, strong) IBEncryptionScheme* encryptionScheme;
 @property (nonatomic, strong) IBSignatureScheme* signatureScheme;
-@property (nonatomic, assign) uint64_t deviceName;
+@property (nonatomic, readonly, assign) uint64_t deviceName;
 
 - (id)initWithTransportDataProvider:(id<TransportDataProvider>)tdp;
 - (NSData*) computeFullSignatureForRecipients: (NSArray*) rcpts hash: (NSData*) h app: (NSData*) a blind: (BOOL) b;

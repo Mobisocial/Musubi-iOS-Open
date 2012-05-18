@@ -29,33 +29,23 @@
 
 @class PersistentModelStoreFactory, PersistentModelStore, GoogleAuthManager, IBEncryptionIdentity, MIdentity;
 
-@interface GoogleIdentityUpdater : NSObject {
-    PersistentModelStoreFactory* _storeFactory;
-    NSOperationQueue* queue;
-}
-
-@property (nonatomic) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic) NSOperationQueue* queue;
+@interface GoogleIdentityUpdater : NSObject 
+@property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic, strong) NSOperationQueue* queue;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory;
 
 @end
 
 
-@interface GoogleIdentityFetchOperation : NSOperation<NSURLConnectionDelegate, NSURLConnectionDataDelegate> {
-    PersistentModelStoreFactory* _storeFactory;
-    PersistentModelStore* _store;
-    GoogleAuthManager* _authManager;
-    
+@interface GoogleIdentityFetchOperation : NSOperation<NSURLConnectionDelegate, NSURLConnectionDataDelegate> {    
     BOOL _identityAdded;
     BOOL _profileDataChanged;
 }
 
-@property (nonatomic) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic) PersistentModelStore* store;
-@property (nonatomic) GoogleAuthManager* authManager;
+@property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic, strong) PersistentModelStore* store;
+@property (nonatomic, strong) GoogleAuthManager* authManager;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory;
-- (MIdentity*) ensureIdentity: (long) fbId name: (NSString*) name andIdentity: (IBEncryptionIdentity*) ibeId;
-
 @end

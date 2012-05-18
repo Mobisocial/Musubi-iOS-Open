@@ -40,9 +40,6 @@ static PersistentModelStoreFactory *sharedInstance = nil;
     return sharedInstance;
 }
 
-//i know globals are lame but its contained to here. 
-static NSManagedObjectContext* root = nil;
-
 + (NSURL*) pathForStoreWithName: (NSString*) name {
     NSArray *documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
     return [NSURL fileURLWithPath: [[documentsPath objectAtIndex:0] 
@@ -104,8 +101,10 @@ static NSManagedObjectContext* root = nil;
     NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     
     NSError *error = nil;
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+        [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
     NSPersistentStoreCoordinator *c = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-    [c addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:path options:nil error:&error];
+    [c addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:path options:options error:&error];
     
     return [self initWithCoordinator:c];
 }
@@ -147,7 +146,7 @@ static NSManagedObjectContext* root = nil;
     
     self.context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     context.persistentStoreCoordinator = coordinator;
-            
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(otherContextSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
     return self;
 }

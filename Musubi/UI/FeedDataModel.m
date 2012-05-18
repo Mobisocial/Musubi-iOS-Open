@@ -29,6 +29,7 @@
 #import "Musubi.h"
 #import "MObj.h"
 #import "MIdentity.h"
+#import "MLikeCache.h"
 #import "StatusObj.h"
 #import "StatusObjItem.h"
 #import "PictureObj.h"

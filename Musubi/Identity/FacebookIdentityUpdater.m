@@ -78,7 +78,7 @@
 
 @implementation FacebookIdentityFetchOperation
 
-@synthesize authManager = _authManager, storeFactory = _storeFactory, store = _store;
+@synthesize authManager = _authManager, storeFactory = _storeFactory, store = _store, request = _request;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)storeFactory {
     self = [super init];
@@ -102,9 +102,7 @@
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithCapacity:2];
         [params setObject:@"fql.query" forKey:@"method"];
         [params setObject:@"SELECT uid, name, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())" forKey:@"query"];
-        [_authManager.facebook requestWithParams:params andDelegate:self];
-        
-        CFRunLoopRun(); // Avoid thread exiting
+        _request = [_authManager.facebook requestWithParams:params andDelegate:self];
     } else {
         NSLog(@"Facebook not valid!");
     }

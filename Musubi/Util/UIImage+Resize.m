@@ -8,14 +8,6 @@
 #import "UIImage+RoundedCorner.h"
 #import "UIImage+Alpha.h"
 
-// Private helper methods
-@interface UIImage ()
-- (UIImage *)resizedImage:(CGSize)newSize
-                transform:(CGAffineTransform)transform
-           drawTransposed:(BOOL)transpose
-     interpolationQuality:(CGInterpolationQuality)quality;
-- (CGAffineTransform)transformForOrientation:(CGSize)newSize;
-@end
 
 @implementation UIImage (Resize)
 

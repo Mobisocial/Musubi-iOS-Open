@@ -44,7 +44,7 @@ static uint64_t __localDeviceName;
     if(__localDeviceName != 0)
         return __localDeviceName;
     
-    MMyDeviceName* deviceName = [store queryFirst:nil onEntity:@"MyDeviceName"];
+    MMyDeviceName* deviceName = (MMyDeviceName*)[store queryFirst:nil onEntity:@"MyDeviceName"];
     
     if(deviceName != nil) {
         __localDeviceName = deviceName.deviceName;
@@ -58,7 +58,7 @@ static uint64_t __localDeviceName;
     __localDeviceName = generated;
     
     //save it to the database
-    deviceName = [store createEntity:@"MyDeviceName"];
+    deviceName = (MMyDeviceName*)[store createEntity:@"MyDeviceName"];
     deviceName.deviceName = generated;
     [store save];
     return __localDeviceName;

@@ -30,6 +30,7 @@
 #import "MIdentity.h"
 #import "MFeed.h"
 #import "FeedManager.h"
+#import "ObjManager.h"
 #import "IdentityManager.h"
 #import "Obj.h"
 #import "ObjFactory.h"
@@ -63,7 +64,12 @@
     PersistentModelStore* store = [storeFactory newStore];
     
     for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"]) {
-        assert(obj.processed == NO);
+        if(obj.processed == YES) {
+            //TODO: there is some logic error that causes this to happen
+            
+            NSLog(@"likely logic error processing obj");
+            continue;
+        }
         
         if (obj.processed)
             continue;
@@ -134,8 +140,14 @@
         }
         [_service.feedsToNotify addObject:feed.objectID];
     }
-    
-    [mObj setProcessed: YES];
+
+    BOOL keepObject = [obj processObj];
+    if (keepObject) {
+        mObj.processed = YES;
+    } else {
+        NSLog(@"Discarding %@", mObj.type);
+        [_store.context deleteObject: mObj];
+    }
     
     FeedManager* feedManager = [[FeedManager alloc] initWithStore: _store];
     if (feed.type == kFeedTypeOneTimeUse) {
