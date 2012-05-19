@@ -3339,6 +3339,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Thomas Purtell";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/Dropbox\"",
@@ -3366,6 +3367,7 @@
 					"-lIBE",
 				);
 				PRODUCT_NAME = Musubi;
+				PROVISIONING_PROFILE = "57A744AE-748E-4205-9979-7F7178BF4ACC";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

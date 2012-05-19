@@ -145,12 +145,9 @@ static int operationCount;
     return operationCount;
 }
 
-- (BOOL)isConcurrent {
-    return YES;
-}
 
-- (void)start {
-    [super start];
+- (void)main {
+    [super main];
     
     operationCount += 1;
 

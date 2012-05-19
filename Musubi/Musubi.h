@@ -37,6 +37,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 #define kMusubiNotificationPreparedEncoded @"EncodedMessagePrepared"
 #define kMusubiNotificationPlainObjReady @"PlainObjReady"
 #define kMusubiNotificationAppObjReady @"AppObjRead"
+#define kMusubiNotificationDecryptingMessage @"DecryptingMessage"
 #define kMusubiNotificationUpdatedFeed @"UpdatedFeed"
 
 #define kMusubiExceptionDuplicateMessage @"DuplicateMessage"

@@ -166,7 +166,8 @@
     [im setFromDevice: [self addDevice:im.fromIdentity withId:m.s.d]];
     [self checkDuplicateFromDevice:im.fromDevice withRawHash:[encoded.encoded sha256Digest]];
     
-    
+    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationDecryptingMessage object:nil];
+
     [im setApp: m.a];
     [im setBlind: m.l];
         

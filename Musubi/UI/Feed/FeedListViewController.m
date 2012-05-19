@@ -33,6 +33,7 @@
 #import "PersistentModelStore.h"
 #import "MessageDecodeService.h"
 #import "ObjPipelineService.h"
+#import "MObj.h"
 
 @implementation FeedListViewController
 
@@ -49,14 +50,16 @@
     
     incomingLabel = [[UILabel alloc] init];
     incomingLabel.font = [UIFont systemFontOfSize: 13.0];
-    incomingLabel.text = @"Decrypting:";
+    incomingLabel.text = @"";
+    incomingLabel.backgroundColor = [UIColor orangeColor];
+    incomingLabel.textColor = [UIColor whiteColor];
+
     [self.view addSubview:incomingLabel];
     
-    CGRect tableFrame = self.tableView.frame;
-    [self.tableView setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height-40)];
+    /*CGRect tableFrame = self.tableView.frame;
+    [self.tableView setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height-40)];*/
     
     
-    [incomingLabel setFrame:CGRectMake(10, 376, 300, 40)];
     
     [self setVariableHeightRows:YES];
 }
@@ -107,23 +110,43 @@
     [super viewWillAppear:animated];
 
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
-//    [self reloadFeeds];
+
+    // We only need to know when a message starts getting decrypted, when it is completely processed, and we need to check periodically because a decryption may have been cancelled for numerous reasons
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationDecryptingMessage object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationUpdatedFeed object:nil];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1 target:self selector:@selector(updatePending) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
 
     // Cardinal
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
-    
-    
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1 target:self selector:@selector(updatePending) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
 
 }
 
 - (void)updatePending {
+    if (![NSThread currentThread].isMainThread) {
+        [self performSelectorOnMainThread:@selector(updatePending) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
     NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
     NSArray* objs = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"];
     
     
-    incomingLabel.text = [NSString stringWithFormat: @"Decrypting: %d new messages (%d, %d)", encoded.count + objs.count,[MessageDecodeOperation operationCount], [ObjProcessorOperation operationCount]];
+    int pending = encoded.count;
+    for (MObj* obj in objs) {
+        if (!obj.identity.owned)
+            pending += 1;
+    }
+    
+    if (pending > 0) {
+        incomingLabel.text = [NSString stringWithFormat: @"  Decrypting %d incoming message%@...", pending,pending > 1 ? @"s" : @""];
+        [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+        [self.tableView setFrame:CGRectMake(0, 0, 320, 386)];
+    } else {
+        incomingLabel.text = @"  Waiting for messages";
+        [incomingLabel setFrame:CGRectMake(10, 420, 0, 0)];
+        [self.tableView setFrame:CGRectMake(0, 0, 320, 416)];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
