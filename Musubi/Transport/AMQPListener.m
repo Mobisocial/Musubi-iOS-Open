@@ -137,7 +137,7 @@
     int idlepasses = 5;
 
     UIApplication* application = [UIApplication sharedApplication];
-    [application beginBackgroundTaskWithExpirationHandler:^(void) {
+    backgroundTaskId = [application beginBackgroundTaskWithExpirationHandler:^(void) {
         restartRequested = YES;
         [application endBackgroundTask:backgroundTaskId];
         backgroundTaskId = ~0U;
