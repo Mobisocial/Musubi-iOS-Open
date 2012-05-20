@@ -96,7 +96,6 @@
 + (void) clearRemoteUnread:(NSString*)deviceToken {
     NSError* error = nil;
     NSData* body = [deviceToken dataUsingEncoding:NSASCIIStringEncoding];
-    NSLog(@"body = %@", [body hexString]);
     if(!body) {
         NSLog(@"Failed to serialize device token for clearing unread %@", error);
     } else {
