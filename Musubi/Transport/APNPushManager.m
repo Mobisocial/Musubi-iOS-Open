@@ -29,7 +29,18 @@
 #import "Musubi.h"
 #import "NSData+HexString.h"
 
+static NSOperationQueue* sApnQueue = nil;
+
 @implementation APNPushManager
++ (NSOperationQueue*)apnQueue {
+    @synchronized([APNPushManager class]) {
+        if(sApnQueue != nil)
+            return sApnQueue;
+        else 
+            sApnQueue = [[NSOperationQueue alloc] init];
+        return sApnQueue;
+    }
+}
 + (void) registerDevice:(NSString*)deviceToken identities:(NSArray*)idents localUnread:(int)count {
     NSMutableDictionary* registrationRequest = [[NSMutableDictionary alloc] init];
     [registrationRequest setValue:idents forKey:@"identityExchanges"];
@@ -52,17 +63,12 @@
         [request setValue:[NSString stringWithFormat:@"%u", body.length] forHTTPHeaderField:@"Content-Length"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:body];
-        NSURLResponse* response;
-        NSError* error = nil;
-        
-        //Capturing server response
-        NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
-        
-        if(result) {
-            NSLog(@"Registration returned %@", [[NSString alloc] initWithData:result encoding:NSASCIIStringEncoding]);
-        }
-        
-        [TestFlight passCheckpoint:@"[AMQPListener] registered at push server"];
+
+        [NSURLConnection sendAsynchronousRequest:request queue:[APNPushManager apnQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError * error) {
+            NSLog(@"Registration returned %@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
+            [TestFlight passCheckpoint:@"[AMQPListener] registered at push server"];
+        }];
+       
     }
 }
 
@@ -81,16 +87,11 @@
         [request setValue:[NSString stringWithFormat:@"%u", body.length] forHTTPHeaderField:@"Content-Length"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:body];
-        NSURLResponse* response;
-        NSError* error = nil;
         
-        //Capturing server response
-        NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
-        
-        if(result) {
-            NSLog(@"Clear returned %@", [[NSString alloc] initWithData:result encoding:NSASCIIStringEncoding]);
-        }
-        [TestFlight passCheckpoint:@"[AMQPListener] reset unread"];
+        [NSURLConnection sendAsynchronousRequest:request queue:[APNPushManager apnQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError * error) {
+            NSLog(@"Clear returned %@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
+            [TestFlight passCheckpoint:@"[AMQPListener] reset unread"];
+        }];
     }
 }
 + (void) clearRemoteUnread:(NSString*)deviceToken {
@@ -99,22 +100,18 @@
     if(!body) {
         NSLog(@"Failed to serialize device token for clearing unread %@", error);
     } else {
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+      	  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:[NSURL URLWithString:@"http://bumblebee.musubi.us:6253/api/0/clearunread"]];
         [request setHTTPMethod:@"POST"];
         [request setValue:[NSString stringWithFormat:@"%u", body.length] forHTTPHeaderField:@"Content-Length"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:body];
-        NSURLResponse* response;
-        NSError* error = nil;
-        
-        //Capturing server response
-        NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
-        
-        if(result) {
-            NSLog(@"Clear returned %@", [[NSString alloc] initWithData:result encoding:NSASCIIStringEncoding]);
-        }
-        [TestFlight passCheckpoint:@"[AMQPListener] cleared unread"];
+
+        [NSURLConnection sendAsynchronousRequest:request queue:[APNPushManager apnQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError * error) {
+            NSLog(@"Clear returned %@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
+            [TestFlight passCheckpoint:@"[AMQPListener] cleared unread"];
+        }];
+
     }
 }
 + (int) tallyLocalUnread {
