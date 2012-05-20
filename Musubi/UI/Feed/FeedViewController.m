@@ -44,6 +44,7 @@
 #import "FeedDataSource.h"
 #import "NSDate+TimeAgo.h"
 #import "PersistentModelStore.h"
+#import "APNPushManager.h"
 
 @implementation FeedViewController
 
@@ -108,6 +109,7 @@
     if (feed.numUnread > 0) {
         [feed setNumUnread:0];
         [[Musubi sharedInstance].mainStore save];
+        [APNPushManager resetLocalUnreadInBackgroundTask];
     }
 }
 

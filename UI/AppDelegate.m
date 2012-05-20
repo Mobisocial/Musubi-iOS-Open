@@ -36,12 +36,14 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSLog(@"received remote notification while running %@", userInfo);
 
-    ////TODO: do this only if amqp is not connectable, but we are still getting pushes
-    //if( [[userInfo objectForKey:@"aps"] objectForKey:@"badge"] != NULL)
-    //{
-    //    NSNumber* badge = (NSNumber*)[[userInfo objectForKey:@"aps"] objectForKey:@"badge"]; 
-    //    [application setApplicationIconBadgeNumber:badge.intValue];
-    //}    
+    if( [userInfo objectForKey:@"local"] != NULL &&
+       [userInfo objectForKey:@"amqp"] != NULL)
+    {
+        //TODO: good and racy
+        NSNumber* amqp = (NSNumber*)[userInfo objectForKey:@"amqp"]; 
+        int local = [APNPushManager tallyLocalUnread]; 
+        [application setApplicationIconBadgeNumber:(amqp.intValue + local) ];
+    }    
 }
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {     
     NSLog(@"Error in registration. Error: %@", err);
@@ -51,20 +53,13 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    //TODO: this is not quite right because the messages have not yet been downloaded
-    // - one slightly better but still sucky thing would be to reset only if the AMQP thread 
-    // was currently connected
-    // - also could be better on exit in a quit background task
-    NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
-    if(deviceToken) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-            [APNPushManager clearUnread:deviceToken];
-        });
-    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    [APNPushManager resetLocalUnreadInBackgroundTask];
+
+    
     /*
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
