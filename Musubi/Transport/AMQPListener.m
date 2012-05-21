@@ -47,6 +47,8 @@
         restartRequested = NO;
         
         @try {            
+            [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationTransportListenerConnecting object:nil]];
+            
             // This opens connection and channel
             if (![connMngr connectionIsAlive]) {
                 [connMngr initializeConnection];
@@ -119,6 +121,7 @@
                 [APNPushManager registerDevice:deviceToken identities:idents];
             }
             
+
             [self consumeMessages];
         }
         @catch (NSException *exception) {
@@ -150,6 +153,8 @@
             [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:nil]];
             [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
         }
+        
+        [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationTransportListenerWaitingForMessages object:nil]];
         
         [NSThread sleepForTimeInterval:0.1];
     }

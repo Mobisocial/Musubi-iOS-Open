@@ -137,6 +137,7 @@
     if (self) {
         self.service = service;
         self.objId = oId;
+        [self setThreadPriority: kMusubiThreadPriorityBackground];
     }
     return self;
 }

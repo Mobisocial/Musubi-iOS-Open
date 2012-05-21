@@ -28,6 +28,7 @@
 #import "NSData+Base64.h"
 #import "AMQPConnectionManager.h"
 #import "PersistentModelStore.h"
+#import "Musubi.h"
 
 @implementation AMQPThread
 
@@ -41,6 +42,7 @@
     
     self.connMngr = conn;
     self.storeFactory = sf;
+    self.threadPriority = kMusubiThreadPriorityBackground;
 
     return self;
 }

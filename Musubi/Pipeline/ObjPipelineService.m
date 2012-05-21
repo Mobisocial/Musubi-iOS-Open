@@ -100,6 +100,7 @@ static int operationCount = 0;
     if (self) {
         self.service = service;
         self.objId = objId;
+        [self setThreadPriority: kMusubiThreadPriorityBackground];
     }
     return self;
 }

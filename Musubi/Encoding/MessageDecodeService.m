@@ -137,6 +137,7 @@ static int operationCount;
         [self setMessageId: msgId];
         
         [self setDirtyFeeds: [NSMutableArray array]];
+        [self setThreadPriority: kMusubiThreadPriorityBackground];
     }
     return self;
 }

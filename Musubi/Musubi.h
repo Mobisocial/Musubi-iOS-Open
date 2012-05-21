@@ -38,6 +38,10 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 #define kMusubiNotificationPlainObjReady @"PlainObjReady"
 #define kMusubiNotificationAppObjReady @"AppObjRead"
 #define kMusubiNotificationDecryptingMessage @"DecryptingMessage"
+#define kMusubiNotificationAppOpened @"AppOpened"
+#define kMusubiNotificationTransportListenerConnecting @"TransportListenerConnecting"
+#define kMusubiNotificationTransportListenerConnected @"TransportListenerConnected"
+#define kMusubiNotificationTransportListenerWaitingForMessages @"TransportListenerWaiting"
 #define kMusubiNotificationUpdatedFeed @"UpdatedFeed"
 
 #define kMusubiExceptionDuplicateMessage @"DuplicateMessage"
@@ -55,6 +59,8 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 #define kMusubiExceptionMessageTooLarge @"MessageTooLarge"
 #define kMusubiExceptionBadObjFormat @"BadObjFormat"
 #define kMusubiExceptionUnexpected @"Unexpected"
+
+#define kMusubiThreadPriorityBackground 0.0
 
 @class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjPipelineService, FacebookIdentityUpdater, GoogleIdentityUpdater;
 
