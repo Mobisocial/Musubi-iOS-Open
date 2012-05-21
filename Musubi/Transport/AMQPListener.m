@@ -33,9 +33,10 @@
 #import "PersistentModelStore.h"
 #import "APNPushManager.h"
 
-@implementation AMQPListener
+@implementation AMQPListener 
 
-@synthesize deviceManager,identityManager;
+
+@synthesize deviceManager,identityManager, backgroundTaskId;
 
 - (void) main {
     // Run AMQPThread common
@@ -114,11 +115,10 @@
                 NSString* identityExchangeName = [self queueNameForKey:ident.key withPrefix:@"ibeidentity-"];
                 [idents addObject:identityExchangeName];
             }
-            //TODO: this is racy with the remote registration request in app on init
             NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
             
             if(deviceToken) {
-                [APNPushManager registerDevice:deviceToken identities:idents];
+                [APNPushManager registerDevice:deviceToken identities:idents localUnread:[APNPushManager tallyLocalUnread]];
             }
             
 
@@ -137,26 +137,52 @@
 
 
 - (void) consumeMessages {
-    while (![[NSThread currentThread] isCancelled] && !restartRequested) {
-        NSData* body = [connMngr readMessage];
-        
-        if (body != nil) {
-            MEncodedMessage* encoded = (MEncodedMessage*)[threadStore createEntity:@"EncodedMessage"];
-            encoded.encoded = body;
-            encoded.processed = NO;
-            encoded.outbound = NO;
-            [threadStore save];
+    int idlepasses = 5;
+
+    UIApplication* application = [UIApplication sharedApplication];
+    backgroundTaskId = [application beginBackgroundTaskWithExpirationHandler:^(void) {
+        restartRequested = YES;
+        [application endBackgroundTask:backgroundTaskId];
+        backgroundTaskId = ~0U;
+    }];
+    @try {
+
+        while (![[NSThread currentThread] isCancelled] && !restartRequested) {
+            NSData* body = [connMngr readMessage];
             
-            [self log:@"Incoming: %@", body.sha256Digest];
-            [self log:@"Incoming: %@", encoded.objectID];
-            
-            [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:nil]];
-            [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
+            if (body != nil) {
+                idlepasses = 0;
+                MEncodedMessage* encoded = (MEncodedMessage*)[threadStore createEntity:@"EncodedMessage"];
+                encoded.encoded = body;
+                encoded.processed = NO;
+                encoded.outbound = NO;
+                [threadStore save];
+                
+                [self log:@"Incoming: %@", body.sha256Digest];
+                [self log:@"Incoming: %@", encoded.objectID];
+                
+                [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:nil]];
+                [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
+            } else {
+                ++idlepasses;
+            }
+            if(idlepasses == 5) {
+                //reset the amqp message count once we have drained the consumers
+                NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
+                
+                if(deviceToken) {
+                    [APNPushManager clearRemoteUnread:deviceToken];
+                }
+            }
+            [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationTransportListenerWaitingForMessages object:nil]];
+            [NSThread sleepForTimeInterval:0.1];
         }
-        
-        [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationTransportListenerWaitingForMessages object:nil]];
-        
-        [NSThread sleepForTimeInterval:0.1];
+    } 
+    @finally {
+        if(backgroundTaskId != ~0U) {
+            [application endBackgroundTask:backgroundTaskId];
+            backgroundTaskId = ~0U;
+        }
     }
 }
 

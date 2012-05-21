@@ -19,17 +19,33 @@
 //  APNPushManager.m
 //  musubi
 //
-//  Created by MokaFive User on 5/10/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by T.J. Purtell on 5/10/12.
+//  Copyright (c) 2012 Stanford mobisocial Lab. All rights reserved.
 //
 
 #import "APNPushManager.h"
+#import "FeedManager.h"
+#import "MFeed.h"
+#import "Musubi.h"
+#import "NSData+HexString.h"
+
+static NSOperationQueue* sApnQueue = nil;
 
 @implementation APNPushManager
-+ (void) registerDevice:(NSString*)deviceToken identities:(NSArray*)idents {
++ (NSOperationQueue*)apnQueue {
+    @synchronized([APNPushManager class]) {
+        if(sApnQueue != nil)
+            return sApnQueue;
+        else 
+            sApnQueue = [[NSOperationQueue alloc] init];
+        return sApnQueue;
+    }
+}
++ (void) registerDevice:(NSString*)deviceToken identities:(NSArray*)idents localUnread:(int)count {
     NSMutableDictionary* registrationRequest = [[NSMutableDictionary alloc] init];
     [registrationRequest setValue:idents forKey:@"identityExchanges"];
     [registrationRequest setValue:deviceToken forKey:@"deviceToken"];
+[registrationRequest setValue:deviceToken forKey:@"deviceToken"];
 #ifdef DEBUG
     BOOL production = NO;
 #else
@@ -47,49 +63,81 @@
         [request setValue:[NSString stringWithFormat:@"%u", body.length] forHTTPHeaderField:@"Content-Length"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:body];
-        NSURLResponse* response;
-        NSError* error = nil;
-        
-        //Capturing server response
-        NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
-        
-        if(result) {
-            NSLog(@"Registration returned %@", [[NSString alloc] initWithData:result encoding:NSUnicodeStringEncoding]);
-        }
-        
-        [TestFlight passCheckpoint:@"[AMQPListener] registered at push server"];
+
+        [NSURLConnection sendAsynchronousRequest:request queue:[APNPushManager apnQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError * error) {
+            NSLog(@"Registration returned %@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
+            [TestFlight passCheckpoint:@"[AMQPListener] registered at push server"];
+        }];
+       
     }
 }
 
-+ (void) clearUnread:(NSString*)deviceToken {
++ (void) resetLocalUnread:(NSString*)deviceToken count:(int)count {
     NSMutableDictionary* registrationRequest = [[NSMutableDictionary alloc] init];
-    [registrationRequest setValue:deviceToken forKey:@"identityExchanges"];
+    [registrationRequest setValue:[NSNumber numberWithInt:count] forKey:@"count"];
     [registrationRequest setValue:deviceToken forKey:@"deviceToken"];
     NSError* error = nil;
-    NSData* body = [deviceToken dataUsingEncoding:NSUnicodeStringEncoding];
+    NSData* body = [NSJSONSerialization dataWithJSONObject:registrationRequest options:0 error:&error];
     if(!body) {
         NSLog(@"Failed to serialize device token for clearing unread %@", error);
     } else {
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:[NSURL URLWithString:@"http://bumblebee.musubi.us:6253/api/0/resetunread"]];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:[NSString stringWithFormat:@"%u", body.length] forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:body];
+        
+        [NSURLConnection sendAsynchronousRequest:request queue:[APNPushManager apnQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError * error) {
+            NSLog(@"Clear returned %@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
+            [TestFlight passCheckpoint:@"[AMQPListener] reset unread"];
+        }];
+    }
+}
++ (void) clearRemoteUnread:(NSString*)deviceToken {
+    NSError* error = nil;
+    NSData* body = [deviceToken dataUsingEncoding:NSASCIIStringEncoding];
+    if(!body) {
+        NSLog(@"Failed to serialize device token for clearing unread %@", error);
+    } else {
+      	  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:[NSURL URLWithString:@"http://bumblebee.musubi.us:6253/api/0/clearunread"]];
         [request setHTTPMethod:@"POST"];
         [request setValue:[NSString stringWithFormat:@"%u", body.length] forHTTPHeaderField:@"Content-Length"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:body];
-        NSURLResponse* response;
-        NSError* error = nil;
-        
-        //Capturing server response
-        NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
-        
-        if(result) {
-            NSLog(@"Clear returned %@", [[NSString alloc] initWithData:result encoding:NSUnicodeStringEncoding]);
-        }
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-        });
-        [TestFlight passCheckpoint:@"[AMQPListener] cleared unread"];
+
+        [NSURLConnection sendAsynchronousRequest:request queue:[APNPushManager apnQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError * error) {
+            NSLog(@"Clear returned %@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
+            [TestFlight passCheckpoint:@"[AMQPListener] cleared unread"];
+        }];
+
     }
+}
++ (int) tallyLocalUnread {
+    FeedManager* feedManager = [[FeedManager alloc] initWithStore: [Musubi sharedInstance].newStore];
+    int total = 0;
+    for(MFeed* feed in [feedManager displayFeeds]) {
+        total += feed.numUnread;
+    }
+    return total;
+}
++ (void) resetLocalUnreadInBackgroundTask {
+    NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
+    if(!deviceToken)	
+        return;
+    UIApplication* application = [UIApplication sharedApplication];
+    UIBackgroundTaskIdentifier bgt = [application beginBackgroundTaskWithExpirationHandler:^(void) {
+        [application endBackgroundTask:bgt];
+    }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        //TODO: could have several go in out of order if the net is slow
+        int unread = [APNPushManager tallyLocalUnread];
+        [APNPushManager resetLocalUnread:deviceToken count:unread];
+        [application setApplicationIconBadgeNumber:unread ];
+        //TODO: main thread?
+        [application endBackgroundTask:bgt];
+    });
 }
 
 

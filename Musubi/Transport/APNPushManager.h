@@ -26,7 +26,9 @@
 #import <Foundation/Foundation.h>
 
 @interface APNPushManager : NSObject
-+ (void) clearUnread:(NSString*)deviceToken;
-+ (void) registerDevice:(NSString*)deviceToken identities:(NSArray*)idents;
-
++ (void) resetLocalUnread:(NSString*)deviceToken count:(int)count;
++ (void) clearRemoteUnread:(NSString*)deviceToken;
++ (void) registerDevice:(NSString*)deviceToken identities:(NSArray*)idents localUnread:(int)count;
++ (int) tallyLocalUnread;
++ (void) resetLocalUnreadInBackgroundTask;
 @end
