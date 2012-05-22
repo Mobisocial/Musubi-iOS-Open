@@ -41,6 +41,7 @@
         [self setConnLock: [[NSLock alloc] init]];
         conn = nil;
         connectionReady = NO;
+        connectionAttempts = 0;
     }
     return self;
 }
@@ -100,6 +101,10 @@
         return;
     }
     
+    [NSThread sleepForTimeInterval: MIN(300, (connectionAttempts ^ 2))];
+    connectionAttempts++;
+    
+    
     //NSLog(@"Connecting to AMQP");
     amqp_connection_state_t new_conn = amqp_new_connection();
     
@@ -140,6 +145,7 @@
 
     last_channel = 2;
     connectionReady = YES;
+    connectionAttempts = 0;
     
     [connLock unlock];
 }

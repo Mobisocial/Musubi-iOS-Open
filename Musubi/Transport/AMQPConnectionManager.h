@@ -42,6 +42,8 @@
     BOOL connectionReady;
     uint32_t sequenceNumber;
     uint64_t lastIncomingDeliveryTag;
+    
+    int connectionAttempts;
 }
 
 @property (nonatomic) NSLock* connLock;
