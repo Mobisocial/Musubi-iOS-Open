@@ -54,6 +54,8 @@
     incomingLabel.text = @"";
     incomingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
     incomingLabel.textColor = [UIColor whiteColor];
+    
+    waitingForTransportListener = YES;
 
 //    UIView* masterView = [((AppDelegate*)[UIApplication sharedApplication].delegate).window.subviews objectAtIndex:0];
     
@@ -116,9 +118,9 @@
     // We only need to know when a message starts getting decrypted, when it is completely processed, and we need to check periodically because a decryption may have been cancelled for numerous reasons
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationAppOpened object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationTransportListenerWaitingForMessages object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationDecryptingMessage object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationUpdatedFeed object:nil];
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1 target:self selector:@selector(updatePendingFromTimer) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeStarted object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeFinished object:nil];
+    //[[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:1 target:self selector:@selector(updatePendingFromTimer) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
 
     [incomingLabel removeFromSuperview];
     [self.view addSubview:incomingLabel];
@@ -132,10 +134,17 @@
 }
 
 - (void)updatePending: (NSNotification*) notification {
+    if ([notification.name isEqualToString:kMusubiNotificationTransportListenerWaitingForMessages] && !waitingForTransportListener)
+        return;
+
     if (![NSThread currentThread].isMainThread) {
         [self performSelectorOnMainThread:@selector(updatePending:) withObject:notification waitUntilDone:NO];
         return;
     }
+    
+    NSLog(@"Notification: %@, waiting? %d", notification.name, waitingForTransportListener);
+    
+    waitingForTransportListener = NO;
     
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
     NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
@@ -154,6 +163,7 @@
 //        [self.tableView setFrame:CGRectMake(0, 0, 320, 386)];
     } else {
         if ([notification.name isEqualToString:kMusubiNotificationAppOpened]) {
+            waitingForTransportListener = YES;
             incomingLabel.text = @"  Checking for incoming messages...";
             [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
 //            [self.tableView setFrame:CGRectMake(0, 0, 320, 386)];            

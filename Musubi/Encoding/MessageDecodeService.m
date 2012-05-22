@@ -174,6 +174,8 @@ static int operationCount;
 
         // Remove from the pending queue
         [_service.pending removeObject:_messageId];
+        
+        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationMessageDecodeFinished object:nil];        
     }
     
 }
