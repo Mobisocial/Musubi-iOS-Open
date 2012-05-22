@@ -46,6 +46,8 @@
     //these are here so the ivars are public so there are less self.'s
     AccountAuthManager* manager;
     FacebookAuthManager* facebookMgr;
+    
+    FacebookConnectOperation* me;
 }
 
 @property (nonatomic, strong) AccountAuthManager* manager;

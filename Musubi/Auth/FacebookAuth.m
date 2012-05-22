@@ -100,6 +100,9 @@
     if (self) {
         [self setFacebookMgr: [[FacebookAuthManager alloc] initWithDelegate: self]];
         [self setManager: m];
+        
+        // need this reference so we won't be released when we do the CFRunLoopRun()
+        me = self;
     }
     
     return self;
@@ -196,6 +199,8 @@
             accountName = [result objectForKey:@"email"];
         MAccount* account = [manager storeAccount:kAccountTypeFacebook name:accountName principal:[result objectForKey:@"id"]];
         [manager onAccount:kAccountTypeFacebook isValid:account != nil];
+        
+        NSLog(@"Stored account: %@", account);
         
         if (account) {
             [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationFacebookFriendRefresh object:nil];

@@ -77,6 +77,9 @@ static GTMOAuth2Authentication* active;
     if (self) {
         [self setManager:m];
         [self setGoogleMgr: [[GoogleAuthManager alloc] init]];
+
+        // need this reference so we won't be released when we do the CFRunLoopRun()
+        me = self;
     }
     return self;
 }
@@ -109,9 +112,6 @@ static GTMOAuth2Authentication* active;
 
 
 @implementation GoogleOAuthLoginOperation
-- (BOOL)isConcurrent {
-    return YES;
-}
 
 - (void)start {
     [super start];
@@ -124,6 +124,8 @@ static GTMOAuth2Authentication* active;
 {
     [[[[UIApplication sharedApplication] keyWindow] rootViewController] dismissModalViewControllerAnimated:YES];
     CFRunLoopStop(CFRunLoopGetCurrent());
+    
+    me = nil;
 }
 
 - (void) openDialog {
@@ -137,9 +139,10 @@ static GTMOAuth2Authentication* active;
     [vc setBackButton:[UIButton buttonWithType:UIButtonTypeRoundedRect]];
     
     UIViewController* root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
-    UINavigationController* settingsNavController = (UINavigationController*)[root.childViewControllers objectAtIndex:1];
+    UINavigationController* navController = (UINavigationController*)root;
+//    UINavigationController* settingsNavController = (UINavigationController*)[root.childViewControllers objectAtIndex:1];
     
-    [settingsNavController pushViewController:vc animated:YES];
+    [navController pushViewController:vc animated:YES];
 }
 
 - (void) viewController: (GTMOAuth2ViewControllerTouch*) vc finishedWithAuth: (GTMOAuth2Authentication*) auth error: (NSError*) error {

@@ -34,6 +34,9 @@
     IBOutlet UITableView* tableView;
     
     TTPickerTextField* pickerTextField;
+    
+    UILabel* importingLabel;
+    NSMutableDictionary* remainingImports;
 }
 
 @property (nonatomic, strong) IdentityManager* identityManager;

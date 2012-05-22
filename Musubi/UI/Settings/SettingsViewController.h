@@ -41,6 +41,8 @@
     int dbUploadProgress;
     int dbDownloadProgress;
     NSString* dbRestoreFile;
+    
+    UIAlertView* loadingDialog;
 }
 
 @property (nonatomic) AccountAuthManager* authMgr;

@@ -431,8 +431,8 @@
 - (void)accountWithType:(NSString *)type isConnected:(BOOL)connected {
     int row = [accountTypes.allKeys indexOfObject:type];
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+    
 }
-
 
 #pragma mark - Text field delegate
 

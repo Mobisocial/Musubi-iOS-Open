@@ -70,12 +70,10 @@
 
 - (void) refreshFriends {
     NSLog(@"Fetching Google friends");
-    GoogleIdentityFetchOperation* op = [[GoogleIdentityFetchOperation alloc] initWithStoreFactory:_storeFactory];
-    [queue addOperation: op];
-
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[NSDate date] forKey:kMusubiSettingsGoogleLastIdentityFetch];
-    [defaults synchronize];
+    if (queue.operationCount == 0) {
+        GoogleIdentityFetchOperation* op = [[GoogleIdentityFetchOperation alloc] initWithStoreFactory:_storeFactory];
+        [queue addOperation: op];
+    }
 }
 
 @end
@@ -93,12 +91,9 @@
     return self;
 }
 
-- (BOOL)isConcurrent {
-    return YES;
-}
-
-- (void)start {
-    [super start];
+- (void)main {
+    [super main];
+        
     [self setStore: [_storeFactory newStore]];
     
     if ([_authManager activeAccessToken]) {
@@ -144,6 +139,7 @@
     FeedManager* fm = [[FeedManager alloc] initWithStore:_store];
     
     // Create/update the identities
+    int index = 0;
     for (NSDictionary* contact in dict) {
         NSString* name = [[[contact objectForKey:@"gd$name"] objectForKey:@"gd$fullName"] objectForKey:@"$t"];
         NSString* picture = nil;
@@ -162,12 +158,25 @@
                 MIdentity* mId = [im ensureIdentity:ident withName:name ? name : address identityAdded:&_identityAdded profileDataChanged:&_profileDataChanged];
                 
                 [identities addObject: mId];
+                
+                /* for fetching thumbnail later
                 if (picture)
-                    [photoURIs setObject:picture forKey:mId.objectID];
+                    [photoURIs setObject:picture forKey:mId.objectID];*/
+                
+                if (picture && mId.thumbnail == nil) {
+                    mId.thumbnail = [self fetchImageFromURL: picture];
+                    if (mId.thumbnail != nil) {
+                        _profileDataChanged = YES;
+                    }
+                }
             }
         }
+        
+        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationIdentityImported object:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:index], @"index", [NSNumber numberWithInt:[dict count]], @"total", @"google", @"type", nil]];
+        index++;
     }
     
+    /*
     // Update the profile photos
     for (MIdentity* mId in identities) {
         if (mId.thumbnail != nil)
@@ -177,7 +186,7 @@
         if (mId.thumbnail != nil) {
             _profileDataChanged = YES;
         }
-    }
+    }*/
     
     NSString* email = @""; // google logged in user email
     assert (email != nil);
@@ -206,6 +215,10 @@
     }
     
     [fm attachMembers:identities toFeed:account.feed];    
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[NSDate date] forKey:kMusubiSettingsGoogleLastIdentityFetch];
+    [defaults synchronize];
     NSLog(@"Google import done");
 }
 

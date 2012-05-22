@@ -45,16 +45,16 @@
 
 @synthesize identityManager = _identityManager, identities = _identities, index = _index, selection = _selection;
 
-- (id)init {
-    self = [super init];
-    NSLog(@"Normal init");
-    return self;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    NSLog(@"Nib init");
-    return self;
+- (void)loadView {
+    [super loadView];
+    
+    importingLabel = [[UILabel alloc] init];
+    importingLabel.font = [UIFont systemFontOfSize: 13.0];
+    importingLabel.text = @"";
+    importingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
+    importingLabel.textColor = [UIColor whiteColor];
+    
+    remainingImports = [NSMutableDictionary dictionaryWithCapacity:2];
 }
 
 - (void) updateIdentityListWithFilter: (NSString*) filter
@@ -155,6 +155,48 @@
         [alert show];
         
         [self.navigationController popViewControllerAnimated:TRUE];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [importingLabel removeFromSuperview];
+    [self.view addSubview:importingLabel];
+    
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updateImporting:) name:kMusubiNotificationIdentityImported object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationIdentityImported object:nil];
+}
+
+- (void) updateImporting: (NSNotification*) notification {
+    if (![NSThread currentThread].isMainThread) {
+        [self performSelectorOnMainThread:@selector(updateImporting:) withObject:notification waitUntilDone:NO];
+        return;
+    }    
+
+    if ([notification.object objectForKey:@"index"]) {
+        NSNumber* index = [notification.object objectForKey:@"index"];
+        NSNumber* total = [notification.object objectForKey:@"total"];
+        
+        [remainingImports setObject:[NSNumber numberWithInt:total.intValue - index.intValue - 1] forKey:[notification.object objectForKey:@"type"]];
+
+        int remaining = 0;
+        for (NSNumber* rem in remainingImports.allValues) {
+            remaining += rem.intValue;
+        }
+        
+        if (remaining > 0) {
+            [importingLabel setText:[NSString stringWithFormat: @"  Importing %d contacts...", remaining]];
+            [importingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+        } else {
+            importingLabel.text = @"";
+            [importingLabel setFrame:CGRectMake(0, 420, 0, 0)];    
+        }
+        
+        if (remaining % 20 == 0) {
+            [self search: pickerTextField.text];
+        }
     }
 }
 

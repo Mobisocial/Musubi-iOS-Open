@@ -62,16 +62,14 @@
     
     if (lastFetch == nil || [lastFetch timeIntervalSinceNow] < -kFacebookIdentityUpdaterFrequency / 2) {
         [self refreshFriends];
-        
-        [defaults setObject:[NSDate date] forKey:kMusubiSettingsFacebookLastIdentityFetch];
-        [defaults synchronize];
     }
 }
 
 - (void) refreshFriends {
-    NSLog(@"Fetching Facebook friends");
-    FacebookIdentityFetchOperation* op = [[FacebookIdentityFetchOperation alloc] initWithStoreFactory:_storeFactory];
-    [queue addOperation: op];
+    if (queue.operationCount == 0) {
+        FacebookIdentityFetchOperation* op = [[FacebookIdentityFetchOperation alloc] initWithStoreFactory:_storeFactory];
+        [queue addOperation: op];
+    }
 }
 
 @end
@@ -89,12 +87,14 @@
     return self;
 }
 
-- (BOOL)isConcurrent {
-    return YES;
-}
-
-- (void)start {
-    [super start];
+- (void)main {
+    [super main];
+    
+    NSLog(@"Fetching Facebook friends");
+    
+    // Keep this reference around, otherwise it gets released for some reason
+    me = self;
+    
     [self setStore: [_storeFactory newStore]];
     
     if ([_authManager.facebook isSessionValid]) {
@@ -106,11 +106,14 @@
     } else {
         NSLog(@"Facebook not valid!");
     }
+    
+    CFRunLoopRun();
 }
 
 - (void)finish
 {
     CFRunLoopStop(CFRunLoopGetCurrent());
+    me = nil;
 }
 
 - (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
@@ -126,6 +129,7 @@
     AccountManager* am = [[AccountManager alloc] initWithStore: _store];
     FeedManager* fm = [[FeedManager alloc] initWithStore:_store];
 
+    int index = 0;
     // Create/update the identities
     for (NSDictionary* f in result) {
         long long uid = [[f objectForKey:@"uid"] longLongValue];
@@ -133,11 +137,24 @@
         
         MIdentity* mId = [im ensureIdentity:ident withName:[f objectForKey:@"name"] identityAdded:&_identityAdded profileDataChanged:&_profileDataChanged];
         
+        if (mId.thumbnail == nil) {
+            mId.thumbnail = [self fetchImageFromURL: [f objectForKey:@"pic_square"]];
+            if (mId.thumbnail != nil) {
+                _profileDataChanged = YES;
+            }            
+        }        
+
+        /* for fetching photos outside of this loop
         [identities addObject: mId];
         if ([f objectForKey:@"pic_square"])
             [photoURIs setObject:[f objectForKey:@"pic_square"] forKey:mId.objectID];
+         */
+
+        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationIdentityImported object:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:index], @"index", [NSNumber numberWithInt:[result count]], @"total", @"facebook", @"type", nil]];
+        index++;
     }
     
+    /*
     // Update the profile photos
     for (MIdentity* mId in identities) {
         if (mId.thumbnail != nil)
@@ -147,7 +164,7 @@
         if (mId.thumbnail != nil) {
             _profileDataChanged = YES;
         }
-    }
+    }*/
     
     NSString* email = @""; // facebook logged in user email
     NSString* facebookId = @""; // facebook user id
@@ -178,7 +195,11 @@
     }
     
     [fm attachMembers:identities toFeed:account.feed];    
-    NSLog(@"Facebook import done");
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[NSDate date] forKey:kMusubiSettingsFacebookLastIdentityFetch];
+    [defaults synchronize];    
+    
     [self finish];
 }
 

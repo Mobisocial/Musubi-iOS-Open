@@ -40,19 +40,17 @@
 
 
 @interface FacebookIdentityFetchOperation : NSOperation<FBRequestDelegate> {
-//    BOOL _isFinished;
-//    BOOL _isExecuting;
-    
     BOOL _identityAdded;
     BOOL _profileDataChanged;
+    
+    // We need a reference to ourselves to not get released...ARC what?
+    FacebookIdentityFetchOperation* me;
 }
 
 @property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
 @property (nonatomic, strong) PersistentModelStore* store;
 @property (nonatomic, strong) FacebookAuthManager* authManager;
 @property (nonatomic, strong) FBRequest* request;
-//@property (atomic, assign) BOOL isFinished;
-//@property (atomic, assign) BOOL isExecuting;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory;
 

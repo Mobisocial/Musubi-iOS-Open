@@ -45,6 +45,8 @@
 @interface GoogleOAuthOperation : NSOperation {
     AccountAuthManager* manager;
     GoogleAuthManager* googleMgr;
+    
+    GoogleOAuthOperation* me;
 }
 
 @property (nonatomic) AccountAuthManager* manager;
