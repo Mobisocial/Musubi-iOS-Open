@@ -92,7 +92,7 @@
     
     //TODO: make sure not to waste time computing the same secret twice if someone uses
     //this in a multi-threaded way
-    MIncomingSecret* is = [transportDataProvider lookupIncomingSecretFrom:from onDevice:device to:to withSignature:me.s otherIdentity:meTimed myIdentity:sid];
+    MIncomingSecret* is = [transportDataProvider lookupIncomingSecretFrom:from onDevice:device to:to withSignature:me.s otherIdentity:sid myIdentity:meTimed];
     if(is != nil)
         return is;
 

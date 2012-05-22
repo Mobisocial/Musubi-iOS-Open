@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50d" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Account" representedClassName="MAccount" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
@@ -28,7 +28,7 @@
         <attribute name="processed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="processedTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="sequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="shortMessageHash" optional="YES" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="shortMessageHash" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="fromDevice" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" syncable="YES"/>
         <relationship name="fromIdentity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
     </entity>
@@ -68,7 +68,7 @@
         <attribute name="owned" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="principal" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="principalHash" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="principalShortHash" optional="YES" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="principalShortHash" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="receivedProfileVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="sentProfileVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -142,17 +142,17 @@
         <element name="Device" positionX="160" positionY="192" width="128" height="105"/>
         <element name="EncodedMessage" positionX="160" positionY="192" width="128" height="180"/>
         <element name="EncryptionUserKey" positionX="160" positionY="192" width="128" height="105"/>
-        <element name="Feed" positionX="160" positionY="192" width="128" height="180"/>
+        <element name="Feed" positionX="160" positionY="192" width="128" height="150"/>
         <element name="FeedApp" positionX="160" positionY="192" width="128" height="75"/>
         <element name="FeedMember" positionX="160" positionY="192" width="128" height="75"/>
         <element name="Identity" positionX="160" positionY="192" width="128" height="315"/>
         <element name="IncomingSecret" positionX="160" positionY="192" width="128" height="180"/>
-        <element name="LikeCache" positionX="160" positionY="192" width="128" height="90"/>
         <element name="MissingMessage" positionX="160" positionY="192" width="128" height="75"/>
         <element name="MyDeviceName" positionX="160" positionY="192" width="128" height="60"/>
         <element name="Obj" positionX="160" positionY="192" width="128" height="285"/>
         <element name="OutgoingSecret" positionX="160" positionY="192" width="128" height="165"/>
         <element name="SequenceNumber" positionX="160" positionY="192" width="128" height="90"/>
         <element name="SignatureUserKey" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="LikeCache" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>
