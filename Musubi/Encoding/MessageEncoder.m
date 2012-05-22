@@ -89,6 +89,7 @@
     [os setKey: [ck raw]];
     [os setEncryptedKey: [ck encrypted]];
     [os setEncryptionPeriod: [you temporalFrame]];
+    [os setSignaturePeriod:me.temporalFrame];
     [os setSignature: [signatureScheme signHash:hash withUserKey:[transportDataProvider signatureKeyFrom:from myIdentity:me] andIdentity:me]];
     
     [transportDataProvider insertOutgoingSecret:os myIdentity:me otherIdentity:you];

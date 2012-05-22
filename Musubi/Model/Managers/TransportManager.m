@@ -37,6 +37,7 @@
 #import "MSequenceNumber.h"
 #import "MIdentity.h"
 #import "MIncomingSecret.h"
+#import "MOutgoingSecret.h"
 #import "MDevice.h"
 
 @implementation TransportManager
@@ -85,16 +86,16 @@
 }
 
 - (MOutgoingSecret *)lookupOutgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
-    return (MOutgoingSecret*)[store queryFirst:[NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %llu AND signaturePeriod = %llu", from, to, me.temporalFrame, other.temporalFrame] onEntity:@"OutgoingSecret"];
+    return (MOutgoingSecret*)[store queryFirst:[NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %llu AND signaturePeriod = %llu", from, to, other.temporalFrame, me.temporalFrame] onEntity:@"OutgoingSecret"];
 }
 
 - (void)insertOutgoingSecret:(MOutgoingSecret *)os myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
-    //TODO: Seriously, nothing?
-    [[store context] save:NULL];
+    [store.context insertObject:os];
+    [store.context save:NULL];
 }
 
 - (MIncomingSecret *)lookupIncomingSecretFrom:(MIdentity *)from onDevice:(MDevice *)device to:(MIdentity *)to withSignature:(NSData *)signature otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %llu AND signaturePeriod = %llu AND device = %@", from, to, other.temporalFrame, me.temporalFrame, device];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %llu AND signaturePeriod = %llu AND device = %@", to, from, me.temporalFrame, other.temporalFrame, device];
     
     NSArray* results = [store query:predicate onEntity:@"IncomingSecret"];
     for (int i=0; i<results.count; i++) {
@@ -111,8 +112,8 @@
 }
 
 - (void)insertIncomingSecret:(MIncomingSecret *)is otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
-    //TODO: Seriously, nothing?
-    [[store context] save:NULL];
+    [store.context insertObject:is];
+    [store.context save:NULL];
 }
 
 - (void)incrementSequenceNumberTo:(MIdentity *)to {
