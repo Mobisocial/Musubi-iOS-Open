@@ -83,7 +83,7 @@ static void PrintReachabilityFlags(SCNetworkReachabilityFlags    flags, const ch
 @implementation Reachability
 static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void* info)
 {
-    NSObject* reachability = (__bridge_transfer NSObject*)info;
+    NSObject* reachability = (__bridge NSObject*)info;
 	#pragma unused (target, flags)
 	NSCAssert(reachability != NULL, @"info was NULL in ReachabilityCallback");
 	NSCAssert([reachability isKindOfClass: [Reachability class]], @"info was wrong class in ReachabilityCallback");

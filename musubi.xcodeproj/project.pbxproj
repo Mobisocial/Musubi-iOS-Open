@@ -37,6 +37,7 @@
 		C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0294C4A155CEE5B005894DF /* APNPushManager.m */; };
 		C0395FA31521BFD700F5AF3B /* MMyDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
+		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; };
 		C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5757D1551F94600B6624C /* libTestFlight.a */; };
 		C0D575821551F94600B6624C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757E1551F94600B6624C /* README.txt */; };
 		C0D575831551F94600B6624C /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757F1551F94600B6624C /* release_notes.txt */; };
@@ -345,6 +346,8 @@
 		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
 		C086764A156B032700F4F2BA /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
+		C0867779156DA0F600F4F2BA /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		C086777A156DA0F600F4F2BA /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		C0D5757D1551F94600B6624C /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		C0D5757E1551F94600B6624C /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		C0D5757F1551F94600B6624C /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
@@ -1309,12 +1312,18 @@
 		D26D36D4147B3ED400C4FE93 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */,
-				D272FB61151A90F800D2521A /* NSObject+DDExtensions.h */,
-				D272FB62151A90F800D2521A /* DDInvocationGrabber.m */,
 				D272FB63151A90F800D2521A /* DDInvocationGrabber.h */,
+				D272FB62151A90F800D2521A /* DDInvocationGrabber.m */,
 				D26D36D5147B3ED400C4FE93 /* LocationController.h */,
 				D26D36D6147B3ED400C4FE93 /* LocationController.m */,
+				C075913215605A790006948E /* NSData+HexString.h */,
+				C075913315605A790006948E /* NSData+HexString.m */,
+				D2F8C687152533D6005AD880 /* NSDate+TimeAgo.h */,
+				D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */,
+				D272FB61151A90F800D2521A /* NSObject+DDExtensions.h */,
+				D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */,
+				C0867779156DA0F600F4F2BA /* Reachability.h */,
+				C086777A156DA0F600F4F2BA /* Reachability.m */,
 				D26D36D7147B3ED400C4FE93 /* UIImage+Alpha.h */,
 				D26D36D8147B3ED400C4FE93 /* UIImage+Alpha.m */,
 				D26D36D9147B3ED400C4FE93 /* UIImage+Resize.h */,
@@ -1323,10 +1332,6 @@
 				D26D36DC147B3ED400C4FE93 /* UIImage+RoundedCorner.m */,
 				D26D36DD147B3ED400C4FE93 /* XQueryComponents.h */,
 				D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */,
-				D2F8C687152533D6005AD880 /* NSDate+TimeAgo.h */,
-				D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */,
-				C075913215605A790006948E /* NSData+HexString.h */,
-				C075913315605A790006948E /* NSData+HexString.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -3023,6 +3028,7 @@
 				D2C66EF9156CC02D001A0124 /* MIdentity.m in Sources */,
 				D2C66EFB156CC2AD001A0124 /* Model.xcmappingmodel in Sources */,
 				D2C66EFF156CC66E001A0124 /* MObj.m in Sources */,
+				C086777B156DA0F700F4F2BA /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
