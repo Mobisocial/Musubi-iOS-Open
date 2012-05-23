@@ -19,35 +19,41 @@
 //  MObj.h
 //  musubi
 //
-//  Created by Ben Dodson on 5/14/12.
+//  Created by Willem Bult on 5/23/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class MApp, MDevice, MEncodedMessage, MFeed, MIdentity, MObj, MLikeCache;
+@class MApp, MDevice, MEncodedMessage, MFeed, MIdentity, MObj;
 
 @interface MObj : NSManagedObject
 
 @property (nonatomic) BOOL deleted;
-@property (nonatomic) NSString * json;
-@property (nonatomic) NSDate * lastModified;
+@property (nonatomic, retain) NSString * json;
+@property (nonatomic) NSDate* lastModified;
 @property (nonatomic) BOOL processed;
-@property (nonatomic) NSData * raw;
+@property (nonatomic, retain) NSData * raw;
 @property (nonatomic) BOOL renderable;
 @property (nonatomic) int64_t shortUniversalHash;
-@property (nonatomic) NSDate * timestamp;
-@property (nonatomic) NSString * type;
-@property (nonatomic) NSData * universalHash;
-@property (nonatomic) MApp *app;
-@property (nonatomic) MDevice *device;
-@property (nonatomic) MEncodedMessage *encoded;
-@property (nonatomic) MFeed *feed;
-@property (nonatomic) MIdentity *identity;
-@property (nonatomic) MObj *parent;
-@property (nonatomic) MLikeCache *likeCount;
+@property (nonatomic) NSDate* timestamp;
+@property (nonatomic, retain) NSString * type;
+@property (nonatomic, retain) NSData * universalHash;
+@property (nonatomic, retain) MApp *app;
+@property (nonatomic, retain) MDevice *device;
+@property (nonatomic, retain) MEncodedMessage *encoded;
+@property (nonatomic, retain) MFeed *feed;
+@property (nonatomic, retain) MIdentity *identity;
+@property (nonatomic, retain) MObj *parent;
+@property (nonatomic, retain) NSSet *likes;
+@end
 
-- (NSString *)senderDisplay;
+@interface MObj (CoreDataGeneratedAccessors)
+
+- (void)addLikesObject:(NSManagedObject *)value;
+- (void)removeLikesObject:(NSManagedObject *)value;
+- (void)addLikes:(NSSet *)values;
+- (void)removeLikes:(NSSet *)values;
 
 @end

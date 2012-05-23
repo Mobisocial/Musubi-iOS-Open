@@ -29,6 +29,7 @@
 
 @interface LikeObj : Obj
 
+- (id) initWithObjHash: (NSData*) hash;
 - (id) initWithData: (NSDictionary*) data;
 
 @end

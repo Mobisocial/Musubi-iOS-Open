@@ -106,6 +106,10 @@ static PersistentModelStoreFactory *sharedInstance = nil;
     NSPersistentStoreCoordinator *c = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
     [c addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:path options:options error:&error];
     
+    if (error) {
+        NSLog(@"Store error: %@", error);
+    }
+    
     return [self initWithCoordinator:c];
 }
 

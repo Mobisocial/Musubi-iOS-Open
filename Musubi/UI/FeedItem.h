@@ -24,17 +24,26 @@
 //
 
 #import "Three20/Three20.h"
+#import "MObj.h"
 
 @interface FeedItem : TTTableLinkedItem {
     NSString* _sender;
     NSDate* _timestamp;
     UIImage* _profilePicture;
-    NSNumber* likeCount;
+
+    NSDictionary* _likes;
+    BOOL _iLiked;
+    
+    // Link back to database record from view, for event handlers
+    MObj* _obj;
 }
 
 @property (nonatomic, copy) NSString* sender;
 @property (nonatomic, retain) NSDate* timestamp;
 @property (nonatomic, copy) UIImage* profilePicture;
 @property (nonatomic) NSDictionary* likes;
+@property (nonatomic) BOOL iLiked;
+
+@property (nonatomic, retain) MObj* obj;
 
 @end

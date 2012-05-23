@@ -107,7 +107,6 @@
 		D272FB401519B7E300D2521A /* MEncryptionUserKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB3F1519B7E300D2521A /* MEncryptionUserKey.m */; };
 		D272FB431519B7E400D2521A /* MEncodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB421519B7E400D2521A /* MEncodedMessage.m */; };
 		D272FB461519B7E400D2521A /* MSignatureUserKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB451519B7E400D2521A /* MSignatureUserKey.m */; };
-		D272FB491519B7E400D2521A /* MIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB481519B7E400D2521A /* MIdentity.m */; };
 		D272FB4C1519B7E500D2521A /* MDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB4B1519B7E500D2521A /* MDevice.m */; };
 		D272FB4F1519B7E500D2521A /* MIncomingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB4E1519B7E500D2521A /* MIncomingSecret.m */; };
 		D272FB521519B7E500D2521A /* MOutgoingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB511519B7E500D2521A /* MOutgoingSecret.m */; };
@@ -163,6 +162,9 @@
 		D2B13D5B14F882590067B197 /* Secret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5A14F882580067B197 /* Secret.m */; };
 		D2B939C414BD04C700C5F777 /* missing.png in Resources */ = {isa = PBXBuildFile; fileRef = D2B939C314BD04C700C5F777 /* missing.png */; };
 		D2C0AA9B14FF035100E9D0BF /* MessageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */; };
+		D2C66EF9156CC02D001A0124 /* MIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C66EF8156CC02D001A0124 /* MIdentity.m */; };
+		D2C66EFB156CC2AD001A0124 /* Model.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D2C66EFA156CC2AD001A0124 /* Model.xcmappingmodel */; };
+		D2C66EFF156CC66E001A0124 /* MObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C66EFE156CC66E001A0124 /* MObj.m */; };
 		D2CB073C14EDCBB50006D1E9 /* IBEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */; };
 		D2CD028A1443A1830080861E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD02891443A1830080861E /* CoreLocation.framework */; };
 		D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
@@ -172,7 +174,6 @@
 		D2D9311B1522A307006E4F58 /* libRabbitMQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D931181522A2DE006E4F58 /* libRabbitMQ.a */; };
 		D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */; };
 		D2F8C66C1524B4D1005AD880 /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C66B1524B4D1005AD880 /* FeedListViewController.m */; };
-		D2F8C6731524D356005AD880 /* FeedItemTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C66E1524D355005AD880 /* FeedItemTableCell.m */; };
 		D2F8C6741524D356005AD880 /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C6701524D355005AD880 /* FeedViewController.m */; };
 		D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67C1524FB0C005AD880 /* ObjFactory.m */; };
 		D2F8C6801524FB29005AD880 /* ObjPipelineService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67F1524FB29005AD880 /* ObjPipelineService.m */; };
@@ -181,7 +182,6 @@
 		D2F8C689152533D6005AD880 /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */; };
 		D2F8C68C1526438F005AD880 /* GoogleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C68B1526438F005AD880 /* GoogleAuth.m */; };
 		D2F8C6CB152655C5005AD880 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */; };
-		D480489B1561C9270066279D /* MObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D480489A1561C9260066279D /* MObj.m */; };
 		D48048A11561CC980066279D /* MLikeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D48048A01561CC980066279D /* MLikeCache.m */; };
 		D480496D1561F6C70066279D /* LikeObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D480496C1561F6C60066279D /* LikeObj.m */; };
 		D4E42AB0156224EF00C21FDA /* DeleteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E42AAF156224EE00C21FDA /* DeleteObj.m */; };
@@ -468,8 +468,6 @@
 		D272FB421519B7E400D2521A /* MEncodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEncodedMessage.m; sourceTree = "<group>"; };
 		D272FB441519B7E400D2521A /* MSignatureUserKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSignatureUserKey.h; sourceTree = "<group>"; };
 		D272FB451519B7E400D2521A /* MSignatureUserKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSignatureUserKey.m; sourceTree = "<group>"; };
-		D272FB471519B7E400D2521A /* MIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIdentity.h; sourceTree = "<group>"; };
-		D272FB481519B7E400D2521A /* MIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIdentity.m; sourceTree = "<group>"; };
 		D272FB4A1519B7E500D2521A /* MDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDevice.h; sourceTree = "<group>"; };
 		D272FB4B1519B7E500D2521A /* MDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDevice.m; sourceTree = "<group>"; };
 		D272FB4D1519B7E500D2521A /* MIncomingSecret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIncomingSecret.h; sourceTree = "<group>"; };
@@ -900,6 +898,13 @@
 		D2B939C314BD04C700C5F777 /* missing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missing.png; sourceTree = "<group>"; };
 		D2C0AA9914FF035100E9D0BF /* MessageDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDecoder.h; sourceTree = "<group>"; };
 		D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDecoder.m; sourceTree = "<group>"; };
+		D2C66E8F156CBEE6001A0124 /* Model 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 5.xcdatamodel"; sourceTree = "<group>"; };
+		D2C66EF7156CC02D001A0124 /* MIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIdentity.h; sourceTree = "<group>"; };
+		D2C66EF8156CC02D001A0124 /* MIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIdentity.m; sourceTree = "<group>"; };
+		D2C66EFA156CC2AD001A0124 /* Model.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = Model.xcmappingmodel; sourceTree = "<group>"; };
+		D2C66EFC156CC5DC001A0124 /* Model 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 6.xcdatamodel"; sourceTree = "<group>"; };
+		D2C66EFD156CC66E001A0124 /* MObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MObj.h; sourceTree = "<group>"; };
+		D2C66EFE156CC66E001A0124 /* MObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MObj.m; sourceTree = "<group>"; };
 		D2CB073A14EDCBB50006D1E9 /* IBEncryptionScheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBEncryptionScheme.h; sourceTree = "<group>"; };
 		D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBEncryptionScheme.m; sourceTree = "<group>"; };
 		D2CD02891443A1830080861E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -930,8 +935,6 @@
 		D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GTMOAuth2.xcodeproj; path = OAuth2/GTMOAuth2.xcodeproj; sourceTree = "<group>"; };
 		D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D48048981561C7030066279D /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
-		D48048991561C9260066279D /* MObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MObj.h; sourceTree = "<group>"; };
-		D480489A1561C9260066279D /* MObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MObj.m; sourceTree = "<group>"; };
 		D480489F1561CC970066279D /* MLikeCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLikeCache.h; sourceTree = "<group>"; };
 		D48048A01561CC980066279D /* MLikeCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLikeCache.m; sourceTree = "<group>"; };
 		D480496B1561F6C60066279D /* LikeObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LikeObj.h; path = SocialKit/Obj/LikeObj.h; sourceTree = "<group>"; };
@@ -1189,17 +1192,14 @@
 				D2773CD1151D7BD100A161F9 /* MFeedApp.m */,
 				D2773C92151BE2B300A161F9 /* MFeedMember.h */,
 				D2773C93151BE2B300A161F9 /* MFeedMember.m */,
-				D272FB471519B7E400D2521A /* MIdentity.h */,
-				D272FB481519B7E400D2521A /* MIdentity.m */,
 				D272FB4D1519B7E500D2521A /* MIncomingSecret.h */,
 				D272FB4E1519B7E500D2521A /* MIncomingSecret.m */,
 				D208157D1513026800F12039 /* MMissingMessage.h */,
 				D208157E1513026900F12039 /* MMissingMessage.m */,
 				C0395FA11521BFD700F5AF3B /* MMyDeviceName.h */,
 				C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */,
-				D48048991561C9260066279D /* MObj.h */,
-				D480489A1561C9260066279D /* MObj.m */,
 				D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */,
+				D2C66EFA156CC2AD001A0124 /* Model.xcmappingmodel */,
 				D480489F1561CC970066279D /* MLikeCache.h */,
 				D48048A01561CC980066279D /* MLikeCache.m */,
 				D272FB501519B7E500D2521A /* MOutgoingSecret.h */,
@@ -1212,6 +1212,10 @@
 				D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */,
 				D26D1694156C82E300FC7650 /* MLike.h */,
 				D26D1695156C82E400FC7650 /* MLike.m */,
+				D2C66EF7156CC02D001A0124 /* MIdentity.h */,
+				D2C66EF8156CC02D001A0124 /* MIdentity.m */,
+				D2C66EFD156CC66E001A0124 /* MObj.h */,
+				D2C66EFE156CC66E001A0124 /* MObj.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2951,7 +2955,6 @@
 				D272FB401519B7E300D2521A /* MEncryptionUserKey.m in Sources */,
 				D272FB431519B7E400D2521A /* MEncodedMessage.m in Sources */,
 				D272FB461519B7E400D2521A /* MSignatureUserKey.m in Sources */,
-				D272FB491519B7E400D2521A /* MIdentity.m in Sources */,
 				D272FB4C1519B7E500D2521A /* MDevice.m in Sources */,
 				D272FB4F1519B7E500D2521A /* MIncomingSecret.m in Sources */,
 				D272FB521519B7E500D2521A /* MOutgoingSecret.m in Sources */,
@@ -2979,7 +2982,6 @@
 				D2A1FC1B1521A99700C10BE2 /* FriendPickerTableViewController.m in Sources */,
 				C0395FA31521BFD700F5AF3B /* MMyDeviceName.m in Sources */,
 				D2F8C66C1524B4D1005AD880 /* FeedListViewController.m in Sources */,
-				D2F8C6731524D356005AD880 /* FeedItemTableCell.m in Sources */,
 				D2F8C6741524D356005AD880 /* FeedViewController.m in Sources */,
 				D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */,
 				D2F8C6801524FB29005AD880 /* ObjPipelineService.m in Sources */,
@@ -3001,7 +3003,6 @@
 				D23EED071554A30E00B18153 /* FeedListItemCell.m in Sources */,
 				C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */,
 				C075913415605A790006948E /* NSData+HexString.m in Sources */,
-				D480489B1561C9270066279D /* MObj.m in Sources */,
 				D48048A11561CC980066279D /* MLikeCache.m in Sources */,
 				D480496D1561F6C70066279D /* LikeObj.m in Sources */,
 				D4E42AB0156224EF00C21FDA /* DeleteObj.m in Sources */,
@@ -3019,6 +3020,9 @@
 				2F24EB8B1563B48C00D803C0 /* CXMLNode_XPathExtensions.m in Sources */,
 				2F24EB8D1563B48C00D803C0 /* CTidy.m in Sources */,
 				D26D1696156C82E500FC7650 /* MLike.m in Sources */,
+				D2C66EF9156CC02D001A0124 /* MIdentity.m in Sources */,
+				D2C66EFB156CC2AD001A0124 /* Model.xcmappingmodel in Sources */,
+				D2C66EFF156CC66E001A0124 /* MObj.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3424,6 +3428,8 @@
 				C086764A156B032700F4F2BA /* Model 3.xcdatamodel */,
 				D48048981561C7030066279D /* Model 2.xcdatamodel */,
 				D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */,
+				D2C66EFC156CC5DC001A0124 /* Model 6.xcdatamodel */,
+				D2C66E8F156CBEE6001A0124 /* Model 5.xcdatamodel */,
 			);
 			currentVersion = D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */;
 			path = Model.xcdatamodeld;

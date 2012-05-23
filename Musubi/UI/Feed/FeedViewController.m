@@ -24,7 +24,6 @@
 //
 
 #import "FeedViewController.h"
-#import "FeedItemTableCell.h"
 #import "FeedManager.h"
 #import "ObjManager.h"
 #import "MFeed.h"
@@ -40,6 +39,7 @@
 #import "StatusObj.h"
 #import "StatusObjItem.h"
 #import "StatusObjItemCell.h"
+#import "LikeObj.h"
 #import "PictureObj.h"
 #import "FeedDataSource.h"
 #import "NSDate+TimeAgo.h"
@@ -90,7 +90,7 @@
 }
 
 - (id<UITableViewDelegate>)createDelegate {
-    return [[TTTableViewVarHeightDelegate alloc]
+    return [[FeedViewTableDelegate alloc]
              initWithController:self];
 }
 
@@ -176,20 +176,11 @@
     [self.tableView endUpdates];
 }
 
-/*
-- (void)newMessage:(SignedMessage *)message {
-    if (message != nil) {
-        [self displayMessage:message];
-        [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:FALSE];
-    }
-}
-*/
 - (IBAction)commandButtonPushed: (id) sender {
     UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", nil];
     
     [commandPicker showInView:mainView];
 }
-
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
@@ -301,6 +292,29 @@
         
         [textField setText:@""];
         [self invalidateFeed];
+    }
+}
+
+
+@end
+
+@implementation FeedViewTableDelegate
+
+- (void)likedAtIndexPath:(NSIndexPath *)indexPath {
+    FeedItem* item = [self.controller.dataSource tableView:self.controller.tableView objectForRowAtIndexPath:indexPath];
+    
+    if (!item.iLiked) {
+        LikeObj* like = [[LikeObj alloc] initWithObjHash: item.obj.universalHash];
+        
+        NSLog(@"Like: %@", like);
+
+        AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+        
+        FeedViewController* controller = (FeedViewController*) self.controller;
+        
+        [ObjHelper sendObj:like toFeed:controller.feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+        [controller invalidateFeed];
     }
 }
 

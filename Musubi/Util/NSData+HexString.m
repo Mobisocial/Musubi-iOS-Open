@@ -25,8 +25,18 @@
 
 @implementation NSString (HexString)
 
+unsigned char strToChar (char a, char b);
+unsigned char strToChar (char a, char b)
+{
+    char encoder[3] = {'\0','\0','\0'};
+    encoder[0] = a;
+    encoder[1] = b;
+    return (char) strtol(encoder,NULL,16);
+}
+
 - (NSData*) dataFromHex
 {
+    /*
     NSMutableData *data = [[NSMutableData alloc] init];
     unsigned char whole_byte;
     char byte_chars[3] = {'\0','\0','\0'};
@@ -37,6 +47,23 @@
         whole_byte = strtol(byte_chars, NULL, 16);
         [data appendBytes:&whole_byte length:1]; 
     }
-    return data;
+    return data;*/
+    
+    const char * bytes = [self cStringUsingEncoding: NSUTF8StringEncoding];
+    NSUInteger length = strlen(bytes);
+    unsigned char * r = (unsigned char *) malloc(length / 2 + 1);
+    unsigned char * index = r;
+    
+    while ((*bytes) && (*(bytes +1))) {
+        *index = strToChar(*bytes, *(bytes +1));
+        index++;
+        bytes+=2;
+    }
+    *index = '\0';
+    
+    NSData * result = [NSData dataWithBytes: r length: length / 2];
+    free(r);
+    
+    return result;
 }
 @end

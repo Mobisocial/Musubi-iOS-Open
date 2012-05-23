@@ -118,6 +118,7 @@ static int operationCount = 0;
             [self processObj: obj];
         } @catch (NSException *e) {
             NSLog(@"Error while processing obj: %@", e);
+            [_store.context deleteObject: obj];
         } @finally {
             operationCount--;
         }

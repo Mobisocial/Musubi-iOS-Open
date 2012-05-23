@@ -219,4 +219,13 @@
     [to setNextSequenceNumber: to.nextSequenceNumber + 1];
 }
 
++ (NSString *)displayNameForIdentity:(MIdentity *)ident {
+    if (ident && ident.name != nil) {
+        return ident.name;
+    } else if (ident && ident.principal != nil) {
+        return ident.principal;
+    } else {
+        return @"Unknown";
+    }
+}
 @end

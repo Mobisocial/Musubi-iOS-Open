@@ -32,6 +32,7 @@
 #import "Three20Core/NSDateAdditions.h"
 
 #import "FeedItem.h"
+#import "FeedViewController.h"
 
 static const CGFloat    kDefaultMessageImageWidth   = 34.0f;
 static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
@@ -79,8 +80,8 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
-//    int like_space = ((FeedItem*) object).likes.count > 0 ? 20 : 0;
-    CGFloat likeSpace = ((FeedItem*) object).likes.count > 0 ? [LikeView renderHeightForItem: object] + 10 : 0;
+    int likes = ((FeedItem*) object).likes.count + ((FeedItem*) object).iLiked ? 1 : 0;
+    CGFloat likeSpace = likes > 0 ? [LikeView renderHeightForItem: object] + 15 : 0;
     return [self renderHeightForItem:(FeedItem*)object] + 40 + likeSpace;
 }
 
@@ -102,6 +103,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     _senderLabel.text = nil;
     _timestampLabel.text = nil;
     [_likeView prepareForReuse];
+    _likeButton.imageView.image = nil;
 }
 
 
@@ -117,7 +119,9 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     
     left += kTableCellSmallMargin + kDefaultMessageImageHeight + kTableCellSmallMargin;
     
-    CGFloat width = self.contentView.width - left;
+    CGFloat right = 20.0f;
+    
+    CGFloat width = self.contentView.width - left - right;
     CGFloat top = kTableCellSmallMargin;
     
     if (_senderLabel.text.length) {
@@ -141,7 +145,6 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
         _likeView.frame = CGRectZero;
     }
     
-    
     self.detailTextLabel.frame = CGRectMake(left, top, width - kTableCellMargin, contentBottom - top);
     
     if (_timestampLabel.text.length) {
@@ -154,6 +157,13 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     } else {
         _timestampLabel.frame = CGRectZero;
     }
+    
+    [_likeButton sizeToFit];
+    
+    _likeButton.width = 16;
+    _likeButton.height = 16;
+    _likeButton.left = self.contentView.width - _likeButton.width - kTableCellSmallMargin;
+    _likeButton.top = _senderLabel.top + _timestampLabel.height + kTableCellSmallMargin;
 }
 
 
@@ -187,13 +197,23 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
         if (item.timestamp) {
             self.timestampLabel.text = [item.timestamp formatShortTime];
         }
-        if (item.likes.count > 0) {
-            [self.likeView setObject:item];
-        }
         if (item.profilePicture) {
             self.profilePictureView.image = item.profilePicture;
         }
-    }
+        if (item.likes.count > 0 || item.iLiked) {
+            [self.likeView setObject:item];
+        }
+        
+        [self.likeButton setImage:[UIImage imageNamed:item.iLiked ? @"heart32.png" : @"heart32_gray.png"] forState:UIControlStateNormal];
+    }    
+}
+
+- (void) likeButtonPressed: (UIView*) source {
+    TTTableViewCell* cell = (TTTableViewCell*)source.superview.superview;
+    TTTableView* tableView = (TTTableView*)cell.superview;
+    
+    FeedViewTableDelegate* tableDelegate = (FeedViewTableDelegate*) tableView.delegate;
+    [tableDelegate likedAtIndexPath:[tableView indexPathForCell: cell]];
 }
 
 
@@ -230,6 +250,22 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     return _timestampLabel;
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (UIButton*)likeButton {
+    if (!_likeButton) {
+        _likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _likeButton.imageView.image = [UIImage imageNamed:@"heart32_gray.png"];
+        _likeButton.width = 16;
+        _likeButton.height = 16;
+        _likeButton.userInteractionEnabled = YES;
+        [_likeButton addTarget:self action:@selector(likeButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+
+        [self.contentView addSubview:_likeButton];
+    }
+    return _likeButton;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (LikeView*)likeView {
@@ -308,15 +344,28 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
 }
 
 - (void) setObject: (FeedItem*) item {
+    NSMutableString* likers = [NSMutableString string];
+    [likers appendString: [item.likes.allKeys componentsJoinedByString:@", "]];
+    if (item.iLiked) {
+        if (item.likes.count > 0) {
+            [likers appendString:@" and you like this"];
+        } else {
+            [likers appendString:@"You like this"];
+        }
+    } else if (item.likes.count > 1) {
+        [likers appendString:@" like this"];
+    } else if (item.likes.count == 1) {
+        [likers appendString:@" likes this"];
+    }
     
-    NSString* likers = [item.likes.allKeys componentsJoinedByString:@", "];
-    
-    self.label.text = [NSString stringWithFormat:@"%@ like%@ this", likers, item.likes.count > 0 ? @"s" : @""];
+    self.label.text = likers;
     self.icon.image = [UIImage imageNamed:@"heart32.png"];
 }
 
 + (CGFloat)renderHeightForItem:(FeedItem *)item {
-    NSString* likers = [item.likes.allKeys componentsJoinedByString:@", "];
+    // worst case string length
+    NSString* likers = [NSString stringWithFormat:@"%@ and you like this", [item.likes.allKeys componentsJoinedByString:@", "]];
+    
     CGSize size = [likers sizeWithFont:TTSTYLEVAR(tableTimestampFont) constrainedToSize:CGSizeMake(260, 1024) lineBreakMode:UILineBreakModeWordWrap];
     return size.height;
 }

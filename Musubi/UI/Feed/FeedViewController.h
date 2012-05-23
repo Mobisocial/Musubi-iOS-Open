@@ -53,3 +53,11 @@
 - (IBAction)commandButtonPushed: (id) sender;
 
 @end
+
+@interface FeedViewTableDelegate : TTTableViewVarHeightDelegate {
+
+}
+
+- (void) likedAtIndexPath: (NSIndexPath*) indexPath;
+
+@end

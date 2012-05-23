@@ -19,7 +19,7 @@
 //  MObj.m
 //  musubi
 //
-//  Created by Ben Dodson on 5/14/12.
+//  Created by Willem Bult on 5/23/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -50,14 +50,6 @@
 @dynamic feed;
 @dynamic identity;
 @dynamic parent;
-@dynamic likeCount;
-
-- (NSString *)senderDisplay {
-    if (self.identity != nil) {
-        return [self.identity displayName];
-    } else {
-        return @"Unknown";
-    }
-}
+@dynamic likes;
 
 @end

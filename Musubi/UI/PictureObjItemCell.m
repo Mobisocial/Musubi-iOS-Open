@@ -73,7 +73,7 @@
 }*/
 
 + (CGFloat)renderHeightForItem:(FeedItem *)item {
-    return (267 /((PictureObjItem*)item).picture.size.width) * ((PictureObjItem*)item).picture.size.height + 40;    
+    return (250 /((PictureObjItem*)item).picture.size.width) * ((PictureObjItem*)item).picture.size.height;
 }
 
 @end

@@ -34,6 +34,7 @@
 #import "StatusObjItem.h"
 #import "PictureObj.h"
 #import "PictureObjItem.h"
+#import "IdentityManager.h"
 
 #define kFeedDataModelLoadInitialBatchSize 5
 #define kFeedDataModelLoadBatchSize 5
@@ -103,11 +104,16 @@
             
             for (MLike* like in [objManager likesForObj:mObj]) {
                 if (like.sender) {
-                    [likes setObject:[NSNumber numberWithInt:like.count] forKey:like.sender.displayName];
+                    if (like.sender.owned) {
+                        [item setILiked:YES];
+                    } else {
+                        [likes setObject:[NSNumber numberWithInt:like.count] forKey:[IdentityManager displayNameForIdentity:like.sender]];
+                    }
                 }
             }
             
-            [item setSender: [mObj senderDisplay]];
+            [item setObj: mObj];
+            [item setSender: [IdentityManager displayNameForIdentity:mObj.identity]];
             [item setTimestamp: mObj.timestamp];
             [item setProfilePicture: [UIImage imageWithData:mObj.identity.thumbnail]];
             [item setLikes: likes];

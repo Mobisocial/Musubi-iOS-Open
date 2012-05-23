@@ -31,5 +31,7 @@
 @synthesize timestamp = _timestamp;
 @synthesize profilePicture = _profilePicture;
 @synthesize likes = _likes;
+@synthesize iLiked = _iLiked;
+@synthesize obj = _obj;
 
 @end

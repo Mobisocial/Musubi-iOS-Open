@@ -33,13 +33,22 @@
 
 @implementation LikeObj
 
+- (id) initWithObjHash: (NSData*) hash {
+    self = [super init];
+    if (self) {
+        [self setType: kObjTypeLike];
+        [self setData: [NSDictionary dictionaryWithObjectsAndKeys:[hash hexString], kObjFieldTargetHash, nil]];        
+    }
+    
+    return self;
+}
+
 - (id) initWithData: (NSDictionary*) data {
     self = [super initWithType:kObjTypeLike data:data andRaw:nil];
     return self;
 }
 
 - (BOOL)processObjWithRecord:(MObj *)obj {
-    NSLog(@"Processing like record %@", obj);
     NSString *parentHash = [self.data objectForKey: kObjFieldTargetHash];
     
     ObjManager* objMgr = [[ObjManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
@@ -47,9 +56,7 @@
     uint64_t shortHash = *(uint64_t*)hashData.bytes;
     
     MObj* likedObj = [objMgr objWithShortUniversalHash: shortHash];
-    NSLog(@"Someone liked %@", likedObj);
     [objMgr saveLikeForObj:likedObj from: obj.identity];
-    NSLog(@"Hoi");
     return NO;
 }
 

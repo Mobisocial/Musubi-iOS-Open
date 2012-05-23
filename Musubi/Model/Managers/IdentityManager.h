@@ -48,4 +48,6 @@
 - (uint64_t) computeTemporalFrameFromPrincipal: (NSString*) principal;
 - (void) incrementSequenceNumberTo:(MIdentity *)to;
 
++ (NSString*) displayNameForIdentity: (MIdentity*)ident;
+
 @end

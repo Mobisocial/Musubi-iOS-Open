@@ -81,7 +81,7 @@
     BOOL matched = NO;
     for (MLike* like in [store query:[NSPredicate predicateWithFormat:@"(obj == %@) AND (sender == %@)", obj, contextedSender] onEntity:@"Like"]) {
         if ([like.obj.objectID isEqual: obj.objectID]) {
-            like.count++;
+            like.count += 1;
             matched = YES;
             break;
         }

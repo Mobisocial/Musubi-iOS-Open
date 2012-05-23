@@ -17,13 +17,14 @@
 
 //
 //  MIdentity.m
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/26/12.
+//  Created by Willem Bult on 5/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "MIdentity.h"
+#import "MLike.h"
 
 
 @implementation MIdentity
@@ -46,14 +47,7 @@
 @dynamic type;
 @dynamic updatedAt;
 @dynamic whitelisted;
+@dynamic likes;
 
-- (NSString *)displayName {
-    if (self.name != nil) {
-        return self.name;
-    } else if (self.principal != nil) {
-        return self.principal;
-    } else {
-        return @"Unknown";
-    }
-}
+
 @end

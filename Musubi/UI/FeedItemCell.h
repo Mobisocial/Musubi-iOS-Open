@@ -24,12 +24,15 @@
     UILabel*      _timestampLabel;
     UIImageView*  _profilePictureView;
     LikeView*     _likeView;
+    
+    UIButton*     _likeButton;
 }
 
 @property (nonatomic, readonly, retain) UILabel*      senderLabel;
 @property (nonatomic, readonly, retain) UILabel*      timestampLabel;
 @property (nonatomic, readonly, retain) UIImageView*  profilePictureView;
 @property (nonatomic, readonly, retain) LikeView*     likeView;
+@property (nonatomic, readonly, retain) UIButton*  likeButton;
 
 + (CGFloat) renderHeightForItem: (FeedItem*) item;
 
