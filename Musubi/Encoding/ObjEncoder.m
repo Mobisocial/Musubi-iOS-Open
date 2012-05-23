@@ -97,7 +97,7 @@ static uint32_t kHeaderGuesstimate = 200;
     [input appendBytes:&deviceName length: sizeof(deviceName)];
     [input appendData:hash];
     
-    return [input sha256Digest];
+    return input.sha256Digest;
 }
 
 

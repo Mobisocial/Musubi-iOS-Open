@@ -29,6 +29,7 @@
     NSString* _sender;
     NSDate* _timestamp;
     UIImage* _profilePicture;
+    NSNumber* likeCount;
 }
 
 @property (nonatomic, copy) NSString* sender;
