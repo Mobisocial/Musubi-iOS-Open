@@ -28,6 +28,10 @@
 #import "MObj.h"
 #import "MFeed.h"
 #import "Obj.h"
+#import "MLikeCache.h"
+#import "MLike.h"
+#import "MIdentity.h"
+#import "PersistentModelStore.h"
 
 @implementation ObjManager
 
@@ -57,8 +61,61 @@
     return mObj;
 }
 
+- (MObj*) objWithShortUniversalHash: (int64_t) hash {
+    return (MObj*)[self queryFirst:[NSPredicate predicateWithFormat:@"(shortUniversalHash == %lld)", hash]]; 
+}
+
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed {
     return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (parent == nil) AND (renderable == YES) AND ((processed == YES) OR (encoded == nil))", feed.objectID] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE]];
+}
+
+- (NSArray *) likesForObj: (MObj*) obj {
+    return [store query:[NSPredicate predicateWithFormat:@"(obj == %@)", obj] onEntity:@"Like"];
+}
+
+- (void) saveLikeForObj: (MObj*) obj from: (MIdentity*) sender {
+    
+    // Need to get a sender in the current store context
+    MIdentity* contextedSender = (MIdentity*)[store queryFirst:[NSPredicate predicateWithFormat:@"(self == %@)", sender.objectID] onEntity:@"Identity"];
+    
+    BOOL matched = NO;
+    for (MLike* like in [store query:[NSPredicate predicateWithFormat:@"(obj == %@) AND (sender == %@)", obj, contextedSender] onEntity:@"Like"]) {
+        if ([like.obj.objectID isEqual: obj.objectID]) {
+            like.count++;
+            matched = YES;
+            break;
+        }
+    }
+    
+    if (!matched) {
+        MLike* like = [NSEntityDescription insertNewObjectForEntityForName:@"Like" inManagedObjectContext: [store context]];
+
+        like.obj = obj;
+        like.sender = contextedSender;
+        like.count = 1;
+    }
+    
+    [store save];
+}
+
+- (MLikeCache*) likeCountForObj: (MObj*) obj {
+    return (MLikeCache*)[store queryFirst:[NSPredicate predicateWithFormat:@"(parentObj == %@)", obj] onEntity:@"LikeCache"];
+}
+
+- (void) increaseLikeCountForObj: (MObj*) obj local: (BOOL) local {
+    MLikeCache* likes = [self likeCountForObj:obj];
+    
+    if (!likes) {
+        likes = [NSEntityDescription insertNewObjectForEntityForName:@"LikeCache" inManagedObjectContext: [store context]];
+        likes.parentObj = obj;
+    }
+    
+    likes.count += 1;
+    
+    if (local)
+        likes.localLike += 1;
+    
+    [store save];
 }
 
 @end

@@ -47,4 +47,13 @@
 @dynamic updatedAt;
 @dynamic whitelisted;
 
+- (NSString *)displayName {
+    if (self.name != nil) {
+        return self.name;
+    } else if (self.principal != nil) {
+        return self.principal;
+    } else {
+        return @"Unknown";
+    }
+}
 @end

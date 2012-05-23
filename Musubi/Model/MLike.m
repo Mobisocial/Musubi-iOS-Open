@@ -16,22 +16,22 @@
 
 
 //
-//  MLikeCache.h
+//  MLike.m
 //  musubi
 //
-//  Created by Ben Dodson on 5/14/12.
+//  Created by Willem Bult on 5/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+#import "MLike.h"
+#import "MIdentity.h"
+#import "MObj.h"
 
-@class MObj;
 
-@interface MLikeCache : NSManagedObject
+@implementation MLike
 
-@property (nonatomic) int16_t count;
-@property (nonatomic) int16_t localLike;
-@property (nonatomic, retain) MObj *parentObj;
+@dynamic obj;
+@dynamic sender;
+@dynamic count;
 
 @end

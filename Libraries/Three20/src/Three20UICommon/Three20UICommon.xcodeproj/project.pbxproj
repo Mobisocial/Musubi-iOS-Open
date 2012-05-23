@@ -92,6 +92,7 @@
 		6EE7364C11849B3D00A35176 /* UnitTests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = UnitTests.xcconfig; path = Configurations/UnitTests.xcconfig; sourceTree = "<group>"; };
 		6EE7366611849C5800A35176 /* Three20Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20Core.xcodeproj; path = ../Three20Core/Three20Core.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BEF31F3A0F352DF5000DE5D2 /* libThree20UICommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThree20UICommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D26D1697156C885B00FC7650 /* Model 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; name = "Model 5.xcdatamodel"; path = "../../../../Musubi/Model/Model.xcdatamodeld/Model 5.xcdatamodel"; sourceTree = "<group>"; };
 		EB9E6C6210B6A8F800DE563C /* UICommonUnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UICommonUnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -127,6 +128,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				D26D1697156C885B00FC7650 /* Model 5.xcdatamodel */,
 				6E7F951C118E241E00443B46 /* README.mdown */,
 				6E6454731184D2CD00F08CB1 /* Three20UICommon.h */,
 				6EDAE969118C99580008133C /* Three20UICommon+Additions.h */,

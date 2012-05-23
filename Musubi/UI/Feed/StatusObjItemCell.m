@@ -55,12 +55,17 @@
     self.detailTextLabel.text = ((StatusObjItem*) object).text;
 }
 
-
+/*
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
     
     StatusObjItem* item = object;
     CGSize size = [item.text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(260, 1024) lineBreakMode:UILineBreakModeWordWrap];
     return size.height + 40;
+}*/
+
++ (CGFloat)renderHeightForItem:(FeedItem *)item {
+    CGSize size = [((StatusObjItem*)item).text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(260, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    return size.height;
 }
 
 @end

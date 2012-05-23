@@ -48,6 +48,6 @@
 @property (nonatomic) MObj *parent;
 @property (nonatomic) MLikeCache *likeCount;
 
-- (NSString*) senderDisplay;
+- (NSString *)senderDisplay;
 
 @end

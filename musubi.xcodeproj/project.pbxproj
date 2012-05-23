@@ -88,6 +88,8 @@
 		D26028DF1566EEBE00CF6500 /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D26028DB1566EEBE00CF6500 /* gear@2x.png */; };
 		D26028E01566EEBE00CF6500 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D26028DC1566EEBE00CF6500 /* logo.png */; };
 		D26028E11566EEBE00CF6500 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = D26028DD1566EEBE00CF6500 /* logo_57.png */; };
+		D26D1692156C6C0C00FC7650 /* heart32.png in Resources */ = {isa = PBXBuildFile; fileRef = D26D1691156C6C0C00FC7650 /* heart32.png */; };
+		D26D1696156C82E500FC7650 /* MLike.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D1695156C82E400FC7650 /* MLike.m */; };
 		D26D3707147B3ED400C4FE93 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369D147B3ED300C4FE93 /* NSData+Base64.m */; };
 		D26D3709147B3ED400C4FE93 /* NSData+Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */; };
 		D26D3712147B3ED400C4FE93 /* Musubi.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36B5147B3ED400C4FE93 /* Musubi.m */; };
@@ -431,6 +433,10 @@
 		D26028DB1566EEBE00CF6500 /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
 		D26028DC1566EEBE00CF6500 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		D26028DD1566EEBE00CF6500 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
+		D26D1691156C6C0C00FC7650 /* heart32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart32.png; sourceTree = "<group>"; };
+		D26D1693156C81B700FC7650 /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
+		D26D1694156C82E300FC7650 /* MLike.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLike.h; sourceTree = "<group>"; };
+		D26D1695156C82E400FC7650 /* MLike.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLike.m; sourceTree = "<group>"; };
 		D26D369C147B3ED300C4FE93 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		D26D369D147B3ED300C4FE93 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		D26D36A0147B3ED300C4FE93 /* NSData+Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Crypto.h"; sourceTree = "<group>"; };
@@ -1204,6 +1210,8 @@
 				D272FB451519B7E400D2521A /* MSignatureUserKey.m */,
 				D2AADE6014FEF0FD00C6ABB3 /* PersistentModelStore.h */,
 				D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */,
+				D26D1694156C82E300FC7650 /* MLike.h */,
+				D26D1695156C82E400FC7650 /* MLike.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1232,6 +1240,7 @@
 		D26028D91566EEBE00CF6500 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				D26D1691156C6C0C00FC7650 /* heart32.png */,
 				D26028DA1566EEBE00CF6500 /* gear.png */,
 				D26028DB1566EEBE00CF6500 /* gear@2x.png */,
 				D26028DC1566EEBE00CF6500 /* logo.png */,
@@ -2820,6 +2829,7 @@
 				D26028DF1566EEBE00CF6500 /* gear@2x.png in Resources */,
 				D26028E01566EEBE00CF6500 /* logo.png in Resources */,
 				D26028E11566EEBE00CF6500 /* logo_57.png in Resources */,
+				D26D1692156C6C0C00FC7650 /* heart32.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3008,6 +3018,7 @@
 				2F24EB891563B48C00D803C0 /* CXMLNode_PrivateExtensions.m in Sources */,
 				2F24EB8B1563B48C00D803C0 /* CXMLNode_XPathExtensions.m in Sources */,
 				2F24EB8D1563B48C00D803C0 /* CTidy.m in Sources */,
+				D26D1696156C82E500FC7650 /* MLike.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3409,6 +3420,7 @@
 		D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D26D1693156C81B700FC7650 /* Model 4.xcdatamodel */,
 				C086764A156B032700F4F2BA /* Model 3.xcdatamodel */,
 				D48048981561C7030066279D /* Model 2.xcdatamodel */,
 				D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */,

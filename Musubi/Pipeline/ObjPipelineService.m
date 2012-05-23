@@ -117,6 +117,7 @@ static int operationCount = 0;
         @try {
             [self processObj: obj];
         } @catch (NSException *e) {
+            NSLog(@"Error while processing obj: %@", e);
         } @finally {
             operationCount--;
         }
@@ -155,7 +156,7 @@ static int operationCount = 0;
         [_service.feedsToNotify addObject:feed.objectID];
     }
 
-    BOOL keepObject = [obj processObj];
+    BOOL keepObject = [obj processObjWithRecord: mObj];
     if (keepObject) {
         mObj.processed = YES;
     } else {

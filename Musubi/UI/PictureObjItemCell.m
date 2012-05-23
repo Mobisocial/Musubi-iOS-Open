@@ -64,10 +64,16 @@
     return _pictureView;
 }
 
+/*
+
 + (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
     
     PictureObjItem* item = object;
     return (267 /item.picture.size.width) * item.picture.size.height + 40;
+}*/
+
++ (CGFloat)renderHeightForItem:(FeedItem *)item {
+    return (267 /((PictureObjItem*)item).picture.size.width) * ((PictureObjItem*)item).picture.size.height + 40;    
 }
 
 @end

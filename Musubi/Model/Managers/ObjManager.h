@@ -25,7 +25,7 @@
 
 #import "EntityManager.h"
 
-@class MObj, MFeed, Obj;
+@class MObj, MFeed, MLikeCache, MIdentity, Obj;
 
 @interface ObjManager : EntityManager
 
@@ -34,6 +34,14 @@
 - (MObj*) create;
 - (MObj*) createFromObj: (Obj*) obj onFeed: (MFeed*) feed;
 
+- (MObj*) objWithShortUniversalHash: (int64_t) hash;
 - (NSArray*) renderableObjsInFeed: (MFeed*) feed;
+
+
+- (NSArray*) likesForObj: (MObj*) obj;
+- (void) saveLikeForObj: (MObj*) obj from: (MIdentity*) sender;
+
+- (MLikeCache*) likeCountForObj: (MObj*) obj;
+- (void) increaseLikeCountForObj: (MObj*) obj local: (BOOL) local;
 
 @end

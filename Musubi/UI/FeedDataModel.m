@@ -29,7 +29,7 @@
 #import "Musubi.h"
 #import "MObj.h"
 #import "MIdentity.h"
-#import "MLikeCache.h"
+#import "MLike.h"
 #import "StatusObj.h"
 #import "StatusObjItem.h"
 #import "PictureObj.h"
@@ -68,6 +68,7 @@
 - (void)load:(TTURLRequestCachePolicy)cachePolicy more:(BOOL)more {
 
     assert([[NSThread currentThread] isMainThread]);
+    ObjManager* objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     
     if (!more) {
         _done = NO;
@@ -76,7 +77,6 @@
         _lastLoaded = 0;
         [self setItems:nil];
         
-        ObjManager* objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         [self setMObjs:[objManager renderableObjsInFeed:_feed]];
     } else {
         _loadingMore = YES;
@@ -89,20 +89,29 @@
         MObj* mObj = [_mObjs objectAtIndex:i];
         Obj* obj = [ObjFactory objFromManagedObj:mObj];
         
-        id item = nil;
+        FeedItem* item = nil;
         if ([obj isMemberOfClass:[StatusObj class]]) {
             item = [[StatusObjItem alloc] init];
-            [item setText: ((StatusObj*) obj).text];
+            [(StatusObjItem*)item setText: ((StatusObj*) obj).text];
         } else if ([obj isMemberOfClass:[PictureObj class]]) {
             item = [[PictureObjItem alloc] init];
-            [item setPicture: ((PictureObj*) obj).image];
+            [(PictureObjItem*)item setPicture: ((PictureObj*) obj).image];
         }
         
         if (item) {
+            NSMutableDictionary* likes = [NSMutableDictionary dictionary];
+            
+            for (MLike* like in [objManager likesForObj:mObj]) {
+                if (like.sender) {
+                    [likes setObject:[NSNumber numberWithInt:like.count] forKey:like.sender.displayName];
+                }
+            }
+            
             [item setSender: [mObj senderDisplay]];
             [item setTimestamp: mObj.timestamp];
             [item setProfilePicture: [UIImage imageWithData:mObj.identity.thumbnail]];
-
+            [item setLikes: likes];
+            
             [updatedItems addObject:item];
         }
     }

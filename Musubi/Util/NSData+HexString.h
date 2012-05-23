@@ -12,3 +12,7 @@
 @interface NSData (HexString)
 - (NSString*)hexString;
 @end
+
+@interface NSString (HexString)
+- (NSData*) dataFromHex;
+@end

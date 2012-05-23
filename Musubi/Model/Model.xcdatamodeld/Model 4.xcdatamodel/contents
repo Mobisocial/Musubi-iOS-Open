@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50b" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50d" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Account" representedClassName="MAccount" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
@@ -75,7 +75,6 @@
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="whitelisted" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <relationship name="likes" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Like" inverseName="sender" inverseEntity="Like" syncable="YES"/>
     </entity>
     <entity name="IncomingSecret" representedClassName="MIncomingSecret" syncable="YES">
         <attribute name="encryptedKey" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -87,15 +86,10 @@
         <relationship name="myIdentity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
         <relationship name="otherIdentity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
     </entity>
-    <entity name="Like" representedClassName="MLike" syncable="YES">
-        <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="obj" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Obj" inverseName="likes" inverseEntity="Obj" syncable="YES"/>
-        <relationship name="sender" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" inverseName="likes" inverseEntity="Identity" syncable="YES"/>
-    </entity>
     <entity name="LikeCache" representedClassName="MLikeCache" syncable="YES">
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="localLike" optional="YES" attributeType="Integer 16" syncable="YES"/>
-        <relationship name="parentObj" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Obj" syncable="YES"/>
+        <relationship name="parentObj" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Obj" inverseName="likeCount" inverseEntity="Obj" syncable="YES"/>
     </entity>
     <entity name="MissingMessage" representedClassName="MMissingMessage" syncable="YES">
         <attribute name="sequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -120,7 +114,7 @@
         <relationship name="encoded" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EncodedMessage" syncable="YES"/>
         <relationship name="feed" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" syncable="YES"/>
         <relationship name="identity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
-        <relationship name="likes" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Like" inverseName="obj" inverseEntity="Like" syncable="YES"/>
+        <relationship name="likeCount" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="LikeCache" inverseName="parentObj" inverseEntity="LikeCache" syncable="YES"/>
         <relationship name="parent" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Obj" syncable="YES"/>
     </entity>
     <entity name="OutgoingSecret" representedClassName="MOutgoingSecret" syncable="YES">
@@ -151,7 +145,7 @@
         <element name="Feed" positionX="160" positionY="192" width="128" height="180"/>
         <element name="FeedApp" positionX="160" positionY="192" width="128" height="75"/>
         <element name="FeedMember" positionX="160" positionY="192" width="128" height="75"/>
-        <element name="Identity" positionX="160" positionY="192" width="128" height="330"/>
+        <element name="Identity" positionX="160" positionY="192" width="128" height="315"/>
         <element name="IncomingSecret" positionX="160" positionY="192" width="128" height="180"/>
         <element name="LikeCache" positionX="160" positionY="192" width="128" height="90"/>
         <element name="MissingMessage" positionX="160" positionY="192" width="128" height="75"/>
@@ -160,6 +154,5 @@
         <element name="OutgoingSecret" positionX="160" positionY="192" width="128" height="165"/>
         <element name="SequenceNumber" positionX="160" positionY="192" width="128" height="90"/>
         <element name="SignatureUserKey" positionX="160" positionY="192" width="128" height="105"/>
-        <element name="Like" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>

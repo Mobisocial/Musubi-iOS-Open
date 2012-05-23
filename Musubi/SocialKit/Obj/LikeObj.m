@@ -25,6 +25,11 @@
 
 #import "LikeObj.h"
 #import "ObjHelper.h"
+#import "ObjManager.h"
+#import "Musubi.h"
+#import "NSData+HexString.h"
+#import "MLike.h"
+#import "MObj.h"
 
 @implementation LikeObj
 
@@ -33,11 +38,18 @@
     return self;
 }
 
-- (BOOL)processObj {
+- (BOOL)processObjWithRecord:(MObj *)obj {
+    NSLog(@"Processing like record %@", obj);
     NSString *parentHash = [self.data objectForKey: kObjFieldTargetHash];
-    NSLog(@"Someone likes %@!", parentHash);
-    // TODO: fill in implementation
-    // TODO: out-of-order liking probably not supported out-of-the-box.
+    
+    ObjManager* objMgr = [[ObjManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
+    NSData* hashData = [parentHash dataFromHex];
+    uint64_t shortHash = *(uint64_t*)hashData.bytes;
+    
+    MObj* likedObj = [objMgr objWithShortUniversalHash: shortHash];
+    NSLog(@"Someone liked %@", likedObj);
+    [objMgr saveLikeForObj:likedObj from: obj.identity];
+    NSLog(@"Hoi");
     return NO;
 }
 

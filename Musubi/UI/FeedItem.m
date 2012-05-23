@@ -30,6 +30,6 @@
 @synthesize sender = _sender;
 @synthesize timestamp = _timestamp;
 @synthesize profilePicture = _profilePicture;
-@synthesize likeCount = _likeCount;
+@synthesize likes = _likes;
 
 @end

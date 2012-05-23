@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class MObj;
+
 @protocol RenderableObj
 
 @end
@@ -41,5 +43,5 @@
 
 - (id) initWithType: (NSString*) t;
 - (id) initWithType: (NSString*) t data: (NSDictionary*) data andRaw: (NSData*) raw;
-- (BOOL) processObj;
+- (BOOL)processObjWithRecord: (MObj*) obj;
 @end

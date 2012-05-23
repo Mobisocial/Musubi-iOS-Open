@@ -53,10 +53,8 @@
 @dynamic likeCount;
 
 - (NSString *)senderDisplay {
-    if (self.identity != nil && self.identity.name != nil) {
-        return self.identity.name;
-    } else if (self.identity != nil && self.identity.principal != nil) {
-        return self.identity.principal;
+    if (self.identity != nil) {
+        return [self.identity displayName];
     } else {
         return @"Unknown";
     }

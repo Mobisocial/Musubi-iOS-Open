@@ -48,4 +48,6 @@
 @property (nonatomic) int64_t updatedAt;
 @property (nonatomic) BOOL whitelisted;
 
+- (NSString *)displayName;
+
 @end
