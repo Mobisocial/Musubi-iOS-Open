@@ -363,7 +363,12 @@
             amqp_frame_t f;
             f.frame_type = AMQP_FRAME_HEARTBEAT;
             f.channel = 0;
-            //this is wrong, we are supposed to time our own based on idle
+            //TODO: this is wrong, we can be disconnected because the server
+            //heartbeat timeout will be reset whenever it pushes data
+            //so it is possible for a long stream of incoming messages
+            //that the amqp server will not need to heartbeat and
+            //the client will disconnect.  this is adequate for now 
+            //needs to be fixed eventually.
             int res = amqp_send_frame(conn, &f);
             if (res < 0) {
                 @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Error sending heartbeat" userInfo:nil];
