@@ -44,10 +44,6 @@
 #import "MObj.h"
 #import "MIdentity.h"
 
-//static int kNonIdentitySpecificWhitelistFeedId = 9;
-static int kGlobalBroadcastFeedId = 10;
-//static int kWizFeedId = 11;
-
 @implementation FeedManager
 
 - (id)initWithStore:(PersistentModelStore *)s {
@@ -158,7 +154,7 @@ static int kGlobalBroadcastFeedId = 10;
 }
 
 - (MFeed *)global {
-    return (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"knownId = %u", kGlobalBroadcastFeedId]];
+    return (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
 }
 
 - (MFeed *)feedWithType:(int16_t)type andCapability:(NSData *)capability {
