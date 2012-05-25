@@ -76,15 +76,20 @@
         _loading = YES;
         
         _lastLoaded = 0;
-        [self setItems:nil];
         
+        [self setItems:nil];
         [self setMObjs:[objManager renderableObjsInFeed:_feed]];
     } else {
+        _done = NO;
+        _loading = YES;
         _loadingMore = YES;
+        [self setMObjs:[objManager renderableObjsInFeed:_feed]];
     }
     
     NSMutableArray *updatedItems = [NSMutableArray arrayWithArray:_items];
     int target = MIN(_mObjs.count, _lastLoaded + (_lastLoaded ? kFeedDataModelLoadBatchSize : kFeedDataModelLoadInitialBatchSize));
+    
+    NSLog(@"Loading until %d", target);
             
     for (int i=_lastLoaded; i < target; i++) {
         MObj* mObj = [_mObjs objectAtIndex:i];
@@ -119,6 +124,8 @@
             [item setLikes: likes];
             
             [updatedItems addObject:item];
+            
+            NSLog(@"Added %@", item);
         }
     }
     

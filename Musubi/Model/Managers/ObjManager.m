@@ -66,7 +66,19 @@
 }
 
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed {
-    return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (parent == nil) AND (renderable == YES) AND ((processed == YES) OR (encoded == nil))", feed.objectID] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE]];
+    return [self renderableObjsInFeed:feed limit:-1];
+}
+
+- (NSArray *)renderableObjsInFeed:(MFeed *)feed limit:(NSInteger)limit {
+    return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (parent == nil) AND (renderable == YES) AND ((processed == YES) OR (encoded == nil))", feed.objectID] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE] limit:limit];
+}
+
+- (NSArray *)renderableObjsInFeed:(MFeed *)feed before:(NSDate*)beforeDate limit:(NSInteger)limit {
+    return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (parent == nil) AND (renderable == YES) AND ((processed == YES) OR (encoded == nil)) AND (timestamp < %@)", feed.objectID, beforeDate] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE] limit:limit];
+}
+
+- (NSArray *)renderableObjsInFeed:(MFeed *)feed after:(NSDate*)afterDate limit:(NSInteger)limit {
+    return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (parent == nil) AND (renderable == YES) AND ((processed == YES) OR (encoded == nil)) AND (timestamp > %@)", feed.objectID, afterDate] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE] limit:limit];
 }
 
 - (NSArray *) likesForObj: (MObj*) obj {

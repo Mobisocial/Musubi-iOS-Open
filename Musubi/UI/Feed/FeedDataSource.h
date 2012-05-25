@@ -16,7 +16,7 @@
 
 
 //
-//  FeedViewController.h
+//  FeedDataSource.h
 //  musubi
 //
 //  Created by Willem Bult on 5/23/12.
@@ -25,28 +25,12 @@
 
 #import "Three20/Three20.h"
 
-@class MFeed;
+@class MFeed, ObjManager;
 
-@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate> {
-    MFeed* _feed;
-    
-    IBOutlet UITextField* updateField;
-    IBOutlet UIView* postView;
-    IBOutlet UIView* mainView;
-    
-    int lastRow;
+@interface FeedDataSource : TTListDataSource {
+    ObjManager* _objManager;
 }
 
-@property (nonatomic, retain) MFeed* feed;
-
-@end
-
-// FeedViewTableDelegate
-
-@interface FeedViewTableDelegate : TTTableViewVarHeightDelegate {
-    int lastRow;
-}
-
-- (void) likedAtIndexPath: (NSIndexPath*) indexPath;
+- (id) initWithFeed: (MFeed*) feed;
 
 @end

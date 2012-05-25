@@ -19,151 +19,134 @@
 //  FeedViewController.m
 //  musubi
 //
-//  Created by Willem Bult on 10/24/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 5/23/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "FeedViewController.h"
-#import "FeedManager.h"
-#import "ObjManager.h"
-#import "MFeed.h"
-#import "MObj.h"
-#import "MIdentity.h"
-#import "MApp.h"
-#import "AppManager.h"
-#import "FeedManager.h"
-#import "Musubi.h"
-#import "Obj.h"
-#import "ObjFactory.h"
-#import "ObjHelper.h"
-#import "StatusObj.h"
-#import "StatusObjItem.h"
-#import "StatusObjItemCell.h"
-#import "LikeObj.h"
-#import "PictureObj.h"
 #import "FeedDataSource.h"
-#import "NSDate+TimeAgo.h"
+#import "FeedModel.h"
+#import "FeedItem.h"
+#import "Musubi.h"
 #import "PersistentModelStore.h"
 #import "APNPushManager.h"
 
+#import "FeedManager.h"
+#import "MFeed.h"
+#import "ObjHelper.h"
+#import "LikeObj.h"
+#import "PictureObj.h"
+#import "StatusObj.h"
+
+#import "AppManager.h"
+#import "MApp.h"
+
+
 @implementation FeedViewController
 
-@synthesize feed, feedManager, objManager, objViews, cellHeights, objs;
+@synthesize feed = _feed;
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _lastInterfaceOrientation = self.interfaceOrientation;
+        _tableViewStyle = UITableViewStylePlain;
+        _clearsSelectionOnViewWillAppear = YES;
+        _flags.isViewInvalid = YES;
+    }
+    return self;
 }
-
-#pragma mark - View lifecycle
 
 - (void)loadView {
     [super loadView];
-
-    CGRect bounds = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + 50, self.view.bounds.size.width, self.view.bounds.size.height - 50);
+    
+    FeedManager* feedManager = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    self.title = [feedManager identityStringForFeed: _feed];
+    
+    CGRect bounds = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height - 50);
     self.tableView.frame = bounds;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.variableHeightRows = YES;
+    
+    updateField.delegate = self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    [self setFeedManager: [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
-    [self setObjManager: [[ObjManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
-    
-    [self setTitle: [feedManager identityStringForFeed: feed]];
-    [self refresh];
-    
-    [self resetUnreadCount];
-    [updateField setDelegate:self];
+    // Cardinal
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
+
+    [self scrollToBottomIfNeededAnimated:NO];
+    [self resetUnreadCount];    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
 }
 
 - (void)createModel {
-    FeedDataSource *feedDataSource = [[FeedDataSource alloc] initWithFeed:feed];
-    self.dataSource = feedDataSource;
+    self.dataSource = [[FeedDataSource alloc] initWithFeed:_feed];
 }
 
 - (id<UITableViewDelegate>)createDelegate {
-    return [[FeedViewTableDelegate alloc]
-             initWithController:self];
+    return [[FeedViewTableDelegate alloc] initWithController:self];
 }
 
-- (void)feedUpdated: (NSNotification*) notification {
-    if (![NSThread isMainThread]) {
+- (BOOL)shouldLoadMore {
+    return [(FeedModel*)self.model hasMore];
+}
+
+- (void)updateView {
+    [super updateView];
+}
+
+- (void) scrollToBottomAnimated: (BOOL) animated {
+    if ([self.tableView numberOfRowsInSection:0] > lastRow) {
+        lastRow = [self.tableView numberOfRowsInSection:0] - 1;
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
+    }
+}
+
+- (void) scrollToBottomIfNeededAnimated: (BOOL) animated {
+    if ([self.tableView numberOfRowsInSection:0] > lastRow) {
+        [self scrollToBottomAnimated: animated];
+    }
+}
+
+- (void) feedUpdated: (NSNotification*) notification {    
+    if (![NSThread currentThread].isMainThread) {
         [self performSelectorOnMainThread:@selector(feedUpdated:) withObject:notification waitUntilDone:NO];
         return;
     }
     
-    if ([notification.object isEqual:feed.objectID]) {
-        [self invalidateFeed];
+    if ([((NSManagedObjectID*)notification.object) isEqual:_feed.objectID]) {
+        [self refreshFeed];
     }
 }
 
+- (void) refreshFeed {
+    [(FeedModel*)self.model loadNew];
+    [self scrollToBottomIfNeededAnimated: NO];
+    [self resetUnreadCount];
+}
+
+
 - (void) resetUnreadCount {
-    if (feed.numUnread > 0) {
-        [feed setNumUnread:0];
+    if (_feed.numUnread > 0) {
+        [_feed setNumUnread:0];
         [[Musubi sharedInstance].mainStore save];
         [APNPushManager resetLocalUnreadInBackgroundTask];
     }
 }
 
-- (void) invalidateFeed {    
-    // This is likely not the way to do it, but it works and can't figure out the correct flow
-    [self reload];
-    [self invalidateModel];
-    [self refresh];
-    [self resetUnreadCount];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
-    // Cardinal
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    NSLog(@"Removing feed view observer");
-    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
-    
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - Table view data source
+/// ACTIONS
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    /*
     NSString *output = [webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"];
     NSNumber* height = [NSNumber numberWithInt:[output intValue]];
     [cellHeights setObject:height forKey:[NSNumber numberWithInteger:[webView tag]]];
@@ -173,7 +156,48 @@
     
     [self.tableView beginUpdates];
     [self.tableView setNeedsLayout];
-    [self.tableView endUpdates];
+    [self.tableView endUpdates];*/
+}
+
+- (void) keyboardDidShow:(NSNotification*)notification {
+    CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    UIWindow *window = [[[UIApplication sharedApplication] windows]objectAtIndex:0];
+    UIView *mainSubviewOfWindow = window.rootViewController.view;
+    CGRect keyboardFrameConverted = [mainSubviewOfWindow convertRect:keyboardFrame fromView:window];
+
+    [postView setFrame:CGRectMake(0, postView.frame.origin.y - keyboardFrameConverted.size.height, postView.frame.size.width, postView.frame.size.height)];
+    [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height - keyboardFrameConverted.size.height)];
+    
+    [self scrollToBottomAnimated:NO];
+}
+
+- (void) hideKeyboard {
+    [postView setFrame:CGRectMake(0, self.view.frame.size.height - postView.frame.size.height, postView.frame.size.width, postView.frame.size.height)];
+    [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, postView.frame.origin.y)];
+    
+    [updateField resignFirstResponder];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self hideKeyboard];
+    
+    if ([textField text].length > 0) {
+        StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
+        
+        AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+        
+        [ObjHelper sendObj:status toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+        
+        [textField setText:@""];
+        [self refreshFeed];
+    }
+
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self hideKeyboard];
 }
 
 - (IBAction)commandButtonPushed: (id) sender {
@@ -184,17 +208,16 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
-        case 0: // picture
+        case 0: // take picture
         {
             UIImagePickerController* picker = [[UIImagePickerController alloc] init];
             [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
             [picker setDelegate:self];
             
-            
             [self presentModalViewController:picker animated:YES];
             break;
         }
-        case 1:// apps
+        case 1: // existing picture
         {   
             UIImagePickerController* picker = [[UIImagePickerController alloc] init];
             [picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
@@ -202,37 +225,9 @@
             
             [self presentModalViewController:picker animated:YES];
             break;
-
-            /*NSString* appId = @"edu.stanford.mobisocial.tictactoe";
-            
-            NSMutableArray* userKeys = [NSMutableArray array];
-            for (User* user in [feed members]) {
-                if ([[user name] rangeOfString:@"willem" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-                    [userKeys addObject:[user id]];
-                }
-                
-                if ([userKeys count] >= 2)
-                    break;
-            }
-            
-            NSMutableDictionary* appDict = [[[NSMutableDictionary alloc] init] autorelease];
-            [appDict setObject:userKeys forKey:@"membership"];
-            
-            Obj* obj = [[[Obj alloc] initWithType:@"appstate"] autorelease];
-            [obj setData:appDict];
-            
-            App* app = [[[App alloc] init] autorelease];
-            [app setId: appId];
-            [app setFeed: feed];
-            
-            SignedMessage* msg = [[Musubi sharedInstance] sendMessage:[Message createWithObj:obj forApp:app]];
-            [app setMessage:msg];
-            
-            [self launchApp: app];*/
         }
     }
 }
-
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     
@@ -241,62 +236,15 @@
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
     
-    [ObjHelper sendObj:pic toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    [ObjHelper sendObj:pic toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
-    [self invalidateFeed];    
+    [self refreshFeed];    
 }
-
-#pragma mark - Table view delegate
-/*
-- (void)launchApp: (App*) app {
-    
-    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"app"];
-    [appViewController setApp: app];
-    
-    [[self navigationController] pushViewController:appViewController animated:YES];
-}*/
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    /*
-    SignedMessage* msg = [self msgForIndexPath:indexPath];
-    if (msg != nil) {
-        NSString* appId = [msg appId];
-        if (appId == nil) {
-            appId = kMusubiAppId;
-        }
-        
-        App* app = [[[App alloc] init] autorelease];
-        [app setId: appId];
-        [app setFeed: feed];
-        [app setMessage: msg];
-        
-        [self launchApp:app];
-    }*/
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    if ([textField text].length > 0) {
-        StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
-        
-        AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
-        
-        [ObjHelper sendObj:status toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-        
-        [textField setText:@""];
-        [self invalidateFeed];
-    }
-}
-
 
 @end
+
+
 
 @implementation FeedViewTableDelegate
 
@@ -305,17 +253,34 @@
     
     if (!item.iLiked) {
         LikeObj* like = [[LikeObj alloc] initWithObjHash: item.obj.universalHash];
-        
-        NSLog(@"Like: %@", like);
-
+                
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
         
         FeedViewController* controller = (FeedViewController*) self.controller;
         
-        [ObjHelper sendObj:like toFeed:controller.feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-        [controller invalidateFeed];
+        MObj* mObj = [ObjHelper sendObj:like toFeed:controller.feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+        [like processObjWithRecord: mObj];
+        
+        [(FeedModel*)self.controller.model loadObj:item.obj.objectID];
     }
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [(FeedViewController*)self.controller hideKeyboard];
+    return indexPath;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (indexPath.row == 0 && [cell isKindOfClass:[TTTableMoreButtonCell class]]) {
+        TTTableMoreButton* moreLink = [(TTTableMoreButtonCell *)cell object];
+        moreLink.isLoading = YES;
+        [(TTTableMoreButtonCell *)cell setAnimating:YES];
+    };
+    
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
 }
 
 @end

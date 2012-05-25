@@ -57,6 +57,8 @@
 
 
 - (void)tableViewDidLoadModel:(UITableView *)tableView {
+    NSLog(@"Loaded model");
+    
     if (!_loadingStarted) {
         _loadingStarted = YES;
         [self loadMoreForTableView:tableView];

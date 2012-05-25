@@ -54,17 +54,16 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
         self.textLabel.textAlignment = UITextAlignmentLeft;
         self.textLabel.lineBreakMode = UILineBreakModeWordWrap;
         self.textLabel.adjustsFontSizeToFitWidth = YES;
-        self.textLabel.contentMode = UIViewContentModeLeft;
+        self.textLabel.contentMode = UIViewContentModeTopLeft;
         
         self.detailTextLabel.font = TTSTYLEVAR(font);
         self.detailTextLabel.textColor = TTSTYLEVAR(tableSubTextColor);
         self.detailTextLabel.highlightedTextColor = TTSTYLEVAR(highlightedTextColor);
         self.detailTextLabel.backgroundColor = TTSTYLEVAR(backgroundTextColor);
         self.detailTextLabel.textAlignment = UITextAlignmentLeft;
-        self.detailTextLabel.contentMode = UIViewContentModeTop;
         self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
         self.detailTextLabel.numberOfLines = 0;
-        self.detailTextLabel.contentMode = UIViewContentModeLeft;
+        self.detailTextLabel.contentMode = UIViewContentModeTopLeft;
     }
     
     return self;
@@ -134,10 +133,11 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     
     CGFloat contentBottom = self.frame.size.height - kTableCellMargin + 2;
     
-    if (_likeView) {
-        contentBottom -= _likeView.height;
-        
+    if (_likeView.label.text.length) {
+        [_likeView layoutSubviews];
         [_likeView sizeToFit];
+
+        contentBottom -= _likeView.height;
         _likeView.left = left;
         _likeView.width = width;
         _likeView.top = contentBottom;
@@ -341,6 +341,9 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
 - (void)prepareForReuse {
     _label.text = nil;
     _icon.image = nil;
+    
+    _label.frame = CGRectZero;
+    _icon.frame = CGRectZero;
 }
 
 - (void) setObject: (FeedItem*) item {

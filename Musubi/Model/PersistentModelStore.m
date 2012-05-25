@@ -179,7 +179,7 @@ static PersistentModelStoreFactory *sharedInstance = nil;
     return [self query:predicate onEntity:entityName sortBy:nil];
 }
 
-- (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor{
+- (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor limit:(NSInteger) limit{
     NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
     
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -187,9 +187,15 @@ static PersistentModelStoreFactory *sharedInstance = nil;
     [request setPredicate:predicate];
     if (sortDescriptor)
         [request setSortDescriptors: [NSArray arrayWithObject: sortDescriptor]];
+    if (limit > 0)
+        [request setFetchLimit: limit];
     
     NSError *error = nil;
     return [context executeFetchRequest:request error:&error];
+}
+
+- (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor{
+    return [self query:predicate onEntity:entityName sortBy:sortDescriptor limit:-1];
 }
 
 - (NSManagedObject*) queryFirst: (NSPredicate*) predicate onEntity: (NSString*) entityName {

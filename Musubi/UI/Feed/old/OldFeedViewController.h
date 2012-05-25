@@ -19,32 +19,43 @@
 //  FeedViewController.h
 //  musubi
 //
-//  Created by Willem Bult on 5/23/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 10/24/11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "Three20/Three20.h"
 
-@class MFeed;
+@class MFeed, FeedManager, ObjManager, ObjRenderer;
 
-@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate> {
-    MFeed* _feed;
+@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIWebViewDelegate, UIActionSheetDelegate> {
+    
+    MFeed* feed;
+    FeedManager* feedManager;
+    ObjManager* objManager;
+    
+    NSArray* objs;
+    NSMutableDictionary* objViews;
+    NSMutableDictionary* cellHeights;
     
     IBOutlet UITextField* updateField;
     IBOutlet UIView* postView;
     IBOutlet UIView* mainView;
-    
-    int lastRow;
 }
 
-@property (nonatomic, retain) MFeed* feed;
+@property (nonatomic) MFeed* feed;
+@property (nonatomic) FeedManager* feedManager;
+@property (nonatomic) ObjManager* objManager;
+@property (nonatomic) NSArray* objs;
+@property (nonatomic) NSMutableDictionary* objViews;
+@property (nonatomic) NSMutableDictionary* cellHeights;
+
+- (IBAction)commandButtonPushed: (id) sender;
 
 @end
 
-// FeedViewTableDelegate
-
 @interface FeedViewTableDelegate : TTTableViewVarHeightDelegate {
-    int lastRow;
+
 }
 
 - (void) likedAtIndexPath: (NSIndexPath*) indexPath;

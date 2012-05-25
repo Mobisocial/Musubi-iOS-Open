@@ -38,10 +38,10 @@
 
 @implementation FeedListViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
     if (self) {
+        
     }
     return self;
 }
@@ -52,20 +52,23 @@
     incomingLabel = [[UILabel alloc] init];
     incomingLabel.font = [UIFont systemFontOfSize: 13.0];
     incomingLabel.text = @"";
-    incomingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
+//    incomingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
+    incomingLabel.backgroundColor = [UIColor colorWithRed:180.0/256.0 green:180.0/256.0 blue:180.0/256.0 alpha:1];
     incomingLabel.textColor = [UIColor whiteColor];
     
     waitingForTransportListener = YES;
-
-//    UIView* masterView = [((AppDelegate*)[UIApplication sharedApplication].delegate).window.subviews objectAtIndex:0];
+    
+    self.variableHeightRows = YES;
     
     
-    /*CGRect tableFrame = self.tableView.frame;
-    [self.tableView setFrame:CGRectMake(tableFrame.origin.x, tableFrame.origin.y, tableFrame.size.width, tableFrame.size.height-40)];*/
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     
-    
-    
-    [self setVariableHeightRows:YES];
+    // We only need to know when a message starts getting decrypted, when it is completely processed
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationAppOpened object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationTransportListenerWaitingForMessages object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeStarted object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeFinished object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationUpdatedFeed object:nil];
 }
 
 
@@ -73,8 +76,7 @@
     self.dataSource = [[FeedListDataSource alloc] init];
 }
 
-- (id<UITableViewDelegate>)createDelegate {
-    
+- (id<UITableViewDelegate>)createDelegate {    
     return [[TTTableViewPlainVarHeightDelegate alloc]
             initWithController:self];
 }
@@ -82,18 +84,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
     [self refresh];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-//    self.feedManager = [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
-//    self.feeds = [feedManager displayFeeds];
 }
 
 - (void)viewDidUnload
@@ -107,24 +98,12 @@
 {
     [super viewWillAppear:animated];
 
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
-
-    // We only need to know when a message starts getting decrypted, when it is completely processed, and we need to check periodically because a decryption may have been cancelled for numerous reasons
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationAppOpened object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationTransportListenerWaitingForMessages object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeStarted object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeFinished object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationUpdatedFeed object:nil];
-
     [incomingLabel removeFromSuperview];
     [self.view addSubview:incomingLabel];
+    [self updatePending:nil];
 
     // Cardinal
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
-}
-
-- (void)updatePendingFromTimer {
-    [self updatePending:nil];
 }
 
 - (void)updatePending: (NSNotification*) notification {
@@ -132,12 +111,11 @@
         return;
 
     if (![NSThread currentThread].isMainThread) {
-        [self performSelectorOnMainThread:@selector(updatePending:) withObject:notification waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(updatePending:) withObject:nil waitUntilDone:NO];
         return;
-    }
-    
+    }        
     waitingForTransportListener = NO;
-    
+        
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
     NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
     NSArray* objs = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"];
@@ -150,24 +128,28 @@
     
     if (pending > 0) {
         incomingLabel.text = [NSString stringWithFormat: @"  Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
-        [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
     } else {
         if ([notification.name isEqualToString:kMusubiNotificationAppOpened]) {
             waitingForTransportListener = YES;
-            incomingLabel.text = @"  Checking for incoming messages...";
-            [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];          
+            incomingLabel.text = @"  Checking for incoming messages...";   
         } else {
-            incomingLabel.text = @"  Waiting for messages";
-            [incomingLabel setFrame:CGRectMake(10, 420, 0, 0)];          
+            incomingLabel.text = @"";
         }
+    }
+    
+    if (incomingLabel.text.length) {
+        if (incomingLabel.superview == self.view) {
+            [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+        } else {
+            [incomingLabel setFrame:CGRectMake(0, 0, 320, 30)];
+        }
+    } else {
+        [incomingLabel setFrame:CGRectZero];
     }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSLog(@"Removing feed list view observer");    
- //   [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
-    
     [super viewWillDisappear:animated];
 }
 
@@ -178,13 +160,10 @@
     }
 
     [self performSelector:@selector(reloadFeeds) withObject:nil afterDelay:0];
-//    [self reloadFeeds];
 }
 
 - (void) reloadFeeds{
-//    [self invalidateModel];
     [self.dataSource load:TTURLRequestCachePolicyDefault more:NO];
-//    [self invalidateView];
     [self refresh];
 }
 
@@ -199,6 +178,7 @@
         [vc setFeed: (MFeed*) sender];
         
         [vc.view addSubview:incomingLabel];
+        [self updatePending:nil];
     }
 }
 
@@ -206,38 +186,5 @@
     MFeed* feed = [((FeedListDataSource*)self.dataSource) feedForIndex:indexPath.row];
     [self performSegueWithIdentifier:@"ShowFeedCustom" sender:feed];
 }
- 
-#pragma mark - Table view data source
-/*
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return [feeds count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    MFeed* feed = (MFeed*)[feeds objectAtIndex:indexPath.row];
-    [cell.textLabel setText:[feedManager identityStringForFeed:feed]];
-    if (feed.numUnread > 0) {
-        [cell.detailTextLabel setText:[NSString stringWithFormat:@"%d unread messages", feed.numUnread]];
-    } else {
-        [cell.detailTextLabel setText:@""];
-    }
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
 
 @end

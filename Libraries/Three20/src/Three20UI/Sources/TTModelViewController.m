@@ -275,6 +275,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)modelDidChange:(id<TTModel>)model {
+    NSLog(@"Model changed");
   if (model == _model) {
     [self refresh];
   }

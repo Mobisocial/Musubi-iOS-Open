@@ -36,7 +36,9 @@
 
 - (MObj*) objWithShortUniversalHash: (int64_t) hash;
 - (NSArray*) renderableObjsInFeed: (MFeed*) feed;
-
+- (NSArray *)renderableObjsInFeed:(MFeed *)feed limit:(NSInteger)limit;
+- (NSArray *)renderableObjsInFeed:(MFeed *)feed before:(NSDate*)beforeDate limit:(NSInteger)limit;
+- (NSArray *)renderableObjsInFeed:(MFeed *)feed after:(NSDate*)afterDate limit:(NSInteger)limit;
 
 - (NSArray*) likesForObj: (MObj*) obj;
 - (void) saveLikeForObj: (MObj*) obj from: (MIdentity*) sender;

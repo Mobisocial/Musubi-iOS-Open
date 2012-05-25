@@ -16,31 +16,37 @@
 
 
 //
-//  EntityManager.h
-//  Musubi
+//  FeedModel.h
+//  musubi
 //
-//  Created by Willem Bult on 3/17/12.
+//  Created by Willem Bult on 5/23/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "Three20/Three20.h"
 #import <CoreData/CoreData.h>
 
-@class PersistentModelStore;
+@class MFeed, MObj, ObjManager;
 
-@interface EntityManager : NSObject{
-    PersistentModelStore* store;
-    NSString* entityName;
+@interface FeedModel : TTModel {
+    MFeed* _feed;
+    ObjManager* _objManager;
+    NSMutableArray* _newResults;
+    
+    NSDate* _earliestTimestampFetched;
+    NSDate* _latestModifiedFetched;
+    
+    BOOL _loaded;
+    BOOL _loading;
+    BOOL _hasMore;
 }
 
-@property (nonatomic) NSString* entityName;
-@property (nonatomic) PersistentModelStore* store;
+@property (nonatomic, readonly) NSArray *results;
+@property (nonatomic, readonly) BOOL hasMore;
 
-- (id) initWithEntityName: (NSString*) name andStore: (PersistentModelStore*) s;
-- (id) create;
-- (NSArray*) query:(NSPredicate*) predicate;
-- (NSArray *)query:(NSPredicate *)predicate sortBy:(NSSortDescriptor*) sortDescriptor;
-- (NSArray *)query:(NSPredicate *)predicate sortBy:(NSSortDescriptor*) sortDescriptor limit:(NSInteger) limit;
-- (NSManagedObject*) queryFirst: (NSPredicate*) predicate;
+- (id) initWithFeed: (MFeed*) feed;
+- (void) loadNew;
+- (void) loadObj:(NSManagedObjectID*)objId;
+- (NSArray*) consumeNewResults;
 
 @end
