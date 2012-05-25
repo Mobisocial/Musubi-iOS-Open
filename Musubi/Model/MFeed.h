@@ -34,7 +34,7 @@
 
 #define kFeedNameLocalWhitelist @"local_whitelist"
 #define kFeedNameProvisionalWhitelist @"provisional_whitelist"
-
+#define kFeedNameGlobalWhitelist @"global_whitelist"
 @class MObj;
 
 @interface MFeed : NSManagedObject

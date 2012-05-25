@@ -38,6 +38,7 @@
 		C0395FA31521BFD700F5AF3B /* MMyDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
 		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; };
+		C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0867924157038FC00F4F2BA /* ProfileObj.m */; };
 		C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5757D1551F94600B6624C /* libTestFlight.a */; };
 		C0D575821551F94600B6624C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757E1551F94600B6624C /* README.txt */; };
 		C0D575831551F94600B6624C /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757F1551F94600B6624C /* release_notes.txt */; };
@@ -349,6 +350,8 @@
 		C086764A156B032700F4F2BA /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
 		C0867779156DA0F600F4F2BA /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		C086777A156DA0F600F4F2BA /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		C0867923157038FC00F4F2BA /* ProfileObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileObj.h; path = SocialKit/Obj/ProfileObj.h; sourceTree = "<group>"; };
+		C0867924157038FC00F4F2BA /* ProfileObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileObj.m; path = SocialKit/Obj/ProfileObj.m; sourceTree = "<group>"; };
 		C0D5757D1551F94600B6624C /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		C0D5757E1551F94600B6624C /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		C0D5757F1551F94600B6624C /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
@@ -1371,6 +1374,8 @@
 				D480496C1561F6C60066279D /* LikeObj.m */,
 				D4E42AAE156224EE00C21FDA /* DeleteObj.h */,
 				D4E42AAF156224EE00C21FDA /* DeleteObj.m */,
+				C0867923157038FC00F4F2BA /* ProfileObj.h */,
+				C0867924157038FC00F4F2BA /* ProfileObj.m */,
 			);
 			name = Obj;
 			sourceTree = "<group>";
@@ -3039,6 +3044,7 @@
 				D2C66F2E156DF1B1001A0124 /* FeedDataSource.m in Sources */,
 				D2C66F31156E01E0001A0124 /* FeedModel.m in Sources */,
 				C086777B156DA0F700F4F2BA /* Reachability.m in Sources */,
+				C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

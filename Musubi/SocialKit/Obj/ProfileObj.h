@@ -16,23 +16,21 @@
 
 
 //
-//  StatusObj.h
+//  ProfileObj.h
 //  musubi
 //
-//  Created by Willem Bult on 3/29/12.
+//  Created by T.J. Purtell on 5/25/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "Obj.h"
+#import "MIdentity.h"
 
-#define kObjTypeStatus @"status"
+#define kObjTypeProfile @"profile"
 
-@interface StatusObj : Obj<RenderableObj> 
+@interface ProfileObj : Obj
 
-@property (nonatomic, strong) NSString* text;
-
-- (id) initWithText: (NSString*) text;
-- (id) initWithData: (NSDictionary*) data;
+- (id) initWithUser: (MIdentity*)user replyRequested:(BOOL)replyRequested includePrincipal:(BOOL)includePrincipal;
+- (id) initRequest;
 
 @end
