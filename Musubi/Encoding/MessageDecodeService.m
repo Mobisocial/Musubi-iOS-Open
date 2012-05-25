@@ -46,6 +46,7 @@
 #import "MObj.h"
 #import "MFeed.h"
 #import "MIdentity.h"
+#import "ProfileObj.h"
 
 #import "IncomingMessage.h"
 
@@ -270,14 +271,9 @@ static int operationCount;
     }
     
     // Look for profile updates, which don't require whitelisting
-    if ([obj.type isEqualToString:@"profile"]) {
-        /*TODO:
-         if (handleProfileUpdate(sender, obj)) {
-         //TODO: this may be a lame way of handling this
-         Log.d(TAG, "Found profile update from " + sender.musubiName_);
-         mEncodedMessageManager.delete(encoded.id_);
-         return true;
-         }*/
+    if ([obj.type isEqualToString:kObjTypeProfile]) {
+        //never even make it an MObj
+        [ProfileObj handleFromSender:sender profileJson:obj.jsonSrc profileRaw:obj.raw];
         
         NSLog(@"Message was profile message %@", msg);
         [_store.context deleteObject:msg];

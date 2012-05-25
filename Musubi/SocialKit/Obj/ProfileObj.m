@@ -59,4 +59,8 @@
     self.type = kObjTypeProfile;
     return self;
 }
++ (void)handleFromSender:(MIdentity*)sender profileJson:(NSString*)json profileRaw:(NSData*)raw
+{
+    
+}
 @end

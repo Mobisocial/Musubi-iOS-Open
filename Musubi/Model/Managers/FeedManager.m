@@ -154,7 +154,22 @@
 }
 
 - (MFeed *)global {
-    return (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
+    MFeed* feed = (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
+    if(feed)
+        return feed;
+    @synchronized([FeedManager class]) {
+        feed = (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
+        if(feed)
+            return feed;
+        
+        feed = (MFeed*)[self.store createEntity:@"Feed"];
+        feed.name = kFeedNameGlobalWhitelist;
+        feed.type = kFeedTypeAsymmetric;
+        
+        [self.store.context insertObject:feed];
+        [self.store save];
+        return feed;
+    }
 }
 
 - (MFeed *)feedWithType:(int16_t)type andCapability:(NSData *)capability {
