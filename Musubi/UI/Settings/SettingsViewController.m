@@ -32,6 +32,9 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "PersistentModelStore.h"
 #import "AppDelegate.h"
+#import "MIdentity.h"
+#import "IdentityManager.h"
+#import "ProfileObj.h"
 
 @implementation SettingsViewController
 
@@ -164,6 +167,15 @@
     switch (indexPath.section) {
         case 0: {
             NamePictureCell* cell = (NamePictureCell*) [tableView dequeueReusableCellWithIdentifier:@"NamePictureCell"];
+            PersistentModelStore* store = [[Musubi sharedInstance] newStore];
+            IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
+            NSArray* mine = [idm ownedIdentities];
+            if(mine.count > 0) {
+                MIdentity* me = [mine objectAtIndex:0];
+                if(me.musubiThumbnail)
+                    cell.imageView.image = [UIImage imageWithData:me.musubiThumbnail];
+                cell.nameTextField.text = me.musubiName;
+            }
             return cell;
         }
         case 1: {
@@ -442,34 +454,55 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    /*
-    if ([textField text].length > 0) {
-        [[[Identity sharedInstance] user] setName: [textField text]];
-    } else {
-        [[[Identity sharedInstance] user] setName: [[UIDevice currentDevice] name]];   
+    PersistentModelStore* store = [[Musubi sharedInstance] newStore];
+    IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
+    NSArray* mine = [idm ownedIdentities];
+    if(mine.count == 0) {
+        NSLog(@"No identity, connect an account");
+        return;
     }
-    
-    [[Identity sharedInstance] saveUser];
-    [[self tableView] reloadData];*/
+    if(textField.text.length == 0) {
+        MIdentity* me = [mine objectAtIndex:0];
+        textField.text = me.musubiName;
+        return;
+    }
+    for(MIdentity* me in mine) {
+        me.musubiName = textField.text;
+    }
+    [store save];
+    [ProfileObj sendAllProfilesWithStore:store];
 }
 
 #pragma mark - Image picker delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
-    /*
-    User* user = [[Identity sharedInstance] user];
+    if(!image)
+        return;
     
+    PersistentModelStore* store = [[Musubi sharedInstance] newStore];
+    IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
+    NSArray* mine = [idm ownedIdentities];
+    if(mine.count == 0) {
+        NSLog(@"No identity, connect an account");
+        return;
+    }
+    NSData* thumbnail = nil;
     double scale = MIN(1, 256 / MAX([image size].width, [image size].height));
     if (scale < 1) {
         CGSize newSize = CGSizeMake([image size].width * scale, [image size].height * scale);
         image = [image resizedImage:newSize interpolationQuality:0.9];
-        [user setPicture: UIImageJPEGRepresentation(image, 0.99)];
     }
-    
-    [[Identity sharedInstance] saveUser];
+    thumbnail = UIImageJPEGRepresentation(image, 0.90);
+
+    for(MIdentity* me in mine) {
+        me.musubiThumbnail = thumbnail;
+    }
+    [store save];
+    [ProfileObj sendAllProfilesWithStore:store];
+
     
     [[self tableView] reloadData];
-    [[self modalViewController] dismissModalViewControllerAnimated:YES];*/
+    [[self modalViewController] dismissModalViewControllerAnimated:YES];
 }
 
 @end

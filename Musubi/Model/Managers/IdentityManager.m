@@ -238,4 +238,7 @@
 - (NSArray *)identitiesWithSentEqual0 {
     return [self query:[NSPredicate predicateWithFormat:@"sentProfileVersion=0"]];
 }
+- (NSArray *)claimedIdentities {
+    return [self query:[NSPredicate predicateWithFormat:@"claimed=1"]];
+}
 @end

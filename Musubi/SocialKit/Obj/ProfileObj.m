@@ -30,6 +30,7 @@
 #import "ObjHelper.h"
 #import "AppManager.h"
 #import "FeedManager.h"
+#import "Authorities.h"
 
 #define kProfileObjReply @"reply"
 #define kProfileObjVersion @"version"
@@ -133,9 +134,11 @@
     FeedManager* fm = [[FeedManager alloc] initWithStore: store];
     long long profileVersion = 1;
     for(MIdentity* me in [idm ownedIdentities]) {
+        if(me.type == kIdentityTypeLocal)
+            continue;
         profileVersion = MAX(me.receivedProfileVersion, profileVersion);
         MFeed* f = [fm createOneTimeUseFeedWithParticipants:[[NSArray arrayWithObject:me] arrayByAddingObjectsFromArray:people]];
-        [ObjHelper sendObj:[[ProfileObj alloc] initWithUser:me replyRequested:YES includePrincipal:NO] toFeed:f fromApp:app usingStore:store];
+        [ObjHelper sendObj:[[ProfileObj alloc] initWithUser:me replyRequested:YES includePrincipal:NO] toFeed:f asIdentity:me fromApp:app usingStore:store];
     }
     for(MIdentity* you in people) {
         you.sentProfileVersion = profileVersion;
@@ -153,8 +156,10 @@
     long long profileVersion = 1;
     NSArray* all = [idm whitelistedIdentities];
     for(MIdentity* me in [idm ownedIdentities]) {
+        if(me.type == kIdentityTypeLocal)
+            continue;
         profileVersion = MAX(me.receivedProfileVersion, profileVersion);
-        [ObjHelper sendObj:[[ProfileObj alloc] initWithUser:me replyRequested:NO includePrincipal:NO] toFeed:f fromApp:app usingStore:store];
+        [ObjHelper sendObj:[[ProfileObj alloc] initWithUser:me replyRequested:NO includePrincipal:NO] toFeed:f asIdentity:me fromApp:app usingStore:store];
     }
     for(MIdentity* you in all) {
         you.sentProfileVersion = profileVersion;

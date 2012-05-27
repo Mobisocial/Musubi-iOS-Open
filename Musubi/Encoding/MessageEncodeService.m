@@ -79,6 +79,8 @@
     }
     
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationPlainObjReady object:nil];
+    //in case we bailed with a message in the pipes
+    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationPlainObjReady object:nil];
 
     return self;
 }
