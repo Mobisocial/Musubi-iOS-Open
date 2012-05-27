@@ -105,11 +105,15 @@
 
         // Find the thread to run this on
         NSOperationQueue* queue = nil;
-        NSArray* members = [store query:[NSPredicate predicateWithFormat:@"feed = %@", obj.feed] onEntity:@"FeedMember"];
-        if (members.count > kSmallProcessorCutOff) {
+        if([obj.feed.name isEqualToString:kFeedNameGlobalWhitelist] && obj.feed.type == kFeedTypeAsymmetric) {
             queue = [_queues objectAtIndex:0];
         } else {
-            queue = [_queues objectAtIndex:1];
+            NSArray* members = [store query:[NSPredicate predicateWithFormat:@"feed = %@", obj.feed] onEntity:@"FeedMember"];
+            if (members.count > kSmallProcessorCutOff) {
+                queue = [_queues objectAtIndex:0];
+            } else {
+                queue = [_queues objectAtIndex:1];
+            }
         }
         
         [usedQueues addObject: queue];
