@@ -190,7 +190,7 @@
     
     NSMutableArray* recipients = [NSMutableArray array];
     if(feed.type == kFeedTypeAsymmetric && [feed.name isEqualToString:kFeedNameGlobalWhitelist]) {
-        recipients = [NSMutableArray arrayWithArray:[identityManager whitelistedIdentities]];
+        recipients = [NSMutableArray arrayWithArray:[identityManager claimedIdentities]];
     } else {
         for (MFeedMember* fm in [_store query:[NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
             [recipients addObject: fm.identity];

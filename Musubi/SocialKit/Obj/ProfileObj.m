@@ -154,7 +154,7 @@
     FeedManager* fm = [[FeedManager alloc] initWithStore: store];
     MFeed* f = [fm global];
     long long profileVersion = 1;
-    NSArray* all = [idm whitelistedIdentities];
+    NSArray* all = [idm claimedIdentities];
     for(MIdentity* me in [idm ownedIdentities]) {
         if(me.type == kIdentityTypeLocal)
             continue;
