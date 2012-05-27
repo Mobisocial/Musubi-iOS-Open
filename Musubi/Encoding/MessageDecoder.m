@@ -144,6 +144,8 @@
     NSMutableArray* mine = [NSMutableArray array];
     for (Recipient* r in m.r) {
         IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithKey:r.i];
+        if(!r.s || !r.s.length)
+            @throw [NSException exceptionWithName:kMusubiExceptionRecipientMismatch reason:@"Missing as signature" userInfo:nil];
         if ([transportDataProvider isMe:ident]) {
             [mine addObject: r];
         }
