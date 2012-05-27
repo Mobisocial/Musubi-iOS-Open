@@ -79,6 +79,8 @@
     }
     
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationPlainObjReady object:nil];
+    //in case we bailed with a message in the pipes
+    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationPlainObjReady object:nil];
 
     return self;
 }
@@ -103,11 +105,15 @@
 
         // Find the thread to run this on
         NSOperationQueue* queue = nil;
-        NSArray* members = [store query:[NSPredicate predicateWithFormat:@"feed = %@", obj.feed] onEntity:@"FeedMember"];
-        if (members.count > kSmallProcessorCutOff) {
+        if([obj.feed.name isEqualToString:kFeedNameGlobalWhitelist] && obj.feed.type == kFeedTypeAsymmetric) {
             queue = [_queues objectAtIndex:0];
         } else {
-            queue = [_queues objectAtIndex:1];
+            NSArray* members = [store query:[NSPredicate predicateWithFormat:@"feed = %@", obj.feed] onEntity:@"FeedMember"];
+            if (members.count > kSmallProcessorCutOff) {
+                queue = [_queues objectAtIndex:0];
+            } else {
+                queue = [_queues objectAtIndex:1];
+            }
         }
         
         [usedQueues addObject: queue];

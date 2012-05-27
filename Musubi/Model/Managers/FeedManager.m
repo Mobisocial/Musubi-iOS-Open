@@ -189,11 +189,11 @@
 }
 
 - (MFeed *)global {
-    MFeed* feed = (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
+    MFeed* feed = (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@)", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
     if(feed)
         return feed;
     @synchronized([FeedManager class]) {
-        feed = (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
+        feed = (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@)", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
         if(feed)
             return feed;
         

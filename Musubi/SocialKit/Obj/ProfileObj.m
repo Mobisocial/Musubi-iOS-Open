@@ -30,6 +30,7 @@
 #import "ObjHelper.h"
 #import "AppManager.h"
 #import "FeedManager.h"
+#import "Authorities.h"
 
 #define kProfileObjReply @"reply"
 #define kProfileObjVersion @"version"
@@ -119,15 +120,50 @@
         [store save];
     }
     NSObject* replyFlag = [profile valueForKey:kProfileObjReply];
-    if(replyFlag && [replyFlag isKindOfClass:[NSNumber class]]) {
-        AppManager* am = [[AppManager alloc] initWithStore:store];
-        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
-        
-        FeedManager* fm = [[FeedManager alloc] initWithStore: store];
-        for(MIdentity* me in [idm ownedIdentities]) {
-            MFeed* f = [fm createOneTimeUseFeedWithParticipants:[NSArray arrayWithObjects:me, sender, nil]];
-            [ObjHelper sendObj:[[ProfileObj alloc] initWithUser:me replyRequested:NO includePrincipal:NO] toFeed:f fromApp:app usingStore:store];
-        }
+    if(replyFlag && [replyFlag isKindOfClass:[NSNumber class]] && ((NSNumber*)replyFlag).boolValue) {
+        [ProfileObj sendProfilesTo:[NSArray arrayWithObject:sender] withStore:store];
     }
+}
+
++(void)sendProfilesTo:(NSArray*)people withStore:(PersistentModelStore*)store
+{
+    IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
+    AppManager* am = [[AppManager alloc] initWithStore:store];
+    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+
+    FeedManager* fm = [[FeedManager alloc] initWithStore: store];
+    long long profileVersion = 1;
+    for(MIdentity* me in [idm ownedIdentities]) {
+        if(me.type == kIdentityTypeLocal)
+            continue;
+        profileVersion = MAX(me.receivedProfileVersion, profileVersion);
+        MFeed* f = [fm createOneTimeUseFeedWithParticipants:[[NSArray arrayWithObject:me] arrayByAddingObjectsFromArray:people]];
+        [ObjHelper sendObj:[[ProfileObj alloc] initWithUser:me replyRequested:YES includePrincipal:NO] toFeed:f asIdentity:me fromApp:app usingStore:store];
+    }
+    for(MIdentity* you in people) {
+        you.sentProfileVersion = profileVersion;
+    }
+    [store save];
+}
++(void)sendAllProfilesWithStore:(PersistentModelStore*)store
+{
+    IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
+    AppManager* am = [[AppManager alloc] initWithStore:store];
+    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+    
+    FeedManager* fm = [[FeedManager alloc] initWithStore: store];
+    MFeed* f = [fm global];
+    long long profileVersion = 1;
+    NSArray* all = [idm whitelistedIdentities];
+    for(MIdentity* me in [idm ownedIdentities]) {
+        if(me.type == kIdentityTypeLocal)
+            continue;
+        profileVersion = MAX(me.receivedProfileVersion, profileVersion);
+        [ObjHelper sendObj:[[ProfileObj alloc] initWithUser:me replyRequested:NO includePrincipal:NO] toFeed:f asIdentity:me fromApp:app usingStore:store];
+    }
+    for(MIdentity* you in all) {
+        you.sentProfileVersion = profileVersion;
+    }
+    [store save];
 }
 @end

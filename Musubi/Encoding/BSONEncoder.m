@@ -56,19 +56,14 @@ static void err_handler(const char *errmsg) {
     bson_append_binary(&b, "a", 128, [m.a bytes], [m.a length]);
 
     bson_append_start_array(&b, "r");
-    char* i = malloc(sizeof(char) * 2);
-    i[0] = '0';
-    i[1] = 0;
-    
+    int i = 0;
     for (Recipient* r in m.r) {
-        bson_append_start_object(&b, i);
+        bson_append_start_object(&b, [[NSString stringWithFormat:@"%ud", i++] UTF8String]);
         bson_append_binary(&b, "i", 128, [r.i bytes], [r.i length]);
         bson_append_binary(&b, "k", 128, [r.k bytes], [r.k length]);
         bson_append_binary(&b, "s", 128, [r.s bytes], [r.s length]);
         bson_append_binary(&b, "d", 128, [r.d bytes], [r.d length]);
         bson_append_finish_object(&b);
-
-        i[0]++;
     }
     bson_append_finish_array(&b);
     

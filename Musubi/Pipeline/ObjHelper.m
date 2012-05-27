@@ -48,15 +48,20 @@
 
 + (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store {
     FeedManager* feedManager = [[FeedManager alloc] initWithStore:store];
-    MusubiDeviceManager* deviceManager = [[MusubiDeviceManager alloc] initWithStore: store];
-        
-    if (![feedManager app: app isAllowedInFeed: feed]) {
-        @throw [NSException exceptionWithName:kMusubiExceptionAppNotAllowedInFeed reason:@"App not allowed in feed" userInfo:nil];
-    }
-    
     MIdentity* ownedId = [feedManager ownedIdentityForFeed: feed];
     if (ownedId == nil) {
         @throw [NSException exceptionWithName:kMusubiExceptionFeedWithoutOwnedIdentity reason:@"No owned identity for feed" userInfo: nil];
+    }
+    return [ObjHelper sendObj:obj toFeed:feed asIdentity:ownedId fromApp:app usingStore:store];
+
+}
+
++ (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed asIdentity:(MIdentity*)ownedId fromApp: (MApp*) app usingStore: (PersistentModelStore*) store {
+    FeedManager* feedManager = [[FeedManager alloc] initWithStore:store];
+    MusubiDeviceManager* deviceManager = [[MusubiDeviceManager alloc] initWithStore: store];
+    
+    if (![feedManager app: app isAllowedInFeed: feed]) {
+        @throw [NSException exceptionWithName:kMusubiExceptionAppNotAllowedInFeed reason:@"App not allowed in feed" userInfo:nil];
     }
     
     MDevice* device = [deviceManager deviceForName:[deviceManager localDeviceName] andIdentity:ownedId];
@@ -92,5 +97,4 @@
     
     return mObj;
 }
-
 @end

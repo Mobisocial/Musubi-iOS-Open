@@ -50,6 +50,10 @@
 
 - (BOOL)processObjWithRecord:(MObj *)obj {
     NSString *parentHash = [self.data objectForKey: kObjFieldTargetHash];
+    if(parentHash == nil) {
+        NSLog(@"Client sent an invalid like obj... %@", obj);
+        return NO;
+    }
     
     ObjManager* objMgr = [[ObjManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
     NSData* hashData = [parentHash dataFromHex];

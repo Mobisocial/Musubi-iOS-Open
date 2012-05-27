@@ -31,11 +31,12 @@
 #define kObjFieldLocalUri = @"localUri"
 #define kObjFieldSharedKey = @"sharedKey"
 
-@class Obj, MObj, MFeed, MApp, PersistentModelStore;
+@class Obj, MObj, MFeed, MApp, PersistentModelStore, MIdentity;
 
 @interface ObjHelper : NSObject
 
 + (BOOL) isRenderable: (Obj*) obj;
 + (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store;
++ (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed asIdentity:(MIdentity*)ownedId fromApp: (MApp*) app usingStore: (PersistentModelStore*) store;
 
 @end

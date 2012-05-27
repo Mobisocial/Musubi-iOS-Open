@@ -123,7 +123,7 @@
     Message* m = [BSONEncoder decodeMessage:msg.encoded];
     
     NSMutableArray* ids = [NSMutableArray arrayWithCapacity:[m.r count]];
-    NSMutableArray* hidForQueue = [NSMutableArray arrayWithCapacity:[m.r count]];
+    NSMutableSet* hidForQueue = [NSMutableSet setWithCapacity:[m.r count]];
     
     for (int i=0; i<m.r.count; i++) {
         IBEncryptionIdentity* ident = [[[IBEncryptionIdentity alloc] initWithKey:((Recipient*)[m.r objectAtIndex:i]).i] keyAtTemporalFrame:0];
