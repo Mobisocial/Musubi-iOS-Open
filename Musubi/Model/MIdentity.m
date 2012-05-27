@@ -19,7 +19,7 @@
 //  MIdentity.m
 //  musubi
 //
-//  Created by Willem Bult on 5/22/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -48,6 +48,5 @@
 @dynamic updatedAt;
 @dynamic whitelisted;
 @dynamic likes;
-
 
 @end

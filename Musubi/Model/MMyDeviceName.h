@@ -16,11 +16,11 @@
 
 
 //
-//  MyDeviceName.h
+//  MMyDeviceName.h
 //  musubi
 //
-//  Created by T.J. Purtell on 3/27/12.
-//  Copyright (c) 2012 Stanford MobiSocial Lab. All rights reserved.
+//  Created by MokaFive User on 5/27/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

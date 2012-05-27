@@ -151,6 +151,9 @@
         [rcpt setK: os.encryptedKey];
         [rcpt setS: os.signature];
         [rcpt setD: [[BSONEncoder encodeSecret:s] encryptWithAES128CBCZeroPaddedWithKey:[os key] andIV:iv]];
+        if (!rcpt.s) {
+            NSLog(@"weirdos");
+        }
         
         [recipients addObject:rcpt];
         [seqNumbers setObject:[NSNumber numberWithLongLong:seqNumber] forKey:mRcpt.principalHash];

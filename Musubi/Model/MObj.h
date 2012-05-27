@@ -19,25 +19,25 @@
 //  MObj.h
 //  musubi
 //
-//  Created by Willem Bult on 5/23/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class MApp, MDevice, MEncodedMessage, MFeed, MIdentity, MObj;
+@class MApp, MDevice, MEncodedMessage, MFeed, MIdentity, MLike, MObj;
 
 @interface MObj : NSManagedObject
 
 @property (nonatomic) BOOL deleted;
 @property (nonatomic, retain) NSString * json;
-@property (nonatomic) NSDate* lastModified;
+@property (nonatomic, retain) NSDate* lastModified;
 @property (nonatomic) BOOL processed;
 @property (nonatomic, retain) NSData * raw;
 @property (nonatomic) BOOL renderable;
 @property (nonatomic) int64_t shortUniversalHash;
-@property (nonatomic) NSDate* timestamp;
+@property (nonatomic, retain) NSDate* timestamp;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSData * universalHash;
 @property (nonatomic, retain) MApp *app;
@@ -45,14 +45,14 @@
 @property (nonatomic, retain) MEncodedMessage *encoded;
 @property (nonatomic, retain) MFeed *feed;
 @property (nonatomic, retain) MIdentity *identity;
-@property (nonatomic, retain) MObj *parent;
 @property (nonatomic, retain) NSSet *likes;
+@property (nonatomic, retain) MObj *parent;
 @end
 
 @interface MObj (CoreDataGeneratedAccessors)
 
-- (void)addLikesObject:(NSManagedObject *)value;
-- (void)removeLikesObject:(NSManagedObject *)value;
+- (void)addLikesObject:(MLike *)value;
+- (void)removeLikesObject:(MLike *)value;
 - (void)addLikes:(NSSet *)values;
 - (void)removeLikes:(NSSet *)values;
 

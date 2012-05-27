@@ -17,9 +17,9 @@
 
 //
 //  MApp.m
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -29,12 +29,12 @@
 @implementation MApp
 
 @dynamic appId;
-@dynamic manifestUri;
-@dynamic refreshedAt;
-@dynamic name;
 @dynamic icon;
-@dynamic smallIcon;
-@dynamic packageName;
+@dynamic manifestUri;
 @dynamic mimeTypes;
+@dynamic name;
+@dynamic packageName;
+@dynamic refreshedAt;
+@dynamic smallIcon;
 
 @end

@@ -17,9 +17,9 @@
 
 //
 //  MFeedMember.h
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -30,7 +30,7 @@
 
 @interface MFeedMember : NSManagedObject
 
-@property (nonatomic) MFeed *feed;
-@property (nonatomic) MIdentity *identity;
+@property (nonatomic, retain) MFeed *feed;
+@property (nonatomic, retain) MIdentity *identity;
 
 @end

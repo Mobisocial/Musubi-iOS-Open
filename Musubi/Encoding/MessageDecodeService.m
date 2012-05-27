@@ -49,6 +49,7 @@
 #import "ProfileObj.h"
 
 #import "IncomingMessage.h"
+#import "MDevice.h"
 
 
 @implementation MessageDecodeService

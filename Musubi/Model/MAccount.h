@@ -17,15 +17,16 @@
 
 //
 //  MAccount.h
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/20/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class MFeed, MIdentity;
 #define kAccountNameProvisionalWhitelist @"provisional_whitelist"
 #define kAccountNameLocalWhitelist @"local_whitelist"
 
@@ -33,13 +34,12 @@
 #define kAccountTypeFacebook @"com.facebook.auth.login"
 #define kAccountTypeGoogle @"com.google"
 
-@class MFeed, MIdentity;
 
 @interface MAccount : NSManagedObject
 
-@property (nonatomic) NSString * name;
-@property (nonatomic) NSString * type;
-@property (nonatomic) MIdentity *identity;
-@property (nonatomic) MFeed *feed;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * type;
+@property (nonatomic, retain) MFeed *feed;
+@property (nonatomic, retain) MIdentity *identity;
 
 @end
