@@ -70,6 +70,10 @@
 }
 
 - (MOutgoingSecret *)outgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to fromIdent:(IBEncryptionIdentity *)me toIdent:(IBEncryptionIdentity *)you {
+    MOutgoingSecret* os = [transportDataProvider lookupOutgoingSecretFrom:from to:to myIdentity:me otherIdentity:you];
+    if (os != nil) {
+        return os;
+    }
     
     IBEncryptionConversationKey* ck = [encryptionScheme randomConversationKeyWithIdentity:you];
     
@@ -77,11 +81,6 @@
     NSMutableData* hashData = [NSMutableData dataWithData: ck.encrypted];
     [hashData appendBytes:&deviceNameBigEndian length:sizeof(deviceNameBigEndian)];
     NSData* hash = [hashData sha256Digest];
-    
-    MOutgoingSecret* os = [transportDataProvider lookupOutgoingSecretFrom:from to:to myIdentity:me otherIdentity:you];
-    if (os != nil) {
-        return os;
-    }
     
     os = (MOutgoingSecret*)[[transportDataProvider store] createEntity:@"OutgoingSecret"];
     [os setMyIdentity: from];
