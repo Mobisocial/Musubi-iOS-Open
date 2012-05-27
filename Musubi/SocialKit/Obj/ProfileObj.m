@@ -24,6 +24,12 @@
 //
 
 #import "ProfileObj.h"
+#import "IdentityManager.h"
+#import "NSData+Crypto.h"
+#import "PersistentModelStore.h"
+#import "ObjHelper.h"
+#import "AppManager.h"
+#import "FeedManager.h"
 
 #define kProfileObjReply @"reply"
 #define kProfileObjVersion @"version"
@@ -59,8 +65,69 @@
     self.type = kObjTypeProfile;
     return self;
 }
-+ (void)handleFromSender:(MIdentity*)sender profileJson:(NSString*)json profileRaw:(NSData*)raw
++ (void)handleFromSender:(MIdentity*)sender profileJson:(NSString*)json profileRaw:(NSData*)raw withStore:(PersistentModelStore*)store
 {
-    
+    if(!json) {
+        NSLog(@"received profile without content");
+        return;
+    }
+
+    NSError* error = nil;
+    NSDictionary* profile = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUnicodeStringEncoding] options:0 error:&error];
+    if(!profile) {
+        NSLog(@"failed to parse json in profile obj from %@ : %@", sender, error);
+        return;
+    }
+    IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
+
+    NSObject* versionNumber = [profile valueForKey:kProfileObjVersion];
+    if(versionNumber && [versionNumber isKindOfClass:[NSNumber class]]) {
+        long long version = ((NSNumber*)versionNumber).longLongValue;
+        if (sender.receivedProfileVersion < version) {
+            sender.receivedProfileVersion = version;
+            if(sender.owned) {
+                for(MIdentity* me in [idm ownedIdentities]) {
+                    me.receivedProfileVersion = sender.receivedProfileVersion;
+                }
+            }
+            if (raw) {
+                sender.musubiThumbnail = raw;
+                if(sender.owned) {
+                    for(MIdentity* me in [idm ownedIdentities]) {
+                        me.musubiThumbnail = sender.musubiThumbnail;
+                    }
+                }
+            }
+            NSObject* nameString = [profile valueForKey:kProfileObjName];
+            if(nameString && [nameString isKindOfClass:[NSString class]]) {
+                sender.musubiName = (NSString*)nameString;
+                if(sender.owned) {
+                    for(MIdentity* me in [idm ownedIdentities]) {
+                        me.musubiName = sender.musubiName;
+                    }
+                }
+            }
+            NSObject* principalString = [profile valueForKey:kProfileObjPrincipal];
+            if(principalString && [principalString isKindOfClass:[NSString class]]) {
+                NSString* principal = (NSString*)principalString;
+                sender.musubiName = (NSString*)nameString;
+                if([sender.principalHash isEqualToData:[[principal dataUsingEncoding:NSUnicodeStringEncoding] sha256Digest]]) {
+                    sender.principal = principal;
+                }
+            }
+        }
+        [store save];
+    }
+    NSObject* replyFlag = [profile valueForKey:kProfileObjReply];
+    if(replyFlag && [replyFlag isKindOfClass:[NSNumber class]]) {
+        AppManager* am = [[AppManager alloc] initWithStore:store];
+        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+        
+        FeedManager* fm = [[FeedManager alloc] initWithStore: store];
+        for(MIdentity* me in [idm ownedIdentities]) {
+            MFeed* f = [fm createOneTimeUseFeedWithParticipants:[NSArray arrayWithObjects:me, sender, nil]];
+            [ObjHelper sendObj:[[ProfileObj alloc] initWithUser:me replyRequested:NO includePrincipal:NO] toFeed:f fromApp:app usingStore:store];
+        }
+    }
 }
 @end

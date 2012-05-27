@@ -88,6 +88,41 @@
     return feed;
 }
 
+/**
+ * Creates a new feed with expandable membership with the given membership. If the feed
+ * does not have an owned identity, one is inserted automatically. If no owned identities
+ * are available, an exception is thrown.
+ */
+- (MFeed*) createOneTimeUseFeedWithParticipants: (NSArray*) participants {
+    
+    if (![FeedManager hasOwnedIdentity:participants]) {
+        // Find a default owned identity to include in this feed
+        IdentityManager* idManager = [[IdentityManager alloc] initWithStore:store];
+        MIdentity* me = [idManager defaultIdentityForParticipants: participants];
+        if (me == nil) {
+            @throw [NSException exceptionWithName:kMusubiExceptionFeedWithoutOwnedIdentity reason:@"Feed has no owned identity" userInfo:nil];
+        }
+        
+        NSMutableArray* newParticipants = [NSMutableArray arrayWithCapacity:participants.count + 1];
+        [newParticipants addObject: me];
+        
+        for (MIdentity* mId in participants) {
+            [newParticipants addObject:mId];
+        }
+        
+        participants = newParticipants;
+    }
+    
+    MFeed* feed = (MFeed*)[self create];
+    [feed setType: kFeedTypeOneTimeUse];
+    [feed setCapability: [NSData generateSecureRandomKeyOf:32]];
+    [feed setShortCapability: *(uint64_t *)feed.capability.bytes];
+    [feed setAccepted: NO];
+    
+    [self attachMembers:participants toFeed:feed];
+    return feed;
+}
+
 - (void)deleteFeedAndMembers:(MFeed *)feed {
     for (MFeedMember* member in [store query: [NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
         [store.context deleteObject:member];
@@ -192,7 +227,9 @@
     NSMutableArray* otherParticipants = [NSMutableArray array];
     for (MIdentity* ident in [self identitiesInFeed:feed]) {
         if (!ident.owned) {
-            if (ident.name)
+            if (ident.musubiName)
+                [otherParticipants addObject: ident.musubiName];
+            else if (ident.name)
                 [otherParticipants addObject: ident.name];
             else if (ident.principal)
                 [otherParticipants addObject: ident.principal];

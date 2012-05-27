@@ -273,7 +273,7 @@ static int operationCount;
     // Look for profile updates, which don't require whitelisting
     if ([obj.type isEqualToString:kObjTypeProfile]) {
         //never even make it an MObj
-        [ProfileObj handleFromSender:sender profileJson:obj.jsonSrc profileRaw:obj.raw];
+        [ProfileObj handleFromSender:sender profileJson:obj.jsonSrc profileRaw:obj.raw withStore:_store];
         
         NSLog(@"Message was profile message %@", msg);
         [_store.context deleteObject:msg];

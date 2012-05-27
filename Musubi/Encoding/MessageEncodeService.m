@@ -34,6 +34,8 @@
 #import "TransportManager.h"
 #import "SignatureUserKeyManager.h"
 #import "IBEncryptionScheme.h"
+#import "FeedManager.h"
+#import "IdentityManager.h"
 
 #import "MObj.h"
 #import "MFeed.h"
@@ -47,6 +49,7 @@
 #import "ObjEncoder.h"
 #import "OutgoingMessage.h"
 #import "Authorities.h"
+#import "ProfileObj.h"
 
 #define kSmallProcessorCutOff 20
 
@@ -161,6 +164,8 @@
 }
 
 - (void) encodeObj: (MObj*) obj {
+    FeedManager * feedManager = [[FeedManager alloc] initWithStore:self.store];
+    IdentityManager * identityManager = [[IdentityManager alloc] initWithStore:self.store];
     
     // Make sure we have all the required inputs
     assert(obj != nil);
@@ -178,10 +183,13 @@
     assert (app != nil);
     
     NSMutableArray* recipients = [NSMutableArray array];
-    for (MFeedMember* fm in [_store query:[NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
-        [recipients addObject: fm.identity];
+    if(feed.type == kFeedTypeAsymmetric && [feed.name isEqualToString:kFeedNameGlobalWhitelist]) {
+        recipients = [NSMutableArray arrayWithArray:[identityManager whitelistedIdentities]];
+    } else {
+        for (MFeedMember* fm in [_store query:[NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
+            [recipients addObject: fm.identity];
+        }
     }
-    
     // Create the OutgoingMessage    
     OutgoingMessage* om = [[OutgoingMessage alloc] init];
     PreparedObj* outbound = [ObjEncoder prepareObj:obj forFeed:feed andApp:app];
@@ -273,7 +281,14 @@
         }
     }
     
-    obj.encoded = encoded;
+    if([obj.type isEqualToString:kObjTypeProfile]) {
+        [_store.context deleteObject:obj];
+    } else {
+        obj.encoded = encoded;
+    }
+    if(feed.type == kFeedTypeOneTimeUse) {
+        [feedManager deleteFeedAndMembersAndObjs:feed];
+    }
         
     [_store save];
 }

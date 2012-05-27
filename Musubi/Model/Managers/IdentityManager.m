@@ -220,7 +220,9 @@
 }
 
 + (NSString *)displayNameForIdentity:(MIdentity *)ident {
-    if (ident && ident.name != nil) {
+    if (ident && ident.musubiName != nil) {
+        return ident.musubiName;
+    } else if (ident && ident.name != nil) {
         return ident.name;
     } else if (ident && ident.principal != nil) {
         return ident.principal;
@@ -228,4 +230,10 @@
         return @"Unknown";
     }
 }
+- (NSArray*) whitelistedIdentities
+{
+    //TODO: why can't we be enemies
+    return [self query:nil];   
+}
+
 @end

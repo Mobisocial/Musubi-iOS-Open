@@ -89,7 +89,10 @@
         [item setObj: mObj];
         [item setSender: [IdentityManager displayNameForIdentity:mObj.identity]];
         [item setTimestamp: mObj.timestamp];
-        [item setProfilePicture: [UIImage imageWithData:mObj.identity.thumbnail]];
+        if(mObj.identity.musubiThumbnail)
+            [item setProfilePicture: [UIImage imageWithData:mObj.identity.musubiThumbnail]];
+        else
+            [item setProfilePicture: [UIImage imageWithData:mObj.identity.thumbnail]];
         [item setLikes: likes];
     }
     
