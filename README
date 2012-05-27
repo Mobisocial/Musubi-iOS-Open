@@ -1,0 +1,7 @@
+Building for iOS:
+
+(1) run ./setup.sh
+(2) In XCode, select IBE -- iOS Simulator from the Target dropdown
+(3) press "Run"
+(4) Do the same for Three20
+(5) Do the same for Musubi
