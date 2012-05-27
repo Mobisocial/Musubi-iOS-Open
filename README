@@ -1,5 +1,6 @@
 Building for iOS:
 
+(0) Make sure you've installed the XCode command line tools -- Preferences -> Downloads -> Command Line Tools
 (1) run ./setup.sh
 (2) In XCode, select IBE -- iOS Simulator from the Target dropdown
 (3) press "Run"
