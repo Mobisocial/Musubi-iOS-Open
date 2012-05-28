@@ -69,19 +69,25 @@
 - (FeedItem*) itemFromObj: (MObj*) mObj {
     Obj* obj = [ObjFactory objFromManagedObj:mObj];
     
+    NSString* renderMode = [obj.data objectForKey:kObjFieldRenderMode];
+    if ([kObjFieldRenderMode isEqualToString:renderMode]) {
+        NSLog(@"should query subfeed");
+    }
+
     FeedItem* item = nil;
     if ([obj isMemberOfClass:[StatusObj class]]) {
-        item = [[StatusObjItem alloc] init];
-        [(StatusObjItem*)item setText: ((StatusObj*) obj).text];
+        item = [[StatusObjItem alloc] initWithText:((StatusObj*) obj).text];
     } else if ([obj isMemberOfClass:[PictureObj class]]) {
         item = [[PictureObjItem alloc] init];
         [(PictureObjItem*)item setPicture: ((PictureObj*) obj).image];
     } else if (nil != [obj.data objectForKey:kObjFieldHtml]) {
         NSString* html = [obj.data objectForKey:kObjFieldHtml];
         item = [[HtmlObjItem alloc] initWithHtml:html];
+    } else if (nil != [obj.data objectForKey:kObjFieldText]) {
+        NSString* text = [obj.data objectForKey:kObjFieldText];
+        item = [[StatusObjItem alloc] initWithText:text];
     }
-               
-    
+
     if (item) {
         NSMutableDictionary* likes = [NSMutableDictionary dictionary];
         
@@ -121,7 +127,7 @@
     
     for (MObj *mObj in [(FeedModel*)self.model consumeNewResults]) {
         FeedItem* item = [self itemFromObj:mObj];
-        
+
         if (item) {
             // find correct position to insert feed item based on timestamp
             if (self.items.count == 0 || [item.timestamp compare:((FeedItem*)[self.items lastObject]).timestamp] > 0) {

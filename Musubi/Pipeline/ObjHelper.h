@@ -31,6 +31,8 @@
 #define kObjFieldLocalUri @"localUri"
 #define kObjFieldSharedKey @"sharedKey"
 #define kObjFieldHtml @"__html"
+#define kObjFieldText @"__text"
+#define kObjFieldRenderMode @"__render_mode"
 
 @class Obj, MObj, MFeed, MApp, PersistentModelStore, MIdentity;
 
