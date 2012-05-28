@@ -43,7 +43,7 @@
         return YES;
     }
 
-    return obj.data != nil && [obj.data objectForKey:@"html"];
+    return obj.data != nil && [obj.data objectForKey:kObjFieldHtml];
 }
 
 + (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store {

@@ -33,6 +33,7 @@
 #import "MObj.h"
 #import "MLike.h"
 
+#import "ObjHelper.h"
 #import "ObjFactory.h"
 #import "Obj.h"
 
@@ -43,6 +44,10 @@
 #import "PictureObj.h"
 #import "PictureObjItem.h"
 #import "PictureObjItemCell.h"
+
+#import "UnknownObj.h"
+#import "HtmlObjItem.h"
+#import "HtmlObjItemCell.h"
 
 #import "Musubi.h"
 
@@ -71,7 +76,11 @@
     } else if ([obj isMemberOfClass:[PictureObj class]]) {
         item = [[PictureObjItem alloc] init];
         [(PictureObjItem*)item setPicture: ((PictureObj*) obj).image];
+    } else if (nil != [obj.data objectForKey:kObjFieldHtml]) {
+        NSString* html = [obj.data objectForKey:kObjFieldHtml];
+        item = [[HtmlObjItem alloc] initWithHtml:html];
     }
+               
     
     if (item) {
         NSMutableDictionary* likes = [NSMutableDictionary dictionary];
@@ -150,11 +159,15 @@
     
     Class cls = nil;
     
-    if ([object isKindOfClass:[StatusObjItem class]]) {  
+    if ([object isKindOfClass:StatusObjItem.class]) {  
         cls = [StatusObjItemCell class];  
-    } else if ([object isKindOfClass:[PictureObjItem class]]) {
+    } else if ([object isKindOfClass:PictureObjItem.class]) {
         cls = [PictureObjItemCell class];
-    } else {
+    } else if ([object isKindOfClass:HtmlObjItem.class]) {
+        cls = [HtmlObjItemCell class];
+    }
+
+    if (cls == nil) {
         cls = [super tableView:tableView cellClassForObject:object];
     }
     

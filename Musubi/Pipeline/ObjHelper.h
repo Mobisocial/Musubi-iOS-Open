@@ -27,9 +27,10 @@
 
 #define kObjFieldTargetHash @"target_hash"
 #define kObjFieldTargetRelation @"target_relation"
-#define kObjFieldMimeType = @"mimeType"
-#define kObjFieldLocalUri = @"localUri"
-#define kObjFieldSharedKey = @"sharedKey"
+#define kObjFieldMimeType @"mimeType"
+#define kObjFieldLocalUri @"localUri"
+#define kObjFieldSharedKey @"sharedKey"
+#define kObjFieldHtml @"__html"
 
 @class Obj, MObj, MFeed, MApp, PersistentModelStore, MIdentity;
 
