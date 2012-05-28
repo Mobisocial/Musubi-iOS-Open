@@ -17,25 +17,26 @@
 
 //
 //  MFeed.m
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/21/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "MFeed.h"
+#import "MObj.h"
 
 
 @implementation MFeed
 
-@dynamic type;
-@dynamic capability;
-@dynamic shortCapability;
-@dynamic latestRenderableObjTime;
-@dynamic latestRenderableObj;
-@dynamic numUnread;
-@dynamic name;
 @dynamic accepted;
+@dynamic capability;
 @dynamic knownId;
+@dynamic latestRenderableObjTime;
+@dynamic name;
+@dynamic numUnread;
+@dynamic shortCapability;
+@dynamic type;
+@dynamic latestRenderableObj;
 
 @end

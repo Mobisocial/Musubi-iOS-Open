@@ -17,9 +17,9 @@
 
 //
 //  MFeedApp.h
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/23/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -30,7 +30,7 @@
 
 @interface MFeedApp : NSManagedObject
 
-@property (nonatomic) MFeed *feed;
-@property (nonatomic) MApp *app;
+@property (nonatomic, retain) MApp *app;
+@property (nonatomic, retain) MFeed *feed;
 
 @end

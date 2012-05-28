@@ -19,7 +19,7 @@
 //  MLike.h
 //  musubi
 //
-//  Created by Willem Bult on 5/22/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -30,8 +30,8 @@
 
 @interface MLike : NSManagedObject
 
+@property (nonatomic) int16_t count;
 @property (nonatomic, retain) MObj *obj;
 @property (nonatomic, retain) MIdentity *sender;
-@property (nonatomic) int16_t count;
 
 @end

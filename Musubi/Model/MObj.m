@@ -19,7 +19,7 @@
 //  MObj.m
 //  musubi
 //
-//  Created by Willem Bult on 5/23/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -29,6 +29,7 @@
 #import "MEncodedMessage.h"
 #import "MFeed.h"
 #import "MIdentity.h"
+#import "MLike.h"
 #import "MObj.h"
 
 
@@ -49,7 +50,7 @@
 @dynamic encoded;
 @dynamic feed;
 @dynamic identity;
-@dynamic parent;
 @dynamic likes;
+@dynamic parent;
 
 @end

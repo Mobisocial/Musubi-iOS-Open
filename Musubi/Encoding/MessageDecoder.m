@@ -156,10 +156,6 @@
     
     // This will add all of the relevant identities and devices to the tables
     
-    NSMutableArray* rcpts = [NSMutableArray array];
-    for (Recipient* r in m.r) {
-        [rcpts addObject: [self addIdentityWithKey:r.i]];
-    }
     [im setFromIdentity: [self addIdentityWithKey:m.s.i]];
     if ([transportDataProvider isBlackListed:[im fromIdentity]]) {
         @throw [NSException exceptionWithName:kMusubiExceptionSenderBlacklisted reason:[NSString stringWithFormat: @"Received message from blacklisted identity: %@", im.fromIdentity] userInfo:nil];

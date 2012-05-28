@@ -36,6 +36,6 @@
 
 + (void)handleFromSender:(MIdentity*)sender profileJson:(NSString*)json profileRaw:(NSData*)raw withStore:(PersistentModelStore*)store;
 +(void)sendAllProfilesWithStore:(PersistentModelStore*)store;
-+(void)sendProfilesTo:(NSArray*)people withStore:(PersistentModelStore*)store;
++(void)sendProfilesTo:(NSArray*)people replyRequested:(BOOL)replyRequested withStore:(PersistentModelStore*)store;
 
 @end

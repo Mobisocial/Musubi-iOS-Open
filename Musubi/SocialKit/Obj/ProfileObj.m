@@ -121,11 +121,11 @@
     }
     NSObject* replyFlag = [profile valueForKey:kProfileObjReply];
     if(replyFlag && [replyFlag isKindOfClass:[NSNumber class]] && ((NSNumber*)replyFlag).boolValue) {
-        [ProfileObj sendProfilesTo:[NSArray arrayWithObject:sender] withStore:store];
+        [ProfileObj sendProfilesTo:[NSArray arrayWithObject:sender] replyRequested:NO withStore:store];
     }
 }
 
-+(void)sendProfilesTo:(NSArray*)people withStore:(PersistentModelStore*)store
++(void)sendProfilesTo:(NSArray*)people replyRequested:(BOOL)replyRequested withStore:(PersistentModelStore*)store
 {
     IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
     AppManager* am = [[AppManager alloc] initWithStore:store];
@@ -138,7 +138,7 @@
             continue;
         profileVersion = MAX(me.receivedProfileVersion, profileVersion);
         MFeed* f = [fm createOneTimeUseFeedWithParticipants:[[NSArray arrayWithObject:me] arrayByAddingObjectsFromArray:people]];
-        [ObjHelper sendObj:[[ProfileObj alloc] initWithUser:me replyRequested:YES includePrincipal:NO] toFeed:f asIdentity:me fromApp:app usingStore:store];
+        [ObjHelper sendObj:[[ProfileObj alloc] initWithUser:me replyRequested:replyRequested includePrincipal:NO] toFeed:f asIdentity:me fromApp:app usingStore:store];
     }
     for(MIdentity* you in people) {
         you.sentProfileVersion = profileVersion;

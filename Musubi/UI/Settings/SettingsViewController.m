@@ -466,9 +466,11 @@
         textField.text = me.musubiName;
         return;
     }
+    long long now = (long long)([[NSDate date] timeIntervalSince1970] * 1000);
     for(MIdentity* me in mine) {
         me.musubiName = textField.text;
-    }
+        me.receivedProfileVersion = now;
+   }
     [store save];
     [ProfileObj sendAllProfilesWithStore:store];
 }
@@ -494,8 +496,10 @@
     }
     thumbnail = UIImageJPEGRepresentation(image, 0.90);
 
+    long long now = (long long)([[NSDate date] timeIntervalSince1970] * 1000);
     for(MIdentity* me in mine) {
         me.musubiThumbnail = thumbnail;
+        me.receivedProfileVersion = now;
     }
     [store save];
     [ProfileObj sendAllProfilesWithStore:store];

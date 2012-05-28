@@ -49,6 +49,7 @@
 #import "ProfileObj.h"
 
 #import "IncomingMessage.h"
+#import "MDevice.h"
 
 
 @implementation MessageDecodeService
@@ -383,7 +384,7 @@ static int operationCount;
                 continue;
             [new_peeps addObject:recipient];
         }
-        [ProfileObj sendProfilesTo:new_peeps withStore:_store];
+        [ProfileObj sendProfilesTo:new_peeps replyRequested:YES withStore:_store];
     }
     
     return YES;

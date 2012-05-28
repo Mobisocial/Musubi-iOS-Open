@@ -17,13 +17,14 @@
 
 //
 //  MEncodedMessage.m
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/21/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "MEncodedMessage.h"
+#import "MDevice.h"
 #import "MIdentity.h"
 
 
@@ -31,12 +32,12 @@
 
 @dynamic encoded;
 @dynamic messageHash;
-@dynamic shortMessageHash;
 @dynamic outbound;
 @dynamic processed;
 @dynamic processedTime;
 @dynamic sequenceNumber;
-@dynamic fromIdentity;
+@dynamic shortMessageHash;
 @dynamic fromDevice;
+@dynamic fromIdentity;
 
 @end
