@@ -33,6 +33,7 @@
 #import "PictureObj.h"
 #import "LikeObj.h"
 #import "DeleteObj.h"
+#import "UnknownObj.h"
 
 @implementation ObjFactory
 
@@ -55,7 +56,7 @@
         return [[DeleteObj alloc] initWithData:data];
     }
     
-    return nil;
+    return [[UnknownObj alloc] initWithType:objType data:data andRaw:mObj.raw];
 }
 
 @end
