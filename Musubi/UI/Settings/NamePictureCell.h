@@ -25,12 +25,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NamePictureCell : UITableViewCell {
-    IBOutlet UITextField* nameTextField;
-    IBOutlet UIButton* picture;
-}
+@interface NamePictureCell : UITableViewCell
 
-@property (nonatomic) IBOutlet UIButton* picture;
+
 @property (nonatomic) IBOutlet UITextField* nameTextField;
+@property (nonatomic) IBOutlet UIImageView* picture;
+@property (nonatomic) IBOutlet UIButton* pictureButton;
 
 @end

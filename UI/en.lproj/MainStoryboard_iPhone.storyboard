@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vh5-YM-htJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vh5-YM-htJ">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
@@ -229,21 +229,27 @@
                                                 <outlet property="delegate" destination="ayD-7Y-iPW" id="JGE-8J-bou"/>
                                             </connections>
                                         </textField>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5rt-Tg-vb8">
+                                        <imageView contentMode="scaleAspectFit" image="missing.png" id="Hyr-Iz-2lh">
                                             <rect key="frame" x="11" y="8" width="72" height="71.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" white="0.77957925449999999" alpha="1" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                            <size key="titleShadowOffset" width="1" height="0.0"/>
-                                            <state key="normal" image="missing.png">
-                                                <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                            <accessibility key="accessibilityConfiguration" label="">
+                                                <accessibilityTraits key="traits" none="YES" image="YES"/>
+                                                <bool key="isElement" value="YES"/>
+                                            </accessibility>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ca0-ms-Xr9">
+                                            <rect key="frame" x="11" y="8" width="72" height="71.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <state key="highlighted">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="pictureClicked:" destination="ayD-7Y-iPW" eventType="touchUpInside" id="ROV-Q5-TlT"/>
+                                                <action selector="pictureClicked:" destination="ayD-7Y-iPW" eventType="touchUpInside" id="wUW-7h-hQH"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -251,7 +257,8 @@
                                 </view>
                                 <connections>
                                     <outlet property="nameTextField" destination="1v9-pI-ytJ" id="pil-HW-dVv"/>
-                                    <outlet property="picture" destination="5rt-Tg-vb8" id="LUK-mb-FlE"/>
+                                    <outlet property="picture" destination="Hyr-Iz-2lh" id="RjQ-Dw-u6G"/>
+                                    <outlet property="pictureButton" destination="Ca0-ms-Xr9" id="Rnz-E7-8JZ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -314,7 +321,8 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NamePictureCell.h"/>
             <relationships>
                 <relationship kind="outlet" name="nameTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="picture" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="pictureButton" candidateClass="UIButton"/>
             </relationships>
         </class>
         <class className="SettingsViewController" superclassName="UITableViewController">

@@ -172,8 +172,9 @@
             NSArray* mine = [idm ownedIdentities];
             if(mine.count > 0) {
                 MIdentity* me = [mine objectAtIndex:0];
-                if(me.musubiThumbnail)
-                    cell.imageView.image = [UIImage imageWithData:me.musubiThumbnail];
+                if(me.musubiThumbnail) {
+                    cell.picture.image = [UIImage imageWithData:me.musubiThumbnail];
+                }
                 cell.nameTextField.text = me.musubiName;
             }
             return cell;
