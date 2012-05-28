@@ -112,6 +112,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     
     CGFloat left = 0.0f;
     if (_profilePictureView) {
+        [_profilePictureView setContentMode:UIViewContentModeScaleAspectFit];
         _profilePictureView.frame = CGRectMake(kTableCellSmallMargin, kTableCellSmallMargin,
                                        kDefaultMessageImageWidth, kDefaultMessageImageHeight);        
     }
