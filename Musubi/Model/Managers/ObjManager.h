@@ -34,7 +34,7 @@
 - (MObj*) create;
 - (MObj*) createFromObj: (Obj*) obj onFeed: (MFeed*) feed;
 
-- (MObj*) objWithShortUniversalHash: (int64_t) hash;
+- (MObj*) objWithUniversalHash: (NSData *) hash;
 - (NSArray*) renderableObjsInFeed: (MFeed*) feed;
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed limit:(NSInteger)limit;
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed before:(NSDate*)beforeDate limit:(NSInteger)limit;
@@ -45,5 +45,6 @@
 
 - (MLikeCache*) likeCountForObj: (MObj*) obj;
 - (void) increaseLikeCountForObj: (MObj*) obj local: (BOOL) local;
+- (void) deleteObjWithHash: (NSData *) hash;
 
 @end
