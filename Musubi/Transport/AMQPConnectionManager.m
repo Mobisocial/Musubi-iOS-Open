@@ -30,6 +30,7 @@
 #import "Recipient.h"
 #import "MIdentity.h"
 #import "PersistentModelStore.h"
+#include <sys/socket.h>
 
 @implementation AMQPConnectionManager
 
@@ -120,6 +121,8 @@
         [connLock unlock];
         return;
     }
+    int set = 1;
+    setsockopt(sockfd, SOL_SOCKET, SO_NOSIGPIPE, (void *)&set, sizeof(int));
     amqp_set_sockfd(new_conn, sockfd);
     
     // Login to server using default username/password
