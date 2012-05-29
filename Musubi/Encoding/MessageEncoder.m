@@ -82,6 +82,9 @@
     [hashData appendBytes:&deviceNameBigEndian length:sizeof(deviceNameBigEndian)];
     NSData* hash = [hashData sha256Digest];
     
+    //do this before creating the entity, because it seems that creating an entity implicitly inserts in some way that results in null secrets ending up in the data base, particularly on reinstall where the google auth token is still valid
+    NSData* signature = [signatureScheme signHash:hash withUserKey:[transportDataProvider signatureKeyFrom:from myIdentity:me] andIdentity:me];
+    
     os = (MOutgoingSecret*)[[transportDataProvider store] createEntity:@"OutgoingSecret"];
     [os setMyIdentity: from];
     [os setOtherIdentity: to];
@@ -89,7 +92,7 @@
     [os setEncryptedKey: [ck encrypted]];
     [os setEncryptionPeriod: [you temporalFrame]];
     [os setSignaturePeriod:me.temporalFrame];
-    [os setSignature: [signatureScheme signHash:hash withUserKey:[transportDataProvider signatureKeyFrom:from myIdentity:me] andIdentity:me]];
+    [os setSignature: signature];
     
     [transportDataProvider insertOutgoingSecret:os myIdentity:me otherIdentity:you];
     return os;

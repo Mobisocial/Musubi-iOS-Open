@@ -96,13 +96,16 @@
     if(is != nil)
         return is;
 
+    //do this before creating the entity, because it seems that creating an entity implicitly inserts in some way that results in null secrets/keys ending up in the data base, particularly on reinstall where the google auth token is still valid
+    IBEncryptionUserKey* userKey = [transportDataProvider encryptionKeyTo:to myIdentity:meTimed];
+    NSData* key = [encryptionScheme decryptConversationKey:[[IBEncryptionConversationKey alloc] initWithRaw:nil andEncrypted:me.k] withUserKey:userKey];
+
     is = (MIncomingSecret*)[[transportDataProvider store] createEntity:@"IncomingSecret"];
     [is setMyIdentity: to];
     [is setOtherIdentity: from];
     [is setDevice: device];
 
-    IBEncryptionUserKey* userKey = [transportDataProvider encryptionKeyTo:to myIdentity:meTimed];
-    [is setKey: [encryptionScheme decryptConversationKey:[[IBEncryptionConversationKey alloc] initWithRaw:nil andEncrypted:me.k] withUserKey:userKey]];
+    [is setKey: key];
 
     [is setEncryptedKey: me.k];
     [is setEncryptionPeriod: meTimed.temporalFrame];
