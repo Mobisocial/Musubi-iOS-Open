@@ -328,7 +328,7 @@
         @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
-    if (amqp_frames_enqueued(conn) == 0 && amqp_data_in_buffer(conn) == 0) {
+    while (amqp_frames_enqueued(conn) == 0 && amqp_data_in_buffer(conn) == 0) {
         // we have no frames in buffer and we don't want to block
         // check the socket to see if we can read from it without blocking
 
@@ -344,7 +344,7 @@
         //dont freeze the connection while waiting for data
         [connLock unlock];
         int res = select(sock+1, &read_flags, NULL, NULL, &timeout);
-        if (res <= 0) {
+        if (res <= 0 || !FD_ISSET(sock, &read_flags)) {
             // give up for now, socket is not ready for us
             return nil;
         }
