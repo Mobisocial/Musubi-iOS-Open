@@ -75,7 +75,7 @@
         MObj* child = [_objManager latestChildForParent:mObj];
         if (child) {
             NSLog(@"Got a child %@", child);
-            //obj = [ObjFactory objFromManagedObj:child];
+            obj = [ObjFactory objFromManagedObj:child];
         }
     }
 

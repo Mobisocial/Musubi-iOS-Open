@@ -67,7 +67,11 @@
 }
 
 - (MObj*) latestChildForParent: (MObj *)parent {
-    return (MObj*)[self query:[NSPredicate predicateWithFormat:@"(parent == %@)", parent] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"intKey" ascending:false] limit:1];
+    NSArray *res = [self query:[NSPredicate predicateWithFormat:@"(parent == %@)", parent] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"intKey" ascending:false] limit:1];
+    if (res.count == 0) {
+        return nil;
+    }
+    return (MObj*)[res objectAtIndex:0];
 }
 
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed {

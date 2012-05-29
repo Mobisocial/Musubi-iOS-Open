@@ -40,8 +40,12 @@
 + (Obj*) objFromManagedObj: (MObj*) mObj {
     assert (mObj != nil);    
     
-    SBJsonParser* parser = [[SBJsonParser alloc] init];
-    NSDictionary* data = [parser objectWithString:mObj.json];
+    
+    NSDictionary* data = nil;
+    if (mObj.json) {
+        SBJsonParser* parser = [[SBJsonParser alloc] init];
+        data = [parser objectWithString:mObj.json];
+    }
     
     NSString* objType = mObj.type;
     if ([objType isEqualToString:kObjTypeStatus]) {
