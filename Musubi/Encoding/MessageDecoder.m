@@ -100,6 +100,13 @@
     IBEncryptionUserKey* userKey = [transportDataProvider encryptionKeyTo:to myIdentity:meTimed];
     NSData* key = [encryptionScheme decryptConversationKey:[[IBEncryptionConversationKey alloc] initWithRaw:nil andEncrypted:me.k] withUserKey:userKey];
 
+    NSData* hash = [self computeSignatureWithKey:me.k andDeviceId:device.deviceName];
+
+    if (![signatureScheme verifySignature:me.s forHash:hash withIdentity:sid]) {
+        @throw [NSException exceptionWithName:kMusubiExceptionBadSignature reason:@"Message failed to have a valid signature for my recipient key" userInfo:nil];
+    }
+    
+    
     is = (MIncomingSecret*)[[transportDataProvider store] createEntity:@"IncomingSecret"];
     [is setMyIdentity: to];
     [is setOtherIdentity: from];
@@ -112,11 +119,7 @@
     [is setSignaturePeriod: sid.temporalFrame];
     [is setSignature: me.s];
     
-    NSData* hash = [self computeSignatureWithKey:is.encryptedKey andDeviceId:device.deviceName];
     
-    if (![signatureScheme verifySignature:is.signature forHash:hash withIdentity:sid]) {
-        @throw [NSException exceptionWithName:kMusubiExceptionBadSignature reason:@"Message failed to have a valid signature for my recipient key" userInfo:nil];
-    }
     
     [transportDataProvider insertIncomingSecret:is otherIdentity:sid myIdentity:meTimed];
     return is;

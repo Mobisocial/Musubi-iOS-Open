@@ -95,7 +95,7 @@
 }
 
 - (MIncomingSecret *)lookupIncomingSecretFrom:(MIdentity *)from onDevice:(MDevice *)device to:(MIdentity *)to withSignature:(NSData *)signature otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %llu AND signaturePeriod = %llu AND device = %@", from, to, other.temporalFrame, me.temporalFrame, device];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"myIdentity = %@ AND otherIdentity = %@ AND encryptionPeriod = %llu AND signaturePeriod = %llu AND device = %@", to, from, me.temporalFrame, other.temporalFrame, device];
     
     NSArray* results = [store query:predicate onEntity:@"IncomingSecret"];
     for (int i=0; i<results.count; i++) {
