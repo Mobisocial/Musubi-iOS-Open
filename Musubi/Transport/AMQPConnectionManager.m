@@ -328,34 +328,39 @@
         @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
-    while (connectionReady && amqp_frames_enqueued(conn) == 0 && amqp_data_in_buffer(conn) == 0) {
+    int sock = amqp_get_sockfd(conn);
+    
+    fd_set read_flags;
+    FD_ZERO(&read_flags);
+    FD_SET(sock, &read_flags);
+    struct timeval timeout;
+    timeout.tv_sec = 1;
+    timeout.tv_usec = 100000;
 
-        // we have no frames in buffer and we don't want to block
-        // check the socket to see if we can read from it without blocking
-
-        int sock = amqp_get_sockfd(conn);
-        
-        fd_set read_flags;
-        FD_ZERO(&read_flags);
-        FD_SET(sock, &read_flags);
-        struct timeval timeout;
-        timeout.tv_sec = 1;
-        timeout.tv_usec = 100000;
-        
+    if (amqp_frames_enqueued(conn) == 0 && amqp_data_in_buffer(conn) == 0) {
         //dont freeze the connection while waiting for data
         [connLock unlock];
+        // we have no frames in buffer and we don't want to block
+        // check the socket to see if we can read from it without blocking
         int res = select(sock+1, &read_flags, NULL, NULL, &timeout);
-        if (res <= 0 || !FD_ISSET(sock, &read_flags)) {
+        if (res <= 0) {
             // give up for now, socket is not ready for us
             return nil;
         }
         [connLock lock];
-        break;
     }
-    
     if (!connectionReady) {
         [connLock unlock];
         @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
+    }
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 0;
+    //double check that we have something available
+    int res = select(sock+1, &read_flags, NULL, NULL, &timeout);
+    if (res <= 0) {
+        [connLock unlock];
+        // give up for now, socket is not ready for us
+        return nil;
     }
     
     @try {
