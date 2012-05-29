@@ -341,12 +341,14 @@
         timeout.tv_sec = 1;
         timeout.tv_usec = 100000;
         
+        //dont freeze the connection while waiting for data
+        [connLock unlock];
         int res = select(sock+1, &read_flags, NULL, NULL, &timeout);
         if (res <= 0) {
             // give up for now, socket is not ready for us
-            [connLock unlock];
             return nil;
         }
+        [connLock lock];
     }
     
     @try {

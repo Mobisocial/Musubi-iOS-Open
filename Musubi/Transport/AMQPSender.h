@@ -30,7 +30,7 @@
 
 @interface AMQPSender : AMQPThread
 
-@property (nonatomic, strong) NSMutableArray* declaredGroups;
+@property (nonatomic, strong) NSMutableSet* declaredGroups;
 @property (nonatomic, strong) NSMutableDictionary* waitingForAck;
 @property (nonatomic, strong) NSCondition* messagesWaitingCondition;
 
