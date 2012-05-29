@@ -349,6 +349,7 @@
             // give up for now, socket is not ready for us
             return nil;
         }
+        break;
         [connLock lock];
     }
     
