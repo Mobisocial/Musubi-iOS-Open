@@ -34,6 +34,8 @@
 #define kObjFieldText @"__text"
 #define kObjFieldRenderMode @"__render_mode"
 
+#define kObjFieldRelationParent @"parent"
+
 @class Obj, MObj, MFeed, MApp, PersistentModelStore, MIdentity;
 
 @interface ObjHelper : NSObject

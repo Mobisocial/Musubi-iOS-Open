@@ -35,6 +35,7 @@
 #import "Obj.h"
 #import "ObjFactory.h"
 #import "ObjHelper.h"
+#import "NSData+HexString.h"
 
 @implementation ObjPipelineService
 
@@ -143,9 +144,25 @@ static int operationCount = 0;
     
     if (mObj.processed)
         return;
-    
+
     Obj* obj = [ObjFactory objFromManagedObj:mObj];
-    
+
+    NSString* targetHash = [obj.data objectForKey:kObjFieldTargetHash];
+    if (targetHash != nil) {
+        NSString* targetRelation = [obj.data objectForKey:kObjFieldTargetRelation];
+        if (targetRelation == nil || [targetRelation isEqualToString:kObjFieldRelationParent]) {
+            NSData* hash = [targetHash dataFromHex];
+            ObjManager* objMgr = [[ObjManager alloc] initWithStore: _store];
+            MObj* parentObj = [objMgr objWithUniversalHash: hash];
+            if (parentObj == nil) {
+                NSLog(@"Waiting for parent %@", targetHash);
+                // leave unprocessed and return.
+                return;
+            }
+            mObj.parent = parentObj;
+        }
+    }
+
     if ([ObjHelper isRenderable: obj]) {
         [mObj setRenderable: YES];
         [feed setLatestRenderableObjTime: [mObj.timestamp timeIntervalSince1970]];
