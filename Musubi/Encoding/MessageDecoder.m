@@ -93,8 +93,17 @@
     //TODO: make sure not to waste time computing the same secret twice if someone uses
     //this in a multi-threaded way
     MIncomingSecret* is = [transportDataProvider lookupIncomingSecretFrom:from onDevice:device to:to withSignature:me.s otherIdentity:sid myIdentity:meTimed];
-    if(is != nil)
-        return is;
+    if(is != nil) {
+        //workaround for buggy old version
+        if(!is.key || !is.encryptedKey || !is.signature) {
+            [TestFlight passCheckpoint:@"deleting corrupted incoming secret"];
+            [[transportDataProvider store].context deleteObject:is];
+            [[transportDataProvider store] save];
+            is = nil;
+        } else {
+            return is;
+        }
+    }
 
     //do this before creating the entity, because it seems that creating an entity implicitly inserts in some way that results in null secrets/keys ending up in the data base, particularly on reinstall where the google auth token is still valid
     IBEncryptionUserKey* userKey = [transportDataProvider encryptionKeyTo:to myIdentity:meTimed];
@@ -150,10 +159,21 @@
     NSMutableArray* mine = [NSMutableArray array];
     for (Recipient* r in m.r) {
         IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithKey:r.i];
-        if(!r.s || !r.s.length)
-            @throw [NSException exceptionWithName:kMusubiExceptionRecipientMismatch reason:@"Missing as signature" userInfo:nil];
+        //Workaround for buggy old version... should throw
+        //        if(!r.s || !r.s.length)
+        //            @throw [NSException exceptionWithName:kMusubiExceptionRecipientMismatch reason:@"Missing as signature" userInfo:nil];
         if ([transportDataProvider isMe:ident]) {
-            [mine addObject: r];
+            if(!r.s || !r.s.length) {
+                [TestFlight passCheckpoint:@"missing signature for me"];
+                NSLog(@"missing signature for me");
+            } else {
+                [mine addObject: r];
+            }
+        } else {
+            if(!r.s || !r.s.length) {
+                [TestFlight passCheckpoint:@"missing signature for someone else"];
+                NSLog(@"missing signature for someone else");
+            }
         }
     }
     

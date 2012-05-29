@@ -72,7 +72,15 @@
 - (MOutgoingSecret *)outgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to fromIdent:(IBEncryptionIdentity *)me toIdent:(IBEncryptionIdentity *)you {
     MOutgoingSecret* os = [transportDataProvider lookupOutgoingSecretFrom:from to:to myIdentity:me otherIdentity:you];
     if (os != nil) {
-        return os;
+        //workaround for buggy old version
+        if(!os.signature || !os.key || !os.encryptedKey) {
+            [TestFlight passCheckpoint:@"deleting corrupted outgoing secret"];
+            [[transportDataProvider store].context deleteObject:os];
+            [[transportDataProvider store] save];
+            os = nil;
+        } else {
+            return os;
+        }
     }
     
     IBEncryptionConversationKey* ck = [encryptionScheme randomConversationKeyWithIdentity:you];
