@@ -193,17 +193,7 @@
         
     MAccount* account = [am accountWithName: email andType: kAccountTypeGoogle];
     if (account == nil) {
-        IBEncryptionIdentity* ibeId = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:email temporalFrame:0];
-        account = [am create];
-        [account setName: email];
-        [account setType: kAccountTypeGoogle];
-        
-        MIdentity* existing = [im identityForIBEncryptionIdentity: ibeId];
-        if (existing != nil) {
-            [account setIdentity: existing];
-        }
-        
-        [_store save];
+        NSLog(@"Skipping google import because we havent connected yet");
     }
     
     if (account.feed == nil) {
