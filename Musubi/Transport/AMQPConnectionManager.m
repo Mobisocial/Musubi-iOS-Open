@@ -329,6 +329,12 @@
     }
     
     while (amqp_frames_enqueued(conn) == 0 && amqp_data_in_buffer(conn) == 0) {
+
+        if (!connectionReady) {
+            [connLock unlock];
+            @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
+        }
+        
         // we have no frames in buffer and we don't want to block
         // check the socket to see if we can read from it without blocking
 
