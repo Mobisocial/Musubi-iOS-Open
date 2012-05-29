@@ -98,7 +98,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)prepareForReuse {
     [super prepareForReuse];
-    _profilePictureView.image = nil;
+    _profilePictureButton.imageView.image = nil;
     _senderLabel.text = nil;
     _timestampLabel.text = nil;
     [_likeView prepareForReuse];
@@ -111,8 +111,8 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     [super layoutSubviews];
     
     CGFloat left = 0.0f;
-    if (_profilePictureView) {
-        _profilePictureView.frame = CGRectMake(kTableCellSmallMargin, kTableCellSmallMargin,
+    if (_profilePictureButton) {
+        _profilePictureButton.frame = CGRectMake(kTableCellSmallMargin, kTableCellSmallMargin,
                                        kDefaultMessageImageWidth, kDefaultMessageImageHeight);        
     }
     
@@ -172,7 +172,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     [super didMoveToSuperview];
     
     if (self.superview) {
-        _profilePictureView.backgroundColor = self.backgroundColor;
+        _profilePictureButton.backgroundColor = self.backgroundColor;
         _senderLabel.backgroundColor = self.backgroundColor;
         _timestampLabel.backgroundColor = self.backgroundColor;
     }
@@ -198,7 +198,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
             self.timestampLabel.text = [item.timestamp formatShortTime];
         }
         if (item.profilePicture) {
-            self.profilePictureView.image = item.profilePicture;
+            [self.profilePictureButton setImage:item.profilePicture forState:UIControlStateNormal];
         }
         if (item.likes.count > 0 || item.iLiked) {
             [self.likeView setObject:item];
@@ -214,6 +214,14 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     
     FeedViewTableDelegate* tableDelegate = (FeedViewTableDelegate*) tableView.delegate;
     [tableDelegate likedAtIndexPath:[tableView indexPathForCell: cell]];
+}
+
+- (void) profilePictureButtonPressed: (UIView*) source {
+    TTTableViewCell* cell = (TTTableViewCell*)source.superview.superview;
+    TTTableView* tableView = (TTTableView*)cell.superview;
+    
+    FeedViewTableDelegate* tableDelegate = (FeedViewTableDelegate*) tableView.delegate;
+    [tableDelegate profilePictureButtonPressedAtIndexPath:[tableView indexPathForCell: cell]];
 }
 
 
@@ -277,14 +285,16 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (UIImageView*)profilePictureView {
-    if (!_profilePictureView) {
-        _profilePictureView = [[UIImageView alloc] init];
+- (UIButton*)profilePictureButton {
+    if (!_profilePictureButton) {
+        _profilePictureButton =  [UIButton buttonWithType:UIButtonTypeCustom];
         //    _imageView2.defaultImage = TTSTYLEVAR(personImageSmall);
         //    _imageView2.style = TTSTYLE(threadActorIcon);
-        [self.contentView addSubview:_profilePictureView];
+        _profilePictureButton.userInteractionEnabled = YES;
+        [_profilePictureButton addTarget:self action:@selector(profilePictureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:_profilePictureButton];
     }
-    return _profilePictureView;
+    return _profilePictureButton;
 }
 
 

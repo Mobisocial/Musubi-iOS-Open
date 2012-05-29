@@ -34,6 +34,8 @@
 		2F24EB8D1563B48C00D803C0 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F24EB731563B48C00D803C0 /* CTidy.m */; };
 		2F24EB8E1563B48C00D803C0 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F24EB731563B48C00D803C0 /* CTidy.m */; };
 		2F24EB901563B4CB00D803C0 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */; };
+		568691101570537400DD1791 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5686910F1570537400DD1791 /* ProfileViewController.m */; };
+		56D2D6341570F53100845601 /* ProfileNamePictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 56D2D6331570F53100845601 /* ProfileNamePictureCell.m */; };
 		C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0294C4A155CEE5B005894DF /* APNPushManager.m */; };
 		C0395FA31521BFD700F5AF3B /* MMyDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = C0395FA21521BFD700F5AF3B /* MMyDeviceName.m */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
@@ -340,6 +342,10 @@
 		2F24EB731563B48C00D803C0 /* CTidy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTidy.m; sourceTree = "<group>"; };
 		2F24EB741563B48C00D803C0 /* TouchXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchXML.h; sourceTree = "<group>"; };
 		2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
+		5686910E1570537400DD1791 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		5686910F1570537400DD1791 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		56D2D6321570F53100845601 /* ProfileNamePictureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ProfileNamePictureCell.h; sourceTree = "<group>"; };
+		56D2D6331570F53100845601 /* ProfileNamePictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileNamePictureCell.m; sourceTree = "<group>"; };
 		C0294C49155CEE5B005894DF /* APNPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APNPushManager.h; sourceTree = "<group>"; };
 		C0294C4A155CEE5B005894DF /* APNPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNPushManager.m; sourceTree = "<group>"; };
 		C0395FA11521BFD700F5AF3B /* MMyDeviceName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMyDeviceName.h; sourceTree = "<group>"; };
@@ -1043,6 +1049,17 @@
 			path = Tidy;
 			sourceTree = "<group>";
 		};
+		5686910A157021DA00DD1791 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5686910E1570537400DD1791 /* ProfileViewController.h */,
+				5686910F1570537400DD1791 /* ProfileViewController.m */,
+				56D2D6321570F53100845601 /* ProfileNamePictureCell.h */,
+				56D2D6331570F53100845601 /* ProfileNamePictureCell.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 		C0D5757C1551F94600B6624C /* TestFlight */ = {
 			isa = PBXGroup;
 			children = (
@@ -1096,6 +1113,7 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5686910A157021DA00DD1791 /* Profile */,
 				D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */,
 				D26D36E2147B3ED400C4FE93 /* AppDelegate.h */,
 				D26D36E3147B3ED400C4FE93 /* AppDelegate.m */,
@@ -3039,6 +3057,8 @@
 				D2C66F2E156DF1B1001A0124 /* FeedDataSource.m in Sources */,
 				D2C66F31156E01E0001A0124 /* FeedModel.m in Sources */,
 				C086777B156DA0F700F4F2BA /* Reachability.m in Sources */,
+				568691101570537400DD1791 /* ProfileViewController.m in Sources */,
+				56D2D6341570F53100845601 /* ProfileNamePictureCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
