@@ -87,7 +87,7 @@
         item = [[PictureObjItem alloc] init];
         [(PictureObjItem*)item setPicture: ((PictureObj*) obj).image];
     } else if ([obj isMemberOfClass:[IntroductionObj class]]) {
-        // TODO: intro obj rendering
+        item = [[StatusObjItem alloc] initWithText:@"Added some people."];
     } else if (nil != [obj.data objectForKey:kObjFieldHtml]) {
         NSString* html = [obj.data objectForKey:kObjFieldHtml];
         item = [[HtmlObjItem alloc] initWithHtml:html];

@@ -30,10 +30,7 @@
 #import "Musubi.h"
 #import "MFeed.h"
 #import "FeedManager.h"
-#import "AppManager.h"
 #import "MObj.h"
-#import "IntroductionObj.h"
-#import "ObjHelper.h"
 #import "FeedListViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -43,7 +40,7 @@
 
 @implementation FriendPickerTableViewController
 
-@synthesize identityManager = _identityManager, identities = _identities, index = _index, selection = _selection;
+@synthesize identityManager = _identityManager, identities = _identities, index = _index, selection = _selection, friendsSelectedDelegate = _friendsSelectedDelegate;
 
 - (void)loadView {
     [super loadView];
@@ -360,27 +357,8 @@
     [recipientView setContentOffset:CGPointMake(0, newY) animated:NO];
 }
 
-- (IBAction)createFeed:(id)sender {
-    
-    PersistentModelStore* store = [Musubi sharedInstance].mainStore;
-    
-    AppManager* am = [[AppManager alloc] initWithStore:store];
-    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
-    
-    FeedManager* fm = [[FeedManager alloc] initWithStore: store];
-    MFeed* f = [fm createExpandingFeedWithParticipants:_selection];
-    
-    Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:_selection];
-    MObj* obj = [ObjHelper sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
-    NSLog(@"Sent obj %@", obj.objectID);
-    
-//    NSLog(@"Accepted? %d. Last renderable? %lld", f.accepted, f.latestRenderableObjTime);
-    
-    FeedListViewController* listView = [[self.navigationController viewControllers] objectAtIndex:[self.navigationController viewControllers].count - 2];
-//    [listView reloadFeeds];
-    
-    [self.navigationController popViewControllerAnimated:NO];
-    [listView performSegueWithIdentifier:@"ShowFeedCustom" sender:f];
+- (IBAction)friendsSelected:(id)sender {
+    [_friendsSelectedDelegate friendsSelected:_selection];
 }
 
 @end

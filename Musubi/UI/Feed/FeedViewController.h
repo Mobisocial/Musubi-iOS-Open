@@ -24,10 +24,11 @@
 //
 
 #import "Three20/Three20.h"
+#import "FriendPickerTableViewController.h"
 
 @class MFeed;
 
-@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate> {
+@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendsSelected> {
     MFeed* _feed;
     
     IBOutlet UITextField* updateField;
@@ -36,6 +37,8 @@
     
     int lastRow;
 }
+
+- (IBAction)addPeople:(id)sender;
 
 @property (nonatomic, retain) MFeed* feed;
 

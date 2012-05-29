@@ -24,6 +24,7 @@
 //
 
 #import "FeedViewController.h"
+#import "FriendPickerTableViewController.h"
 #import "FeedDataSource.h"
 #import "FeedModel.h"
 #import "FeedItem.h"
@@ -37,6 +38,7 @@
 #import "LikeObj.h"
 #import "PictureObj.h"
 #import "StatusObj.h"
+#import "IntroductionObj.h"
 
 #import "AppManager.h"
 #import "MApp.h"
@@ -240,6 +242,25 @@
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
     [self refreshFeed];    
+}
+
+- (void)friendsSelected:(NSArray *)selection {
+    PersistentModelStore* store = [Musubi sharedInstance].mainStore;
+    
+    AppManager* am = [[AppManager alloc] initWithStore:store];
+    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+
+    Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:selection];
+    [ObjHelper sendObj: invitationObj toFeed:_feed fromApp:app usingStore: store];
+
+    [self.navigationController popViewControllerAnimated:NO]; // back to the feed
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
+        FriendPickerTableViewController *vc = [segue destinationViewController];
+        [vc setFriendsSelectedDelegate:self];
+    }
 }
 
 @end
