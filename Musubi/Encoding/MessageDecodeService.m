@@ -357,6 +357,8 @@ static int operationCount;
     [mObj setType: obj.type];
     [mObj setJson: obj.jsonSrc];
     [mObj setRaw: obj.raw];
+    [mObj setIntKey:obj.intKey];
+    [mObj setStringKey:obj.stringKey];
     [mObj setLastModified: [NSDate dateWithTimeIntervalSince1970:obj.timestamp / 1000]];
     [mObj setEncoded: msg];
     [mObj setDeleted: NO];

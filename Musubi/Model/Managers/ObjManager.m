@@ -66,6 +66,10 @@
     return (MObj*)[self queryFirst:[NSPredicate predicateWithFormat:@"(shortUniversalHash == %lld)", shortHash]]; 
 }
 
+- (MObj*) latestChildForParent: (MObj *)parent {
+    return (MObj*)[self query:[NSPredicate predicateWithFormat:@"(parent == %@)", parent] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"intKey" ascending:false] limit:1];
+}
+
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed {
     return [self renderableObjsInFeed:feed limit:-1];
 }

@@ -68,13 +68,17 @@
 
 - (FeedItem*) itemFromObj: (MObj*) mObj {
     Obj* obj = [ObjFactory objFromManagedObj:mObj];
-    
+    FeedItem* item = nil;
+
     NSString* renderMode = [obj.data objectForKey:kObjFieldRenderMode];
-    if ([kObjFieldRenderMode isEqualToString:renderMode]) {
-        NSLog(@"should query subfeed");
+    if ([kObjFieldRenderModeLatest isEqualToString:renderMode]) {
+        MObj* child = [_objManager latestChildForParent:mObj];
+        if (child) {
+            NSLog(@"Got a child %@", child);
+            //obj = [ObjFactory objFromManagedObj:child];
+        }
     }
 
-    FeedItem* item = nil;
     if ([obj isMemberOfClass:[StatusObj class]]) {
         item = [[StatusObjItem alloc] initWithText:((StatusObj*) obj).text];
     } else if ([obj isMemberOfClass:[PictureObj class]]) {

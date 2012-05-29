@@ -35,6 +35,8 @@
 @property (nonatomic, retain) NSDate* lastModified;
 @property (nonatomic) BOOL processed;
 @property (nonatomic, retain) NSData * raw;
+@property (nonatomic) NSNumber * intKey;
+@property (nonatomic, retain) NSString * stringKey;
 @property (nonatomic) BOOL renderable;
 @property (nonatomic) int64_t shortUniversalHash;
 @property (nonatomic, retain) NSDate* timestamp;

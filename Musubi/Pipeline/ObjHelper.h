@@ -35,6 +35,7 @@
 #define kObjFieldRenderMode @"__render_mode"
 
 #define kObjFieldRelationParent @"parent"
+#define kObjFieldRenderModeLatest @"latest"
 
 @class Obj, MObj, MFeed, MApp, PersistentModelStore, MIdentity;
 

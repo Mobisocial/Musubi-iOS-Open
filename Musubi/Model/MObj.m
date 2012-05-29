@@ -40,6 +40,8 @@
 @dynamic lastModified;
 @dynamic processed;
 @dynamic raw;
+@dynamic intKey;
+@dynamic stringKey;
 @dynamic renderable;
 @dynamic shortUniversalHash;
 @dynamic timestamp;
