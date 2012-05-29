@@ -25,6 +25,9 @@
 
 #import "DeleteObj.h"
 #import "ObjHelper.h"
+#import "ObjManager.h"
+#import "Musubi.h"
+#import "NSData+HexString.h"
 
 @implementation DeleteObj
 
@@ -33,11 +36,13 @@
     return self;
 }
 
-- (BOOL)processObj {
-    NSString *parentHash = [self.data objectForKey: kObjFieldTargetHash];
-    NSLog(@"Someone doesnt like %@!", parentHash);
-    // TODO: fill in implementation
-    // TODO: out-of-order liking probably not supported out-of-the-box.
+- (BOOL)processObjWithRecord:(MObj *)obj {
+    NSArray *deletions = [self.data objectForKey: kObjFieldHashes];
+    ObjManager* objMgr = [[ObjManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
+    for (int i = 0; i < deletions.count; i++) {
+        NSData* hashData = [[deletions objectAtIndex:i] dataFromHex];
+        [objMgr deleteObjWithHash:hashData];
+    }
     return NO;
 }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11E53" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50b" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Account" representedClassName="MAccount" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
@@ -101,14 +101,12 @@
     </entity>
     <entity name="Obj" representedClassName="MObj" syncable="YES">
         <attribute name="deleted" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="intKey" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="json" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastModified" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="processed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="raw" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="renderable" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="shortUniversalHash" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="stringKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="universalHash" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -150,12 +148,12 @@
         <element name="FeedMember" positionX="160" positionY="192" width="128" height="75"/>
         <element name="Identity" positionX="160" positionY="192" width="128" height="330"/>
         <element name="IncomingSecret" positionX="160" positionY="192" width="128" height="180"/>
-        <element name="Like" positionX="160" positionY="192" width="128" height="90"/>
         <element name="MissingMessage" positionX="160" positionY="192" width="128" height="75"/>
         <element name="MyDeviceName" positionX="160" positionY="192" width="128" height="60"/>
-        <element name="Obj" positionX="160" positionY="192" width="128" height="330"/>
+        <element name="Obj" positionX="160" positionY="192" width="128" height="285"/>
         <element name="OutgoingSecret" positionX="160" positionY="192" width="128" height="165"/>
         <element name="SequenceNumber" positionX="160" positionY="192" width="128" height="90"/>
         <element name="SignatureUserKey" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="Like" positionX="160" positionY="192" width="128" height="90"/>
     </elements>
 </model>

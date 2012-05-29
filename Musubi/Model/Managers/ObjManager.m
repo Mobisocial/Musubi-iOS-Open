@@ -61,8 +61,17 @@
     return mObj;
 }
 
-- (MObj*) objWithShortUniversalHash: (int64_t) hash {
-    return (MObj*)[self queryFirst:[NSPredicate predicateWithFormat:@"(shortUniversalHash == %lld)", hash]]; 
+- (MObj*) objWithUniversalHash: (NSData*) hashData {
+    uint64_t shortHash = *(uint64_t*)hashData.bytes;
+    return (MObj*)[self queryFirst:[NSPredicate predicateWithFormat:@"(shortUniversalHash == %lld)", shortHash]]; 
+}
+
+- (MObj*) latestChildForParent: (MObj *)parent {
+    NSArray *res = [self query:[NSPredicate predicateWithFormat:@"(parent == %@)", parent] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"intKey" ascending:false] limit:1];
+    if (res.count == 0) {
+        return nil;
+    }
+    return (MObj*)[res objectAtIndex:0];
 }
 
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed {
@@ -128,6 +137,14 @@
         likes.localLike += 1;
     
     [store save];
+}
+
+- (void) deleteObjWithHash: (NSData *) hash {
+    MObj* obj = [self objWithUniversalHash:hash];
+    if (obj != nil) {
+        [store.context deleteObject: obj];
+        [store save];
+    }
 }
 
 @end

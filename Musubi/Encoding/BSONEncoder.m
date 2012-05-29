@@ -56,19 +56,14 @@ static void err_handler(const char *errmsg) {
     bson_append_binary(&b, "a", 128, [m.a bytes], [m.a length]);
 
     bson_append_start_array(&b, "r");
-    char* i = malloc(sizeof(char) * 2);
-    i[0] = '0';
-    i[1] = 0;
-    
+    int i = 0;
     for (Recipient* r in m.r) {
-        bson_append_start_object(&b, i);
+        bson_append_start_object(&b, [[NSString stringWithFormat:@"%ud", i++] UTF8String]);
         bson_append_binary(&b, "i", 128, [r.i bytes], [r.i length]);
         bson_append_binary(&b, "k", 128, [r.k bytes], [r.k length]);
         bson_append_binary(&b, "s", 128, [r.s bytes], [r.s length]);
         bson_append_binary(&b, "d", 128, [r.d bytes], [r.d length]);
         bson_append_finish_object(&b);
-
-        i[0]++;
     }
     bson_append_finish_array(&b);
     
@@ -199,14 +194,17 @@ static void err_handler(const char *errmsg) {
         bson_append_binary(&b, "feedCapability", 128, [o.feedCapability bytes], [o.feedCapability length]);
     if (o.appId)
         bson_append_string(&b, "appId", [o.appId cStringUsingEncoding:NSUTF8StringEncoding]);
-    if (o.timestamp)
-        bson_append_long(&b, "timestamp", o.timestamp);
+    bson_append_long(&b, "timestamp", o.timestamp);
     if (o.type)
         bson_append_string(&b, "type", [o.type cStringUsingEncoding:NSUTF8StringEncoding]);
     if (o.jsonSrc)
         bson_append_string(&b, "jsonSrc", [o.jsonSrc cStringUsingEncoding:NSUTF8StringEncoding]);
     if (o.raw)
         bson_append_binary(&b, "raw", 128, [o.raw bytes], [o.raw length]);
+    if (o.intKey)
+        bson_append_int(&b, "intKey", [o.intKey intValue]);
+    if (o.stringKey)
+        bson_append_string(&b, "stringKey", [o.stringKey cStringUsingEncoding:NSUTF8StringEncoding]);
     
     bson_finish(&b);
     
@@ -226,33 +224,40 @@ static void err_handler(const char *errmsg) {
     int type;
     
     type = bson_find(&iter, &b, "feedType");
-    if (type == 2)
+    if (type == BSON_STRING)
         [o setFeedType: [BSONEncoder feedTypeFromString:[NSString stringWithCString: bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]]];
 
     type = bson_find(&iter, &b, "feedCapability");
-    if (type == 5)
+    if (type == BSON_BINDATA)
         [o setFeedCapability:[NSData dataWithBytes:bson_iterator_bin_data(&iter) length:bson_iterator_bin_len(&iter)]];
 
     type = bson_find(&iter, &b, "appId");
-    if (type == 2)
+    if (type == BSON_STRING)
         [o setAppId:[NSString stringWithCString:bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]];
 
     type = bson_find(&iter, &b, "timestamp");
-    if (type == 18)
+    if (type == BSON_LONG)
         [o setTimestamp: bson_iterator_long(&iter)];
     
     type = bson_find(&iter, &b, "type");
-    if (type == 2)
+    if (type == BSON_STRING)
         [o setType:[NSString stringWithCString:bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]];
     
     type = bson_find(&iter, &b, "jsonSrc");
-    if (type == 2)
+    if (type == BSON_STRING)
         [o setJsonSrc:[NSString stringWithCString:bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]];
     
     type = bson_find(&iter, &b, "raw");
-    if (type == 5)
+    if (type == BSON_BINDATA)
         [o setRaw:[NSData dataWithBytes:bson_iterator_bin_data(&iter) length:bson_iterator_bin_len(&iter)]];
-    
+    type = bson_find(&iter, &b, "intKey");
+    if (type == BSON_INT) {
+        [o setIntKey: [NSNumber numberWithInt:bson_iterator_int(&iter)]];
+    }
+    type = bson_find(&iter, &b, "stringKey");
+    if (type == BSON_STRING) {
+        [o setStringKey:[NSString stringWithCString:bson_iterator_string(&iter) encoding:NSUTF8StringEncoding]];
+    }
     return o;
 }
 

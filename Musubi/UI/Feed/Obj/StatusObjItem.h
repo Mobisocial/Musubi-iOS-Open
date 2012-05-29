@@ -29,6 +29,8 @@
     NSString* text;
 }
 
+- (id)initWithText: (NSString*) text;
+
 @property (nonatomic,copy) NSString* text;
 
 @end

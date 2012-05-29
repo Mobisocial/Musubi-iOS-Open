@@ -166,7 +166,39 @@
             
     }
 }
-
+- (BOOL) checkAccount: (NSString*) type name: (NSString*) name principal: (NSString*) principal{
+    IBEncryptionIdentity* ibeId = nil;
+    
+    if ([type isEqualToString:kAccountTypeFacebook]) {
+        ibeId = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:principal temporalFrame:0];
+    } else if([type isEqualToString:kAccountTypeGoogle]) {
+        ibeId = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:principal temporalFrame:0];
+    } else {
+        @throw [NSException exceptionWithName:kMusubiExceptionInvalidAccountType reason:[NSString stringWithFormat: @"Unsupported account type %@", type] userInfo:nil];
+    }
+    
+    @try {
+        PersistentModelStore* store = [[Musubi sharedInstance] newStore];
+        IdentityManager* identityManager = [[IdentityManager alloc] initWithStore:store];
+        
+        //TODO: DB transaction start?
+        MAccount* mAccount = (MAccount*)[store queryFirst:[NSPredicate predicateWithFormat:@"name=%@ AND type=%@", name, type] onEntity:@"Account"];
+        
+        // Don't repeatedly add profile broadcast groups or do any
+        // of this processing if the account is already owned.
+        MIdentity* mId = [identityManager identityForIBEncryptionIdentity:ibeId];
+        if (mAccount != nil && mId != nil && mId.owned) {
+            return YES;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Err: %@", exception);
+    }
+    @finally {
+        
+    }
+    return NO;
+}
 - (MAccount*) storeAccount: (NSString*) type name: (NSString*) name principal: (NSString*) principal{
     IBEncryptionIdentity* ibeId = nil;
     

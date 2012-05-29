@@ -17,9 +17,9 @@
 
 //
 //  MSequenceNumber.h
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/15/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -31,7 +31,7 @@
 @interface MSequenceNumber : NSManagedObject
 
 @property (nonatomic) int64_t sequenceNumber;
-@property (nonatomic) MEncodedMessage *encodedMessage;
-@property (nonatomic) MIdentity *recipient;
+@property (nonatomic, retain) MEncodedMessage *encodedMessage;
+@property (nonatomic, retain) MIdentity *recipient;
 
 @end

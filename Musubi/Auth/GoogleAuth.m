@@ -105,7 +105,13 @@ static GTMOAuth2Authentication* active;
 @implementation GoogleOAuthCheckValidOperation
 
 - (void)main {
-    [manager onAccount:kAccountTypeGoogle isValid:[googleMgr activeAccessToken] != nil];
+    BOOL active = NO;
+    if(googleMgr.activeAuth) {
+        NSString* email = googleMgr.activeAuth.userEmail;
+        active = [googleMgr activeAccessToken] != nil && [manager checkAccount:kAccountTypeGoogle name:email principal:email];
+    }
+    
+    [manager onAccount:kAccountTypeGoogle isValid:active];
 }
 
 @end

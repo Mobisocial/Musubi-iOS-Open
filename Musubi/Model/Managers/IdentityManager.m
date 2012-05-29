@@ -220,12 +220,25 @@
 }
 
 + (NSString *)displayNameForIdentity:(MIdentity *)ident {
-    if (ident && ident.name != nil) {
+    if (ident && ident.musubiName != nil) {
+        return ident.musubiName;
+    } else if (ident && ident.name != nil) {
         return ident.name;
     } else if (ident && ident.principal != nil) {
         return ident.principal;
     } else {
         return @"Unknown";
     }
+}
+- (NSArray*) whitelistedIdentities
+{
+    //TODO: why can't we be enemies
+    return [self query:nil];   
+}
+- (NSArray *)identitiesWithSentEqual0 {
+    return [self query:[NSPredicate predicateWithFormat:@"sentProfileVersion=0"]];
+}
+- (NSArray *)claimedIdentities {
+    return [self query:[NSPredicate predicateWithFormat:@"claimed=1"]];
 }
 @end

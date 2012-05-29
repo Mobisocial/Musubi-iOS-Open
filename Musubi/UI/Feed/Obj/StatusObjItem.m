@@ -29,4 +29,11 @@
 
 @synthesize text;
 
+- (id)initWithText: (NSString*) textField {
+    self = [super init];
+    if (!self) return nil;
+    self.text = textField;
+    return self;
+}
+
 @end

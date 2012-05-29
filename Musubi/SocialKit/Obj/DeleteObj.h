@@ -26,6 +26,7 @@
 #import "Obj.h"
 
 #define kObjTypeDelete @"delete"
+#define kObjFieldHashes @"hashes"
 
 @interface DeleteObj : Obj
 

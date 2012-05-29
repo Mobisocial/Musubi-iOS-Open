@@ -47,6 +47,9 @@
 - (uint64_t) computeTemporalFrameFromHash: (NSData*) hash;
 - (uint64_t) computeTemporalFrameFromPrincipal: (NSString*) principal;
 - (void) incrementSequenceNumberTo:(MIdentity *)to;
+- (NSArray*) whitelistedIdentities;
+- (NSArray*) claimedIdentities;
+- (NSArray*) identitiesWithSentEqual0;
 
 + (NSString*) displayNameForIdentity: (MIdentity*)ident;
 

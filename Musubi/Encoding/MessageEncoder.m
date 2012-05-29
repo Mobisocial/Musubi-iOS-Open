@@ -70,6 +70,18 @@
 }
 
 - (MOutgoingSecret *)outgoingSecretFrom:(MIdentity *)from to:(MIdentity *)to fromIdent:(IBEncryptionIdentity *)me toIdent:(IBEncryptionIdentity *)you {
+    MOutgoingSecret* os = [transportDataProvider lookupOutgoingSecretFrom:from to:to myIdentity:me otherIdentity:you];
+    if (os != nil) {
+        //workaround for buggy old version
+        if(!os.signature || !os.key || !os.encryptedKey) {
+            [TestFlight passCheckpoint:@"deleting corrupted outgoing secret"];
+            [[transportDataProvider store].context deleteObject:os];
+            [[transportDataProvider store] save];
+            os = nil;
+        } else {
+            return os;
+        }
+    }
     
     IBEncryptionConversationKey* ck = [encryptionScheme randomConversationKeyWithIdentity:you];
     
@@ -78,10 +90,8 @@
     [hashData appendBytes:&deviceNameBigEndian length:sizeof(deviceNameBigEndian)];
     NSData* hash = [hashData sha256Digest];
     
-    MOutgoingSecret* os = [transportDataProvider lookupOutgoingSecretFrom:from to:to myIdentity:me otherIdentity:you];
-    if (os != nil) {
-        return os;
-    }
+    //do this before creating the entity, because it seems that creating an entity implicitly inserts in some way that results in null secrets ending up in the data base, particularly on reinstall where the google auth token is still valid
+    NSData* signature = [signatureScheme signHash:hash withUserKey:[transportDataProvider signatureKeyFrom:from myIdentity:me] andIdentity:me];
     
     os = (MOutgoingSecret*)[[transportDataProvider store] createEntity:@"OutgoingSecret"];
     [os setMyIdentity: from];
@@ -90,7 +100,7 @@
     [os setEncryptedKey: [ck encrypted]];
     [os setEncryptionPeriod: [you temporalFrame]];
     [os setSignaturePeriod:me.temporalFrame];
-    [os setSignature: [signatureScheme signHash:hash withUserKey:[transportDataProvider signatureKeyFrom:from myIdentity:me] andIdentity:me]];
+    [os setSignature: signature];
     
     [transportDataProvider insertOutgoingSecret:os myIdentity:me otherIdentity:you];
     return os;
@@ -152,6 +162,9 @@
         [rcpt setK: os.encryptedKey];
         [rcpt setS: os.signature];
         [rcpt setD: [[BSONEncoder encodeSecret:s] encryptWithAES128CBCZeroPaddedWithKey:[os key] andIV:iv]];
+        if (!rcpt.s) {
+            NSLog(@"weirdos");
+        }
         
         [recipients addObject:rcpt];
         [seqNumbers setObject:[NSNumber numberWithLongLong:seqNumber] forKey:mRcpt.principalHash];

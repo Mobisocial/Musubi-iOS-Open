@@ -28,11 +28,9 @@
 
 #define kObjTypeStatus @"status"
 
-@interface StatusObj : Obj<RenderableObj> {
-    NSString* _text;
-}
+@interface StatusObj : Obj<RenderableObj> 
 
-@property (nonatomic) NSString* text;
+@property (nonatomic, strong) NSString* text;
 
 - (id) initWithText: (NSString*) text;
 - (id) initWithData: (NSDictionary*) data;

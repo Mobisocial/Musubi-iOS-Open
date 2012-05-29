@@ -40,7 +40,9 @@
 #import "Message.h"
 #import "Recipient.h"
 
-@implementation AMQPSender
+@implementation AMQPSender {
+    int groupProbeChannel;
+}
 
 @synthesize declaredGroups, waitingForAck, messagesWaitingCondition = _messagesWaitingCondition;
 
@@ -50,7 +52,8 @@
         return nil;
 
     self.waitingForAck = [NSMutableDictionary dictionary];
-    self.declaredGroups = [NSMutableDictionary dictionary];
+    self.declaredGroups = [NSMutableSet set];
+    groupProbeChannel = -1;
     
     self.messagesWaitingCondition = [[NSCondition alloc] init];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(signalMessagesReady) name:kMusubiNotificationPreparedEncoded object:nil];
@@ -123,7 +126,7 @@
     Message* m = [BSONEncoder decodeMessage:msg.encoded];
     
     NSMutableArray* ids = [NSMutableArray arrayWithCapacity:[m.r count]];
-    NSMutableArray* hidForQueue = [NSMutableArray arrayWithCapacity:[m.r count]];
+    NSMutableSet* hidForQueue = [NSMutableSet setWithCapacity:[m.r count]];
     
     for (int i=0; i<m.r.count; i++) {
         IBEncryptionIdentity* ident = [[[IBEncryptionIdentity alloc] initWithKey:((Recipient*)[m.r objectAtIndex:i]).i] keyAtTemporalFrame:0];
@@ -150,24 +153,26 @@
             NSString* dest = [self queueNameForKey:recipient.key withPrefix:@"ibeidentity-"];
             NSLog(@"Sending message to %@", dest);
             
-            int probe = [connMngr createChannel];
+            if(groupProbeChannel == -1)
+                groupProbeChannel = [connMngr createChannel];
             @try {
                 // This will fail if the exchange doesn't exist
-                [connMngr declareExchange:dest onChannel:probe passive:YES durable:YES];
+                [connMngr declareExchange:dest onChannel:groupProbeChannel passive:YES durable:YES];
             } @catch (NSException *exception) {
+                [connMngr closeChannel:groupProbeChannel];
+                groupProbeChannel = -1;
                 [self log:@"Identity change was not bound, define initial queue"];
                 
                 NSString* initialQueueName = [NSString stringWithFormat:@"initial-%@", dest];
                 [connMngr declareQueue:initialQueueName onChannel:kAMQPChannelOutgoing passive:NO durable:YES exclusive:NO];
                 [connMngr declareExchange:dest onChannel:kAMQPChannelOutgoing passive:NO durable:YES];
                 [connMngr bindQueue:initialQueueName toExchange:dest onChannel:kAMQPChannelOutgoing];
-            } @finally {
-                [connMngr closeChannel:probe];
             }
             
             //[self log:@"Binding exchange %@ <= exchange %@", dest, groupExchangeName];
             [connMngr bindExchange:dest to:groupExchangeName onChannel:kAMQPChannelOutgoing];
         }
+        [declaredGroups addObject:groupExchangeName];
     }
     
     //[self log:@"Publishing to %@", groupExchangeName];

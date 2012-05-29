@@ -35,6 +35,7 @@
 - (id) initWithStore: (PersistentModelStore*) s;
 
 - (MFeed*) createExpandingFeedWithParticipants: (NSArray*) participants;
+- (MFeed*) createOneTimeUseFeedWithParticipants: (NSArray*) participants;
 
 - (void) deleteFeedAndMembers: (MFeed*) feed;
 - (void) deleteFeedAndMembersAndObjs:(MFeed *)feed;

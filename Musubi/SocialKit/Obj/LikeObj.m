@@ -50,12 +50,15 @@
 
 - (BOOL)processObjWithRecord:(MObj *)obj {
     NSString *parentHash = [self.data objectForKey: kObjFieldTargetHash];
+    if(parentHash == nil) {
+        NSLog(@"Client sent an invalid like obj... %@", obj);
+        return NO;
+    }
     
     ObjManager* objMgr = [[ObjManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
     NSData* hashData = [parentHash dataFromHex];
-    uint64_t shortHash = *(uint64_t*)hashData.bytes;
-    
-    MObj* likedObj = [objMgr objWithShortUniversalHash: shortHash];
+
+    MObj* likedObj = [objMgr objWithUniversalHash: hashData];
     [objMgr saveLikeForObj:likedObj from: obj.identity];
     return NO;
 }

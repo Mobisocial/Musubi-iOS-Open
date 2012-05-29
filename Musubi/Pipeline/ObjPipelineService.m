@@ -35,6 +35,7 @@
 #import "Obj.h"
 #import "ObjFactory.h"
 #import "ObjHelper.h"
+#import "NSData+HexString.h"
 
 @implementation ObjPipelineService
 
@@ -64,16 +65,13 @@
     PersistentModelStore* store = [storeFactory newStore];
     
     for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"]) {
-        if(obj.processed == YES) {
+        if(obj.processed) {
             //TODO: there is some logic error that causes this to happen
             
             NSLog(@"likely logic error processing obj");
             continue;
         }
-        
-        if (obj.processed)
-            continue;
-        
+
         // Don't process the same obj twice in different threads
         // pending is atomic, so we should be able to do this safely
         // Store ObjectID instead of object, because that is thread-safe
@@ -143,9 +141,25 @@ static int operationCount = 0;
     
     if (mObj.processed)
         return;
-    
+
     Obj* obj = [ObjFactory objFromManagedObj:mObj];
-    
+
+    NSString* targetHash = [obj.data objectForKey:kObjFieldTargetHash];
+    if (targetHash != nil) {
+        NSString* targetRelation = [obj.data objectForKey:kObjFieldTargetRelation];
+        if (targetRelation == nil || [targetRelation isEqualToString:kObjFieldRelationParent]) {
+            NSData* hash = [targetHash dataFromHex];
+            ObjManager* objMgr = [[ObjManager alloc] initWithStore: _store];
+            MObj* parentObj = [objMgr objWithUniversalHash: hash];
+            if (parentObj == nil) {
+                NSLog(@"Waiting for parent %@", targetHash);
+                // leave unprocessed and return.
+                return;
+            }
+            mObj.parent = parentObj;
+        }
+    }
+
     if ([ObjHelper isRenderable: obj]) {
         [mObj setRenderable: YES];
         [feed setLatestRenderableObjTime: [mObj.timestamp timeIntervalSince1970]];

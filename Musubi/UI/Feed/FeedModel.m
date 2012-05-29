@@ -101,8 +101,13 @@
     
 
     _earliestTimestampFetched = ((MObj*)[_newResults lastObject]).timestamp;
-    if (firstLoad)
-        _latestModifiedFetched = ((MObj*)[_newResults objectAtIndex:0]).lastModified;
+    if (firstLoad) {
+        if(_newResults.count) {
+            _latestModifiedFetched = ((MObj*)[_newResults objectAtIndex:0]).lastModified;
+        } else {
+            _latestModifiedFetched = [NSDate date];
+        }
+    }
     
     _loaded = YES;
     _loading = NO;    

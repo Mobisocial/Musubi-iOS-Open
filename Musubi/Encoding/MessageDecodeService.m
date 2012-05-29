@@ -46,8 +46,10 @@
 #import "MObj.h"
 #import "MFeed.h"
 #import "MIdentity.h"
+#import "ProfileObj.h"
 
 #import "IncomingMessage.h"
+#import "MDevice.h"
 
 
 @implementation MessageDecodeService
@@ -270,14 +272,9 @@ static int operationCount;
     }
     
     // Look for profile updates, which don't require whitelisting
-    if ([obj.type isEqualToString:@"profile"]) {
-        /*TODO:
-         if (handleProfileUpdate(sender, obj)) {
-         //TODO: this may be a lame way of handling this
-         Log.d(TAG, "Found profile update from " + sender.musubiName_);
-         mEncodedMessageManager.delete(encoded.id_);
-         return true;
-         }*/
+    if ([obj.type isEqualToString:kObjTypeProfile]) {
+        //never even make it an MObj
+        [ProfileObj handleFromSender:sender profileJson:obj.jsonSrc profileRaw:obj.raw withStore:_store];
         
         NSLog(@"Message was profile message %@", msg);
         [_store.context deleteObject:msg];
@@ -324,34 +321,12 @@ static int operationCount;
         for (MIdentity* recipient in im.recipients) {
             [_feedManager attachMember: recipient toFeed: newFeed];
             
-            /*TODO:
              // Send a profile request if we don't have one from them yet
-             if (recipient.receivedProfileVersion == 0 || recipient.receivedProfileVersion == [NSNull null]) {
-             // We don't really want N profiles, but we may or may not be
-             // friends, so its best to ask with any relevant identities to
-             // maximize the chance we can know who the sender is
-             for(MIdentity persona in im.personas) {
-             sendProfileRequest(persona, recipient);
+             if (recipient.receivedProfileVersion == 0) {
+                 _shouldRunProfilePush = YES;
              }
-             }
-             */
         }
-        
-        /* TODO:
-         // If this feed is accepted, then we should send a profile to
-         // all of the other people in it that we don't know
-         if (newFeed.accepted) {
-         for(MIdentity* persona in im.personas) {
-         MAccount* provisionalAccount = [thread.accountManager provisionalWhiteListForIdentity: persona];
-         MAccount* whitelistAccount = [thread.accountManager whiteListForIdentity: persona];
-         
-         for (MIdentity* recipient in im.recipients) {
-         shouldRunProfilePush |= [thread.feedManager addRecipient: recipient toWhitelistsIfNecessaryWithProvisional: provisionalAccount whitelist: whitelistAccount andPersona: persona];
-         }
-         }
-         }
-         */
-        
+                
         feed = newFeed;
     } else {
         if (!feed.accepted && whiteListed && !asymmetric) {
@@ -382,6 +357,8 @@ static int operationCount;
     [mObj setType: obj.type];
     [mObj setJson: obj.jsonSrc];
     [mObj setRaw: obj.raw];
+    [mObj setIntKey:obj.intKey];
+    [mObj setStringKey:obj.stringKey];
     [mObj setLastModified: [NSDate dateWithTimeIntervalSince1970:obj.timestamp / 1000]];
     [mObj setEncoded: msg];
     [mObj setDeleted: NO];
@@ -401,6 +378,16 @@ static int operationCount;
     _success = YES;
     
     NSLog(@"Decoded: %@", mObj.objectID);
+    if(_shouldRunProfilePush) {
+        NSLog(@"Detected new identities, pinging them");
+        NSMutableArray* new_peeps = [NSMutableArray arrayWithCapacity:im.recipients.count];
+        for (MIdentity* recipient in im.recipients) {
+            if(recipient.receivedProfileVersion != 0)
+                continue;
+            [new_peeps addObject:recipient];
+        }
+        [ProfileObj sendProfilesTo:new_peeps replyRequested:YES withStore:_store];
+    }
     
     return YES;
 }
@@ -428,17 +415,10 @@ static int operationCount;
     for (MIdentity* participant in participants.allValues) {
         [_feedManager attachMember:participant toFeed:feed];
         
-        /* TODO: profile requests
         // Send a profile request if we don't have one from them yet
-        if(participant.receivedProfileVersion == 0) {
-            // We don't really want N profiles, but we may or may not be
-            // friends, so its best to ask with any relevant identities to
-            // maximize the chance we can know who the sender is
-            for (MIdentity* persona in personas) {
-                sendProfileRequest(persona, recipient);
-            }
+        if (participant.receivedProfileVersion == 0) {
+            shouldRunProfilePushBecauseOfExpand = YES;
         }
-        */
         
         /* TODO: whitelist 
         if (feed.accepted) {

@@ -33,14 +33,19 @@
 #import "PictureObj.h"
 #import "LikeObj.h"
 #import "DeleteObj.h"
+#import "UnknownObj.h"
 
 @implementation ObjFactory
 
 + (Obj*) objFromManagedObj: (MObj*) mObj {
     assert (mObj != nil);    
     
-    SBJsonParser* parser = [[SBJsonParser alloc] init];
-    NSDictionary* data = [parser objectWithString:mObj.json];
+    
+    NSDictionary* data = nil;
+    if (mObj.json) {
+        SBJsonParser* parser = [[SBJsonParser alloc] init];
+        data = [parser objectWithString:mObj.json];
+    }
     
     NSString* objType = mObj.type;
     if ([objType isEqualToString:kObjTypeStatus]) {
@@ -55,7 +60,7 @@
         return [[DeleteObj alloc] initWithData:data];
     }
     
-    return nil;
+    return [[UnknownObj alloc] initWithType:objType data:data andRaw:mObj.raw];
 }
 
 @end

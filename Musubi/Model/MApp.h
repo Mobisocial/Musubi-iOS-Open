@@ -17,9 +17,9 @@
 
 //
 //  MApp.h
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -29,13 +29,13 @@
 
 @interface MApp : NSManagedObject
 
-@property (nonatomic) NSString * appId;
-@property (nonatomic) NSString * manifestUri;
-@property (nonatomic) NSDate * refreshedAt;
-@property (nonatomic) NSString * name;
-@property (nonatomic) NSData * icon;
-@property (nonatomic) NSData * smallIcon;
-@property (nonatomic) NSString * packageName;
-@property (nonatomic) NSString * mimeTypes;
+@property (nonatomic, retain) NSString * appId;
+@property (nonatomic, retain) NSData * icon;
+@property (nonatomic, retain) NSString * manifestUri;
+@property (nonatomic, retain) NSString * mimeTypes;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * packageName;
+@property (nonatomic) NSTimeInterval refreshedAt;
+@property (nonatomic, retain) NSData * smallIcon;
 
 @end

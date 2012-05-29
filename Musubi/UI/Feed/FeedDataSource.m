@@ -33,6 +33,7 @@
 #import "MObj.h"
 #import "MLike.h"
 
+#import "ObjHelper.h"
 #import "ObjFactory.h"
 #import "Obj.h"
 
@@ -43,6 +44,12 @@
 #import "PictureObj.h"
 #import "PictureObjItem.h"
 #import "PictureObjItemCell.h"
+
+#import "UnknownObj.h"
+#import "HtmlObjItem.h"
+#import "HtmlObjItemCell.h"
+
+#import "IntroductionObj.h"
 
 #import "Musubi.h"
 
@@ -63,16 +70,32 @@
 
 - (FeedItem*) itemFromObj: (MObj*) mObj {
     Obj* obj = [ObjFactory objFromManagedObj:mObj];
-    
     FeedItem* item = nil;
+
+    NSString* renderMode = [obj.data objectForKey:kObjFieldRenderMode];
+    if ([kObjFieldRenderModeLatest isEqualToString:renderMode]) {
+        MObj* child = [_objManager latestChildForParent:mObj];
+        if (child) {
+            NSLog(@"Got a child %@", child);
+            obj = [ObjFactory objFromManagedObj:child];
+        }
+    }
+
     if ([obj isMemberOfClass:[StatusObj class]]) {
-        item = [[StatusObjItem alloc] init];
-        [(StatusObjItem*)item setText: ((StatusObj*) obj).text];
+        item = [[StatusObjItem alloc] initWithText:((StatusObj*) obj).text];
     } else if ([obj isMemberOfClass:[PictureObj class]]) {
         item = [[PictureObjItem alloc] init];
         [(PictureObjItem*)item setPicture: ((PictureObj*) obj).image];
+    } else if ([obj isMemberOfClass:[IntroductionObj class]]) {
+        // TODO: intro obj rendering
+    } else if (nil != [obj.data objectForKey:kObjFieldHtml]) {
+        NSString* html = [obj.data objectForKey:kObjFieldHtml];
+        item = [[HtmlObjItem alloc] initWithHtml:html];
+    } else if (nil != [obj.data objectForKey:kObjFieldText]) {
+        NSString* text = [obj.data objectForKey:kObjFieldText];
+        item = [[StatusObjItem alloc] initWithText:text];
     }
-    
+
     if (item) {
         NSMutableDictionary* likes = [NSMutableDictionary dictionary];
         
@@ -89,7 +112,10 @@
         [item setObj: mObj];
         [item setSender: [IdentityManager displayNameForIdentity:mObj.identity]];
         [item setTimestamp: mObj.timestamp];
-        [item setProfilePicture: [UIImage imageWithData:mObj.identity.thumbnail]];
+        if(mObj.identity.musubiThumbnail)
+            [item setProfilePicture: [UIImage imageWithData:mObj.identity.musubiThumbnail]];
+        else
+            [item setProfilePicture: [UIImage imageWithData:mObj.identity.thumbnail]];
         [item setLikes: likes];
     }
     
@@ -109,7 +135,7 @@
     
     for (MObj *mObj in [(FeedModel*)self.model consumeNewResults]) {
         FeedItem* item = [self itemFromObj:mObj];
-        
+
         if (item) {
             // find correct position to insert feed item based on timestamp
             if (self.items.count == 0 || [item.timestamp compare:((FeedItem*)[self.items lastObject]).timestamp] > 0) {
@@ -147,11 +173,15 @@
     
     Class cls = nil;
     
-    if ([object isKindOfClass:[StatusObjItem class]]) {  
+    if ([object isKindOfClass:StatusObjItem.class]) {  
         cls = [StatusObjItemCell class];  
-    } else if ([object isKindOfClass:[PictureObjItem class]]) {
+    } else if ([object isKindOfClass:PictureObjItem.class]) {
         cls = [PictureObjItemCell class];
-    } else {
+    } else if ([object isKindOfClass:HtmlObjItem.class]) {
+        cls = [HtmlObjItemCell class];
+    }
+
+    if (cls == nil) {
         cls = [super tableView:tableView cellClassForObject:object];
     }
     

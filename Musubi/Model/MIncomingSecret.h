@@ -17,9 +17,9 @@
 
 //
 //  MIncomingSecret.h
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/21/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -30,13 +30,13 @@
 
 @interface MIncomingSecret : NSManagedObject
 
-@property (nonatomic) NSData * encryptedKey;
+@property (nonatomic, retain) NSData * encryptedKey;
 @property (nonatomic) int64_t encryptionPeriod;
-@property (nonatomic) NSData * key;
-@property (nonatomic) NSData * signature;
+@property (nonatomic, retain) NSData * key;
+@property (nonatomic, retain) NSData * signature;
 @property (nonatomic) int64_t signaturePeriod;
-@property (nonatomic) MDevice *device;
-@property (nonatomic) MIdentity *myIdentity;
-@property (nonatomic) MIdentity *otherIdentity;
+@property (nonatomic, retain) MDevice *device;
+@property (nonatomic, retain) MIdentity *myIdentity;
+@property (nonatomic, retain) MIdentity *otherIdentity;
 
 @end

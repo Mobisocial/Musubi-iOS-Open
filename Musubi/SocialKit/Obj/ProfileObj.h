@@ -16,25 +16,26 @@
 
 
 //
-//  MApp.m
+//  ProfileObj.h
 //  musubi
 //
-//  Created by MokaFive User on 5/27/12.
+//  Created by T.J. Purtell on 5/25/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "MApp.h"
+#import "Obj.h"
+#import "MIdentity.h"
 
+#define kObjTypeProfile @"profile"
 
-@implementation MApp
+@class PersistentModelStore;
+@interface ProfileObj : Obj
 
-@dynamic appId;
-@dynamic icon;
-@dynamic manifestUri;
-@dynamic mimeTypes;
-@dynamic name;
-@dynamic packageName;
-@dynamic refreshedAt;
-@dynamic smallIcon;
+- (id) initWithUser: (MIdentity*)user replyRequested:(BOOL)replyRequested includePrincipal:(BOOL)includePrincipal;
+- (id) initRequest;
+
++ (void)handleFromSender:(MIdentity*)sender profileJson:(NSString*)json profileRaw:(NSData*)raw withStore:(PersistentModelStore*)store;
++(void)sendAllProfilesWithStore:(PersistentModelStore*)store;
++(void)sendProfilesTo:(NSArray*)people replyRequested:(BOOL)replyRequested withStore:(PersistentModelStore*)store;
 
 @end

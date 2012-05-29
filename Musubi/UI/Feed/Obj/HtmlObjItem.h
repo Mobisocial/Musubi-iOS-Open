@@ -16,25 +16,21 @@
 
 
 //
-//  MApp.m
+//  HtmlObjItem.h
 //  musubi
 //
-//  Created by MokaFive User on 5/27/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ben Dodson on 5/27/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "MApp.h"
+#import "FeedItem.h"
 
+@interface HtmlObjItem : FeedItem {
+    NSString *html;
+}
 
-@implementation MApp
+- (id) initWithHtml: (NSString*) html;
 
-@dynamic appId;
-@dynamic icon;
-@dynamic manifestUri;
-@dynamic mimeTypes;
-@dynamic name;
-@dynamic packageName;
-@dynamic refreshedAt;
-@dynamic smallIcon;
+@property (nonatomic,copy) NSString* html;
 
 @end

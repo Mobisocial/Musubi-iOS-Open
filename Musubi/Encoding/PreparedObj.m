@@ -28,7 +28,7 @@
 
 @implementation PreparedObj
 
-@synthesize appId, feedCapability, feedType, jsonSrc, raw, timestamp, type;
+@synthesize appId, feedCapability, feedType, jsonSrc, raw, intKey, stringKey, timestamp, type;
 
 - (id)initWithFeedType:(int)ft feedCapability:(NSData *)fc appId:(NSString *)aId timestamp:(uint64_t)ts data:(MObj *)obj {
     self = [super init];
@@ -40,6 +40,8 @@
         [self setType: obj.type];
         [self setJsonSrc: obj.json];
         [self setRaw: obj.raw];
+        [self setIntKey:obj.intKey];
+        [self setStringKey:obj.stringKey];
     }
     
     return self;

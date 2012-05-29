@@ -92,8 +92,8 @@
                         [connMngr closeChannel:probe2];
                     }
                     
-                    // Consume the initial identity messages
-                    [connMngr consumeFromQueue:initialQueueName onChannel:probe nolocal:YES exclusive:YES];
+                    // Consume the initial identity messages, non-exclusive
+                    [connMngr consumeFromQueue:initialQueueName onChannel:probe nolocal:YES exclusive:NO];
                 }
                 @catch (NSException *exception) {
                     [self log:@"Exception: %@", exception];

@@ -52,6 +52,7 @@
 // private
 - (void) populateIdentity: (MIdentity*) mIdent fromIBEIdentity: (IBEncryptionIdentity*) ibeId andOriginal: (MIdentity*) original withManager: (IdentityManager*) identityManager andAccountName: (NSString*) accountName;
 - (MAccount*) storeAccount: (NSString*) type name: (NSString*) name principal: (NSString*) principal;
+- (BOOL) checkAccount: (NSString*) type name: (NSString*) name principal: (NSString*) principal;
 - (void) onAccount: (NSString*) type isValid: (BOOL) valid;
 
 @end

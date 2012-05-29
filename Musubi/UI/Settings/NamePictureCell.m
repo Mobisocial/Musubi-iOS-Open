@@ -27,7 +27,7 @@
 
 @implementation NamePictureCell
 
-@synthesize picture, nameTextField;
+@synthesize nameTextField, picture, pictureButton;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

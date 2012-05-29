@@ -17,14 +17,16 @@
 
 //
 //  MFeed.h
-//  Musubi
+//  musubi
 //
-//  Created by Willem Bult on 3/21/12.
+//  Created by MokaFive User on 5/27/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+
+@class MObj;
 
 #define kFeedTypeUnknown 0
 #define kFeedTypeFixed 1
@@ -34,19 +36,18 @@
 
 #define kFeedNameLocalWhitelist @"local_whitelist"
 #define kFeedNameProvisionalWhitelist @"provisional_whitelist"
-
-@class MObj;
+#define kFeedNameGlobalWhitelist @"global_whitelist"
 
 @interface MFeed : NSManagedObject
 
-@property (nonatomic) int16_t type;
-@property (nonatomic) NSData * capability;
-@property (nonatomic) int64_t shortCapability;
-@property (nonatomic) int64_t latestRenderableObjTime;
-@property (nonatomic) MObj* latestRenderableObj;
-@property (nonatomic) int32_t numUnread;
-@property (nonatomic) NSString * name;
 @property (nonatomic) BOOL accepted;
+@property (nonatomic, retain) NSData * capability;
 @property (nonatomic) int16_t knownId;
+@property (nonatomic) int64_t latestRenderableObjTime;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic) int32_t numUnread;
+@property (nonatomic) int64_t shortCapability;
+@property (nonatomic) int16_t type;
+@property (nonatomic, retain) MObj *latestRenderableObj;
 
 @end

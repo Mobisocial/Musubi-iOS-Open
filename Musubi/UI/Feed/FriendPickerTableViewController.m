@@ -225,9 +225,18 @@
     // Configure the cell...
     MIdentity* ident = [[_identities objectForKey: [_index objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
 
-    [[cell textLabel] setText: ident.name];
+    if(ident.musubiName) {
+        [[cell textLabel] setText: ident.musubiName];
+    } else {
+        [[cell textLabel] setText: ident.name];
+    }
     [[cell detailTextLabel] setText: ident.principal];
-    [[cell imageView] setImage: [UIImage imageWithData:ident.thumbnail]];
+
+    if(ident.musubiThumbnail) {
+        [[cell imageView] setImage: [UIImage imageWithData:ident.musubiThumbnail]];
+    } else {
+        [[cell imageView] setImage: [UIImage imageWithData:ident.thumbnail]];
+    }
     
     if ([_selection containsObject:ident]) {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];

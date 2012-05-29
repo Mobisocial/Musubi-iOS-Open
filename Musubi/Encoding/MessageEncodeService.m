@@ -34,6 +34,8 @@
 #import "TransportManager.h"
 #import "SignatureUserKeyManager.h"
 #import "IBEncryptionScheme.h"
+#import "FeedManager.h"
+#import "IdentityManager.h"
 
 #import "MObj.h"
 #import "MFeed.h"
@@ -47,6 +49,7 @@
 #import "ObjEncoder.h"
 #import "OutgoingMessage.h"
 #import "Authorities.h"
+#import "ProfileObj.h"
 
 #define kSmallProcessorCutOff 20
 
@@ -76,6 +79,8 @@
     }
     
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationPlainObjReady object:nil];
+    //in case we bailed with a message in the pipes
+    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationPlainObjReady object:nil];
 
     return self;
 }
@@ -100,11 +105,15 @@
 
         // Find the thread to run this on
         NSOperationQueue* queue = nil;
-        NSArray* members = [store query:[NSPredicate predicateWithFormat:@"feed = %@", obj.feed] onEntity:@"FeedMember"];
-        if (members.count > kSmallProcessorCutOff) {
+        if([obj.feed.name isEqualToString:kFeedNameGlobalWhitelist] && obj.feed.type == kFeedTypeAsymmetric) {
             queue = [_queues objectAtIndex:0];
         } else {
-            queue = [_queues objectAtIndex:1];
+            NSArray* members = [store query:[NSPredicate predicateWithFormat:@"feed = %@", obj.feed] onEntity:@"FeedMember"];
+            if (members.count > kSmallProcessorCutOff) {
+                queue = [_queues objectAtIndex:0];
+            } else {
+                queue = [_queues objectAtIndex:1];
+            }
         }
         
         [usedQueues addObject: queue];
@@ -161,6 +170,8 @@
 }
 
 - (void) encodeObj: (MObj*) obj {
+    FeedManager * feedManager = [[FeedManager alloc] initWithStore:self.store];
+    IdentityManager * identityManager = [[IdentityManager alloc] initWithStore:self.store];
     
     // Make sure we have all the required inputs
     assert(obj != nil);
@@ -178,10 +189,13 @@
     assert (app != nil);
     
     NSMutableArray* recipients = [NSMutableArray array];
-    for (MFeedMember* fm in [_store query:[NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
-        [recipients addObject: fm.identity];
+    if(feed.type == kFeedTypeAsymmetric && [feed.name isEqualToString:kFeedNameGlobalWhitelist]) {
+        recipients = [NSMutableArray arrayWithArray:[identityManager claimedIdentities]];
+    } else {
+        for (MFeedMember* fm in [_store query:[NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
+            [recipients addObject: fm.identity];
+        }
     }
-    
     // Create the OutgoingMessage    
     OutgoingMessage* om = [[OutgoingMessage alloc] init];
     PreparedObj* outbound = [ObjEncoder prepareObj:obj forFeed:feed andApp:app];
@@ -273,7 +287,14 @@
         }
     }
     
-    obj.encoded = encoded;
+    if([obj.type isEqualToString:kObjTypeProfile]) {
+        [_store.context deleteObject:obj];
+    } else {
+        obj.encoded = encoded;
+    }
+    if(feed.type == kFeedTypeOneTimeUse) {
+        [feedManager deleteFeedAndMembersAndObjs:feed];
+    }
         
     [_store save];
 }
