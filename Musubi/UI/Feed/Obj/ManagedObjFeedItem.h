@@ -33,6 +33,6 @@
 @property (nonatomic,strong) NSDictionary* parsedJson;
 @property (nonatomic,strong) id computedData;
 
--(id) initWithManagedObj: (MObj*) managedObj cellClass: cellClass;
+-(id) initWithManagedObj: (MObj*) managedObj;
 
 @end

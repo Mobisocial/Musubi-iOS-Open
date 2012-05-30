@@ -69,15 +69,16 @@
 }
 
 - (FeedItem*) itemFromObj: (MObj*) mObj {
-    Obj* obj = [ObjFactory objFromManagedObj:mObj];
-    FeedItem* item = nil;
+    MObj* managed = mObj;
+    ManagedObjFeedItem* item = [[ManagedObjFeedItem alloc] initWithManagedObj:managed];
 
-    NSString* renderMode = [obj.data objectForKey:kObjFieldRenderMode];
+    NSString* renderMode = [item.parsedJson objectForKey:kObjFieldRenderMode];
     if ([kObjFieldRenderModeLatest isEqualToString:renderMode]) {
-        MObj* child = [_objManager latestChildForParent:mObj];
+        MObj* child = [_objManager latestChildForParent:managed];
         if (child) {
             NSLog(@"Got a child %@", child);
-            obj = [ObjFactory objFromManagedObj:child];
+            managed = child;
+            item = [[ManagedObjFeedItem alloc] initWithManagedObj:managed];
         }
     }
 
@@ -85,24 +86,29 @@
     // item = [[ObjFactory implementationForObjType theType] cellClass]
 
     Class cellClass;
-    if ([obj isMemberOfClass:[StatusObj class]]) {
+    if ([managed.type isEqualToString:kObjTypeStatus]) {
         cellClass = [StatusObjItemCell class];
-    } else if ([obj isMemberOfClass:[PictureObj class]]) {
+    } else if ([managed.type isEqualToString:kObjTypePicture]) {
         cellClass = [PictureObjItemCell class];
-    } else if ([obj isMemberOfClass:[IntroductionObj class]]) {
+    } else if ([managed.type isEqualToString: kObjTypeIntroduction]) {
         cellClass = [IntroductionObjItemCell class];
-    } else if (nil != [obj.data objectForKey:kObjFieldHtml]) {
-        cellClass = [HtmlObjItemCell class];
-    } else if (nil != [obj.data objectForKey:kObjFieldText]) {
-        cellClass = [StatusObjItemCell class];
+    }
+    
+    if (cellClass == nil) {
+        Obj* obj = [ObjFactory objFromManagedObj:managed];
+        if (nil != [obj.data objectForKey:kObjFieldHtml]) {
+            cellClass = [HtmlObjItemCell class];
+        } else if (nil != [obj.data objectForKey:kObjFieldText]) {
+            cellClass = [StatusObjItemCell class];
+        }   
     }
 
     if (cellClass) {
-        item = [[ManagedObjFeedItem alloc] initWithManagedObj:mObj cellClass:cellClass];
+        item.cellClass = cellClass;
         [cellClass prepareItem: item];
 
         NSMutableDictionary* likes = [NSMutableDictionary dictionary];
-        for (MLike* like in [_objManager likesForObj:mObj]) {
+        for (MLike* like in [_objManager likesForObj:managed]) {
             if (like.sender) {
                 if (like.sender.owned) {
                     [item setILiked:YES];
@@ -112,13 +118,13 @@
             }
         }
         
-        [item setObj: mObj];
-        [item setSender: [IdentityManager displayNameForIdentity:mObj.identity]];
-        [item setTimestamp: mObj.timestamp];
-        if(mObj.identity.musubiThumbnail)
-            [item setProfilePicture: [UIImage imageWithData:mObj.identity.musubiThumbnail]];
+        [item setObj: managed];
+        [item setSender: [IdentityManager displayNameForIdentity:managed.identity]];
+        [item setTimestamp: managed.timestamp];
+        if(managed.identity.musubiThumbnail)
+            [item setProfilePicture: [UIImage imageWithData:managed.identity.musubiThumbnail]];
         else
-            [item setProfilePicture: [UIImage imageWithData:mObj.identity.thumbnail]];
+            [item setProfilePicture: [UIImage imageWithData:managed.identity.thumbnail]];
         [item setLikes: likes];
     }
     

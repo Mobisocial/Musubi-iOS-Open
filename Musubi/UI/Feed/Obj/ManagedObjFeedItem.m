@@ -33,12 +33,11 @@
 
 @synthesize managedObj, cellClass, parsedJson, computedData;
 
-- (id)initWithManagedObj:(MObj*)mObj cellClass:(Class)cellClassArg
+- (id)initWithManagedObj:(MObj*)mObj
 {
     self = [super init];
     if (self) {
         self.managedObj = mObj;
-        self.cellClass = cellClassArg;
     }
     return self;
 }
