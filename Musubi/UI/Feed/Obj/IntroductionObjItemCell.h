@@ -16,24 +16,15 @@
 
 
 //
-//  StatusObjItem.m
+//  IntroductionObjItemCell.h
 //  musubi
 //
-//  Created by Willem Bult on 4/22/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ben Dodson on 5/29/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "StatusObjItem.h"
+#import "FeedItemCell.h"
 
-@implementation StatusObjItem
-
-@synthesize text;
-
-- (id)initWithText: (NSString*) textField {
-    self = [super init];
-    if (!self) return nil;
-    self.text = textField;
-    return self;
-}
+@interface IntroductionObjItemCell : FeedItemCell
 
 @end

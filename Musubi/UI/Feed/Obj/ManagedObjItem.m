@@ -26,18 +26,33 @@
 #import "ManagedObjItem.h"
 #import "MObj.h"
 
-@implementation ManagedObjItem
+@implementation ManagedObjItem {
+    NSDictionary* parsedJson;
+}
 
-- (id)initWithManagedObj:(MObj*)mObj
+@synthesize managedObj, cellClass, parsedJson;
+
+- (id)initWithManagedObj:(MObj*)mObj cellClass:(Class)cellClassArg
 {
     self = [super init];
     if (self) {
-        // Initialization code
+        self.managedObj = mObj;
+        self.cellClass = cellClassArg;
     }
     return self;
 }
 
-+ (CGFloat)renderHeightForItem:(FeedItem *)item {
-    return 80;
+- (NSDictionary *)parsedJson {
+    if (parsedJson || !managedObj.json) {
+        return parsedJson;
+    }
+
+    NSError* error;
+    parsedJson = [NSJSONSerialization JSONObjectWithData:[managedObj.json dataUsingEncoding:NSUnicodeStringEncoding] options:0 error:&error];
+    if (!parsedJson) {
+        NSLog(@"Failed to parse json %@", error);
+    }
+    return parsedJson;
 }
+
 @end

@@ -16,22 +16,31 @@
 
 
 //
-//  ManagedObjItem.h
+//  IntroductionObjItemCell.m
 //  musubi
 //
 //  Created by Ben Dodson on 5/29/12.
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "FeedItem.h"
-#import "MObj.h"
+#import "IntroductionObjItemCell.h"
+#define kAddedSomePeople @"Added some people...."
 
-@interface ManagedObjItem : FeedItem
+@implementation IntroductionObjItemCell
 
-@property (nonatomic,strong) MObj* managedObj;
-@property (nonatomic,strong) Class cellClass;
-@property (nonatomic,strong) NSDictionary* parsedJson;
++ (CGFloat)renderHeightForItem:(FeedItem *)item {
+    CGSize size = [kAddedSomePeople sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    return size.height;
+}
 
--(id) initWithManagedObj: (MObj*) managedObj cellClass: cellClass;
+- (void)setObject:(id)object {
+    [super setObject:object];
+    NSString* text = kAddedSomePeople;
+    self.detailTextLabel.text = text;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+}
 
 @end

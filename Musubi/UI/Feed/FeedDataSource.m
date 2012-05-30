@@ -38,7 +38,6 @@
 #import "Obj.h"
 
 #import "StatusObj.h"
-#import "StatusObjItem.h"
 #import "StatusObjItemCell.h"
 
 #import "PictureObj.h"
@@ -50,6 +49,9 @@
 #import "HtmlObjItemCell.h"
 
 #import "IntroductionObj.h"
+#import "IntroductionObjItemCell.h"
+
+#import "ManagedObjItem.h"
 
 #import "Musubi.h"
 
@@ -86,18 +88,17 @@
     // item = [[[[ObjFactory implForManagedObj:mObj] alloc] initWithManagedObj obj]]
 
     if ([obj isMemberOfClass:[StatusObj class]]) {
-        item = [[StatusObjItem alloc] initWithText:((StatusObj*) obj).text];
+        item = [[ManagedObjItem alloc] initWithManagedObj:mObj cellClass:[StatusObjItemCell class]];
     } else if ([obj isMemberOfClass:[PictureObj class]]) {
         item = [[PictureObjItem alloc] init];
         [(PictureObjItem*)item setPicture: ((PictureObj*) obj).image];
     } else if ([obj isMemberOfClass:[IntroductionObj class]]) {
-        item = [[StatusObjItem alloc] initWithText:@"Added some people."];
+        item = [[ManagedObjItem alloc] initWithManagedObj:mObj cellClass:[IntroductionObjItemCell class]];
     } else if (nil != [obj.data objectForKey:kObjFieldHtml]) {
         NSString* html = [obj.data objectForKey:kObjFieldHtml];
         item = [[HtmlObjItem alloc] initWithHtml:html];
     } else if (nil != [obj.data objectForKey:kObjFieldText]) {
-        NSString* text = [obj.data objectForKey:kObjFieldText];
-        item = [[StatusObjItem alloc] initWithText:text];
+        item = [[ManagedObjItem alloc] initWithManagedObj:mObj cellClass:[StatusObjItemCell class]];
     }
 
     if (item) {
@@ -176,9 +177,12 @@
 - (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {
     
     Class cls = nil;
-    
-    if ([object isKindOfClass:StatusObjItem.class]) {  
-        cls = [StatusObjItemCell class];  
+
+    // TODO: get rid of this switch statement, use the cellClass
+    // from ManagedObjItem in its place.
+    // This class's setObject: does the heavy work of preparing the UI given the data.
+    if ([object isKindOfClass:ManagedObjItem.class]) {
+        cls = [((ManagedObjItem*)object) cellClass];
     } else if ([object isKindOfClass:PictureObjItem.class]) {
         cls = [PictureObjItemCell class];
     } else if ([object isKindOfClass:HtmlObjItem.class]) {
