@@ -125,12 +125,14 @@
         [self performSelectorOnMainThread:@selector(updatePending) withObject:nil waitUntilDone:NO];
         return;
     }
+    
+    NSString* newText = @"";
+    
     AMQPTransport* transport = [Musubi sharedInstance].transport;
     NSString* connectionState = transport ? transport.connMngr.connectionState : @"Starting up...";
 
-    incomingLabel.text = @"";
     if(connectionState) {
-        incomingLabel.text = connectionState;
+        newText = connectionState;
     } else {
         PersistentModelStore* store = [Musubi sharedInstance].mainStore;
         NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
@@ -143,16 +145,19 @@
         }
 
         if (pending > 0) {
-            incomingLabel.text = [NSString stringWithFormat: @"  Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
-        } 
-    }    
-    if (incomingLabel.text.length) {
+            newText = [NSString stringWithFormat: @"Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+        }
+    }
+    
+    if (newText) {
+        [incomingLabel setText: [NSString stringWithFormat:@"  %@", newText]];
         if (incomingLabel.superview == self.view) {
             [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
         } else {
             [incomingLabel setFrame:CGRectMake(0, 0, 320, 30)];
         }
     } else {
+        [incomingLabel setText:@""];
         [incomingLabel setFrame:CGRectZero];
     }
 }
