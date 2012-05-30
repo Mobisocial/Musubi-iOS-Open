@@ -27,19 +27,11 @@
 
 @class AMQPConnectionManager, AMQPSender, AMQPListener, PersistentModelStoreFactory;
 
-@interface AMQPTransport : NSObject {
-    AMQPConnectionManager* connMngrIn;
-    AMQPConnectionManager* connMngrOut;
+@interface AMQPTransport : NSObject
 
-    AMQPSender* sender;
-    AMQPListener* listener;
-}
-
-@property (nonatomic) AMQPConnectionManager* connMngrIn;
-@property (nonatomic) AMQPConnectionManager* connMngrOut;
-
-@property (nonatomic) AMQPSender* sender;
-@property (nonatomic) AMQPListener* listener;
+@property (nonatomic, strong) AMQPConnectionManager* connMngr;
+@property (nonatomic, strong) AMQPSender* sender;
+@property (nonatomic, strong) AMQPListener* listener;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory;
 

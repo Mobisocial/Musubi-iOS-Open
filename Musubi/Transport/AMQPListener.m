@@ -47,9 +47,7 @@
     while (![[NSThread currentThread] isCancelled]) {
         restartRequested = NO;
         
-        @try {            
-            [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationTransportListenerConnecting object:nil]];
-            
+        @try {                        
             // This opens connection and channel
             if (![connMngr connectionIsAlive]) {
                 [connMngr initializeConnection];
@@ -57,58 +55,60 @@
                 continue;
             }
 
-            
-            // Declare the device queue
-            uint64_t deviceName = [deviceManager localDeviceName];
-            NSData* devNameData = [NSData dataWithBytes:&deviceName length:sizeof(deviceName)];
-            NSString* deviceQueueName = [self queueNameForKey:devNameData withPrefix:@"ibedevice-"];
-            
-            [connMngr declareQueue:deviceQueueName onChannel:kAMQPChannelIncoming passive:NO durable:YES exclusive:NO];
-            //TODO: device_queue_name needs to involve the identities some how? or be a larger byte array
-            
-            // Declare queues for each identity
-            for (MIdentity* me in [identityManager ownedIdentities]) {
-                IBEncryptionIdentity* ident = [identityManager ibEncryptionIdentityForIdentity:me forTemporalFrame:0];
-                NSString* identityExchangeName = [self queueNameForKey:ident.key withPrefix:@"ibeidentity-"];
-                NSLog(@"Listening on %@", identityExchangeName);
+            @synchronized(self.connMngr.connLock) {
+                // Declare the device queue
+                uint64_t deviceName = [deviceManager localDeviceName];
+                NSData* devNameData = [NSData dataWithBytes:&deviceName length:sizeof(deviceName)];
+                NSString* deviceQueueName = [self queueNameForKey:devNameData withPrefix:@"ibedevice-"];
                 
-                //[self log:@"Declaring exchange %@ => %@", identityExchangeName, deviceQueueName];
-                [connMngr declareExchange:identityExchangeName onChannel:kAMQPChannelIncoming passive:NO durable:YES];                
-                [connMngr bindQueue:deviceQueueName toExchange:identityExchangeName onChannel:kAMQPChannelIncoming];
+                [connMngr declareQueue:deviceQueueName onChannel:kAMQPChannelIncoming passive:NO durable:YES exclusive:NO];
+                //TODO: device_queue_name needs to involve the identities some how? or be a larger byte array
                 
-                // If the initial queue exists, get its messages and remove it
-                NSString* initialQueueName = [NSString stringWithFormat:@"initial-%@", identityExchangeName];
-
-                int probe = [connMngr createChannel];
-                @try {
-                    [connMngr declareQueue:initialQueueName onChannel:probe passive:YES durable:YES exclusive:NO];
+                // Declare queues for each identity
+                for (MIdentity* me in [identityManager ownedIdentities]) {
+                    IBEncryptionIdentity* ident = [identityManager ibEncryptionIdentityForIdentity:me forTemporalFrame:0];
+                    NSString* identityExchangeName = [self queueNameForKey:ident.key withPrefix:@"ibeidentity-"];
+                    NSLog(@"Listening on %@", identityExchangeName);
                     
-                    int probe2 = [connMngr createChannel];
+                    //[self log:@"Declaring exchange %@ => %@", identityExchangeName, deviceQueueName];
+                    [connMngr declareExchange:identityExchangeName onChannel:kAMQPChannelIncoming passive:NO durable:YES];                
+                    [connMngr bindQueue:deviceQueueName toExchange:identityExchangeName onChannel:kAMQPChannelIncoming];
+                    
+                    // If the initial queue exists, get its messages and remove it
+                    NSString* initialQueueName = [NSString stringWithFormat:@"initial-%@", identityExchangeName];
+
+                    int probe = [connMngr createChannel];
                     @try {
-                        [connMngr unbindQueue:initialQueueName fromExchange:identityExchangeName onChannel:probe2];                    
-                    } @catch (NSException *exception) {
-                        [self log:@"Initial queue was not bound, ok"];
-                    } @finally {
-                        [connMngr closeChannel:probe2];
+                        [connMngr declareQueue:initialQueueName onChannel:probe passive:YES durable:YES exclusive:NO];
+                        
+                        int probe2 = [connMngr createChannel];
+                        @try {
+                            [connMngr unbindQueue:initialQueueName fromExchange:identityExchangeName onChannel:probe2];                    
+                        } @catch (NSException *exception) {
+                            [self log:@"Initial queue was not bound, ok"];
+                        } @finally {
+                            [connMngr closeChannel:probe2];
+                        }
+                        
+                        // Consume the initial identity messages, non-exclusive
+                        [connMngr consumeFromQueue:initialQueueName onChannel:probe nolocal:YES exclusive:NO];
                     }
-                    
-                    // Consume the initial identity messages, non-exclusive
-                    [connMngr consumeFromQueue:initialQueueName onChannel:probe nolocal:YES exclusive:NO];
-                }
-                @catch (NSException *exception) {
-                    [self log:@"Exception: %@", exception];
-                    [self log:@"Initial queue did not exist, ok"];
-                    [connMngr closeChannel:probe];
-                }
-                @finally {
-                }
+                    @catch (NSException *exception) {
+                        [self log:@"Exception: %@", exception];
+                        [self log:@"Initial queue did not exist, ok"];
+                        [connMngr closeChannel:probe];
+                    }
+                    @finally {
+                    }
 
+                }
+                // Consume from the device queue
+                [connMngr consumeFromQueue:deviceQueueName onChannel:kAMQPChannelIncoming nolocal:YES exclusive:YES];
+                self.connMngr.connectionState = @"Connected";
             }
-            // Consume from the device queue
-            [connMngr consumeFromQueue:deviceQueueName onChannel:kAMQPChannelIncoming nolocal:YES exclusive:YES];
-
             //now that we are all set up, go ahead and update the push server... ideally we would do this less often, but for now, we'll do it here.
-            
+            connMngr.connectionAttempts = 0;
+
             NSMutableArray* idents = [[NSMutableArray alloc] init];
             for (MIdentity* me in [identityManager ownedIdentities]) {
                 IBEncryptionIdentity* ident = [identityManager ibEncryptionIdentityForIdentity:me forTemporalFrame:0];
@@ -128,8 +128,6 @@
             [self log:@"Crashed in listen %@", exception];
             [connMngr closeConnection];
         }
-        
-        [NSThread sleepForTimeInterval:0.5];
     }
     
     [connMngr closeConnection];
@@ -137,8 +135,6 @@
 
 
 - (void) consumeMessages {
-    int idlepasses = 5;
-
     UIApplication* application = [UIApplication sharedApplication];
     backgroundTaskId = [application beginBackgroundTaskWithExpirationHandler:^(void) {
         restartRequested = YES;
@@ -150,32 +146,24 @@
         while (![[NSThread currentThread] isCancelled] && !restartRequested) {
             NSData* body = [connMngr readMessage];
             
-            if (body != nil) {
-                idlepasses = 0;
-                MEncodedMessage* encoded = (MEncodedMessage*)[threadStore createEntity:@"EncodedMessage"];
-                encoded.encoded = body;
-                encoded.processed = NO;
-                encoded.outbound = NO;
-                [threadStore save];
-                
-                [self log:@"Incoming: %@", body.sha256Digest];
-                [self log:@"Incoming: %@", encoded.objectID];
-                
-                [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:nil]];
-                [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
-            } else {
-                ++idlepasses;
+            //this may wake up unnecessarily, but that essentially means
+            //the connection is idle or it switch from doing sends to receives
+            //temporarily
+            if (body == nil) {
+                continue;
             }
-            if(idlepasses == 5) {
-                //reset the amqp message count once we have drained the consumers
-                NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
-                
-                if(deviceToken) {
-                    [APNPushManager clearRemoteUnread:deviceToken];
-                }
-            }
-            [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationTransportListenerWaitingForMessages object:nil]];
-            [NSThread sleepForTimeInterval:0.1];
+            
+            MEncodedMessage* encoded = (MEncodedMessage*)[threadStore createEntity:@"EncodedMessage"];
+            encoded.encoded = body;
+            encoded.processed = NO;
+            encoded.outbound = NO;
+            [threadStore save];
+            
+            [self log:@"Incoming: %@", body.sha256Digest];
+            [self log:@"Incoming: %@", encoded.objectID];
+            
+            [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:nil]];
+            [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
         }
     } 
     @finally {

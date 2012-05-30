@@ -36,17 +36,16 @@
 
 @interface AMQPConnectionManager : NSObject {
     amqp_connection_state_t conn;
-    NSLock* connLock;
     
     int last_channel;
     BOOL connectionReady;
     uint32_t sequenceNumber;
     uint64_t lastIncomingDeliveryTag;
-    
-    int connectionAttempts;
 }
 
-@property (nonatomic) NSLock* connLock;
+@property (nonatomic, strong) NSRecursiveLock* connLock;
+@property (atomic, strong) NSString* connectionState;
+@property (nonatomic, assign) int connectionAttempts;
 
 - (BOOL) connectionIsAlive;
 - (void) initializeConnection;

@@ -93,19 +93,19 @@
         
         while (![connMngr connectionIsAlive]){
             [connMngr initializeConnection];
-            // wait until the connection has revived
-            [NSThread sleepForTimeInterval:0.1];
         }
 
         @try {
             NSArray* unsent = [emm unsentOutboundMessages];
             
             if (unsent != nil) {
-                if ([unsent count] > 0)
-                    [self log:@"Sending %d messages", [unsent count]];
+                if (unsent.count > 0)
+                    [self log:@"Sending %d messages", unsent.count];
                 
+                int left = unsent.count;
                 for (MEncodedMessage* msg in unsent) {
                     assert(msg.outbound);
+                    self.connMngr.connectionState = [NSString stringWithFormat:@"Sending %d messages...", left--];
                     [self sendMessage: msg];
                 }
             }

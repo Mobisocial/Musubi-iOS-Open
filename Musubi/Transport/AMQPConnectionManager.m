@@ -34,12 +34,12 @@
 
 @implementation AMQPConnectionManager
 
-@synthesize connLock;
+@synthesize connLock, connectionState, connectionAttempts;
 
 - (id)init {
     self = [super init];
     if (self) {
-        [self setConnLock: [[NSLock alloc] init]];
+        [self setConnLock: [[NSRecursiveLock alloc] init]];
         conn = nil;
         connectionReady = NO;
         connectionAttempts = 0;
@@ -102,7 +102,9 @@
         return;
     }
     
-    [NSThread sleepForTimeInterval: MIN(300, (connectionAttempts ^ 2))];
+    self.connectionState = @"Waiting to try again...";
+    [NSThread sleepForTimeInterval: MIN(300, powl(2, connectionAttempts) - 1)];
+    self.connectionState = @"Connecting...";
     connectionAttempts++;
     
     
@@ -148,7 +150,6 @@
 
     last_channel = 2;
     connectionReady = YES;
-    connectionAttempts = 0;
     
     [connLock unlock];
 }
@@ -165,6 +166,7 @@
     
     conn = nil;
     connectionReady = NO;
+    self.connectionState = @"Disconnected";
     
     [connLock unlock];
     
@@ -330,39 +332,42 @@
     
     int sock = amqp_get_sockfd(conn);
     
-    fd_set read_flags;
-    FD_ZERO(&read_flags);
-    FD_SET(sock, &read_flags);
-    struct timeval timeout;
-    timeout.tv_sec = 1;
-    timeout.tv_usec = 100000;
+    while(amqp_frames_enqueued(conn) == 0 && amqp_data_in_buffer(conn) == 0) {
+        fd_set read_flags, error_flags;
+        FD_ZERO(&read_flags);
+        FD_ZERO(&error_flags);
+        FD_SET(sock, &read_flags);
+        FD_SET(sock, &error_flags);
+        struct timeval timeout;
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 500000;
 
-    if (amqp_frames_enqueued(conn) == 0 && amqp_data_in_buffer(conn) == 0) {
         //dont freeze the connection while waiting for data
         [connLock unlock];
         // we have no frames in buffer and we don't want to block
         // check the socket to see if we can read from it without blocking
-        int res = select(sock+1, &read_flags, NULL, NULL, &timeout);
-        if (res <= 0) {
-            // give up for now, socket is not ready for us
-            return nil;
+        int res = select(sock+1, &read_flags, NULL, &error_flags, &timeout);
+        if (FD_ISSET(sock, &error_flags)) {
+            @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection error during select" userInfo: nil];
         }
+            
         [connLock lock];
+        if (res <= 0) {
+            self.connectionState = nil;
+        }
+        if (!connectionReady) {
+            [connLock unlock];
+            @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
+        }
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 0;
+        //double check that we have something available
+        res = select(sock+1, &read_flags, NULL, NULL, &timeout);
+        if (res > 0) {
+            break;
+        }
+        self.connectionState = nil;
     }
-    if (!connectionReady) {
-        [connLock unlock];
-        @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
-    }
-    timeout.tv_sec = 0;
-    timeout.tv_usec = 0;
-    //double check that we have something available
-    int res = select(sock+1, &read_flags, NULL, NULL, &timeout);
-    if (res <= 0) {
-        [connLock unlock];
-        // give up for now, socket is not ready for us
-        return nil;
-    }
-    
     @try {
         amqp_frame_t frame;
         int result;
@@ -414,6 +419,8 @@
             @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Expected frame header but got something else" userInfo:nil];
         }
         
+        self.connectionState = @"Retreiving messages...";
+
         body_target = frame.payload.properties.body_size;
         body_received = 0;
         

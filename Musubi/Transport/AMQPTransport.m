@@ -31,22 +31,18 @@
 
 @implementation AMQPTransport
 
-@synthesize connMngrIn, connMngrOut, sender, listener;
+@synthesize connMngr, sender, listener;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)storeFactory {
 
     self = [super init];
-    if (self) {
-        [self setConnMngrIn:[[AMQPConnectionManager alloc] init]];
-        [self setConnMngrOut: connMngrIn];
-        // Use one connection for both incoming and outgoing, seems to work ok
-        //        [self setConnMngrOut:[[[AMQPConnectionManager alloc] init] autorelease]];
+    if (!self) return nil;
+    
+    connMngr = [[AMQPConnectionManager alloc] init];
+    listener = [[AMQPListener alloc] initWithConnectionManager:connMngr storeFactory:storeFactory];
+    sender = [[AMQPSender alloc] initWithConnectionManager:connMngr storeFactory:storeFactory];
+    [[Musubi sharedInstance].notificationCenter addObserver:listener selector:@selector(restart) name:kMusubiNotificationOwnedIdentityAvailable object:nil];
 
-        [self setListener: [[AMQPListener alloc] initWithConnectionManager:connMngrIn storeFactory:storeFactory]];
-        [self setSender: [[AMQPSender alloc] initWithConnectionManager:connMngrOut storeFactory:storeFactory]];
-        
-        [[Musubi sharedInstance].notificationCenter addObserver:listener selector:@selector(restart) name:kMusubiNotificationOwnedIdentityAvailable object:nil];
-    }
     return self;
 }
 

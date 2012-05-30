@@ -30,7 +30,6 @@
 
 @interface FeedListViewController : TTTableViewController {
     UILabel* incomingLabel;
-    BOOL waitingForTransportListener;
 }
 
 //@property (nonatomic, strong) NSArray* feeds;
