@@ -28,7 +28,7 @@
 
 @class IdentityManager, MIdentity;
 
-@protocol FriendsSelected <NSObject>
+@protocol FriendPickerDelegate <NSObject>
 - (void) friendsSelected:(NSArray*)selection;
 @end
 
@@ -47,7 +47,7 @@
 @property (nonatomic, strong) NSMutableDictionary* identities;
 @property (nonatomic, strong) NSArray* index;
 @property (nonatomic, strong) NSMutableArray* selection;
-@property (nonatomic, strong) id<FriendsSelected> friendsSelectedDelegate;
+@property (nonatomic, strong) id<FriendPickerDelegate> delegate;
 @property (nonatomic, strong) NSSet* pinnedIdentities;
 @end
 

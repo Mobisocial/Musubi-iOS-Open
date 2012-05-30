@@ -269,7 +269,7 @@
         FriendPickerTableViewController *vc = segue.destinationViewController;
         FeedManager* fm = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         vc.pinnedIdentities = [NSSet setWithArray:[fm identitiesInFeed:_feed]];
-        vc.friendsSelectedDelegate = self;
+        vc.delegate = self;
     }
 }
 @end

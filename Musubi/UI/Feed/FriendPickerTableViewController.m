@@ -40,7 +40,7 @@
 
 @implementation FriendPickerTableViewController
 
-@synthesize identityManager = _identityManager, identities = _identities, index = _index, selection = _selection, friendsSelectedDelegate = _friendsSelectedDelegate, pinnedIdentities = _pinnedIdentities;
+@synthesize identityManager = _identityManager, identities = _identities, index = _index, selection = _selection, delegate = _delegate, pinnedIdentities = _pinnedIdentities;
 
 - (void)loadView {
     [super loadView];
@@ -396,7 +396,7 @@
 }
 
 - (IBAction)friendsSelected:(id)sender {
-    [_friendsSelectedDelegate friendsSelected:_selection];
+    [_delegate friendsSelected:_selection];
 }
 
 @end
