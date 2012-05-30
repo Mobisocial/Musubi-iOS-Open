@@ -26,9 +26,13 @@
 #import <UIKit/UIKit.h>
 
 @class MIdentity;
+@class FeedManager;
 
-@interface ProfileViewController : UITableViewController
+@interface ProfileViewController : UITableViewController {
+    NSArray* feeds;
+}
 
 @property (nonatomic, retain) MIdentity* identity;
+@property (nonatomic, strong) FeedManager* feedManager;
 
 @end

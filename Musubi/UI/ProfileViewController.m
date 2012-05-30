@@ -25,7 +25,11 @@
 
 #import "ProfileViewController.h"
 #import "MIdentity.h"
+#import "FeedManager.h"
+#import "MFeed.h"
 #import "ProfileNamePictureCell.h"
+#import "Musubi.h"
+#import "FeedViewController.h"
 
 @interface ProfileViewController ()
 
@@ -35,17 +39,33 @@
 
 @synthesize identity = _identity;
 
+@synthesize feedManager = _feedManager;
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    
+    if (self) {
+        _feedManager = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    }
+    
+    return self;
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
 - (void)loadView {
     [super loadView];
+    
+    feeds = [_feedManager acceptedFeedsFromIdentity:_identity];
+    
     self.title = @"Profile";//_identity.name;
 }
 
@@ -76,14 +96,20 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return 1;
+    return 2;
 }
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return 1;
+    switch (section) {
+        case 0:
+            return 1;
+        case 1:
+            return feeds.count;
+    }
+    
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -99,33 +125,69 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"ProfileNamePictureCell";
-    ProfileNamePictureCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil) {
-        cell = [[ProfileNamePictureCell alloc]
-                initWithStyle:UITableViewCellStyleDefault 
-                reuseIdentifier:CellIdentifier];
+    switch (indexPath.section) {
+        case 0: {
+            static NSString *CellIdentifier = @"ProfileNamePictureCell";
+            ProfileNamePictureCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            
+            if (cell == nil) {
+                cell = [[ProfileNamePictureCell alloc]
+                        initWithStyle:UITableViewCellStyleDefault 
+                        reuseIdentifier:CellIdentifier];
+            }
+            
+            if(_identity.musubiName) {
+                cell.name.text = _identity.musubiName;
+            } else if(_identity.name) {
+                cell.name.text = _identity.name;
+            } else if(_identity.principal) {
+                cell.name.text = _identity.principal;
+            } else {
+                cell.name.text = @"Unknown";
+            }
+            
+            cell.principal.text = _identity.principal;
+            if(_identity.musubiThumbnail) {
+                cell.picture.image = [UIImage imageWithData:_identity.musubiThumbnail];
+            }
+            else if (_identity.thumbnail) {
+                cell.picture.image = [UIImage imageWithData:_identity.thumbnail];
+            }
+            
+            return cell;
+        }
+        case 1: {
+            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
+            }
+            
+            MFeed* feed = (MFeed*)[feeds objectAtIndex:indexPath.row];
+            NSString* feedTitle = [_feedManager identityStringForFeed:feed];
+            [[cell textLabel] setText: feedTitle];
+            NSString* timestamp = [NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime];
+             
+            //[[cell detailTextLabel] setText: timestamp];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
+            return cell;
+        }
     }
     
-    if(_identity.musubiName) {
-        cell.name.text = _identity.musubiName;
-    } else if(_identity.name) {
-        cell.name.text = _identity.name;
-    } else if(_identity.principal) {
-        cell.name.text = _identity.principal;
-    } else {
-        cell.name.text = @"Unknown";
-    }
+    return nil;
+}
 
-    cell.principal.text = _identity.principal;
-    if(_identity.musubiThumbnail) {
-        cell.picture.image = [UIImage imageWithData:_identity.musubiThumbnail];
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
+{
+    switch (section) {
+        case 0:
+            return @"Profile";
+        case 1:
+            return @"Chats";
     }
-    else if (_identity.thumbnail) {
-        cell.picture.image = [UIImage imageWithData:_identity.thumbnail];
-    }
-    return cell;
+    
+    return nil;
 }
 
 /*
@@ -167,17 +229,27 @@
 }
 */
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ShowFeed"]) {
+        FeedViewController *vc = [segue destinationViewController];
+        [vc setFeed: (MFeed*) sender];
+    } 
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    switch (indexPath.section) {
+        case 0:{
+            break;
+        }
+        case 1: {
+            MFeed* feed = [feeds objectAtIndex:indexPath.row];
+            [self performSegueWithIdentifier:@"ShowFeed" sender:feed];
+            break;
+        }
+    }
 }
 
 @end
