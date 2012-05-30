@@ -28,11 +28,24 @@
 #import "ObjManager.h"
 #import "Musubi.h"
 #import "NSData+HexString.h"
+#import "MObj.h"
 
 @implementation DeleteObj
 
 - (id) initWithData: (NSDictionary*) data {
     self = [super initWithType:kObjTypeDelete data:data andRaw:nil];
+    return self;
+}
+
+- (id) initWithTargetObj:(MObj *)obj {
+    self = [super init];
+    if (self) {
+        [self setType: kObjTypeDelete];
+        NSString* objHash = [obj.universalHash hexString];
+        NSArray* deletion = [[NSArray alloc] initWithObjects:objHash, nil];
+        [self setData: [NSDictionary dictionaryWithObjectsAndKeys:deletion, kObjFieldHashes, nil]];        
+    }
+    
     return self;
 }
 

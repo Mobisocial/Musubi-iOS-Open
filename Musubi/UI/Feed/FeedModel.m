@@ -30,7 +30,7 @@
 
 @implementation FeedModel
 
-@synthesize results = _results;
+@synthesize results = _results, feed = _feed, objManager = _objManager;
 
 - (id)initWithFeed:(MFeed *)feed {
     self = [super init];

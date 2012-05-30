@@ -46,6 +46,17 @@
     return app;
 }
 
+- (id)ensureSuperApp {
+    NSString* appId = @"mobisocial.musubi";
+    MApp* app = (MApp*)[self queryFirst:[NSPredicate predicateWithFormat:@"appId = %@", appId]];
+    if (app == nil) {
+        app = (MApp*)[self create];
+        [app setAppId:appId];
+    }
+    
+    return app;
+}
+
 - (BOOL)isSuperApp:(MApp *)app {
     return [app.appId isEqualToString:kSuperAppId];
 }

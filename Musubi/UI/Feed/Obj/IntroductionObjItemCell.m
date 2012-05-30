@@ -28,7 +28,7 @@
 
 @implementation IntroductionObjItemCell
 
-+ (NSString*) textForItem: (ManagedObjItem*)item {
++ (NSString*) textForItem: (ManagedObjFeedItem*)item {
     NSArray* identities = [[item parsedJson] objectForKey:@"identities"];
     int max = 5;
     int count = MIN(identities.count, max);
@@ -57,13 +57,13 @@
     return buffer;
 }
 
-+ (CGFloat)renderHeightForItem:(ManagedObjItem*)item {
++ (CGFloat)renderHeightForItem:(ManagedObjFeedItem*)item {
     NSString* text = [IntroductionObjItemCell textForItem:item];
     CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
     return size.height;
 }
 
-- (void)setObject:(ManagedObjItem*)object {
+- (void)setObject:(ManagedObjFeedItem*)object {
     [super setObject:object];
 
     self.detailTextLabel.text = [IntroductionObjItemCell textForItem:object];

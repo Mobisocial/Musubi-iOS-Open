@@ -16,22 +16,43 @@
 
 
 //
-//  ManagedObjItem.h
+//  IntroductionObjItem.m
 //  musubi
 //
 //  Created by Ben Dodson on 5/29/12.
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "FeedItem.h"
+#import "ManagedObjFeedItem.h"
 #import "MObj.h"
+#import "FeedItemCell.h"
 
-@interface ManagedObjItem : FeedItem
+@implementation ManagedObjFeedItem {
+    NSDictionary* parsedJson;
+}
 
-@property (nonatomic,strong) MObj* managedObj;
-@property (nonatomic,strong) Class cellClass;
-@property (nonatomic,strong) NSDictionary* parsedJson;
+@synthesize managedObj, cellClass, parsedJson, computedData;
 
--(id) initWithManagedObj: (MObj*) managedObj cellClass: cellClass;
+- (id)initWithManagedObj:(MObj*)mObj
+{
+    self = [super init];
+    if (self) {
+        self.managedObj = mObj;
+    }
+    return self;
+}
+
+- (NSDictionary *)parsedJson {
+    if (parsedJson || !managedObj.json) {
+        return parsedJson;
+    }
+
+    NSError* error;
+    parsedJson = [NSJSONSerialization JSONObjectWithData:[managedObj.json dataUsingEncoding:NSUnicodeStringEncoding] options:0 error:&error];
+    if (!parsedJson) {
+        NSLog(@"Failed to parse json %@", error);
+    }
+    return parsedJson;
+}
 
 @end

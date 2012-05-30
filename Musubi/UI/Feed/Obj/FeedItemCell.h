@@ -16,6 +16,7 @@
 
 
 #import "Three20/Three20.h"
+#import "ManagedObjFeedItem.h"
 
 @class FeedItem, LikeView;
 
@@ -34,6 +35,7 @@
 @property (nonatomic, readonly, retain) LikeView*     likeView;
 @property (nonatomic, readonly, retain) UIButton*     likeButton;
 
++ (void) prepareItem: (ManagedObjFeedItem*) item;
 + (CGFloat) renderHeightForItem: (FeedItem*) item;
 
 @end

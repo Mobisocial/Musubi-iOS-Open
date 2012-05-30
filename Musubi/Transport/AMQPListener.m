@@ -142,9 +142,13 @@
         backgroundTaskId = ~0U;
     }];
     @try {
-
+        __block NSDate* idleTime = [[NSDate date] dateByAddingTimeInterval:15];
+        
         while (![[NSThread currentThread] isCancelled] && !restartRequested) {
-            NSData* body = [connMngr readMessage];
+            NSData* body = [connMngr readMessageAndCall:^{
+                [APNPushManager resetBothUnreadInBackgroundTask];
+                idleTime = nil;
+            } after:idleTime];
             
             //this may wake up unnecessarily, but that essentially means
             //the connection is idle or it switch from doing sends to receives
@@ -152,6 +156,7 @@
             if (body == nil) {
                 continue;
             }
+            idleTime = [[NSDate date] dateByAddingTimeInterval:5];
             
             MEncodedMessage* encoded = (MEncodedMessage*)[threadStore createEntity:@"EncodedMessage"];
             encoded.encoded = body;

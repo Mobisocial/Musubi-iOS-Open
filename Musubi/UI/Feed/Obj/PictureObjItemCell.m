@@ -24,12 +24,16 @@
 //
 
 #import "PictureObjItemCell.h"
-#import "ManagedObjItem.h"
+#import "ManagedObjFeedItem.h"
 
 @implementation PictureObjItemCell
 
-+ (CGFloat)renderHeightForItem:(ManagedObjItem *)item {
-    UIImage* image = [UIImage imageWithData: item.managedObj.raw];
++ (void)prepareItem:(ManagedObjFeedItem *)item {
+    item.computedData = [UIImage imageWithData: item.managedObj.raw];
+}
+
++ (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
+    UIImage* image = item.computedData;
     return (250 / image.size.width) * image.size.height;
 }
 
@@ -44,10 +48,10 @@
     return _pictureView;
 }
 
-- (void)setObject:(ManagedObjItem*)object {
+- (void)setObject:(ManagedObjFeedItem*)object {
     if (_item != object) {
         [super setObject:object];
-        UIImage* image = [UIImage imageWithData: object.managedObj.raw];
+        UIImage* image = object.computedData;
         [self.pictureView setImage: image];
     }
 }

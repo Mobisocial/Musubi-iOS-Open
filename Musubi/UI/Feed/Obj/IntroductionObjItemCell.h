@@ -24,8 +24,8 @@
 //
 
 #import "FeedItemCell.h"
-#import "ManagedObjItem.h"
+#import "ManagedObjFeedItem.h"
 
 @interface IntroductionObjItemCell : FeedItemCell
-+ (NSString*) textForItem: (ManagedObjItem*)item;
++ (NSString*) textForItem: (ManagedObjFeedItem*)item;
 @end

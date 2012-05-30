@@ -31,4 +31,5 @@
 + (void) registerDevice:(NSString*)deviceToken identities:(NSArray*)idents localUnread:(int)count;
 + (int) tallyLocalUnread;
 + (void) resetLocalUnreadInBackgroundTask;
++ (void) resetBothUnreadInBackgroundTask;
 @end

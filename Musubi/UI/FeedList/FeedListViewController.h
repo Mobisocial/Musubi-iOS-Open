@@ -29,7 +29,7 @@
 
 @class FeedManager;
 
-@interface FeedListViewController : TTTableViewController<FriendsSelected> {
+@interface FeedListViewController : TTTableViewController<FriendPickerDelegate> {
     UILabel* incomingLabel;
 }
 

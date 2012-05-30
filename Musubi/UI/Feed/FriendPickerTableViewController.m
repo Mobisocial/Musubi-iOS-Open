@@ -40,7 +40,7 @@
 
 @implementation FriendPickerTableViewController
 
-@synthesize identityManager = _identityManager, identities = _identities, index = _index, selection = _selection, friendsSelectedDelegate = _friendsSelectedDelegate;
+@synthesize identityManager = _identityManager, identities = _identities, index = _index, selection = _selection, delegate = _delegate, pinnedIdentities = _pinnedIdentities;
 
 - (void)loadView {
     [super loadView];
@@ -61,25 +61,61 @@
     
     NSMutableArray* idents = [NSMutableArray arrayWithCapacity:265];
     for (MIdentity* mId in [_identityManager query:nil]) {
-        if (!mId.owned && mId.name.length > 0) {
-            if (!filter || [mId.name rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound)
-                [idents addObject:mId];
+        NSString* name = [IdentityManager displayNameForIdentity:mId];
+        if (mId.owned || name.length == 0 || [name isEqualToString:@"Unknown"])
+            continue;
+        BOOL pinned = NO;
+        for(MIdentity* pid in _pinnedIdentities) {
+            if([pid.objectID isEqual:mId.objectID]){
+                pinned = YES;
+               break;
+            }
+        }
+        if(pinned)
+            continue;
+        //skip the ones that are already members
+        if(!filter && [_pinnedIdentities containsObject:mId]) 
+            continue;
+        if (!filter || (mId.name && [mId.name rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound)
+            || (mId.musubiName && [mId.musubiName rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound)
+            || (mId.principal && [mId.principal rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound)) {
+            [idents addObject:mId];
         }
     }
     
     NSComparisonResult (^compare) (MIdentity*, MIdentity*) = ^(MIdentity* obj1, MIdentity* obj2) {
-        return [obj1.name compare:obj2.name];
-    };    
+        NSString* a = [IdentityManager displayNameForIdentity:obj1];
+        NSString* b = [IdentityManager displayNameForIdentity:obj2];
+        a = [a stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        b = [b stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        return [a caseInsensitiveCompare:b];
+    };
     [idents sortUsingComparator: compare];
+
     
+    NSMutableArray* pinnedIdents = [NSMutableArray arrayWithCapacity:_pinnedIdentities.count];
+    if(!filter) {
+        //if we are filtering, no pinned identities
+        for(MIdentity* mId in _pinnedIdentities)
+            [pinnedIdents addObject:mId];
+    }
+    [pinnedIdents sortUsingComparator: compare];
+
+    int pinned = pinnedIdents.count;
+    NSMutableArray* all = pinned ? [NSMutableArray arrayWithArray:pinnedIdents] : [NSMutableArray array];
+    [all addObjectsFromArray:idents];
     
-    NSMutableArray* index = [NSMutableArray arrayWithCapacity:26];
-    NSMutableDictionary* indexedIds = [NSMutableDictionary dictionaryWithCapacity:26];    
+    NSMutableArray* index = [NSMutableArray arrayWithCapacity:27];
+    NSMutableDictionary* indexedIds = [NSMutableDictionary dictionaryWithCapacity:27];    
     
+    if(pinned) {
+        [index addObject:@"\u2713"];
+        [indexedIds setObject:pinnedIdents forKey:@"\u2713"];
+    }     
     char charPtr = 0;
     NSMutableArray* charIdentities = nil;
-    for (int i=0; i<idents.count; i++) {
-        MIdentity* ident = [idents objectAtIndex:i];
+    for (int i=pinned; i<all.count; i++) {
+        MIdentity* ident = [all objectAtIndex:i];
         
         char curChar = [ident.name characterAtIndex:0];
         if (curChar <= 'Z')
@@ -222,11 +258,18 @@
     // Configure the cell...
     MIdentity* ident = [[_identities objectForKey: [_index objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
 
-    if(ident.musubiName) {
-        [[cell textLabel] setText: ident.musubiName];
+    if([_pinnedIdentities containsObject:ident]) {
+        cell.userInteractionEnabled = NO;
+        cell.textLabel.alpha = 0.439216f;
     } else {
-        [[cell textLabel] setText: ident.name];
+        cell.userInteractionEnabled = YES;
+        cell.textLabel.alpha = 1.0;
     }
+
+    cell.textLabel.text = ident.musubiName;
+    if(!cell.textLabel.text) cell.textLabel.text = ident.name;
+    if(!cell.textLabel.text) cell.textLabel.text = ident.principal;
+    if(!cell.textLabel.text) cell.textLabel.text = @"Unknown";
     [[cell detailTextLabel] setText: ident.principal];
 
     if(ident.musubiThumbnail) {
@@ -235,7 +278,7 @@
         [[cell imageView] setImage: [UIImage imageWithData:ident.thumbnail]];
     }
     
-    if ([_selection containsObject:ident]) {
+    if ([_selection containsObject:ident] || [_pinnedIdentities containsObject:ident]) {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     } else {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
@@ -248,7 +291,12 @@
     return _index;
 }
 
-
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString* t = [_index objectAtIndex:section];
+    if([t isEqualToString:@"\u2713"])
+        t = @"Already Added";
+    return t;
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -332,7 +380,7 @@
 }
 
 - (NSString*) tableView:(UITableView*)tv labelForObject:(id) obj {
-    return ((MIdentity*)obj).name;
+    return [IdentityManager displayNameForIdentity:obj];
 }
 
 - (NSString*) tableView:(UITableView *)tableView subLabelForObject:(id)obj {
@@ -358,7 +406,7 @@
 }
 
 - (IBAction)friendsSelected:(id)sender {
-    [_friendsSelectedDelegate friendsSelected:_selection];
+    [_delegate friendsSelected:_selection];
 }
 
 @end

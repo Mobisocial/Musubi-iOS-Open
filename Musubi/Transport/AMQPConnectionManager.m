@@ -30,6 +30,8 @@
 #import "Recipient.h"
 #import "MIdentity.h"
 #import "PersistentModelStore.h"
+#import "APNPushManager.h"
+#import "Musubi.h"
 #include <sys/socket.h>
 
 @implementation AMQPConnectionManager {
@@ -328,7 +330,7 @@
     [connLock unlock];
 }
 
-- (NSData*) readMessage {
+- (NSData*) readMessageAndCall:(void(^)())block after:(NSDate*) date {
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
@@ -358,7 +360,8 @@
             
         [connLock lock];
         if (res <= 0) {
-            self.connectionState = nil;
+            if(self.connectionState)
+                self.connectionState = nil;
         }
         if (!connectionReady) {
             [connLock unlock];
@@ -371,7 +374,13 @@
         if (res > 0) {
             break;
         }
-        self.connectionState = nil;
+        if(self.connectionState)
+            self.connectionState = nil;
+        if(date && block && [[NSDate date] timeIntervalSinceDate:date] > 0) {
+            block();
+            date = nil;
+            block = nil;
+        }
     }
     @try {
         amqp_frame_t frame;
@@ -433,7 +442,7 @@
             @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Expected frame header but got something else" userInfo:nil];
         }
         
-        self.connectionState = @"Retreiving messages...";
+        self.connectionState = @"Retrieving messages...";
 
         body_target = frame.payload.properties.body_size;
         body_received = 0;

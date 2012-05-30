@@ -188,7 +188,7 @@
         StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
         
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+        MApp* app = [am ensureSuperApp];
         
         [ObjHelper sendObj:status toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
         
@@ -237,7 +237,7 @@
     PictureObj* pic = [[PictureObj alloc] initWithImage: image];
     
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+    MApp* app = [am ensureSuperApp];
     
     [ObjHelper sendObj:pic toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
     
@@ -248,20 +248,30 @@
 
 - (void)friendsSelected:(NSArray *)selection {
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
-    
-    AppManager* am = [[AppManager alloc] initWithStore:store];
-    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
 
+    if (selection.count == 0) {
+        return;
+    }
+
+    FeedManager* fm = [[FeedManager alloc] initWithStore:store];
+    AppManager* am = [[AppManager alloc] initWithStore:store];
+    MApp* app = [am ensureSuperApp];
+    
+    //add members to feed
+    [fm attachMembers:selection toFeed:_feed];
+    //send an introduction
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:selection];
     [ObjHelper sendObj: invitationObj toFeed:_feed fromApp:app usingStore: store];
-
+    
     [self.navigationController popViewControllerAnimated:NO]; // back to the feed
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
-        FriendPickerTableViewController *vc = [segue destinationViewController];
-        [vc setFriendsSelectedDelegate:self];
+        FriendPickerTableViewController *vc = segue.destinationViewController;
+        FeedManager* fm = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        vc.pinnedIdentities = [NSSet setWithArray:[fm identitiesInFeed:_feed]];
+        vc.delegate = self;
     }
     else if ([[segue identifier] isEqualToString:@"ShowProfile"]) {
         ProfileViewController *vc = [segue destinationViewController];
@@ -270,7 +280,6 @@
         //[self updatePending:nil];
     }
 }
-
 @end
 
 
@@ -284,7 +293,7 @@
         LikeObj* like = [[LikeObj alloc] initWithObjHash: item.obj.universalHash];
                 
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+        MApp* app = [am ensureSuperApp];
         
         FeedViewController* controller = (FeedViewController*) self.controller;
         

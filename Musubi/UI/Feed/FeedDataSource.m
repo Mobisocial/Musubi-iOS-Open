@@ -27,6 +27,7 @@
 #import "FeedModel.h"
 #import "FeedItem.h"
 
+#import "AppManager.h"
 #import "IdentityManager.h"
 #import "ObjManager.h"
 #import "MIdentity.h"
@@ -37,21 +38,21 @@
 #import "ObjFactory.h"
 #import "Obj.h"
 
+#import "DeleteObj.h"
+
 #import "StatusObj.h"
 #import "StatusObjItemCell.h"
 
 #import "PictureObj.h"
-#import "PictureObjItem.h"
 #import "PictureObjItemCell.h"
 
 #import "UnknownObj.h"
-#import "HtmlObjItem.h"
 #import "HtmlObjItemCell.h"
 
 #import "IntroductionObj.h"
 #import "IntroductionObjItemCell.h"
 
-#import "ManagedObjItem.h"
+#import "ManagedObjFeedItem.h"
 
 #import "Musubi.h"
 
@@ -71,40 +72,45 @@
 }
 
 - (FeedItem*) itemFromObj: (MObj*) mObj {
-    Obj* obj = [ObjFactory objFromManagedObj:mObj];
-    FeedItem* item = nil;
+    MObj* managed = mObj;
+    ManagedObjFeedItem* item = [[ManagedObjFeedItem alloc] initWithManagedObj:managed];
 
-    NSString* renderMode = [obj.data objectForKey:kObjFieldRenderMode];
+    NSString* renderMode = [item.parsedJson objectForKey:kObjFieldRenderMode];
     if ([kObjFieldRenderModeLatest isEqualToString:renderMode]) {
-        MObj* child = [_objManager latestChildForParent:mObj];
+        MObj* child = [_objManager latestChildForParent:managed];
         if (child) {
-            NSLog(@"Got a child %@", child);
-            obj = [ObjFactory objFromManagedObj:child];
+            managed = child;
+            item = [[ManagedObjFeedItem alloc] initWithManagedObj:managed];
         }
     }
 
     // todo: can avoid o(n) calls with:
-    // item = [[[obj renderClass] alloc] initWithData obj]
-    // item = [[[[ObjFactory implForManagedObj:mObj] alloc] initWithManagedObj obj]]
+    // item = [[ObjFactory implementationForObjType theType] cellClass]
 
     Class cellClass;
-    if ([obj isMemberOfClass:[StatusObj class]]) {
+    if ([managed.type isEqualToString:kObjTypeStatus]) {
         cellClass = [StatusObjItemCell class];
-    } else if ([obj isMemberOfClass:[PictureObj class]]) {
+    } else if ([managed.type isEqualToString:kObjTypePicture]) {
         cellClass = [PictureObjItemCell class];
-    } else if ([obj isMemberOfClass:[IntroductionObj class]]) {
+    } else if ([managed.type isEqualToString: kObjTypeIntroduction]) {
         cellClass = [IntroductionObjItemCell class];
-    } else if (nil != [obj.data objectForKey:kObjFieldHtml]) {
-        cellClass = [HtmlObjItemCell class];
-    } else if (nil != [obj.data objectForKey:kObjFieldText]) {
-        cellClass = [StatusObjItemCell class];
+    }
+    
+    if (cellClass == nil) {
+        Obj* obj = [ObjFactory objFromManagedObj:managed];
+        if (nil != [obj.data objectForKey:kObjFieldHtml]) {
+            cellClass = [HtmlObjItemCell class];
+        } else if (nil != [obj.data objectForKey:kObjFieldText]) {
+            cellClass = [StatusObjItemCell class];
+        }   
     }
 
     if (cellClass) {
-        item = [[ManagedObjItem alloc] initWithManagedObj:mObj cellClass:cellClass];
+        item.cellClass = cellClass;
+        [cellClass prepareItem: item];
 
         NSMutableDictionary* likes = [NSMutableDictionary dictionary];
-        for (MLike* like in [_objManager likesForObj:mObj]) {
+        for (MLike* like in [_objManager likesForObj:managed]) {
             if (like.sender) {
                 if (like.sender.owned) {
                     [item setILiked:YES];
@@ -114,13 +120,13 @@
             }
         }
         
-        [item setObj: mObj];
-        [item setSender: [IdentityManager displayNameForIdentity:mObj.identity]];
-        [item setTimestamp: mObj.timestamp];
-        if(mObj.identity.musubiThumbnail)
-            [item setProfilePicture: [UIImage imageWithData:mObj.identity.musubiThumbnail]];
+        [item setObj: managed];
+        [item setSender: [IdentityManager displayNameForIdentity:managed.identity]];
+        [item setTimestamp: managed.timestamp];
+        if(managed.identity.musubiThumbnail)
+            [item setProfilePicture: [UIImage imageWithData:managed.identity.musubiThumbnail]];
         else
-            [item setProfilePicture: [UIImage imageWithData:mObj.identity.thumbnail]];
+            [item setProfilePicture: [UIImage imageWithData:managed.identity.thumbnail]];
         [item setLikes: likes];
     }
     
@@ -174,11 +180,35 @@
     }
 }
 
+- (MObj*)objForIndex:(int)i {
+    FeedItem* feedItem = [self.items objectAtIndex:i];
+    return feedItem.obj;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        PersistentModelStore* store = [Musubi sharedInstance].mainStore;
+
+        AppManager* am = [[AppManager alloc] initWithStore:store];
+        MApp* app = [am ensureSuperApp];
+
+        MObj* obj = [self objForIndex:indexPath.row];
+        id deleteObj = [[DeleteObj alloc] initWithTargetObj: obj];
+        FeedModel* feedModel = self.model;
+        [ObjHelper sendObj:deleteObj toFeed:feedModel.feed fromApp:app usingStore:store];
+
+        [tableView beginUpdates];
+        [_items removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+        [tableView endUpdates]; 
+    } 
+}
+
 - (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {
     
     Class cls = nil;
-    if ([object isKindOfClass:ManagedObjItem.class]) {
-        cls = [((ManagedObjItem*)object) cellClass];
+    if ([object isKindOfClass:ManagedObjFeedItem.class]) {
+        cls = [((ManagedObjFeedItem*)object) cellClass];
     }
 
     if (cls == nil) {
