@@ -25,7 +25,7 @@
 
 #import "HtmlObjItemCell.h"
 #import "HtmlObjItem.h"
-#import "ManagedObjItem.h"
+#import "ManagedObjFeedItem.h"
 #import "ObjHelper.h"
 
 @implementation HtmlObjItemCell {
@@ -34,24 +34,40 @@
 
 @synthesize webView;
 
-+ (CGFloat)renderHeightForItem:(ManagedObjItem *)item {
-    return 180;
-}
-
-- (UIWebView*) webView {
-    if (!webView) {
-        webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 80, 300)];
-        [webView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-        [webView setContentMode:UIViewContentModeScaleAspectFit];
-        [self.contentView addSubview:webView];   
-    }
-    return webView;
-}
-
-- (void)setObject:(ManagedObjItem *)item {
-    [super setObject:item];
++ (void)prepareItem:(ManagedObjFeedItem *)item {
     NSString* html = [[item parsedJson] objectForKey:kObjFieldHtml];
-    [self.webView loadHTMLString:html baseURL:[NSURL URLWithString:@"http://localhost"]];
+    UIWebView *wv = [[UIWebView alloc] init];
+    //[wv setDelegate:<#(id<UIWebViewDelegate>)#>
+    [wv setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+    [wv setContentMode:UIViewContentModeScaleAspectFit];
+    [wv loadHTMLString:html baseURL:[NSURL URLWithString:@"http://localhost"]];
+    item.computedData = wv;
+    NSLog(@"set webview %@", wv);
+}
+
++ (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
+    CGSize goodSize = [item.computedData sizeThatFits:CGSizeZero];
+    NSLog(@"sized to %f, %f", goodSize.width, goodSize.height); 
+    //return goodSize.height + 10;
+    return 80;
+}
+
+/* delegate method:
+- (void)webViewDidFinishLoad:(UIWebView *)aWebView {
+    CGRect frame = aWebView.frame;
+    frame.size.height = 1;
+    aWebView.frame = frame;
+    CGSize fittingSize = [aWebView sizeThatFits:CGSizeZero];
+    frame.size = fittingSize;
+    aWebView.frame = frame;
+    
+    NSLog(@"size: %f, %f", fittingSize.width, fittingSize.height);
+}*/
+
+- (void)setObject:(ManagedObjFeedItem *)item {
+    [super setObject:item];
+    [self.contentView addSubview:item.computedData];
+    self.webView = item.computedData;
 }
 
 - (void)layoutSubviews {

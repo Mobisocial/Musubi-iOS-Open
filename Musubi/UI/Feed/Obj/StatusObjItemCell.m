@@ -24,12 +24,12 @@
 //
 
 #import "StatusObjItemCell.h"
-#import "ManagedObjItem.h"
+#import "ManagedObjFeedItem.h"
 #import "ObjHelper.h"
 
 @implementation StatusObjItemCell
 
-+ (NSString*) textForItem: (ManagedObjItem*) item {
++ (NSString*) textForItem: (ManagedObjFeedItem*) item {
     NSString* text = nil;
     text = [[item parsedJson] objectForKey: kObjFieldText];
     if (text == nil) {
@@ -39,13 +39,13 @@
 }
 
 + (CGFloat)renderHeightForItem:(FeedItem *)item {
-    CGSize size = [[StatusObjItemCell textForItem: (ManagedObjItem*)item] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    CGSize size = [[StatusObjItemCell textForItem: (ManagedObjFeedItem*)item] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
     return size.height;
 }
 
 - (void)setObject:(id)object {
     [super setObject:object];
-    NSString* text = [StatusObjItemCell textForItem:(ManagedObjItem*)object];
+    NSString* text = [StatusObjItemCell textForItem:(ManagedObjFeedItem*)object];
     self.detailTextLabel.text = text;
 }
 

@@ -16,19 +16,23 @@
 
 
 //
-//  PictureObjItem.h
+//  ManagedObjItem.h
 //  musubi
 //
-//  Created by Willem Bult on 5/1/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ben Dodson on 5/29/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
 #import "FeedItem.h"
+#import "MObj.h"
 
-@interface PictureObjItem : FeedItem {
-    UIImage* _picture;
-}
+@interface ManagedObjFeedItem : FeedItem
 
-@property (nonatomic,retain) UIImage* picture;
+@property (nonatomic,strong) MObj* managedObj;
+@property (nonatomic,strong) Class cellClass;
+@property (nonatomic,strong) NSDictionary* parsedJson;
+@property (nonatomic,strong) id computedData;
+
+-(id) initWithManagedObj: (MObj*) managedObj;
 
 @end

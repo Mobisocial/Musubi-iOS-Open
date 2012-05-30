@@ -24,6 +24,7 @@
 //
 
 #import "FeedItemCell.h"
+#import "ManagedObjFeedItem.h"
 
 @interface HtmlObjItemCell : FeedItemCell
 
