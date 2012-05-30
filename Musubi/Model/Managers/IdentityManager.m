@@ -143,8 +143,9 @@
     
     for (int i=0; i<results.count; i++) {
         MIdentity* match = [results objectAtIndex:i];
-        if (![[match principalHash] isEqualToData:ident.hashed])
-            return nil;
+        if (![[match principalHash] isEqualToData:ident.hashed]) {
+            continue;
+        }
         return match;
     }
     return nil;
