@@ -244,19 +244,30 @@
     [self refreshFeed];    
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
+        FriendPickerTableViewController *vc = [segue destinationViewController];
+        [vc setFriendsSelectedDelegate:self];
+    }
+}
+
 - (void)friendsSelected:(NSArray *)selection {
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
-    
+
+    if (selection.count == 0) {
+        return;
+    }
+
+    FeedManager* fm = [[FeedManager alloc] initWithStore:store];
     AppManager* am = [[AppManager alloc] initWithStore:store];
     MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
-    FeedManager* fm = [[FeedManager alloc] initWithStore:store];
     
     //add members to feed
     [fm attachMembers:selection toFeed:_feed];
     //send an introduction
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:selection];
     [ObjHelper sendObj: invitationObj toFeed:_feed fromApp:app usingStore: store];
-
+    
     [self.navigationController popViewControllerAnimated:NO]; // back to the feed
 }
 
@@ -268,7 +279,6 @@
         vc.friendsSelectedDelegate = self;
     }
 }
-
 @end
 
 
