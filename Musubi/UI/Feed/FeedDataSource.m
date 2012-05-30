@@ -76,7 +76,6 @@
     if ([kObjFieldRenderModeLatest isEqualToString:renderMode]) {
         MObj* child = [_objManager latestChildForParent:managed];
         if (child) {
-            NSLog(@"Got a child %@", child);
             managed = child;
             item = [[ManagedObjFeedItem alloc] initWithManagedObj:managed];
         }
