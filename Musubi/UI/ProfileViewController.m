@@ -86,6 +86,17 @@
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+        case 0: {
+            return 90;
+        }
+        default: {
+            return 44;
+        }
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"ProfileNamePictureCell";
@@ -97,8 +108,23 @@
                 reuseIdentifier:CellIdentifier];
     }
     
-    cell.name.text = _identity.name;
-    cell.picture.image = [UIImage imageWithData:_identity.thumbnail];
+    if(_identity.musubiName) {
+        cell.name.text = _identity.musubiName;
+    } else if(_identity.name) {
+        cell.name.text = _identity.name;
+    } else if(_identity.principal) {
+        cell.name.text = _identity.principal;
+    } else {
+        cell.name.text = @"Unknown";
+    }
+
+    cell.principal.text = _identity.principal;
+    if(_identity.musubiThumbnail) {
+        cell.picture.image = [UIImage imageWithData:_identity.musubiThumbnail];
+    }
+    else if (_identity.thumbnail) {
+        cell.picture.image = [UIImage imageWithData:_identity.thumbnail];
+    }
     return cell;
 }
 

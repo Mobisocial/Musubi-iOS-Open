@@ -28,6 +28,7 @@
 @implementation ProfileNamePictureCell
 
 @synthesize name = _name;
+@synthesize principal = _principal;
 @synthesize picture = _picture;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

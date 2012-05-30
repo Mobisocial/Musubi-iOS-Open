@@ -111,14 +111,9 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     [super layoutSubviews];
     
     CGFloat left = 0.0f;
-<<<<<<< HEAD
+
     if (_profilePictureButton) {
         _profilePictureButton.frame = CGRectMake(kTableCellSmallMargin, kTableCellSmallMargin,
-=======
-    if (_profilePictureView) {
-        [_profilePictureView setContentMode:UIViewContentModeScaleAspectFit];
-        _profilePictureView.frame = CGRectMake(kTableCellSmallMargin, kTableCellSmallMargin,
->>>>>>> 15e1721ce29525aef325509c34c1746bd77ec036
                                        kDefaultMessageImageWidth, kDefaultMessageImageHeight);        
     }
     

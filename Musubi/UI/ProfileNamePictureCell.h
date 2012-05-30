@@ -29,5 +29,6 @@
 
 @property (nonatomic, strong) IBOutlet UIImageView* picture;
 @property (nonatomic, strong) IBOutlet UILabel* name;
+@property (nonatomic, strong) IBOutlet UILabel* principal;
 
 @end
