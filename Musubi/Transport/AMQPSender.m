@@ -178,7 +178,7 @@
     
     uint32_t deliveryTag = [connMngr nextSequenceNumber];
     NSManagedObjectID* obj_id = msg.objectID;
-    [connMngr publish:msg.encoded to:groupExchangeName onChannel:kAMQPChannelOutgoing onAck:^{
+    [connMngr publish:msg.encoded to:groupExchangeName onChannel:kAMQPChannelOutgoing onAck:[^{
         PersistentModelStore* store = [[Musubi sharedInstance] newStore];
         NSError* error;
         MEncodedMessage* msg = (MEncodedMessage*)[store.context existingObjectWithID:obj_id error:&error];
@@ -186,7 +186,7 @@
         msg.processed = YES;
         [store save];
 
-    }];
+    } copy]];
 }
 
 @end
