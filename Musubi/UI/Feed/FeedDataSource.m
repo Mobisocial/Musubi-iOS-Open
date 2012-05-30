@@ -81,6 +81,10 @@
         }
     }
 
+    // todo: can avoid o(n) calls with:
+    // item = [[[obj renderClass] alloc] initWithData obj]
+    // item = [[[[ObjFactory implForManagedObj:mObj] alloc] initWithManagedObj obj]]
+
     if ([obj isMemberOfClass:[StatusObj class]]) {
         item = [[StatusObjItem alloc] initWithText:((StatusObj*) obj).text];
     } else if ([obj isMemberOfClass:[PictureObj class]]) {
