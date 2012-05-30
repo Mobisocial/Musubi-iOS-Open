@@ -47,10 +47,13 @@
 
 #import "AppManager.h"
 #import "MApp.h"
+
 #import "Three20/Three20.h"
 #import "Three20UI/UIViewAdditions.h"
 #import "StatusTextView.h"
 #import "DejalActivityView.h"
+#import "MIdentity.h"
+#import "HTMLAppViewController.h"
 
 @implementation FeedViewController
 
@@ -434,7 +437,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 }
 
 - (IBAction)commandButtonPushed: (id) sender {
-    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", @"Record Audio", nil];
+    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", @"Record Audio", @"Application", nil];
     
     [commandPicker showInView:mainView];
 }
@@ -466,6 +469,30 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             [self hideKeyboard];
             [self slideSubView:self.audioRVC.view];
             break;
+        case 3: // app
+        {
+            NSString* appId = @"edu.stanford.mobisocial.tictactoe";
+            
+            NSMutableArray* userKeys = [NSMutableArray array];
+            FeedManager* feedMgr = [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+            for (MIdentity* ident in [feedMgr identitiesInFeed:_feed]) {
+                [userKeys addObject: ident.principalHash];
+                
+                if ([userKeys count] >= 2)
+                    break;
+            }
+            
+            NSMutableDictionary* appDict = [[NSMutableDictionary alloc] init];
+            [appDict setObject:userKeys forKey:@"membership"];
+            
+            Obj* obj = [[Obj alloc] initWithType:@"appstate"];
+            [obj setData:appDict];
+            
+            AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+            MApp* app = [appMgr ensureAppWithAppId:appId];
+            
+            [ObjHelper sendObj:obj toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+            [self launchApp: app];
         }
     }
 }
@@ -491,6 +518,12 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     //    [self dismissModalViewControllerAnimated:YES];    
     [self.audioRVC.view removeFromSuperview];
     [self refreshFeed];
+
+- (void)launchApp: (MApp*) app { 
+    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"app"];
+    [appViewController setApp: app];
+    
+    [[self navigationController] pushViewController:appViewController animated:YES];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
