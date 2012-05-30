@@ -65,11 +65,19 @@
     PersistentModelStore* store = [storeFactory newStore];
     
     for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"]) {
-        if(obj.processed) {
-            //TODO: there is some logic error that causes this to happen
-            
-            NSLog(@"likely logic error processing obj");
-            continue;
+        @try
+        {
+            if(obj.processed == YES) {
+                NSLog(@"Shut 'er down clancy, she's a pumpin' mud!!");
+                continue;
+            }
+        }
+        @catch (NSException *exception)
+        {
+            if ([[exception name] isEqualToString:NSObjectInaccessibleException]) {
+                //another thread deleted this row, so just move on
+                continue;
+            }
         }
 
         // Don't process the same obj twice in different threads
@@ -142,11 +150,11 @@ static int operationCount = 0;
     if (mObj.processed)
         return;
 
-    Obj* obj = [ObjFactory objFromManagedObj:mObj];
-
-    NSString* targetHash = [obj.data objectForKey:kObjFieldTargetHash];
+    NSError* error;
+    NSDictionary*parsedJson = [NSJSONSerialization JSONObjectWithData:[mObj.json dataUsingEncoding:NSUnicodeStringEncoding] options:0 error:&error];
+    NSString* targetHash = [parsedJson objectForKey:kObjFieldTargetHash];
     if (targetHash != nil) {
-        NSString* targetRelation = [obj.data objectForKey:kObjFieldTargetRelation];
+        NSString* targetRelation = [parsedJson objectForKey:kObjFieldTargetRelation];
         if (targetRelation == nil || [targetRelation isEqualToString:kObjFieldRelationParent]) {
             NSData* hash = [targetHash dataFromHex];
             ObjManager* objMgr = [[ObjManager alloc] initWithStore: _store];
@@ -160,6 +168,7 @@ static int operationCount = 0;
         }
     }
 
+    Obj* obj = [ObjFactory objFromManagedObj:mObj];
     if ([ObjHelper isRenderable: obj]) {
         [mObj setRenderable: YES];
         [feed setLatestRenderableObjTime: [mObj.timestamp timeIntervalSince1970]];

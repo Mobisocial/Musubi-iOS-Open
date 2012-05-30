@@ -24,33 +24,13 @@
 //
 
 #import "PictureObjItemCell.h"
-#import "PictureObjItem.h"
+#import "ManagedObjItem.h"
 
 @implementation PictureObjItemCell
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-    }
-    
-    return self;
-}
-
-- (void)setObject:(id)object {
-    if (_item != object) {
-        [super setObject:object];
-        
-        PictureObjItem* item = object;
-        [self.pictureView setImage: item.picture];
-    }
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-//    self.pictureView.frame = CGRectMake(10, 25, 300, self.frame.size.height - 25);
-    self.pictureView.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, self.detailTextLabel.frame.size.height);
++ (CGFloat)renderHeightForItem:(ManagedObjItem *)item {
+    UIImage* image = [UIImage imageWithData: item.managedObj.raw];
+    return (250 / image.size.width) * image.size.height;
 }
 
 - (UIImageView *)pictureView {
@@ -64,16 +44,17 @@
     return _pictureView;
 }
 
-/*
+- (void)setObject:(ManagedObjItem*)object {
+    if (_item != object) {
+        [super setObject:object];
+        UIImage* image = [UIImage imageWithData: object.managedObj.raw];
+        [self.pictureView setImage: image];
+    }
+}
 
-+ (CGFloat)tableView:(UITableView*)tableView rowHeightForObject:(id)object {
-    
-    PictureObjItem* item = object;
-    return (267 /item.picture.size.width) * item.picture.size.height + 40;
-}*/
-
-+ (CGFloat)renderHeightForItem:(FeedItem *)item {
-    return (250 /((PictureObjItem*)item).picture.size.width) * ((PictureObjItem*)item).picture.size.height;
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.pictureView.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, self.detailTextLabel.frame.size.height);
 }
 
 @end

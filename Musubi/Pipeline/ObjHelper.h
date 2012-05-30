@@ -32,6 +32,7 @@
 #define kObjFieldSharedKey @"sharedKey"
 #define kObjFieldHtml @"__html"
 #define kObjFieldText @"__text"
+#define kObjFieldStatusText @"text"
 #define kObjFieldRenderMode @"__render_mode"
 
 #define kObjFieldRelationParent @"parent"

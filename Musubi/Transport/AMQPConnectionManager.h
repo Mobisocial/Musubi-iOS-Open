@@ -36,17 +36,16 @@
 
 @interface AMQPConnectionManager : NSObject {
     amqp_connection_state_t conn;
-    NSLock* connLock;
     
     int last_channel;
     BOOL connectionReady;
     uint32_t sequenceNumber;
     uint64_t lastIncomingDeliveryTag;
-    
-    int connectionAttempts;
 }
 
-@property (nonatomic) NSLock* connLock;
+@property (nonatomic, strong) NSRecursiveLock* connLock;
+@property (atomic, strong) NSString* connectionState;
+@property (nonatomic, assign) int connectionAttempts;
 
 - (BOOL) connectionIsAlive;
 - (void) initializeConnection;
@@ -63,7 +62,7 @@
 - (void) bindQueue: (NSString*) queue toExchange: (NSString*) exchange onChannel: (int) channel;
 - (void) unbindQueue: (NSString*) queue fromExchange: (NSString*) exchange onChannel: (int) channel;
 - (void) bindExchange: (NSString*) dest to: (NSString*) src onChannel: (int) channel;
-- (void) publish: (NSData*) data to: (NSString*) dest onChannel: (int) channel;
+- (void) publish: (NSData*) data to: (NSString*) dest onChannel: (int) channel onAck:(void(^)())onAck;
 //- (void)consumeFromQueue:(amqp_bytes_t)queue onChannel:(int)channel;
 - (void)consumeFromQueue:(NSString*)queue onChannel:(int)channel nolocal:(BOOL)nolocal exclusive:(BOOL)exclusive;
 - (NSData*) readMessage;

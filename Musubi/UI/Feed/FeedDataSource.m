@@ -38,7 +38,6 @@
 #import "Obj.h"
 
 #import "StatusObj.h"
-#import "StatusObjItem.h"
 #import "StatusObjItemCell.h"
 
 #import "PictureObj.h"
@@ -50,6 +49,9 @@
 #import "HtmlObjItemCell.h"
 
 #import "IntroductionObj.h"
+#import "IntroductionObjItemCell.h"
+
+#import "ManagedObjItem.h"
 
 #import "Musubi.h"
 
@@ -81,24 +83,27 @@
         }
     }
 
+    // todo: can avoid o(n) calls with:
+    // item = [[[obj renderClass] alloc] initWithData obj]
+    // item = [[[[ObjFactory implForManagedObj:mObj] alloc] initWithManagedObj obj]]
+
+    Class cellClass;
     if ([obj isMemberOfClass:[StatusObj class]]) {
-        item = [[StatusObjItem alloc] initWithText:((StatusObj*) obj).text];
+        cellClass = [StatusObjItemCell class];
     } else if ([obj isMemberOfClass:[PictureObj class]]) {
-        item = [[PictureObjItem alloc] init];
-        [(PictureObjItem*)item setPicture: ((PictureObj*) obj).image];
+        cellClass = [PictureObjItemCell class];
     } else if ([obj isMemberOfClass:[IntroductionObj class]]) {
-        // TODO: intro obj rendering
+        cellClass = [IntroductionObjItemCell class];
     } else if (nil != [obj.data objectForKey:kObjFieldHtml]) {
-        NSString* html = [obj.data objectForKey:kObjFieldHtml];
-        item = [[HtmlObjItem alloc] initWithHtml:html];
+        cellClass = [HtmlObjItemCell class];
     } else if (nil != [obj.data objectForKey:kObjFieldText]) {
-        NSString* text = [obj.data objectForKey:kObjFieldText];
-        item = [[StatusObjItem alloc] initWithText:text];
+        cellClass = [StatusObjItemCell class];
     }
 
-    if (item) {
+    if (cellClass) {
+        item = [[ManagedObjItem alloc] initWithManagedObj:mObj cellClass:cellClass];
+
         NSMutableDictionary* likes = [NSMutableDictionary dictionary];
-        
         for (MLike* like in [_objManager likesForObj:mObj]) {
             if (like.sender) {
                 if (like.sender.owned) {
@@ -172,13 +177,8 @@
 - (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {
     
     Class cls = nil;
-    
-    if ([object isKindOfClass:StatusObjItem.class]) {  
-        cls = [StatusObjItemCell class];  
-    } else if ([object isKindOfClass:PictureObjItem.class]) {
-        cls = [PictureObjItemCell class];
-    } else if ([object isKindOfClass:HtmlObjItem.class]) {
-        cls = [HtmlObjItemCell class];
+    if ([object isKindOfClass:ManagedObjItem.class]) {
+        cls = [((ManagedObjItem*)object) cellClass];
     }
 
     if (cls == nil) {

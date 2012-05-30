@@ -16,21 +16,16 @@
 
 
 //
-//  StatusObjItem.h
+//  IntroductionObjItemCell.h
 //  musubi
 //
-//  Created by Willem Bult on 4/22/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ben Dodson on 5/29/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "FeedItem.h"
+#import "FeedItemCell.h"
+#import "ManagedObjItem.h"
 
-@interface StatusObjItem : FeedItem {
-    NSString* text;
-}
-
-- (id)initWithText: (NSString*) text;
-
-@property (nonatomic,copy) NSString* text;
-
+@interface IntroductionObjItemCell : FeedItemCell
++ (NSString*) textForItem: (ManagedObjItem*)item;
 @end

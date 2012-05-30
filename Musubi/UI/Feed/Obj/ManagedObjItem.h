@@ -16,24 +16,22 @@
 
 
 //
-//  StatusObjItem.m
+//  ManagedObjItem.h
 //  musubi
 //
-//  Created by Willem Bult on 4/22/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ben Dodson on 5/29/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "StatusObjItem.h"
+#import "FeedItem.h"
+#import "MObj.h"
 
-@implementation StatusObjItem
+@interface ManagedObjItem : FeedItem
 
-@synthesize text;
+@property (nonatomic,strong) MObj* managedObj;
+@property (nonatomic,strong) Class cellClass;
+@property (nonatomic,strong) NSDictionary* parsedJson;
 
-- (id)initWithText: (NSString*) textField {
-    self = [super init];
-    if (!self) return nil;
-    self.text = textField;
-    return self;
-}
+-(id) initWithManagedObj: (MObj*) managedObj cellClass: cellClass;
 
 @end

@@ -24,34 +24,33 @@
 //
 
 #import "StatusObjItemCell.h"
-#import "StatusObjItem.h"
+#import "ManagedObjItem.h"
+#import "ObjHelper.h"
 
 @implementation StatusObjItemCell
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {        
-        self.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-        self.detailTextLabel.numberOfLines = 0;
++ (NSString*) textForItem: (ManagedObjItem*) item {
+    NSString* text = nil;
+    text = [[item parsedJson] objectForKey: kObjFieldText];
+    if (text == nil) {
+        text = [[item parsedJson] objectForKey: kObjFieldStatusText];
     }
-    return self;
+    return text;
+}
+
++ (CGFloat)renderHeightForItem:(FeedItem *)item {
+    CGSize size = [[StatusObjItemCell textForItem: (ManagedObjItem*)item] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    return size.height;
+}
+
+- (void)setObject:(id)object {
+    [super setObject:object];
+    NSString* text = [StatusObjItemCell textForItem:(ManagedObjItem*)object];
+    self.detailTextLabel.text = text;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-}
-
-
-- (void)setObject:(id)object {
-    [super setObject:object];
-    
-    self.detailTextLabel.text = ((StatusObjItem*) object).text;
-}
-
-+ (CGFloat)renderHeightForItem:(FeedItem *)item {
-    CGSize size = [((StatusObjItem*)item).text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
-    return size.height;
 }
 
 @end

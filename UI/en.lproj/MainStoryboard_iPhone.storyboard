@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vh5-YM-htJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vh5-YM-htJ">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
@@ -19,8 +19,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="o9G-oe-VLB">
                             <connections>
-                                <action selector="newGroupButtonClicked:" destination="XDU-Me-xmm" id="9CV-jV-1c2"/>
-                                <segue destination="Xha-HF-lG4" kind="push" id="t5m-Jc-LzJ"/>
+                                <segue destination="Xha-HF-lG4" kind="push" identifier="CreateNewFeedSegue" id="t5m-Jc-LzJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -86,7 +85,7 @@
                     <navigationItem key="navigationItem" id="5Xm-Dg-E30">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="pag-BX-SvO">
                             <connections>
-                                <action selector="createFeed:" destination="Xha-HF-lG4" id="3kp-CA-gvy"/>
+                                <action selector="friendsSelected:" destination="Xha-HF-lG4" id="Jkb-ls-awa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -143,7 +142,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Pvg-ZF-B50"/>
+                    <navigationItem key="navigationItem" id="Pvg-ZF-B50">
+                        <barButtonItem key="rightBarButtonItem" title="Item" systemItem="add" id="M67-eo-fRQ">
+                            <connections>
+                                <segue destination="Xha-HF-lG4" kind="push" identifier="AddPeopleSegue" id="XIU-DW-4Aq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mainView" destination="t65-qL-TF4" id="8Hz-cF-6nV"/>
                         <outlet property="postView" destination="9g9-Wc-oJA" id="Klw-On-5eV"/>
@@ -424,6 +429,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="9wc-wM-uie"/>
+        <segue reference="thq-lQ-aa5"/>
+        <segue reference="XIU-DW-4Aq"/>
     </inferredMetricsTieBreakers>
 </document>
