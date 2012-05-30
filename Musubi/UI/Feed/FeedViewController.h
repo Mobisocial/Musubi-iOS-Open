@@ -28,7 +28,7 @@
 
 @class MFeed;
 
-@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendsSelected> {
+@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendPickerDelegate> {
     MFeed* _feed;
     
     IBOutlet UITextField* updateField;

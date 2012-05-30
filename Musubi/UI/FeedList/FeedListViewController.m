@@ -195,7 +195,7 @@
         [self updatePending];
     } else if ([[segue identifier] isEqualToString:@"CreateNewFeedSegue"]) {
         FriendPickerTableViewController *vc = [segue destinationViewController];
-        [vc setFriendsSelectedDelegate:self];
+        [vc setDelegate:self];
     }
 }
 
