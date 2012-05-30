@@ -43,6 +43,8 @@
 
 @property (nonatomic, readonly) NSArray *results;
 @property (nonatomic, readonly) BOOL hasMore;
+@property (nonatomic, readonly) MFeed* feed;
+@property (nonatomic, readonly) ObjManager* objManager;
 
 - (id) initWithFeed: (MFeed*) feed;
 - (void) loadNew;

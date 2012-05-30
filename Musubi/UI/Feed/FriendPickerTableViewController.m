@@ -85,7 +85,7 @@
         if(!b.length) b = obj2.principal;
         a = [a stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         b = [b stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        return [a compare:b];
+        return [a caseInsensitiveCompare:b];
     };
     [idents sortUsingComparator: compare];
 

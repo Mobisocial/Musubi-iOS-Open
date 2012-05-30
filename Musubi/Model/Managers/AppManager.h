@@ -32,5 +32,6 @@
 @interface AppManager : EntityManager
 - (id) initWithStore: (PersistentModelStore*) store;
 - (MApp*) ensureAppWithAppId: (NSString*) appId;
+- (MApp*) ensureSuperApp;
 - (BOOL) isSuperApp: (MApp*) app;
 @end
