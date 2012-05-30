@@ -24,6 +24,7 @@
 //
 
 #import "FeedListViewController.h"
+#import "FriendPickerTableViewController.h"
 #import "FeedManager.h"
 #import "Musubi.h"
 #import "MFeed.h"
@@ -37,6 +38,9 @@
 #import "AppDelegate.h"
 #import "AMQPTransport.h"
 #import "AMQPConnectionManager.h"
+#import "AppManager.h"
+#import "IntroductionObj.h"
+#import "ObjHelper.h"
 
 @implementation FeedListViewController
 
@@ -184,12 +188,31 @@
         
         [vc.view addSubview:incomingLabel];
         [self updatePending];
+    } else if ([[segue identifier] isEqualToString:@"CreateNewFeedSegue"]) {
+        FriendPickerTableViewController *vc = [segue destinationViewController];
+        [vc setFriendsSelectedDelegate:self];
     }
 }
 
 - (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
     MFeed* feed = [((FeedListDataSource*)self.dataSource) feedForIndex:indexPath.row];
     [self performSegueWithIdentifier:@"ShowFeedCustom" sender:feed];
+}
+
+- (void) friendsSelected: (NSArray*) selection {
+    PersistentModelStore* store = [Musubi sharedInstance].mainStore;
+    
+    AppManager* am = [[AppManager alloc] initWithStore:store];
+    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+    
+    FeedManager* fm = [[FeedManager alloc] initWithStore: store];
+    MFeed* f = [fm createExpandingFeedWithParticipants:selection];
+    
+    Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:selection];
+    [ObjHelper sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
+
+    [self.navigationController popViewControllerAnimated:NO];
+    [self performSegueWithIdentifier:@"ShowFeedCustom" sender:f];
 }
 
 @end

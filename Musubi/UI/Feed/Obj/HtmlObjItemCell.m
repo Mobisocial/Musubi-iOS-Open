@@ -56,9 +56,7 @@
 }
 
 + (CGFloat)renderHeightForItem:(FeedItem *)item {
-    // TODO: this is the size of the unrendered html as text
-    CGSize size = [((HtmlObjItem*)item).html sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
-    return size.height;
+    return 180;
 }
 
 

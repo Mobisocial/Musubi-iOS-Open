@@ -25,10 +25,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Three20/Three20.h"
+#import "FriendPickerTableViewController.h"
 
 @class FeedManager;
 
-@interface FeedListViewController : TTTableViewController {
+@interface FeedListViewController : TTTableViewController<FriendsSelected> {
     UILabel* incomingLabel;
 }
 

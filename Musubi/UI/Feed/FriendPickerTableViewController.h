@@ -28,6 +28,10 @@
 
 @class IdentityManager, MIdentity;
 
+@protocol FriendsSelected <NSObject>
+- (void) friendsSelected:(NSArray*)selection;
+@end
+
 @interface FriendPickerTableViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, TTTableViewDataSource, UITextFieldDelegate> {
    
     IBOutlet UIScrollView* recipientView;
@@ -43,8 +47,7 @@
 @property (nonatomic, strong) NSMutableDictionary* identities;
 @property (nonatomic, strong) NSArray* index;
 @property (nonatomic, strong) NSMutableArray* selection;
-
-- (IBAction) createFeed: (id) sender;
+@property (nonatomic, strong) id<FriendsSelected> friendsSelectedDelegate;
 
 @end
 
