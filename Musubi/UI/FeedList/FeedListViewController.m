@@ -144,7 +144,7 @@
         }
     }
     
-    if (newText) {
+    if (newText.length > 0) {
         incomingLabel.hidden = NO;
         [incomingLabel setText: [NSString stringWithFormat:@"  %@", newText]];
         if (incomingLabel.superview == self.view) {
