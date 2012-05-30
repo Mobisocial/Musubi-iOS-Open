@@ -249,7 +249,11 @@
     
     AppManager* am = [[AppManager alloc] initWithStore:store];
     MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
-
+    FeedManager* fm = [[FeedManager alloc] initWithStore:store];
+    
+    //add members to feed
+    [fm attachMembers:selection toFeed:_feed];
+    //send an introduction
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:selection];
     [ObjHelper sendObj: invitationObj toFeed:_feed fromApp:app usingStore: store];
 
@@ -258,8 +262,10 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
-        FriendPickerTableViewController *vc = [segue destinationViewController];
-        [vc setFriendsSelectedDelegate:self];
+        FriendPickerTableViewController *vc = segue.destinationViewController;
+        FeedManager* fm = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        vc.pinnedIdentities = [NSSet setWithArray:[fm identitiesInFeed:_feed]];
+        vc.friendsSelectedDelegate = self;
     }
 }
 
