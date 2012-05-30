@@ -109,7 +109,6 @@ static NSOperationQueue* sApnQueue = nil;
 
         [NSURLConnection sendAsynchronousRequest:request queue:[APNPushManager apnQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError * error) {
             NSLog(@"Clear returned %@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
-            [TestFlight passCheckpoint:@"[AMQPListener] cleared unread"];
         }];
 
     }
@@ -133,6 +132,24 @@ static NSOperationQueue* sApnQueue = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
         //TODO: could have several go in out of order if the net is slow
         int unread = [APNPushManager tallyLocalUnread];
+        [APNPushManager resetLocalUnread:deviceToken count:unread];
+        [application setApplicationIconBadgeNumber:unread ];
+        //TODO: main thread?
+        [application endBackgroundTask:bgt];
+    });
+}
++ (void) resetBothUnreadInBackgroundTask {
+    NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
+    if(!deviceToken)	
+        return;
+    UIApplication* application = [UIApplication sharedApplication];
+    UIBackgroundTaskIdentifier bgt = [application beginBackgroundTaskWithExpirationHandler:^(void) {
+        [application endBackgroundTask:bgt];
+    }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        //TODO: could have several go in out of order if the net is slow
+        int unread = [APNPushManager tallyLocalUnread];
+        [APNPushManager clearRemoteUnread:deviceToken];
         [APNPushManager resetLocalUnread:deviceToken count:unread];
         [application setApplicationIconBadgeNumber:unread ];
         //TODO: main thread?

@@ -43,10 +43,12 @@
     if( [userInfo objectForKey:@"local"] != NULL &&
        [userInfo objectForKey:@"amqp"] != NULL)
     {
-        //TODO: good and racy
-        NSNumber* amqp = (NSNumber*)[userInfo objectForKey:@"amqp"]; 
-        int local = [APNPushManager tallyLocalUnread]; 
-        [application setApplicationIconBadgeNumber:(amqp.intValue + local) ];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 6 * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
+            //TODO: good and racy
+            NSNumber* amqp = (NSNumber*)[userInfo objectForKey:@"amqp"]; 
+            int local = [APNPushManager tallyLocalUnread]; 
+            [application setApplicationIconBadgeNumber:(amqp.intValue + local) ];
+        });
     }    
 }
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {     
