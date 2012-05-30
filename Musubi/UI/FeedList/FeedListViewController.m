@@ -203,7 +203,7 @@
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
     
     AppManager* am = [[AppManager alloc] initWithStore:store];
-    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+    MApp* app = [am ensureSuperApp];
     
     FeedManager* fm = [[FeedManager alloc] initWithStore: store];
     MFeed* f = [fm createExpandingFeedWithParticipants:selection];

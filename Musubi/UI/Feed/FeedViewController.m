@@ -260,7 +260,7 @@
 
     FeedManager* fm = [[FeedManager alloc] initWithStore:store];
     AppManager* am = [[AppManager alloc] initWithStore:store];
-    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+    MApp* app = [am ensureSuperApp];
 
     for (MIdentity* identity in selection) {
         [fm attachMember:identity toFeed:_feed];
