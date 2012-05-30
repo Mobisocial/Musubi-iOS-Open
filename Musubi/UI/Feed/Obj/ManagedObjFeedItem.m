@@ -23,14 +23,15 @@
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "ManagedObjItem.h"
+#import "ManagedObjFeedItem.h"
 #import "MObj.h"
+#import "FeedItemCell.h"
 
-@implementation ManagedObjItem {
+@implementation ManagedObjFeedItem {
     NSDictionary* parsedJson;
 }
 
-@synthesize managedObj, cellClass, parsedJson;
+@synthesize managedObj, cellClass, parsedJson, computedData;
 
 - (id)initWithManagedObj:(MObj*)mObj cellClass:(Class)cellClassArg
 {

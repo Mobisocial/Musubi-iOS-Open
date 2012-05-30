@@ -41,17 +41,15 @@
 #import "StatusObjItemCell.h"
 
 #import "PictureObj.h"
-#import "PictureObjItem.h"
 #import "PictureObjItemCell.h"
 
 #import "UnknownObj.h"
-#import "HtmlObjItem.h"
 #import "HtmlObjItemCell.h"
 
 #import "IntroductionObj.h"
 #import "IntroductionObjItemCell.h"
 
-#import "ManagedObjItem.h"
+#import "ManagedObjFeedItem.h"
 
 #import "Musubi.h"
 
@@ -84,8 +82,7 @@
     }
 
     // todo: can avoid o(n) calls with:
-    // item = [[[obj renderClass] alloc] initWithData obj]
-    // item = [[[[ObjFactory implForManagedObj:mObj] alloc] initWithManagedObj obj]]
+    // item = [[ObjFactory implementationForObjType theType] cellClass]
 
     Class cellClass;
     if ([obj isMemberOfClass:[StatusObj class]]) {
@@ -101,7 +98,8 @@
     }
 
     if (cellClass) {
-        item = [[ManagedObjItem alloc] initWithManagedObj:mObj cellClass:cellClass];
+        item = [[ManagedObjFeedItem alloc] initWithManagedObj:mObj cellClass:cellClass];
+        [cellClass prepareItem: item];
 
         NSMutableDictionary* likes = [NSMutableDictionary dictionary];
         for (MLike* like in [_objManager likesForObj:mObj]) {
@@ -177,8 +175,8 @@
 - (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {
     
     Class cls = nil;
-    if ([object isKindOfClass:ManagedObjItem.class]) {
-        cls = [((ManagedObjItem*)object) cellClass];
+    if ([object isKindOfClass:ManagedObjFeedItem.class]) {
+        cls = [((ManagedObjFeedItem*)object) cellClass];
     }
 
     if (cls == nil) {
