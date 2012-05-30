@@ -136,13 +136,8 @@
     } else {
         PersistentModelStore* store = [Musubi sharedInstance].mainStore;
         NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
-        NSArray* objs = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"];
         
         int pending = encoded.count;
-        for (MObj* obj in objs) {
-            if (!obj.identity.owned)
-                pending += 1;
-        }
 
         if (pending > 0) {
             newText = [NSString stringWithFormat: @"Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
@@ -150,6 +145,7 @@
     }
     
     if (newText) {
+        incomingLabel.hidden = NO;
         [incomingLabel setText: [NSString stringWithFormat:@"  %@", newText]];
         if (incomingLabel.superview == self.view) {
             [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
@@ -157,8 +153,7 @@
             [incomingLabel setFrame:CGRectMake(0, 0, 320, 30)];
         }
     } else {
-        [incomingLabel setText:@""];
-        [incomingLabel setFrame:CGRectZero];
+        incomingLabel.hidden = YES;
     }
 }
 
