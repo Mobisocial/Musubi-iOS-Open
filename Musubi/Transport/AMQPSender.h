@@ -31,10 +31,8 @@
 @interface AMQPSender : AMQPThread
 
 @property (nonatomic, strong) NSMutableSet* declaredGroups;
-@property (nonatomic, strong) NSMutableDictionary* waitingForAck;
 @property (nonatomic, strong) NSCondition* messagesWaitingCondition;
 
 - (void) sendMessage: (MEncodedMessage*) msg;
-- (void) confirmDelivery: (uint32_t) deliveryTag succeeded: (BOOL) ack;
 
 @end

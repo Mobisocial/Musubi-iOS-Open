@@ -31,7 +31,6 @@
 
 @interface FeedListViewController : TTTableViewController<FriendsSelected> {
     UILabel* incomingLabel;
-    BOOL waitingForTransportListener;
 }
 
 //@property (nonatomic, strong) NSArray* feeds;

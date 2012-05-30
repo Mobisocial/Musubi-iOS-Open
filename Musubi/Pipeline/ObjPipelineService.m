@@ -65,11 +65,19 @@
     PersistentModelStore* store = [storeFactory newStore];
     
     for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"]) {
-        if(obj.processed) {
-            //TODO: there is some logic error that causes this to happen
-            
-            NSLog(@"likely logic error processing obj");
-            continue;
+        @try
+        {
+            if(obj.processed == YES) {
+                NSLog(@"Shut 'er down clancy, she's a pumpin' mud!!");
+                continue;
+            }
+        }
+        @catch (NSException *exception)
+        {
+            if ([[exception name] isEqualToString:NSObjectInaccessibleException]) {
+                //another thread deleted this row, so just move on
+                continue;
+            }
         }
 
         // Don't process the same obj twice in different threads

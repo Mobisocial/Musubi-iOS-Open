@@ -36,6 +36,8 @@
 #import "ObjPipelineService.h"
 #import "MObj.h"
 #import "AppDelegate.h"
+#import "AMQPTransport.h"
+#import "AMQPConnectionManager.h"
 #import "AppManager.h"
 #import "IntroductionObj.h"
 #import "ObjHelper.h"
@@ -59,20 +61,20 @@
 //    incomingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
     incomingLabel.backgroundColor = [UIColor colorWithRed:180.0/256.0 green:180.0/256.0 blue:180.0/256.0 alpha:1];
     incomingLabel.textColor = [UIColor whiteColor];
-    
-    waitingForTransportListener = YES;
-    
+        
     self.variableHeightRows = YES;
     
     
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     
     // We only need to know when a message starts getting decrypted, when it is completely processed
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationAppOpened object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationTransportListenerWaitingForMessages object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeStarted object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeFinished object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationUpdatedFeed object:nil];
+    [[Musubi sharedInstance].transport.connMngr addObserver:self forKeyPath:@"connectionState" options:0 context:nil];
+    [[Musubi sharedInstance] addObserver:self forKeyPath:@"transport" options:0 context:nil];
+    
+    
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageDecodeStarted object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageDecodeFinished object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationUpdatedFeed object:nil];
 }
 
 
@@ -104,43 +106,46 @@
 
     [incomingLabel removeFromSuperview];
     [self.view addSubview:incomingLabel];
-    [self updatePending:nil];
+    [self updatePending];
 
     // Cardinal
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
 }
 
-- (void)updatePending: (NSNotification*) notification {
-    if ([notification.name isEqualToString:kMusubiNotificationTransportListenerWaitingForMessages] && !waitingForTransportListener)
-        return;
-
-    if (![NSThread currentThread].isMainThread) {
-        [self performSelectorOnMainThread:@selector(updatePending:) withObject:nil waitUntilDone:NO];
-        return;
-    }        
-    waitingForTransportListener = NO;
-        
-    PersistentModelStore* store = [Musubi sharedInstance].mainStore;
-    NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
-    NSArray* objs = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"];
-    
-    int pending = encoded.count;
-    for (MObj* obj in objs) {
-        if (!obj.identity.owned)
-            pending += 1;
-    }
-    
-    if (pending > 0) {
-        incomingLabel.text = [NSString stringWithFormat: @"  Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if([keyPath isEqualToString:@"transport"]) {
+        [[Musubi sharedInstance].transport.connMngr addObserver:self forKeyPath:@"connectionState" options:0 context:nil];
     } else {
-        if ([notification.name isEqualToString:kMusubiNotificationAppOpened]) {
-            waitingForTransportListener = YES;
-            incomingLabel.text = @"  Checking for incoming messages...";   
-        } else {
-            incomingLabel.text = @"";
-        }
+        [self updatePending];
     }
-    
+}
+
+- (void)updatePending {
+    if(![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(updatePending) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    AMQPTransport* transport = [Musubi sharedInstance].transport;
+    NSString* connectionState = transport ? transport.connMngr.connectionState : @"Starting up...";
+
+    incomingLabel.text = @"";
+    if(connectionState) {
+        incomingLabel.text = connectionState;
+    } else {
+        PersistentModelStore* store = [Musubi sharedInstance].mainStore;
+        NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
+        NSArray* objs = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"];
+        
+        int pending = encoded.count;
+        for (MObj* obj in objs) {
+            if (!obj.identity.owned)
+                pending += 1;
+        }
+
+        if (pending > 0) {
+            incomingLabel.text = [NSString stringWithFormat: @"  Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+        } 
+    }    
     if (incomingLabel.text.length) {
         if (incomingLabel.superview == self.view) {
             [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
@@ -182,7 +187,7 @@
         [vc setFeed: (MFeed*) sender];
         
         [vc.view addSubview:incomingLabel];
-        [self updatePending:nil];
+        [self updatePending];
     } else if ([[segue identifier] isEqualToString:@"CreateNewFeedSegue"]) {
         FriendPickerTableViewController *vc = [segue destinationViewController];
         [vc setFriendsSelectedDelegate:self];

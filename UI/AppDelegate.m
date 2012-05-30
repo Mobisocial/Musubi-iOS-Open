@@ -57,7 +57,6 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationAppOpened object:nil]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

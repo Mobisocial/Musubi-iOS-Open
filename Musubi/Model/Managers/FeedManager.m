@@ -203,7 +203,7 @@
         
         [self.store.context insertObject:feed];
         [self.store save];
-        return feed;
+        return (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@)", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
     }
 }
 
