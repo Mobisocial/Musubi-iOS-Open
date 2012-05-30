@@ -64,6 +64,15 @@
         NSString* name = [IdentityManager displayNameForIdentity:mId];
         if (mId.owned || name.length == 0 || [name isEqualToString:@"Unknown"])
             continue;
+        BOOL pinned = NO;
+        for(MIdentity* pid in _pinnedIdentities) {
+            if([pid.objectID isEqual:mId.objectID]){
+                pinned = YES;
+               break;
+            }
+        }
+        if(pinned)
+            continue;
         //skip the ones that are already members
         if(!filter && [_pinnedIdentities containsObject:mId]) 
             continue;
@@ -253,6 +262,7 @@
         cell.userInteractionEnabled = NO;
         cell.textLabel.alpha = 0.439216f;
     } else {
+        cell.userInteractionEnabled = YES;
         cell.textLabel.alpha = 1.0;
     }
 
@@ -284,7 +294,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     NSString* t = [_index objectAtIndex:section];
     if([t isEqualToString:@"\u2713"])
-        t = @"Already Addded";
+        t = @"Already Added";
     return t;
 }
 /*
@@ -370,7 +380,7 @@
 }
 
 - (NSString*) tableView:(UITableView*)tv labelForObject:(id) obj {
-    return ((MIdentity*)obj).name;
+    return [IdentityManager displayNameForIdentity:obj];
 }
 
 - (NSString*) tableView:(UITableView *)tableView subLabelForObject:(id)obj {
