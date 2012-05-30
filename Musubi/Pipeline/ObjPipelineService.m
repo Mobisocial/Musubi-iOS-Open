@@ -150,11 +150,11 @@ static int operationCount = 0;
     if (mObj.processed)
         return;
 
-    Obj* obj = [ObjFactory objFromManagedObj:mObj];
-
-    NSString* targetHash = [obj.data objectForKey:kObjFieldTargetHash];
+    NSError* error;
+    NSDictionary*parsedJson = [NSJSONSerialization JSONObjectWithData:[mObj.json dataUsingEncoding:NSUnicodeStringEncoding] options:0 error:&error];
+    NSString* targetHash = [parsedJson objectForKey:kObjFieldTargetHash];
     if (targetHash != nil) {
-        NSString* targetRelation = [obj.data objectForKey:kObjFieldTargetRelation];
+        NSString* targetRelation = [parsedJson objectForKey:kObjFieldTargetRelation];
         if (targetRelation == nil || [targetRelation isEqualToString:kObjFieldRelationParent]) {
             NSData* hash = [targetHash dataFromHex];
             ObjManager* objMgr = [[ObjManager alloc] initWithStore: _store];
@@ -168,6 +168,7 @@ static int operationCount = 0;
         }
     }
 
+    Obj* obj = [ObjFactory objFromManagedObj:mObj];
     if ([ObjHelper isRenderable: obj]) {
         [mObj setRenderable: YES];
         [feed setLatestRenderableObjTime: [mObj.timestamp timeIntervalSince1970]];

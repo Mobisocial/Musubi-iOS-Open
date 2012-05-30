@@ -25,12 +25,18 @@
 
 #import "HtmlObjItemCell.h"
 #import "HtmlObjItem.h"
+#import "ManagedObjItem.h"
+#import "ObjHelper.h"
 
 @implementation HtmlObjItemCell {
     UIWebView* webView;
 }
 
 @synthesize webView;
+
++ (CGFloat)renderHeightForItem:(ManagedObjItem *)item {
+    return 180;
+}
 
 - (UIWebView*) webView {
     if (!webView) {
@@ -42,22 +48,14 @@
     return webView;
 }
 
+- (void)setObject:(ManagedObjItem *)item {
+    [super setObject:item];
+    NSString* html = [[item parsedJson] objectForKey:kObjFieldHtml];
+    [self.webView loadHTMLString:html baseURL:[NSURL URLWithString:@"http://localhost"]];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.webView.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, self.detailTextLabel.frame.size.height);
 }
-
-
-- (void)setObject:(id)object {
-    [super setObject:object];
-    
-    //self.detailTextLabel.text = ((HtmlObjItem*) object).html;
-    [self.webView loadHTMLString:((HtmlObjItem*) object).html baseURL:[NSURL URLWithString:@"http://localhost"]];
-}
-
-+ (CGFloat)renderHeightForItem:(FeedItem *)item {
-    return 180;
-}
-
-
 @end

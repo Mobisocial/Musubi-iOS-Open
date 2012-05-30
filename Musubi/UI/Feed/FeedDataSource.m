@@ -87,23 +87,23 @@
     // item = [[[obj renderClass] alloc] initWithData obj]
     // item = [[[[ObjFactory implForManagedObj:mObj] alloc] initWithManagedObj obj]]
 
+    Class cellClass;
     if ([obj isMemberOfClass:[StatusObj class]]) {
-        item = [[ManagedObjItem alloc] initWithManagedObj:mObj cellClass:[StatusObjItemCell class]];
+        cellClass = [StatusObjItemCell class];
     } else if ([obj isMemberOfClass:[PictureObj class]]) {
-        item = [[PictureObjItem alloc] init];
-        [(PictureObjItem*)item setPicture: ((PictureObj*) obj).image];
+        cellClass = [PictureObjItemCell class];
     } else if ([obj isMemberOfClass:[IntroductionObj class]]) {
-        item = [[ManagedObjItem alloc] initWithManagedObj:mObj cellClass:[IntroductionObjItemCell class]];
+        cellClass = [IntroductionObjItemCell class];
     } else if (nil != [obj.data objectForKey:kObjFieldHtml]) {
-        NSString* html = [obj.data objectForKey:kObjFieldHtml];
-        item = [[HtmlObjItem alloc] initWithHtml:html];
+        cellClass = [HtmlObjItemCell class];
     } else if (nil != [obj.data objectForKey:kObjFieldText]) {
-        item = [[ManagedObjItem alloc] initWithManagedObj:mObj cellClass:[StatusObjItemCell class]];
+        cellClass = [StatusObjItemCell class];
     }
 
-    if (item) {
+    if (cellClass) {
+        item = [[ManagedObjItem alloc] initWithManagedObj:mObj cellClass:cellClass];
+
         NSMutableDictionary* likes = [NSMutableDictionary dictionary];
-        
         for (MLike* like in [_objManager likesForObj:mObj]) {
             if (like.sender) {
                 if (like.sender.owned) {
@@ -177,16 +177,8 @@
 - (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {
     
     Class cls = nil;
-
-    // TODO: get rid of this switch statement, use the cellClass
-    // from ManagedObjItem in its place.
-    // This class's setObject: does the heavy work of preparing the UI given the data.
     if ([object isKindOfClass:ManagedObjItem.class]) {
         cls = [((ManagedObjItem*)object) cellClass];
-    } else if ([object isKindOfClass:PictureObjItem.class]) {
-        cls = [PictureObjItemCell class];
-    } else if ([object isKindOfClass:HtmlObjItem.class]) {
-        cls = [HtmlObjItemCell class];
     }
 
     if (cls == nil) {
