@@ -244,13 +244,6 @@
     [self refreshFeed];    
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
-        FriendPickerTableViewController *vc = [segue destinationViewController];
-        [vc setFriendsSelectedDelegate:self];
-    }
-}
-
 - (void)friendsSelected:(NSArray *)selection {
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
 
