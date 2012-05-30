@@ -358,7 +358,8 @@
             
         [connLock lock];
         if (res <= 0) {
-            self.connectionState = nil;
+            if(self.connectionState)
+                self.connectionState = nil;
         }
         if (!connectionReady) {
             [connLock unlock];
@@ -371,7 +372,8 @@
         if (res > 0) {
             break;
         }
-        self.connectionState = nil;
+        if(self.connectionState)
+            self.connectionState = nil;
     }
     @try {
         amqp_frame_t frame;
