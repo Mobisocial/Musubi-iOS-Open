@@ -184,7 +184,7 @@
         case 0:
             return @"Profile";
         case 1:
-            return @"Chats";
+            return @"Conversations";
     }
     
     return nil;
