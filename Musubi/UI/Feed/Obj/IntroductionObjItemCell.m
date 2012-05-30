@@ -29,8 +29,7 @@
 @implementation IntroductionObjItemCell
 
 + (CGFloat)renderHeightForItem:(FeedItem *)item {
-    CGSize size = [kAddedSomePeople sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
-    return size.height;
+    return 16;
 }
 
 - (void)setObject:(id)object {
