@@ -187,7 +187,7 @@
         StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
         
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+        MApp* app = [am ensureSuperApp];
         
         [ObjHelper sendObj:status toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
         
@@ -236,19 +236,12 @@
     PictureObj* pic = [[PictureObj alloc] initWithImage: image];
     
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+    MApp* app = [am ensureSuperApp];
     
     [ObjHelper sendObj:pic toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
     [self refreshFeed];    
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
-        FriendPickerTableViewController *vc = [segue destinationViewController];
-        [vc setFriendsSelectedDelegate:self];
-    }
 }
 
 - (void)friendsSelected:(NSArray *)selection {
@@ -261,17 +254,24 @@
     FeedManager* fm = [[FeedManager alloc] initWithStore:store];
     AppManager* am = [[AppManager alloc] initWithStore:store];
     MApp* app = [am ensureSuperApp];
-
-    for (MIdentity* identity in selection) {
-        [fm attachMember:identity toFeed:_feed];
-    }
-
+    
+    //add members to feed
+    [fm attachMembers:selection toFeed:_feed];
+    //send an introduction
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:selection];
     [ObjHelper sendObj: invitationObj toFeed:_feed fromApp:app usingStore: store];
     
     [self.navigationController popViewControllerAnimated:NO]; // back to the feed
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
+        FriendPickerTableViewController *vc = segue.destinationViewController;
+        FeedManager* fm = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        vc.pinnedIdentities = [NSSet setWithArray:[fm identitiesInFeed:_feed]];
+        vc.friendsSelectedDelegate = self;
+    }
+}
 @end
 
 
@@ -285,7 +285,7 @@
         LikeObj* like = [[LikeObj alloc] initWithObjHash: item.obj.universalHash];
                 
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+        MApp* app = [am ensureSuperApp];
         
         FeedViewController* controller = (FeedViewController*) self.controller;
         

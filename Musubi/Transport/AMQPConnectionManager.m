@@ -435,7 +435,7 @@
             @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Expected frame header but got something else" userInfo:nil];
         }
         
-        self.connectionState = @"Retreiving messages...";
+        self.connectionState = @"Retrieving messages...";
 
         body_target = frame.payload.properties.body_size;
         body_received = 0;

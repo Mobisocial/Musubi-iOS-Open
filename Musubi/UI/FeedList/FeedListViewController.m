@@ -59,8 +59,8 @@
     incomingLabel.font = [UIFont systemFontOfSize: 13.0];
     incomingLabel.text = @"";
 //    incomingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
-    incomingLabel.backgroundColor = [UIColor colorWithRed:180.0/256.0 green:180.0/256.0 blue:180.0/256.0 alpha:1];
-    incomingLabel.textColor = [UIColor whiteColor];
+    incomingLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.5];
+    incomingLabel.textColor = [UIColor colorWithWhite:1 alpha:1];
         
     self.variableHeightRows = YES;
     
@@ -125,35 +125,35 @@
         [self performSelectorOnMainThread:@selector(updatePending) withObject:nil waitUntilDone:NO];
         return;
     }
+    
+    NSString* newText = nil;
+    
     AMQPTransport* transport = [Musubi sharedInstance].transport;
     NSString* connectionState = transport ? transport.connMngr.connectionState : @"Starting up...";
 
-    incomingLabel.text = @"";
     if(connectionState) {
-        incomingLabel.text = connectionState;
+        newText = connectionState;
     } else {
         PersistentModelStore* store = [Musubi sharedInstance].mainStore;
         NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
-        NSArray* objs = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"];
         
         int pending = encoded.count;
-        for (MObj* obj in objs) {
-            if (!obj.identity.owned)
-                pending += 1;
-        }
 
         if (pending > 0) {
-            incomingLabel.text = [NSString stringWithFormat: @"  Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
-        } 
-    }    
-    if (incomingLabel.text.length) {
+            newText = [NSString stringWithFormat: @"Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+        }
+    }
+    
+    if (newText.length > 0) {
+        incomingLabel.hidden = NO;
+        [incomingLabel setText: [NSString stringWithFormat:@"  %@", newText]];
         if (incomingLabel.superview == self.view) {
             [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
         } else {
             [incomingLabel setFrame:CGRectMake(0, 0, 320, 30)];
         }
     } else {
-        [incomingLabel setFrame:CGRectZero];
+        incomingLabel.hidden = YES;
     }
 }
 
