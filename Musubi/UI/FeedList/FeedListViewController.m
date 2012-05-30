@@ -59,8 +59,8 @@
     incomingLabel.font = [UIFont systemFontOfSize: 13.0];
     incomingLabel.text = @"";
 //    incomingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
-    incomingLabel.backgroundColor = [UIColor colorWithRed:180.0/256.0 green:180.0/256.0 blue:180.0/256.0 alpha:1];
-    incomingLabel.textColor = [UIColor whiteColor];
+    incomingLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.5];
+    incomingLabel.textColor = [UIColor colorWithWhite:1 alpha:1];
         
     self.variableHeightRows = YES;
     
@@ -126,7 +126,7 @@
         return;
     }
     
-    NSString* newText = @"";
+    NSString* newText = nil;
     
     AMQPTransport* transport = [Musubi sharedInstance].transport;
     NSString* connectionState = transport ? transport.connMngr.connectionState : @"Starting up...";
