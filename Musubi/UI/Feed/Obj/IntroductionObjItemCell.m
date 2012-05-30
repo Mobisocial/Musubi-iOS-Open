@@ -24,18 +24,49 @@
 //
 
 #import "IntroductionObjItemCell.h"
-#define kAddedSomePeople @"Added some people...."
+#define kAddedSomePeople @"Added some people."
 
 @implementation IntroductionObjItemCell
 
-+ (CGFloat)renderHeightForItem:(FeedItem *)item {
-    return 16;
++ (NSString*) textForItem: (ManagedObjItem*)item {
+    NSArray* identities = [[item parsedJson] objectForKey:@"identities"];
+    int max = 5;
+    int count = MIN(identities.count, max);
+    BOOL more = identities.count > max;
+    NSMutableString* buffer = [[NSMutableString alloc] initWithCapacity:50];
+    [buffer appendString:@"Added: "];
+    for (int i = 0; i < count; i++) {
+        [buffer appendString: [[identities objectAtIndex:i] objectForKey:@"name"]];
+        if (i < (count-2)) {
+            [buffer appendString: @", "];
+        } else if (i == count-2) {
+            if (!more) {
+                if (count == 2) {
+                    [buffer appendString: @" and "];
+                } else {
+                    [buffer appendString: @", and "];
+                }
+            }
+        }
+    }
+    if (more) {
+        [buffer appendFormat:@" and %d more.", (identities.count - max)];
+    } else {
+        [buffer appendString:@"."];
+    }
+    return buffer;
 }
 
-- (void)setObject:(id)object {
++ (CGFloat)renderHeightForItem:(ManagedObjItem*)item {
+    NSString* text = [IntroductionObjItemCell textForItem:item];
+    CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    return size.height;
+}
+
+- (void)setObject:(ManagedObjItem*)object {
     [super setObject:object];
-    NSString* text = kAddedSomePeople;
-    self.detailTextLabel.text = text;
+
+    self.detailTextLabel.text = [IntroductionObjItemCell textForItem:object];
 }
 
 - (void)layoutSubviews {
