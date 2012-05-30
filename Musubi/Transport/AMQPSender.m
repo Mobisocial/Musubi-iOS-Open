@@ -44,14 +44,12 @@
     int groupProbeChannel;
 }
 
-@synthesize declaredGroups, waitingForAck, messagesWaitingCondition = _messagesWaitingCondition;
+@synthesize declaredGroups, messagesWaitingCondition = _messagesWaitingCondition;
 
 - (id)initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf {
     self = [super initWithConnectionManager:conn storeFactory:sf];
     if (!self)
         return nil;
-
-    self.waitingForAck = [NSMutableDictionary dictionary];
     self.declaredGroups = [NSMutableSet set];
     groupProbeChannel = -1;
     
@@ -101,6 +99,7 @@
             if (unsent != nil) {
                 if (unsent.count > 0)
                     [self log:@"Sending %d messages", unsent.count];
+                //TODO: in memory pending list to not resend
                 
                 int left = unsent.count;
                 for (MEncodedMessage* msg in unsent) {
@@ -178,38 +177,16 @@
     //[self log:@"Publishing to %@", groupExchangeName];
     
     uint32_t deliveryTag = [connMngr nextSequenceNumber];
-    [connMngr publish:msg.encoded to:groupExchangeName onChannel:kAMQPChannelOutgoing];
-    
-//    [self log:@"Outgoing: %@", msg.encoded];
-    
-    [waitingForAck setObject:msg forKey:[NSNumber numberWithUnsignedInt:deliveryTag]];
-    
-    // TODO: wait for ack;
-    [self confirmDelivery:deliveryTag succeeded:YES];
-}
-
-- (void)confirmDelivery:(uint32_t)deliveryTag succeeded:(BOOL)ack {
-    
-    NSNumber* key = [NSNumber numberWithUnsignedInt:deliveryTag];
-    
-    if (ack) {
-        MEncodedMessage* msg = [waitingForAck objectForKey:key];
-        if (msg == nil) {
-            @throw [NSException exceptionWithName:kMusubiExceptionNotFound reason:@"No message for delivery tag" userInfo:nil];
-        }
-        
-        assert (msg.outbound);
+    NSManagedObjectID* obj_id = msg.objectID;
+    [connMngr publish:msg.encoded to:groupExchangeName onChannel:kAMQPChannelOutgoing onAck:^{
+        PersistentModelStore* store = [[Musubi sharedInstance] newStore];
+        NSError* error;
+        MEncodedMessage* msg = (MEncodedMessage*)[store.context existingObjectWithID:obj_id error:&error];
+        assert(msg.outbound);
         msg.processed = YES;
-        [threadStore save];
-        
-        //[connMngr ackMessage:deliveryTag onChannel:kAMQPChannelOutgoing];
-    } else {
-        //don't immediately try to resend, just flag it, it will be rescanned later
-        //this probably only happens if the server is temporarily out of space
-    }
-    
-    [waitingForAck removeObjectForKey:key];
-}
+        [store save];
 
+    }];
+}
 
 @end

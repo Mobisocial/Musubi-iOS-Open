@@ -32,18 +32,22 @@
 #import "PersistentModelStore.h"
 #include <sys/socket.h>
 
-@implementation AMQPConnectionManager
+@implementation AMQPConnectionManager {
+    NSMutableArray* pending;
+}
 
 @synthesize connLock, connectionState, connectionAttempts;
 
 - (id)init {
     self = [super init];
-    if (self) {
-        [self setConnLock: [[NSRecursiveLock alloc] init]];
-        conn = nil;
-        connectionReady = NO;
-        connectionAttempts = 0;
-    }
+    if (!self) return nil;
+
+    [self setConnLock: [[NSRecursiveLock alloc] init]];
+    conn = nil;
+    connectionReady = NO;
+    connectionAttempts = 0;
+    pending = [NSMutableArray array];
+    
     return self;
 }
 
@@ -101,6 +105,7 @@
         [connLock unlock];
         return;
     }
+    [pending removeAllObjects];
     
     self.connectionState = @"Waiting to try again...";
     [NSThread sleepForTimeInterval: MIN(300, powl(2, connectionAttempts) - 1)];
@@ -403,6 +408,15 @@
             return nil;
         }
         
+        if (frame.payload.method.id == AMQP_BASIC_ACK_METHOD) {
+            if(pending.count == 0)
+                @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Unexpected basic ack from broker" userInfo:nil];
+            void (^ack_block)()  = (void(^)())[pending objectAtIndex:0];
+            [pending removeObjectAtIndex:0];
+            [connLock unlock];
+            ack_block();
+            return nil;
+        }
         if (frame.payload.method.id != AMQP_BASIC_DELIVER_METHOD) {
             [connLock unlock];
             return nil;
@@ -451,7 +465,8 @@
 
 }
 
-- (void) publish: (NSData*) data to: (NSString*) dest onChannel: (int) channel {
+- (void) publish: (NSData*) data to: (NSString*) dest onChannel: (int) channel onAck:(void(^)())onAck
+{
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
@@ -469,7 +484,7 @@
     if (result > 0) {
         @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Error while publishing" userInfo:nil];
     }
-    
+    [pending addObject:onAck];
     sequenceNumber++;
     
     [connLock unlock];
