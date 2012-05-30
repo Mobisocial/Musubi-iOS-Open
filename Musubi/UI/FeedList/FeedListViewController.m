@@ -149,7 +149,7 @@
         }
     }
     
-    if (newText) {
+    if (newText.length > 0) {
         [incomingLabel setText: [NSString stringWithFormat:@"  %@", newText]];
         if (incomingLabel.superview == self.view) {
             [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
