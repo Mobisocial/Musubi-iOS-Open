@@ -31,5 +31,6 @@
 @interface DeleteObj : Obj
 
 - (id) initWithData: (NSDictionary*) data;
+- (id) initWithTargetObj: (MObj*) obj;
 
 @end

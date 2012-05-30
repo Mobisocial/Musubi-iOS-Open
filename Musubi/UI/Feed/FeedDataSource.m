@@ -27,6 +27,7 @@
 #import "FeedModel.h"
 #import "FeedItem.h"
 
+#import "AppManager.h"
 #import "IdentityManager.h"
 #import "ObjManager.h"
 #import "MIdentity.h"
@@ -36,6 +37,8 @@
 #import "ObjHelper.h"
 #import "ObjFactory.h"
 #import "Obj.h"
+
+#import "DeleteObj.h"
 
 #import "StatusObj.h"
 #import "StatusObjItemCell.h"
@@ -175,6 +178,30 @@
         loadMoreButton.isLoading = NO;
         [self.items insertObject:loadMoreButton atIndex:0];
     }
+}
+
+- (MObj*)objForIndex:(int)i {
+    FeedItem* feedItem = [self.items objectAtIndex:i];
+    return feedItem.obj;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        PersistentModelStore* store = [Musubi sharedInstance].mainStore;
+
+        AppManager* am = [[AppManager alloc] initWithStore:store];
+        MApp* app = [am ensureSuperApp];
+
+        MObj* obj = [self objForIndex:indexPath.row];
+        id deleteObj = [[DeleteObj alloc] initWithTargetObj: obj];
+        FeedModel* feedModel = self.model;
+        [ObjHelper sendObj:deleteObj toFeed:feedModel.feed fromApp:app usingStore:store];
+
+        [tableView beginUpdates];
+        [_items removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+        [tableView endUpdates]; 
+    } 
 }
 
 - (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {

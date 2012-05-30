@@ -187,7 +187,7 @@
         StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
         
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+        MApp* app = [am ensureSuperApp];
         
         [ObjHelper sendObj:status toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
         
@@ -236,7 +236,7 @@
     PictureObj* pic = [[PictureObj alloc] initWithImage: image];
     
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+    MApp* app = [am ensureSuperApp];
     
     [ObjHelper sendObj:pic toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
     
@@ -253,7 +253,7 @@
 
     FeedManager* fm = [[FeedManager alloc] initWithStore:store];
     AppManager* am = [[AppManager alloc] initWithStore:store];
-    MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+    MApp* app = [am ensureSuperApp];
     
     //add members to feed
     [fm attachMembers:selection toFeed:_feed];
@@ -285,7 +285,7 @@
         LikeObj* like = [[LikeObj alloc] initWithObjHash: item.obj.universalHash];
                 
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        MApp* app = [am ensureAppWithAppId:@"mobisocial.musubi"];
+        MApp* app = [am ensureSuperApp];
         
         FeedViewController* controller = (FeedViewController*) self.controller;
         
