@@ -167,7 +167,6 @@
     if ([[segue identifier] isEqualToString:@"ShowFeed"]) {
         FeedViewController *vc = [segue destinationViewController];
         [vc setFeed: (MFeed*) sender];
-        
         [vc.view addSubview:incomingLabel];
         [self updatePending];
     } else if ([[segue identifier] isEqualToString:@"CreateNewFeed"]) {

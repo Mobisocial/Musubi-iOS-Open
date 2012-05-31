@@ -251,6 +251,18 @@
     return unaccepted;
 }
 
+- (NSArray*) acceptedFeedsFromIdentity: (MIdentity*) ident {
+    NSMutableArray* feeds = [NSMutableArray array];
+    for (MFeedMember* mFeedMember in [store query:[NSPredicate predicateWithFormat:@"identity = %@", ident] onEntity:@"FeedMember"]) {
+        if(mFeedMember.feed) {
+            [feeds addObject: mFeedMember.feed];
+        }
+    }
+    
+    NSArray* accepted = [self query: [NSPredicate predicateWithFormat:@"(self IN %@) AND ((type == %d) OR (type == %d)) AND (accepted == YES)", feeds, kFeedTypeFixed, kFeedTypeExpanding] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"latestRenderableObjTime" ascending:FALSE]];
+    return accepted;
+}
+
 - (void) acceptFeedsFromIdentity: (MIdentity*) ident {
     for (MFeed* feed in [self unacceptedFeedsFromIdentity:ident]) {
         int64_t now = [[NSDate date] timeIntervalSince1970] * 1000;

@@ -30,6 +30,8 @@
 #import "Recipient.h"
 #import "MIdentity.h"
 #import "PersistentModelStore.h"
+#import "APNPushManager.h"
+#import "Musubi.h"
 #include <sys/socket.h>
 
 @implementation AMQPConnectionManager {
@@ -328,7 +330,7 @@
     [connLock unlock];
 }
 
-- (NSData*) readMessage {
+- (NSData*) readMessageAndCall:(void(^)())block after:(NSDate*) date {
     [connLock lock];
     if (!connectionReady) {
         [connLock unlock];
@@ -374,6 +376,11 @@
         }
         if(self.connectionState)
             self.connectionState = nil;
+        if(date && block && [[NSDate date] timeIntervalSinceDate:date] > 0) {
+            block();
+            date = nil;
+            block = nil;
+        }
     }
     @try {
         amqp_frame_t frame;

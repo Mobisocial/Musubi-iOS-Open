@@ -61,28 +61,31 @@
     
     NSMutableArray* idents = [NSMutableArray arrayWithCapacity:265];
     for (MIdentity* mId in [_identityManager query:nil]) {
-        if (!mId.owned && mId.name.length > 0) {
-            //skip the ones that are already members
-            if([_pinnedIdentities containsObject:mId]) 
-                continue;
-            if (!filter || [mId.name rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound 
-                || [mId.musubiName rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound
-                || [mId.principal rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound)
-                [idents addObject:mId];
+        NSString* name = [IdentityManager displayNameForIdentity:mId];
+        if (mId.owned || name.length == 0 || [name isEqualToString:@"Unknown"])
+            continue;
+        BOOL pinned = NO;
+        for(MIdentity* pid in _pinnedIdentities) {
+            if([pid.objectID isEqual:mId.objectID]){
+                pinned = YES;
+               break;
+            }
+        }
+        if(pinned)
+            continue;
+        //skip the ones that are already members
+        if(!filter && [_pinnedIdentities containsObject:mId]) 
+            continue;
+        if (!filter || (mId.name && [mId.name rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound)
+            || (mId.musubiName && [mId.musubiName rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound)
+            || (mId.principal && [mId.principal rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound)) {
+            [idents addObject:mId];
         }
     }
     
     NSComparisonResult (^compare) (MIdentity*, MIdentity*) = ^(MIdentity* obj1, MIdentity* obj2) {
-        NSString* a = obj1.musubiName;
-        NSString* b = obj2.musubiName;
-        a = [a stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        b = [b stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        if(!a.length) a = obj1.name;
-        if(!b.length) b = obj2.name;
-        a = [a stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        b = [b stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        if(!a.length) a = obj1.principal;
-        if(!b.length) b = obj2.principal;
+        NSString* a = [IdentityManager displayNameForIdentity:obj1];
+        NSString* b = [IdentityManager displayNameForIdentity:obj2];
         a = [a stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         b = [b stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         return [a caseInsensitiveCompare:b];
@@ -91,8 +94,11 @@
 
     
     NSMutableArray* pinnedIdents = [NSMutableArray arrayWithCapacity:_pinnedIdentities.count];
-    for(MIdentity* mId in _pinnedIdentities)
-        [pinnedIdents addObject:mId];
+    if(!filter) {
+        //if we are filtering, no pinned identities
+        for(MIdentity* mId in _pinnedIdentities)
+            [pinnedIdents addObject:mId];
+    }
     [pinnedIdents sortUsingComparator: compare];
 
     int pinned = pinnedIdents.count;
@@ -256,6 +262,7 @@
         cell.userInteractionEnabled = NO;
         cell.textLabel.alpha = 0.439216f;
     } else {
+        cell.userInteractionEnabled = YES;
         cell.textLabel.alpha = 1.0;
     }
 
@@ -287,7 +294,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     NSString* t = [_index objectAtIndex:section];
     if([t isEqualToString:@"\u2713"])
-        t = @"Already Addded";
+        t = @"Already Added";
     return t;
 }
 /*
@@ -373,7 +380,7 @@
 }
 
 - (NSString*) tableView:(UITableView*)tv labelForObject:(id) obj {
-    return ((MIdentity*)obj).name;
+    return [IdentityManager displayNameForIdentity:obj];
 }
 
 - (NSString*) tableView:(UITableView *)tableView subLabelForObject:(id)obj {

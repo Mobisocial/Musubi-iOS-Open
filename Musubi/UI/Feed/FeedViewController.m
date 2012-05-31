@@ -24,6 +24,7 @@
 //
 
 #import "FeedViewController.h"
+#import "ProfileViewController.h"
 #import "FriendPickerTableViewController.h"
 #import "FeedDataSource.h"
 #import "FeedModel.h"
@@ -34,6 +35,7 @@
 
 #import "FeedManager.h"
 #import "MFeed.h"
+#import "MIdentity.h"
 #import "ObjHelper.h"
 #import "LikeObj.h"
 #import "PictureObj.h"
@@ -62,7 +64,6 @@
 
 - (void)loadView {
     [super loadView];
-    
     FeedManager* feedManager = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     self.title = [feedManager identityStringForFeed: _feed];
     
@@ -239,8 +240,9 @@
     [ObjHelper sendObj:pic toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
-    [self refreshFeed];    
+    [self refreshFeed];  
 }
+
 
 - (void)friendsSelected:(NSArray *)selection {
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
@@ -269,6 +271,12 @@
         vc.pinnedIdentities = [NSSet setWithArray:[fm identitiesInFeed:_feed]];
         vc.delegate = self;
     }
+    else if ([[segue identifier] isEqualToString:@"ShowProfile"]) {
+        ProfileViewController *vc = [segue destinationViewController];
+        [vc setIdentity: (MIdentity*) sender];
+        //[vc.view addSubview:incomingLabel];
+        //[self updatePending:nil];
+    }
 }
 @end
 
@@ -294,6 +302,13 @@
     }
 }
 
+- (void)profilePictureButtonPressedAtIndexPath:(NSIndexPath *)indexPath {
+    FeedViewController* controller = (FeedViewController*) self.controller;
+    
+    FeedItem* item = [self.controller.dataSource tableView:self.controller.tableView objectForRowAtIndexPath:indexPath];
+    [controller performSegueWithIdentifier:@"ShowProfile" sender:item.obj.identity];
+}
+
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [(FeedViewController*)self.controller hideKeyboard];
     return indexPath;
@@ -309,5 +324,11 @@
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
 }
+
+
+/*- (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
+    MFeed* feed = [((FeedListDataSource*)self.dataSource) feedForIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"ShowFeedCustom" sender:feed];
+}*/
 
 @end

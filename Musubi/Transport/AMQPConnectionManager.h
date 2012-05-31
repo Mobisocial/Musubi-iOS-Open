@@ -65,7 +65,7 @@
 - (void) publish: (NSData*) data to: (NSString*) dest onChannel: (int) channel onAck:(void(^)())onAck;
 //- (void)consumeFromQueue:(amqp_bytes_t)queue onChannel:(int)channel;
 - (void)consumeFromQueue:(NSString*)queue onChannel:(int)channel nolocal:(BOOL)nolocal exclusive:(BOOL)exclusive;
-- (NSData*) readMessage;
+- (NSData*) readMessageAndCall:(void(^)())block after:(NSDate*) date;
 - (void) ackMessage: (int) deliveryTag onChannel: (int) channel;
 - (uint32_t) nextSequenceNumber;
 - (uint64_t) lastIncomingSequenceNumber;

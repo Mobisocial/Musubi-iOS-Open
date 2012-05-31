@@ -45,6 +45,7 @@
 - (MFeed *)feedWithType:(int16_t)type andCapability:(NSData *)capability;
 - (NSArray*) displayFeeds;
 - (NSArray*) unacceptedFeedsFromIdentity: (MIdentity*) ident;
+- (NSArray*) acceptedFeedsFromIdentity: (MIdentity*) ident;
 
 - (MIdentity*) ownedIdentityForFeed: (MFeed*) feed;
 - (int) countIdentitiesFrom: (NSArray*) participants inFeed: (MFeed*) feed;

@@ -16,20 +16,23 @@
 
 
 //
-//  APNPushManager.h
+//  ProfileViewController.h
 //  musubi
 //
-//  Created by MokaFive User on 5/10/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ian Vo on 5/25/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface APNPushManager : NSObject
-+ (void) resetLocalUnread:(NSString*)deviceToken count:(int)count;
-+ (void) clearRemoteUnread:(NSString*)deviceToken;
-+ (void) registerDevice:(NSString*)deviceToken identities:(NSArray*)idents localUnread:(int)count;
-+ (int) tallyLocalUnread;
-+ (void) resetLocalUnreadInBackgroundTask;
-+ (void) resetBothUnreadInBackgroundTask;
+@class MIdentity;
+@class FeedManager;
+
+@interface ProfileViewController : UITableViewController {
+    NSArray* feeds;
+}
+
+@property (nonatomic, retain) MIdentity* identity;
+@property (nonatomic, strong) FeedManager* feedManager;
+
 @end
