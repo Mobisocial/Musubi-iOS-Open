@@ -16,7 +16,7 @@
 
 
 //
-//  FeedListViewController.h
+//  FeedListModel.h
 //  musubi
 //
 //  Created by Willem Bult on 5/30/12.
@@ -24,10 +24,17 @@
 //
 
 #import "Three20/Three20.h"
-#import "FriendPickerTableViewController.h"
 
-@interface FeedListViewController : TTTableViewController<FriendPickerDelegate> {
-    UILabel* incomingLabel;
+@class FeedManager;
+
+@interface FeedListModel : TTModel {
+    FeedManager* _feedManager;
+
+    BOOL _loaded;
+    BOOL _loading;
+    NSMutableArray* _results;
 }
+
+@property (nonatomic,strong) NSMutableArray* results;
 
 @end

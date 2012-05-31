@@ -19,21 +19,16 @@
 //  FeedListDataSource.h
 //  musubi
 //
-//  Created by Willem Bult on 5/4/12.
+//  Created by Willem Bult on 5/30/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "Three20/Three20.h"
 
 @class FeedManager;
-@class MFeed;
 
 @interface FeedListDataSource : TTListDataSource {
-    FeedManager* feedManager;
+    FeedManager* _feedManager;
 }
-
-@property (nonatomic, retain) FeedManager* feedManager;
-
-- (MFeed*) feedForIndex: (int) i;
 
 @end

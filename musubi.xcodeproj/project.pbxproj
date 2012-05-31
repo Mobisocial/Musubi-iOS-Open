@@ -90,8 +90,6 @@
 		D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D216DE6014F48951001A4166 /* InfoPlist.strings */; };
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
 		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
-		D23EED041554858A00B18153 /* FeedListDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D23EED031554858A00B18153 /* FeedListDataSource.m */; };
-		D23EED071554A30E00B18153 /* FeedListItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D23EED061554A30E00B18153 /* FeedListItemCell.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
 		D25F49151471A32500AC1551 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49031471A32500AC1551 /* bson.c */; };
 		D25F49161471A32500AC1551 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49051471A32500AC1551 /* encoding.c */; };
@@ -104,6 +102,11 @@
 		D26028DF1566EEBE00CF6500 /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D26028DB1566EEBE00CF6500 /* gear@2x.png */; };
 		D26028E01566EEBE00CF6500 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D26028DC1566EEBE00CF6500 /* logo.png */; };
 		D26028E11566EEBE00CF6500 /* logo_57.png in Resources */ = {isa = PBXBuildFile; fileRef = D26028DD1566EEBE00CF6500 /* logo_57.png */; };
+		D26D0F5B1576D57200722E3B /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D0F5A1576D57200722E3B /* FeedListViewController.m */; };
+		D26D0F5E1576DC1700722E3B /* FeedListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D0F5D1576DC1700722E3B /* FeedListModel.m */; };
+		D26D0F611576DC2A00722E3B /* FeedListDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D0F601576DC2A00722E3B /* FeedListDataSource.m */; };
+		D26D0F641576DC5500722E3B /* FeedListItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D0F631576DC5500722E3B /* FeedListItemCell.m */; };
+		D26D0F671576DF3100722E3B /* FeedListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D0F661576DF3100722E3B /* FeedListItem.m */; };
 		D26D1692156C6C0C00FC7650 /* heart32.png in Resources */ = {isa = PBXBuildFile; fileRef = D26D1691156C6C0C00FC7650 /* heart32.png */; };
 		D26D3707147B3ED400C4FE93 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369D147B3ED300C4FE93 /* NSData+Base64.m */; };
 		D26D3709147B3ED400C4FE93 /* NSData+Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */; };
@@ -162,7 +165,6 @@
 		D2C0AA9B14FF035100E9D0BF /* MessageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */; };
 		D2C66EFB156CC2AD001A0124 /* Model.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D2C66EFA156CC2AD001A0124 /* Model.xcmappingmodel */; };
 		D2C66F01156CCF22001A0124 /* heart32_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D2C66F00156CCF22001A0124 /* heart32_gray.png */; };
-		D2C66F08156DF01B001A0124 /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C66F07156DF01B001A0124 /* FeedListViewController.m */; };
 		D2C66F1F156DF02C001A0124 /* FeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C66F0B156DF02C001A0124 /* FeedItem.m */; };
 		D2C66F20156DF02C001A0124 /* FeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C66F0D156DF02C001A0124 /* FeedItemCell.m */; };
 		D2C66F22156DF02C001A0124 /* PictureObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C66F11156DF02C001A0124 /* PictureObjItemCell.m */; };
@@ -450,10 +452,6 @@
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSender.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
-		D23EED021554858A00B18153 /* FeedListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListDataSource.h; path = FeedList/FeedListDataSource.h; sourceTree = "<group>"; };
-		D23EED031554858A00B18153 /* FeedListDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListDataSource.m; path = FeedList/FeedListDataSource.m; sourceTree = "<group>"; };
-		D23EED051554A30E00B18153 /* FeedListItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListItemCell.h; path = FeedList/FeedListItemCell.h; sourceTree = "<group>"; };
-		D23EED061554A30E00B18153 /* FeedListItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListItemCell.m; path = FeedList/FeedListItemCell.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D25F49031471A32500AC1551 /* bson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson.c; sourceTree = "<group>"; };
 		D25F49041471A32500AC1551 /* bson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson.h; sourceTree = "<group>"; };
@@ -473,6 +471,16 @@
 		D26028DB1566EEBE00CF6500 /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
 		D26028DC1566EEBE00CF6500 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		D26028DD1566EEBE00CF6500 /* logo_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_57.png; sourceTree = "<group>"; };
+		D26D0F591576D57100722E3B /* FeedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListViewController.h; path = FeedList/FeedListViewController.h; sourceTree = "<group>"; };
+		D26D0F5A1576D57200722E3B /* FeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListViewController.m; path = FeedList/FeedListViewController.m; sourceTree = "<group>"; };
+		D26D0F5C1576DC1700722E3B /* FeedListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListModel.h; path = FeedList/FeedListModel.h; sourceTree = "<group>"; };
+		D26D0F5D1576DC1700722E3B /* FeedListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListModel.m; path = FeedList/FeedListModel.m; sourceTree = "<group>"; };
+		D26D0F5F1576DC2A00722E3B /* FeedListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListDataSource.h; path = FeedList/FeedListDataSource.h; sourceTree = "<group>"; };
+		D26D0F601576DC2A00722E3B /* FeedListDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListDataSource.m; path = FeedList/FeedListDataSource.m; sourceTree = "<group>"; };
+		D26D0F621576DC5400722E3B /* FeedListItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListItemCell.h; path = FeedList/FeedListItemCell.h; sourceTree = "<group>"; };
+		D26D0F631576DC5500722E3B /* FeedListItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListItemCell.m; path = FeedList/FeedListItemCell.m; sourceTree = "<group>"; };
+		D26D0F651576DF3000722E3B /* FeedListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListItem.h; path = FeedList/FeedListItem.h; sourceTree = "<group>"; };
+		D26D0F661576DF3100722E3B /* FeedListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListItem.m; path = FeedList/FeedListItem.m; sourceTree = "<group>"; };
 		D26D1691156C6C0C00FC7650 /* heart32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart32.png; sourceTree = "<group>"; };
 		D26D1693156C81B700FC7650 /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
 		D26D369C147B3ED300C4FE93 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
@@ -906,8 +914,6 @@
 		D2C66EFA156CC2AD001A0124 /* Model.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = Model.xcmappingmodel; sourceTree = "<group>"; };
 		D2C66EFC156CC5DC001A0124 /* Model 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 6.xcdatamodel"; sourceTree = "<group>"; };
 		D2C66F00156CCF22001A0124 /* heart32_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart32_gray.png; sourceTree = "<group>"; };
-		D2C66F06156DF01B001A0124 /* FeedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListViewController.h; path = FeedList/FeedListViewController.h; sourceTree = "<group>"; };
-		D2C66F07156DF01B001A0124 /* FeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListViewController.m; path = FeedList/FeedListViewController.m; sourceTree = "<group>"; };
 		D2C66F0A156DF02C001A0124 /* FeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedItem.h; sourceTree = "<group>"; };
 		D2C66F0B156DF02C001A0124 /* FeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedItem.m; sourceTree = "<group>"; };
 		D2C66F0C156DF02C001A0124 /* FeedItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedItemCell.h; sourceTree = "<group>"; };
@@ -1200,12 +1206,16 @@
 			children = (
 				D2A1FC191521A99700C10BE2 /* FriendPickerTableViewController.h */,
 				D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */,
-				D2C66F06156DF01B001A0124 /* FeedListViewController.h */,
-				D2C66F07156DF01B001A0124 /* FeedListViewController.m */,
-				D23EED021554858A00B18153 /* FeedListDataSource.h */,
-				D23EED031554858A00B18153 /* FeedListDataSource.m */,
-				D23EED051554A30E00B18153 /* FeedListItemCell.h */,
-				D23EED061554A30E00B18153 /* FeedListItemCell.m */,
+				D26D0F591576D57100722E3B /* FeedListViewController.h */,
+				D26D0F5A1576D57200722E3B /* FeedListViewController.m */,
+				D26D0F5C1576DC1700722E3B /* FeedListModel.h */,
+				D26D0F5D1576DC1700722E3B /* FeedListModel.m */,
+				D26D0F5F1576DC2A00722E3B /* FeedListDataSource.h */,
+				D26D0F601576DC2A00722E3B /* FeedListDataSource.m */,
+				D26D0F621576DC5400722E3B /* FeedListItemCell.h */,
+				D26D0F631576DC5500722E3B /* FeedListItemCell.m */,
+				D26D0F651576DF3000722E3B /* FeedListItem.h */,
+				D26D0F661576DF3100722E3B /* FeedListItem.m */,
 			);
 			name = FeedList;
 			sourceTree = "<group>";
@@ -3024,8 +3034,6 @@
 				D2F8C68C1526438F005AD880 /* GoogleAuth.m in Sources */,
 				D210C17B1526D70B00280605 /* GoogleIdentityUpdater.m in Sources */,
 				D208BDDA15339CE700F6FC5C /* PictureObj.m in Sources */,
-				D23EED041554858A00B18153 /* FeedListDataSource.m in Sources */,
-				D23EED071554A30E00B18153 /* FeedListItemCell.m in Sources */,
 				C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */,
 				C075913415605A790006948E /* NSData+HexString.m in Sources */,
 				D48048A11561CC980066279D /* MLikeCache.m in Sources */,
@@ -3045,7 +3053,6 @@
 				2F24EB8B1563B48C00D803C0 /* CXMLNode_XPathExtensions.m in Sources */,
 				2F24EB8D1563B48C00D803C0 /* CTidy.m in Sources */,
 				D2C66EFB156CC2AD001A0124 /* Model.xcmappingmodel in Sources */,
-				D2C66F08156DF01B001A0124 /* FeedListViewController.m in Sources */,
 				D2C66F1F156DF02C001A0124 /* FeedItem.m in Sources */,
 				D2C66F20156DF02C001A0124 /* FeedItemCell.m in Sources */,
 				D2C66F22156DF02C001A0124 /* PictureObjItemCell.m in Sources */,
@@ -3078,6 +3085,11 @@
 				D410BA5215734DEC00951D94 /* HtmlObjItemCell.m in Sources */,
 				D4698A301575E6EF000749CF /* ManagedObjFeedItem.m in Sources */,
 				D4698A331575FBBD000749CF /* IntroductionObjItemCell.m in Sources */,
+				D26D0F5B1576D57200722E3B /* FeedListViewController.m in Sources */,
+				D26D0F5E1576DC1700722E3B /* FeedListModel.m in Sources */,
+				D26D0F611576DC2A00722E3B /* FeedListDataSource.m in Sources */,
+				D26D0F641576DC5500722E3B /* FeedListItemCell.m in Sources */,
+				D26D0F671576DF3100722E3B /* FeedListItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3402,7 +3414,7 @@
 					"-lIBE",
 				);
 				PRODUCT_NAME = Musubi;
-				PROVISIONING_PROFILE = "48C385C8-886D-46B7-95D6-9B6E8C4CD438";
+				PROVISIONING_PROFILE = "89299E8F-C6B5-4DC1-84D6-877E02B63F6E";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

@@ -53,6 +53,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        // TTTableViewController doesn't implement initWithCoder: so do the required init here
         _lastInterfaceOrientation = self.interfaceOrientation;
         _tableViewStyle = UITableViewStylePlain;
         _clearsSelectionOnViewWillAppear = YES;
@@ -101,10 +102,6 @@
 
 - (BOOL)shouldLoadMore {
     return [(FeedModel*)self.model hasMore];
-}
-
-- (void)updateView {
-    [super updateView];
 }
 
 - (void) scrollToBottomAnimated: (BOOL) animated {
@@ -210,6 +207,7 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+
     switch (buttonIndex) {
         case 0: // take picture
         {
@@ -320,7 +318,6 @@
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [(FeedViewController*)self.controller hideKeyboard];
     return indexPath;
 }

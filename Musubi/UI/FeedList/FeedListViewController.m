@@ -19,35 +19,40 @@
 //  FeedListViewController.m
 //  musubi
 //
-//  Created by Willem Bult on 3/29/12.
+//  Created by Willem Bult on 5/30/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "FeedListViewController.h"
-#import "FriendPickerTableViewController.h"
-#import "FeedManager.h"
 #import "Musubi.h"
-#import "MFeed.h"
-#import "MIdentity.h"
-#import "FeedViewController.h"
 #import "FeedListDataSource.h"
+#import "FeedListModel.h"
+#import "FeedListItem.h"
 #import "PersistentModelStore.h"
-#import "MessageDecodeService.h"
-#import "ObjPipelineService.h"
-#import "MObj.h"
-#import "AppDelegate.h"
 #import "AMQPTransport.h"
 #import "AMQPConnectionManager.h"
+
+#import "FeedViewController.h"
+#import "FriendPickerTableViewController.h"
+
 #import "AppManager.h"
-#import "IntroductionObj.h"
+#import "MApp.h"
+#import "FeedManager.h"
+#import "MFeed.h"
+
 #import "ObjHelper.h"
+#import "IntroductionObj.h"
 
 @implementation FeedListViewController
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        
+        // TTTableViewController doesn't implement initWithCoder: so do the required init here
+        _lastInterfaceOrientation = self.interfaceOrientation;
+        _tableViewStyle = UITableViewStylePlain;
+        _clearsSelectionOnViewWillAppear = YES;
+        _flags.isViewInvalid = YES;
     }
     return self;
 }
@@ -58,58 +63,57 @@
     incomingLabel = [[UILabel alloc] init];
     incomingLabel.font = [UIFont systemFontOfSize: 13.0];
     incomingLabel.text = @"";
-//    incomingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
     incomingLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.5];
     incomingLabel.textColor = [UIColor colorWithWhite:1 alpha:1];
-        
-    self.variableHeightRows = YES;
     
+    self.variableHeightRows = YES;
     
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     
     // We only need to know when a message starts getting decrypted, when it is completely processed
     [[Musubi sharedInstance].transport.connMngr addObserver:self forKeyPath:@"connectionState" options:0 context:nil];
     [[Musubi sharedInstance] addObserver:self forKeyPath:@"transport" options:0 context:nil];
-    
-    
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageDecodeStarted object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageDecodeFinished object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationUpdatedFeed object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [incomingLabel removeFromSuperview];
+    [self.view addSubview:incomingLabel];
+    [self updatePending];
+    
+    // Cardinal
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
 
 - (void)createModel {
     self.dataSource = [[FeedListDataSource alloc] init];
 }
 
-- (id<UITableViewDelegate>)createDelegate {    
-    return [[TTTableViewPlainVarHeightDelegate alloc]
-            initWithController:self];
+- (id<UITableViewDelegate>)createDelegate {
+    return [[TTTableViewVarHeightDelegate alloc] initWithController:self];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (void) feedUpdated: (NSNotification*) notification {    
+    if (![NSThread currentThread].isMainThread) {
+        [self performSelectorOnMainThread:@selector(feedUpdated:) withObject:notification waitUntilDone:NO];
+        return;
+    }
+  
     [self refresh];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    [incomingLabel removeFromSuperview];
-    [self.view addSubview:incomingLabel];
-    [self updatePending];
-
-    // Cardinal
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -120,6 +124,8 @@
     }
 }
 
+
+// TODO: This needs to be in some other class, but let's keep it simple for now
 - (void)updatePending {
     if(![NSThread isMainThread]) {
         [self performSelectorOnMainThread:@selector(updatePending) withObject:nil waitUntilDone:NO];
@@ -130,7 +136,7 @@
     
     AMQPTransport* transport = [Musubi sharedInstance].transport;
     NSString* connectionState = transport ? transport.connMngr.connectionState : @"Starting up...";
-
+    
     if(connectionState) {
         newText = connectionState;
     } else {
@@ -138,7 +144,7 @@
         NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
         
         int pending = encoded.count;
-
+        
         if (pending > 0) {
             newText = [NSString stringWithFormat: @"Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
         }
@@ -157,45 +163,21 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void) feedUpdated: (NSNotification*) notification {
-    if (![NSThread isMainThread]) {
-        [self performSelectorOnMainThread:@selector(feedUpdated:) withObject:notification waitUntilDone:NO];
-        return;
-    }
-
-    [self performSelector:@selector(reloadFeeds) withObject:nil afterDelay:0];
-}
-
-- (void) reloadFeeds{
-    [self.dataSource load:TTURLRequestCachePolicyDefault more:NO];
-    [self refresh];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ShowFeedCustom"]) {
+    if ([[segue identifier] isEqualToString:@"ShowFeed"]) {
         FeedViewController *vc = [segue destinationViewController];
         [vc setFeed: (MFeed*) sender];
         [vc.view addSubview:incomingLabel];
         [self updatePending];
-    } else if ([[segue identifier] isEqualToString:@"CreateNewFeedSegue"]) {
+    } else if ([[segue identifier] isEqualToString:@"CreateNewFeed"]) {
         FriendPickerTableViewController *vc = [segue destinationViewController];
         [vc setDelegate:self];
     }
 }
 
 - (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
-    MFeed* feed = [((FeedListDataSource*)self.dataSource) feedForIndex:indexPath.row];
-    [self performSegueWithIdentifier:@"ShowFeedCustom" sender:feed];
+    FeedListItem* item = [((FeedListDataSource*)self.dataSource).items objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"ShowFeed" sender:item.feed];
 }
 
 - (void) friendsSelected: (NSArray*) selection {
@@ -209,9 +191,10 @@
     
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:selection];
     [ObjHelper sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
-
+    
     [self.navigationController popViewControllerAnimated:NO];
-    [self performSegueWithIdentifier:@"ShowFeedCustom" sender:f];
+    [self performSegueWithIdentifier:@"ShowFeed" sender:f];
 }
 
 @end
+ 

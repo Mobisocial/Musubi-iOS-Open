@@ -24,11 +24,16 @@
 //
 
 #import "IntroductionObjItemCell.h"
+#import "IdentityManager.h"
+#import "Musubi.h"
+#import "NSData+Base64.h"
+#import "IBEncryptionScheme.h"
 #define kAddedSomePeople @"Added some people."
 
 @implementation IntroductionObjItemCell
 
 + (NSString*) textForItem: (ManagedObjFeedItem*)item {
+    IdentityManager* im = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     NSArray* identities = [[item parsedJson] objectForKey:@"identities"];
     int max = 5;
     int count = MIN(identities.count, max);
@@ -36,8 +41,16 @@
     NSMutableString* buffer = [[NSMutableString alloc] initWithCapacity:50];
     [buffer appendString:@"Added: "];
     for (int i = 0; i < count; i++) {
-        [buffer appendString: [[identities objectAtIndex:i] objectForKey:@"name"]];
-        if (i < (count-2)) {
+        uint8_t authority = [(NSNumber*)[[identities objectAtIndex:i] objectForKey:@"authority"] unsignedCharValue];
+        NSData* hash = [(NSString*)[[identities objectAtIndex:i] objectForKey:@"hash"] decodeBase64];
+        if(!hash)
+            continue;
+        IBEncryptionIdentity* hid = [[IBEncryptionIdentity alloc] initWithAuthority:authority hashedKey:hash temporalFrame:0];
+        MIdentity* ident = [im identityForIBEncryptionIdentity:hid];
+        if(!ident)
+            continue;
+        [buffer appendString: [IdentityManager displayNameForIdentity:ident]];
+        if (i < (count-1)) {
             [buffer appendString: @", "];
         } else if (i == count-2) {
             if (!more) {

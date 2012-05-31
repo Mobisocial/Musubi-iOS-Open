@@ -16,18 +16,52 @@
 
 
 //
-//  FeedListViewController.h
+//  FeedListModel.m
 //  musubi
 //
 //  Created by Willem Bult on 5/30/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Three20/Three20.h"
-#import "FriendPickerTableViewController.h"
+#import "FeedListModel.h"
+#import "Musubi.h"
+#import "FeedManager.h"
 
-@interface FeedListViewController : TTTableViewController<FriendPickerDelegate> {
-    UILabel* incomingLabel;
+@implementation FeedListModel
+
+@synthesize results = _results;
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        _feedManager = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    }
+    return self;
+}
+
+- (BOOL)isLoaded {
+    return _loaded;
+}
+
+- (BOOL)isLoading {
+    return _loading;
+}
+
+- (void) reset {
+    _loaded = NO;
+    _loading = NO;
+}
+
+- (void) load:(TTURLRequestCachePolicy)cachePolicy more:(BOOL)more {
+    _loading = YES;
+    [self didStartLoad];
+    
+    _results = [NSMutableArray arrayWithArray:[_feedManager displayFeeds]];
+    
+    _loaded = YES;
+    _loading = NO;  
+    
+    [self didFinishLoad];
 }
 
 @end

@@ -32,6 +32,7 @@
 #import "MLike.h"
 #import "MIdentity.h"
 #import "PersistentModelStore.h"
+#import "StatusObj.h"
 
 @implementation ObjManager
 
@@ -73,6 +74,16 @@
     }
     return (MObj*)[res objectAtIndex:0];
 }
+
+- (MObj*)latestStatusObjInFeed:(MFeed *)feed {
+    NSArray* res = [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (parent == nil) AND (renderable == YES) AND ((processed == YES) OR (encoded == nil)) AND (type == %@)", feed.objectID, kObjTypeStatus] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE] limit:1];
+    if (res.count > 0) {
+        return [res objectAtIndex:0];
+    } else {
+        return nil;
+    }
+}
+
 
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed {
     return [self renderableObjsInFeed:feed limit:-1];
