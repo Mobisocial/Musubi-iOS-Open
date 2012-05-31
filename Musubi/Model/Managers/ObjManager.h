@@ -47,6 +47,5 @@
 
 - (MLikeCache*) likeCountForObj: (MObj*) obj;
 - (void) increaseLikeCountForObj: (MObj*) obj local: (BOOL) local;
-- (void) deleteObjWithHash: (NSData *) hash;
 
 @end

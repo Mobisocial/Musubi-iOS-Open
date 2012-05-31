@@ -29,6 +29,8 @@
 #import "Musubi.h"
 #import "NSData+HexString.h"
 #import "MObj.h"
+#import "MIdentity.h"
+#import "PersistentModelStore.h"
 
 @implementation DeleteObj
 
@@ -51,11 +53,18 @@
 
 - (BOOL)processObjWithRecord:(MObj *)obj {
     NSArray *deletions = [self.data objectForKey: kObjFieldHashes];
-    ObjManager* objMgr = [[ObjManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
+    PersistentModelStore *store = [[Musubi sharedInstance] newStore];
+    ObjManager* objMgr = [[ObjManager alloc] initWithStore: store];
     for (int i = 0; i < deletions.count; i++) {
         NSData* hashData = [[deletions objectAtIndex:i] dataFromHex];
-        [objMgr deleteObjWithHash:hashData];
+        MObj* item = [objMgr objWithUniversalHash:hashData];
+        if (item.identity.owned) {
+            [store.context deleteObject:item];
+        } else {
+            item.deleted = true;
+        }
     }
+    [store save];
     return NO;
 }
 

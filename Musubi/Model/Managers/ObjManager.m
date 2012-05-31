@@ -150,12 +150,4 @@
     [store save];
 }
 
-- (void) deleteObjWithHash: (NSData *) hash {
-    MObj* obj = [self objWithUniversalHash:hash];
-    if (obj != nil) {
-        [store.context deleteObject: obj];
-        [store save];
-    }
-}
-
 @end
