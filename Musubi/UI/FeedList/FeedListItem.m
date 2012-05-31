@@ -142,6 +142,7 @@
         // Clear and return
         UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
+        free(pointBuffer);
         return result;        
     } else if (images.count == 1) {
         return [images objectAtIndex:0];

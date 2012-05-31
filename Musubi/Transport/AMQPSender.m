@@ -127,6 +127,14 @@
     NSMutableArray* ids = [NSMutableArray arrayWithCapacity:[m.r count]];
     NSMutableSet* hidForQueue = [NSMutableSet setWithCapacity:[m.r count]];
     
+    if (m.r.count > 100) {
+        NSLog(@"Message to more than 100 people, can't deal with this, discarding");
+        
+        [[msg managedObjectContext] deleteObject:msg];
+        [[msg managedObjectContext] save:nil];
+        return;
+    }
+    
     for (int i=0; i<m.r.count; i++) {
         IBEncryptionIdentity* ident = [[[IBEncryptionIdentity alloc] initWithKey:((Recipient*)[m.r objectAtIndex:i]).i] keyAtTemporalFrame:0];
         [hidForQueue addObject: ident];
