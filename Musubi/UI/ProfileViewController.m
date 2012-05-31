@@ -257,6 +257,7 @@
             break;
         }
         case 1: {
+            [_delegate newConversation:_identity];
             break;
         }
         case 2: {

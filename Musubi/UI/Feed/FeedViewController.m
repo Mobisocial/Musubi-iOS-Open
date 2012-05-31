@@ -49,6 +49,7 @@
 @implementation FeedViewController
 
 @synthesize feed = _feed;
+@synthesize delegate = _delegate;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -284,12 +285,17 @@
 }
 
 - (void)selectedFeed:(MFeed *)feed {
-    NSLog(@"selected feed %@", feed);
     [self setFeed:feed];
     [self invalidateModel];
     [self createModel];
     [self reload];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)newConversation:(MIdentity*) ident {
+    [self.navigationController popViewControllerAnimated:NO];
+    NSArray* selection = [NSArray arrayWithObject:ident];
+    [_delegate friendsSelected:selection];
 }
 
 @end

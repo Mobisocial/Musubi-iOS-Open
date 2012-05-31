@@ -31,6 +31,7 @@
 
 @protocol ProfileViewControllerDelegate
 - (void) selectedFeed:(MFeed*) feed;
+- (void) newConversation:(MIdentity*) identity;
 @end
 
 @interface ProfileViewController : UITableViewController {

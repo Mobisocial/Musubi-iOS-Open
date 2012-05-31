@@ -167,6 +167,7 @@
         FeedViewController *vc = [segue destinationViewController];
         [vc setFeed: (MFeed*) sender];
         [vc.view addSubview:incomingLabel];
+        [vc setDelegate:self];
         [self updatePending];
     } else if ([[segue identifier] isEqualToString:@"CreateNewFeed"]) {
         FriendPickerTableViewController *vc = [segue destinationViewController];

@@ -29,6 +29,9 @@
 
 @class MFeed;
 
+@protocol FeedViewControllerDelegate
+    - (void) friendsSelected:(NSArray*)selection;
+@end
 
 @interface FeedViewController : TTTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendPickerDelegate, ProfileViewControllerDelegate> {
     MFeed* _feed;
@@ -43,6 +46,7 @@
 - (IBAction)addPeople:(id)sender;
 
 @property (nonatomic, retain) MFeed* feed;
+@property (nonatomic, weak) id<FeedViewControllerDelegate> delegate;
 
 @end
 
