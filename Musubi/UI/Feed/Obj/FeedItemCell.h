@@ -23,7 +23,7 @@
 @interface FeedItemCell : TTTableLinkedItemCell {
     UILabel*      _senderLabel;
     UILabel*      _timestampLabel;
-    UIImageView*  _profilePictureView;
+    UIButton*     _profilePictureButton;
     LikeView*     _likeView;
     
     UIButton*     _likeButton;
@@ -31,9 +31,9 @@
 
 @property (nonatomic, readonly, retain) UILabel*      senderLabel;
 @property (nonatomic, readonly, retain) UILabel*      timestampLabel;
-@property (nonatomic, readonly, retain) UIImageView*  profilePictureView;
+@property (nonatomic, readonly, retain) UIButton*     profilePictureButton;
 @property (nonatomic, readonly, retain) LikeView*     likeView;
-@property (nonatomic, readonly, retain) UIButton*  likeButton;
+@property (nonatomic, readonly, retain) UIButton*     likeButton;
 
 + (void) prepareItem: (ManagedObjFeedItem*) item;
 + (CGFloat) renderHeightForItem: (FeedItem*) item;

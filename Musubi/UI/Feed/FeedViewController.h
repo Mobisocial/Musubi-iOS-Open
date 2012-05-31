@@ -51,5 +51,6 @@
 }
 
 - (void) likedAtIndexPath: (NSIndexPath*) indexPath;
+- (void) profilePictureButtonPressedAtIndexPath: (NSIndexPath*) indexPath;
 
 @end
