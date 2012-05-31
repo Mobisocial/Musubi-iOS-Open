@@ -284,9 +284,12 @@
 }
 
 - (void)selectedFeed:(MFeed *)feed {
+    NSLog(@"selected feed %@", feed);
     [self setFeed:feed];
-    [self createModel];
     [self invalidateModel];
+    [self createModel];
+    [self reload];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
