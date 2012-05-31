@@ -36,6 +36,7 @@
 
 - (MObj*) objWithUniversalHash: (NSData *) hash;
 - (MObj*) latestChildForParent: (MObj*) obj;
+- (MObj*)latestStatusObjInFeed:(MFeed *)feed;
 - (NSArray*) renderableObjsInFeed: (MFeed*) feed;
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed limit:(NSInteger)limit;
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed before:(NSDate*)beforeDate limit:(NSInteger)limit;

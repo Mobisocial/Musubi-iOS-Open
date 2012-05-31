@@ -19,68 +19,41 @@
 //  FeedListDataSource.m
 //  musubi
 //
-//  Created by Willem Bult on 5/4/12.
+//  Created by Willem Bult on 5/30/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "FeedListDataSource.h"
-#import "FeedManager.h"
-#import "Musubi.h"
 #import "MFeed.h"
+#import "FeedManager.h"
+#import "FeedListModel.h"
+#import "FeedListItem.h"
 #import "FeedListItemCell.h"
-#import "MObj.h"
+#import "Musubi.h"
 
 @implementation FeedListDataSource
 
-@synthesize feedManager;
-
-- (id)init {
+- (id) init {
     self = [super init];
     if (self) {
-        [self setFeedManager:[[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore]];
-        [self load:TTURLRequestCachePolicyDefault more:NO];
+        self.model = [[FeedListModel alloc] init];
+        _feedManager = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     }
     return self;
 }
 
 
-- (void)load:(TTURLRequestCachePolicy)cachePolicy more:(BOOL)more {
-    NSMutableArray* updatedFeeds = [NSMutableArray arrayWithArray:[feedManager displayFeeds]];
-    [self setItems: updatedFeeds];
-}
+- (void)tableViewDidLoadModel:(UITableView *)tableView {
+    NSMutableArray* newItems = [NSMutableArray array];
 
-- (BOOL)isLoaded {
-    return YES;
-}
-
-- (MFeed*)feedForIndex:(int)i {
-    return [self.items objectAtIndex:i];
-}
-
-- (id)tableView:(UITableView *)tableView objectForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MFeed* feed = [self feedForIndex:indexPath.row];
-    
-    NSString* unread = @"";
-    
-    if (feed.numUnread > 0) {
-        unread = [NSString stringWithFormat:@"%d unread", feed.numUnread];
+    for (MFeed* mFeed in ((FeedListModel*)self.model).results) {
+        FeedListItem* item = [[FeedListItem alloc] initWithFeed:mFeed];
+        if (item) {
+            [newItems addObject: item];
+        }
     }
     
-    TTTableMessageItem* item = [TTTableMessageItem itemWithTitle:[feedManager identityStringForFeed:feed] caption:unread text:nil timestamp:[NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime] URL:nil];
-
-    return item;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) { 
-        MFeed* feed = [self feedForIndex:indexPath.row];
-        [feedManager deleteFeedAndMembersAndObjs:feed];
-        
-        [tableView beginUpdates];
-        [_items removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
-        [tableView endUpdates]; 
-    } 
+    self.items = newItems;
 }
 
 - (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {

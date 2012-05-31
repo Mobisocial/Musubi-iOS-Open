@@ -137,12 +137,10 @@
     // remove the "Load earlier" item first, so we can safely assume all items are FeedItems
     TTTableMoreButton* loadMoreButton = nil;
     if (self.items.count && [[self.items objectAtIndex:0] isKindOfClass:[TTTableMoreButton class]]) {
-//        loadMoreButton = [self.items objectAtIndex:0];
         [self.items removeObjectAtIndex:0];
     }
-    //else {
-        loadMoreButton = [TTTableMoreButton itemWithText:@"Earlier messages..."];
-//    }
+    
+    loadMoreButton = [TTTableMoreButton itemWithText:@"Earlier messages..."];
     
     for (MObj *mObj in [(FeedModel*)self.model consumeNewResults]) {
         FeedItem* item = [self itemFromObj:mObj];

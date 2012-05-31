@@ -3,7 +3,7 @@
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
     </dependencies>
     <scenes>
         <!--Feed List View Controller - Groups-->
@@ -17,14 +17,14 @@
                                 <segue destination="ayD-7Y-iPW" kind="push" id="thq-lQ-aa5"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="o9G-oe-VLB">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="o9G-oe-VLB">
                             <connections>
-                                <segue destination="Xha-HF-lG4" kind="push" identifier="CreateNewFeedSegue" id="t5m-Jc-LzJ"/>
+                                <segue destination="Xha-HF-lG4" kind="push" identifier="CreateNewFeed" id="t5m-Jc-LzJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="s4b-rn-gXZ" kind="push" identifier="ShowFeedCustom" id="nHK-F1-yOs"/>
+                        <segue destination="s4b-rn-gXZ" kind="push" identifier="ShowFeed" id="nHK-F1-yOs"/>
                     </connections>
                 </tableViewController>
             </objects>
@@ -302,13 +302,65 @@
         <image name="gear.png" width="20" height="20"/>
         <image name="missing.png" width="289" height="287"/>
     </resources>
+    <classes>
+        <class className="FeedListViewController" superclassName="TTTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedListViewController.h"/>
+        </class>
+        <class className="FeedViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="commandButtonPushed:"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="updateField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="FriendPickerTableViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FriendPickerTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="recipientView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="NamePictureCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NamePictureCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="nameTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="pictureButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="SettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="pictureClicked:"/>
+            </relationships>
+        </class>
+        <class className="TTBaseViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTBaseViewController.h"/>
+        </class>
+        <class className="TTModelViewController" superclassName="TTViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTModelViewController.h"/>
+        </class>
+        <class className="TTNavigatorViewController" superclassName="TTBaseViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTNavigatorViewController.h"/>
+        </class>
+        <class className="TTTableViewController" superclassName="TTModelViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="TTViewController" superclassName="TTNavigatorViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="t5m-Jc-LzJ"/>
         <segue reference="thq-lQ-aa5"/>
-        <segue reference="XIU-DW-4Aq"/>
     </inferredMetricsTieBreakers>
 </document>
