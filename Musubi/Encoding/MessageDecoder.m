@@ -187,8 +187,9 @@
         @throw [NSException exceptionWithName:kMusubiExceptionSenderBlacklisted reason:[NSString stringWithFormat: @"Received message from blacklisted identity: %@", im.fromIdentity] userInfo:nil];
     }
     
+    NSData* raw_hash = [encoded.encoded sha256Digest];
     [im setFromDevice: [self addDevice:im.fromIdentity withId:m.s.d]];
-    [self checkDuplicateFromDevice:im.fromDevice withRawHash:[encoded.encoded sha256Digest]];
+    [self checkDuplicateFromDevice:im.fromDevice withRawHash:raw_hash];
     
     [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationMessageDecodeStarted object:nil];
 
@@ -246,8 +247,8 @@
     
     [encoded setFromDevice: im.fromDevice];
     [encoded setFromIdentity: im.fromIdentity];
-    [encoded setMessageHash: im.hash];
-    [encoded setShortMessageHash: *(uint64_t*)encoded.messageHash.bytes];
+    [encoded setMessageHash: raw_hash];
+    [encoded setShortMessageHash: *(uint64_t*)raw_hash.bytes];
     [encoded setSequenceNumber: im.sequenceNumber];
     [transportDataProvider updateEncodedMetadata:encoded];
     
