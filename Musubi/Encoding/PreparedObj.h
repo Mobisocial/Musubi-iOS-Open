@@ -35,19 +35,19 @@
     NSString* type;
     NSString* jsonSrc;
     NSData* raw;
-    NSNumber* intKey;
+    int64_t intKey;
     NSString* stringKey;
 }
 
 @property (nonatomic, assign) int feedType;
-@property (nonatomic) NSData* feedCapability;
-@property (nonatomic) NSString* appId;
+@property (nonatomic, strong) NSData* feedCapability;
+@property (nonatomic, strong) NSString* appId;
 @property (nonatomic, assign) uint64_t timestamp;
-@property (nonatomic) NSString* type;
-@property (nonatomic) NSString* jsonSrc;
-@property (nonatomic) NSData* raw;
-@property (nonatomic) NSNumber* intKey;
-@property (nonatomic) NSString* stringKey;
+@property (nonatomic, strong) NSString* type;
+@property (nonatomic, strong) NSString* jsonSrc;
+@property (nonatomic, strong) NSData* raw;
+@property (nonatomic, assign) int64_t intKey;
+@property (nonatomic, strong) NSString* stringKey;
 
 - (id) initWithFeedType: (int) ft feedCapability: (NSData*) fc appId: (NSString*) aId timestamp: (uint64_t) ts data: (MObj*) obj;
 
