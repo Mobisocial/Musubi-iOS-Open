@@ -277,10 +277,21 @@
     else if ([[segue identifier] isEqualToString:@"ShowProfile"]) {
         ProfileViewController *vc = [segue destinationViewController];
         [vc setIdentity: (MIdentity*) sender];
+        [vc setDelegate:self];
         //[vc.view addSubview:incomingLabel];
         //[self updatePending:nil];
     }
 }
+
+- (void)selectedFeed:(MFeed *)feed {
+    NSLog(@"selected feed %@", feed);
+    [self setFeed:feed];
+    [self invalidateModel];
+    [self createModel];
+    [self reload];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end
 
 
