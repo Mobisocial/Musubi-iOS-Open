@@ -78,7 +78,7 @@
     NSMutableArray* images = [NSMutableArray arrayWithCapacity:3];
     
     for (MIdentity* i in identities) {
-        if (!i.owned) {
+        if (!i.owned || identities.count == 1) {
             UIImage* img = nil;
             
             if(i.musubiThumbnail) {
