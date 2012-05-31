@@ -79,19 +79,17 @@
     
     for (MIdentity* i in identities) {
         if (!i.owned) {
+            UIImage* img = nil;
+            
             if(i.musubiThumbnail) {
-                @try {
-                    [images addObject: [UIImage imageWithData:i.musubiThumbnail]];
-                } @catch (NSException* e) {
-                    NSLog(@"Error decoding image: %@", e);
-                }
-            } else if (i.thumbnail) {
-                @try {
-                    [images addObject: [UIImage imageWithData:i.thumbnail]];
-                } @catch (NSException* e) {
-                    NSLog(@"Error decoding image: %@", e);
-                }
+                img = [UIImage imageWithData:i.musubiThumbnail];                
             }
+            if (img == nil && i.thumbnail) {
+                img = [UIImage imageWithData:i.thumbnail];
+            }
+            
+            if (img)
+                [images addObject: img];
         }
         
         if (images.count > 3)
