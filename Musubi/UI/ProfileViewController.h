@@ -27,6 +27,11 @@
 
 @class MIdentity;
 @class FeedManager;
+@class MFeed;
+
+@protocol ProfileViewControllerDelegate
+- (void) selectedFeed:(MFeed*) feed;
+@end
 
 @interface ProfileViewController : UITableViewController {
     NSArray* feeds;
@@ -34,5 +39,5 @@
 
 @property (nonatomic, retain) MIdentity* identity;
 @property (nonatomic, strong) FeedManager* feedManager;
-
+@property (nonatomic, weak) id<ProfileViewControllerDelegate> delegate;
 @end

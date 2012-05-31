@@ -276,10 +276,18 @@
     else if ([[segue identifier] isEqualToString:@"ShowProfile"]) {
         ProfileViewController *vc = [segue destinationViewController];
         [vc setIdentity: (MIdentity*) sender];
+        [vc setDelegate:self];
         //[vc.view addSubview:incomingLabel];
         //[self updatePending:nil];
     }
 }
+
+- (void)selectedFeed:(MFeed *)feed {
+    [self setFeed:feed];
+    [self createModel];
+    [self invalidateModel];
+}
+
 @end
 
 

@@ -25,10 +25,12 @@
 
 #import "Three20/Three20.h"
 #import "FriendPickerTableViewController.h"
+#import "ProfileViewController.h"
 
 @class MFeed;
 
-@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendPickerDelegate> {
+
+@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendPickerDelegate, ProfileViewControllerDelegate> {
     MFeed* _feed;
     
     IBOutlet UITextField* updateField;
