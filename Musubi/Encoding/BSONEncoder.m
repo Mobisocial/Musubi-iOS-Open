@@ -202,7 +202,7 @@ static void err_handler(const char *errmsg) {
     if (o.raw)
         bson_append_binary(&b, "raw", 128, [o.raw bytes], [o.raw length]);
     if (o.intKey)
-        bson_append_int(&b, "intKey", o.intKey);
+        bson_append_int(&b, "intKey", [o.intKey intValue]);
     if (o.stringKey)
         bson_append_string(&b, "stringKey", [o.stringKey cStringUsingEncoding:NSUTF8StringEncoding]);
     
