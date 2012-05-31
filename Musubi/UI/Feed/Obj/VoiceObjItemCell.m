@@ -16,32 +16,29 @@
 
 
 //
-//  Obj.h
+//  VoiceObjItemCell.m
 //  musubi
 //
-//  Created by Willem Bult on 10/13/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Ben Dodson on 5/31/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "VoiceObjItemCell.h"
+#define kVoiceObjText @"<Voice messages coming soon>"
 
-@class MObj;
+@implementation VoiceObjItemCell
 
-@interface Obj : NSObject {
-    NSString* _type;
-    NSDictionary* _data;
-    NSData* _raw;
++ (CGFloat)renderHeightForItem:(FeedItem *)item {
+    CGSize size = [kVoiceObjText sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    return size.height;
 }
 
-@property (nonatomic) NSString* type;
-@property (nonatomic) NSDictionary* data;
-@property (nonatomic) NSData* raw;
+- (void)setObject:(id)object {
+    [super setObject:object];
+    self.detailTextLabel.text = kVoiceObjText;
+}
 
-- (id) initWithType: (NSString*) t;
-- (id) initWithType: (NSString*) t data: (NSDictionary*) data andRaw: (NSData*) raw;
-- (BOOL)processObjWithRecord: (MObj*) obj;
-@end
-
-@protocol RenderableObj
-
+- (void)layoutSubviews {
+    [super layoutSubviews];
+}
 @end

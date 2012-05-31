@@ -194,6 +194,10 @@
 		D48048A11561CC980066279D /* MLikeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D48048A01561CC980066279D /* MLikeCache.m */; };
 		D480496D1561F6C70066279D /* LikeObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D480496C1561F6C60066279D /* LikeObj.m */; };
 		D4E42AB0156224EF00C21FDA /* DeleteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E42AAF156224EE00C21FDA /* DeleteObj.m */; };
+		D4FFE26F15780634007F918E /* VoiceObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE26E15780634007F918E /* VoiceObj.m */; };
+		D4FFE2721578077C007F918E /* VoiceObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE2711578077C007F918E /* VoiceObjItemCell.m */; };
+		D4FFE27515780B2E007F918E /* StoryObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27415780B2D007F918E /* StoryObjItemCell.m */; };
+		D4FFE27815780BB8007F918E /* StoryObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27715780BB8007F918E /* StoryObj.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -974,6 +978,14 @@
 		D480496C1561F6C60066279D /* LikeObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LikeObj.m; path = SocialKit/Obj/LikeObj.m; sourceTree = "<group>"; };
 		D4E42AAE156224EE00C21FDA /* DeleteObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteObj.h; path = SocialKit/Obj/DeleteObj.h; sourceTree = "<group>"; };
 		D4E42AAF156224EE00C21FDA /* DeleteObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteObj.m; path = SocialKit/Obj/DeleteObj.m; sourceTree = "<group>"; };
+		D4FFE26D15780634007F918E /* VoiceObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoiceObj.h; path = SocialKit/Obj/VoiceObj.h; sourceTree = "<group>"; };
+		D4FFE26E15780634007F918E /* VoiceObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoiceObj.m; path = SocialKit/Obj/VoiceObj.m; sourceTree = "<group>"; };
+		D4FFE2701578077B007F918E /* VoiceObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceObjItemCell.h; sourceTree = "<group>"; };
+		D4FFE2711578077C007F918E /* VoiceObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceObjItemCell.m; sourceTree = "<group>"; };
+		D4FFE27315780B2D007F918E /* StoryObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryObjItemCell.h; sourceTree = "<group>"; };
+		D4FFE27415780B2D007F918E /* StoryObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryObjItemCell.m; sourceTree = "<group>"; };
+		D4FFE27615780BB8007F918E /* StoryObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoryObj.h; path = SocialKit/Obj/StoryObj.h; sourceTree = "<group>"; };
+		D4FFE27715780BB8007F918E /* StoryObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoryObj.m; path = SocialKit/Obj/StoryObj.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1413,6 +1425,10 @@
 				C0867924157038FC00F4F2BA /* ProfileObj.m */,
 				D410BA4A1573085900951D94 /* UnknownObj.h */,
 				D410BA4B1573085900951D94 /* UnknownObj.m */,
+				D4FFE26D15780634007F918E /* VoiceObj.h */,
+				D4FFE26E15780634007F918E /* VoiceObj.m */,
+				D4FFE27615780BB8007F918E /* StoryObj.h */,
+				D4FFE27715780BB8007F918E /* StoryObj.m */,
 			);
 			name = Obj;
 			sourceTree = "<group>";
@@ -2608,6 +2624,10 @@
 				D4698A2F1575E6EE000749CF /* ManagedObjFeedItem.m */,
 				D4698A311575FBBC000749CF /* IntroductionObjItemCell.h */,
 				D4698A321575FBBC000749CF /* IntroductionObjItemCell.m */,
+				D4FFE2701578077B007F918E /* VoiceObjItemCell.h */,
+				D4FFE2711578077C007F918E /* VoiceObjItemCell.m */,
+				D4FFE27315780B2D007F918E /* StoryObjItemCell.h */,
+				D4FFE27415780B2D007F918E /* StoryObjItemCell.m */,
 			);
 			name = Obj;
 			path = Feed/Obj;
@@ -3090,6 +3110,10 @@
 				D26D0F611576DC2A00722E3B /* FeedListDataSource.m in Sources */,
 				D26D0F641576DC5500722E3B /* FeedListItemCell.m in Sources */,
 				D26D0F671576DF3100722E3B /* FeedListItem.m in Sources */,
+				D4FFE26F15780634007F918E /* VoiceObj.m in Sources */,
+				D4FFE2721578077C007F918E /* VoiceObjItemCell.m in Sources */,
+				D4FFE27515780B2E007F918E /* StoryObjItemCell.m in Sources */,
+				D4FFE27815780BB8007F918E /* StoryObj.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
