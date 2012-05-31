@@ -140,6 +140,9 @@
         [_feed setNumUnread:0];
         [[Musubi sharedInstance].mainStore save];
         [APNPushManager resetLocalUnreadInBackgroundTask];
+        
+        // Refresh the feed list view
+        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:nil];
     }
 }
 

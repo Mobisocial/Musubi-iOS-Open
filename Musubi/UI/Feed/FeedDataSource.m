@@ -190,13 +190,14 @@
         AppManager* am = [[AppManager alloc] initWithStore:store];
         MApp* app = [am ensureSuperApp];
 
-        MObj* obj = [self objForIndex:indexPath.row];
-        id deleteObj = [[DeleteObj alloc] initWithTargetObj: obj];
+        FeedItem* feedItem = [self.items objectAtIndex:indexPath.row];
+
+        id deleteObj = [[DeleteObj alloc] initWithTargetObj: feedItem.obj];
         FeedModel* feedModel = self.model;
         [ObjHelper sendObj:deleteObj toFeed:feedModel.feed fromApp:app usingStore:store];
 
         [tableView beginUpdates];
-        [_items removeObjectAtIndex:indexPath.row];
+        [self.items removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
         [tableView endUpdates]; 
     } 

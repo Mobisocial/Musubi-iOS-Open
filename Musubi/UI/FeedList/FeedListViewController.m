@@ -53,6 +53,8 @@
         _tableViewStyle = UITableViewStylePlain;
         _clearsSelectionOnViewWillAppear = YES;
         _flags.isViewInvalid = YES;
+        
+        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     }
     return self;
 }
@@ -66,9 +68,7 @@
     incomingLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.5];
     incomingLabel.textColor = [UIColor colorWithWhite:1 alpha:1];
     
-    self.variableHeightRows = YES;
-    
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
+    self.variableHeightRows = YES;    
     
     // We only need to know when a message starts getting decrypted, when it is completely processed
     [[Musubi sharedInstance].transport.connMngr addObserver:self forKeyPath:@"connectionState" options:0 context:nil];
@@ -91,7 +91,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -112,8 +111,8 @@
         [self performSelectorOnMainThread:@selector(feedUpdated:) withObject:notification waitUntilDone:NO];
         return;
     }
-  
-    [self refresh];
+      
+    [self reload];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

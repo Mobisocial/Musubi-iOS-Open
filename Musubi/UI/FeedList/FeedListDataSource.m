@@ -60,4 +60,17 @@
     return [FeedListItemCell class];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) { 
+        FeedListItem* item = [self.items objectAtIndex:indexPath.row];
+        [_feedManager deleteFeedAndMembersAndObjs:item.feed];
+
+        [tableView beginUpdates];
+        [self.items removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+        [tableView endUpdates];
+    } 
+}
+
+
 @end
