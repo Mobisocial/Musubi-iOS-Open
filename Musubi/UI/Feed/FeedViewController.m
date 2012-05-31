@@ -183,7 +183,7 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self hideKeyboard];
+    //[self hideKeyboard];
     
     if ([textField text].length > 0) {
         StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];

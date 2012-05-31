@@ -84,7 +84,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     return [self renderHeightForItem:(FeedItem*)object] + 40 + likeSpace;
 }
 
-+ (CGFloat) renderHeightForItem: (FeedItem*) item {
++ (CGFloat) renderHeightForItem: (ManagedObjFeedItem*) item {
     return 0;
 }
 

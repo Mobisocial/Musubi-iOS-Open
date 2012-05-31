@@ -16,21 +16,16 @@
 
 
 //
-//  HtmlObjItem.h
+//  VoiceObj.h
 //  musubi
 //
-//  Created by Ben Dodson on 5/27/12.
+//  Created by Ben Dodson on 5/31/12.
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "FeedItem.h"
+#import "Obj.h"
+#define kObjTypeVoice @"voice"
 
-@interface HtmlObjItem : FeedItem {
-    NSString *html;
-}
-
-- (id) initWithHtml: (NSString*) html;
-
-@property (nonatomic,copy) NSString* html;
+@interface VoiceObj : Obj<RenderableObj>
 
 @end

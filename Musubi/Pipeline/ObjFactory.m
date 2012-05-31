@@ -33,6 +33,8 @@
 #import "PictureObj.h"
 #import "LikeObj.h"
 #import "DeleteObj.h"
+#import "VoiceObj.h"
+#import "StoryObj.h"
 #import "UnknownObj.h"
 
 @implementation ObjFactory
@@ -58,6 +60,10 @@
         return [[LikeObj alloc] initWithData:data];
     } else if ([objType isEqualToString:kObjTypeDelete]) {
         return [[DeleteObj alloc] initWithData:data];
+    } else if ([objType isEqualToString:kObjTypeVoice]) {
+        return [[VoiceObj alloc] initWithType:objType data:data andRaw:mObj.raw];
+    } else if ([objType isEqualToString:kObjTypeStory]) {
+        return [[StoryObj alloc] initWithType:objType data:data andRaw:mObj.raw];
     }
     
     return [[UnknownObj alloc] initWithType:objType data:data andRaw:mObj.raw];

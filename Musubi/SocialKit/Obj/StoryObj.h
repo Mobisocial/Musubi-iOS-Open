@@ -16,23 +16,22 @@
 
 
 //
-//  HtmlObjItem.m
+//  StoryObj.h
 //  musubi
 //
-//  Created by Ben Dodson on 5/27/12.
+//  Created by Ben Dodson on 5/31/12.
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "HtmlObjItem.h"
+#import "Obj.h"
+#define kObjTypeStory @"story"
+#define kObjFieldStoryUrl @"url"
+#define kObjFieldStoryOriginalUrl @"original_url"
+#define kObjFieldStoryTitle @"title"
+#define kObjFieldStoryText @"text"
+#define kObjFieldStoryFavIconLength @"favicon_length"
+#define kObjFieldStoryMimeType @"mime_type"
 
-@implementation HtmlObjItem
-
-@synthesize html;
-
-- (id)initWithHtml:(NSString *)htmlArg {
-    self = [self init];
-    self.html = htmlArg;
-    return self;
-}
+@interface StoryObj : Obj<RenderableObj>
 
 @end

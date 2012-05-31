@@ -52,6 +52,12 @@
 #import "IntroductionObj.h"
 #import "IntroductionObjItemCell.h"
 
+#import "VoiceObj.h"
+#import "VoiceObjItemCell.h"
+
+#import "StoryObj.h"
+#import "StoryObjItemCell.h"
+
 #import "ManagedObjFeedItem.h"
 
 #import "Musubi.h"
@@ -94,6 +100,10 @@
         cellClass = [PictureObjItemCell class];
     } else if ([managed.type isEqualToString: kObjTypeIntroduction]) {
         cellClass = [IntroductionObjItemCell class];
+    } else if ([managed.type isEqualToString:kObjTypeVoice]) {
+        cellClass = [VoiceObjItemCell class];
+    } else if ([managed.type isEqualToString:kObjTypeStory]) {
+        cellClass = [StoryObjItemCell class];
     }
     
     if (cellClass == nil) {
