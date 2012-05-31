@@ -51,14 +51,14 @@
     return self;
 }
 
-- (BOOL)processObjWithRecord:(MObj *)obj {
+- (BOOL)processObjWithRecord:(MObj *)deleteObj {
     NSArray *deletions = [self.data objectForKey: kObjFieldHashes];
     PersistentModelStore *store = [[Musubi sharedInstance] newStore];
     ObjManager* objMgr = [[ObjManager alloc] initWithStore: store];
     for (int i = 0; i < deletions.count; i++) {
         NSData* hashData = [[deletions objectAtIndex:i] dataFromHex];
         MObj* item = [objMgr objWithUniversalHash:hashData];
-        if (item.identity.owned) {
+        if (deleteObj.identity.owned || !item.identity.owned) {
             [store.context deleteObject:item];
         } else {
             item.deleted = true;
