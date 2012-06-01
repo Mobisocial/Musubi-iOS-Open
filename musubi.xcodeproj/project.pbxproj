@@ -194,6 +194,10 @@
 		D48048A11561CC980066279D /* MLikeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D48048A01561CC980066279D /* MLikeCache.m */; };
 		D480496D1561F6C70066279D /* LikeObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D480496C1561F6C60066279D /* LikeObj.m */; };
 		D4E42AB0156224EF00C21FDA /* DeleteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E42AAF156224EE00C21FDA /* DeleteObj.m */; };
+		D4F0C09215791DD700541F5C /* FileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09115791DD700541F5C /* FileObj.m */; };
+		D4F0C09515791EBE00541F5C /* VideoObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09415791EBE00541F5C /* VideoObj.m */; };
+		D4F0C0981579206100541F5C /* FileObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C0971579206100541F5C /* FileObjItemCell.m */; };
+		D4F0C09B157920BB00541F5C /* VideoObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09A157920BB00541F5C /* VideoObjItemCell.m */; };
 		D4FFE26F15780634007F918E /* VoiceObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE26E15780634007F918E /* VoiceObj.m */; };
 		D4FFE2721578077C007F918E /* VoiceObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE2711578077C007F918E /* VoiceObjItemCell.m */; };
 		D4FFE27515780B2E007F918E /* StoryObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27415780B2D007F918E /* StoryObjItemCell.m */; };
@@ -978,6 +982,14 @@
 		D480496C1561F6C60066279D /* LikeObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LikeObj.m; path = SocialKit/Obj/LikeObj.m; sourceTree = "<group>"; };
 		D4E42AAE156224EE00C21FDA /* DeleteObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteObj.h; path = SocialKit/Obj/DeleteObj.h; sourceTree = "<group>"; };
 		D4E42AAF156224EE00C21FDA /* DeleteObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteObj.m; path = SocialKit/Obj/DeleteObj.m; sourceTree = "<group>"; };
+		D4F0C09015791DD700541F5C /* FileObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileObj.h; path = SocialKit/Obj/FileObj.h; sourceTree = "<group>"; };
+		D4F0C09115791DD700541F5C /* FileObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileObj.m; path = SocialKit/Obj/FileObj.m; sourceTree = "<group>"; };
+		D4F0C09315791EBE00541F5C /* VideoObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoObj.h; sourceTree = "<group>"; };
+		D4F0C09415791EBE00541F5C /* VideoObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoObj.m; sourceTree = "<group>"; };
+		D4F0C0961579206100541F5C /* FileObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; path = FileObjItemCell.h; sourceTree = "<group>"; };
+		D4F0C0971579206100541F5C /* FileObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileObjItemCell.m; sourceTree = "<group>"; };
+		D4F0C099157920BB00541F5C /* VideoObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoObjItemCell.h; sourceTree = "<group>"; };
+		D4F0C09A157920BB00541F5C /* VideoObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoObjItemCell.m; sourceTree = "<group>"; };
 		D4FFE26D15780634007F918E /* VoiceObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoiceObj.h; path = SocialKit/Obj/VoiceObj.h; sourceTree = "<group>"; };
 		D4FFE26E15780634007F918E /* VoiceObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoiceObj.m; path = SocialKit/Obj/VoiceObj.m; sourceTree = "<group>"; };
 		D4FFE2701578077B007F918E /* VoiceObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceObjItemCell.h; sourceTree = "<group>"; };
@@ -1429,6 +1441,10 @@
 				D4FFE26E15780634007F918E /* VoiceObj.m */,
 				D4FFE27615780BB8007F918E /* StoryObj.h */,
 				D4FFE27715780BB8007F918E /* StoryObj.m */,
+				D4F0C09015791DD700541F5C /* FileObj.h */,
+				D4F0C09115791DD700541F5C /* FileObj.m */,
+				D4F0C09315791EBE00541F5C /* VideoObj.h */,
+				D4F0C09415791EBE00541F5C /* VideoObj.m */,
 			);
 			name = Obj;
 			sourceTree = "<group>";
@@ -2628,6 +2644,10 @@
 				D4FFE2711578077C007F918E /* VoiceObjItemCell.m */,
 				D4FFE27315780B2D007F918E /* StoryObjItemCell.h */,
 				D4FFE27415780B2D007F918E /* StoryObjItemCell.m */,
+				D4F0C0961579206100541F5C /* FileObjItemCell.h */,
+				D4F0C0971579206100541F5C /* FileObjItemCell.m */,
+				D4F0C099157920BB00541F5C /* VideoObjItemCell.h */,
+				D4F0C09A157920BB00541F5C /* VideoObjItemCell.m */,
 			);
 			name = Obj;
 			path = Feed/Obj;
@@ -3114,6 +3134,10 @@
 				D4FFE2721578077C007F918E /* VoiceObjItemCell.m in Sources */,
 				D4FFE27515780B2E007F918E /* StoryObjItemCell.m in Sources */,
 				D4FFE27815780BB8007F918E /* StoryObj.m in Sources */,
+				D4F0C09215791DD700541F5C /* FileObj.m in Sources */,
+				D4F0C09515791EBE00541F5C /* VideoObj.m in Sources */,
+				D4F0C0981579206100541F5C /* FileObjItemCell.m in Sources */,
+				D4F0C09B157920BB00541F5C /* VideoObjItemCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
