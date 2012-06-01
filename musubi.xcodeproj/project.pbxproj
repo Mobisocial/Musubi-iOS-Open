@@ -91,6 +91,7 @@
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
 		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
+		D250C9631579815600955AB2 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */; };
 		D25F49151471A32500AC1551 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49031471A32500AC1551 /* bson.c */; };
 		D25F49161471A32500AC1551 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49051471A32500AC1551 /* encoding.c */; };
 		D25F49171471A32500AC1551 /* gridfs.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49071471A32500AC1551 /* gridfs.c */; };
@@ -116,7 +117,6 @@
 		D26D3722147B3ED400C4FE93 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DA147B3ED400C4FE93 /* UIImage+Resize.m */; };
 		D26D3723147B3ED400C4FE93 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DC147B3ED400C4FE93 /* UIImage+RoundedCorner.m */; };
 		D26D3724147B3ED400C4FE93 /* XQueryComponents.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */; };
-		D26D3733147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */; };
 		D26D3736147B41B700C4FE93 /* apps in Resources */ = {isa = PBXBuildFile; fileRef = D298FA40143D0E84000831DD /* apps */; };
 		D272FB541519C19E00D2521A /* EncodingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1C14FD7A4B00C6ABB3 /* EncodingTest.m */; };
 		D272FB561519C19E00D2521A /* IBEncryptionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155E1512863000F12039 /* IBEncryptionTest.m */; };
@@ -460,6 +460,7 @@
 		D2313BDC1519319000BB0526 /* AMQPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSender.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		D25F49031471A32500AC1551 /* bson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson.c; sourceTree = "<group>"; };
 		D25F49041471A32500AC1551 /* bson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson.h; sourceTree = "<group>"; };
 		D25F49051471A32500AC1551 /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
@@ -508,7 +509,6 @@
 		D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XQueryComponents.m; sourceTree = "<group>"; };
 		D26D36DF147B3ED400C4FE93 /* Musubi-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Musubi-Info.plist"; sourceTree = "<group>"; };
 		D26D36E0147B3ED400C4FE93 /* Musubi-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Musubi-Prefix.pch"; sourceTree = "<group>"; };
-		D26D3701147B3ED400C4FE93 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		D272FB57151A69DF00D2521A /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
 		D272FB58151A69DF00D2521A /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
 		D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DDExtensions.m"; sourceTree = "<group>"; };
@@ -976,7 +976,7 @@
 		D4F0C09115791DD700541F5C /* FileObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileObj.m; path = SocialKit/Obj/FileObj.m; sourceTree = "<group>"; };
 		D4F0C09315791EBE00541F5C /* VideoObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoObj.h; sourceTree = "<group>"; };
 		D4F0C09415791EBE00541F5C /* VideoObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoObj.m; sourceTree = "<group>"; };
-		D4F0C0961579206100541F5C /* FileObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; path = FileObjItemCell.h; sourceTree = "<group>"; };
+		D4F0C0961579206100541F5C /* FileObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileObjItemCell.h; sourceTree = "<group>"; };
 		D4F0C0971579206100541F5C /* FileObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileObjItemCell.m; sourceTree = "<group>"; };
 		D4F0C099157920BB00541F5C /* VideoObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoObjItemCell.h; sourceTree = "<group>"; };
 		D4F0C09A157920BB00541F5C /* VideoObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoObjItemCell.m; sourceTree = "<group>"; };
@@ -1142,7 +1142,7 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */,
+				D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */,
 				5686910A157021DA00DD1791 /* Profile */,
 				D26028D91566EEBE00CF6500 /* assets */,
 				D2A1FC141521A6C500C10BE2 /* Feed */,
@@ -2891,7 +2891,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D26D3733147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard in Resources */,
 				D26D3736147B41B700C4FE93 /* apps in Resources */,
 				D2D930B515225E99006E4F58 /* Three20.bundle in Resources */,
 				D210C1781526795300280605 /* GTMOAuth2ViewTouch.xib in Resources */,
@@ -2905,6 +2904,7 @@
 				D2C66F01156CCF22001A0124 /* heart32_gray.png in Resources */,
 				D2D03BC01578842900DBF40B /* InfoPlist.strings in Resources */,
 				D2D03BC4157884ED00DBF40B /* missing.png in Resources */,
+				D250C9631579815600955AB2 /* MainStoryboard_iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3145,15 +3145,6 @@
 				D216DE6114F48952001A4166 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D26D3701147B3ED400C4FE93 /* en */,
-			);
-			name = MainStoryboard_iPhone.storyboard;
-			path = ../../UI;
 			sourceTree = "<group>";
 		};
 		D27966041457D97200C5FDAB /* Credits.rtf */ = {
