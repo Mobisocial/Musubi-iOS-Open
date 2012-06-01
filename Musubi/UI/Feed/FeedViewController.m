@@ -49,6 +49,7 @@
 @implementation FeedViewController
 
 @synthesize feed = _feed;
+@synthesize delegate = _delegate;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -182,7 +183,7 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self hideKeyboard];
+    //[self hideKeyboard];
     
     if ([textField text].length > 0) {
         StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
@@ -277,10 +278,26 @@
     else if ([[segue identifier] isEqualToString:@"ShowProfile"]) {
         ProfileViewController *vc = [segue destinationViewController];
         [vc setIdentity: (MIdentity*) sender];
+        [vc setDelegate:self];
         //[vc.view addSubview:incomingLabel];
         //[self updatePending:nil];
     }
 }
+
+- (void)selectedFeed:(MFeed *)feed {
+    [self setFeed:feed];
+    [self invalidateModel];
+    [self createModel];
+    [self reload];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)newConversation:(MIdentity*) ident {
+    [self.navigationController popViewControllerAnimated:NO];
+    NSArray* selection = [NSArray arrayWithObject:ident];
+    [_delegate friendsSelected:selection];
+}
+
 @end
 
 

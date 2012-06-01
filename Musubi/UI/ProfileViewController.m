@@ -40,6 +40,7 @@
 @synthesize identity = _identity;
 
 @synthesize feedManager = _feedManager;
+@synthesize delegate = _delegate;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -96,7 +97,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 
@@ -106,6 +107,8 @@
         case 0:
             return 1;
         case 1:
+            return 1;
+        case 2:
             return feeds.count;
     }
     
@@ -162,6 +165,19 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
             }
             
+            [[cell textLabel] setText: @"New Conversation"];
+            
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
+            return cell;
+
+        }
+        case 2: {
+            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
+            }
+            
             MFeed* feed = (MFeed*)[feeds objectAtIndex:indexPath.row];
             NSString* feedTitle = [_feedManager identityStringForFeed:feed];
             [[cell textLabel] setText: feedTitle];
@@ -184,6 +200,8 @@
         case 0:
             return @"Profile";
         case 1:
+            return @"Actions";
+        case 2:
             return @"Conversations";
     }
     
@@ -229,24 +247,23 @@
 }
 */
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ShowFeed"]) {
-        FeedViewController *vc = [segue destinationViewController];
-        [vc setFeed: (MFeed*) sender];
-    } 
-}
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
-        case 0:{
+        case 0: {
             break;
         }
         case 1: {
+            [_delegate newConversation:_identity];
+            break;
+        }
+        case 2: {
             MFeed* feed = [feeds objectAtIndex:indexPath.row];
-            [self performSegueWithIdentifier:@"ShowFeed" sender:feed];
+            [_delegate selectedFeed:feed];
+//            [self performSegueWithIdentifier:@"ShowFeed" sender:feed];
             break;
         }
     }

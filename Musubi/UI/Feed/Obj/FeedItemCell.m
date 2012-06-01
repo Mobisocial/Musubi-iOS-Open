@@ -84,7 +84,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     return [self renderHeightForItem:(FeedItem*)object] + 40 + likeSpace;
 }
 
-+ (CGFloat) renderHeightForItem: (FeedItem*) item {
++ (CGFloat) renderHeightForItem: (ManagedObjFeedItem*) item {
     return 0;
 }
 
@@ -174,11 +174,12 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didMoveToSuperview {
     [super didMoveToSuperview];
-    
+
     if (self.superview) {
-        _profilePictureButton.backgroundColor = self.backgroundColor;
-        _senderLabel.backgroundColor = self.backgroundColor;
-        _timestampLabel.backgroundColor = self.backgroundColor;
+        UIColor* clear = [UIColor clearColor];
+        _profilePictureButton.backgroundColor = clear;
+        _senderLabel.backgroundColor = clear;
+        _timestampLabel.backgroundColor = clear;
     }
 }
 
@@ -209,6 +210,14 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
         }
         
         [self.likeButton setImage:[UIImage imageNamed:item.iLiked ? @"heart32.png" : @"heart32_gray.png"] forState:UIControlStateNormal];
+
+        UIColor* color;
+        if (item.obj.deleted) {
+            color = [UIColor colorWithRed:1.0 green:0.75 blue:0.75 alpha:1.0];
+        } else {
+            color = [UIColor clearColor];
+        }
+        self.contentView.backgroundColor = color;
     }    
 }
 

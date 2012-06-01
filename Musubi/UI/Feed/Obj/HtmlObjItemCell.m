@@ -24,7 +24,6 @@
 //
 
 #import "HtmlObjItemCell.h"
-#import "HtmlObjItem.h"
 #import "ManagedObjFeedItem.h"
 #import "ObjHelper.h"
 

@@ -16,32 +16,18 @@
 
 
 //
-//  Obj.h
+//  FileObj.h
 //  musubi
 //
-//  Created by Willem Bult on 10/13/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Ben Dodson on 6/1/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "Obj.h"
+#define kObjTypeFile @"file"
+#define kObjFieldFilename @"filename"
+#define kObjFieldFilesize @"filesize"
 
-@class MObj;
-
-@interface Obj : NSObject {
-    NSString* _type;
-    NSDictionary* _data;
-    NSData* _raw;
-}
-
-@property (nonatomic) NSString* type;
-@property (nonatomic) NSDictionary* data;
-@property (nonatomic) NSData* raw;
-
-- (id) initWithType: (NSString*) t;
-- (id) initWithType: (NSString*) t data: (NSDictionary*) data andRaw: (NSData*) raw;
-- (BOOL)processObjWithRecord: (MObj*) obj;
-@end
-
-@protocol RenderableObj
+@interface FileObj : Obj<RenderableObj>
 
 @end

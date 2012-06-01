@@ -52,6 +52,18 @@
 #import "IntroductionObj.h"
 #import "IntroductionObjItemCell.h"
 
+#import "VoiceObj.h"
+#import "VoiceObjItemCell.h"
+
+#import "VideoObj.h"
+#import "VideoObjItemCell.h"
+
+#import "FileObj.h"
+#import "FileObjItemCell.h"
+
+#import "StoryObj.h"
+#import "StoryObjItemCell.h"
+
 #import "ManagedObjFeedItem.h"
 
 #import "Musubi.h"
@@ -94,6 +106,14 @@
         cellClass = [PictureObjItemCell class];
     } else if ([managed.type isEqualToString: kObjTypeIntroduction]) {
         cellClass = [IntroductionObjItemCell class];
+    } else if ([managed.type isEqualToString:kObjTypeVoice]) {
+        cellClass = [VoiceObjItemCell class];
+    } else if ([managed.type isEqualToString:kObjTypeStory]) {
+        cellClass = [StoryObjItemCell class];
+    } else if ([managed.type isEqualToString:kObjTypeVideo]) {
+        cellClass = [VideoObjItemCell class];
+    } else if ([managed.type isEqualToString:kObjTypeFile]) {
+        cellClass = [FileObjItemCell class];
     }
     
     if (cellClass == nil) {
