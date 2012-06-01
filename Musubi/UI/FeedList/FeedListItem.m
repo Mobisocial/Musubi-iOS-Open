@@ -113,7 +113,7 @@
         CGFloat colOffset = size.width - (size.width / MIN(3, rows+1)) + 1; // add 1 for the line
         
         // The left column image is the largest, and placed at (0,0)
-        UIImage* leftImg = [self image:[images objectAtIndex:0] centeredAndResizedTo:CGSizeMake(colOffset, size.height)];
+        UIImage* leftImg = [(UIImage*)[images objectAtIndex:0] centerFitAndResizeTo:CGSizeMake(colOffset, size.height)];
         [leftImg drawAtPoint: CGPointMake(0, 0)];
         
         // Draw a line to the right of it
@@ -128,7 +128,7 @@
         for (int row=0; row<rows; row++) {
             // Resize/crop the image and draw it
             UIImage* curImg = ((UIImage*)[images objectAtIndex:row + 1]);            
-            UIImage* cropped = [self image:curImg centeredAndResizedTo:colImgBounds];          
+            UIImage* cropped = [curImg centerFitAndResizeTo:colImgBounds];          
             [cropped drawAtPoint: CGPointMake(colOffset, colImgBounds.height * row)];
             
             // Draw a line under it if we have more coming
@@ -151,16 +151,5 @@
     return nil;
 }
 
-
-- (UIImage*) image: (UIImage*) img  centeredAndResizedTo: (CGSize) size {
-    // Aspect scales the image to the selected bounds (filling) and then cuts out the center that matches the selected bounds
-    // Result is the max available center portion of the image that fits in the bounds
-    
-    int resizeBound = MAX(size.height, size.width);    
-    UIImage* resized = [img resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(resizeBound, resizeBound) interpolationQuality:0.8];            
-    
-    CGPoint offset = CGPointMake((resizeBound - size.width)/2, (resizeBound - size.height)/2);
-    return [resized croppedImage:CGRectMake(offset.x, offset.y, size.width, size.height)]; 
-}
 
 @end

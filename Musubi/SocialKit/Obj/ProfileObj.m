@@ -31,6 +31,8 @@
 #import "AppManager.h"
 #import "FeedManager.h"
 #import "Authorities.h"
+#import "Musubi.h"
+#import "MFeed.h"
 
 #define kProfileObjReply @"reply"
 #define kProfileObjVersion @"version"
@@ -122,6 +124,15 @@
     NSObject* replyFlag = [profile valueForKey:kProfileObjReply];
     if(replyFlag && [replyFlag isKindOfClass:[NSNumber class]] && ((NSNumber*)replyFlag).boolValue) {
         [ProfileObj sendProfilesTo:[NSArray arrayWithObject:sender] replyRequested:NO withStore:store];
+    }
+    
+    // Update the FeedListView
+    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:nil];
+    
+    // Update every FeedView for feeds the sender participates in
+    FeedManager* feedMgr = [[FeedManager alloc] initWithStore:store];
+    for (MFeed* feed in [feedMgr acceptedFeedsFromIdentity:sender]) {
+        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:feed.objectID];        
     }
 }
 

@@ -109,7 +109,7 @@
     }
     [pending removeAllObjects];
     
-    self.connectionState = @"Waiting to try again...";
+    self.connectionState = @"Offline. Waiting to reconnect...";
     [NSThread sleepForTimeInterval: MIN(300, powl(2, connectionAttempts) - 1)];
     self.connectionState = @"Connecting...";
     connectionAttempts++;
@@ -157,6 +157,7 @@
 
     last_channel = 2;
     connectionReady = YES;
+    connectionAttempts = 0;
     
     [connLock unlock];
 }

@@ -131,7 +131,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 32;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -240,15 +240,6 @@
             return cell;
         }
     }
-    
-    /*
-    User* user = [[Identity sharedInstance] user];
-    if ([user picture] != nil) {
-        
-        UIButton* button = [cell picture];
-        [button setImage:[UIImage imageWithData:[user picture]] forState:UIControlStateNormal];
-    }
-    [[cell nameTextField] setText: [user name]];*/
     return nil;
 }
 
@@ -262,45 +253,6 @@
         }
     }
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (DBRestClient *)dbRestClient {
     if (!dbRestClient) {
@@ -326,8 +278,6 @@
                 [authMgr performSelectorInBackground:@selector(connect:) withObject:accountType];
             } else {
                 [authMgr disconnect:accountType];
-                // Debug notification
-                //[[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationFacebookFriendRefresh object:nil]];
             }
             
             break;
@@ -489,13 +439,8 @@
         NSLog(@"No identity, connect an account");
         return;
     }
-    NSData* thumbnail = nil;
-    double scale = MIN(1, 256 / MAX([image size].width, [image size].height));
-    if (scale < 1) {
-        CGSize newSize = CGSizeMake([image size].width * scale, [image size].height * scale);
-        image = [image resizedImage:newSize interpolationQuality:0.9];
-    }
-    thumbnail = UIImageJPEGRepresentation(image, 0.90);
+    UIImage* resized = [image centerFitAndResizeTo:CGSizeMake(256, 256)];
+    NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
 
     long long now = (long long)([[NSDate date] timeIntervalSince1970] * 1000);
     for(MIdentity* me in mine) {

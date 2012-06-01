@@ -292,8 +292,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
 - (UIButton*)profilePictureButton {
     if (!_profilePictureButton) {
         _profilePictureButton =  [UIButton buttonWithType:UIButtonTypeCustom];
-        //    _imageView2.defaultImage = TTSTYLEVAR(personImageSmall);
-        //    _imageView2.style = TTSTYLE(threadActorIcon);
+        _profilePictureButton.imageView.contentMode = UIViewContentModeScaleToFill;
         _profilePictureButton.userInteractionEnabled = YES;
         [_profilePictureButton addTarget:self action:@selector(profilePictureButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_profilePictureButton];

@@ -29,6 +29,7 @@
 #import "Musubi.h"
 #import "NSData+HexString.h"
 #import "MObj.h"
+#import "MFeed.h"
 
 @implementation DeleteObj
 
@@ -52,10 +53,19 @@
 - (BOOL)processObjWithRecord:(MObj *)obj {
     NSArray *deletions = [self.data objectForKey: kObjFieldHashes];
     ObjManager* objMgr = [[ObjManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
+
+    NSMutableSet* affectedFeeds = [NSMutableSet setWithCapacity:deletions.count];
     for (int i = 0; i < deletions.count; i++) {
         NSData* hashData = [[deletions objectAtIndex:i] dataFromHex];
-        [objMgr deleteObjWithHash:hashData];
+        MObj* deleted = [objMgr deleteObjWithHash:hashData];
+        [affectedFeeds addObject:deleted.feed];
     }
+
+    // Notify all affected feeds to update view
+    for (MFeed* feed in affectedFeeds) {
+        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:feed.objectID];
+    }
+    
     return NO;
 }
 
