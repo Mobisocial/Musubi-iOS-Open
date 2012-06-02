@@ -40,14 +40,14 @@
 @synthesize unread = _unread;
 @synthesize image = _image;
 
-- (id)initWithFeed:(MFeed *)feed {
+- (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before {
     self = [super init];
     if (self) {
         _feed = feed;
         FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         ObjManager* objMgr = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         
-        MObj* statusObj = [objMgr latestStatusObjInFeed:feed];
+        MObj* statusObj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:after before:before];
         if (statusObj) {
             StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:statusObj];
             self.text = obj.text;

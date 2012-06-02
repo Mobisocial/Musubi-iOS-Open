@@ -25,10 +25,18 @@
 
 #import "Three20/Three20.h"
 
-@class FeedManager;
+@class FeedManager, ObjManager;
 
-@interface FeedListDataSource : TTListDataSource {
+@interface DateRange : NSObject
+- (DateRange*)initWithStart:(NSDate*)after andEnd:(NSDate*)before;
+@property (nonatomic, strong) NSDate* start;
+@property (nonatomic, strong) NSDate* end;
+@end;
+
+@interface FeedListDataSource : TTSectionedDataSource {
     FeedManager* _feedManager;
+    ObjManager* _objManager;
 }
 
+@property (nonatomic, strong) NSMutableArray* dateRanges;
 @end

@@ -57,6 +57,7 @@
 		C08679561572E34C00F4F2BA /* MFeedMember.m in Sources */ = {isa = PBXBuildFile; fileRef = C08679551572E34A00F4F2BA /* MFeedMember.m */; };
 		C08679591572E35700F4F2BA /* MIncomingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = C08679581572E35600F4F2BA /* MIncomingSecret.m */; };
 		C086795C1572E35900F4F2BA /* MSequenceNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = C086795B1572E35800F4F2BA /* MSequenceNumber.m */; };
+		C0BABA70157980510068A455 /* NSDate+LocalTime.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BABA6F157980510068A455 /* NSDate+LocalTime.m */; };
 		C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5757D1551F94600B6624C /* libTestFlight.a */; };
 		C0D575821551F94600B6624C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757E1551F94600B6624C /* README.txt */; };
 		C0D575831551F94600B6624C /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757F1551F94600B6624C /* release_notes.txt */; };
@@ -403,6 +404,8 @@
 		C08679581572E35600F4F2BA /* MIncomingSecret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIncomingSecret.m; sourceTree = "<group>"; };
 		C086795A1572E35800F4F2BA /* MSequenceNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSequenceNumber.h; sourceTree = "<group>"; };
 		C086795B1572E35800F4F2BA /* MSequenceNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSequenceNumber.m; sourceTree = "<group>"; };
+		C0BABA6E157980510068A455 /* NSDate+LocalTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+LocalTime.h"; sourceTree = "<group>"; };
+		C0BABA6F157980510068A455 /* NSDate+LocalTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+LocalTime.m"; sourceTree = "<group>"; };
 		C0D5757D1551F94600B6624C /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		C0D5757E1551F94600B6624C /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		C0D5757F1551F94600B6624C /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
@@ -986,7 +989,7 @@
 		D4F0C09115791DD700541F5C /* FileObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileObj.m; path = SocialKit/Obj/FileObj.m; sourceTree = "<group>"; };
 		D4F0C09315791EBE00541F5C /* VideoObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoObj.h; sourceTree = "<group>"; };
 		D4F0C09415791EBE00541F5C /* VideoObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoObj.m; sourceTree = "<group>"; };
-		D4F0C0961579206100541F5C /* FileObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; path = FileObjItemCell.h; sourceTree = "<group>"; };
+		D4F0C0961579206100541F5C /* FileObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileObjItemCell.h; sourceTree = "<group>"; };
 		D4F0C0971579206100541F5C /* FileObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileObjItemCell.m; sourceTree = "<group>"; };
 		D4F0C099157920BB00541F5C /* VideoObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoObjItemCell.h; sourceTree = "<group>"; };
 		D4F0C09A157920BB00541F5C /* VideoObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoObjItemCell.m; sourceTree = "<group>"; };
@@ -1406,6 +1409,8 @@
 				D26D36DC147B3ED400C4FE93 /* UIImage+RoundedCorner.m */,
 				D26D36DD147B3ED400C4FE93 /* XQueryComponents.h */,
 				D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */,
+				C0BABA6E157980510068A455 /* NSDate+LocalTime.h */,
+				C0BABA6F157980510068A455 /* NSDate+LocalTime.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -3138,6 +3143,7 @@
 				D4F0C09515791EBE00541F5C /* VideoObj.m in Sources */,
 				D4F0C0981579206100541F5C /* FileObjItemCell.m in Sources */,
 				D4F0C09B157920BB00541F5C /* VideoObjItemCell.m in Sources */,
+				C0BABA70157980510068A455 /* NSDate+LocalTime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -33,6 +33,6 @@
 @property (nonatomic, assign) int32_t unread;
 @property (nonatomic, retain) UIImage* image;
 
-- (id) initWithFeed: (MFeed*) feed;
+- (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before;
 
 @end
