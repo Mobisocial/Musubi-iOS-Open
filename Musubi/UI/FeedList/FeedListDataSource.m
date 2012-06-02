@@ -64,7 +64,7 @@
     NSMutableArray* ends = [NSMutableArray arrayWithCapacity:self.sections.count];
     
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDate *today = [[NSDate date] toLocalTime];
+    NSDate *today = [NSDate date];
     NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
     NSDateComponents *components = [[NSDateComponents alloc] init];
     components = [gregorian components:unitFlags fromDate:today];

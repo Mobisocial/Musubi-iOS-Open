@@ -40,6 +40,7 @@
 #import "LikeObj.h"
 #import "PictureObj.h"
 #import "StatusObj.h"
+#import "FeedNameObj.h"
 #import "IntroductionObj.h"
 
 #import "AppManager.h"
@@ -76,6 +77,37 @@
     self.variableHeightRows = YES;
     
     updateField.delegate = self;
+
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    button.frame = CGRectMake(0, 0, 120, 32);
+    [button setTitle:self.title forState:UIControlStateNormal];
+    button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [button addTarget:self action:@selector(changeName) forControlEvents:UIControlEventTouchDown];
+    self.navigationItem.titleView = button;
+}
+- (void)changeName
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Conversation Name" message:@"Set a name for this feed so everyone can find it better" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+    
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex != 1)
+        return;
+    NSString* name = [alertView textFieldAtIndex:0].text;
+    name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if(!name || !name.length)
+        return;
+            
+    FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name];
+    
+    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MApp* app = [am ensureSuperApp];
+    
+    [ObjHelper sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    [(UIButton*)self.navigationItem.titleView setTitle:self.title  forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -86,7 +118,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
 
-    if(!_newerThan) {
+    if(!_startingAt) {
         [self scrollToBottomIfNeededAnimated:NO];
     }
     [self resetUnreadCount];    
@@ -302,6 +334,9 @@
     [_delegate friendsSelected:selection];
 }
 
+- (void)viewDidUnload {
+    [super viewDidUnload];
+}
 @end
 
 
