@@ -80,7 +80,7 @@
             || (mId.musubiName && [mId.musubiName rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound)
             || (mId.principal && [mId.principal rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound)) {
             [idents addObject:mId];
-        }
+        }	
     }
     
     NSComparisonResult (^compare) (MIdentity*, MIdentity*) = ^(MIdentity* obj1, MIdentity* obj2) {

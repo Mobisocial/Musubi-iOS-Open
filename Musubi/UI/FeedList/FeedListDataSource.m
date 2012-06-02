@@ -195,13 +195,23 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) { 
-        FeedListItem* item = [self.items objectAtIndex:indexPath.row];
+        NSMutableArray* section_items = [self.items objectAtIndex:indexPath.section];
+        FeedListItem* item = [section_items objectAtIndex:indexPath.row];
         [_feedManager deleteFeedAndMembersAndObjs:item.feed];
+        
+        if(section_items.count) {
+            [tableView beginUpdates];
+            [section_items removeObjectAtIndex:indexPath.row];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView endUpdates];
+        } else {
+            [tableView beginUpdates];
+            [self.items removeObjectAtIndex:indexPath.section];
+            [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView endUpdates];
+        }
+        
 
-        [tableView beginUpdates];
-        [self.items removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
-        [tableView endUpdates];
     } 
 }
 
