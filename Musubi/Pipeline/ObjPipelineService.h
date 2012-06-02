@@ -28,22 +28,15 @@
 
 @class PersistentModelStoreFactory, PersistentModelStore, MObj, ObjProcessorThread, IdentityManager;
 
-@interface ObjPipelineService : NSObject {
-    PersistentModelStoreFactory* storeFactory;
-    
-    NSMutableArray* pending;
-    NSOperationQueue* operations;
-    
-    NSMutableArray* feedsToNotify;
-}
+@interface ObjPipelineService : NSObject 
 
 @property (nonatomic) PersistentModelStoreFactory* storeFactory;
 
 // List of objs that are pending processing
-@property (atomic) NSMutableArray* pending;
-@property (nonatomic) NSOperationQueue* operations;
-@property (atomic) NSMutableArray* feedsToNotify;
-
+@property (atomic, strong) NSMutableArray* pending;
+@property (nonatomic, strong) NSOperationQueue* operations;
+@property (atomic, strong) NSMutableArray* feedsToNotify;
+@property (nonatomic, strong) NSMutableDictionary* pendingParentHashes;
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf;
 
 @end
