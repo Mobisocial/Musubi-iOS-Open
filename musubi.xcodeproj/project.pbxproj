@@ -3393,7 +3393,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Thomas Purtell (Y7NMFRQMAA)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/Dropbox\"",
@@ -3421,7 +3421,7 @@
 					"-lIBE",
 				);
 				PRODUCT_NAME = Musubi;
-				PROVISIONING_PROFILE = "48C385C8-886D-46B7-95D6-9B6E8C4CD438";
+				PROVISIONING_PROFILE = "262725A6-4E92-4EE8-9E19-1908B190CA72";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3460,7 +3460,7 @@
 					"-lIBE",
 				);
 				PRODUCT_NAME = Musubi;
-				PROVISIONING_PROFILE = "B06E3466-4661-4FFA-8B6D-A3BA1F65174E";
+				PROVISIONING_PROFILE = "9017FFE7-5A24-48F6-A2C7-B3D5BC4BF0B6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
