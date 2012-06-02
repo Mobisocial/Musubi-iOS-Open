@@ -29,6 +29,7 @@
 
 @interface FeedDataSource : TTListDataSource {
     ObjManager* _objManager;
+    NSDate* _startingAt;
 }
 
 - (id) initWithFeed: (MFeed*) feed messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt;

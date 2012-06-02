@@ -86,7 +86,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
 
-    [self scrollToBottomIfNeededAnimated:NO];
+    if(!_newerThan) {
+        [self scrollToBottomIfNeededAnimated:NO];
+    }
     [self resetUnreadCount];    
 }
 
