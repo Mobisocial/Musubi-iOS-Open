@@ -213,7 +213,7 @@
         NSMutableArray* section_items = [self.items objectAtIndex:i];
         for(int j = section_items.count - 1; j >= 0; --j) {
             FeedListItem* item = [section_items objectAtIndex:j];
-            if([item.feed.objectID isEqual:feed]) {
+            if([item.feed.objectID isEqual:feed.objectID]) {
                 [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:j inSection:i]] withRowAnimation:UITableViewRowAnimationFade];
                 [section_items removeObjectAtIndex:j];
             }
