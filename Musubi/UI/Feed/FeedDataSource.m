@@ -55,6 +55,12 @@
 #import "VoiceObj.h"
 #import "VoiceObjItemCell.h"
 
+#import "VideoObj.h"
+#import "VideoObjItemCell.h"
+
+#import "FileObj.h"
+#import "FileObjItemCell.h"
+
 #import "StoryObj.h"
 #import "StoryObjItemCell.h"
 
@@ -104,6 +110,10 @@
         cellClass = [VoiceObjItemCell class];
     } else if ([managed.type isEqualToString:kObjTypeStory]) {
         cellClass = [StoryObjItemCell class];
+    } else if ([managed.type isEqualToString:kObjTypeVideo]) {
+        cellClass = [VideoObjItemCell class];
+    } else if ([managed.type isEqualToString:kObjTypeFile]) {
+        cellClass = [FileObjItemCell class];
     }
     
     if (cellClass == nil) {

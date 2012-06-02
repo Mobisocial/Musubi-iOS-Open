@@ -314,6 +314,4 @@
     return [NSURL URLWithString:[NSString stringWithFormat:@"content://org.musubi.db/feeds/%d", feed.objectID.hash]];
 }
 
-
-
 @end

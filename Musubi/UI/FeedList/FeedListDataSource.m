@@ -30,32 +30,126 @@
 #import "FeedListItem.h"
 #import "FeedListItemCell.h"
 #import "Musubi.h"
+#import "NSDate+LocalTime.h"
+#import "ObjManager.h"
 
+@implementation DateRange
+@synthesize start, end;
+- (DateRange*)initWithStart:(NSDate*)after andEnd:(NSDate*)before
+{
+    self = [super init];
+    if(!self)
+        return nil;
+    start = after;
+    end = before;
+    return self;
+}
+@end
 @implementation FeedListDataSource
-
+@synthesize dateRanges;
 - (id) init {
     self = [super init];
     if (self) {
         self.model = [[FeedListModel alloc] init];
         _feedManager = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     }
     return self;
 }
 
 
 - (void)tableViewDidLoadModel:(UITableView *)tableView {
-    NSMutableArray* newItems = [NSMutableArray array];
+    NSMutableArray* sections = [NSMutableArray array];
+    NSMutableArray* section_items = [NSMutableArray arrayWithCapacity:self.sections.count];
+    NSMutableArray* ends = [NSMutableArray arrayWithCapacity:self.sections.count];
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *today = [[NSDate date] toLocalTime];
+    NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components = [gregorian components:unitFlags fromDate:today];
+    components.hour = 0;
+    components.minute = 0;
+    components.second = 0;
+    NSDate *todayMidnight = [gregorian dateFromComponents:components];
+    NSDate *other;
 
-    for (MFeed* mFeed in ((FeedListModel*)self.model).results) {
-        FeedListItem* item = [[FeedListItem alloc] initWithFeed:mFeed];
-        if (item) {
-            [newItems addObject: item];
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateFormat = @"EEEE";
+    
+    [sections addObject:@"Today"];
+    [ends addObject:[todayMidnight toGlobalTime]];
+    components = [[NSDateComponents alloc] init];
+    components.day = -1;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:@"Yesterday"];
+    [ends addObject:[other toGlobalTime]];
+    components.day = -2;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:[df stringFromDate:other]];
+    [ends addObject:[other toGlobalTime]];
+    components.day = -3;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:[df stringFromDate:other]];
+    [ends addObject:[other toGlobalTime]];
+    components.day = -4;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:[df stringFromDate:other]];
+    [ends addObject:[other toGlobalTime]];
+    components.day = -5;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:[df stringFromDate:other]];
+    [ends addObject:[other toGlobalTime]];
+    components.day = -6;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:@"A Week Ago"];
+    [ends addObject:[other toGlobalTime]];
+    components.day = -7;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:@"Two Weeks Ago"];
+    [ends addObject:[other toGlobalTime]];
+    components.day = -14;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:@"A Month Ago"];
+    [ends addObject:[other toGlobalTime]];
+    components = [[NSDateComponents alloc] init];
+    components.day = -30;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:@"All Time"];
+    [ends addObject:[other toGlobalTime]];
+
+    NSDate* start = nil;
+    for(NSDate* end in ends) {
+        [section_items addObject:[self filterFeeds:((FeedListModel*)self.model).results withActivityAfter:start until:end]];
+        [dateRanges addObject:[[DateRange alloc] initWithStart:start andEnd:end]];
+        start = end;
+    }
+    [section_items addObject:[self filterFeeds:((FeedListModel*)self.model).results withActivityAfter:start until:nil]];
+
+    for(int i = sections.count - 1; i >= 0; --i) {
+        if(![[section_items objectAtIndex:i] count]) {
+            [sections removeObjectAtIndex:i];
+            [dateRanges removeObjectAtIndex:i];
+            [section_items removeObjectAtIndex:i];
         }
     }
     
-    self.items = newItems;
+    self.sections = sections;
+    self.items = section_items;
 }
-
+- (NSMutableArray*) filterFeeds:(NSMutableArray*)newItems withActivityAfter:(NSDate*)start until:(NSDate*)end
+{
+    NSMutableArray* hits = [NSMutableArray arrayWithCapacity:newItems.count];
+    for(MFeed* feed in newItems) {
+        if(![_objManager feed:feed withActivityAfter:start until:end])
+            continue;
+        FeedListItem* item = [[FeedListItem alloc] initWithFeed:feed after:start before:end];
+        if (item) {
+            [hits addObject: item];
+        }
+    }
+    return hits;
+}
 - (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {
     return [FeedListItemCell class];
 }

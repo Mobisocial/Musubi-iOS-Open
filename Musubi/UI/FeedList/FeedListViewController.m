@@ -176,7 +176,7 @@
 }
 
 - (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
-    FeedListItem* item = [((FeedListDataSource*)self.dataSource).items objectAtIndex:indexPath.row];
+    FeedListItem* item = [[((FeedListDataSource*)self.dataSource).items objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"ShowFeed" sender:item.feed];
 }
 

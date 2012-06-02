@@ -16,27 +16,31 @@
 
 
 //
-//  FeedListDataSource.h
+//  HTMLFeedViewController.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 11/17/11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Three20/Three20.h"
+#import <UIKit/UIKit.h>
+#import "Feed.h"
+#import "App.h"
+#import "URLCommand.h"
+#import "Musubi.h"
+#import "SBJson.h"
+#import "NSData+Base64.h"
 
-@class FeedManager, ObjManager;
-
-@interface DateRange : NSObject
-- (DateRange*)initWithStart:(NSDate*)after andEnd:(NSDate*)before;
-@property (nonatomic, strong) NSDate* start;
-@property (nonatomic, strong) NSDate* end;
-@end;
-
-@interface FeedListDataSource : TTSectionedDataSource {
-    FeedManager* _feedManager;
-    ObjManager* _objManager;
+@interface HTMLAppViewController : UIViewController<UIWebViewDelegate, MusubiFeedListener> {
+    App* app;
+    
+    @private
+    
+    NSMutableDictionary* updates;
+    IBOutlet UIWebView* webView;
+    
 }
 
-@property (nonatomic, strong) NSMutableArray* dateRanges;
+@property (nonatomic,retain) App* app;
+
 @end

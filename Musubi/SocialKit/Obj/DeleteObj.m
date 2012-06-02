@@ -29,6 +29,7 @@
 #import "Musubi.h"
 #import "NSData+HexString.h"
 #import "MObj.h"
+#import "MFeed.h"
 #import "MIdentity.h"
 #import "PersistentModelStore.h"
 
@@ -53,11 +54,16 @@
 
 - (BOOL)processObjWithRecord:(MObj *)deleteObj {
     NSArray *deletions = [self.data objectForKey: kObjFieldHashes];
+
     PersistentModelStore *store = [[Musubi sharedInstance] newStore];
     ObjManager* objMgr = [[ObjManager alloc] initWithStore: store];
+
+    NSMutableSet* affectedFeeds = [NSMutableSet setWithCapacity:deletions.count];
+
     for (int i = 0; i < deletions.count; i++) {
         NSData* hashData = [[deletions objectAtIndex:i] dataFromHex];
         MObj* item = [objMgr objWithUniversalHash:hashData];
+        [affectedFeeds addObject:item.feed];
         if (deleteObj.identity.owned || !item.identity.owned) {
             [store.context deleteObject:item];
         } else {
@@ -65,6 +71,12 @@
         }
     }
     [store save];
+
+    // Notify all affected feeds to update view
+    for (MFeed* feed in affectedFeeds) {
+        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:feed.objectID];
+    }
+
     return NO;
 }
 

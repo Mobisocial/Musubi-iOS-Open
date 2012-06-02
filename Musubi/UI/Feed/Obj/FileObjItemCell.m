@@ -16,25 +16,29 @@
 
 
 //
-//  FeedDataSource.h
+//  FileObjCell.m
 //  musubi
 //
-//  Created by Willem Bult on 4/27/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ben Dodson on 6/1/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "Three20/Three20.h"
-#import "MFeed.h"
-#import "FeedDataModel.h"
-@class FeedViewController;
+#import "FileObjItemCell.h"
+#define kFileObjText @"<Files not currently supported>"
 
-@interface FeedDataSource : TTListDataSource {
-    int _lastLoadedRow;
-    BOOL _loadingStarted;
+@implementation FileObjItemCell
 
-    FeedDataModel* dataModel;
++ (CGFloat)renderHeightForItem:(FeedItem *)item {
+    CGSize size = [kFileObjText sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    return size.height;
 }
 
-- (id) initWithFeed: (MFeed*) feed;
+- (void)setObject:(id)object {
+    [super setObject:object];
+    self.detailTextLabel.text = kFileObjText;
+}
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+}
 @end

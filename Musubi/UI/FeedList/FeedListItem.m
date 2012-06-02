@@ -39,17 +39,18 @@
 @synthesize feed = _feed;
 @synthesize unread = _unread;
 @synthesize image = _image;
+@synthesize statusObj = _statusObj;
 
-- (id)initWithFeed:(MFeed *)feed {
+- (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before {
     self = [super init];
     if (self) {
         _feed = feed;
         FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         ObjManager* objMgr = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         
-        MObj* statusObj = [objMgr latestStatusObjInFeed:feed];
-        if (statusObj) {
-            StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:statusObj];
+        _statusObj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:after before:before];
+        if (_statusObj) {
+            StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_statusObj];
             self.text = obj.text;
         }
         /*
@@ -65,7 +66,8 @@
             }
         }*/
         
-        self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed]];
+        NSArray* order = _statusObj ? [NSArray arrayWithObject:_statusObj.identity] : nil;
+        self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed] preferredOrder:order];
         
         self.title = [feedMgr identityStringForFeed:feed];
         self.timestamp = [NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime];
@@ -74,10 +76,38 @@
     return self;
 }
 
-- (UIImage*) imageForIdentities: (NSArray*) identities {
+- (UIImage*) imageForIdentities: (NSArray*) identities preferredOrder:(NSArray*)order {
     NSMutableArray* images = [NSMutableArray arrayWithCapacity:3];
-    
+
+    for (MIdentity* i in order) {
+        if (images.count > 3)
+            break;
+        UIImage* img = nil;
+        
+        if(i.musubiThumbnail) {
+            img = [UIImage imageWithData:i.musubiThumbnail];                
+        }
+        if (img == nil && i.thumbnail) {
+            img = [UIImage imageWithData:i.thumbnail];
+        }
+        
+        if (img)
+            [images addObject: img];
+        
+    }
+
     for (MIdentity* i in identities) {
+        BOOL dupe = NO;
+        for(MIdentity* j in order) {
+            if([j.objectID isEqual:i.objectID]) {
+                dupe = YES;
+                break;
+            }
+        }
+        if(dupe)
+            continue;
+        if (images.count > 3)
+            break;
         if (!i.owned || identities.count == 1) {
             UIImage* img = nil;
             
@@ -91,9 +121,6 @@
             if (img)
                 [images addObject: img];
         }
-        
-        if (images.count > 3)
-            break;
     }
     
     if (images.count > 1) {
@@ -113,7 +140,7 @@
         CGFloat colOffset = size.width - (size.width / MIN(3, rows+1)) + 1; // add 1 for the line
         
         // The left column image is the largest, and placed at (0,0)
-        UIImage* leftImg = [self image:[images objectAtIndex:0] centeredAndResizedTo:CGSizeMake(colOffset, size.height)];
+        UIImage* leftImg = [(UIImage*)[images objectAtIndex:0] centerFitAndResizeTo:CGSizeMake(colOffset, size.height)];
         [leftImg drawAtPoint: CGPointMake(0, 0)];
         
         // Draw a line to the right of it
@@ -128,7 +155,7 @@
         for (int row=0; row<rows; row++) {
             // Resize/crop the image and draw it
             UIImage* curImg = ((UIImage*)[images objectAtIndex:row + 1]);            
-            UIImage* cropped = [self image:curImg centeredAndResizedTo:colImgBounds];          
+            UIImage* cropped = [curImg centerFitAndResizeTo:colImgBounds];          
             [cropped drawAtPoint: CGPointMake(colOffset, colImgBounds.height * row)];
             
             // Draw a line under it if we have more coming
@@ -151,16 +178,5 @@
     return nil;
 }
 
-
-- (UIImage*) image: (UIImage*) img  centeredAndResizedTo: (CGSize) size {
-    // Aspect scales the image to the selected bounds (filling) and then cuts out the center that matches the selected bounds
-    // Result is the max available center portion of the image that fits in the bounds
-    
-    int resizeBound = MAX(size.height, size.width);    
-    UIImage* resized = [img resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(resizeBound, resizeBound) interpolationQuality:0.8];            
-    
-    CGPoint offset = CGPointMake((resizeBound - size.width)/2, (resizeBound - size.height)/2);
-    return [resized croppedImage:CGRectMake(offset.x, offset.y, size.width, size.height)]; 
-}
 
 @end

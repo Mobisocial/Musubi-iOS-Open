@@ -16,27 +16,20 @@
 
 
 //
-//  FeedListDataSource.h
+//  main.m
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 10/5/11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Three20/Three20.h"
+#import <UIKit/UIKit.h>
 
-@class FeedManager, ObjManager;
+#import "AppDelegate.h"
 
-@interface DateRange : NSObject
-- (DateRange*)initWithStart:(NSDate*)after andEnd:(NSDate*)before;
-@property (nonatomic, strong) NSDate* start;
-@property (nonatomic, strong) NSDate* end;
-@end;
-
-@interface FeedListDataSource : TTSectionedDataSource {
-    FeedManager* _feedManager;
-    ObjManager* _objManager;
+int main(int argc, char *argv[])
+{    
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
 }
-
-@property (nonatomic, strong) NSMutableArray* dateRanges;
-@end

@@ -47,5 +47,7 @@
 
 - (MLikeCache*) likeCountForObj: (MObj*) obj;
 - (void) increaseLikeCountForObj: (MObj*) obj local: (BOOL) local;
+- (BOOL) feed:(MFeed*)feed withActivityAfter:(NSDate*)start until:(NSDate*)end;
+- (MObj*)latestObjOfType:(NSString*)type inFeed:(MFeed *)feed  after:(NSDate*)after before:(NSDate*)before;
 
 @end

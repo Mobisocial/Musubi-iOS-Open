@@ -25,14 +25,15 @@
 
 #import "Three20/Three20.h"
 
-@class MFeed;
+@class MFeed, MObj;
 
 @interface FeedListItem : TTTableMessageItem
 
 @property (nonatomic) MFeed* feed;
 @property (nonatomic, assign) int32_t unread;
 @property (nonatomic, retain) UIImage* image;
+@property (nonatomic, strong) MObj* statusObj;
 
-- (id) initWithFeed: (MFeed*) feed;
+- (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before;
 
 @end

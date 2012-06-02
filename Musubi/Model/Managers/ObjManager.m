@@ -76,13 +76,31 @@
 }
 
 - (MObj*)latestStatusObjInFeed:(MFeed *)feed {
-    NSArray* res = [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (parent == nil) AND (renderable == YES) AND ((processed == YES) OR (encoded == nil)) AND (type == %@)", feed.objectID, kObjTypeStatus] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE] limit:1];
-    if (res.count > 0) {
-        return [res objectAtIndex:0];
+    return [self latestObjOfType:kObjTypeStatus inFeed:feed after:nil before:nil];
+}
+
+- (NSArray*)latestArrayObjOfType:(NSString*)type inFeed:(MFeed *)feed  after:(NSDate*)after before:(NSDate*)before {
+    if(after && before) {
+        return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (type == %@) AND (parent == nil) && (timestamp < %@) && (timestamp >= %@)", feed.objectID, type, after, before] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE] limit:1];
+    } else if(after) {
+        return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (type == %@) AND (parent == nil) && (timestamp < %@)", feed.objectID, type, after] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE] limit:1];
+        
+    } else if(before) {
+        return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (type == %@) AND (parent == nil) && (timestamp >= %@)", feed.objectID, type, before] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE] limit:1];
     } else {
-        return nil;
+        return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (type == %@) AND (parent == nil)", feed.objectID, type] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE] limit:1];
     }
 }
+
+- (MObj*)latestObjOfType:(NSString*)type inFeed:(MFeed *)feed  after:(NSDate*)after before:(NSDate*)before {
+    NSArray* arr = [self latestArrayObjOfType:type inFeed:feed after:after before:before];
+    if(!arr.count)
+        return nil;
+    return [arr objectAtIndex:0];
+
+}
+
+
 
 
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed {
@@ -104,6 +122,19 @@
 - (NSArray *) likesForObj: (MObj*) obj {
     return [store query:[NSPredicate predicateWithFormat:@"(obj == %@)", obj] onEntity:@"Like"];
 }
+- (BOOL) feed:(MFeed*)feed withActivityAfter:(NSDate*)start until:(NSDate*)end
+{
+    if(start && end) {
+        return [self queryFirst:[NSPredicate predicateWithFormat:@"(feed == %@) && (timestamp < %@) && (timestamp >= %@)", feed.objectID, start, end]] != nil;
+    } else if(start) {
+        return [self queryFirst:[NSPredicate predicateWithFormat:@"(feed == %@) && (timestamp < %@)", feed.objectID, start]] != nil;
+    } else {
+        return [self queryFirst:[NSPredicate predicateWithFormat:@"(feed == %@) && (timestamp >= %@)", feed.objectID, end]] != nil;
+    }
+    
+}
+
+
 
 - (void) saveLikeForObj: (MObj*) obj from: (MIdentity*) sender {
     

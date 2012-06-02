@@ -16,27 +16,18 @@
 
 
 //
-//  FeedListDataSource.h
+//  FileObj.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ben Dodson on 6/1/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "Three20/Three20.h"
+#import "Obj.h"
+#define kObjTypeFile @"file"
+#define kObjFieldFilename @"filename"
+#define kObjFieldFilesize @"filesize"
 
-@class FeedManager, ObjManager;
+@interface FileObj : Obj<RenderableObj>
 
-@interface DateRange : NSObject
-- (DateRange*)initWithStart:(NSDate*)after andEnd:(NSDate*)before;
-@property (nonatomic, strong) NSDate* start;
-@property (nonatomic, strong) NSDate* end;
-@end;
-
-@interface FeedListDataSource : TTSectionedDataSource {
-    FeedManager* _feedManager;
-    ObjManager* _objManager;
-}
-
-@property (nonatomic, strong) NSMutableArray* dateRanges;
 @end

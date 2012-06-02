@@ -16,27 +16,25 @@
 
 
 //
-//  FeedListDataSource.h
+//  AppDelegate.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Willem Bult on 10/5/11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Three20/Three20.h"
+#import <UIKit/UIKit.h>
 
-@class FeedManager, ObjManager;
+@class FacebookLoginOperation;
 
-@interface DateRange : NSObject
-- (DateRange*)initWithStart:(NSDate*)after andEnd:(NSDate*)before;
-@property (nonatomic, strong) NSDate* start;
-@property (nonatomic, strong) NSDate* end;
-@end;
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@interface FeedListDataSource : TTSectionedDataSource {
-    FeedManager* _feedManager;
-    ObjManager* _objManager;
-}
+@property ( nonatomic) UIWindow *window;
+@property ( nonatomic) UINavigationController* navController;
 
-@property (nonatomic, strong) NSMutableArray* dateRanges;
+// Facebook SingleSignOn always calls back the appDelegate, so we need a reference to the login
+@property (nonatomic, weak) FacebookLoginOperation* facebookLoginOperation;
+
+- (void) restart;
+
 @end

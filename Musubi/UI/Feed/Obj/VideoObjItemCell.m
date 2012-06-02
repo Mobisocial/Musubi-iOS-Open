@@ -16,27 +16,29 @@
 
 
 //
-//  FeedListDataSource.h
+//  VideoObjItemCell.m
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ben Dodson on 6/1/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "Three20/Three20.h"
+#import "VideoObjItemCell.h"
+#define kVideoObjText @"<Video not currently supported>"
 
-@class FeedManager, ObjManager;
+@implementation VideoObjItemCell
 
-@interface DateRange : NSObject
-- (DateRange*)initWithStart:(NSDate*)after andEnd:(NSDate*)before;
-@property (nonatomic, strong) NSDate* start;
-@property (nonatomic, strong) NSDate* end;
-@end;
-
-@interface FeedListDataSource : TTSectionedDataSource {
-    FeedManager* _feedManager;
-    ObjManager* _objManager;
++ (CGFloat)renderHeightForItem:(FeedItem *)item {
+    CGSize size = [kVideoObjText sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    return size.height;
 }
 
-@property (nonatomic, strong) NSMutableArray* dateRanges;
+- (void)setObject:(id)object {
+    [super setObject:object];
+    self.detailTextLabel.text = kVideoObjText;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+}
 @end

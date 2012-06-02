@@ -182,4 +182,15 @@
     return transform;
 }
 
+- (UIImage*) centerFitAndResizeTo: (CGSize) size {
+    // Aspect scales the image to the selected bounds (filling) and then cuts out the center that matches the selected bounds
+    // Result is the max available center portion of the image that fits in the bounds
+    
+    int resizeBound = MAX(size.height, size.width);    
+    UIImage* resized = [self resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(resizeBound, resizeBound) interpolationQuality:0.8];            
+    
+    CGPoint offset = CGPointMake((resizeBound - size.width)/2, (resizeBound - size.height)/2);
+    return [resized croppedImage:CGRectMake(offset.x, offset.y, size.width, size.height)]; 
+}
+
 @end
