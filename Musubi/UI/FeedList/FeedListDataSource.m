@@ -95,7 +95,8 @@
     
     [sections addObject:@"Today"];
     [ends addObject:todayMidnight];
-    if(!self.lastItems || !self.lastSections) {
+    if(!self.lastItems || !
+       self.lastSections) {
         components = [[NSDateComponents alloc] init];
         components.day = -1;
         other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
