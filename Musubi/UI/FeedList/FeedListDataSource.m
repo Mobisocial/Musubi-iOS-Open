@@ -55,6 +55,7 @@
         self.model = [[FeedListModel alloc] init];
         _feedManager = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        dateRanges = [NSMutableArray array];
     }
     return self;
 }
@@ -156,9 +157,12 @@
         if(!sections.count) {
             //no items in today
         } else {
-            if(!lastDateRanges.count || [(DateRange*)[lastDateRanges objectAtIndex:0] start]) {
+            DateRange* range = [lastDateRanges objectAtIndex:0];
+            if(!lastDateRanges.count || range.start) {
                 // there was no today section before
                 [self.lastItems insertObject:[section_items objectAtIndex:0] atIndex:0];
+                [lastDateRanges insertObject:[dateRanges objectAtIndex:0] atIndex:0];
+                dateRanges = lastDateRanges;
             } else {
                 // update the today section
                 [self.lastItems replaceObjectAtIndex:0 withObject:[section_items objectAtIndex:0]];
