@@ -107,7 +107,7 @@
     MApp* app = [am ensureSuperApp];
     
     [ObjHelper sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-    [(UIButton*)self.navigationItem.titleView setTitle:self.title  forState:UIControlStateNormal];
+    [(UIButton*)self.navigationItem.titleView setTitle:name forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
