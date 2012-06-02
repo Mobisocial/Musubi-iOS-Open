@@ -76,7 +76,7 @@
     if (!self)
         return nil;
     
-    FeedModel* model = [[FeedModel alloc] initWithFeed:feed messagesNewerThan:(startingAt ? newerThan : nil)];
+    FeedModel* model = [[FeedModel alloc] initWithFeed:feed messagesNewerThan:newerThan];
     self.model = model;
     _startingAt = startingAt;
     [model.delegates addObject:self];

@@ -91,14 +91,20 @@
     _loading = YES;    
     [self didStartLoad];
     BOOL firstLoad = _earliestTimestampFetched == nil;
+    int batchSize = firstLoad ? 15 : 50;
     
+    BOOL regular_query = YES;
     if(_requireSince) {
-        [_newResults addObjectsFromArray:[_objManager renderableObjsInFeed:_feed after:_requireSince limit:0]];
-        _hasMore = YES;
-        _requireSince = nil;
-        
-    } else {
-        int batchSize = firstLoad ? 15 : 50;
+        NSArray* res = [_objManager renderableObjsInFeed:_feed after:_requireSince limit:0];
+        if(res && res.count > batchSize) {
+            [_newResults addObjectsFromArray:res];
+            _hasMore = YES;
+            _requireSince = nil;
+            regular_query = NO;
+        }
+    } 
+    
+    if(regular_query) {
         
         if (_earliestTimestampFetched)
             [_newResults addObjectsFromArray:[_objManager renderableObjsInFeed:_feed before:_earliestTimestampFetched limit:batchSize]];
