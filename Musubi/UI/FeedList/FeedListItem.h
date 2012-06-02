@@ -33,6 +33,8 @@
 @property (nonatomic, assign) int32_t unread;
 @property (nonatomic, retain) UIImage* image;
 @property (nonatomic, strong) MObj* statusObj;
+@property (nonatomic, strong) NSDate* start;
+@property (nonatomic, strong) NSDate* end;
 
 - (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before;
 

@@ -40,39 +40,43 @@
 @synthesize unread = _unread;
 @synthesize image = _image;
 @synthesize statusObj = _statusObj;
+@synthesize start = _start;
+@synthesize end = _end;
 
 - (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before {
     self = [super init];
-    if (self) {
-        _feed = feed;
-        FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        ObjManager* objMgr = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        
-        _statusObj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:after before:before];
-        if (_statusObj) {
-            StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_statusObj];
-            self.text = obj.text;
-        }
-        /*
-        for (MIdentity* ident in [feedMgr identitiesInFeed:feed]) {
-            if (!ident.owned) {
-                if(ident.musubiThumbnail) {
-                    self.image = [UIImage imageWithData:ident.musubiThumbnail];
-                    break;
-                } else if (ident.thumbnail) {
-                    self.image = [UIImage imageWithData:ident.thumbnail];
-                    break;
-                }
-            }
-        }*/
-        
-        NSArray* order = _statusObj ? [NSArray arrayWithObject:_statusObj.identity] : nil;
-        self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed] preferredOrder:order];
-        
-        self.title = [feedMgr identityStringForFeed:feed];
-        self.timestamp = [NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime];
-        self.unread = feed.numUnread;
+    if(!self)
+        return nil;
+    _feed = feed;
+    FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    ObjManager* objMgr = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    
+    _statusObj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:after before:before];
+    if (_statusObj) {
+        StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_statusObj];
+        self.text = obj.text;
     }
+    /*
+    for (MIdentity* ident in [feedMgr identitiesInFeed:feed]) {
+        if (!ident.owned) {
+            if(ident.musubiThumbnail) {
+                self.image = [UIImage imageWithData:ident.musubiThumbnail];
+                break;
+            } else if (ident.thumbnail) {
+                self.image = [UIImage imageWithData:ident.thumbnail];
+                break;
+            }
+        }
+    }*/
+    
+    NSArray* order = _statusObj ? [NSArray arrayWithObject:_statusObj.identity] : nil;
+    self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed] preferredOrder:order];
+    
+    self.title = [feedMgr identityStringForFeed:feed];
+    self.timestamp = [NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime];
+    self.unread = feed.numUnread;
+    self.start = after;
+    self.end = before;
     return self;
 }
 

@@ -31,6 +31,6 @@
     ObjManager* _objManager;
 }
 
-- (id) initWithFeed: (MFeed*) feed;
+- (id) initWithFeed: (MFeed*) feed messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt;
 
 @end

@@ -35,7 +35,9 @@
     
     NSDate* _earliestTimestampFetched;
     NSDate* _latestModifiedFetched;
-    
+
+    NSDate* _requireSince;
+
     BOOL _loaded;
     BOOL _loading;
     BOOL _hasMore;
@@ -46,7 +48,7 @@
 @property (nonatomic, readonly) MFeed* feed;
 @property (nonatomic, readonly) ObjManager* objManager;
 
-- (id) initWithFeed: (MFeed*) feed;
+- (id) initWithFeed: (MFeed*) feed messagesNewerThan:(NSDate*)newerThan;
 - (void) loadNew;
 - (void) loadObj:(NSManagedObjectID*)objId;
 - (NSArray*) consumeNewResults;

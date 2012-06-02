@@ -48,6 +48,8 @@
 
 @implementation FeedViewController
 
+@synthesize newerThan = _newerThan;
+@synthesize startingAt = _startingAt;
 @synthesize feed = _feed;
 @synthesize delegate = _delegate;
 
@@ -94,7 +96,7 @@
 }
 
 - (void)createModel {
-    self.dataSource = [[FeedDataSource alloc] initWithFeed:_feed];
+    self.dataSource = [[FeedDataSource alloc] initWithFeed:_feed  messagesNewerThan:_newerThan startingAt:_startingAt];
 }
 
 - (id<UITableViewDelegate>)createDelegate {

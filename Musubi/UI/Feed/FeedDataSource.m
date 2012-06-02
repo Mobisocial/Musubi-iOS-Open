@@ -70,16 +70,17 @@
 
 @implementation FeedDataSource
 
-- (id)initWithFeed:(MFeed *)feed {
+- (id)initWithFeed:(MFeed *)feed  messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt{
     self = [super init];
     
-    if (self) {
-        self.model = [[FeedModel alloc] initWithFeed:feed];
-        [((FeedModel*)self.model).delegates addObject:self];
-        _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-                    
-    }
+    if (!self)
+        return nil;
     
+    FeedModel* model = [[FeedModel alloc] initWithFeed:feed messagesNewerThan:newerThan];
+    self.model = model;
+    [model.delegates addObject:self];
+    _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+
     return self;
 }
 

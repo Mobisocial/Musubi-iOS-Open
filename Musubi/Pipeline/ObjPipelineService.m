@@ -219,10 +219,10 @@ static int operationCount = 0;
     if(children != nil && children.count) {
         for(NSManagedObjectID* oid in children) {
             NSError* error;
-            MObj* child = [_store.context existingObjectWithID:oid error:&error];
+            MObj* child = (MObj*)[_store.context existingObjectWithID:oid error:&error];
             if(!child)
                 continue;
-            [child.processed = NO];
+            child.processed = NO;
         }
         [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationAppObjReady object:nil];
         [_store save];
