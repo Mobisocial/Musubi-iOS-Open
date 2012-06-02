@@ -209,7 +209,7 @@
             }
         }
         dispatch_async(dispatch_get_current_queue(), ^{
-            [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         });
         _startingAt = nil;
     }
