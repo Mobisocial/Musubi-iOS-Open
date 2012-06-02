@@ -33,6 +33,50 @@
 #import "StatusObj.h"
 #import "Musubi.h"
 #import "UIImage+Resize.h"
+#import "Three20Core/NSDateAdditions.h"
+
+@interface SneakyDate : NSObject
+- (SneakyDate*)initWithDate:(NSDate*)date andNewest:(NSDate*)newest andOldest:(NSDate*)oldest;
+@end
+
+@implementation SneakyDate {
+    NSDate* _newest;
+    NSDate* _oldest;
+    NSDate* _mine;
+}
+
+- (SneakyDate *)initWithDate:(NSDate *)date andNewest:(NSDate *)newest andOldest:(NSDate *)oldest
+{
+    self = [super init];
+    if(!self) 
+         return nil;
+    
+    _mine = date;
+    _newest = newest;
+    _oldest = oldest;
+    
+    return self;
+}
+
+- (NSString*)formatShortTime {
+    NSTimeInterval diff = abs([_mine timeIntervalSinceNow]);
+    
+    if (diff < TT_DAY * 7) {
+        return [_mine formatTime];
+        
+    } else {
+        static NSDateFormatter* formatter = nil;
+        if (nil == formatter) {
+            formatter = [[NSDateFormatter alloc] init];
+            formatter.dateFormat = TTLocalizedString(@"M/d/yy", @"Date format: 7/27/09");
+            formatter.locale = TTCurrentLocale();
+        }
+        return [formatter stringFromDate:_mine];
+    }
+}
+@end
+
+
 
 @implementation FeedListItem
 
@@ -73,7 +117,7 @@
     self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed] preferredOrder:order];
     
     self.title = [feedMgr identityStringForFeed:feed];
-    self.timestamp = [NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime];
+    self.timestamp = [[SneakyDate alloc] initWithDate:(_statusObj ? _statusObj.timestamp : before) andNewest:after andOldest:before];
     self.unread = feed.numUnread;
     self.start = after;
     self.end = before;
