@@ -213,7 +213,8 @@ static int operationCount = 0;
     NSMutableArray* children = nil;
     @synchronized(self.service.pendingParentHashes) {
         children = [self.service.pendingParentHashes objectForKey:targetHash];
-        [self.service.pendingParentHashes removeObjectForKey:targetHash];
+        if(children)
+            [self.service.pendingParentHashes removeObjectForKey:targetHash];
     }
     
     if(children != nil && children.count) {

@@ -38,6 +38,7 @@
 #import "FileObj.h"
 #import "StoryObj.h"
 #import "UnknownObj.h"
+#import "FeedNameObj.h"
 
 @implementation ObjFactory
 
@@ -70,6 +71,8 @@
         return [[FileObj alloc] initWithType:objType data:data andRaw:mObj.raw];
     } else if ([objType isEqualToString:kObjTypeVideo]) {
         return [[VideoObj alloc] initWithType:objType data:data andRaw:mObj.raw];
+    } else if ([objType isEqualToString:kObjTypeFeedName]) {
+        return [[FeedNameObj alloc] initWithData:data];
     }
     
     return [[UnknownObj alloc] initWithType:objType data:data andRaw:mObj.raw];

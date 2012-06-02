@@ -37,6 +37,7 @@
 		568691101570537400DD1791 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5686910F1570537400DD1791 /* ProfileViewController.m */; };
 		56D2D6341570F53100845601 /* ProfileNamePictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 56D2D6331570F53100845601 /* ProfileNamePictureCell.m */; };
 		C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0294C4A155CEE5B005894DF /* APNPushManager.m */; };
+		C03A663E1579E537009A5CBA /* FeedNameObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A663D1579E537009A5CBA /* FeedNameObj.m */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
 		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; };
 		C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0867924157038FC00F4F2BA /* ProfileObj.m */; };
@@ -361,6 +362,8 @@
 		56D2D6331570F53100845601 /* ProfileNamePictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileNamePictureCell.m; sourceTree = "<group>"; };
 		C0294C49155CEE5B005894DF /* APNPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APNPushManager.h; sourceTree = "<group>"; };
 		C0294C4A155CEE5B005894DF /* APNPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNPushManager.m; sourceTree = "<group>"; };
+		C03A663C1579E537009A5CBA /* FeedNameObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameObj.h; sourceTree = "<group>"; };
+		C03A663D1579E537009A5CBA /* FeedNameObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedNameObj.m; sourceTree = "<group>"; };
 		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
 		C086764A156B032700F4F2BA /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
@@ -1417,28 +1420,30 @@
 		D2773CB3151C436700A161F9 /* Obj */ = {
 			isa = PBXGroup;
 			children = (
-				D2773CB4151C438200A161F9 /* IntroductionObj.h */,
-				D2773CB5151C438200A161F9 /* IntroductionObj.m */,
-				D2F8C684152524DF005AD880 /* StatusObj.h */,
-				D2F8C685152524DF005AD880 /* StatusObj.m */,
-				D208BDD815339CE700F6FC5C /* PictureObj.h */,
-				D208BDD915339CE700F6FC5C /* PictureObj.m */,
-				D480496B1561F6C60066279D /* LikeObj.h */,
-				D480496C1561F6C60066279D /* LikeObj.m */,
 				D4E42AAE156224EE00C21FDA /* DeleteObj.h */,
 				D4E42AAF156224EE00C21FDA /* DeleteObj.m */,
-				C0867923157038FC00F4F2BA /* ProfileObj.h */,
-				C0867924157038FC00F4F2BA /* ProfileObj.m */,
-				D410BA4A1573085900951D94 /* UnknownObj.h */,
-				D410BA4B1573085900951D94 /* UnknownObj.m */,
-				D4FFE26D15780634007F918E /* VoiceObj.h */,
-				D4FFE26E15780634007F918E /* VoiceObj.m */,
-				D4FFE27615780BB8007F918E /* StoryObj.h */,
-				D4FFE27715780BB8007F918E /* StoryObj.m */,
+				C03A663C1579E537009A5CBA /* FeedNameObj.h */,
+				C03A663D1579E537009A5CBA /* FeedNameObj.m */,
 				D4F0C09015791DD700541F5C /* FileObj.h */,
 				D4F0C09115791DD700541F5C /* FileObj.m */,
+				D2773CB4151C438200A161F9 /* IntroductionObj.h */,
+				D2773CB5151C438200A161F9 /* IntroductionObj.m */,
+				D480496B1561F6C60066279D /* LikeObj.h */,
+				D480496C1561F6C60066279D /* LikeObj.m */,
+				D208BDD815339CE700F6FC5C /* PictureObj.h */,
+				D208BDD915339CE700F6FC5C /* PictureObj.m */,
+				C0867923157038FC00F4F2BA /* ProfileObj.h */,
+				C0867924157038FC00F4F2BA /* ProfileObj.m */,
+				D2F8C684152524DF005AD880 /* StatusObj.h */,
+				D2F8C685152524DF005AD880 /* StatusObj.m */,
+				D4FFE27615780BB8007F918E /* StoryObj.h */,
+				D4FFE27715780BB8007F918E /* StoryObj.m */,
+				D410BA4A1573085900951D94 /* UnknownObj.h */,
+				D410BA4B1573085900951D94 /* UnknownObj.m */,
 				D4F0C09315791EBE00541F5C /* VideoObj.h */,
 				D4F0C09415791EBE00541F5C /* VideoObj.m */,
+				D4FFE26D15780634007F918E /* VoiceObj.h */,
+				D4FFE26E15780634007F918E /* VoiceObj.m */,
 			);
 			name = Obj;
 			sourceTree = "<group>";
@@ -3116,6 +3121,7 @@
 				D4F0C0981579206100541F5C /* FileObjItemCell.m in Sources */,
 				D4F0C09B157920BB00541F5C /* VideoObjItemCell.m in Sources */,
 				C0BABA70157980510068A455 /* NSDate+LocalTime.m in Sources */,
+				C03A663E1579E537009A5CBA /* FeedNameObj.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
