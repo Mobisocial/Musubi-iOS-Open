@@ -39,4 +39,7 @@
 }
 
 @property (nonatomic, strong) NSMutableArray* dateRanges;
+@property (nonatomic, strong) NSDate* lastDraw;
+@property (nonatomic, strong) NSMutableArray* lastSections;
+@property (nonatomic, strong) NSMutableArray* lastItems;
 @end

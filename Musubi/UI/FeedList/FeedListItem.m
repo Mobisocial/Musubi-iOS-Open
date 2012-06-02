@@ -78,10 +78,11 @@
 
 
 
-@implementation FeedListItem
+@implementation FeedListItem {
+    int32_t _unread;
+}
 
 @synthesize feed = _feed;
-@synthesize unread = _unread;
 @synthesize image = _image;
 @synthesize statusObj = _statusObj;
 @synthesize start = _start;
@@ -118,12 +119,19 @@
     
     self.title = [feedMgr identityStringForFeed:feed];
     self.timestamp = [[SneakyDate alloc] initWithDate:(_statusObj ? _statusObj.timestamp : before) andNewest:after andOldest:before];
-    self.unread = feed.numUnread;
+    _unread = feed.numUnread;
     self.start = after;
     self.end = before;
     return self;
 }
 
+- (int32_t)unread {
+    //update the unread count on the old items if need be
+    if(_start && _unread) {
+        _unread = _feed.numUnread;
+    }
+    return _unread;
+}
 - (UIImage*) imageForIdentities: (NSArray*) identities preferredOrder:(NSArray*)order {
     NSMutableArray* images = [NSMutableArray arrayWithCapacity:3];
 

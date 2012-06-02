@@ -45,8 +45,10 @@
     return self;
 }
 @end
+
+
 @implementation FeedListDataSource
-@synthesize dateRanges;
+@synthesize dateRanges, lastDraw, lastItems, lastSections;
 - (id) init {
     self = [super init];
     if (self) {
@@ -59,18 +61,32 @@
 
 
 - (void)tableViewDidLoadModel:(UITableView *)tableView {
-    NSMutableArray* sections = [NSMutableArray array];
-    NSMutableArray* section_items = [NSMutableArray arrayWithCapacity:self.sections.count];
-    NSMutableArray* ends = [NSMutableArray arrayWithCapacity:self.sections.count];
-    
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDate *today = [NSDate date];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
     NSDateComponents *components = [[NSDateComponents alloc] init];
     components = [gregorian components:unitFlags fromDate:today];
     components.hour = 0;
     components.minute = 0;
     components.second = 0;
+    NSMutableArray* lastDateRanges = dateRanges;
+    if(self.lastDraw) {
+        NSDateComponents *components2 = [[NSDateComponents alloc] init];
+        components2 = [gregorian components:unitFlags fromDate:self.lastDraw];
+        components2.hour = 0;
+        components2.minute = 0;
+        components2.second = 0;
+        if(![[gregorian dateFromComponents:components] isEqualToDate:[gregorian dateFromComponents:components2]]) {
+            self.lastItems = nil;
+            self.lastSections = nil;
+        }
+    }
+    self.lastDraw = [NSDate date];
+
+    NSMutableArray* sections = [NSMutableArray array];
+    NSMutableArray* section_items = [NSMutableArray arrayWithCapacity:self.sections.count];
+    NSMutableArray* ends = [NSMutableArray arrayWithCapacity:self.sections.count];
+    
     NSDate *todayMidnight = [gregorian dateFromComponents:components];
     NSDate *other;
 
@@ -79,45 +95,46 @@
     
     [sections addObject:@"Today"];
     [ends addObject:todayMidnight];
-    components = [[NSDateComponents alloc] init];
-    components.day = -1;
-    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-    [sections addObject:@"Yesterday"];
-    [ends addObject:other];
-    components.day = -2;
-    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-    [sections addObject:[df stringFromDate:other]];
-    [ends addObject:other];
-    components.day = -3;
-    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-    [sections addObject:[df stringFromDate:other]];
-    [ends addObject:other];
-    components.day = -4;
-    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-    [sections addObject:[df stringFromDate:other]];
-    [ends addObject:other];
-    components.day = -5;
-    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-    [sections addObject:[df stringFromDate:other]];
-    [ends addObject:other];
-    components.day = -6;
-    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-    [sections addObject:@"A Week Ago"];
-    [ends addObject:other];
-    components.day = -7;
-    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-    [sections addObject:@"Two Weeks Ago"];
-    [ends addObject:other];
-    components.day = -14;
-    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-    [sections addObject:@"A Month Ago"];
-    [ends addObject:other];
-    components = [[NSDateComponents alloc] init];
-    components.day = -30;
-    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-    [sections addObject:@"All Time"];
-    [ends addObject:other];
-
+    if(!self.lastItems || !self.lastSections) {
+        components = [[NSDateComponents alloc] init];
+        components.day = -1;
+        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+        [sections addObject:@"Yesterday"];
+        [ends addObject:other];
+        components.day = -2;
+        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+        [sections addObject:[df stringFromDate:other]];
+        [ends addObject:other];
+        components.day = -3;
+        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+        [sections addObject:[df stringFromDate:other]];
+        [ends addObject:other];
+        components.day = -4;
+        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+        [sections addObject:[df stringFromDate:other]];
+        [ends addObject:other];
+        components.day = -5;
+        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+        [sections addObject:[df stringFromDate:other]];
+        [ends addObject:other];
+        components.day = -6;
+        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+        [sections addObject:@"A Week Ago"];
+        [ends addObject:other];
+        components.day = -7;
+        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+        [sections addObject:@"Two Weeks Ago"];
+        [ends addObject:other];
+        components.day = -14;
+        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+        [sections addObject:@"A Month Ago"];
+        [ends addObject:other];
+        components = [[NSDateComponents alloc] init];
+        components.day = -30;
+        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+        [sections addObject:@"All Time"];
+        [ends addObject:other];
+    }
     NSDate* start = nil;
     for(NSDate* end in ends) {
         [section_items addObject:[self filterFeeds:((FeedListModel*)self.model).results withActivityAfter:start until:end]];
@@ -134,8 +151,25 @@
         }
     }
     
-    self.sections = sections;
-    self.items = section_items;
+    if(self.lastItems && self.lastSections) {
+        if(!sections.count) {
+            //no items in today
+        } else {
+            if(!lastDateRanges.count || [(DateRange*)[lastDateRanges objectAtIndex:0] start]) {
+                // there was no today section before
+                [self.lastItems insertObject:[section_items objectAtIndex:0] atIndex:0];
+            } else {
+                // update the today section
+                [self.lastItems replaceObjectAtIndex:0 withObject:[section_items objectAtIndex:0]];
+            }
+        }
+        
+    } else {
+        self.lastItems = section_items;
+        self.lastSections = sections;
+        self.sections = sections;
+        self.items = section_items;
+    }
 }
 - (NSMutableArray*) filterFeeds:(NSMutableArray*)newItems withActivityAfter:(NSDate*)start until:(NSDate*)end
 {
