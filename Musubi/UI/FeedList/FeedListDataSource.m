@@ -101,10 +101,11 @@
     [ends addObject:todayMidnight];
     if(!self.lastItems || !
        self.lastSections) {
+        [sections addObject:@"Yesterday"];
         components = [[NSDateComponents alloc] init];
         components.day = -1;
         other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-        [sections addObject:@"Yesterday"];
+        [sections addObject:[df stringFromDate:other]];
         [ends addObject:other];
         components.day = -2;
         other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
@@ -147,6 +148,7 @@
         start = end;
     }
     [section_items addObject:[self filterFeeds:((FeedListModel*)self.model).results withActivityAfter:start until:nil]];
+    [dateRanges addObject:[[DateRange alloc] initWithStart:start andEnd:nil]];
 
     for(int i = sections.count - 1; i >= 0; --i) {
         if(![[section_items objectAtIndex:i] count]) {
@@ -207,16 +209,21 @@
     MFeed* feed = original_item.feed;
     
     [tableView beginUpdates];
-    for(int i = 0; i < self.items.count; ++i) {
+    for(int i = self.items.count - 1; i >= 0; --i) {
         NSMutableArray* section_items = [self.items objectAtIndex:i];
-        for(int j = 0; j < self.items.count; ++j) {
+        for(int j = section_items.count - 1; j >= 0; --j) {
             FeedListItem* item = [section_items objectAtIndex:j];
             if([item.feed.objectID isEqual:feed]) {
                 [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:j inSection:i]] withRowAnimation:UITableViewRowAnimationFade];
+                [section_items removeObjectAtIndex:j];
             }
         }
-        if(!section_items.count)
+        if(!section_items.count) {
             [tableView deleteSections:[NSIndexSet indexSetWithIndex:i] withRowAnimation:UITableViewRowAnimationFade];
+            [self.items removeObjectAtIndex:i];
+            [self.sections removeObjectAtIndex:i];
+            [self.dateRanges removeObjectAtIndex:i];
+        }
     }
     [_feedManager deleteFeedAndMembersAndObjs:feed];
     [tableView endUpdates];
@@ -227,6 +234,7 @@
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Delete Conversation" message:@"All messages and pictures to this group will be deleted.  Are you sure?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
     
         itemToDelete = [[self.items objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        tableViewToUpdate = tableView;
         [alert show];
         
 
