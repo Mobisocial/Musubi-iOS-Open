@@ -47,7 +47,10 @@
 @end
 
 
-@implementation FeedListDataSource
+@implementation FeedListDataSource {
+    FeedListItem* itemToDelete;
+    UITableView* tableViewToUpdate;
+}
 @synthesize dateRanges, lastDraw, lastItems, lastSections;
 - (id) init {
     self = [super init];
@@ -193,23 +196,38 @@
     return [FeedListItemCell class];
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UITableView * tableView = tableViewToUpdate;
+    tableViewToUpdate = nil;
+    FeedListItem* original_item = itemToDelete;
+    itemToDelete = nil;
+    if(buttonIndex != 1)
+        return;
+    MFeed* feed = original_item.feed;
+    
+    [tableView beginUpdates];
+    for(int i = 0; i < self.items.count; ++i) {
+        NSMutableArray* section_items = [self.items objectAtIndex:i];
+        for(int j = 0; j < self.items.count; ++j) {
+            FeedListItem* item = [section_items objectAtIndex:j];
+            if([item.feed.objectID isEqual:feed]) {
+                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:j inSection:i]] withRowAnimation:UITableViewRowAnimationFade];
+            }
+        }
+        if(!section_items.count)
+            [tableView deleteSections:[NSIndexSet indexSetWithIndex:i] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    [_feedManager deleteFeedAndMembersAndObjs:feed];
+    [tableView endUpdates];
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) { 
-        NSMutableArray* section_items = [self.items objectAtIndex:indexPath.section];
-        FeedListItem* item = [section_items objectAtIndex:indexPath.row];
-        [_feedManager deleteFeedAndMembersAndObjs:item.feed];
-        
-        if(section_items.count) {
-            [tableView beginUpdates];
-            [section_items removeObjectAtIndex:indexPath.row];
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView endUpdates];
-        } else {
-            [tableView beginUpdates];
-            [self.items removeObjectAtIndex:indexPath.section];
-            [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView endUpdates];
-        }
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Delete Conversation" message:@"All messages and pictures to this group will be deleted.  Are you sure?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+    
+        itemToDelete = [[self.items objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        [alert show];
         
 
     } 
