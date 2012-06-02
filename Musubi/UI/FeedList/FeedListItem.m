@@ -39,6 +39,7 @@
 @synthesize feed = _feed;
 @synthesize unread = _unread;
 @synthesize image = _image;
+@synthesize statusObj = _statusObj;
 
 - (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before {
     self = [super init];
@@ -47,9 +48,9 @@
         FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         ObjManager* objMgr = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         
-        MObj* statusObj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:after before:before];
-        if (statusObj) {
-            StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:statusObj];
+        _statusObj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:after before:before];
+        if (_statusObj) {
+            StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_statusObj];
             self.text = obj.text;
         }
         /*
@@ -65,7 +66,8 @@
             }
         }*/
         
-        self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed]];
+        NSArray* order = _statusObj ? [NSArray arrayWithObject:_statusObj.identity] : nil;
+        self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed] preferredOrder:order];
         
         self.title = [feedMgr identityStringForFeed:feed];
         self.timestamp = [NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime];
@@ -74,10 +76,38 @@
     return self;
 }
 
-- (UIImage*) imageForIdentities: (NSArray*) identities {
+- (UIImage*) imageForIdentities: (NSArray*) identities preferredOrder:(NSArray*)order {
     NSMutableArray* images = [NSMutableArray arrayWithCapacity:3];
-    
+
+    for (MIdentity* i in order) {
+        if (images.count > 3)
+            break;
+        UIImage* img = nil;
+        
+        if(i.musubiThumbnail) {
+            img = [UIImage imageWithData:i.musubiThumbnail];                
+        }
+        if (img == nil && i.thumbnail) {
+            img = [UIImage imageWithData:i.thumbnail];
+        }
+        
+        if (img)
+            [images addObject: img];
+        
+    }
+
     for (MIdentity* i in identities) {
+        BOOL dupe = NO;
+        for(MIdentity* j in order) {
+            if([j.objectID isEqual:i.objectID]) {
+                dupe = YES;
+                break;
+            }
+        }
+        if(dupe)
+            continue;
+        if (images.count > 3)
+            break;
         if (!i.owned || identities.count == 1) {
             UIImage* img = nil;
             
@@ -91,9 +121,6 @@
             if (img)
                 [images addObject: img];
         }
-        
-        if (images.count > 3)
-            break;
     }
     
     if (images.count > 1) {
