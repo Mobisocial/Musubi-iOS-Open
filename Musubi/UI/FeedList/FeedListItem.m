@@ -77,9 +77,17 @@
 @end
 
 
+static NSMutableDictionary* sContactImages;
+
+
 
 @implementation FeedListItem {
     int32_t _unread;
+}
++ (NSMutableDictionary*)contactImages {
+    if(!sContactImages)
+        sContactImages = [NSMutableDictionary dictionary];
+    return sContactImages;
 }
 
 @synthesize feed = _feed;
@@ -133,29 +141,23 @@
     return _unread;
 }
 - (UIImage*) imageForIdentities: (NSArray*) identities preferredOrder:(NSArray*)order {
-    NSMutableArray* images = [NSMutableArray arrayWithCapacity:3];
+    NSMutableArray* selected = [NSMutableArray arrayWithCapacity:4];
+    
+    NSMutableArray* images = [NSMutableArray arrayWithCapacity:4];
 
     for (MIdentity* i in order) {
         if (images.count > 3)
             break;
-        UIImage* img = nil;
-        
-        if(i.musubiThumbnail) {
-            img = [UIImage imageWithData:i.musubiThumbnail];                
+       
+        if(i.musubiThumbnail || i.thumbnail) {
+            [selected addObject:i];
         }
-        if (img == nil && i.thumbnail) {
-            img = [UIImage imageWithData:i.thumbnail];
-        }
-        
-        if (img)
-            [images addObject: img];
         
     }
-
     for (MIdentity* i in identities) {
         BOOL dupe = NO;
         for(MIdentity* j in order) {
-            if([j.objectID isEqual:i.objectID]) {
+            if([j isEqual:i]) {
                 dupe = YES;
                 break;
             }
@@ -164,19 +166,35 @@
             continue;
         if (images.count > 3)
             break;
-        if (!i.owned || identities.count == 1) {
-            UIImage* img = nil;
-            
-            if(i.musubiThumbnail) {
-                img = [UIImage imageWithData:i.musubiThumbnail];                
-            }
-            if (img == nil && i.thumbnail) {
-                img = [UIImage imageWithData:i.thumbnail];
-            }
-            
-            if (img)
-                [images addObject: img];
+        if(i.musubiThumbnail || i.thumbnail) {
+            [selected addObject:i];
         }
+        
+    }
+    NSMutableArray* selected_ids = [NSMutableArray arrayWithCapacity:selected.count];
+    for(MIdentity* i in selected) {
+        [selected_ids addObject:i.objectID];
+    }
+    
+    NSMutableDictionary* feedImageCache = [FeedListItem contactImages];
+    UIImage * cachedImage = [feedImageCache objectForKey:selected_ids];
+    //TODO: profile change invalidation
+    if(cachedImage)
+        return cachedImage;
+    
+
+    for (MIdentity* i in selected) {
+        UIImage* img = nil;
+        
+        if(i.musubiThumbnail) {
+            img = [UIImage imageWithData:i.musubiThumbnail];                
+        }
+        if (!img && i.thumbnail) {
+            img = [UIImage imageWithData:i.thumbnail];
+        }
+        
+        if (img)
+            [images addObject: img];
     }
     
     if (images.count > 1) {
@@ -226,6 +244,9 @@
         UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         free(pointBuffer);
+        
+        [feedImageCache setObject:result forKey:selected_ids];
+        
         return result;        
     } else if (images.count == 1) {
         return [images objectAtIndex:0];
