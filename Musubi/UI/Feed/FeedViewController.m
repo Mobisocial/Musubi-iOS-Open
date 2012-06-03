@@ -361,11 +361,12 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     }
 }
 
-- (NSURL*) getURLFromString:(NSString*) source{
+- (NSURL*) getURLFromString:(NSMutableString*) source{
     NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
     NSArray *matches = [linkDetector matchesInString:source options:0 range:NSMakeRange(0, [source length])];
     for (NSTextCheckingResult *match in matches) {
         if ([match resultType] == NSTextCheckingTypeLink) {
+            [source replaceCharactersInRange:match.range withString:@" "];
             NSURL *url = [match URL];
             NSLog(@"found URL: %@", url);
             return url;
