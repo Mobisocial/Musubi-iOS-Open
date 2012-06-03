@@ -242,6 +242,8 @@
 
 
 - (void) resetUnreadCount {
+    if([UIApplication sharedApplication].backgroundTimeRemaining < 10000)
+        return;
     if (_feed.numUnread > 0) {
         [_feed setNumUnread:0];
         [[Musubi sharedInstance].mainStore save];
