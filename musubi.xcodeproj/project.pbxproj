@@ -142,6 +142,7 @@
 		D27968C11457D97700C5FDAB /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = D27967881457D97600C5FDAB /* unzip.c */; };
 		D27968C21457D97700C5FDAB /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = D279678A1457D97600C5FDAB /* zip.c */; };
 		D27968DD1457DA4800C5FDAB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27968DC1457DA4700C5FDAB /* CoreData.framework */; };
+		D28E71EB15798D0A00EBCF59 /* bar_background.png in Resources */ = {isa = PBXBuildFile; fileRef = D28E71EA15798D0A00EBCF59 /* bar_background.png */; };
 		D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
@@ -875,6 +876,7 @@
 		D279678A1457D97600C5FDAB /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
 		D279678B1457D97600C5FDAB /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		D27968DC1457DA4700C5FDAB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D28E71EA15798D0A00EBCF59 /* bar_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_background.png; sourceTree = "<group>"; };
 		D298F9F2143CE6DF000831DD /* Musubi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Musubi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D298F9F6143CE6DF000831DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D298F9F8143CE6DF000831DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1143,8 +1145,8 @@
 			isa = PBXGroup;
 			children = (
 				D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */,
-				5686910A157021DA00DD1791 /* Profile */,
 				D26028D91566EEBE00CF6500 /* assets */,
+				5686910A157021DA00DD1791 /* Profile */,
 				D2A1FC141521A6C500C10BE2 /* Feed */,
 				D23EED011554854200B18153 /* FeedList */,
 				D211D969151979D200E38051 /* Settings */,
@@ -1304,6 +1306,7 @@
 		D26028D91566EEBE00CF6500 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				D28E71EA15798D0A00EBCF59 /* bar_background.png */,
 				D2D03BC3157884ED00DBF40B /* missing.png */,
 				D2C66F00156CCF22001A0124 /* heart32_gray.png */,
 				D26D1691156C6C0C00FC7650 /* heart32.png */,
@@ -2905,6 +2908,7 @@
 				D2D03BC01578842900DBF40B /* InfoPlist.strings in Resources */,
 				D2D03BC4157884ED00DBF40B /* missing.png in Resources */,
 				D250C9631579815600955AB2 /* MainStoryboard_iPhone.storyboard in Resources */,
+				D28E71EB15798D0A00EBCF59 /* bar_background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -44,7 +44,8 @@
 
 #import "AppManager.h"
 #import "MApp.h"
-
+#import "Three20/Three20.h"
+#import "Three20UI/UIViewAdditions.h"
 
 @implementation FeedViewController
 
@@ -73,8 +74,57 @@
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.variableHeightRows = YES;
     
-    updateField.delegate = self;
+    TTView* statusFieldBox = [[TTView alloc] initWithFrame:CGRectMake(44, 6, postView.frame.size.width - 115, 32)];
+    statusFieldBox.backgroundColor = [UIColor clearColor];
+    statusFieldBox.style = [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
+                            [TTSolidFillStyle styleWithColor:[UIColor whiteColor] next:
+                             [TTInnerShadowStyle styleWithColor:RGBACOLOR(0,0,0,0.5) blur:3 offset:CGSizeMake(1, 1) next:
+                              [TTSolidBorderStyle styleWithColor:RGBCOLOR(158, 163, 172) width:1 next:nil]]]];
+    [postView addSubview: statusFieldBox];    
+    
+
+    statusField = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, statusFieldBox.width, statusFieldBox.height)];
+    statusField.font = [UIFont systemFontOfSize:15.0];
+    statusField.backgroundColor = [UIColor clearColor];
+    statusField.delegate = self;
+    [statusFieldBox addSubview: statusField];
+
+    [sendButton setBackgroundColor:[UIColor clearColor]];
+    [sendButton setTitle:@"Send" forState:UIControlStateNormal];
+    [sendButton setStyle:[self embossedButton:UIControlStateNormal] forState:UIControlStateNormal];
+    [sendButton setStyle:[self embossedButton:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+    [sendButton addTarget:self action:@selector(sendMessage:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //[sendButton setStyle:[TTSTYLESHEET toolbarButtonForState:UIControlStateNormal shape:shape tintColor:tintColor font:nil] forState:UIControlStateNormal];
+    //[sendButton setStyle:[TTSTYLESHEET toolbarButtonForState:UIControlStateNormal shape:shape tintColor:tintColor font:nil] forState:UIControlStateHighlighted];
+    
 }
+
+
+- (TTStyle*)embossedButton:(UIControlState)state {
+    if (state == UIControlStateNormal) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
+          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0) blur:1 offset:CGSizeMake(0, 1) next:
+           [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
+             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
+              [TTTextStyle styleWithFont:nil color:TTSTYLEVAR(timestampTextColor)
+                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
+                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]];
+    } else if (state == UIControlStateHighlighted) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
+          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0.9) blur:1 offset:CGSizeMake(0, 1) next:
+           [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
+             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
+              [TTTextStyle styleWithFont:nil color:TTSTYLEVAR(timestampTextColor)
+                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
+                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]];
+    } else {
+        return nil;
+    }
+}
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -147,6 +197,25 @@
     }
 }
 
+#pragma mark - UITextViewDelegate
+
+- (void)textViewDidChange:(UITextView *)textView {
+CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] sizeWithFont:textView.font constrainedToSize:CGSizeMake(textView.width, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap].height + 13; // 13 is the border + margin, etc.
+    
+    CGFloat diff = desiredHeight - textView.height;
+        
+    if (diff != 0 && self.tableView.height - diff > 80) {
+        self.tableView.height -= diff;
+        postView.frame = CGRectMake(0, self.tableView.height, postView.width, postView.height + diff);
+        textView.height += diff;
+        textView.superview.height += diff;
+        
+        
+        sendButton.frame = CGRectMake(sendButton.frame.origin.x, postView.height - sendButton.height - 2, sendButton.width, sendButton.height);
+        actionButton.frame = CGRectMake(actionButton.frame.origin.x, postView.height - actionButton.height - 6, actionButton.width, actionButton.height);
+    }
+}
+
 /// ACTIONS
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -169,8 +238,8 @@
     UIView *mainSubviewOfWindow = window.rootViewController.view;
     CGRect keyboardFrameConverted = [mainSubviewOfWindow convertRect:keyboardFrame fromView:window];
 
-    [postView setFrame:CGRectMake(0, postView.frame.origin.y - keyboardFrameConverted.size.height, postView.frame.size.width, postView.frame.size.height)];
-    [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height - keyboardFrameConverted.size.height)];
+    [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, self.view.frame.size.height - postView.frame.size.height - keyboardFrameConverted.size.height)];
+    [postView setFrame:CGRectMake(0, self.tableView.frame.size.height, postView.frame.size.width, postView.frame.size.height)];
     
     [self scrollToBottomAnimated:NO];
 }
@@ -179,29 +248,32 @@
     [postView setFrame:CGRectMake(0, self.view.frame.size.height - postView.frame.size.height, postView.frame.size.width, postView.frame.size.height)];
     [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, postView.frame.origin.y)];
     
-    [updateField resignFirstResponder];
+    [statusField resignFirstResponder];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    //[self hideKeyboard];
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self hideKeyboard];
+}
+
+- (IBAction)sendMessage:(id)sender {
+    [self hideKeyboard];
     
-    if ([textField text].length > 0) {
-        StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
+    if (statusField.text.length > 0) {
+        StatusObj* status = [[StatusObj alloc] initWithText: [statusField text]];
         
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         MApp* app = [am ensureSuperApp];
         
         [ObjHelper sendObj:status toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
         
-        [textField setText:@""];
+        [statusField setText:@""];
         [self refreshFeed];
     }
 
-    return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    [self hideKeyboard];
 }
 
 - (IBAction)commandButtonPushed: (id) sender {
