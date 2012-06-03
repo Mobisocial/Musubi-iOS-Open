@@ -63,6 +63,9 @@
     for (int i = 0; i < deletions.count; i++) {
         NSData* hashData = [[deletions objectAtIndex:i] dataFromHex];
         MObj* item = [objMgr objWithUniversalHash:hashData];
+        //TODO: somehow defer processing?
+        if(!item)
+            continue;
         [affectedFeeds addObject:item.feed];
         if (deleteObj.identity.owned || !item.identity.owned) {
             [store.context deleteObject:item];
