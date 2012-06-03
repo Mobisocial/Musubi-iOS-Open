@@ -16,19 +16,15 @@
 
 
 //
-//  VoiceObjItemCell.h
+//  CorralHttpServer.h
 //  musubi
 //
-//  Created by Ben Dodson on 5/31/12.
+//  Created by Ben Dodson on 6/3/12.
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "FeedItemCell.h"
+#import <Foundation/Foundation.h>
 
-@interface VoiceObjItemCell : FeedItemCell {
-    UIButton* _playButton;
-}
-
-@property (nonatomic, readonly, retain) UIButton* playButton;
+@interface CorralHTTPServer : NSObject
 
 @end

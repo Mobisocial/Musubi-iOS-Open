@@ -24,21 +24,42 @@
 //
 
 #import "VoiceObjItemCell.h"
-#define kVoiceObjText @"<Voice messages coming soon>"
+#import "Three20UI/UIViewAdditions.h"
+#import <AVFoundation/AVPlayer.h>
 
 @implementation VoiceObjItemCell
 
 + (CGFloat)renderHeightForItem:(FeedItem *)item {
-    CGSize size = [kVoiceObjText sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
-    return size.height;
+    return 50;
+}
+
+- (void) playButtonPressed: (UIView*) source {
+    TTTableViewCell* cell = (TTTableViewCell*)source.superview.superview;
+    ManagedObjFeedItem* item = cell.object;
+    // TODO: play the item's content
+}
+
+- (UIButton*)playButton {
+    if (!_playButton) {
+        _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_playButton setImage:[UIImage imageNamed:@"Play_icon_status.png"] forState:UIControlStateNormal];
+        _playButton.userInteractionEnabled = YES;
+        [_playButton addTarget:self action:@selector(playButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+
+        [self.contentView addSubview:_playButton];
+    }
+    return _playButton;
 }
 
 - (void)setObject:(id)object {
     [super setObject:object];
-    self.detailTextLabel.text = kVoiceObjText;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    [self.playButton sizeToFit];
+    _playButton.width = 50;
+    _playButton.height = 50;
+    self.playButton.frame = CGRectMake(self.detailTextLabel.frame.origin.x + 20, self.detailTextLabel.frame.origin.y + 5, self.playButton.frame.size.width, self.playButton.frame.size.height);
 }
 @end

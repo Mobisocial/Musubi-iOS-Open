@@ -40,6 +40,7 @@
 #import "FacebookIdentityUpdater.h"
 #import "GoogleIdentityUpdater.h"
 #import "ObjPipelineService.h"
+#import "CorralHTTPServer.h"
 
 #import "PersistentModelStore.h"
 #import "FeedManager.h"
@@ -58,7 +59,7 @@
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, facebookIdentityUpdater, googleIdentityUpdater;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, facebookIdentityUpdater, googleIdentityUpdater, corralHttpServer;
 
 +(Musubi*)sharedInstance
 {
@@ -120,6 +121,8 @@ static Musubi* _sharedInstance = nil;
     
     self.googleIdentityUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: storeFactory];
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.googleIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+    
+    self.corralHttpServer = [[CorralHTTPServer alloc] init];
 }
 
 - (void) stopServices {
