@@ -60,7 +60,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 #define kMusubiThreadPriorityBackground 0.0
 
-@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjPipelineService, FacebookIdentityUpdater, GoogleIdentityUpdater;
+@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjPipelineService, FacebookIdentityUpdater, GoogleIdentityUpdater, CorralHTTPServer;
 
 
 @interface Musubi : NSObject {
@@ -85,6 +85,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 @property (nonatomic, strong) FacebookIdentityUpdater* facebookIdentityUpdater;
 @property (nonatomic, strong) GoogleIdentityUpdater* googleIdentityUpdater;
 
+@property (nonatomic, strong) CorralHTTPServer* corralHttpServer;
 
 + (Musubi*) sharedInstance;
 
