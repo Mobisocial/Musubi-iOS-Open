@@ -122,7 +122,7 @@ static NSOperationQueue* sApnQueue = nil;
     }
     return total;
 }
-+ (void) resetLocalUnreadInBackgroundTask {
++ (void) resetLocalUnreadInBackgroundTask:(BOOL)background {
     NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
     if(!deviceToken)	
         return;
@@ -133,7 +133,7 @@ static NSOperationQueue* sApnQueue = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
         //TODO: could have several go in out of order if the net is slow
         int unread = [APNPushManager tallyLocalUnread];
-        [APNPushManager resetLocalUnread:deviceToken count:unread background:(application.backgroundTimeRemaining < 10000)];
+        [APNPushManager resetLocalUnread:deviceToken count:unread background:background];
         [application setApplicationIconBadgeNumber:unread ];
         //TODO: main thread?
         [application endBackgroundTask:bgt];

@@ -30,6 +30,6 @@
 + (void) clearRemoteUnread:(NSString*)deviceToken background:(BOOL)background;
 + (void) registerDevice:(NSString*)deviceToken identities:(NSArray*)idents localUnread:(int)count;
 + (int) tallyLocalUnread;
-+ (void) resetLocalUnreadInBackgroundTask;
++ (void) resetLocalUnreadInBackgroundTask:(BOOL)background;
 + (void) resetBothUnreadInBackgroundTask;
 @end

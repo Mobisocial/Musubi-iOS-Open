@@ -178,7 +178,6 @@
 
 - (int)lastVisibleRow
 {
-    FeedDataSource* source = (FeedDataSource*)self.dataSource;
     int row = -1;
     NSArray* visible = self.tableView.indexPathsForVisibleRows;
     for(NSIndexPath* i in visible) {
@@ -194,7 +193,7 @@
     if (_feed.numUnread > 0) {
         [_feed setNumUnread:0];
         [[Musubi sharedInstance].mainStore save];
-        [APNPushManager resetLocalUnreadInBackgroundTask];
+        [APNPushManager resetLocalUnreadInBackgroundTask:NO];
         
         // Refresh the feed list view
         [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:nil];
