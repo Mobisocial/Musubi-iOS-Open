@@ -49,6 +49,7 @@
 #import "MApp.h"
 #import "Three20/Three20.h"
 #import "Three20UI/UIViewAdditions.h"
+#import "DejalActivityView.h"
 
 @implementation FeedViewController
 
@@ -324,23 +325,23 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [self hideKeyboard];
     
     if (statusField.text.length > 0) {
-        StatusObj* status = [[StatusObj alloc] initWithText: [statusField text]];
-        
-        NSURL *urlInString = [self getURLFromString:[statusField text]];
+        NSMutableString* text = [NSMutableString stringWithString:[statusField text]];
+        NSURL *urlInString = [self getURLFromString:text];
         
         if (urlInString){
+            [DejalBezelActivityView activityViewForView:self.view withLabel:@"Downloading Story Information" width:200];
             
             dispatch_queue_t fetchQueue = dispatch_queue_create("storyobj meta information download", NULL);
             dispatch_async(fetchQueue, ^{
-                StoryObj *story = [[StoryObj alloc] initWithURL:urlInString text:[statusField text]];
+                StoryObj *story = [[StoryObj alloc] initWithURL:urlInString text:text];
                 dispatch_async(dispatch_get_main_queue(), ^{                    
                     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
                     MApp* app = [am ensureSuperApp];
                     
                     [ObjHelper sendObj:story toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-                    
                     [statusField setText:@""];
                     [self refreshFeed];
+                    [DejalBezelActivityView removeViewAnimated:YES];
 
                 });
             });
@@ -359,15 +360,14 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         }
         
     }
-
-    return YES;
 }
 
-- (NSURL*) getURLFromString:(NSString*) source{
+- (NSURL*) getURLFromString:(NSMutableString*) source{
     NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
     NSArray *matches = [linkDetector matchesInString:source options:0 range:NSMakeRange(0, [source length])];
     for (NSTextCheckingResult *match in matches) {
         if ([match resultType] == NSTextCheckingTypeLink) {
+            [source replaceCharactersInRange:match.range withString:@" "];
             NSURL *url = [match URL];
             NSLog(@"found URL: %@", url);
             return url;
@@ -524,7 +524,13 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         moreLink.isLoading = YES;
         [(TTTableMoreButtonCell *)cell setAnimating:YES];
     }else if([cell isKindOfClass:[StoryObjItemCell class]]){
-        [[UIApplication sharedApplication] openURL:[(FeedViewController*)self.controller getURLFromString:((StoryObjItemCell*)cell).statusView.text]];
+        StoryObjItemCell* socell = (StoryObjItemCell*)cell;
+        if(!socell.url)
+            return;
+        NSURL* url = [NSURL URLWithString:socell.url];
+        if(!url)
+            return;
+        [[UIApplication sharedApplication] openURL:url];
     };
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];

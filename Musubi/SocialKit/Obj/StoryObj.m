@@ -65,13 +65,7 @@
 	NSData *data = [ NSURLConnection sendSynchronousRequest:request returningResponse: nil error: nil ];	
 	NSString *html = [[NSString alloc] initWithBytes: [data bytes] length:[data length] encoding: NSUTF8StringEncoding];
     
-    //replace complex <html ~~~> with <html> to reduce parsing errors
-    NSRange r; 
-    if ((r = [html rangeOfString:@"<html.+?>" options:NSRegularExpressionSearch]).location != NSNotFound){
-        html = [html stringByReplacingCharactersInRange:r withString:@"<html>"];
-    }    
-   // NSLog(@"%@",html);                        
-    TFHpple *hpple = [TFHpple hppleWithXMLData:[html dataUsingEncoding:NSUTF8StringEncoding]];    
+    TFHpple *hpple = [TFHpple hppleWithHTMLData:[html dataUsingEncoding:NSUTF8StringEncoding]];    
     
     // Find title!    
     NSString *story_title = nil;
@@ -127,6 +121,7 @@
         }
     }   
     if(!story_thumnail_url){
+        //TODO: find the largest image
         TFHppleElement *iconTag = [hpple peekAtSearchWithXPathQuery:@"//link[@rel='shortcut icon']"];    
         if(!iconTag){
             iconTag = [hpple peekAtSearchWithXPathQuery:@"//link[@rel='icon']"];    
