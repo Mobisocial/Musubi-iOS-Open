@@ -17,6 +17,7 @@
 		C03A66B4157C1307009A5CBA /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66AF157C1307009A5CBA /* TFHpple.m */; };
 		C03A66B5157C1307009A5CBA /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B1157C1307009A5CBA /* TFHppleElement.m */; };
 		C03A66B6157C1307009A5CBA /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B3157C1307009A5CBA /* XPathQuery.m */; };
+		C03A66B9157C137E009A5CBA /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B8157C137E009A5CBA /* DejalActivityView.m */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
 		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; };
 		C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0867924157038FC00F4F2BA /* ProfileObj.m */; };
@@ -324,6 +325,8 @@
 		C03A66B1157C1307009A5CBA /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TFHppleElement.m; path = Hpple/TFHppleElement.m; sourceTree = "<group>"; };
 		C03A66B2157C1307009A5CBA /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPathQuery.h; path = Hpple/XPathQuery.h; sourceTree = "<group>"; };
 		C03A66B3157C1307009A5CBA /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPathQuery.m; path = Hpple/XPathQuery.m; sourceTree = "<group>"; };
+		C03A66B7157C137E009A5CBA /* DejalActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DejalActivityView.h; path = DejalActivityView/DejalActivityView.h; sourceTree = "<group>"; };
+		C03A66B8157C137E009A5CBA /* DejalActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DejalActivityView.m; path = DejalActivityView/DejalActivityView.m; sourceTree = "<group>"; };
 		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
 		C086764A156B032700F4F2BA /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
@@ -1018,6 +1021,15 @@
 			name = Hpple;
 			sourceTree = "<group>";
 		};
+		C03A66BA157C1381009A5CBA /* DejalActivityView */ = {
+			isa = PBXGroup;
+			children = (
+				C03A66B7157C137E009A5CBA /* DejalActivityView.h */,
+				C03A66B8157C137E009A5CBA /* DejalActivityView.m */,
+			);
+			name = DejalActivityView;
+			sourceTree = "<group>";
+		};
 		C0D5757C1551F94600B6624C /* TestFlight */ = {
 			isa = PBXGroup;
 			children = (
@@ -1389,6 +1401,7 @@
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C03A66BA157C1381009A5CBA /* DejalActivityView */,
 				2F161859157AF8D7002FA8E3 /* Hpple */,
 				D25F49021471A32500AC1551 /* bson */,
 				D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */,
@@ -3026,6 +3039,7 @@
 				C03A66B4157C1307009A5CBA /* TFHpple.m in Sources */,
 				C03A66B5157C1307009A5CBA /* TFHppleElement.m in Sources */,
 				C03A66B6157C1307009A5CBA /* XPathQuery.m in Sources */,
+				C03A66B9157C137E009A5CBA /* DejalActivityView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

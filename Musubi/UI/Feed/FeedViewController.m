@@ -49,6 +49,7 @@
 #import "MApp.h"
 #import "Three20/Three20.h"
 #import "Three20UI/UIViewAdditions.h"
+#import "DejalActivityView.h"
 
 @implementation FeedViewController
 
@@ -327,7 +328,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         NSURL *urlInString = [self getURLFromString:[statusField text]];
         
         if (urlInString){
-            [statusField setText:@""];
+            [DejalBezelActivityView activityViewForView:self.view withLabel:@"Downloading Story Information" width:200];
             
             dispatch_queue_t fetchQueue = dispatch_queue_create("storyobj meta information download", NULL);
             dispatch_async(fetchQueue, ^{
@@ -337,7 +338,9 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
                     MApp* app = [am ensureSuperApp];
                     
                     [ObjHelper sendObj:story toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+                    [statusField setText:@""];
                     [self refreshFeed];
+                    [DejalBezelActivityView removeViewAnimated:YES];
 
                 });
             });
