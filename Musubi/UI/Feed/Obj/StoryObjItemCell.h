@@ -26,4 +26,10 @@
 #import "FeedItemCell.h"
 
 @interface StoryObjItemCell : FeedItemCell
+
+@property (nonatomic, readonly) UIImageView* thumbnailView;
+@property (nonatomic, readonly) UILabel* statusView;
+@property (nonatomic, readonly) UILabel* subjectView;
+@property (nonatomic, readonly) UILabel* descriptionView;
+
 @end

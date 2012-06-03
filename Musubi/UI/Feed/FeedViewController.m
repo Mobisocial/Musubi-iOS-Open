@@ -40,6 +40,8 @@
 #import "LikeObj.h"
 #import "PictureObj.h"
 #import "StatusObj.h"
+#import "StoryObj.h"
+#import "StoryObjItemCell.h"
 #import "FeedNameObj.h"
 #import "IntroductionObj.h"
 
@@ -224,19 +226,57 @@
     //[self hideKeyboard];
     
     if ([textField text].length > 0) {
-        StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
         
-        AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        MApp* app = [am ensureSuperApp];
+        NSURL *urlInString = [self getURLFromString:[textField text]];
         
-        [ObjHelper sendObj:status toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+        if (urlInString){
+            
+            dispatch_queue_t fetchQueue = dispatch_queue_create("storyobj meta information download", NULL);
+            dispatch_async(fetchQueue, ^{
+                StoryObj *story = [[StoryObj alloc] initWithURL:urlInString text:[textField text]];
+                dispatch_async(dispatch_get_main_queue(), ^{                    
+                    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+                    MApp* app = [am ensureSuperApp];
+                    
+                    [ObjHelper sendObj:story toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+                    
+                    [textField setText:@""];
+                    [self refreshFeed];
+
+                });
+            });
+            dispatch_release(fetchQueue);  
+                        
+        }else {
+            StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
+            
+            AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+            MApp* app = [am ensureSuperApp];
+            
+            [ObjHelper sendObj:status toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+            
+            [textField setText:@""];
+            [self refreshFeed];
+        }
         
-        [textField setText:@""];
-        [self refreshFeed];
     }
 
     return YES;
 }
+
+- (NSURL*) getURLFromString:(NSString*) source{
+    NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
+    NSArray *matches = [linkDetector matchesInString:source options:0 range:NSMakeRange(0, [source length])];
+    for (NSTextCheckingResult *match in matches) {
+        if ([match resultType] == NSTextCheckingTypeLink) {
+            NSURL *url = [match URL];
+            NSLog(@"found URL: %@", url);
+            return url;
+        }
+    }
+    return nil;
+}
+
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self hideKeyboard];
@@ -381,6 +421,8 @@
         TTTableMoreButton* moreLink = [(TTTableMoreButtonCell *)cell object];
         moreLink.isLoading = YES;
         [(TTTableMoreButtonCell *)cell setAnimating:YES];
+    }else if([cell isKindOfClass:[StoryObjItemCell class]]){
+        [[UIApplication sharedApplication] openURL:[(FeedViewController*)self.controller getURLFromString:((StoryObjItemCell*)cell).statusView.text]];
     };
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];

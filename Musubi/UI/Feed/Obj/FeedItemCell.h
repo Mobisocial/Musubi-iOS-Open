@@ -28,7 +28,7 @@
     
     UIButton*     _likeButton;
 }
-
+ 
 @property (nonatomic, readonly, retain) UILabel*      senderLabel;
 @property (nonatomic, readonly, retain) UILabel*      timestampLabel;
 @property (nonatomic, readonly, retain) UIButton*     profilePictureButton;

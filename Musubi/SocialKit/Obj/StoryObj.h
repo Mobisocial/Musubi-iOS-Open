@@ -26,12 +26,17 @@
 #import "Obj.h"
 #define kObjTypeStory @"story"
 #define kObjFieldStoryUrl @"url"
-#define kObjFieldStoryOriginalUrl @"original_url"
 #define kObjFieldStoryTitle @"title"
 #define kObjFieldStoryText @"text"
-#define kObjFieldStoryFavIconLength @"favicon_length"
-#define kObjFieldStoryMimeType @"mime_type"
+#define kObjFieldStoryDescription @"description"
 
 @interface StoryObj : Obj<RenderableObj>
+
+- (id)initWithURL:(NSURL *)url text:(NSString*) text ;
+@property (nonatomic, strong) NSString* text;
+@property (nonatomic, strong) NSString* story_url;
+@property (nonatomic, strong) NSString* story_title;
+@property (nonatomic, strong) NSString* story_description;
+@property (nonatomic, strong) UIImage* story_thumbnail;
 
 @end
