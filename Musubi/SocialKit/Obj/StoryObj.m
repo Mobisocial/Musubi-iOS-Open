@@ -53,7 +53,7 @@
 
 
 - (id)initWithURL:(NSURL *)url text:(NSString*) text {
-    
+    NSURL* originalUrl = url;
     //Make a htmlstring from urlString
     
     //NSString *agentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3";
@@ -111,6 +111,12 @@
         }
     }
     
+    TFHppleElement *urlOGTag = [hpple peekAtSearchWithXPathQuery:@"//meta[@property='og:url']"];    
+    NSString* newUrl = [urlOGTag objectForKey:@"content"];
+    if(!newUrl){
+        url = [NSURL URLWithString:[urlOGTag objectForKey:@"value"] ];
+    }
+    
     // Find Thumbnail Image URL!
     NSString *story_thumnail_url = nil;
     TFHppleElement *thumbOGTag = [hpple peekAtSearchWithXPathQuery:@"//meta[@property='og:image']"];    
@@ -143,6 +149,7 @@
     
     NSMutableDictionary *result_dic = [NSMutableDictionary dictionary];
     [result_dic setObject:[url absoluteString] forKey:kObjFieldStoryUrl];
+    [result_dic setObject:[originalUrl absoluteString] forKey:kObjFieldStoryOriginalUrl];
     [result_dic setObject:text forKey:kObjFieldStoryText];
     if(story_title){
         [result_dic setObject:story_title forKey:kObjFieldStoryTitle];
