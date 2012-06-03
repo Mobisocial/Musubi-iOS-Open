@@ -45,8 +45,12 @@ static const CGFloat    kDefaultMessageImageHeight  = 70.0f;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    _profilePictureView.contentMode = UIViewContentModeScaleAspectFit;
-    _profilePictureView.frame = CGRectMake(0, 0, kDefaultMessageImageWidth, kDefaultMessageImageHeight);
+    self.profilePictureView.contentMode = UIViewContentModeScaleAspectFit;
+    self.profilePictureView.frame = CGRectMake(0, 0, kDefaultMessageImageWidth, kDefaultMessageImageHeight);
+    
+    self.pictureView.backgroundColor = [UIColor clearColor];
+    self.pictureView.contentMode = UIViewContentModeScaleAspectFit;
+    self.pictureView.frame = CGRectMake(kDefaultMessageImageWidth, 0, self.frame.size.width - kDefaultMessageImageWidth, kDefaultMessageImageHeight);
     
     [_unreadLabel sizeToFit];
     _unreadLabel.left = self.contentView.width - _unreadLabel.width - kTableCellSmallMargin;
@@ -66,15 +70,17 @@ static const CGFloat    kDefaultMessageImageHeight  = 70.0f;
 
 
 - (void)setObject:(id)object {
+    FeedListItem* item = (FeedListItem*)object;
     [super setObject:object];
     
     NSString* unread = @"";
     if (((FeedListItem*)object).unread > 0) {
-        unread = [NSString stringWithFormat:@"%d new", ((FeedListItem*)object).unread];
+        unread = [NSString stringWithFormat:@"%d new", item.unread];
     }
     self.unreadLabel.text = unread;
+    self.pictureView.image = item.picture;
     
-    self.profilePictureView.image = ((FeedListItem*)object).image;
+    self.profilePictureView.image = item.image;
 }
 
 - (UILabel*)unreadLabel {
@@ -94,6 +100,13 @@ static const CGFloat    kDefaultMessageImageHeight  = 70.0f;
         [self.contentView addSubview:_profilePictureView];
     }
     return _profilePictureView;
+}
+- (UIImageView*)pictureView {
+    if (!_pictureView) {
+        _pictureView = [[UIImageView alloc] init];
+        [self.contentView addSubview:_pictureView];
+    }
+    return _pictureView;
 }
 
 

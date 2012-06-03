@@ -32,7 +32,8 @@
 @property (nonatomic) MFeed* feed;
 @property (nonatomic, assign, readonly) int32_t unread;
 @property (nonatomic, retain) UIImage* image;
-@property (nonatomic, strong) MObj* statusObj;
+@property (nonatomic, retain) UIImage* picture;
+@property (nonatomic, strong) MObj* obj;
 @property (nonatomic, strong) NSDate* start;
 @property (nonatomic, strong) NSDate* end;
 
