@@ -72,10 +72,11 @@ static NSOperationQueue* sApnQueue = nil;
     }
 }
 
-+ (void) resetLocalUnread:(NSString*)deviceToken count:(int)count {
++ (void) resetLocalUnread:(NSString*)deviceToken count:(int)count background:(BOOL)background {
     NSMutableDictionary* registrationRequest = [[NSMutableDictionary alloc] init];
     [registrationRequest setValue:[NSNumber numberWithInt:count] forKey:@"count"];
     [registrationRequest setValue:deviceToken forKey:@"deviceToken"];
+    [registrationRequest setValue:[NSNumber numberWithBool:background] forKey:@"background"];
     NSError* error = nil;
     NSData* body = [NSJSONSerialization dataWithJSONObject:registrationRequest options:0 error:&error];
     if(!body) {
@@ -94,7 +95,7 @@ static NSOperationQueue* sApnQueue = nil;
         }];
     }
 }
-+ (void) clearRemoteUnread:(NSString*)deviceToken {
++ (void) clearRemoteUnread:(NSString*)deviceToken background:(BOOL)background {
     NSError* error = nil;
     NSData* body = [deviceToken dataUsingEncoding:NSASCIIStringEncoding];
     if(!body) {
@@ -132,7 +133,7 @@ static NSOperationQueue* sApnQueue = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
         //TODO: could have several go in out of order if the net is slow
         int unread = [APNPushManager tallyLocalUnread];
-        [APNPushManager resetLocalUnread:deviceToken count:unread];
+        [APNPushManager resetLocalUnread:deviceToken count:unread background:(application.backgroundTimeRemaining < 10000)];
         [application setApplicationIconBadgeNumber:unread ];
         //TODO: main thread?
         [application endBackgroundTask:bgt];
@@ -149,8 +150,8 @@ static NSOperationQueue* sApnQueue = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
         //TODO: could have several go in out of order if the net is slow
         int unread = [APNPushManager tallyLocalUnread];
-        [APNPushManager clearRemoteUnread:deviceToken];
-        [APNPushManager resetLocalUnread:deviceToken count:unread];
+        [APNPushManager clearRemoteUnread:deviceToken background:(application.backgroundTimeRemaining < 10000)];
+        [APNPushManager resetLocalUnread:deviceToken count:unread background:(application.backgroundTimeRemaining < 10000)];
         [application setApplicationIconBadgeNumber:unread ];
         //TODO: main thread?
         [application endBackgroundTask:bgt];
