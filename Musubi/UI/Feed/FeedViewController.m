@@ -120,7 +120,7 @@
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
 
     if(!_startingAt) {
-        [self scrollToBottomIfNeededAnimated:NO];
+        [self scrollToBottomAnimated:NO];
     }
     [self resetUnreadCount];    
 }
@@ -143,16 +143,8 @@
 }
 
 - (void) scrollToBottomAnimated: (BOOL) animated {
-    if ([self.tableView numberOfRowsInSection:0] > lastRow) {
-        lastRow = [self.tableView numberOfRowsInSection:0] - 1;
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
-    }
-}
-
-- (void) scrollToBottomIfNeededAnimated: (BOOL) animated {
-    if ([self.tableView numberOfRowsInSection:0] > lastRow) {
-        [self scrollToBottomAnimated: animated];
-    }
+    FeedDataSource* source = (FeedDataSource*)self.dataSource;
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(source.items.count - 1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
 }
 
 - (void) feedUpdated: (NSNotification*) notification {    
@@ -166,10 +158,35 @@
     }
 }
 
+
 - (void) refreshFeed {
-    [(FeedModel*)self.model loadNew];
-    [self scrollToBottomIfNeededAnimated: NO];
+    FeedModel* model = (FeedModel*)self.model;
+    CGPoint old = self.tableView.contentOffset;
+    BOOL last = [self isLastRowVisible];
+    [model loadNew];
+    if(last)
+        [self scrollToBottomAnimated:NO];
+    else
+        self.tableView.contentOffset = old;
     [self resetUnreadCount];
+}
+- (BOOL)isLastRowVisible
+{
+    FeedDataSource* source = (FeedDataSource*)self.dataSource;
+    return (source.items.count - 1 == [self lastVisibleRow]);
+}
+
+- (int)lastVisibleRow
+{
+    FeedDataSource* source = (FeedDataSource*)self.dataSource;
+    int row = -1;
+    NSArray* visible = self.tableView.indexPathsForVisibleRows;
+    for(NSIndexPath* i in visible) {
+        if(i.row > row)
+            row = i.row;
+    }
+    NSLog(@"index %d", row);
+    return row;
 }
 
 

@@ -53,10 +53,7 @@
 
 // FeedViewTableDelegate
 
-@interface FeedViewTableDelegate : TTTableViewVarHeightDelegate {
-    int lastRow;
-}
-
+@interface FeedViewTableDelegate : TTTableViewVarHeightDelegate
 - (void) likedAtIndexPath: (NSIndexPath*) indexPath;
 - (void) profilePictureButtonPressedAtIndexPath: (NSIndexPath*) indexPath;
 
