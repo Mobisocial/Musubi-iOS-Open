@@ -24,7 +24,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HTTPServer.h"
 
-@interface CorralHTTPServer : NSObject
+@interface CorralHTTPServer : HTTPServer
 
 @end
