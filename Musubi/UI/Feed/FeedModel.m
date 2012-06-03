@@ -32,12 +32,14 @@
 
 @synthesize results = _results, feed = _feed, objManager = _objManager;
 
-- (id)initWithFeed:(MFeed *)feed {
+- (id)initWithFeed:(MFeed *)feed  messagesNewerThan:(NSDate*)newerThan {
     self = [super init];
-    if (self) {
-        _objManager = [[ObjManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
-        _feed = feed;
-    }
+    if (!self)
+        return nil;
+    
+    _objManager = [[ObjManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+    _feed = feed;
+    _requireSince = newerThan;
     
     return self;
 }
@@ -88,18 +90,31 @@
     
     _loading = YES;    
     [self didStartLoad];
-    
     BOOL firstLoad = _earliestTimestampFetched == nil;
     int batchSize = firstLoad ? 15 : 50;
     
-    if (_earliestTimestampFetched)
-        [_newResults addObjectsFromArray:[_objManager renderableObjsInFeed:_feed before:_earliestTimestampFetched limit:batchSize]];
-    else
-        [_newResults addObjectsFromArray:[_objManager renderableObjsInFeed:_feed limit:batchSize]];
+    BOOL regular_query = YES;
+    if(_requireSince) {
+        NSArray* res = [_objManager renderableObjsInFeed:_feed after:_requireSince limit:0];
+        if(res && res.count > batchSize) {
+            [_newResults addObjectsFromArray:res];
+            _hasMore = YES;
+            _requireSince = nil;
+            regular_query = NO;
+        }
+    } 
     
-    _hasMore = _newResults.count == batchSize;
-    
+    if(regular_query) {
+        
+        if (_earliestTimestampFetched)
+            [_newResults addObjectsFromArray:[_objManager renderableObjsInFeed:_feed before:_earliestTimestampFetched limit:batchSize]];
+        else
+            [_newResults addObjectsFromArray:[_objManager renderableObjsInFeed:_feed limit:batchSize]];
+        
+        _hasMore = _newResults.count == batchSize;
+        
 
+    }    
     _earliestTimestampFetched = ((MObj*)[_newResults lastObject]).timestamp;
     if (firstLoad) {
         if(_newResults.count) {
@@ -108,7 +123,6 @@
             _latestModifiedFetched = [NSDate date];
         }
     }
-    
     _loaded = YES;
     _loading = NO;    
     [self didFinishLoad];

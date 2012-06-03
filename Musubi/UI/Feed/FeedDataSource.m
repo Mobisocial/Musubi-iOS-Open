@@ -70,16 +70,18 @@
 
 @implementation FeedDataSource
 
-- (id)initWithFeed:(MFeed *)feed {
+- (id)initWithFeed:(MFeed *)feed  messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt{
     self = [super init];
     
-    if (self) {
-        self.model = [[FeedModel alloc] initWithFeed:feed];
-        [((FeedModel*)self.model).delegates addObject:self];
-        _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-                    
-    }
+    if (!self)
+        return nil;
     
+    FeedModel* model = [[FeedModel alloc] initWithFeed:feed messagesNewerThan:newerThan];
+    self.model = model;
+    _startingAt = startingAt;
+    [model.delegates addObject:self];
+    _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+
     return self;
 }
 
@@ -195,6 +197,21 @@
     if (((FeedModel*)self.model).hasMore) {
         loadMoreButton.isLoading = NO;
         [self.items insertObject:loadMoreButton atIndex:0];
+    }
+    if(_startingAt) {
+        MObj* newest = nil;
+        int idx = -1;
+        for (int i = 1; i < self.items.count; i++) {
+            FeedItem* existing = [self.items objectAtIndex:i];
+            if ([existing.obj.timestamp compare:_startingAt] < 0 &&  (!newest || [existing.obj.timestamp compare:newest.timestamp] >= 0)) {
+                newest = existing.obj;
+                idx = i;
+            }
+        }
+        dispatch_async(dispatch_get_current_queue(), ^{
+            [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        });
+        _startingAt = nil;
     }
 }
 

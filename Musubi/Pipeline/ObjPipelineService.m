@@ -39,23 +39,25 @@
 
 @implementation ObjPipelineService
 
-@synthesize storeFactory, pending, operations, feedsToNotify;
+@synthesize storeFactory, pending, operations, feedsToNotify, pendingParentHashes;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf {
     self = [super init];
-    if (self) {
-        [self setStoreFactory:sf];
-        
-        // List of objs pending processing
-        [self setPending: [NSMutableArray arrayWithCapacity:10]];
-        
-        // Operation queue with a single thread
-        [self setOperations: [NSOperationQueue new]];
-        [operations setMaxConcurrentOperationCount: 1];
-        
-        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationAppObjReady object:nil];
-        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationAppObjReady object:nil];
-    }
+    if (!self)
+        return nil;
+    
+    self.storeFactory = sf;
+    
+    // List of objs pending processing
+    self.pending =[NSMutableArray arrayWithCapacity:10];
+    self.pendingParentHashes = [NSMutableDictionary dictionary];
+    
+    // Operation queue with a single thread
+    self.operations = [NSOperationQueue new];
+    [operations setMaxConcurrentOperationCount: 1];
+    
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationAppObjReady object:nil];
+    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationAppObjReady object:nil];
     
     return self;
 }
@@ -161,7 +163,16 @@ static int operationCount = 0;
             MObj* parentObj = [objMgr objWithUniversalHash: hash];
             if (parentObj == nil) {
                 NSLog(@"Waiting for parent %@", targetHash);
-                // leave unprocessed and return.
+                @synchronized(self.service.pendingParentHashes) {
+                    NSMutableArray* children = [self.service.pendingParentHashes objectForKey:targetHash];
+                    if(children == nil) {
+                        children = [NSMutableArray array];
+                        [self.service.pendingParentHashes setObject:children forKey:targetHash];
+                    }
+                    [children addObject:mObj.objectID];
+                    mObj.processed = YES;
+                    [_store save];
+                }
                 return;
             }
             mObj.parent = parentObj;
@@ -198,6 +209,25 @@ static int operationCount = 0;
     NSLog(@"Processed: %@", obj);
     
     [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:feed.objectID];
+
+    NSMutableArray* children = nil;
+    @synchronized(self.service.pendingParentHashes) {
+        children = [self.service.pendingParentHashes objectForKey:targetHash];
+        if(children)
+            [self.service.pendingParentHashes removeObjectForKey:targetHash];
+    }
+    
+    if(children != nil && children.count) {
+        for(NSManagedObjectID* oid in children) {
+            NSError* error;
+            MObj* child = (MObj*)[_store.context existingObjectWithID:oid error:&error];
+            if(!child)
+                continue;
+            child.processed = NO;
+        }
+        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationAppObjReady object:nil];
+        [_store save];
+    }
 }
 
 @end

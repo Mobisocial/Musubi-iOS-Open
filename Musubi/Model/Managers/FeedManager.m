@@ -224,7 +224,10 @@
 }
 
 - (NSString*) identityStringForFeed: (MFeed*) feed {
+    if(feed.name)
+        return feed.name;
     NSMutableArray* otherParticipants = [NSMutableArray array];
+    int unknowns = 0;
     for (MIdentity* ident in [self identitiesInFeed:feed]) {
         if (!ident.owned) {
             if (ident.musubiName)
@@ -234,8 +237,11 @@
             else if (ident.principal)
                 [otherParticipants addObject: ident.principal];
             else
-                [otherParticipants addObject: @"Unknown"];
+                unknowns++;
         }
+    }
+    if(unknowns) {
+        [otherParticipants addObject:[NSString stringWithFormat:@"+%d more", unknowns]];
     }
     
     return [otherParticipants componentsJoinedByString:@", "];
@@ -313,7 +319,5 @@
 + (NSURL*) uriForFeed: (MFeed*) feed {
     return [NSURL URLWithString:[NSString stringWithFormat:@"content://org.musubi.db/feeds/%d", feed.objectID.hash]];
 }
-
-
 
 @end

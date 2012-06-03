@@ -40,6 +40,7 @@
 #import "LikeObj.h"
 #import "PictureObj.h"
 #import "StatusObj.h"
+#import "FeedNameObj.h"
 #import "IntroductionObj.h"
 
 #import "AppManager.h"
@@ -49,6 +50,8 @@
 
 @implementation FeedViewController
 
+@synthesize newerThan = _newerThan;
+@synthesize startingAt = _startingAt;
 @synthesize feed = _feed;
 @synthesize delegate = _delegate;
 
@@ -98,6 +101,39 @@
     //[sendButton setStyle:[TTSTYLESHEET toolbarButtonForState:UIControlStateNormal shape:shape tintColor:tintColor font:nil] forState:UIControlStateNormal];
     //[sendButton setStyle:[TTSTYLESHEET toolbarButtonForState:UIControlStateNormal shape:shape tintColor:tintColor font:nil] forState:UIControlStateHighlighted];
     
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, 120, 32);
+    [button setTitle:self.title forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
+
+    button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [button addTarget:self action:@selector(changeName) forControlEvents:UIControlEventTouchDown];
+    self.navigationItem.titleView = button;
+}
+
+- (void)changeName
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Conversation Name" message:@"Set the name for this feed" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+    
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex != 1)
+        return;
+    NSString* name = [alertView textFieldAtIndex:0].text;
+    name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if(!name || !name.length)
+        return;
+    
+    FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name];
+    
+    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MApp* app = [am ensureSuperApp];
+    
+    [ObjHelper sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    [(UIButton*)self.navigationItem.titleView setTitle:name forState:UIControlStateNormal];
 }
 
 
@@ -132,9 +168,12 @@
     // Cardinal
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
 
-    [self scrollToBottomIfNeededAnimated:NO];
+    if(!_startingAt) {
+        [self scrollToBottomAnimated:NO];
+    }
     [self resetUnreadCount];    
 }
 
@@ -144,7 +183,7 @@
 }
 
 - (void)createModel {
-    self.dataSource = [[FeedDataSource alloc] initWithFeed:_feed];
+    self.dataSource = [[FeedDataSource alloc] initWithFeed:_feed  messagesNewerThan:_newerThan startingAt:_startingAt];
 }
 
 - (id<UITableViewDelegate>)createDelegate {
@@ -156,16 +195,8 @@
 }
 
 - (void) scrollToBottomAnimated: (BOOL) animated {
-    if ([self.tableView numberOfRowsInSection:0] > lastRow) {
-        lastRow = [self.tableView numberOfRowsInSection:0] - 1;
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
-    }
-}
-
-- (void) scrollToBottomIfNeededAnimated: (BOOL) animated {
-    if ([self.tableView numberOfRowsInSection:0] > lastRow) {
-        [self scrollToBottomAnimated: animated];
-    }
+    FeedDataSource* source = (FeedDataSource*)self.dataSource;
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(source.items.count - 1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
 }
 
 - (void) feedUpdated: (NSNotification*) notification {    
@@ -179,10 +210,35 @@
     }
 }
 
+
 - (void) refreshFeed {
-    [(FeedModel*)self.model loadNew];
-    [self scrollToBottomIfNeededAnimated: NO];
+    FeedModel* model = (FeedModel*)self.model;
+    CGPoint old = self.tableView.contentOffset;
+    BOOL last = [self isLastRowVisible];
+    [model loadNew];
+    if(last)
+        [self scrollToBottomAnimated:NO];
+    else
+        self.tableView.contentOffset = old;
     [self resetUnreadCount];
+}
+- (BOOL)isLastRowVisible
+{
+    FeedDataSource* source = (FeedDataSource*)self.dataSource;
+    return (source.items.count - 1 == [self lastVisibleRow]);
+}
+
+- (int)lastVisibleRow
+{
+    FeedDataSource* source = (FeedDataSource*)self.dataSource;
+    int row = -1;
+    NSArray* visible = self.tableView.indexPathsForVisibleRows;
+    for(NSIndexPath* i in visible) {
+        if(i.row > row)
+            row = i.row;
+    }
+    NSLog(@"index %d", row);
+    return row;
 }
 
 
@@ -243,10 +299,11 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     
     [self scrollToBottomAnimated:NO];
 }
-
-- (void) hideKeyboard {
+- (void) keyboardDidHide:(NSNotification*)notification {
     [postView setFrame:CGRectMake(0, self.view.frame.size.height - postView.frame.size.height, postView.frame.size.width, postView.frame.size.height)];
     [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, postView.frame.origin.y)];
+}
+- (void) hideKeyboard {
     
     [statusField resignFirstResponder];
 }
@@ -370,6 +427,9 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [_delegate friendsSelected:selection];
 }
 
+- (void)viewDidUnload {
+    [super viewDidUnload];
+}
 @end
 
 

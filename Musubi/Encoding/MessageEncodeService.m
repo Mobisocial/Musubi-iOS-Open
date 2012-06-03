@@ -50,6 +50,8 @@
 #import "OutgoingMessage.h"
 #import "Authorities.h"
 #import "ProfileObj.h"
+#import "DeleteObj.h"
+#import "LikeObj.h"
 
 #define kSmallProcessorCutOff 20
 
@@ -203,7 +205,12 @@
     if (feed.type == kFeedTypeAsymmetric || feed.type == kFeedTypeOneTimeUse) {
         // When broadcasting a message to all friends, don't
         // Leak friend of friend information
-        [om setBlind: YES];
+        om.blind = YES;
+    }
+    if([obj.type isEqualToString:kObjTypeDelete] || [obj.type isEqualToString:kObjTypeLike]) {
+        //these two renderable obj never need to expand the set of members, and this
+        //lets us use the blind flag to help get rid of annoying notifications
+        om.blind = YES;
     }
     
     [om setData: [ObjEncoder encodeObj:outbound]];

@@ -16,26 +16,23 @@
 
 
 //
-//  FeedListItem.h
+//  FeedNameObj.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
+//  Created by MokaFive User on 6/1/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Three20/Three20.h"
+#import "Obj.h"
 
-@class MFeed, MObj;
 
-@interface FeedListItem : TTTableMessageItem
+#define kObjTypeFeedName @"feed_name"
 
-@property (nonatomic) MFeed* feed;
-@property (nonatomic, assign, readonly) int32_t unread;
-@property (nonatomic, retain) UIImage* image;
-@property (nonatomic, strong) MObj* statusObj;
-@property (nonatomic, strong) NSDate* start;
-@property (nonatomic, strong) NSDate* end;
+@interface FeedNameObj : Obj
 
-- (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before;
+@property (nonatomic, strong) NSString* name;
+
+- (id) initWithName: (NSString*) name;
+- (id) initWithData: (NSDictionary*) data;
 
 @end

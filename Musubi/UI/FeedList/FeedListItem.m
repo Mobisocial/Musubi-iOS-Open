@@ -33,67 +33,168 @@
 #import "StatusObj.h"
 #import "Musubi.h"
 #import "UIImage+Resize.h"
+#import "Three20Core/NSDateAdditions.h"
 
-@implementation FeedListItem
+@interface SneakyDate : NSObject
+- (SneakyDate*)initWithDate:(NSDate*)date andNewest:(NSDate*)newest andOldest:(NSDate*)oldest;
+@end
 
-@synthesize feed = _feed;
-@synthesize unread = _unread;
-@synthesize image = _image;
+@implementation SneakyDate {
+    NSDate* _newest;
+    NSDate* _oldest;
+    NSDate* _mine;
+}
 
-- (id)initWithFeed:(MFeed *)feed {
+- (SneakyDate *)initWithDate:(NSDate *)date andNewest:(NSDate *)newest andOldest:(NSDate *)oldest
+{
     self = [super init];
-    if (self) {
-        _feed = feed;
-        FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        ObjManager* objMgr = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-        
-        MObj* statusObj = [objMgr latestStatusObjInFeed:feed];
-        if (statusObj) {
-            StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:statusObj];
-            self.text = obj.text;
-        }
-        /*
-        for (MIdentity* ident in [feedMgr identitiesInFeed:feed]) {
-            if (!ident.owned) {
-                if(ident.musubiThumbnail) {
-                    self.image = [UIImage imageWithData:ident.musubiThumbnail];
-                    break;
-                } else if (ident.thumbnail) {
-                    self.image = [UIImage imageWithData:ident.thumbnail];
-                    break;
-                }
-            }
-        }*/
-        
-        self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed]];
-        
-        self.title = [feedMgr identityStringForFeed:feed];
-        self.timestamp = [NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime];
-        self.unread = feed.numUnread;
-    }
+    if(!self) 
+         return nil;
+    
+    _mine = date;
+    _newest = newest;
+    _oldest = oldest;
+    
     return self;
 }
 
-- (UIImage*) imageForIdentities: (NSArray*) identities {
-    NSMutableArray* images = [NSMutableArray arrayWithCapacity:3];
+- (NSString*)formatShortTime {
+    NSTimeInterval diff = abs([_mine timeIntervalSinceNow]);
     
-    for (MIdentity* i in identities) {
-        if (!i.owned || identities.count == 1) {
-            UIImage* img = nil;
-            
-            if(i.musubiThumbnail) {
-                img = [UIImage imageWithData:i.musubiThumbnail];                
-            }
-            if (img == nil && i.thumbnail) {
-                img = [UIImage imageWithData:i.thumbnail];
-            }
-            
-            if (img)
-                [images addObject: img];
-        }
+    if (diff < TT_DAY * 7) {
+        return [_mine formatTime];
         
+    } else {
+        static NSDateFormatter* formatter = nil;
+        if (nil == formatter) {
+            formatter = [[NSDateFormatter alloc] init];
+            formatter.dateFormat = TTLocalizedString(@"M/d/yy", @"Date format: 7/27/09");
+            formatter.locale = TTCurrentLocale();
+        }
+        return [formatter stringFromDate:_mine];
+    }
+}
+@end
+
+
+static NSMutableDictionary* sContactImages;
+
+
+
+@implementation FeedListItem {
+    int32_t _unread;
+}
++ (NSMutableDictionary*)contactImages {
+    if(!sContactImages)
+        sContactImages = [NSMutableDictionary dictionary];
+    return sContactImages;
+}
+
+@synthesize feed = _feed;
+@synthesize image = _image;
+@synthesize statusObj = _statusObj;
+@synthesize start = _start;
+@synthesize end = _end;
+
+- (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before {
+    self = [super init];
+    if(!self)
+        return nil;
+    _feed = feed;
+    FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    ObjManager* objMgr = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    
+    _statusObj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:after before:before];
+    if (_statusObj) {
+        StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_statusObj];
+        self.text = obj.text;
+    }
+    /*
+    for (MIdentity* ident in [feedMgr identitiesInFeed:feed]) {
+        if (!ident.owned) {
+            if(ident.musubiThumbnail) {
+                self.image = [UIImage imageWithData:ident.musubiThumbnail];
+                break;
+            } else if (ident.thumbnail) {
+                self.image = [UIImage imageWithData:ident.thumbnail];
+                break;
+            }
+        }
+    }*/
+    
+    NSArray* order = _statusObj ? [NSArray arrayWithObject:_statusObj.identity] : nil;
+    self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed] preferredOrder:order];
+    
+    self.title = [feedMgr identityStringForFeed:feed];
+    self.timestamp = [[SneakyDate alloc] initWithDate:(_statusObj ? _statusObj.timestamp : before) andNewest:after andOldest:before];
+    _unread = feed.numUnread;
+    self.start = after;
+    self.end = before;
+    return self;
+}
+
+- (int32_t)unread {
+    //update the unread count on the old items if need be
+    if(_start && _unread) {
+        _unread = _feed.numUnread;
+    }
+    return _unread;
+}
+- (UIImage*) imageForIdentities: (NSArray*) identities preferredOrder:(NSArray*)order {
+    NSMutableArray* selected = [NSMutableArray arrayWithCapacity:4];
+    
+    NSMutableArray* images = [NSMutableArray arrayWithCapacity:4];
+
+    for (MIdentity* i in order) {
         if (images.count > 3)
             break;
+       
+        if(i.musubiThumbnail || i.thumbnail) {
+            [selected addObject:i];
+        }
+        
+    }
+    for (MIdentity* i in identities) {
+        BOOL dupe = NO;
+        for(MIdentity* j in order) {
+            if([j isEqual:i]) {
+                dupe = YES;
+                break;
+            }
+        }
+        if(dupe)
+            continue;
+        if (images.count > 3)
+            break;
+        if(i.musubiThumbnail || i.thumbnail) {
+            [selected addObject:i];
+        }
+        
+    }
+    NSMutableArray* selected_ids = [NSMutableArray arrayWithCapacity:selected.count];
+    for(MIdentity* i in selected) {
+        [selected_ids addObject:i.objectID];
+    }
+    
+    NSMutableDictionary* feedImageCache = [FeedListItem contactImages];
+    UIImage * cachedImage = [feedImageCache objectForKey:selected_ids];
+    //TODO: profile change invalidation
+    if(cachedImage)
+        return cachedImage;
+    
+
+    for (MIdentity* i in selected) {
+        UIImage* img = nil;
+        
+        if(i.musubiThumbnail) {
+            img = [UIImage imageWithData:i.musubiThumbnail];                
+        }
+        if (!img && i.thumbnail) {
+            img = [UIImage imageWithData:i.thumbnail];
+        }
+        
+        if (img)
+            [images addObject: img];
     }
     
     if (images.count > 1) {
@@ -143,6 +244,9 @@
         UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         free(pointBuffer);
+        
+        [feedImageCache setObject:result forKey:selected_ids];
+        
         return result;        
     } else if (images.count == 1) {
         return [images objectAtIndex:0];

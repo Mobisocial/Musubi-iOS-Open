@@ -50,15 +50,13 @@
 
 @property (nonatomic, retain) MFeed* feed;
 @property (nonatomic, weak) id<FeedViewControllerDelegate> delegate;
-
+@property (nonatomic, strong) NSDate* newerThan;
+@property (nonatomic, strong) NSDate* startingAt;
 @end
 
 // FeedViewTableDelegate
 
-@interface FeedViewTableDelegate : TTTableViewVarHeightDelegate {
-    int lastRow;
-}
-
+@interface FeedViewTableDelegate : TTTableViewVarHeightDelegate
 - (void) likedAtIndexPath: (NSIndexPath*) indexPath;
 - (void) profilePictureButtonPressedAtIndexPath: (NSIndexPath*) indexPath;
 

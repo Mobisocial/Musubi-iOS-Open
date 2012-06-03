@@ -165,7 +165,10 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ShowFeed"]) {
         FeedViewController *vc = [segue destinationViewController];
-        [vc setFeed: (MFeed*) sender];
+        FeedListItem* item = sender;
+        vc.newerThan = item.end;
+        vc.startingAt = item.start;
+        [vc setFeed: item.feed];
         [vc.view addSubview:incomingLabel];
         [vc setDelegate:self];
         [self updatePending];
@@ -176,8 +179,8 @@
 }
 
 - (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
-    FeedListItem* item = [((FeedListDataSource*)self.dataSource).items objectAtIndex:indexPath.row];
-    [self performSegueWithIdentifier:@"ShowFeed" sender:item.feed];
+    FeedListItem* item = [[((FeedListDataSource*)self.dataSource).items objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"ShowFeed" sender:item];
 }
 
 - (void) friendsSelected: (NSArray*) selection {
@@ -193,7 +196,7 @@
     [ObjHelper sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
     
     [self.navigationController popViewControllerAnimated:NO];
-    [self performSegueWithIdentifier:@"ShowFeed" sender:f];
+    [self performSegueWithIdentifier:@"ShowFeed" sender:[[FeedListItem alloc] initWithFeed:f after:nil before:nil]];
 }
 
 @end
