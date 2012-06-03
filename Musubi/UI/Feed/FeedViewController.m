@@ -325,14 +325,15 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [self hideKeyboard];
     
     if (statusField.text.length > 0) {
-        NSURL *urlInString = [self getURLFromString:[statusField text]];
+        NSMutableString* text = [NSMutableString stringWithString:[statusField text]];
+        NSURL *urlInString = [self getURLFromString:text];
         
         if (urlInString){
             [DejalBezelActivityView activityViewForView:self.view withLabel:@"Downloading Story Information" width:200];
             
             dispatch_queue_t fetchQueue = dispatch_queue_create("storyobj meta information download", NULL);
             dispatch_async(fetchQueue, ^{
-                StoryObj *story = [[StoryObj alloc] initWithURL:urlInString text:[statusField text]];
+                StoryObj *story = [[StoryObj alloc] initWithURL:urlInString text:text];
                 dispatch_async(dispatch_get_main_queue(), ^{                    
                     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
                     MApp* app = [am ensureSuperApp];
@@ -523,8 +524,13 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         moreLink.isLoading = YES;
         [(TTTableMoreButtonCell *)cell setAnimating:YES];
     }else if([cell isKindOfClass:[StoryObjItemCell class]]){
-        StoryObjItemCell* socell = (StoryObjItemCell*)cell; 
-        [[UIApplication sharedApplication] openURL:[(FeedViewController*)self.controller getURLFromString:socell.url]];
+        StoryObjItemCell* socell = (StoryObjItemCell*)cell;
+        if(!socell.url)
+            return;
+        NSURL* url = [NSURL URLWithString:socell.url];
+        if(!url)
+            return;
+        [[UIApplication sharedApplication] openURL:url];
     };
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
