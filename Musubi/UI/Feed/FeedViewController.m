@@ -333,6 +333,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         [ObjHelper sendObj:status toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
         
         [statusField setText:@""];
+        [self textViewDidChange:statusField];
         [self refreshFeed];
     }
 
