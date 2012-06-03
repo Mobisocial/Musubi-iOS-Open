@@ -11,12 +11,12 @@
 		2F071240157BB6F7008B6FEE /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F07123E157BB6F7008B6FEE /* ProfileViewController.m */; };
 		2F071243157BB7A6008B6FEE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F071241157BB7A6008B6FEE /* Default.png */; };
 		2F071244157BB7A6008B6FEE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F071242157BB7A6008B6FEE /* Default@2x.png */; };
-		2F161860157AF8F2002FA8E3 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F16185B157AF8F2002FA8E3 /* TFHpple.m */; };
-		2F161861157AF8F2002FA8E3 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F16185D157AF8F2002FA8E3 /* TFHppleElement.m */; };
-		2F161862157AF8F2002FA8E3 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F16185F157AF8F2002FA8E3 /* XPathQuery.m */; };
 		2F24EB901563B4CB00D803C0 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */; };
 		C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0294C4A155CEE5B005894DF /* APNPushManager.m */; };
 		C03A663E1579E537009A5CBA /* FeedNameObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A663D1579E537009A5CBA /* FeedNameObj.m */; };
+		C03A66B4157C1307009A5CBA /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66AF157C1307009A5CBA /* TFHpple.m */; };
+		C03A66B5157C1307009A5CBA /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B1157C1307009A5CBA /* TFHppleElement.m */; };
+		C03A66B6157C1307009A5CBA /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B3157C1307009A5CBA /* XPathQuery.m */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
 		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; };
 		C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0867924157038FC00F4F2BA /* ProfileObj.m */; };
@@ -313,17 +313,17 @@
 		2F07123E157BB6F7008B6FEE /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileViewController.m; path = Profile/ProfileViewController.m; sourceTree = "<group>"; };
 		2F071241157BB7A6008B6FEE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2F071242157BB7A6008B6FEE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		2F16185A157AF8F2002FA8E3 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
-		2F16185B157AF8F2002FA8E3 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
-		2F16185C157AF8F2002FA8E3 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
-		2F16185D157AF8F2002FA8E3 /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
-		2F16185E157AF8F2002FA8E3 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
-		2F16185F157AF8F2002FA8E3 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 		2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		C0294C49155CEE5B005894DF /* APNPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APNPushManager.h; sourceTree = "<group>"; };
 		C0294C4A155CEE5B005894DF /* APNPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNPushManager.m; sourceTree = "<group>"; };
 		C03A663C1579E537009A5CBA /* FeedNameObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameObj.h; sourceTree = "<group>"; };
 		C03A663D1579E537009A5CBA /* FeedNameObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedNameObj.m; sourceTree = "<group>"; };
+		C03A66AE157C1307009A5CBA /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TFHpple.h; path = Hpple/TFHpple.h; sourceTree = "<group>"; };
+		C03A66AF157C1307009A5CBA /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TFHpple.m; path = Hpple/TFHpple.m; sourceTree = "<group>"; };
+		C03A66B0157C1307009A5CBA /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TFHppleElement.h; path = Hpple/TFHppleElement.h; sourceTree = "<group>"; };
+		C03A66B1157C1307009A5CBA /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TFHppleElement.m; path = Hpple/TFHppleElement.m; sourceTree = "<group>"; };
+		C03A66B2157C1307009A5CBA /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPathQuery.h; path = Hpple/XPathQuery.h; sourceTree = "<group>"; };
+		C03A66B3157C1307009A5CBA /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPathQuery.m; path = Hpple/XPathQuery.m; sourceTree = "<group>"; };
 		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
 		C086764A156B032700F4F2BA /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
@@ -1008,12 +1008,12 @@
 		2F161859157AF8D7002FA8E3 /* Hpple */ = {
 			isa = PBXGroup;
 			children = (
-				2F16185A157AF8F2002FA8E3 /* TFHpple.h */,
-				2F16185B157AF8F2002FA8E3 /* TFHpple.m */,
-				2F16185C157AF8F2002FA8E3 /* TFHppleElement.h */,
-				2F16185D157AF8F2002FA8E3 /* TFHppleElement.m */,
-				2F16185E157AF8F2002FA8E3 /* XPathQuery.h */,
-				2F16185F157AF8F2002FA8E3 /* XPathQuery.m */,
+				C03A66AE157C1307009A5CBA /* TFHpple.h */,
+				C03A66AF157C1307009A5CBA /* TFHpple.m */,
+				C03A66B0157C1307009A5CBA /* TFHppleElement.h */,
+				C03A66B1157C1307009A5CBA /* TFHppleElement.m */,
+				C03A66B2157C1307009A5CBA /* XPathQuery.h */,
+				C03A66B3157C1307009A5CBA /* XPathQuery.m */,
 			);
 			name = Hpple;
 			sourceTree = "<group>";
@@ -3021,11 +3021,11 @@
 				D4F0C09B157920BB00541F5C /* VideoObjItemCell.m in Sources */,
 				C0BABA70157980510068A455 /* NSDate+LocalTime.m in Sources */,
 				C03A663E1579E537009A5CBA /* FeedNameObj.m in Sources */,
-				2F161860157AF8F2002FA8E3 /* TFHpple.m in Sources */,
-				2F161861157AF8F2002FA8E3 /* TFHppleElement.m in Sources */,
-				2F161862157AF8F2002FA8E3 /* XPathQuery.m in Sources */,
 				2F07123F157BB6F7008B6FEE /* ProfileNamePictureCell.m in Sources */,
 				2F071240157BB6F7008B6FEE /* ProfileViewController.m in Sources */,
+				C03A66B4157C1307009A5CBA /* TFHpple.m in Sources */,
+				C03A66B5157C1307009A5CBA /* TFHppleElement.m in Sources */,
+				C03A66B6157C1307009A5CBA /* XPathQuery.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
