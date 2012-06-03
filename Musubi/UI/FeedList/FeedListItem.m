@@ -104,7 +104,7 @@ static NSMutableDictionary* sContactImages;
     FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     ObjManager* objMgr = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     
-    _statusObj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:after before:before];
+    _statusObj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:nil before:nil];
     if (_statusObj) {
         StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_statusObj];
         self.text = obj.text;
@@ -126,7 +126,7 @@ static NSMutableDictionary* sContactImages;
     self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed] preferredOrder:order];
     
     self.title = [feedMgr identityStringForFeed:feed];
-    self.timestamp = [[SneakyDate alloc] initWithDate:(_statusObj ? _statusObj.timestamp : before) andNewest:after andOldest:before];
+    self.timestamp = [[SneakyDate alloc] initWithDate:[NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime] andNewest:after andOldest:before];
     _unread = feed.numUnread;
     self.start = after;
     self.end = before;
