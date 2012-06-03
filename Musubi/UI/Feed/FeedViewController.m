@@ -47,7 +47,8 @@
 
 #import "AppManager.h"
 #import "MApp.h"
-
+#import "Three20/Three20.h"
+#import "Three20UI/UIViewAdditions.h"
 
 @implementation FeedViewController
 
@@ -78,18 +79,43 @@
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.variableHeightRows = YES;
     
-    updateField.delegate = self;
+    TTView* statusFieldBox = [[TTView alloc] initWithFrame:CGRectMake(44, 6, postView.frame.size.width - 115, 32)];
+    statusFieldBox.backgroundColor = [UIColor clearColor];
+    statusFieldBox.style = [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
+                            [TTSolidFillStyle styleWithColor:[UIColor whiteColor] next:
+                             [TTInnerShadowStyle styleWithColor:RGBACOLOR(0,0,0,0.5) blur:3 offset:CGSizeMake(1, 1) next:
+                              [TTSolidBorderStyle styleWithColor:RGBCOLOR(158, 163, 172) width:1 next:nil]]]];
+    [postView addSubview: statusFieldBox];    
+    
 
-    UIButton* button = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    statusField = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, statusFieldBox.width, statusFieldBox.height)];
+    statusField.font = [UIFont systemFontOfSize:15.0];
+    statusField.backgroundColor = [UIColor clearColor];
+    statusField.delegate = self;
+    [statusFieldBox addSubview: statusField];
+
+    [sendButton setBackgroundColor:[UIColor clearColor]];
+    [sendButton setTitle:@"Send" forState:UIControlStateNormal];
+    [sendButton setStyle:[self embossedButton:UIControlStateNormal] forState:UIControlStateNormal];
+    [sendButton setStyle:[self embossedButton:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+    [sendButton addTarget:self action:@selector(sendMessage:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //[sendButton setStyle:[TTSTYLESHEET toolbarButtonForState:UIControlStateNormal shape:shape tintColor:tintColor font:nil] forState:UIControlStateNormal];
+    //[sendButton setStyle:[TTSTYLESHEET toolbarButtonForState:UIControlStateNormal shape:shape tintColor:tintColor font:nil] forState:UIControlStateHighlighted];
+    
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 0, 120, 32);
     [button setTitle:self.title forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
+
     button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [button addTarget:self action:@selector(changeName) forControlEvents:UIControlEventTouchDown];
     self.navigationItem.titleView = button;
 }
+
 - (void)changeName
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Conversation Name" message:@"Set a name for this feed so everyone can find it better" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Conversation Name" message:@"Set the name for this feed" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
     
@@ -102,7 +128,7 @@
     name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if(!name || !name.length)
         return;
-            
+    
     FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name];
     
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
@@ -112,17 +138,44 @@
     [(UIButton*)self.navigationItem.titleView setTitle:name forState:UIControlStateNormal];
 }
 
+
+- (TTStyle*)embossedButton:(UIControlState)state {
+    if (state == UIControlStateNormal) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
+          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0) blur:1 offset:CGSizeMake(0, 1) next:
+           [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
+             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
+              [TTTextStyle styleWithFont:nil color:TTSTYLEVAR(timestampTextColor)
+                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
+                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]];
+    } else if (state == UIControlStateHighlighted) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
+          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0.9) blur:1 offset:CGSizeMake(0, 1) next:
+           [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
+             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
+              [TTTextStyle styleWithFont:nil color:TTSTYLEVAR(timestampTextColor)
+                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
+                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]];
+    } else {
+        return nil;
+    }
+}
+
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     // Cardinal
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activated:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
 
     if(!_startingAt) {
-        [self scrollToBottomIfNeededAnimated:NO];
+        [self scrollToBottomAnimated:NO];
     }
     [self resetUnreadCount];    
 }
@@ -145,16 +198,8 @@
 }
 
 - (void) scrollToBottomAnimated: (BOOL) animated {
-    if ([self.tableView numberOfRowsInSection:0] > lastRow) {
-        lastRow = [self.tableView numberOfRowsInSection:0] - 1;
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
-    }
-}
-
-- (void) scrollToBottomIfNeededAnimated: (BOOL) animated {
-    if ([self.tableView numberOfRowsInSection:0] > lastRow) {
-        [self scrollToBottomAnimated: animated];
-    }
+    FeedDataSource* source = (FeedDataSource*)self.dataSource;
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(source.items.count - 1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
 }
 
 - (void) feedUpdated: (NSNotification*) notification {    
@@ -168,21 +213,69 @@
     }
 }
 
+
 - (void) refreshFeed {
-    [(FeedModel*)self.model loadNew];
-    [self scrollToBottomIfNeededAnimated: NO];
+    FeedModel* model = (FeedModel*)self.model;
+    CGPoint old = self.tableView.contentOffset;
+    BOOL last = [self isLastRowVisible];
+    [model loadNew];
+    if(last)
+        [self scrollToBottomAnimated:NO];
+    else
+        self.tableView.contentOffset = old;
+    [self resetUnreadCount];
+}
+- (BOOL)isLastRowVisible
+{
+    FeedDataSource* source = (FeedDataSource*)self.dataSource;
+    return (source.items.count - 1 == [self lastVisibleRow]);
+}
+
+- (int)lastVisibleRow
+{
+    int row = -1;
+    NSArray* visible = self.tableView.indexPathsForVisibleRows;
+    for(NSIndexPath* i in visible) {
+        if(i.row > row)
+            row = i.row;
+    }
+    NSLog(@"index %d", row);
+    return row;
+}
+- (void)activated: (NSNotification*) notification
+{
     [self resetUnreadCount];
 }
 
-
 - (void) resetUnreadCount {
+    if([UIApplication sharedApplication].backgroundTimeRemaining < 10000)
+        return;
     if (_feed.numUnread > 0) {
         [_feed setNumUnread:0];
         [[Musubi sharedInstance].mainStore save];
-        [APNPushManager resetLocalUnreadInBackgroundTask];
+        [APNPushManager resetLocalUnreadInBackgroundTask:NO];
         
         // Refresh the feed list view
         [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:nil];
+    }
+}
+
+#pragma mark - UITextViewDelegate
+
+- (void)textViewDidChange:(UITextView *)textView {
+CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] sizeWithFont:textView.font constrainedToSize:CGSizeMake(textView.width, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap].height + 13; // 13 is the border + margin, etc.
+    
+    CGFloat diff = desiredHeight - textView.height;
+        
+    if (diff != 0 && self.tableView.height - diff > 80) {
+        self.tableView.height -= diff;
+        postView.frame = CGRectMake(0, self.tableView.height, postView.width, postView.height + diff);
+        textView.height += diff;
+        textView.superview.height += diff;
+        
+        
+        sendButton.frame = CGRectMake(sendButton.frame.origin.x, postView.height - sendButton.height - 2, sendButton.width, sendButton.height);
+        actionButton.frame = CGRectMake(actionButton.frame.origin.x, postView.height - actionButton.height - 6, actionButton.width, actionButton.height);
     }
 }
 
@@ -208,8 +301,8 @@
     UIView *mainSubviewOfWindow = window.rootViewController.view;
     CGRect keyboardFrameConverted = [mainSubviewOfWindow convertRect:keyboardFrame fromView:window];
 
-    [postView setFrame:CGRectMake(0, postView.frame.origin.y - keyboardFrameConverted.size.height, postView.frame.size.width, postView.frame.size.height)];
-    [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height - keyboardFrameConverted.size.height)];
+    [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, self.view.frame.size.height - postView.frame.size.height - keyboardFrameConverted.size.height)];
+    [postView setFrame:CGRectMake(0, self.tableView.frame.size.height, postView.frame.size.width, postView.frame.size.height)];
     
     [self scrollToBottomAnimated:NO];
 }
@@ -219,28 +312,37 @@
 }
 - (void) hideKeyboard {
     
-    [updateField resignFirstResponder];
+    [statusField resignFirstResponder];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    //[self hideKeyboard];
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self hideKeyboard];
+}
+
+- (IBAction)sendMessage:(id)sender {
+    [self hideKeyboard];
     
-    if ([textField text].length > 0) {
+    if (statusField.text.length > 0) {
+        StatusObj* status = [[StatusObj alloc] initWithText: [statusField text]];
         
-        NSURL *urlInString = [self getURLFromString:[textField text]];
+        NSURL *urlInString = [self getURLFromString:[statusField text]];
         
         if (urlInString){
             
             dispatch_queue_t fetchQueue = dispatch_queue_create("storyobj meta information download", NULL);
             dispatch_async(fetchQueue, ^{
-                StoryObj *story = [[StoryObj alloc] initWithURL:urlInString text:[textField text]];
+                StoryObj *story = [[StoryObj alloc] initWithURL:urlInString text:[statusField text]];
                 dispatch_async(dispatch_get_main_queue(), ^{                    
                     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
                     MApp* app = [am ensureSuperApp];
                     
                     [ObjHelper sendObj:story toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
                     
-                    [textField setText:@""];
+                    [statusField setText:@""];
                     [self refreshFeed];
 
                 });
@@ -248,14 +350,14 @@
             dispatch_release(fetchQueue);  
                         
         }else {
-            StatusObj* status = [[StatusObj alloc] initWithText: [textField text]];
+            StatusObj* status = [[StatusObj alloc] initWithText: [statusField text]];
             
             AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
             MApp* app = [am ensureSuperApp];
             
             [ObjHelper sendObj:status toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
             
-            [textField setText:@""];
+            [statusField setText:@""];
             [self refreshFeed];
         }
         
@@ -280,6 +382,11 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self hideKeyboard];
+        [statusField setText:@""];
+        [self textViewDidChange:statusField];
+        [self refreshFeed];
+    }
+
 }
 
 - (IBAction)commandButtonPushed: (id) sender {

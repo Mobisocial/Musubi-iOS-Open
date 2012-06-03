@@ -47,8 +47,11 @@
 @end
 
 
-@implementation FeedListDataSource
-@synthesize dateRanges, lastDraw, lastItems, lastSections;
+@implementation FeedListDataSource {
+    FeedListItem* itemToDelete;
+    UITableView* tableViewToUpdate;
+}
+@synthesize dateRanges;
 - (id) init {
     self = [super init];
     if (self) {
@@ -71,18 +74,6 @@
     components.minute = 0;
     components.second = 0;
     NSMutableArray* lastDateRanges = dateRanges;
-    if(self.lastDraw) {
-        NSDateComponents *components2 = [[NSDateComponents alloc] init];
-        components2 = [gregorian components:unitFlags fromDate:self.lastDraw];
-        components2.hour = 0;
-        components2.minute = 0;
-        components2.second = 0;
-        if(![[gregorian dateFromComponents:components] isEqualToDate:[gregorian dateFromComponents:components2]]) {
-            self.lastItems = nil;
-            self.lastSections = nil;
-        }
-    }
-    self.lastDraw = [NSDate date];
 
     NSMutableArray* sections = [NSMutableArray array];
     NSMutableArray* section_items = [NSMutableArray arrayWithCapacity:self.sections.count];
@@ -96,47 +87,48 @@
     
     [sections addObject:@"Today"];
     [ends addObject:todayMidnight];
-    if(!self.lastItems || !
-       self.lastSections) {
-        components = [[NSDateComponents alloc] init];
-        components.day = -1;
-        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-        [sections addObject:@"Yesterday"];
-        [ends addObject:other];
-        components.day = -2;
-        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-        [sections addObject:[df stringFromDate:other]];
-        [ends addObject:other];
-        components.day = -3;
-        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-        [sections addObject:[df stringFromDate:other]];
-        [ends addObject:other];
-        components.day = -4;
-        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-        [sections addObject:[df stringFromDate:other]];
-        [ends addObject:other];
-        components.day = -5;
-        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-        [sections addObject:[df stringFromDate:other]];
-        [ends addObject:other];
-        components.day = -6;
-        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-        [sections addObject:@"A Week Ago"];
-        [ends addObject:other];
-        components.day = -7;
-        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-        [sections addObject:@"Two Weeks Ago"];
-        [ends addObject:other];
-        components.day = -14;
-        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-        [sections addObject:@"A Month Ago"];
-        [ends addObject:other];
-        components = [[NSDateComponents alloc] init];
-        components.day = -30;
-        other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
-        [sections addObject:@"All Time"];
-        [ends addObject:other];
-    }
+
+    [sections addObject:@"Yesterday"];
+    components = [[NSDateComponents alloc] init];
+    components.minute = -1;
+    components.day = -1;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:[df stringFromDate:other]];
+    [ends addObject:other];
+    components.day = -2;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:[df stringFromDate:other]];
+    [ends addObject:other];
+    components.day = -3;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:[df stringFromDate:other]];
+    [ends addObject:other];
+    components.day = -4;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:[df stringFromDate:other]];
+    [ends addObject:other];
+    components.day = -5;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:[df stringFromDate:other]];
+    [ends addObject:other];
+    components.day = -6;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:@"A Week Ago"];
+    [ends addObject:other];
+    components.day = -7;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:@"Two Weeks Ago"];
+    [ends addObject:other];
+    components.day = -14;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:@"A Month Ago"];
+    [ends addObject:other];
+    components = [[NSDateComponents alloc] init];
+    components.day = -30;
+    other = [gregorian dateByAddingComponents:components toDate:todayMidnight options:0];
+    [sections addObject:@"All Time"];
+    [ends addObject:other];
+
     NSDate* start = nil;
     for(NSDate* end in ends) {
         [section_items addObject:[self filterFeeds:((FeedListModel*)self.model).results withActivityAfter:start until:end]];
@@ -144,6 +136,7 @@
         start = end;
     }
     [section_items addObject:[self filterFeeds:((FeedListModel*)self.model).results withActivityAfter:start until:nil]];
+    [dateRanges addObject:[[DateRange alloc] initWithStart:start andEnd:nil]];
 
     for(int i = sections.count - 1; i >= 0; --i) {
         if(![[section_items objectAtIndex:i] count]) {
@@ -153,35 +146,22 @@
         }
     }
     
-    if(self.lastItems && self.lastSections) {
-        if(!sections.count) {
-            //no items in today
-        } else {
-            DateRange* range = [lastDateRanges objectAtIndex:0];
-            if(!lastDateRanges.count || range.start) {
-                // there was no today section before
-                [self.lastItems insertObject:[section_items objectAtIndex:0] atIndex:0];
-                [lastDateRanges insertObject:[dateRanges objectAtIndex:0] atIndex:0];
-                dateRanges = lastDateRanges;
-            } else {
-                // update the today section
-                [self.lastItems replaceObjectAtIndex:0 withObject:[section_items objectAtIndex:0]];
-            }
-        }
-        
-    } else {
-        self.lastItems = section_items;
-        self.lastSections = sections;
-        self.sections = sections;
-        self.items = section_items;
-    }
+    self.sections = sections;
+    self.items = section_items;
 }
 - (NSMutableArray*) filterFeeds:(NSMutableArray*)newItems withActivityAfter:(NSDate*)start until:(NSDate*)end
 {
     NSMutableArray* hits = [NSMutableArray arrayWithCapacity:newItems.count];
     for(MFeed* feed in newItems) {
-        if(![_objManager feed:feed withActivityAfter:start until:end])
+        if(!start && feed.latestRenderableObjTime > end.timeIntervalSince1970) {
+            
+        } else if(!end && feed.latestRenderableObjTime < start.timeIntervalSince1970) {
+            
+        } else if(feed.latestRenderableObjTime > end.timeIntervalSince1970 && feed.latestRenderableObjTime < start.timeIntervalSince1970) {
+            
+        } else {
             continue;
+        }
         FeedListItem* item = [[FeedListItem alloc] initWithFeed:feed after:start before:end];
         if (item) {
             [hits addObject: item];
@@ -193,15 +173,46 @@
     return [FeedListItemCell class];
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UITableView * tableView = tableViewToUpdate;
+    tableViewToUpdate = nil;
+    FeedListItem* original_item = itemToDelete;
+    itemToDelete = nil;
+    if(buttonIndex != 1)
+        return;
+    MFeed* feed = original_item.feed;
+    
+    [tableView beginUpdates];
+    for(int i = self.items.count - 1; i >= 0; --i) {
+        NSMutableArray* section_items = [self.items objectAtIndex:i];
+        for(int j = section_items.count - 1; j >= 0; --j) {
+            FeedListItem* item = [section_items objectAtIndex:j];
+            if([item.feed.objectID isEqual:feed.objectID]) {
+                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:j inSection:i]] withRowAnimation:UITableViewRowAnimationFade];
+                [section_items removeObjectAtIndex:j];
+            }
+        }
+        if(!section_items.count) {
+            [tableView deleteSections:[NSIndexSet indexSetWithIndex:i] withRowAnimation:UITableViewRowAnimationFade];
+            [self.items removeObjectAtIndex:i];
+            [self.sections removeObjectAtIndex:i];
+            [self.dateRanges removeObjectAtIndex:i];
+        }
+    }
+    [_feedManager deleteFeedAndMembersAndObjs:feed];
+    [tableView endUpdates];
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) { 
-        FeedListItem* item = [self.items objectAtIndex:indexPath.row];
-        [_feedManager deleteFeedAndMembersAndObjs:item.feed];
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Delete Conversation" message:@"All messages and pictures to this group will be deleted.  Are you sure?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+    
+        itemToDelete = [[self.items objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        tableViewToUpdate = tableView;
+        [alert show];
+        
 
-        [tableView beginUpdates];
-        [self.items removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
-        [tableView endUpdates];
     } 
 }
 

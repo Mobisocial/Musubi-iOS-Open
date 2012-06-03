@@ -36,6 +36,7 @@
 #import "IBEncryptionScheme.h"
 #import "FeedManager.h"
 #import "IdentityManager.h"
+#import "EncodedMessageManager.h"
 
 #import "MObj.h"
 #import "MFeed.h"
@@ -44,12 +45,16 @@
 #import "MApp.h"
 #import "MFeedMember.h"
 #import "MSignatureUserKey.h"
+#import "MEncodedMessage.h"
 
+#import "NSData+Crypto.h"
 #import "MessageEncoder.h"
 #import "ObjEncoder.h"
 #import "OutgoingMessage.h"
 #import "Authorities.h"
 #import "ProfileObj.h"
+#import "DeleteObj.h"
+#import "LikeObj.h"
 
 #define kSmallProcessorCutOff 20
 
@@ -183,7 +188,16 @@
     assert(sender != nil);
     
     BOOL localOnly = sender.type == kIdentityTypeLocal;
-    assert (localOnly || sender.owned);
+    if (!localOnly && !sender.owned) {
+        TFLog(@"corrupted because of core data nullification of encoded obj, making up some random shit");
+        EncodedMessageManager* emm = [[EncodedMessageManager alloc] initWithStore:_store];
+        MEncodedMessage* encoded = [emm create];
+        obj.encoded = encoded;
+        encoded.processed = YES;
+        encoded.outbound = NO;
+        [_store save];
+        return;
+    }
     
     MApp* app = obj.app;
     assert (app != nil);
@@ -203,7 +217,12 @@
     if (feed.type == kFeedTypeAsymmetric || feed.type == kFeedTypeOneTimeUse) {
         // When broadcasting a message to all friends, don't
         // Leak friend of friend information
-        [om setBlind: YES];
+        om.blind = YES;
+    }
+    if([obj.type isEqualToString:kObjTypeDelete] || [obj.type isEqualToString:kObjTypeLike]) {
+        //these two renderable obj never need to expand the set of members, and this
+        //lets us use the blind flag to help get rid of annoying notifications
+        om.blind = YES;
     }
     
     [om setData: [ObjEncoder encodeObj:outbound]];

@@ -196,7 +196,7 @@
     [ObjHelper sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
     
     [self.navigationController popViewControllerAnimated:NO];
-    [self performSegueWithIdentifier:@"ShowFeed" sender:f];
+    [self performSegueWithIdentifier:@"ShowFeed" sender:[[FeedListItem alloc] initWithFeed:f after:nil before:nil]];
 }
 
 @end

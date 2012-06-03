@@ -33,17 +33,20 @@
     - (void) friendsSelected:(NSArray*)selection;
 @end
 
-@interface FeedViewController : TTTableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendPickerDelegate, ProfileViewControllerDelegate> {
+@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendPickerDelegate, ProfileViewControllerDelegate> {
     MFeed* _feed;
     
-    IBOutlet UITextField* updateField;
-    IBOutlet UIView* postView;
     IBOutlet UIView* mainView;
+    IBOutlet UIView* postView;
+    IBOutlet UIButton* actionButton;
+    IBOutlet TTButton* sendButton;
+    IBOutlet UITextView* statusField;
     
     int lastRow;
 }
 
 - (IBAction)addPeople:(id)sender;
+- (IBAction)sendMessage:(id)sender;
 
 @property (nonatomic, retain) MFeed* feed;
 @property (nonatomic, weak) id<FeedViewControllerDelegate> delegate;
@@ -53,10 +56,7 @@
 
 // FeedViewTableDelegate
 
-@interface FeedViewTableDelegate : TTTableViewVarHeightDelegate {
-    int lastRow;
-}
-
+@interface FeedViewTableDelegate : TTTableViewVarHeightDelegate
 - (void) likedAtIndexPath: (NSIndexPath*) indexPath;
 - (void) profilePictureButtonPressedAtIndexPath: (NSIndexPath*) indexPath;
 
