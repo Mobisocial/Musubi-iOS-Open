@@ -167,6 +167,7 @@
 
     // Cardinal
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activated:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
@@ -239,7 +240,10 @@
     NSLog(@"index %d", row);
     return row;
 }
-
+- (void)activated: (NSNotification*) notification
+{
+    [self resetUnreadCount];
+}
 
 - (void) resetUnreadCount {
     if([UIApplication sharedApplication].backgroundTimeRemaining < 10000)

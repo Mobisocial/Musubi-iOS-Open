@@ -80,7 +80,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    [APNPushManager resetLocalUnreadInBackgroundTask:YES];
+    [APNPushManager resetLocalUnreadInBackgroundTask:NO];
 
     
     /*
