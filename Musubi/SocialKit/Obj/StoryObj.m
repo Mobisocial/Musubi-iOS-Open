@@ -116,6 +116,8 @@
     if(!newUrl){
         url = [NSURL URLWithString:[urlOGTag objectForKey:@"value"] ];
     }
+    if(!url)
+        url = originalUrl;
     
     // Find Thumbnail Image URL!
     NSString *story_thumnail_url = nil;
