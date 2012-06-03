@@ -523,7 +523,8 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         moreLink.isLoading = YES;
         [(TTTableMoreButtonCell *)cell setAnimating:YES];
     }else if([cell isKindOfClass:[StoryObjItemCell class]]){
-        [[UIApplication sharedApplication] openURL:[(FeedViewController*)self.controller getURLFromString:((StoryObjItemCell*)cell).statusView.text]];
+        StoryObjItemCell* socell = (StoryObjItemCell*)cell; 
+        [[UIApplication sharedApplication] openURL:[(FeedViewController*)self.controller getURLFromString:socell.url]];
     };
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];

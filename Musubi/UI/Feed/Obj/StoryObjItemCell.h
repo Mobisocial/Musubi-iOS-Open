@@ -27,9 +27,10 @@
 
 @interface StoryObjItemCell : FeedItemCell
 
-@property (nonatomic, readonly) UIImageView* thumbnailView;
-@property (nonatomic, readonly) UILabel* statusView;
-@property (nonatomic, readonly) UILabel* subjectView;
-@property (nonatomic, readonly) UILabel* descriptionView;
+@property (nonatomic, strong, readonly) UIImageView* thumbnailView;
+@property (nonatomic, strong, readonly) UILabel* statusView;
+@property (nonatomic, strong, readonly) UILabel* subjectView;
+@property (nonatomic, strong, readonly) UILabel* descriptionView;
+@property (nonatomic, strong, readonly) NSString* url;
 
 @end

@@ -32,6 +32,7 @@
 @synthesize statusView = _statusView;
 @synthesize subjectView = _subjectView;
 @synthesize descriptionView = _descriptionView;
+@synthesize url = _url;
 
 #define STORY_THUMBNAIL_WIDTH 80
 #define STORY_THUMBNAIL_HEIGHT 80
@@ -70,7 +71,8 @@
 
 - (void)setObject:(ManagedObjFeedItem*)object {
     [super setObject:object];
-//  self.detailTextLabel.text = [object.parsedJson objectForKey:kObjFieldStoryText];
+    _url = [object.parsedJson objectForKey:kObjFieldStoryUrl];
+    //  self.detailTextLabel.text = [object.parsedJson objectForKey:kObjFieldStoryText];
 
     NSString* status_text = [object.parsedJson objectForKey:kObjFieldStoryText];
     CGSize status_size = [status_text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];    
