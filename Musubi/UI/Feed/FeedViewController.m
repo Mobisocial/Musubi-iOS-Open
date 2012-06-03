@@ -319,9 +319,6 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     return YES;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    [self hideKeyboard];
-}
 
 - (IBAction)sendMessage:(id)sender {
     [self hideKeyboard];
@@ -385,8 +382,6 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         [statusField setText:@""];
         [self textViewDidChange:statusField];
         [self refreshFeed];
-    }
-
 }
 
 - (IBAction)commandButtonPushed: (id) sender {

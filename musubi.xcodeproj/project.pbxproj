@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F07123F157BB6F7008B6FEE /* ProfileNamePictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F07123C157BB6F7008B6FEE /* ProfileNamePictureCell.m */; };
+		2F071240157BB6F7008B6FEE /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F07123E157BB6F7008B6FEE /* ProfileViewController.m */; };
+		2F071243157BB7A6008B6FEE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F071241157BB7A6008B6FEE /* Default.png */; };
+		2F071244157BB7A6008B6FEE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F071242157BB7A6008B6FEE /* Default@2x.png */; };
 		2F161860157AF8F2002FA8E3 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F16185B157AF8F2002FA8E3 /* TFHpple.m */; };
 		2F161861157AF8F2002FA8E3 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F16185D157AF8F2002FA8E3 /* TFHppleElement.m */; };
 		2F161862157AF8F2002FA8E3 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F16185F157AF8F2002FA8E3 /* XPathQuery.m */; };
 		2F24EB901563B4CB00D803C0 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */; };
-		568691101570537400DD1791 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5686910F1570537400DD1791 /* ProfileViewController.m */; };
-		56D2D6341570F53100845601 /* ProfileNamePictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 56D2D6331570F53100845601 /* ProfileNamePictureCell.m */; };
 		C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0294C4A155CEE5B005894DF /* APNPushManager.m */; };
 		C03A663E1579E537009A5CBA /* FeedNameObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A663D1579E537009A5CBA /* FeedNameObj.m */; };
-		C03A6643157A9A37009A5CBA /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C03A6642157A9A36009A5CBA /* Default.png */; };
-		C03A6645157A9B6F009A5CBA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C03A6644157A9B6E009A5CBA /* Default@2x.png */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
 		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; };
 		C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0867924157038FC00F4F2BA /* ProfileObj.m */; };
@@ -307,6 +307,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2F07123B157BB6F7008B6FEE /* ProfileNamePictureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileNamePictureCell.h; path = Profile/ProfileNamePictureCell.h; sourceTree = "<group>"; };
+		2F07123C157BB6F7008B6FEE /* ProfileNamePictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileNamePictureCell.m; path = Profile/ProfileNamePictureCell.m; sourceTree = "<group>"; };
+		2F07123D157BB6F7008B6FEE /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProfileViewController.h; path = Profile/ProfileViewController.h; sourceTree = "<group>"; };
+		2F07123E157BB6F7008B6FEE /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProfileViewController.m; path = Profile/ProfileViewController.m; sourceTree = "<group>"; };
+		2F071241157BB7A6008B6FEE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		2F071242157BB7A6008B6FEE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2F16185A157AF8F2002FA8E3 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		2F16185B157AF8F2002FA8E3 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		2F16185C157AF8F2002FA8E3 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -314,16 +320,10 @@
 		2F16185E157AF8F2002FA8E3 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
 		2F16185F157AF8F2002FA8E3 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 		2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
-		5686910E1570537400DD1791 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
-		5686910F1570537400DD1791 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
-		56D2D6321570F53100845601 /* ProfileNamePictureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileNamePictureCell.h; sourceTree = "<group>"; };
-		56D2D6331570F53100845601 /* ProfileNamePictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileNamePictureCell.m; sourceTree = "<group>"; };
 		C0294C49155CEE5B005894DF /* APNPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APNPushManager.h; sourceTree = "<group>"; };
 		C0294C4A155CEE5B005894DF /* APNPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNPushManager.m; sourceTree = "<group>"; };
 		C03A663C1579E537009A5CBA /* FeedNameObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameObj.h; sourceTree = "<group>"; };
 		C03A663D1579E537009A5CBA /* FeedNameObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedNameObj.m; sourceTree = "<group>"; };
-		C03A6642157A9A36009A5CBA /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		C03A6644157A9B6E009A5CBA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
 		C086764A156B032700F4F2BA /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
@@ -994,6 +994,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F07123A157BB6E7008B6FEE /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				2F07123B157BB6F7008B6FEE /* ProfileNamePictureCell.h */,
+				2F07123C157BB6F7008B6FEE /* ProfileNamePictureCell.m */,
+				2F07123D157BB6F7008B6FEE /* ProfileViewController.h */,
+				2F07123E157BB6F7008B6FEE /* ProfileViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 		2F161859157AF8D7002FA8E3 /* Hpple */ = {
 			isa = PBXGroup;
 			children = (
@@ -1005,17 +1016,6 @@
 				2F16185F157AF8F2002FA8E3 /* XPathQuery.m */,
 			);
 			name = Hpple;
-			sourceTree = "<group>";
-		};
-		5686910A157021DA00DD1791 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				5686910E1570537400DD1791 /* ProfileViewController.h */,
-				5686910F1570537400DD1791 /* ProfileViewController.m */,
-				56D2D6321570F53100845601 /* ProfileNamePictureCell.h */,
-				56D2D6331570F53100845601 /* ProfileNamePictureCell.m */,
-			);
-			name = Profile;
 			sourceTree = "<group>";
 		};
 		C0D5757C1551F94600B6624C /* TestFlight */ = {
@@ -1071,13 +1071,11 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				2F07123A157BB6E7008B6FEE /* Profile */,
 				D26028D91566EEBE00CF6500 /* assets */,
-				C03A6642157A9A36009A5CBA /* Default.png */,
-				C03A6644157A9B6E009A5CBA /* Default@2x.png */,
 				D2A1FC141521A6C500C10BE2 /* Feed */,
 				D23EED011554854200B18153 /* FeedList */,
 				D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */,
-				5686910A157021DA00DD1791 /* Profile */,
 				D211D969151979D200E38051 /* Settings */,
 			);
 			path = UI;
@@ -1235,6 +1233,8 @@
 		D26028D91566EEBE00CF6500 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				2F071241157BB7A6008B6FEE /* Default.png */,
+				2F071242157BB7A6008B6FEE /* Default@2x.png */,
 				D2D03BC3157884ED00DBF40B /* missing.png */,
 				D2C66F00156CCF22001A0124 /* heart32_gray.png */,
 				D26D1691156C6C0C00FC7650 /* heart32.png */,
@@ -2840,8 +2840,8 @@
 				D2D03BC01578842900DBF40B /* InfoPlist.strings in Resources */,
 				D2D03BC4157884ED00DBF40B /* missing.png in Resources */,
 				D250C9631579815600955AB2 /* MainStoryboard_iPhone.storyboard in Resources */,
-				C03A6643157A9A37009A5CBA /* Default.png in Resources */,
-				C03A6645157A9B6F009A5CBA /* Default@2x.png in Resources */,
+				2F071243157BB7A6008B6FEE /* Default.png in Resources */,
+				2F071244157BB7A6008B6FEE /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2982,8 +2982,6 @@
 				D2C66F2E156DF1B1001A0124 /* FeedDataSource.m in Sources */,
 				D2C66F31156E01E0001A0124 /* FeedModel.m in Sources */,
 				C086777B156DA0F700F4F2BA /* Reachability.m in Sources */,
-				568691101570537400DD1791 /* ProfileViewController.m in Sources */,
-				56D2D6341570F53100845601 /* ProfileNamePictureCell.m in Sources */,
 				C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */,
 				C086792C1572E2BF00F4F2BA /* MAccount.m in Sources */,
 				C086792F1572E2C800F4F2BA /* MApp.m in Sources */,
@@ -3026,6 +3024,8 @@
 				2F161860157AF8F2002FA8E3 /* TFHpple.m in Sources */,
 				2F161861157AF8F2002FA8E3 /* TFHppleElement.m in Sources */,
 				2F161862157AF8F2002FA8E3 /* XPathQuery.m in Sources */,
+				2F07123F157BB6F7008B6FEE /* ProfileNamePictureCell.m in Sources */,
+				2F071240157BB6F7008B6FEE /* ProfileViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
