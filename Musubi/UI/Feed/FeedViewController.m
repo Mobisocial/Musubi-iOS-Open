@@ -324,11 +324,10 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [self hideKeyboard];
     
     if (statusField.text.length > 0) {
-        StatusObj* status = [[StatusObj alloc] initWithText: [statusField text]];
-        
         NSURL *urlInString = [self getURLFromString:[statusField text]];
         
         if (urlInString){
+            [statusField setText:@""];
             
             dispatch_queue_t fetchQueue = dispatch_queue_create("storyobj meta information download", NULL);
             dispatch_async(fetchQueue, ^{
@@ -338,8 +337,6 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
                     MApp* app = [am ensureSuperApp];
                     
                     [ObjHelper sendObj:story toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-                    
-                    [statusField setText:@""];
                     [self refreshFeed];
 
                 });
@@ -359,8 +356,6 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         }
         
     }
-
-    return YES;
 }
 
 - (NSURL*) getURLFromString:(NSString*) source{
