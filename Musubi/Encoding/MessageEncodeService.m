@@ -36,6 +36,7 @@
 #import "IBEncryptionScheme.h"
 #import "FeedManager.h"
 #import "IdentityManager.h"
+#import "EncodedMessageManager.h"
 
 #import "MObj.h"
 #import "MFeed.h"
@@ -44,7 +45,9 @@
 #import "MApp.h"
 #import "MFeedMember.h"
 #import "MSignatureUserKey.h"
+#import "MEncodedMessage.h"
 
+#import "NSData+Crypto.h"
 #import "MessageEncoder.h"
 #import "ObjEncoder.h"
 #import "OutgoingMessage.h"
@@ -185,7 +188,16 @@
     assert(sender != nil);
     
     BOOL localOnly = sender.type == kIdentityTypeLocal;
-    assert (localOnly || sender.owned);
+    if (!localOnly && !sender.owned) {
+        TFLog(@"corrupted because of core data nullification of encoded obj, making up some random shit");
+        EncodedMessageManager* emm = [[EncodedMessageManager alloc] initWithStore:_store];
+        MEncodedMessage* encoded = [emm create];
+        obj.encoded = encoded;
+        encoded.processed = YES;
+        encoded.outbound = NO;
+        [_store save];
+        return;
+    }
     
     MApp* app = obj.app;
     assert (app != nil);
