@@ -12,6 +12,11 @@
 		2F071243157BB7A6008B6FEE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F071241157BB7A6008B6FEE /* Default.png */; };
 		2F071244157BB7A6008B6FEE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F071242157BB7A6008B6FEE /* Default@2x.png */; };
 		2F24EB901563B4CB00D803C0 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */; };
+		2FB1693A157D261000832396 /* AudioRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB16939157D261000832396 /* AudioRecorderViewController.m */; };
+		2FB1693C157D261D00832396 /* gradienttoolbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FB1693B157D261D00832396 /* gradienttoolbar.png */; };
+		2FB1693F157D264600832396 /* VoiceObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB1693E157D264600832396 /* VoiceObj.m */; };
+		2FB16941157D298C00832396 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB16940157D298C00832396 /* AVFoundation.framework */; };
+		2FB16943157D299A00832396 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB16942157D299A00832396 /* AudioToolbox.framework */; };
 		56EC332B157C345F00438473 /* FeedSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332A157C345F00438473 /* FeedSettingsViewController.m */; };
 		56EC332E157C347300438473 /* FeedNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332D157C347300438473 /* FeedNameCell.m */; };
 		C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0294C4A155CEE5B005894DF /* APNPushManager.m */; };
@@ -211,7 +216,6 @@
 		D4F0C09515791EBE00541F5C /* VideoObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09415791EBE00541F5C /* VideoObj.m */; };
 		D4F0C0981579206100541F5C /* FileObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C0971579206100541F5C /* FileObjItemCell.m */; };
 		D4F0C09B157920BB00541F5C /* VideoObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09A157920BB00541F5C /* VideoObjItemCell.m */; };
-		D4FFE26F15780634007F918E /* VoiceObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE26E15780634007F918E /* VoiceObj.m */; };
 		D4FFE2721578077C007F918E /* VoiceObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE2711578077C007F918E /* VoiceObjItemCell.m */; };
 		D4FFE27515780B2E007F918E /* StoryObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27415780B2D007F918E /* StoryObjItemCell.m */; };
 		D4FFE27815780BB8007F918E /* StoryObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27715780BB8007F918E /* StoryObj.m */; };
@@ -347,6 +351,13 @@
 		2F071241157BB7A6008B6FEE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2F071242157BB7A6008B6FEE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
+		2FB16938157D261000832396 /* AudioRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecorderViewController.h; sourceTree = "<group>"; };
+		2FB16939157D261000832396 /* AudioRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecorderViewController.m; sourceTree = "<group>"; };
+		2FB1693B157D261D00832396 /* gradienttoolbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradienttoolbar.png; sourceTree = "<group>"; };
+		2FB1693D157D264600832396 /* VoiceObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceObj.h; sourceTree = "<group>"; };
+		2FB1693E157D264600832396 /* VoiceObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceObj.m; sourceTree = "<group>"; };
+		2FB16940157D298C00832396 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2FB16942157D299A00832396 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		56EC3329157C345F00438473 /* FeedSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedSettingsViewController.h; sourceTree = "<group>"; };
 		56EC332A157C345F00438473 /* FeedSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedSettingsViewController.m; sourceTree = "<group>"; };
 		56EC332C157C347300438473 /* FeedNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameCell.h; sourceTree = "<group>"; };
@@ -1043,8 +1054,6 @@
 		D4F0C0971579206100541F5C /* FileObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileObjItemCell.m; sourceTree = "<group>"; };
 		D4F0C099157920BB00541F5C /* VideoObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoObjItemCell.h; sourceTree = "<group>"; };
 		D4F0C09A157920BB00541F5C /* VideoObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoObjItemCell.m; sourceTree = "<group>"; };
-		D4FFE26D15780634007F918E /* VoiceObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoiceObj.h; path = SocialKit/Obj/VoiceObj.h; sourceTree = "<group>"; };
-		D4FFE26E15780634007F918E /* VoiceObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoiceObj.m; path = SocialKit/Obj/VoiceObj.m; sourceTree = "<group>"; };
 		D4FFE2701578077B007F918E /* VoiceObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceObjItemCell.h; sourceTree = "<group>"; };
 		D4FFE2711578077C007F918E /* VoiceObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceObjItemCell.m; sourceTree = "<group>"; };
 		D4FFE27315780B2D007F918E /* StoryObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryObjItemCell.h; sourceTree = "<group>"; };
@@ -1070,6 +1079,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FB16943157D299A00832396 /* AudioToolbox.framework in Frameworks */,
+				2FB16941157D298C00832396 /* AVFoundation.framework in Frameworks */,
 				D4DB1349157C2DC000337A16 /* CFNetwork.framework in Frameworks */,
 				2F24EB901563B4CB00D803C0 /* libxml2.2.dylib in Frameworks */,
 				D210C1761526716E00280605 /* libOAuthTouch2.a in Frameworks */,
@@ -1178,6 +1189,8 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				2FB16938157D261000832396 /* AudioRecorderViewController.h */,
+				2FB16939157D261000832396 /* AudioRecorderViewController.m */,
 				2F07123A157BB6E7008B6FEE /* Profile */,
 				D26028D91566EEBE00CF6500 /* assets */,
 				D2A1FC141521A6C500C10BE2 /* Feed */,
@@ -1340,6 +1353,7 @@
 		D26028D91566EEBE00CF6500 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				2FB1693B157D261D00832396 /* gradienttoolbar.png */,
 				2F071241157BB7A6008B6FEE /* Default.png */,
 				2F071242157BB7A6008B6FEE /* Default@2x.png */,
 				D2D03BC3157884ED00DBF40B /* missing.png */,
@@ -1473,10 +1487,10 @@
 				D4FFE27715780BB8007F918E /* StoryObj.m */,
 				D410BA4A1573085900951D94 /* UnknownObj.h */,
 				D410BA4B1573085900951D94 /* UnknownObj.m */,
+				2FB1693D157D264600832396 /* VoiceObj.h */,
+				2FB1693E157D264600832396 /* VoiceObj.m */,
 				D4F0C09315791EBE00541F5C /* VideoObj.h */,
 				D4F0C09415791EBE00541F5C /* VideoObj.m */,
-				D4FFE26D15780634007F918E /* VoiceObj.h */,
-				D4FFE26E15780634007F918E /* VoiceObj.m */,
 			);
 			name = Obj;
 			sourceTree = "<group>";
@@ -2554,6 +2568,8 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
+				2FB16942157D299A00832396 /* AudioToolbox.framework */,
+				2FB16940157D298C00832396 /* AVFoundation.framework */,
 				D4DB1348157C2DC000337A16 /* CFNetwork.framework */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
 				D298FA40143D0E84000831DD /* apps */,
@@ -3095,6 +3111,7 @@
 				D4DB133D157C2D5100337A16 /* About.txt in Resources */,
 				D4DB133F157C2D5100337A16 /* About.txt in Resources */,
 				D4DB1347157C2D5100337A16 /* README.txt in Resources */,
+				2FB1693C157D261D00832396 /* gradienttoolbar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3264,7 +3281,6 @@
 				D26D0F671576DF3100722E3B /* FeedListItem.m in Sources */,
 				D2D03BBE1578840600DBF40B /* AppDelegate.m in Sources */,
 				D2D03BC21578843A00DBF40B /* main.m in Sources */,
-				D4FFE26F15780634007F918E /* VoiceObj.m in Sources */,
 				D4FFE2721578077C007F918E /* VoiceObjItemCell.m in Sources */,
 				D4FFE27515780B2E007F918E /* StoryObjItemCell.m in Sources */,
 				D4FFE27815780BB8007F918E /* StoryObj.m in Sources */,
@@ -3308,6 +3324,8 @@
 				56EC332B157C345F00438473 /* FeedSettingsViewController.m in Sources */,
 				56EC332E157C347300438473 /* FeedNameCell.m in Sources */,
 				D4DB1350157C332400337A16 /* CorralHTTPConnection.m in Sources */,
+				2FB1693A157D261000832396 /* AudioRecorderViewController.m in Sources */,
+				2FB1693F157D264600832396 /* VoiceObj.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

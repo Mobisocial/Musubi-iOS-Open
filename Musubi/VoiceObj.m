@@ -16,16 +16,33 @@
 
 
 //
-//  VoiceObj.h
+//  VoiceObj.m
 //  musubi
 //
 //  Created by Ben Dodson on 5/31/12.
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "Obj.h"
-#define kObjTypeVoice @"voice"
+#import "VoiceObj.h"
 
-@interface VoiceObj : Obj<RenderableObj>
+@implementation VoiceObj
+
+//@synthesize audio = _audio;
+
+- (id)initWithAudio:(NSData *)rawAudio withData:(NSDictionary*)data
+{
+    self = [super init];
+    if (self) {
+        [self setType:kObjTypeVoice];
+        [self setRaw:rawAudio];
+        [self setData:data];
+    }
+    return self;
+}
+
+- (id)initWithURL:(NSURL *)url withData:(NSDictionary*)data
+{
+    return [self initWithAudio:[NSData dataWithContentsOfURL:url] withData:data];
+}
 
 @end

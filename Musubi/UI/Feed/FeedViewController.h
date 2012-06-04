@@ -26,6 +26,7 @@
 #import "Three20/Three20.h"
 #import "FriendPickerTableViewController.h"
 #import "ProfileViewController.h"
+#import "AudioRecorderViewController.h"
 
 @class MFeed;
 
@@ -33,7 +34,7 @@
     - (void) friendsSelected:(NSArray*)selection;
 @end
 
-@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendPickerDelegate, ProfileViewControllerDelegate> {
+@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendPickerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate> {
     MFeed* _feed;
     
     IBOutlet UIView* mainView;
@@ -47,11 +48,15 @@
 
 - (IBAction)addPeople:(id)sender;
 - (IBAction)sendMessage:(id)sender;
+- (void)userChoseAudioData:(NSURL *)file; // AudioRecorderDelegate
+
 
 @property (nonatomic, retain) MFeed* feed;
 @property (nonatomic, weak) id<FeedViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSDate* newerThan;
 @property (nonatomic, strong) NSDate* startingAt;
+@property (nonatomic, strong) AudioRecorderViewController*audioRVC;
+
 @end
 
 // FeedViewTableDelegate

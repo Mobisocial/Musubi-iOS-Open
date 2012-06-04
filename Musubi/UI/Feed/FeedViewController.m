@@ -58,6 +58,7 @@
 @synthesize startingAt = _startingAt;
 @synthesize feed = _feed;
 @synthesize delegate = _delegate;
+@synthesize audioRVC = _audioRVC;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -113,6 +114,16 @@
     button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [button addTarget:self action:@selector(changeName) forControlEvents:UIControlEventTouchDown];
     self.navigationItem.titleView = button;
+}
+
+- (AudioRecorderViewController*)audioRVC
+{
+    if (!_audioRVC) {
+        _audioRVC = [[AudioRecorderViewController alloc] init];
+        _audioRVC.delegate = self;
+        _audioRVC.backgroundView = self.view;
+    }
+    return _audioRVC;
 }
 
 - (void)changeName
@@ -386,7 +397,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 }
 
 - (IBAction)commandButtonPushed: (id) sender {
-    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", nil];
+    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", @"Record Audio", nil];
     
     [commandPicker showInView:mainView];
 }
@@ -412,7 +423,37 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             [self presentModalViewController:picker animated:YES];
             break;
         }
+        case 2: // Audio
+        {
+            //            [self presentModalViewController:audioRVC animated:YES];
+            [self hideKeyboard];
+            [self slideSubView:self.audioRVC.view];
+            break;
+        }
     }
+}
+
+- (void)slideSubView:(UIView*)subView
+{
+    subView.frame = CGRectMake(0, 480, 320, 100); 
+    [self.view addSubview:subView];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:0.3];
+    subView.frame = [UIScreen mainScreen].bounds;
+    [UIView commitAnimations];
+}
+
+- (void)userChoseAudioData:(NSURL *)file withDuration:(int)seconds
+{
+    NSLog(@"Audio recorded at %@", [file description]);
+    VoiceObj* audio = [[VoiceObj alloc] initWithURL:file withData:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:seconds], kObjFieldVoiceDuration, nil]];
+    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MApp* app = [am ensureSuperApp];
+    [ObjHelper sendObj:audio toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    //    [self dismissModalViewControllerAnimated:YES];    
+    [self.audioRVC.view removeFromSuperview];
+    [self refreshFeed];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {

@@ -16,15 +16,21 @@
 
 
 //
-//  VoiceObj.m
+//  VoiceObj.h
 //  musubi
 //
 //  Created by Ben Dodson on 5/31/12.
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "VoiceObj.h"
+#import "Obj.h"
+#define kObjTypeVoice @"voice"
+#define kObjFieldVoiceDuration @"duration"
+#define ARVC_MAX_AUDIO_DURATION 10
 
-@implementation VoiceObj
+@interface VoiceObj : Obj<RenderableObj>
+
+- (id)initWithAudio:(NSData*) rawAudio withData:(NSDictionary*)data;
+- (id)initWithURL:(NSURL*) url withData:(NSDictionary*)data;
 
 @end
