@@ -159,7 +159,7 @@
             </objects>
             <point key="canvasLocation" x="1560" y="-376"/>
         </scene>
-        <!--Feed Settings View Controller - Conversation Settings-->
+        <!--Feed Settings View Controller - Settings-->
         <scene sceneID="nxq-2E-yPz">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AWF-Ij-FHP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -198,7 +198,9 @@
                             <outlet property="delegate" destination="drl-Jy-2Sr" id="6wL-Zq-TZz"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Conversation Settings" id="3fX-jt-M2f"/>
+                    <navigationItem key="navigationItem" title="Settings" id="3fX-jt-M2f">
+                        <barButtonItem key="backBarButtonItem" title="backButton" id="hPy-0t-jc4"/>
+                    </navigationItem>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1560" y="208"/>
@@ -491,5 +493,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="thq-lQ-aa5"/>
+        <segue reference="nHK-F1-yOs"/>
     </inferredMetricsTieBreakers>
 </document>

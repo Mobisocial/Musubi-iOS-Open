@@ -254,6 +254,7 @@
     MApp* app = [am ensureSuperApp];
     
     [ObjHelper sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    
     [_delegate changedName:name];
 }
 
