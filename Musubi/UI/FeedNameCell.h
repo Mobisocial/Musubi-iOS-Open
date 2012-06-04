@@ -16,18 +16,17 @@
 
 
 //
-//  CorralHttpServer.h
+//  FeedNameCell.h
 //  musubi
 //
-//  Created by Ben Dodson on 6/3/12.
+//  Created by Ian Vo on 6/1/12.
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "HTTPServer.h"
+#import <UIKit/UIKit.h>
 
-#define kCorralHttpPort 8225
+@interface FeedNameCell : UITableViewCell
 
-@interface CorralHTTPServer : HTTPServer
+@property (nonatomic, strong) IBOutlet UITextField* name;
 
 @end

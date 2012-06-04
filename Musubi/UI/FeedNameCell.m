@@ -16,18 +16,34 @@
 
 
 //
-//  CorralHttpServer.h
+//  FeedNameCell.m
 //  musubi
 //
-//  Created by Ben Dodson on 6/3/12.
+//  Created by Ian Vo on 6/1/12.
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "HTTPServer.h"
+#import "FeedNameCell.h"
 
-#define kCorralHttpPort 8225
+@implementation FeedNameCell
 
-@interface CorralHTTPServer : HTTPServer
+
+@synthesize name = _name;
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+    }
+    return self;
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+    
+    // Configure the view for the selected state
+}
 
 @end

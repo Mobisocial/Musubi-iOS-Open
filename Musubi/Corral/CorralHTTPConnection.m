@@ -16,18 +16,23 @@
 
 
 //
-//  CorralHttpServer.h
+//  CorralHTTPConnection.m
 //  musubi
 //
 //  Created by Ben Dodson on 6/3/12.
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "HTTPServer.h"
+#import "CorralHTTPConnection.h"
+#import "HTTPDataResponse.h"
 
-#define kCorralHttpPort 8225
+@implementation CorralHTTPConnection
 
-@interface CorralHTTPServer : HTTPServer
+- (NSObject<HTTPResponse> *)httpResponseForMethod:(NSString *)method URI:(NSString *)path {
+    NSLog(@"Requested %@", path);
+    
+    NSData* response = [@"responz" dataUsingEncoding:NSUTF8StringEncoding];
+    return [[HTTPDataResponse alloc] initWithData:response];
+}
 
 @end

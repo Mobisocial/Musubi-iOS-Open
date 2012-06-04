@@ -24,7 +24,17 @@
 //
 
 #import "CorralHTTPServer.h"
+#import "CorralHTTPConnection.h"
 
 @implementation CorralHTTPServer
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self setPort:kCorralHttpPort];
+        [self setConnectionClass:[CorralHTTPConnection class]];
+    }
+    return self;
+}
 
 @end

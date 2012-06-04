@@ -25,6 +25,7 @@
 
 #import "FeedViewController.h"
 #import "ProfileViewController.h"
+#import "FeedSettingsViewController.h"
 #import "FriendPickerTableViewController.h"
 #import "FeedDataSource.h"
 #import "FeedModel.h"
@@ -448,6 +449,10 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [self.navigationController popViewControllerAnimated:NO]; // back to the feed
 }
 
+- (void) changedName:(NSString *) name {
+    [(UIButton*)self.navigationItem.titleView setTitle:name forState:UIControlStateNormal];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
         FriendPickerTableViewController *vc = segue.destinationViewController;
@@ -458,6 +463,13 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     else if ([[segue identifier] isEqualToString:@"ShowProfile"]) {
         ProfileViewController *vc = [segue destinationViewController];
         [vc setIdentity: (MIdentity*) sender];
+        [vc setDelegate:self];
+        //[vc.view addSubview:incomingLabel];
+        //[self updatePending:nil];
+    }
+    else if ([[segue identifier] isEqualToString:@"ShowFeedSettings"]) {
+        FeedSettingsViewController *vc = [segue destinationViewController];
+        [vc setFeed: _feed];
         [vc setDelegate:self];
         //[vc.view addSubview:incomingLabel];
         //[self updatePending:nil];
