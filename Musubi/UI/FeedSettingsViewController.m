@@ -128,8 +128,8 @@
             cell.detailTextLabel.text = @"Title";
             UITextField *textField;
             
-            textField = [[UITextField alloc] initWithFrame:CGRectMake(100,
-                                                                      tableView.rowHeight / 2 - 10, 100, 20)];
+            textField = [[UITextField alloc] initWithFrame:CGRectMake(90,
+                                                                      tableView.rowHeight / 2 - 10, 200, 20)];
             textField.borderStyle = UITextBorderStyleNone;
             textField.textColor = [UIColor blackColor];
             textField.font = [UIFont systemFontOfSize:14];
