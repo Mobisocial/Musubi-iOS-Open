@@ -35,6 +35,7 @@
 #import "UIImage+Resize.h"
 #import "PictureObj.h"
 #import "Three20Core/NSDateAdditions.h"
+#import "NSData+Crypto.h"
 
 @interface SneakyDate : NSObject
 - (SneakyDate*)initWithDate:(NSDate*)date andNewest:(NSDate*)newest andOldest:(NSDate*)oldest;
@@ -164,11 +165,11 @@ static NSMutableDictionary* sContactImages;
             thumbnail = i.thumbnail;
         
         //skip dupes
-        if([knownpics containsObject:[NSNumber numberWithUnsignedInt:thumbnail.hash]])
+        if([knownpics containsObject:thumbnail.sha1Digest])
             continue;
         
         if(thumbnail) {
-            [knownpics addObject:[NSNumber numberWithUnsignedInt:thumbnail.hash]];
+            [knownpics addObject:thumbnail.sha1Digest];
             [selected addObject:i];
         }
         
@@ -190,11 +191,11 @@ static NSMutableDictionary* sContactImages;
             thumbnail = i.thumbnail;
         
         //skip dupes
-        if([knownpics containsObject:[NSNumber numberWithUnsignedInt:thumbnail.hash]])
+        if([knownpics containsObject:thumbnail.sha1Digest])
             continue;
         
         if(thumbnail) {
-            [knownpics addObject:[NSNumber numberWithUnsignedInt:thumbnail.hash]];
+            [knownpics addObject:thumbnail.sha1Digest];
             [selected addObject:i];
         }
         
