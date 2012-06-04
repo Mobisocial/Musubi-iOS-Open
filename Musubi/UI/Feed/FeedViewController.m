@@ -83,7 +83,7 @@
     self.title = [feedManager identityStringForFeed: _feed];
     
     self.navigationItem.backBarButtonItem =
-    [[UIBarButtonItem alloc] initWithTitle:@"Conversation"
+    [[UIBarButtonItem alloc] initWithTitle:@"Chat"
                                      style:UIBarButtonItemStyleBordered
                                     target:nil
                                     action:nil];

@@ -124,7 +124,7 @@
                         initWithStyle:UITableViewCellStyleValue2 
                         reuseIdentifier:cellIdentifier];
             }
-            [cell setUserInteractionEnabled:YES];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             cell.detailTextLabel.text = @"Title";
             UITextField *textField;
             
