@@ -115,15 +115,35 @@
 {
     switch (indexPath.section) {
         case 0: {
-            static NSString *CellIdentifier = @"FeedNameCell";
-            FeedNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-            
+            static NSString *cellIdentifier = @"Cell";
+            //FeedNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
             if (cell == nil) {
-                cell = [[FeedNameCell alloc]
-                        initWithStyle:UITableViewCellStyleDefault 
-                        reuseIdentifier:CellIdentifier];
+                cell = [[UITableViewCell alloc]
+                        initWithStyle:UITableViewCellStyleValue2 
+                        reuseIdentifier:cellIdentifier];
             }
-            cell.name.text = [_feedManager identityStringForFeed: _feed];
+            [cell setUserInteractionEnabled:YES];
+            cell.detailTextLabel.text = @"Title";
+            UITextField *textField;
+            
+            textField = [[UITextField alloc] initWithFrame:CGRectMake(100,
+                                                                      tableView.rowHeight / 2 - 10, 100, 20)];
+            textField.borderStyle = UITextBorderStyleNone;
+            textField.textColor = [UIColor blackColor];
+            textField.font = [UIFont systemFontOfSize:14];
+            textField.placeholder = @"Conversation Title";
+            textField.text = [_feedManager identityStringForFeed: _feed];
+            textField.backgroundColor = [UIColor clearColor];
+            textField.autocorrectionType = UITextAutocorrectionTypeNo;
+            textField.keyboardType = UIKeyboardTypeDefault;
+            textField.returnKeyType = UIReturnKeyDone;
+            textField.tag = indexPath.row;
+            textField.delegate = self;
+            
+            [cell.contentView addSubview:textField];
+            //cell.
+            //cell.name.text = [_feedManager identityStringForFeed: _feed];
             /*if(_identity.musubiName) {
              cell.name.text = _identity.musubiName;
              } else if(_identity.name) {
