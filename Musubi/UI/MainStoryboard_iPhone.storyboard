@@ -159,7 +159,7 @@
             </objects>
             <point key="canvasLocation" x="1560" y="-376"/>
         </scene>
-        <!--Feed Settings View Controller - Conversation Settings-->
+        <!--Feed Settings View Controller - Settings-->
         <scene sceneID="nxq-2E-yPz">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AWF-Ij-FHP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -198,7 +198,10 @@
                             <outlet property="delegate" destination="drl-Jy-2Sr" id="6wL-Zq-TZz"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Conversation Settings" id="3fX-jt-M2f"/>
+                    <navigationItem key="navigationItem" title="Settings" id="3fX-jt-M2f"/>
+                    <connections>
+                        <segue destination="Xha-HF-lG4" kind="push" identifier="AddPeopleSegue" id="j4C-eM-Obr"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1560" y="208"/>
@@ -491,5 +494,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="thq-lQ-aa5"/>
+        <segue reference="nHK-F1-yOs"/>
+        <segue reference="j4C-eM-Obr"/>
     </inferredMetricsTieBreakers>
 </document>

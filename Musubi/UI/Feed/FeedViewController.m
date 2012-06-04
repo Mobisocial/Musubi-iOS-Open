@@ -72,11 +72,21 @@
     return self;
 }
 
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
+
 - (void)loadView {
     [super loadView];
     FeedManager* feedManager = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     self.title = [feedManager identityStringForFeed: _feed];
     
+    self.navigationItem.backBarButtonItem =
+    [[UIBarButtonItem alloc] initWithTitle:@"Conversation"
+                                     style:UIBarButtonItemStyleBordered
+                                    target:nil
+                                    action:nil];
     CGRect bounds = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height - 50);
     self.tableView.frame = bounds;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
