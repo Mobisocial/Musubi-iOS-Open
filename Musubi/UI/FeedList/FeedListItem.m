@@ -155,7 +155,7 @@ static NSMutableDictionary* sContactImages;
     NSMutableArray* images = [NSMutableArray arrayWithCapacity:4];
 
     for (MIdentity* i in order) {
-        if (images.count > 3)
+        if (selected.count > 3)
             break;
        
         if(i.musubiThumbnail || i.thumbnail) {
@@ -173,7 +173,7 @@ static NSMutableDictionary* sContactImages;
         }
         if(dupe)
             continue;
-        if (images.count > 3)
+        if (selected.count > 3)
             break;
         if(i.musubiThumbnail || i.thumbnail) {
             [selected addObject:i];
