@@ -203,6 +203,7 @@
 		D4DB1346157C2D5100337A16 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D4DB132B157C2D5100337A16 /* DispatchQueueLogFormatter.m */; };
 		D4DB1347157C2D5100337A16 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = D4DB132C157C2D5100337A16 /* README.txt */; };
 		D4DB1349157C2DC000337A16 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4DB1348157C2DC000337A16 /* CFNetwork.framework */; };
+		D4DB1350157C332400337A16 /* CorralHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D4DB134F157C332400337A16 /* CorralHTTPConnection.m */; };
 		D4E42AB0156224EF00C21FDA /* DeleteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E42AAF156224EE00C21FDA /* DeleteObj.m */; };
 		D4F0C09215791DD700541F5C /* FileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09115791DD700541F5C /* FileObj.m */; };
 		D4F0C09515791EBE00541F5C /* VideoObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09415791EBE00541F5C /* VideoObj.m */; };
@@ -1024,6 +1025,8 @@
 		D4DB132B157C2D5100337A16 /* DispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchQueueLogFormatter.m; sourceTree = "<group>"; };
 		D4DB132C157C2D5100337A16 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		D4DB1348157C2DC000337A16 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		D4DB134E157C332400337A16 /* CorralHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorralHTTPConnection.h; sourceTree = "<group>"; };
+		D4DB134F157C332400337A16 /* CorralHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorralHTTPConnection.m; sourceTree = "<group>"; };
 		D4E42AAE156224EE00C21FDA /* DeleteObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteObj.h; path = SocialKit/Obj/DeleteObj.h; sourceTree = "<group>"; };
 		D4E42AAF156224EE00C21FDA /* DeleteObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteObj.m; path = SocialKit/Obj/DeleteObj.m; sourceTree = "<group>"; };
 		D4F0C09015791DD700541F5C /* FileObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileObj.h; path = SocialKit/Obj/FileObj.h; sourceTree = "<group>"; };
@@ -2722,6 +2725,8 @@
 			children = (
 				D4DB1294157C2BD800337A16 /* CorralHTTPServer.h */,
 				D4DB1295157C2BD800337A16 /* CorralHTTPServer.m */,
+				D4DB134E157C332400337A16 /* CorralHTTPConnection.h */,
+				D4DB134F157C332400337A16 /* CorralHTTPConnection.m */,
 			);
 			path = Corral;
 			sourceTree = "<group>";
@@ -3290,6 +3295,7 @@
 				D4DB1344157C2D5100337A16 /* DDTTYLogger.m in Sources */,
 				D4DB1345157C2D5100337A16 /* ContextFilterLogFormatter.m in Sources */,
 				D4DB1346157C2D5100337A16 /* DispatchQueueLogFormatter.m in Sources */,
+				D4DB1350157C332400337A16 /* CorralHTTPConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
