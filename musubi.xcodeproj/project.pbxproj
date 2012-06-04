@@ -2554,7 +2554,6 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
-				D4DB1348157C2DC000337A16 /* CFNetwork.framework */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
 				D298FA40143D0E84000831DD /* apps */,
 				D2794AF11457D33F00C5FDAB /* Libraries */,
@@ -2579,6 +2578,7 @@
 				2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */,
 				D2CD05E314462BD90080861E /* libcommonCrypto.dylib */,
 				D298FA4B143E5B4E000831DD /* libz.dylib */,
+				D4DB1348157C2DC000337A16 /* CFNetwork.framework */,
 				D2A45AF4155EF6DE009C1D73 /* DropboxSDK.framework */,
 				D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */,
 				D2D9302215223F4A006E4F58 /* QuartzCore.framework */,
