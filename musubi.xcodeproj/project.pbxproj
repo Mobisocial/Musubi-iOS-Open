@@ -12,6 +12,8 @@
 		2F071243157BB7A6008B6FEE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F071241157BB7A6008B6FEE /* Default.png */; };
 		2F071244157BB7A6008B6FEE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F071242157BB7A6008B6FEE /* Default@2x.png */; };
 		2F24EB901563B4CB00D803C0 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */; };
+		56EC332B157C345F00438473 /* FeedSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332A157C345F00438473 /* FeedSettingsViewController.m */; };
+		56EC332E157C347300438473 /* FeedNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332D157C347300438473 /* FeedNameCell.m */; };
 		C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0294C4A155CEE5B005894DF /* APNPushManager.m */; };
 		C03A663E1579E537009A5CBA /* FeedNameObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A663D1579E537009A5CBA /* FeedNameObj.m */; };
 		C03A66B4157C1307009A5CBA /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66AF157C1307009A5CBA /* TFHpple.m */; };
@@ -344,6 +346,10 @@
 		2F071241157BB7A6008B6FEE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2F071242157BB7A6008B6FEE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
+		56EC3329157C345F00438473 /* FeedSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedSettingsViewController.h; sourceTree = "<group>"; };
+		56EC332A157C345F00438473 /* FeedSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedSettingsViewController.m; sourceTree = "<group>"; };
+		56EC332C157C347300438473 /* FeedNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameCell.h; sourceTree = "<group>"; };
+		56EC332D157C347300438473 /* FeedNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedNameCell.m; sourceTree = "<group>"; };
 		C0294C49155CEE5B005894DF /* APNPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APNPushManager.h; sourceTree = "<group>"; };
 		C0294C4A155CEE5B005894DF /* APNPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APNPushManager.m; sourceTree = "<group>"; };
 		C03A663C1579E537009A5CBA /* FeedNameObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameObj.h; sourceTree = "<group>"; };
@@ -2594,6 +2600,10 @@
 				D2C66F2D156DF1B1001A0124 /* FeedDataSource.m */,
 				D2C66F2F156E01DF001A0124 /* FeedModel.h */,
 				D2C66F30156E01DF001A0124 /* FeedModel.m */,
+				56EC3329157C345F00438473 /* FeedSettingsViewController.h */,
+				56EC332A157C345F00438473 /* FeedSettingsViewController.m */,
+				56EC332C157C347300438473 /* FeedNameCell.h */,
+				56EC332D157C347300438473 /* FeedNameCell.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -3290,6 +3300,8 @@
 				D4DB1344157C2D5100337A16 /* DDTTYLogger.m in Sources */,
 				D4DB1345157C2D5100337A16 /* ContextFilterLogFormatter.m in Sources */,
 				D4DB1346157C2D5100337A16 /* DispatchQueueLogFormatter.m in Sources */,
+				56EC332B157C345F00438473 /* FeedSettingsViewController.m in Sources */,
+				56EC332E157C347300438473 /* FeedNameCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
