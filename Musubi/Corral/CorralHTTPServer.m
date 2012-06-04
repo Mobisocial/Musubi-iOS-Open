@@ -32,6 +32,7 @@
     self = [super init];
     if (self) {
         [self setPort:kCorralHttpPort];
+        [self setInterface:@"127.0.0.1"];
         [self setConnectionClass:[CorralHTTPConnection class]];
     }
     return self;
