@@ -16,22 +16,16 @@
 
 
 //
-//  FeedNameObj.h
+//  FeedNameObjCell.h
 //  musubi
 //
-//  Created by MokaFive User on 6/1/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ian Vo on 6/4/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "Obj.h"
+#import "FeedItemCell.h"
+#import "ManagedObjFeedItem.h"
 
-#define kObjTypeFeedName @"feed_name"
-
-@interface FeedNameObj : Obj<RenderableObj> 
-
-@property (nonatomic, strong) NSString* name;
-
-- (id) initWithName: (NSString*) name;
-- (id) initWithData: (NSDictionary*) data;
-
+@interface FeedNameObjItemCell : FeedItemCell
++ (NSString*) textForItem: (ManagedObjFeedItem*) item;
 @end
