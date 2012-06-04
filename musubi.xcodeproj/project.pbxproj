@@ -219,6 +219,7 @@
 		D4FFE2721578077C007F918E /* VoiceObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE2711578077C007F918E /* VoiceObjItemCell.m */; };
 		D4FFE27515780B2E007F918E /* StoryObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27415780B2D007F918E /* StoryObjItemCell.m */; };
 		D4FFE27815780BB8007F918E /* StoryObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27715780BB8007F918E /* StoryObj.m */; };
+		D95D190B157D3085003AA911 /* VoiceObj.h in Sources */ = {isa = PBXBuildFile; fileRef = 2FB1693D157D264600832396 /* VoiceObj.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3164,6 +3165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D95D190B157D3085003AA911 /* VoiceObj.h in Sources */,
 				D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */,
 				D27968BE1457D97700C5FDAB /* ZipArchive.mm in Sources */,
 				D27968BF1457D97700C5FDAB /* ioapi.c in Sources */,
