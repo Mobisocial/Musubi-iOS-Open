@@ -25,14 +25,32 @@
 
 #import "CorralHTTPConnection.h"
 #import "HTTPDataResponse.h"
+#import "GCDAsyncSocket.h"
+#import "ObjManager.h"
+#import "Musubi.h"
+#import "MObj.h"
+#import "NSData+HexString.h"
 
 @implementation CorralHTTPConnection
 
 - (NSObject<HTTPResponse> *)httpResponseForMethod:(NSString *)method URI:(NSString *)path {
-    NSLog(@"Requested %@", path);
-    
-    NSData* response = [@"responzabiliti" dataUsingEncoding:NSUTF8StringEncoding];
-    return [[HTTPDataResponse alloc] initWithData:response];
+    //NSLog(@"Requested %@", path);
+    //NSLog(@"connected to %@", [asyncSocket connectedHost]);
+
+    if ([path hasPrefix:@"/raw/"]) {
+        NSString* hashString = [path substringFromIndex:5];
+        ObjManager* manager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        NSData* hash = [hashString dataFromHex];
+        MObj* obj = [manager objWithUniversalHash:hash];
+        NSLog(@"returning data %@", obj);
+        if (obj) {
+            return [[HTTPDataResponse alloc] initWithData:obj.raw];
+        }
+    }
+
+    NSData* invalid = [@"Invalid" dataUsingEncoding:NSUTF8StringEncoding];
+    HTTPDataResponse* response = [[HTTPDataResponse alloc] initWithData:invalid];
+    return response;
 }
 
 @end

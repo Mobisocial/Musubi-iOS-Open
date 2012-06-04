@@ -64,6 +64,9 @@
 #import "StoryObj.h"
 #import "StoryObjItemCell.h"
 
+#import "FeedNameObj.h"
+#import "FeedNameObjItemCell.h"
+
 #import "ManagedObjFeedItem.h"
 
 #import "Musubi.h"
@@ -89,6 +92,7 @@
     MObj* managed = mObj;
     ManagedObjFeedItem* item = [[ManagedObjFeedItem alloc] initWithManagedObj:managed];
 
+    
     NSString* renderMode = [item.parsedJson objectForKey:kObjFieldRenderMode];
     if ([kObjFieldRenderModeLatest isEqualToString:renderMode]) {
         MObj* child = [_objManager latestChildForParent:managed];
@@ -116,7 +120,10 @@
         cellClass = [VideoObjItemCell class];
     } else if ([managed.type isEqualToString:kObjTypeFile]) {
         cellClass = [FileObjItemCell class];
+    } else if ([managed.type isEqualToString:kObjTypeFeedName]) {
+        cellClass = [FeedNameObjItemCell class];
     }
+    
     
     if (cellClass == nil) {
         Obj* obj = [ObjFactory objFromManagedObj:managed];

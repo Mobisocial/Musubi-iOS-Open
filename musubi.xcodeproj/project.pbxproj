@@ -17,6 +17,7 @@
 		2FB1693F157D264600832396 /* VoiceObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB1693E157D264600832396 /* VoiceObj.m */; };
 		2FB16941157D298C00832396 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB16940157D298C00832396 /* AVFoundation.framework */; };
 		2FB16943157D299A00832396 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB16942157D299A00832396 /* AudioToolbox.framework */; };
+		5679215D157D5673008B43A6 /* FeedNameObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */; };
 		56EC332B157C345F00438473 /* FeedSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332A157C345F00438473 /* FeedSettingsViewController.m */; };
 		56EC332E157C347300438473 /* FeedNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332D157C347300438473 /* FeedNameCell.m */; };
 		C0294C4B155CEE5B005894DF /* APNPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0294C4A155CEE5B005894DF /* APNPushManager.m */; };
@@ -359,6 +360,8 @@
 		2FB1693E157D264600832396 /* VoiceObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceObj.m; sourceTree = "<group>"; };
 		2FB16940157D298C00832396 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2FB16942157D299A00832396 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		5679215B157D5671008B43A6 /* FeedNameObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameObjItemCell.h; sourceTree = "<group>"; };
+		5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedNameObjItemCell.m; sourceTree = "<group>"; };
 		56EC3329157C345F00438473 /* FeedSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedSettingsViewController.h; sourceTree = "<group>"; };
 		56EC332A157C345F00438473 /* FeedSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedSettingsViewController.m; sourceTree = "<group>"; };
 		56EC332C157C347300438473 /* FeedNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameCell.h; sourceTree = "<group>"; };
@@ -2703,6 +2706,8 @@
 				D4F0C0971579206100541F5C /* FileObjItemCell.m */,
 				D4F0C099157920BB00541F5C /* VideoObjItemCell.h */,
 				D4F0C09A157920BB00541F5C /* VideoObjItemCell.m */,
+				5679215B157D5671008B43A6 /* FeedNameObjItemCell.h */,
+				5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */,
 			);
 			name = Obj;
 			path = Feed/Obj;
@@ -3328,6 +3333,7 @@
 				D4DB1350157C332400337A16 /* CorralHTTPConnection.m in Sources */,
 				2FB1693A157D261000832396 /* AudioRecorderViewController.m in Sources */,
 				2FB1693F157D264600832396 /* VoiceObj.m in Sources */,
+				5679215D157D5673008B43A6 /* FeedNameObjItemCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
