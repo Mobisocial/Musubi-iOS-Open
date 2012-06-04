@@ -31,7 +31,7 @@
 - (NSObject<HTTPResponse> *)httpResponseForMethod:(NSString *)method URI:(NSString *)path {
     NSLog(@"Requested %@", path);
     
-    NSData* response = [@"responz" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* response = [@"responzabiliti" dataUsingEncoding:NSUTF8StringEncoding];
     return [[HTTPDataResponse alloc] initWithData:response];
 }
 
