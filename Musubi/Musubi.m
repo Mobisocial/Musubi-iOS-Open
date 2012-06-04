@@ -123,6 +123,12 @@ static Musubi* _sharedInstance = nil;
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.googleIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
     
     self.corralHttpServer = [[CorralHTTPServer alloc] init];
+    NSError* corralError;
+    if ([self.corralHttpServer start:&corralError]) {
+        NSLog(@"Corral server running on port %hu", [self.corralHttpServer listeningPort]);
+    } else {
+        NSLog(@"Error starting corral server: %@", corralError);
+    }
 }
 
 - (void) stopServices {

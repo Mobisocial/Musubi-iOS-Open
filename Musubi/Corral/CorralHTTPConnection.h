@@ -16,7 +16,7 @@
 
 
 //
-//  CorralHttpServer.h
+//  CorralHTTPConnection.h
 //  musubi
 //
 //  Created by Ben Dodson on 6/3/12.
@@ -24,10 +24,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HTTPServer.h"
+#import "HTTPConnection.h"
 
-#define kCorralHttpPort 8225
-
-@interface CorralHTTPServer : HTTPServer
+@interface CorralHTTPConnection : HTTPConnection
 
 @end
