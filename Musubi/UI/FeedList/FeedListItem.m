@@ -114,15 +114,12 @@ static NSMutableDictionary* sContactImages;
         StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_obj];
         self.text = obj.text;
     }
-//    MObj* picture = [objMgr latestObjOfType:kObjTypePicture inFeed:feed after:_obj.timestamp before:nil];
-//    if (picture) {
-//        PictureObj* obj = (PictureObj*) [ObjFactory objFromManagedObj:picture];
-//        _obj = picture;
-//        self.picture =  [UIImage imageWithData:obj.raw];
-//        self.text = nil;
-//        self.title = nil;
-//        self.timestamp = nil;
-//    }
+    MObj* picture = [objMgr latestObjOfType:kObjTypePicture inFeed:feed after:nil before:_obj.timestamp];
+    if (picture) {
+        PictureObj* obj = (PictureObj*) [ObjFactory objFromManagedObj:picture];
+        _obj = picture;
+        self.picture =  [UIImage imageWithData:obj.raw];
+    }
     /*
     for (MIdentity* ident in [feedMgr identitiesInFeed:feed]) {
         if (!ident.owned) {

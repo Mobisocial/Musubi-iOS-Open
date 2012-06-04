@@ -31,6 +31,64 @@
 static const CGFloat    kDefaultMessageImageWidth   = 70.0f;
 static const CGFloat    kDefaultMessageImageHeight  = 70.0f;
 
+static NSUInteger kDefaultStrokeWidth = 1;
+@implementation OutlineTextLabel
+@synthesize strokeWidth = _strokeWidth;
+@synthesize strokeColor = _strokeColor;
+
+-(id)init
+{
+    if((self = [super init]))
+    {
+        _strokeWidth = kDefaultStrokeWidth;
+        _strokeColor = [UIColor blackColor];
+    }
+    
+    return self;
+}
+-(void)drawTextInRect:(CGRect)rect
+{
+    [super drawTextInRect:rect];
+    
+    CGSize shadowOffset = self.shadowOffset;
+    UIColor* textColor = self.textColor;
+    BOOL highlighted = self.highlighted;
+    
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    
+    // Draw the stroke
+    if( _strokeWidth > 0 )
+    {
+        CGContextSetLineWidth(c, _strokeWidth);
+        CGContextSetTextDrawingMode(c, kCGTextStroke);
+        
+        self.textColor = _strokeColor;
+        self.shadowColor = _strokeColor;
+        self.shadowOffset = CGSizeMake(0, 0);
+        self.highlighted = NO;
+        
+        [super drawTextInRect:rect];
+    }
+    
+    // Revert to the original UILabel Params
+    self.highlighted = highlighted;
+    self.textColor = textColor;
+    
+    // If we need to draw with stroke, we're gonna have to rely on the shadow
+    if(_strokeWidth > 0)
+    {
+        self.shadowOffset = CGSizeMake(0, 1); // Yes. It's inverted.
+    }
+    
+    // Now we can draw the actual text
+    CGContextSetTextDrawingMode(c, kCGTextFill);
+    [super drawTextInRect:rect];
+    
+    // Revert to the original Shadow Offset
+    self.shadowOffset = shadowOffset;
+}
+@end
+
 @implementation FeedListItemCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -45,22 +103,26 @@ static const CGFloat    kDefaultMessageImageHeight  = 70.0f;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.profilePictureView.contentMode = UIViewContentModeScaleAspectFit;
-    self.profilePictureView.frame = CGRectMake(0, 0, kDefaultMessageImageWidth, kDefaultMessageImageHeight);
+    [self profilePictureView];
+    _profilePictureView.contentMode = UIViewContentModeScaleAspectFit;
+    _profilePictureView.frame = CGRectMake(0, 0, kDefaultMessageImageWidth, kDefaultMessageImageHeight);
     
-    self.pictureView.backgroundColor = [UIColor clearColor];
-    self.pictureView.contentMode = UIViewContentModeScaleAspectFit;
-    self.pictureView.frame = CGRectMake(kDefaultMessageImageWidth, 0, self.frame.size.width - kDefaultMessageImageWidth, kDefaultMessageImageHeight);
+    [self pictureView];
+    _pictureView.contentMode = UIViewContentModeScaleAspectFill;
+    _pictureView.clipsToBounds = YES;
+    _pictureView.frame = CGRectMake(kDefaultMessageImageWidth, 0, self.frame.size.width - kDefaultMessageImageWidth, kDefaultMessageImageHeight);
     
     [_unreadLabel sizeToFit];
     _unreadLabel.left = self.contentView.width - _unreadLabel.width - kTableCellSmallMargin;
     _unreadLabel.top = kTableCellSmallMargin + _timestampLabel.height + kTableCellSmallMargin;
 
+    [self timestampLabel];
     int left = _profilePictureView.right + kTableCellSmallMargin;
     int width = _timestampLabel.left - left - kTableCellMargin;
     
     _titleLabel.left = left;
     _titleLabel.width = width;
+    _bubbleLabel.frame = _titleLabel.frame;
     self.textLabel.left = left;
     self.textLabel.width = width;
     self.detailTextLabel.left = left;
@@ -69,18 +131,30 @@ static const CGFloat    kDefaultMessageImageHeight  = 70.0f;
 }
 
 
-- (void)setObject:(id)object {
-    FeedListItem* item = (FeedListItem*)object;
+- (void)setObject:(FeedListItem*)object {
     [super setObject:object];
-    
     NSString* unread = @"";
-    if (((FeedListItem*)object).unread > 0) {
-        unread = [NSString stringWithFormat:@"%d new", item.unread];
+    if (object.unread > 0) {
+        unread = [NSString stringWithFormat:@"%d new", object.unread];
     }
     self.unreadLabel.text = unread;
-    self.pictureView.image = item.picture;
-    
-    self.profilePictureView.image = item.image;
+    if(object.picture) {
+        self.titleLabel.hidden = YES;
+        self.detailTextLabel.hidden = YES;
+        self.timestampLabel.hidden = YES;
+        self.bubbleLabel.hidden = NO;
+        self.bubbleLabel.text = object.title;
+        self.pictureView.hidden = NO;
+        self.pictureView.image = object.picture;
+    } else {
+        self.detailTextLabel.hidden = NO;
+        self.titleLabel.hidden = NO;
+        self.timestampLabel.hidden = NO;
+        self.bubbleLabel.hidden = YES;
+        self.pictureView.image = nil;
+        self.pictureView.hidden = YES;
+    }
+    self.profilePictureView.image = object.image;
 }
 
 - (UILabel*)unreadLabel {
@@ -88,10 +162,28 @@ static const CGFloat    kDefaultMessageImageHeight  = 70.0f;
         _unreadLabel = [[UILabel alloc] init];
         _unreadLabel.font = [UIFont boldSystemFontOfSize:14.0];
         _unreadLabel.textColor = [UIColor redColor];
+        _unreadLabel.backgroundColor = [UIColor clearColor];
         _unreadLabel.userInteractionEnabled = YES;        
         [self.contentView addSubview:_unreadLabel];
     }
     return _unreadLabel;
+}
+
+- (UILabel*)bubbleLabel {
+    if (!_bubbleLabel) {
+        _bubbleLabel = [[OutlineTextLabel alloc] init];
+        _bubbleLabel.font = [UIFont boldSystemFontOfSize:14.0];
+        _bubbleLabel.backgroundColor = [UIColor clearColor];
+        _bubbleLabel.strokeColor = [UIColor blackColor];
+        _bubbleLabel.strokeWidth = 2;
+        _bubbleLabel.textColor = [UIColor whiteColor];
+        _bubbleLabel.clipsToBounds = YES;
+        _bubbleLabel.userInteractionEnabled = YES;        
+        _bubbleLabel.opaque = NO;
+        [self.contentView addSubview:_bubbleLabel];
+    }
+    return _bubbleLabel;
+    
 }
 
 - (UIImageView*)profilePictureView {
@@ -104,7 +196,9 @@ static const CGFloat    kDefaultMessageImageHeight  = 70.0f;
 - (UIImageView*)pictureView {
     if (!_pictureView) {
         _pictureView = [[UIImageView alloc] init];
-        [self.contentView addSubview:_pictureView];
+        _pictureView.autoresizingMask = UIViewAutoresizingNone;
+        [self.contentView insertSubview:_pictureView atIndex:0];
+
     }
     return _pictureView;
 }
