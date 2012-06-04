@@ -24,6 +24,7 @@
 //
 
 #import "FeedSettingsViewController.h"
+#import "FriendPickerTableViewController.h"
 #import "FeedNameCell.h"
 #import "FeedManager.h"
 #import "MFeed.h"
@@ -182,6 +183,15 @@
     
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
+        FriendPickerTableViewController *vc = segue.destinationViewController;
+        FeedManager* fm = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        vc.pinnedIdentities = [NSSet setWithArray:[fm identitiesInFeed:_feed]];
+        vc.delegate = _delegate;
+    }
+}
+
 /*
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -225,13 +235,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    
+    switch (indexPath.section) {
+        case 0: {
+            break;
+        }
+        case 1: {
+            [self performSegueWithIdentifier:@"AddPeopleSegue" sender:_feed];
+            break;
+        }
+    }
 }
 
 #pragma mark - Text field delegate
