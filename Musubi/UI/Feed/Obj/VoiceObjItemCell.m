@@ -108,6 +108,7 @@
 - (void)playPressed
 {
     if ([self.player isPlaying] == NO) {
+        [self.player prepareToPlay];
 
         NSLog(@"Play button pressed!");
         UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
@@ -126,7 +127,6 @@
     }
     else {
         [self.player stop];
-        [self.player prepareToPlay];
     }
 }
 
@@ -136,7 +136,6 @@
     self.audioDuration = [durationText intValue];
     self.player = [[AVAudioPlayer alloc] initWithData:object.computedData error:NULL];
     self.player.delegate = self;
-    [self.player prepareToPlay];
 //    self.detailTextLabel.text = kVoiceObjText;
 }
 
