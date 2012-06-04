@@ -24,11 +24,13 @@
 //
 
 #import "FeedItemCell.h"
+#import <AVFoundation/AVFoundation.h>
 
-@interface VoiceObjItemCell : FeedItemCell {
-    UIButton* _playButton;
-}
+@interface VoiceObjItemCell : FeedItemCell <AVAudioPlayerDelegate, AVAudioSessionDelegate>
 
-@property (nonatomic, readonly, retain) UIButton* playButton;
-
+//@property (nonatomic, readonly) UIImageView* iconView;
+@property (nonatomic, strong) UIButton *playButton;
+@property (nonatomic, strong) AVAudioPlayer *player;
+@property (nonatomic) int audioDuration;
+@property (nonatomic) int currentAudioDuration;
 @end
