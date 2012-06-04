@@ -255,10 +255,9 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    NSLog(@"edited name = %@", textField.text);
     NSString* name = textField.text;
     name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if(!name || !name.length)
+    if(!name || !name.length || [name isEqualToString:[_feedManager identityStringForFeed: _feed]])
         return;
     
     FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name];
