@@ -33,6 +33,7 @@
 #import "StatusObj.h"
 #import "Musubi.h"
 #import "UIImage+Resize.h"
+#import "PictureObj.h"
 #import "Three20Core/NSDateAdditions.h"
 
 @interface SneakyDate : NSObject
@@ -92,9 +93,10 @@ static NSMutableDictionary* sContactImages;
 
 @synthesize feed = _feed;
 @synthesize image = _image;
-@synthesize statusObj = _statusObj;
+@synthesize obj = _obj;
 @synthesize start = _start;
 @synthesize end = _end;
+@synthesize picture = _picture;
 
 - (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before {
     self = [super init];
@@ -104,11 +106,23 @@ static NSMutableDictionary* sContactImages;
     FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     ObjManager* objMgr = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     
-    _statusObj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:nil before:nil];
-    if (_statusObj) {
-        StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_statusObj];
+    self.title = [feedMgr identityStringForFeed:feed];
+    self.timestamp = [[SneakyDate alloc] initWithDate:[NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime] andNewest:after andOldest:before];
+
+    _obj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:nil before:nil];
+    if (_obj) {
+        StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_obj];
         self.text = obj.text;
     }
+//    MObj* picture = [objMgr latestObjOfType:kObjTypePicture inFeed:feed after:_obj.timestamp before:nil];
+//    if (picture) {
+//        PictureObj* obj = (PictureObj*) [ObjFactory objFromManagedObj:picture];
+//        _obj = picture;
+//        self.picture =  [UIImage imageWithData:obj.raw];
+//        self.text = nil;
+//        self.title = nil;
+//        self.timestamp = nil;
+//    }
     /*
     for (MIdentity* ident in [feedMgr identitiesInFeed:feed]) {
         if (!ident.owned) {
@@ -122,11 +136,9 @@ static NSMutableDictionary* sContactImages;
         }
     }*/
     
-    NSArray* order = _statusObj ? [NSArray arrayWithObject:_statusObj.identity] : nil;
+    NSArray* order = _obj ? [NSArray arrayWithObject:_obj.identity] : nil;
     self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed] preferredOrder:order];
     
-    self.title = [feedMgr identityStringForFeed:feed];
-    self.timestamp = [[SneakyDate alloc] initWithDate:[NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime] andNewest:after andOldest:before];
     _unread = feed.numUnread;
     self.start = after;
     self.end = before;

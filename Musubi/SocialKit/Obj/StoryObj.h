@@ -26,6 +26,7 @@
 #import "Obj.h"
 #define kObjTypeStory @"story"
 #define kObjFieldStoryUrl @"url"
+#define kObjFieldStoryOriginalUrl @"original_url"
 #define kObjFieldStoryTitle @"title"
 #define kObjFieldStoryText @"text"
 #define kObjFieldStoryDescription @"description"
