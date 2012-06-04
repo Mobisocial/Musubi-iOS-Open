@@ -1435,6 +1435,8 @@
 				D26D36D6147B3ED400C4FE93 /* LocationController.m */,
 				C075913215605A790006948E /* NSData+HexString.h */,
 				C075913315605A790006948E /* NSData+HexString.m */,
+				C0BABA6E157980510068A455 /* NSDate+LocalTime.h */,
+				C0BABA6F157980510068A455 /* NSDate+LocalTime.m */,
 				D2F8C687152533D6005AD880 /* NSDate+TimeAgo.h */,
 				D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */,
 				D272FB61151A90F800D2521A /* NSObject+DDExtensions.h */,
@@ -1449,8 +1451,6 @@
 				D26D36DC147B3ED400C4FE93 /* UIImage+RoundedCorner.m */,
 				D26D36DD147B3ED400C4FE93 /* XQueryComponents.h */,
 				D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */,
-				C0BABA6E157980510068A455 /* NSDate+LocalTime.h */,
-				C0BABA6F157980510068A455 /* NSDate+LocalTime.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
