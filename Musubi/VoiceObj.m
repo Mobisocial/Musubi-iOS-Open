@@ -32,11 +32,13 @@
 - (id)initWithAudio:(NSData *)rawAudio withData:(NSDictionary*)data
 {
     self = [super init];
-    if (self) {
-        [self setType:kObjTypeVoice];
-        [self setRaw:rawAudio];
-        [self setData:data];
-    }
+    if (!self)
+        return nil;
+        
+    [self setType:kObjTypeVoice];
+    [self setRaw:rawAudio];
+    [self setData:data];
+
     return self;
 }
 

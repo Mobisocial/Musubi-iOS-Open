@@ -276,7 +276,7 @@ static int operationCount;
         //never even make it an MObj
         [ProfileObj handleFromSender:sender profileJson:obj.jsonSrc profileRaw:obj.raw withStore:_store];
         
-        NSLog(@"Message was profile message %@", msg);
+        NSLog(@"Message was profile message %@", obj);
         [_store.context deleteObject:msg];
         [_store save];
         return true;
