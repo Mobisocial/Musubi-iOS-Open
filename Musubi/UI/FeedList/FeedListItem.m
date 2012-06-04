@@ -153,12 +153,22 @@ static NSMutableDictionary* sContactImages;
     NSMutableArray* selected = [NSMutableArray arrayWithCapacity:4];
     
     NSMutableArray* images = [NSMutableArray arrayWithCapacity:4];
+    NSMutableSet* knownpics = [NSMutableSet set];
 
     for (MIdentity* i in order) {
         if (selected.count > 3)
             break;
-       
-        if(i.musubiThumbnail || i.thumbnail) {
+        
+        NSData* thumbnail = i.musubiThumbnail;
+        if(!thumbnail)
+            thumbnail = i.thumbnail;
+        
+        //skip dupes
+        if([knownpics containsObject:[NSNumber numberWithUnsignedInt:thumbnail.hash]])
+            continue;
+        
+        if(thumbnail) {
+            [knownpics addObject:[NSNumber numberWithUnsignedInt:thumbnail.hash]];
             [selected addObject:i];
         }
         
@@ -175,7 +185,16 @@ static NSMutableDictionary* sContactImages;
             continue;
         if (selected.count > 3)
             break;
-        if(i.musubiThumbnail || i.thumbnail) {
+        NSData* thumbnail = i.musubiThumbnail;
+        if(!thumbnail)
+            thumbnail = i.thumbnail;
+        
+        //skip dupes
+        if([knownpics containsObject:[NSNumber numberWithUnsignedInt:thumbnail.hash]])
+            continue;
+        
+        if(thumbnail) {
+            [knownpics addObject:[NSNumber numberWithUnsignedInt:thumbnail.hash]];
             [selected addObject:i];
         }
         
