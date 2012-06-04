@@ -116,7 +116,7 @@
 {
     switch (indexPath.section) {
         case 0: {
-            static NSString *cellIdentifier = @"Cell";
+            static NSString *cellIdentifier = @"FeedNameCell";
             //FeedNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
             if (cell == nil) {
@@ -143,39 +143,29 @@
             textField.delegate = self;
             
             [cell.contentView addSubview:textField];
-            //cell.
-            //cell.name.text = [_feedManager identityStringForFeed: _feed];
-            /*if(_identity.musubiName) {
-             cell.name.text = _identity.musubiName;
-             } else if(_identity.name) {
-             cell.name.text = _identity.name;
-             } else if(_identity.principal) {
-             cell.name.text = _identity.principal;
-             } else {
-             cell.name.text = @"Unknown";
-             }
-             
-             cell.principal.text = _identity.principal;
-             if(_identity.musubiThumbnail) {
-             cell.picture.image = [UIImage imageWithData:_identity.musubiThumbnail];
-             }
-             else if (_identity.thumbnail) {
-             cell.picture.image = [UIImage imageWithData:_identity.thumbnail];
-             }*/
             
             return cell;
         }
         case 1: {
-            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
+            switch (indexPath.row) {
+                case 0: {
+                    static NSString *cellIdentifier = @"MembersCell";
+                    //FeedNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc]
+                                initWithStyle:UITableViewCellStyleValue2 
+                                reuseIdentifier:cellIdentifier];
+                    }
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    cell.detailTextLabel.text = @"Members";
+                    
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    //[cell.contentView addSubview:textField];
+                    
+                    return cell;
+                }
             }
-            
-            [[cell textLabel] setText: @"Add participants"];
-            
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            
-            return cell;
         }
     }
     
