@@ -3651,7 +3651,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/Dropbox\"",
