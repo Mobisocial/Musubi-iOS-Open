@@ -51,7 +51,7 @@
 - (int) countIdentitiesFrom: (NSArray*) participants inFeed: (MFeed*) feed;
 - (NSArray *)identitiesInFeed: (MFeed*) feed;
 - (NSString*) identityStringForFeed: (MFeed*) feed;
-- (void) attachMember: (MIdentity*) mId toFeed: (MFeed*) feed;
+- (BOOL) attachMember: (MIdentity*) mId toFeed: (MFeed*) feed;
 - (void) attachMembers: (NSArray*) participants toFeed: (MFeed*) feed;
 - (void) attachApp: (MApp*) app toFeed: (MFeed*) feed;
 - (BOOL) app: (MApp*) app isAllowedInFeed:(MFeed*) feed;
