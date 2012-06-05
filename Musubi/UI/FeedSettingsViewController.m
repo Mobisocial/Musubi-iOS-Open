@@ -93,7 +93,8 @@
         case 0:
             return @"Conversation Title";
         case 1:
-        return @"Actions";    }
+            return @"Actions";    
+    }
     
     return nil;
 }
@@ -109,6 +110,12 @@
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
+    switch (section) {
+        case 0:
+            return 1;
+        case 1:
+            return 2;
+    }
     return 1;
 }
 
@@ -159,6 +166,21 @@
                     }
                     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     cell.detailTextLabel.text = @"Members";
+                    
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    //[cell.contentView addSubview:textField];
+                    
+                    return cell;
+                }
+                case 1: {
+                    static NSString *cellIdentifier = @"NearbyCell";                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc]
+                                initWithStyle:UITableViewCellStyleValue2 
+                                reuseIdentifier:cellIdentifier];
+                    }
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    cell.detailTextLabel.text = @"Nearby";
                     
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     //[cell.contentView addSubview:textField];
@@ -231,8 +253,20 @@
             break;
         }
         case 1: {
-            [self performSegueWithIdentifier:@"AddPeopleSegue" sender:_feed];
-            break;
+            switch (indexPath.row) {
+                case 0: {
+                    [self performSegueWithIdentifier:@"AddPeopleSegue" sender:_feed];
+                    break;
+                }
+                case 1: {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
+                                                                    message:@"Nobody is near you because nobody loves you." 
+                                                                   delegate:nil 
+                                                          cancelButtonTitle:@"My life is sad."
+                                                          otherButtonTitles:nil];
+                    [alert show];
+                }
+            }
         }
     }
 }
