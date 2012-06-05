@@ -137,6 +137,7 @@
 - (void) consumeMessages {
     UIApplication* application = [UIApplication sharedApplication];
     backgroundTaskId = [application beginBackgroundTaskWithExpirationHandler:^(void) {
+        [connMngr closeConnection];
         restartRequested = YES;
         [application endBackgroundTask:backgroundTaskId];
         backgroundTaskId = ~0U;
@@ -149,7 +150,7 @@
             NSData* body = [connMngr readMessageAndCall:^{
                 if(need_reset)
                     [APNPushManager resetBothUnreadInBackgroundTask];
-                idleTime = [[NSDate date] dateByAddingTimeInterval:15];
+                idleTime = [[NSDate date] dateByAddingTimeInterval:15]; //probably can make this 30
                 need_reset = NO;
             } after:idleTime];
             
