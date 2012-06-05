@@ -378,6 +378,16 @@
         if(self.connectionState)
             self.connectionState = nil;
         if(date && block && [[NSDate date] timeIntervalSinceDate:date] > 0) {
+            //send a heart beat whenever the receive timer runs out
+            amqp_frame_t f;
+            f.frame_type = AMQP_FRAME_HEARTBEAT;
+            f.channel = 0;
+            //date must always be < heartbeat request time submitted to the server
+            int res = amqp_send_frame(conn, &f);
+            if (res < 0) {
+                @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Error sending heartbeat" userInfo:nil];
+            }
+
             block();
             date = nil;
             block = nil;
@@ -400,12 +410,6 @@
             amqp_frame_t f;
             f.frame_type = AMQP_FRAME_HEARTBEAT;
             f.channel = 0;
-            //TODO: this is wrong, we can be disconnected because the server
-            //heartbeat timeout will be reset whenever it pushes data
-            //so it is possible for a long stream of incoming messages
-            //that the amqp server will not need to heartbeat and
-            //the client will disconnect.  this is adequate for now 
-            //needs to be fixed eventually.
             int res = amqp_send_frame(conn, &f);
             if (res < 0) {
                 @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Error sending heartbeat" userInfo:nil];
