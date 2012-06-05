@@ -33,9 +33,14 @@
 - (void) changedName: (NSString*) name;
 @end
 
-@interface FeedSettingsViewController : UITableViewController<UITextFieldDelegate>
+@interface FeedSettingsViewController : UITableViewController<UITextFieldDelegate> {
+    UISwitch* broadcastSwitch;
+}
 
 @property (nonatomic, retain) MFeed* feed;
 @property (nonatomic, strong) FeedManager* feedManager;
 @property (nonatomic, weak) id<FeedSettingsViewControllerDelegate> delegate;
+
+- (IBAction)flip:(id)sender;
+
 @end
