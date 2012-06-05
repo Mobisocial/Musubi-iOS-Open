@@ -96,7 +96,6 @@
     if(is != nil) {
         //workaround for buggy old version
         if(!is.key || !is.encryptedKey || !is.signature) {
-            [TestFlight passCheckpoint:@"deleting corrupted incoming secret"];
             [[transportDataProvider store].context deleteObject:is];
             [[transportDataProvider store] save];
             is = nil;
@@ -164,14 +163,12 @@
         //            @throw [NSException exceptionWithName:kMusubiExceptionRecipientMismatch reason:@"Missing as signature" userInfo:nil];
         if ([transportDataProvider isMe:ident]) {
             if(!r.s || !r.s.length) {
-                [TestFlight passCheckpoint:@"missing signature for me"];
                 NSLog(@"missing signature for me");
             } else {
                 [mine addObject: r];
             }
         } else {
             if(!r.s || !r.s.length) {
-                [TestFlight passCheckpoint:@"missing signature for someone else"];
                 NSLog(@"missing signature for someone else");
             }
         }

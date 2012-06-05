@@ -109,6 +109,21 @@
     }
     [pending removeAllObjects];
     
+    //threads wake up ok after a sudden background transition but sockets
+    //dont do so well.
+    //we close out the connection in the backgorund expiration callback
+    //which will trigger a reconnect. 
+    //we want to block that reconnect if the connection is just going to 
+    //jam up if it suceeds fast enough
+    BOOL message_set = NO;
+    while([UIApplication sharedApplication].backgroundTimeRemaining < 15) {
+        if(!message_set)  {
+            self.connectionState = @"Out of background juice...";
+            message_set = YES;
+        }
+        [NSThread sleepForTimeInterval:0.5];
+    }
+
     self.connectionState = @"Offline. Waiting to reconnect...";
     [NSThread sleepForTimeInterval: MIN(300, powl(2, connectionAttempts) - 1)];
     self.connectionState = @"Connecting...";

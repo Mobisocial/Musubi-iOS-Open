@@ -66,7 +66,6 @@ static NSOperationQueue* sApnQueue = nil;
 
         [NSURLConnection sendAsynchronousRequest:request queue:[APNPushManager apnQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError * error) {
             NSLog(@"Registration returned %@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
-            [TestFlight passCheckpoint:@"[AMQPListener] registered at push server"];
         }];
        
     }
@@ -91,7 +90,6 @@ static NSOperationQueue* sApnQueue = nil;
         
         [NSURLConnection sendAsynchronousRequest:request queue:[APNPushManager apnQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError * error) {
             NSLog(@"Clear returned %@", [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]);
-            [TestFlight passCheckpoint:@"[AMQPListener] reset unread"];
         }];
     }
 }

@@ -137,6 +137,7 @@
 - (void) consumeMessages {
     UIApplication* application = [UIApplication sharedApplication];
     backgroundTaskId = [application beginBackgroundTaskWithExpirationHandler:^(void) {
+        [connMngr closeConnection];
         restartRequested = YES;
         [application endBackgroundTask:backgroundTaskId];
         backgroundTaskId = ~0U;

@@ -81,8 +81,6 @@ static Musubi* _sharedInstance = nil;
     if (self == nil) 
         return self;
     
-    [TestFlight passCheckpoint:@"[Musubi] launched"];
-    
     // The store factory creates stores for other threads, the main store is used on the main thread
     self.storeFactory = [PersistentModelStoreFactory sharedInstance];
     self.mainStore = storeFactory.rootStore;

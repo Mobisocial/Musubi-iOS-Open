@@ -42,7 +42,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
-    [TestFlight takeOff:@"xxx"];
+    //[TestFlight takeOff:@"xxx"];
         
     DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"" appSecret:@"" root:kDBRootAppFolder];
     [DBSession setSharedSession:dbSession];
