@@ -378,6 +378,7 @@
 		C03A66B3157C1307009A5CBA /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPathQuery.m; path = Hpple/XPathQuery.m; sourceTree = "<group>"; };
 		C03A66B7157C137E009A5CBA /* DejalActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DejalActivityView.h; path = DejalActivityView/DejalActivityView.h; sourceTree = "<group>"; };
 		C03A66B8157C137E009A5CBA /* DejalActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DejalActivityView.m; path = DejalActivityView/DejalActivityView.m; sourceTree = "<group>"; };
+		C0733345157D83A300B2A391 /* Model 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 8.xcdatamodel"; sourceTree = "<group>"; };
 		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
 		C086764A156B032700F4F2BA /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
@@ -3719,6 +3720,7 @@
 		D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C0733345157D83A300B2A391 /* Model 8.xcdatamodel */,
 				C08679261571DB9F00F4F2BA /* Model 7.xcdatamodel */,
 				D26D1693156C81B700FC7650 /* Model 4.xcdatamodel */,
 				C086764A156B032700F4F2BA /* Model 3.xcdatamodel */,
