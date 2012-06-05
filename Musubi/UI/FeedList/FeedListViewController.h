@@ -29,5 +29,6 @@
 @interface FeedListViewController : TTTableViewController<FriendPickerDelegate> {
     UILabel* incomingLabel;
 }
+- (IBAction)newConversation:(id)sender;
 
 @end

@@ -172,10 +172,15 @@
         [vc.view addSubview:incomingLabel];
         [vc setDelegate:self];
         [self updatePending];
-    } else if ([[segue identifier] isEqualToString:@"CreateNewFeed"]) {
-        FriendPickerTableViewController *vc = [segue destinationViewController];
-        [vc setDelegate:self];
-    }
+    } 
+}
+
+- (void)newConversation:(id)sender
+{
+    //TODO: UIActionSheet
+    FriendPickerTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendPicker"];
+    [vc setDelegate:self];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
