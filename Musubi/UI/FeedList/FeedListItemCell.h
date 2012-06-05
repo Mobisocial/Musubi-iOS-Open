@@ -35,11 +35,13 @@
     UIImageView* _profilePictureView;
     UIImageView* _pictureView;
     OutlineTextLabel* _bubbleLabel;
+    UIView* _stripeView;
 }
 
 @property (nonatomic, readonly, retain) UILabel* unreadLabel;
 @property (nonatomic, readonly, retain) OutlineTextLabel* bubbleLabel;
 @property (nonatomic, readonly, retain) UIImageView* profilePictureView;
 @property (nonatomic, readonly, retain) UIImageView* pictureView;
+@property (nonatomic, readonly, retain) UIImageView* stripeView;
 
 @end
