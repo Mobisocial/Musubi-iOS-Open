@@ -26,7 +26,7 @@
 #import "Three20/Three20.h"
 #import "FriendPickerTableViewController.h"
 
-@interface FeedListViewController : TTTableViewController<FriendPickerDelegate> {
+@interface FeedListViewController : TTTableViewController<FriendPickerDelegate, UIActionSheetDelegate> {
     UILabel* incomingLabel;
 }
 - (IBAction)newConversation:(id)sender;

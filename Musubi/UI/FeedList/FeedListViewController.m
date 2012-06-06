@@ -178,9 +178,27 @@
 - (void)newConversation:(id)sender
 {
     //TODO: UIActionSheet
-    FriendPickerTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendPicker"];
-    [vc setDelegate:self];
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    UIActionSheet* newConversationPicker = [[UIActionSheet alloc] initWithTitle:@"New conversation" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Create from contacts", @"Join nearby group", nil];
+    
+    [newConversationPicker showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    
+    switch (buttonIndex) {
+        case 0: // create from contact list
+        {
+            FriendPickerTableViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendPicker"];
+            [vc setDelegate:self];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case 1: // find nearby groups
+        {   
+            break;
+        }
+    }
 }
 
 - (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
