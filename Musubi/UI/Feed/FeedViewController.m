@@ -343,7 +343,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 
 
 - (IBAction)sendMessage:(id)sender {
-    [self hideKeyboard];
+    //[self hideKeyboard];
     
     if (statusField.text.length > 0) {
         NSMutableString* text = [NSMutableString stringWithString:[statusField text]];
