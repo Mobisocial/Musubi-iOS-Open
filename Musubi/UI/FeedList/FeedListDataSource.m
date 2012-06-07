@@ -50,6 +50,7 @@
 @implementation FeedListDataSource {
     FeedListItem* itemToDelete;
     UITableView* tableViewToUpdate;
+    NSMutableDictionary* feedCache;
 }
 @synthesize dateRanges;
 - (id) init {
@@ -59,11 +60,15 @@
         _feedManager = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         dateRanges = [NSMutableArray array];
+        feedCache = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
-
+-(void)invalidateObjectId:(NSManagedObject*)oid
+{
+    [feedCache removeObjectForKey:oid];
+}
 - (void)tableViewDidLoadModel:(UITableView *)tableView {
     NSDate *today = [NSDate date];
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -162,7 +167,10 @@
         } else {
             continue;
         }
-        FeedListItem* item = [[FeedListItem alloc] initWithFeed:feed after:start before:end];
+        FeedListItem* item = [feedCache objectForKey:feed.objectID];
+        if(!item)
+            item = [[FeedListItem alloc] initWithFeed:feed after:start before:end];
+        [feedCache setObject:item forKey:feed.objectID];
         if (item) {
             [hits addObject: item];
         }

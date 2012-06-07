@@ -278,7 +278,7 @@
         [APNPushManager resetLocalUnreadInBackgroundTask:NO];
         
         // Refresh the feed list view
-        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:nil];
+        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:_feed.objectID];
     }
 }
 

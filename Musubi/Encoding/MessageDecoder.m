@@ -39,6 +39,7 @@
 
 #import "IBEncryptionScheme.h"
 #import "Sender.h"
+
 #import "Recipient.h"
 #import "Message.h"
 #import "Secret.h"

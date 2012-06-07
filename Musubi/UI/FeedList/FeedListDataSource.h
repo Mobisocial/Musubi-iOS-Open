@@ -24,6 +24,7 @@
 //
 
 #import "Three20/Three20.h"
+#import <CoreData/CoreData.h>
 
 @class FeedManager, ObjManager;
 
@@ -39,4 +40,5 @@
 }
 
 @property (nonatomic, strong) NSMutableArray* dateRanges;
+-(void)invalidateObjectId:(NSManagedObjectID*)oid;
 @end

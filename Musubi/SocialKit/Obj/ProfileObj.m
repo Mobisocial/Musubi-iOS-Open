@@ -82,6 +82,8 @@
         return;
     }
     IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
+    
+    BOOL changed = NO;
 
     NSObject* versionNumber = [profile valueForKey:kProfileObjVersion];
     if(versionNumber && [versionNumber isKindOfClass:[NSNumber class]]) {
@@ -94,18 +96,27 @@
                 }
             }
             if (raw) {
+                if(![sender.musubiThumbnail isEqualToData:raw])
+                    changed = YES;
+
                 sender.musubiThumbnail = raw;
                 if(sender.owned) {
                     for(MIdentity* me in [idm ownedIdentities]) {
+                        if(![me.musubiThumbnail isEqualToData:raw])
+                            changed = YES;
                         me.musubiThumbnail = sender.musubiThumbnail;
                     }
                 }
             }
             NSObject* nameString = [profile valueForKey:kProfileObjName];
             if(nameString && [nameString isKindOfClass:[NSString class]]) {
+                if(![sender.musubiName isEqualToString:(NSString*)nameString])
+                    changed = YES;
                 sender.musubiName = (NSString*)nameString;
                 if(sender.owned) {
                     for(MIdentity* me in [idm ownedIdentities]) {
+                        if(![me.musubiName isEqualToString:(NSString*)nameString])
+                            changed = YES;
                         me.musubiName = sender.musubiName;
                     }
                 }
@@ -113,9 +124,9 @@
             NSObject* principalString = [profile valueForKey:kProfileObjPrincipal];
             if(principalString && [principalString isKindOfClass:[NSString class]]) {
                 NSString* principal = (NSString*)principalString;
-                sender.musubiName = (NSString*)nameString;
                 if([sender.principalHash isEqualToData:[[principal dataUsingEncoding:NSUnicodeStringEncoding] sha256Digest]]) {
                     sender.principal = principal;
+                    changed = YES;
                 }
             }
         }
@@ -126,13 +137,12 @@
         [ProfileObj sendProfilesTo:[NSArray arrayWithObject:sender] replyRequested:NO withStore:store];
     }
     
-    // Update the FeedListView
-    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:nil];
-    
-    // Update every FeedView for feeds the sender participates in
-    FeedManager* feedMgr = [[FeedManager alloc] initWithStore:store];
-    for (MFeed* feed in [feedMgr acceptedFeedsFromIdentity:sender]) {
-        [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:feed.objectID];        
+    if(changed) {
+        // Update every FeedView for feeds the sender participates in
+        FeedManager* feedMgr = [[FeedManager alloc] initWithStore:store];
+        for (MFeed* feed in [feedMgr acceptedFeedsFromIdentity:sender]) {
+            [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:feed.objectID];        
+        }
     }
 }
 

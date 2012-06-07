@@ -42,7 +42,10 @@
 #import "ObjHelper.h"
 #import "IntroductionObj.h"
 
-@implementation FeedListViewController
+@implementation FeedListViewController {
+    NSDate* nextRedraw;
+    NSDate* lastRedraw;
+}
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -110,8 +113,28 @@
         [self performSelectorOnMainThread:@selector(feedUpdated:) withObject:notification waitUntilDone:NO];
         return;
     }
-      
-    [self reload];
+
+    if(nextRedraw) {
+        return;
+    }
+    if(lastRedraw) {
+        NSDate* now = [NSDate date];
+        if([lastRedraw timeIntervalSinceDate:now] > 1) {
+        
+        } else {
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 11 * NSEC_PER_SEC / 10);
+            nextRedraw = [lastRedraw dateByAddingTimeInterval:1];
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self feedUpdated:notification];
+            });
+        }
+    }
+    FeedListDataSource* feeds = self.dataSource;
+    NSManagedObjectID* oid = notification.object;
+    [feeds invalidateObjectId:oid];
+    lastRedraw = [NSDate date];
+    nextRedraw = nil;
+    [self reload];   
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
