@@ -125,6 +125,7 @@
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 11 * NSEC_PER_SEC / 10);
             nextRedraw = [lastRedraw dateByAddingTimeInterval:1];
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                nextRedraw = nil;
                 [self feedUpdated:notification];
             });
         }
