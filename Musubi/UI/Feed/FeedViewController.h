@@ -24,17 +24,17 @@
 //
 
 #import "Three20/Three20.h"
-#import "FriendPickerTableViewController.h"
 #import "ProfileViewController.h"
 #import "AudioRecorderViewController.h"
+#import "FeedSettingsViewController.h"
 
 @class MFeed;
 
 @protocol FeedViewControllerDelegate
-    - (void) friendsSelected:(NSArray*)selection;
+    - (void) friendsForNewConversationSelected:(NSArray*)selection;
 @end
 
-@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, FriendPickerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate> {
+@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate, FeedSettingsViewControllerDelegate> {
     MFeed* _feed;
     
     IBOutlet UIView* mainView;
@@ -46,7 +46,6 @@
     int lastRow;
 }
 
-- (IBAction)addPeople:(id)sender;
 - (IBAction)sendMessage:(id)sender;
 - (void)userChoseAudioData:(NSURL *)file; // AudioRecorderDelegate
 

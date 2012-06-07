@@ -16,19 +16,33 @@
 
 
 //
-//  FeedListViewController.h
+//  FriendPickerController.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
+//  Created by Willem Bult on 6/4/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "Three20/Three20.h"
-#import "FriendPickerViewController.h"
-#import "FeedViewController.h"
 
-@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate> {
-    UILabel* incomingLabel;
+@protocol FriendPickerViewControllerDelegate
+
+@end
+
+
+@interface FriendPickerTableViewDelegate : TTTableViewVarHeightDelegate
+@end
+
+@interface FriendPickerViewController : TTTableViewController<TTPickerTextFieldDelegate,TTTableViewDataSource> {
+    id<FriendPickerViewControllerDelegate> _delegate;
+    TTPickerTextField* _pickerTextField;
+    
+    UILabel* _importingLabel;
+    NSMutableDictionary* _remainingImports;
 }
+
+@property (nonatomic,retain) id<FriendPickerViewControllerDelegate> delegate;
+@property (nonatomic,readonly) TTPickerTextField* pickerTextField;
+@property (nonatomic,retain) NSMutableArray* pinnedIdentities;
 
 @end

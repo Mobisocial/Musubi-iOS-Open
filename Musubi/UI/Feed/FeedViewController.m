@@ -506,7 +506,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
-        FriendPickerTableViewController *vc = segue.destinationViewController;
+        FriendPickerViewController *vc = segue.destinationViewController;
         FeedManager* fm = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         vc.pinnedIdentities = [NSSet setWithArray:[fm identitiesInFeed:_feed]];
         vc.delegate = self;
@@ -538,7 +538,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 - (void)newConversation:(MIdentity*) ident {
     [self.navigationController popViewControllerAnimated:NO];
     NSArray* selection = [NSArray arrayWithObject:ident];
-    [_delegate friendsSelected:selection];
+    [_delegate friendsForNewConversationSelected:selection];
 }
 
 - (void)viewDidUnload {

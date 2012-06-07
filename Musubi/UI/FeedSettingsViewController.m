@@ -24,7 +24,7 @@
 //
 
 #import "FeedSettingsViewController.h"
-#import "FriendPickerTableViewController.h"
+#import "FriendPickerViewController.h"
 #import "FeedNameCell.h"
 #import "FeedManager.h"
 #import "MFeed.h"
@@ -100,15 +100,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
     return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
     return 1;
 }
 
@@ -185,7 +181,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
-        FriendPickerTableViewController *vc = segue.destinationViewController;
+        FriendPickerViewController *vc = segue.destinationViewController;
         FeedManager* fm = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
         vc.pinnedIdentities = [NSSet setWithArray:[fm identitiesInFeed:_feed]];
         vc.delegate = _delegate;
@@ -269,5 +265,8 @@
     
     [_delegate changedName:name];
 }
+
+#pragma mark - Friend picker delegate
+
 
 @end

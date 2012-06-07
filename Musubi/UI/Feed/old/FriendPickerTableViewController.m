@@ -151,7 +151,7 @@
     [tableView setDataSource: self];
     
     pickerTextField = [[TTPickerTextField alloc] init];
-    pickerTextField.dataSource = self;
+//    pickerTextField.dataSource = self;
     pickerTextField.delegate = self;
     pickerTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     pickerTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;

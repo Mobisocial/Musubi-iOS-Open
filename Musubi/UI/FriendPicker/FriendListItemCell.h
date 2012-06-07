@@ -16,19 +16,19 @@
 
 
 //
-//  FeedListViewController.h
+//  FriendListItemCell.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
+//  Created by Willem Bult on 6/6/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "Three20/Three20.h"
-#import "FriendPickerViewController.h"
-#import "FeedViewController.h"
 
-@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate> {
-    UILabel* incomingLabel;
+@interface FriendListItemCell : TTTableLinkedItemCell {
+    UIImageView* _profilePictureView;
 }
+
+@property (nonatomic,readonly) UIImageView* profilePictureView;
 
 @end

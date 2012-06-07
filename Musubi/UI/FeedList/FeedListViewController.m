@@ -173,7 +173,7 @@
         [vc setDelegate:self];
         [self updatePending];
     } else if ([[segue identifier] isEqualToString:@"CreateNewFeed"]) {
-        FriendPickerTableViewController *vc = [segue destinationViewController];
+        FriendPickerViewController *vc = [segue destinationViewController];
         [vc setDelegate:self];
     }
 }
@@ -181,6 +181,10 @@
 - (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
     FeedListItem* item = [[((FeedListDataSource*)self.dataSource).items objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"ShowFeed" sender:item];
+}
+
+- (void)friendsForNewConversationSelected:(NSArray *)selection {
+    [self friendsSelected:selection];
 }
 
 - (void) friendsSelected: (NSArray*) selection {

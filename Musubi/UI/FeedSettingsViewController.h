@@ -24,12 +24,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FriendPickerViewController.h"
 
 @class MFeed;
 @class FeedManager;
 
 
-@protocol FeedSettingsViewControllerDelegate
+@protocol FeedSettingsViewControllerDelegate<FriendPickerViewControllerDelegate>
 - (void) changedName: (NSString*) name;
 @end
 

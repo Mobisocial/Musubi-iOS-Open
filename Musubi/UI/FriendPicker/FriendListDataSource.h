@@ -16,19 +16,30 @@
 
 
 //
-//  FeedListViewController.h
+//  FriendListDataSource.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
+//  Created by Willem Bult on 6/4/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "Three20/Three20.h"
-#import "FriendPickerViewController.h"
-#import "FeedViewController.h"
 
-@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate> {
-    UILabel* incomingLabel;
+@class IdentityManager, FriendListItem;
+
+@interface FriendListDataSource : TTSectionedDataSource {
+    IdentityManager* _identityManager;
+    NSMutableArray* _allItems;
+    NSMutableArray* _allSections;
+    NSString* _lastSearch;
 }
+
+@property (nonatomic, retain) NSMutableArray* selection;
+@property (nonatomic, readonly) NSArray* selectedIdentities;
+@property (nonatomic, retain) NSArray* pinnedIdentities;
+
+- (FriendListItem*) itemAtIndexPath: (NSIndexPath*) indexPath;
+- (NSIndexPath*) indexPathForItem: (FriendListItem*) item;
+- (BOOL) toggleSelectionForItem: (FriendListItem*) item;
 
 @end

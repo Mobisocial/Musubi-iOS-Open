@@ -82,6 +82,12 @@
 		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
 		D250C9631579815600955AB2 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */; };
+		D2582662157D818100B47FEE /* FriendPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2582661157D818100B47FEE /* FriendPickerTableViewController.m */; };
+		D2582666157D847500B47FEE /* FriendPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2582665157D847500B47FEE /* FriendPickerViewController.m */; };
+		D2582669157D84EE00B47FEE /* FriendListDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D2582668157D84EE00B47FEE /* FriendListDataSource.m */; };
+		D258266C157D853600B47FEE /* FriendListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D258266B157D853600B47FEE /* FriendListModel.m */; };
+		D25826D3157FFEC800B47FEE /* FriendListItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D25826D2157FFEC800B47FEE /* FriendListItemCell.m */; };
+		D25826D615800B4E00B47FEE /* FriendListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D25826D515800B4E00B47FEE /* FriendListItem.m */; };
 		D25F49151471A32500AC1551 /* bson.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49031471A32500AC1551 /* bson.c */; };
 		D25F49161471A32500AC1551 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49051471A32500AC1551 /* encoding.c */; };
 		D25F49171471A32500AC1551 /* gridfs.c in Sources */ = {isa = PBXBuildFile; fileRef = D25F49071471A32500AC1551 /* gridfs.c */; };
@@ -136,7 +142,6 @@
 		D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
 		D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */; };
-		D2A1FC1B1521A99700C10BE2 /* FriendPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */; };
 		D2A45AF5155EF6DE009C1D73 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A45AF4155EF6DE009C1D73 /* DropboxSDK.framework */; };
 		D2AADE1714FD792300C6ABB3 /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1614FD792300C6ABB3 /* BSONEncoder.m */; };
 		D2AADE4B14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE4A14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m */; };
@@ -481,6 +486,18 @@
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		D2582660157D818100B47FEE /* FriendPickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendPickerTableViewController.h; path = Feed/old/FriendPickerTableViewController.h; sourceTree = "<group>"; };
+		D2582661157D818100B47FEE /* FriendPickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendPickerTableViewController.m; path = Feed/old/FriendPickerTableViewController.m; sourceTree = "<group>"; };
+		D2582664157D847500B47FEE /* FriendPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendPickerViewController.h; path = FriendPicker/FriendPickerViewController.h; sourceTree = "<group>"; };
+		D2582665157D847500B47FEE /* FriendPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendPickerViewController.m; path = FriendPicker/FriendPickerViewController.m; sourceTree = "<group>"; };
+		D2582667157D84EE00B47FEE /* FriendListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendListDataSource.h; path = FriendPicker/FriendListDataSource.h; sourceTree = "<group>"; };
+		D2582668157D84EE00B47FEE /* FriendListDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendListDataSource.m; path = FriendPicker/FriendListDataSource.m; sourceTree = "<group>"; };
+		D258266A157D853600B47FEE /* FriendListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendListModel.h; path = FriendPicker/FriendListModel.h; sourceTree = "<group>"; };
+		D258266B157D853600B47FEE /* FriendListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendListModel.m; path = FriendPicker/FriendListModel.m; sourceTree = "<group>"; };
+		D25826D1157FFEC800B47FEE /* FriendListItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendListItemCell.h; path = FriendPicker/FriendListItemCell.h; sourceTree = "<group>"; };
+		D25826D2157FFEC800B47FEE /* FriendListItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendListItemCell.m; path = FriendPicker/FriendListItemCell.m; sourceTree = "<group>"; };
+		D25826D415800B4E00B47FEE /* FriendListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendListItem.h; path = FriendPicker/FriendListItem.h; sourceTree = "<group>"; };
+		D25826D515800B4E00B47FEE /* FriendListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendListItem.m; path = FriendPicker/FriendListItem.m; sourceTree = "<group>"; };
 		D25F49031471A32500AC1551 /* bson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson.c; sourceTree = "<group>"; };
 		D25F49041471A32500AC1551 /* bson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson.h; sourceTree = "<group>"; };
 		D25F49051471A32500AC1551 /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
@@ -904,8 +921,6 @@
 		D2A1FC051521009400C10BE2 /* Authorities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authorities.h; sourceTree = "<group>"; };
 		D2A1FC1015211F6B00C10BE2 /* FacebookIdentityUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookIdentityUpdater.h; path = Identity/FacebookIdentityUpdater.h; sourceTree = "<group>"; };
 		D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookIdentityUpdater.m; path = Identity/FacebookIdentityUpdater.m; sourceTree = "<group>"; };
-		D2A1FC191521A99700C10BE2 /* FriendPickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendPickerTableViewController.h; path = Feed/FriendPickerTableViewController.h; sourceTree = "<group>"; };
-		D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendPickerTableViewController.m; path = Feed/FriendPickerTableViewController.m; sourceTree = "<group>"; };
 		D2A45AF4155EF6DE009C1D73 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = Libraries/Dropbox/DropboxSDK.framework; sourceTree = "<group>"; };
 		D2AADE1514FD792300C6ABB3 /* BSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONEncoder.h; sourceTree = "<group>"; };
 		D2AADE1614FD792300C6ABB3 /* BSONEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONEncoder.m; sourceTree = "<group>"; };
@@ -1193,6 +1208,7 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D2582663157D840900B47FEE /* FriendPicker */,
 				2FB16938157D261000832396 /* AudioRecorderViewController.h */,
 				2FB16939157D261000832396 /* AudioRecorderViewController.m */,
 				2F07123A157BB6E7008B6FEE /* Profile */,
@@ -1268,8 +1284,7 @@
 		D23EED011554854200B18153 /* FeedList */ = {
 			isa = PBXGroup;
 			children = (
-				D2A1FC191521A99700C10BE2 /* FriendPickerTableViewController.h */,
-				D2A1FC1A1521A99700C10BE2 /* FriendPickerTableViewController.m */,
+				D258265F157D80EB00B47FEE /* old */,
 				D26D0F591576D57100722E3B /* FeedListViewController.h */,
 				D26D0F5A1576D57200722E3B /* FeedListViewController.m */,
 				D26D0F5C1576DC1700722E3B /* FeedListModel.h */,
@@ -1287,10 +1302,10 @@
 		D248D2EE14F84ABC00DF96DB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D208156115128BA800F12039 /* Managers */,
 				D2A1FC051521009400C10BE2 /* Authorities.h */,
 				C086792A1572E2BA00F4F2BA /* MAccount.h */,
 				C086792B1572E2BC00F4F2BA /* MAccount.m */,
-				D208156115128BA800F12039 /* Managers */,
 				C086792D1572E2C200F4F2BA /* MApp.h */,
 				C086792E1572E2C400F4F2BA /* MApp.m */,
 				C08679331572E2D000F4F2BA /* MDevice.h */,
@@ -1331,6 +1346,32 @@
 				D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D258265F157D80EB00B47FEE /* old */ = {
+			isa = PBXGroup;
+			children = (
+				D2582660157D818100B47FEE /* FriendPickerTableViewController.h */,
+				D2582661157D818100B47FEE /* FriendPickerTableViewController.m */,
+			);
+			name = old;
+			sourceTree = "<group>";
+		};
+		D2582663157D840900B47FEE /* FriendPicker */ = {
+			isa = PBXGroup;
+			children = (
+				D2582664157D847500B47FEE /* FriendPickerViewController.h */,
+				D2582665157D847500B47FEE /* FriendPickerViewController.m */,
+				D2582667157D84EE00B47FEE /* FriendListDataSource.h */,
+				D2582668157D84EE00B47FEE /* FriendListDataSource.m */,
+				D258266A157D853600B47FEE /* FriendListModel.h */,
+				D258266B157D853600B47FEE /* FriendListModel.m */,
+				D25826D1157FFEC800B47FEE /* FriendListItemCell.h */,
+				D25826D2157FFEC800B47FEE /* FriendListItemCell.m */,
+				D25826D415800B4E00B47FEE /* FriendListItem.h */,
+				D25826D515800B4E00B47FEE /* FriendListItem.m */,
+			);
+			name = FriendPicker;
 			sourceTree = "<group>";
 		};
 		D25F49021471A32500AC1551 /* bson */ = {
@@ -3236,7 +3277,6 @@
 				D2773CC6151D133300A161F9 /* MessageDecodeService.m in Sources */,
 				D2773CCC151D638900A161F9 /* AppManager.m in Sources */,
 				D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */,
-				D2A1FC1B1521A99700C10BE2 /* FriendPickerTableViewController.m in Sources */,
 				D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */,
 				D2F8C6801524FB29005AD880 /* ObjPipelineService.m in Sources */,
 				D2F8C68315250713005AD880 /* ObjHelper.m in Sources */,
@@ -3334,6 +3374,12 @@
 				2FB1693A157D261000832396 /* AudioRecorderViewController.m in Sources */,
 				2FB1693F157D264600832396 /* VoiceObj.m in Sources */,
 				5679215D157D5673008B43A6 /* FeedNameObjItemCell.m in Sources */,
+				D2582662157D818100B47FEE /* FriendPickerTableViewController.m in Sources */,
+				D2582666157D847500B47FEE /* FriendPickerViewController.m in Sources */,
+				D2582669157D84EE00B47FEE /* FriendListDataSource.m in Sources */,
+				D258266C157D853600B47FEE /* FriendListModel.m in Sources */,
+				D25826D3157FFEC800B47FEE /* FriendListItemCell.m in Sources */,
+				D25826D615800B4E00B47FEE /* FriendListItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

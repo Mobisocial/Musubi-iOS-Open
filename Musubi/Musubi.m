@@ -87,6 +87,31 @@ static Musubi* _sharedInstance = nil;
     self.storeFactory = [PersistentModelStoreFactory sharedInstance];
     self.mainStore = storeFactory.rootStore;
     
+    NSArray* res = [self.mainStore query:[NSPredicate predicateWithFormat:@"principalShortHash == 0 AND principal == null AND name == null"] onEntity:@"Identity"];
+    NSLog(@"Deleting %d unknown contacts", res.count);
+    for (MIdentity* i in res) {
+        /*
+        NSArray* bla = nil;
+        bla = [self.mainStore query:[NSPredicate predicateWithFormat:@"fromIdentity == %@", i] onEntity:@"EncodedMessage"];
+        if (bla.count > 0)
+            continue;
+        
+        bla = [self.mainStore query:[NSPredicate predicateWithFormat:@"otherIdentity == %@", i] onEntity:@"IncomingSecret"];
+        if (bla.count > 0)
+            continue;
+        
+        bla = [self.mainStore query:[NSPredicate predicateWithFormat:@"identity == %@", i] onEntity:@"FeedMember"];
+        if (bla.count > 0)
+            continue;
+        
+        bla = [self.mainStore query:[NSPredicate predicateWithFormat:@"otherIdentity == %@", i] onEntity:@"OutgoingSecret"];
+        if (bla.count > 0)
+            continue;*/
+        
+        [self.mainStore.context deleteObject:i];
+    }
+    [self.mainStore.context save:nil];
+    
     // The notification sender informs every major part in the system about what's going on
     self.notificationCenter = [[NSNotificationCenter alloc] init];
             

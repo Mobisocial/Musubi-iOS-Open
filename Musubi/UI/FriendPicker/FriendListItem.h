@@ -16,19 +16,26 @@
 
 
 //
-//  FeedListViewController.h
+//  FriendListItem.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
+//  Created by Willem Bult on 6/6/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "Three20/Three20.h"
-#import "FriendPickerViewController.h"
-#import "FeedViewController.h"
 
-@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate> {
-    UILabel* incomingLabel;
-}
+@class MIdentity;
+
+@interface FriendListItem : TTTableLinkedItem
+
+@property (nonatomic,retain) NSString* musubiName;
+@property (nonatomic,retain) NSString* realName;
+@property (nonatomic,retain) UIImage* profilePicture;
+@property (nonatomic,assign) BOOL selected;
+@property (nonatomic,assign) BOOL pinned;
+@property (nonatomic,retain) MIdentity* identity;
+
+- (id) initWithIdentity: (MIdentity*) identity;
 
 @end

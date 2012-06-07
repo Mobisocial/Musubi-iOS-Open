@@ -32,7 +32,7 @@
 - (void) friendsSelected:(NSArray*)selection;
 @end
 
-@interface FriendPickerTableViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, TTTableViewDataSource, UITextFieldDelegate> {
+@interface FriendPickerTableViewController : UIViewController<UITableViewDelegate, UITextFieldDelegate> {
    
     IBOutlet UIScrollView* recipientView;
     IBOutlet UITableView* tableView;

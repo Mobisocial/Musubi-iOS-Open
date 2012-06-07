@@ -211,8 +211,6 @@
         itemToDelete = [[self.items objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         tableViewToUpdate = tableView;
         [alert show];
-        
-
     } 
 }
 

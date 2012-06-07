@@ -58,6 +58,7 @@
     assert(ident != nil);
     assert(ident.principalHash != nil);
     assert((*(uint64_t*)ident.principalHash.bytes) == ident.principalShortHash);
+    assert(ident.principalShortHash != 0);
     
 	// TOOD: synchronize code
     int64_t now = [[NSDate date] timeIntervalSince1970] * 1000;
@@ -176,6 +177,7 @@
         [mId setPrincipalHash: ibeId.hashed];
         [mId setPrincipalShortHash: *(uint64_t*)ibeId.hashed.bytes];
         [mId setName: name];
+        assert(mId.principalShortHash != 0);
         
         *identityAdded = YES;
     }

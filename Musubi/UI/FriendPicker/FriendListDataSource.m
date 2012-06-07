@@ -1,0 +1,236 @@
+/*
+ * Copyright 2012 The Stanford MobiSocial Laboratory
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+//
+//  FriendListDataSource.m
+//  musubi
+//
+//  Created by Willem Bult on 6/4/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//
+
+#import "FriendListDataSource.h"
+#import "FriendListModel.h"
+#import "IdentityManager.h"
+#import "Musubi.h"
+#import "MIdentity.h"
+#import "FriendListItem.h"
+#import "FriendListItemCell.h"
+
+@implementation FriendListDataSource
+
+@synthesize selection = _selection;
+@synthesize pinnedIdentities = _pinnedIdentities;
+
+- (id) init {
+    self = [super init];
+    if (self) {
+        self.model = [[FriendListModel alloc] init];
+
+        _identityManager = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        _selection = [NSMutableArray array];
+    }
+    return self;
+}
+
+
+- (void)tableViewDidLoadModel:(UITableView *)tableView {
+    NSMutableArray* sections = [NSMutableArray array];
+    NSMutableArray* items = [NSMutableArray arrayWithCapacity:self.sections.count];
+    
+    NSComparisonResult (^compare) (MIdentity*, MIdentity*) = ^(MIdentity* obj1, MIdentity* obj2) {
+        NSString* a = [IdentityManager displayNameForIdentity:obj1];
+        NSString* b = [IdentityManager displayNameForIdentity:obj2];
+        a = [a stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        b = [b stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        return [a caseInsensitiveCompare:b];
+    };
+    
+    NSMutableArray* idents = ((FriendListModel*)self.model).results;
+    [idents sortUsingComparator: compare];
+    
+    NSMutableArray* sectionItems = nil;
+    if (_pinnedIdentities && _pinnedIdentities.count) {
+        [sections addObject:[NSString stringWithFormat:@"\u2713"]];
+        sectionItems = [NSMutableArray array];
+        [items addObject:sectionItems];
+        
+        for (MIdentity* ident in _pinnedIdentities) {
+            if (!ident.owned)
+                [sectionItems addObject:[self itemForIdentity:ident]];
+        }
+    }
+    
+    char sectionChar = 0;
+    for (MIdentity* ident in idents) {
+        if (ident.owned)
+            continue;
+        
+        if ([_pinnedIdentities containsObject:ident])
+            continue;
+        
+        char curChar = [[IdentityManager displayNameForIdentity:ident] characterAtIndex:0];
+        if (curChar >= 'a')
+            curChar -= ('a' - 'A');
+
+        if (curChar != sectionChar) {
+            sectionChar = curChar;
+            [sections addObject:[NSString stringWithFormat:@"%c", curChar]];
+            sectionItems = [NSMutableArray array];
+            [items addObject:sectionItems];
+        }
+        
+        [sectionItems addObject:[self itemForIdentity:ident]];
+    }
+    
+    self.sections = sections;
+    _allSections = sections;
+    self.items = items;
+    _allItems = items;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    return self.sections;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSString* t = [_sections objectAtIndex:section];
+    if([t isEqualToString:@"\u2713"])
+        t = @"Already Added";
+    return t;
+    
+}
+
+
+- (FriendListItem*) itemForIdentity: (MIdentity*) ident {
+    FriendListItem* item = [[FriendListItem alloc] init];
+    item.identity = ident;
+    item.realName = ident.principal;
+    item.musubiName = [IdentityManager displayNameForIdentity: ident];
+    
+    if(ident.musubiThumbnail) {
+        item.profilePicture = [UIImage imageWithData:ident.musubiThumbnail];
+    } else {
+        item.profilePicture = [UIImage imageWithData:ident.thumbnail];
+    }
+
+    item.selected = [_selection containsObject:ident];
+    
+    if ([_pinnedIdentities containsObject:ident]) {
+        item.pinned = YES;
+    }
+    
+    return item;
+}
+
+- (void)search:(NSString *)text {
+    NSArray* searchItems = nil;
+    NSArray* searchSections = nil;
+    
+    int searchStartSection = 0;
+    if (text.length > 0 && _lastSearch != nil && [text rangeOfString:_lastSearch].location == 0) {
+        searchItems = self.items;
+        searchSections = self.sections;
+    } else {
+        searchItems = _allItems;
+        searchSections = _allSections;
+        // If we are searching, ignore the possible pinned identities section
+        if (text.length > 0 && _pinnedIdentities && _pinnedIdentities.count) {
+            searchStartSection = 1;
+        }
+    }
+    
+    NSMutableArray* matchedItems = [NSMutableArray array];
+    NSMutableArray* matchedSections = [NSMutableArray array];
+    
+    
+    for (int i=searchStartSection; i<searchSections.count; i++) {
+        NSString* section = [searchSections objectAtIndex:i];
+        
+        NSMutableArray* sectionMatches = nil;
+        for (FriendListItem* item in [searchItems objectAtIndex:i]) {
+            if (!text || text.length == 0 || (item.musubiName && [item.musubiName rangeOfString:text options:NSCaseInsensitiveSearch].location != NSNotFound)
+                || (item.realName && [item.realName rangeOfString:text options:NSCaseInsensitiveSearch].location != NSNotFound)) {
+                
+                if (sectionMatches == nil) {
+                    sectionMatches = [NSMutableArray array];
+                    [matchedSections addObject:section];
+                }
+                
+                [sectionMatches addObject:item];
+            }
+        }
+        
+        if (sectionMatches != nil)
+            [matchedItems addObject:sectionMatches];
+    }
+    
+    _lastSearch = text;
+    self.items = matchedItems;
+    self.sections = matchedSections;
+}
+
+- (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {
+    return [FriendListItemCell class];
+}
+
+- (FriendListItem *)itemAtIndexPath:(NSIndexPath *)indexPath {
+    return [[self.items objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+}
+
+- (NSIndexPath*) indexPathForItem: (FriendListItem*) item {
+    NSIndexPath* path = nil;
+    for (int section = 0; section < self.items.count; section++) {
+        NSArray* items = [self.items objectAtIndex:section];
+        int row = [items indexOfObject:item];
+        if (row >= 0) {
+            path = [NSIndexPath indexPathForRow:row inSection:section];
+        }
+    }
+    return path;
+}
+
+- (BOOL)toggleSelectionForItem:(FriendListItem *)item {
+    if ([_selection containsObject:item]) {
+        [_selection removeObject:item];
+        [item setSelected:NO];
+    } else {
+        NSComparisonResult (^compare) (FriendListItem*, FriendListItem*) = ^(FriendListItem* obj1, FriendListItem* obj2) {
+            NSString* a = [obj1 musubiName];
+            NSString* b = [obj2 musubiName];
+            a = [a stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            b = [b stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            return [a caseInsensitiveCompare:b];
+        };
+        
+        [_selection addObject:item];
+        [_selection sortedArrayUsingComparator:compare];
+        [item setSelected:YES];
+    }
+    
+    return item.selected;
+}
+
+- (NSArray *)selectedIdentities {
+    NSMutableArray* ids = [NSMutableArray array];
+    for (FriendListItem* item in _selection) {
+        [ids addObject:item.identity];
+    }
+    return ids;
+}
+
+@end

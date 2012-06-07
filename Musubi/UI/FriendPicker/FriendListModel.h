@@ -16,19 +16,25 @@
 
 
 //
-//  FeedListViewController.h
+//  FriendListModel.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
+//  Created by Willem Bult on 6/4/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "Three20/Three20.h"
-#import "FriendPickerViewController.h"
-#import "FeedViewController.h"
 
-@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate> {
-    UILabel* incomingLabel;
+@class IdentityManager;
+
+@interface FriendListModel : TTModel {
+    IdentityManager* _identityManager;
+    
+    BOOL _loaded;
+    BOOL _loading;
+    NSMutableArray* _results;
 }
+
+@property (nonatomic,strong) NSMutableArray* results;
 
 @end
