@@ -19,7 +19,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="o9G-oe-VLB">
                             <connections>
-                                <segue destination="Xha-HF-lG4" kind="push" identifier="CreateNewFeed" id="t5m-Jc-LzJ"/>
+                                <action selector="newConversation:" destination="XDU-Me-xmm" id="MQm-Uy-HpU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -34,16 +34,10 @@
         <scene sceneID="Vsg-9u-3B5">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a6R-AP-bBB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="Xha-HF-lG4" customClass="FriendPickerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FriendPicker" id="Xha-HF-lG4" customClass="FriendPickerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7aG-ba-9yQ">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" id="fHQ-7J-hmU">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </scrollView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="5Xm-Dg-E30">
@@ -102,7 +96,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Pvg-ZF-B50">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="M67-eo-fRQ">
+                        <barButtonItem key="rightBarButtonItem" title="Options" id="M67-eo-fRQ">
                             <connections>
                                 <segue destination="drl-Jy-2Sr" kind="push" identifier="ShowFeedSettings" id="1Ux-Bj-xUm"/>
                             </connections>
@@ -119,7 +113,7 @@
             </objects>
             <point key="canvasLocation" x="1560" y="-376"/>
         </scene>
-        <!--Feed Settings View Controller - Settings-->
+        <!--Feed Settings View Controller - Options-->
         <scene sceneID="nxq-2E-yPz">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AWF-Ij-FHP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -128,37 +122,12 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FeedNameCell" id="PQh-ek-D3X" customClass="FeedNameCell">
-                                <rect key="frame" x="0.0" y="46" width="320" height="46"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="10" y="1" width="300" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Conversation Title" textAlignment="center" minimumFontSize="17" id="vZ1-4a-8rK">
-                                            <rect key="frame" x="20" y="6" width="260" height="31"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                            <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
-                                            <connections>
-                                                <outlet property="delegate" destination="drl-Jy-2Sr" id="Law-52-4ST"/>
-                                            </connections>
-                                        </textField>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <connections>
-                                    <outlet property="name" destination="vZ1-4a-8rK" id="avE-1r-iMG"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="drl-Jy-2Sr" id="uWl-dt-QKM"/>
                             <outlet property="delegate" destination="drl-Jy-2Sr" id="6wL-Zq-TZz"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Settings" id="3fX-jt-M2f"/>
+                    <navigationItem key="navigationItem" title="Options" id="3fX-jt-M2f"/>
                     <connections>
                         <segue destination="Xha-HF-lG4" kind="push" identifier="AddPeopleSegue" id="j4C-eM-Obr"/>
                     </connections>
@@ -368,89 +337,13 @@
         <image name="gear.png" width="20" height="20"/>
         <image name="missing.png" width="289" height="287"/>
     </resources>
-    <classes>
-        <class className="FeedListViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedListViewController.h"/>
-        </class>
-        <class className="FeedNameCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedNameCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="name" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FeedSettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedSettingsViewController.h"/>
-        </class>
-        <class className="FeedViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addPeople:"/>
-                <relationship kind="action" name="sendMessage:"/>
-                <relationship kind="outlet" name="actionButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="mainView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="postView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="sendButton" candidateClass="TTButton"/>
-                <relationship kind="outlet" name="statusField" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="FriendPickerViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FriendPickerViewController.h"/>
-        </class>
-        <class className="NamePictureCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NamePictureCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="nameTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="pictureButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="ProfileNamePictureCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileNamePictureCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="principal" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ProfileViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileViewController.h"/>
-        </class>
-        <class className="SettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="pictureClicked:"/>
-            </relationships>
-        </class>
-        <class className="TTBaseViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTBaseViewController.h"/>
-        </class>
-        <class className="TTButton" superclassName="UIControl">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTButton.h"/>
-        </class>
-        <class className="TTModelViewController" superclassName="TTViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTModelViewController.h"/>
-        </class>
-        <class className="TTNavigatorViewController" superclassName="TTBaseViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTNavigatorViewController.h"/>
-        </class>
-        <class className="TTTableViewController" superclassName="TTModelViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="TTViewController" superclassName="TTNavigatorViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="nHK-F1-yOs"/>
-        <segue reference="t5m-Jc-LzJ"/>
         <segue reference="thq-lQ-aa5"/>
+        <segue reference="nHK-F1-yOs"/>
     </inferredMetricsTieBreakers>
 </document>

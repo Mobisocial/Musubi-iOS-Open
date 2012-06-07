@@ -43,6 +43,10 @@
 @synthesize feedManager = _feedManager;
 @synthesize delegate = _delegate;
 
+
+#define kFeedNameTag 0
+#define kBroadcastPassword 1
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     
@@ -66,6 +70,9 @@
 {
     [super viewDidLoad];
     
+    
+    broadcastSwitch = [[UISwitch alloc] init];
+    [broadcastSwitch addTarget: self action: @selector(flip:) forControlEvents:UIControlEventValueChanged];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -93,26 +100,37 @@
         case 0:
             return @"Conversation Title";
         case 1:
-        return @"Actions";    }
+            return @"Actions"; 
+        case 2:
+            return @"Nearby";
+    }
     
     return nil;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    // Return the number of rows in the section.
+    switch (section) {
+        case 0:
+            return 1;
+        case 1:
+            return 1;
+        case 2:
+            return 2;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
         case 0: {
-            static NSString *cellIdentifier = @"Cell";
+            static NSString *cellIdentifier = @"FeedNameCell";
             //FeedNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
             if (cell == nil) {
@@ -135,43 +153,83 @@
             textField.autocorrectionType = UITextAutocorrectionTypeNo;
             textField.keyboardType = UIKeyboardTypeDefault;
             textField.returnKeyType = UIReturnKeyDone;
-            textField.tag = indexPath.row;
+            textField.tag = kFeedNameTag;
             textField.delegate = self;
             
             [cell.contentView addSubview:textField];
-            //cell.
-            //cell.name.text = [_feedManager identityStringForFeed: _feed];
-            /*if(_identity.musubiName) {
-             cell.name.text = _identity.musubiName;
-             } else if(_identity.name) {
-             cell.name.text = _identity.name;
-             } else if(_identity.principal) {
-             cell.name.text = _identity.principal;
-             } else {
-             cell.name.text = @"Unknown";
-             }
-             
-             cell.principal.text = _identity.principal;
-             if(_identity.musubiThumbnail) {
-             cell.picture.image = [UIImage imageWithData:_identity.musubiThumbnail];
-             }
-             else if (_identity.thumbnail) {
-             cell.picture.image = [UIImage imageWithData:_identity.thumbnail];
-             }*/
             
             return cell;
         }
         case 1: {
-            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
+            switch (indexPath.row) {
+                case 0: {
+                    static NSString *cellIdentifier = @"MembersCell";
+                    //FeedNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc]
+                                initWithStyle:UITableViewCellStyleValue2 
+                                reuseIdentifier:cellIdentifier];
+                    }
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    cell.detailTextLabel.text = @"Members";
+                    
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    //[cell.contentView addSubview:textField];
+                    
+                    return cell;
+                }
             }
-            
-            [[cell textLabel] setText: @"Add participants"];
-            
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            
-            return cell;
+        }
+        case 2: {
+            switch (indexPath.row) {
+                case 0: {
+                    static NSString *cellIdentifier = @"BroadcastCell";                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc]
+                                initWithStyle:UITableViewCellStyleValue2 
+                                reuseIdentifier:cellIdentifier];
+                    }
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    cell.detailTextLabel.text = @"Broadcast";
+                    
+                    cell.accessoryView = [[UIView alloc] initWithFrame:broadcastSwitch.frame];
+                    [cell.accessoryView addSubview:broadcastSwitch];
+                    
+                    return cell;
+                }
+                case 1: {
+                    
+                    static NSString *cellIdentifier = @"BroadcastPasswordCell";
+                    //FeedNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+                    if (cell == nil) {
+                        cell = [[UITableViewCell alloc]
+                                initWithStyle:UITableViewCellStyleValue2 
+                                reuseIdentifier:cellIdentifier];
+                    }
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    cell.detailTextLabel.text = @"Password";
+                    UITextField *textField;
+                    
+                    textField = [[UITextField alloc] initWithFrame:CGRectMake(90,
+                                                                              tableView.rowHeight / 2 - 10, 200, 20)];
+                    textField.borderStyle = UITextBorderStyleNone;
+                    textField.textColor = [UIColor blackColor];
+                    textField.font = [UIFont systemFontOfSize:14];
+                    textField.placeholder = @"Leave empty for public sharing";
+                    textField.backgroundColor = [UIColor clearColor];
+                    textField.autocorrectionType = UITextAutocorrectionTypeNo;
+                    textField.keyboardType = UIKeyboardTypeDefault;
+                    textField.returnKeyType = UIReturnKeyDone;
+                    textField.tag = kBroadcastPassword;
+                    textField.delegate = self;
+                    
+                    [cell.contentView addSubview:textField];
+                    
+                    return cell;
+                }
+            }
         }
     }
     
@@ -237,8 +295,19 @@
             break;
         }
         case 1: {
-            [self performSegueWithIdentifier:@"AddPeopleSegue" sender:_feed];
-            break;
+            switch (indexPath.row) {
+                case 0: {
+                    [self performSegueWithIdentifier:@"AddPeopleSegue" sender:_feed];
+                    break;
+                }
+            }
+        }
+        case 2: {
+            switch (indexPath.row) {
+                case 0: {
+                    break;
+                }
+            }
         }
     }
 }
@@ -251,19 +320,54 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    NSString* name = textField.text;
-    name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if(!name || !name.length || [name isEqualToString:[_feedManager identityStringForFeed: _feed]])
-        return;
-    
-    FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name];
-    
-    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-    MApp* app = [am ensureSuperApp];
-    
-    [ObjHelper sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-    
-    [_delegate changedName:name];
+    switch (textField.tag) {
+        case kFeedNameTag: {
+            NSString* name = textField.text;
+            name = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            if(!name || !name.length || [name isEqualToString:[_feedManager identityStringForFeed: _feed]])
+                return;
+            
+            FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name];
+            
+            AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+            MApp* app = [am ensureSuperApp];
+            
+            [ObjHelper sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+            
+            [_delegate changedName:name];
+            break;
+        }
+        case kBroadcastPassword: {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
+                                                            message:@"Why even bother setting a password?" 
+                                                           delegate:nil 
+                                                  cancelButtonTitle:@"No one wants to join anyways."
+                                                  otherButtonTitles:nil];
+            [alert show]; 
+            break;
+        }
+    }
+}
+
+- (IBAction) flip: (id) sender {
+    UISwitch *onoff = (UISwitch *) sender;
+    NSLog(@"%@", onoff.on ? @"On" : @"Off");
+    if (onoff.on) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
+                                                        message:@"You are now broadcasting nearby, but I doubt anyone will join." 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"Nobody loves me."
+                                              otherButtonTitles:nil];
+        [alert show]; 
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
+                                                        message:@"You are no longer broadcasting nearby." 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"It's for the best."
+                                              otherButtonTitles:nil];
+        [alert show]; 
+    }
 }
 
 #pragma mark - Friend picker delegate

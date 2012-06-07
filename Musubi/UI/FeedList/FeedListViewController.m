@@ -33,7 +33,6 @@
 #import "AMQPConnectionManager.h"
 
 #import "FeedViewController.h"
-#import "FriendPickerTableViewController.h"
 
 #import "AppManager.h"
 #import "MApp.h"
@@ -175,6 +174,32 @@
     } else if ([[segue identifier] isEqualToString:@"CreateNewFeed"]) {
         FriendPickerViewController *vc = [segue destinationViewController];
         [vc setDelegate:self];
+    } 
+}
+
+- (void)newConversation:(id)sender
+{
+    //TODO: UIActionSheet
+    
+    UIActionSheet* newConversationPicker = [[UIActionSheet alloc] initWithTitle:@"New conversation" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Create from contacts", @"Join nearby group", nil];
+    
+    [newConversationPicker showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    
+    switch (buttonIndex) {
+        case 0: // create from contact list
+        {
+            FriendPickerViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendPicker"];
+            [vc setDelegate:self];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case 1: // find nearby groups
+        {   
+            break;
+        }
     }
 }
 

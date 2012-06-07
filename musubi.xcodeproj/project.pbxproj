@@ -382,6 +382,7 @@
 		C03A66B3157C1307009A5CBA /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPathQuery.m; path = Hpple/XPathQuery.m; sourceTree = "<group>"; };
 		C03A66B7157C137E009A5CBA /* DejalActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DejalActivityView.h; path = DejalActivityView/DejalActivityView.h; sourceTree = "<group>"; };
 		C03A66B8157C137E009A5CBA /* DejalActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DejalActivityView.m; path = DejalActivityView/DejalActivityView.m; sourceTree = "<group>"; };
+		C0733345157D83A300B2A391 /* Model 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 8.xcdatamodel"; sourceTree = "<group>"; };
 		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
 		C086764A156B032700F4F2BA /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
@@ -2600,9 +2601,6 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
-				2FB16942157D299A00832396 /* AudioToolbox.framework */,
-				2FB16940157D298C00832396 /* AVFoundation.framework */,
-				D4DB1348157C2DC000337A16 /* CFNetwork.framework */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
 				D298FA40143D0E84000831DD /* apps */,
 				D2794AF11457D33F00C5FDAB /* Libraries */,
@@ -2624,6 +2622,9 @@
 		D298F9F5143CE6DF000831DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2FB16942157D299A00832396 /* AudioToolbox.framework */,
+				2FB16940157D298C00832396 /* AVFoundation.framework */,
+				D4DB1348157C2DC000337A16 /* CFNetwork.framework */,
 				2F24EB8F1563B4CB00D803C0 /* libxml2.2.dylib */,
 				D2CD05E314462BD90080861E /* libcommonCrypto.dylib */,
 				D298FA4B143E5B4E000831DD /* libz.dylib */,
@@ -3682,7 +3683,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/Dropbox\"",
@@ -3751,6 +3752,7 @@
 		D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C0733345157D83A300B2A391 /* Model 8.xcdatamodel */,
 				C08679261571DB9F00F4F2BA /* Model 7.xcdatamodel */,
 				D26D1693156C81B700FC7650 /* Model 4.xcdatamodel */,
 				C086764A156B032700F4F2BA /* Model 3.xcdatamodel */,

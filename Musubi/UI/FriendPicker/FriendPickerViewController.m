@@ -46,6 +46,7 @@
         _clearsSelectionOnViewWillAppear = YES;
         _flags.isViewInvalid = YES;
         _remainingImports = [NSMutableDictionary dictionaryWithCapacity:2];
+        self.autoresizesForKeyboard = YES;
     }
     return self;
 }

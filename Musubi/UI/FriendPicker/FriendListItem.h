@@ -31,6 +31,7 @@
 
 @property (nonatomic,retain) NSString* musubiName;
 @property (nonatomic,retain) NSString* realName;
+@property (nonatomic,retain) NSMutableArray* structuredNames;
 @property (nonatomic,retain) UIImage* profilePicture;
 @property (nonatomic,assign) BOOL selected;
 @property (nonatomic,assign) BOOL pinned;

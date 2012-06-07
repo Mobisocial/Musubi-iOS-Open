@@ -26,7 +26,6 @@
 #import "FeedViewController.h"
 #import "ProfileViewController.h"
 #import "FeedSettingsViewController.h"
-#import "FriendPickerTableViewController.h"
 #import "FeedDataSource.h"
 #import "FeedModel.h"
 #import "FeedItem.h"
@@ -502,6 +501,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 
 - (void) changedName:(NSString *) name {
     [(UIButton*)self.navigationItem.titleView setTitle:name forState:UIControlStateNormal];
+    [self refreshFeed];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

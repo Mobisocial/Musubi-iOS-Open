@@ -137,17 +137,21 @@
 - (void) consumeMessages {
     UIApplication* application = [UIApplication sharedApplication];
     backgroundTaskId = [application beginBackgroundTaskWithExpirationHandler:^(void) {
+        [connMngr closeConnection];
         restartRequested = YES;
         [application endBackgroundTask:backgroundTaskId];
         backgroundTaskId = ~0U;
     }];
     @try {
+        __block BOOL need_reset = YES;
         __block NSDate* idleTime = [[NSDate date] dateByAddingTimeInterval:15];
         
         while (![[NSThread currentThread] isCancelled] && !restartRequested) {
             NSData* body = [connMngr readMessageAndCall:^{
-                [APNPushManager resetBothUnreadInBackgroundTask];
-                idleTime = nil;
+                if(need_reset)
+                    [APNPushManager resetBothUnreadInBackgroundTask];
+                idleTime = [[NSDate date] dateByAddingTimeInterval:15]; //probably can make this 30
+                need_reset = NO;
             } after:idleTime];
             
             //this may wake up unnecessarily, but that essentially means
@@ -156,7 +160,8 @@
             if (body == nil) {
                 continue;
             }
-            idleTime = [[NSDate date] dateByAddingTimeInterval:5];
+            need_reset = NO;
+            idleTime = [[NSDate date] dateByAddingTimeInterval:15];
             
             MEncodedMessage* encoded = (MEncodedMessage*)[threadStore createEntity:@"EncodedMessage"];
             encoded.encoded = body;

@@ -189,7 +189,6 @@
     
     BOOL localOnly = sender.type == kIdentityTypeLocal;
     if (!localOnly && !sender.owned) {
-        TFLog(@"corrupted because of core data nullification of encoded obj, making up some random shit");
         EncodedMessageManager* emm = [[EncodedMessageManager alloc] initWithStore:_store];
         MEncodedMessage* encoded = [emm create];
         obj.encoded = encoded;

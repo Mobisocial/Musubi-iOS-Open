@@ -29,21 +29,31 @@
 
 @implementation FriendListItem
 
-@synthesize musubiName = _musubiName, realName = _realName, profilePicture = _profilePicture, selected = _selected, pinned = _pinned, identity = _identity;
+@synthesize musubiName = _musubiName, realName = _realName, structuredNames = _structuredNames, profilePicture = _profilePicture, selected = _selected, pinned = _pinned, identity = _identity;
 
 - (id)initWithIdentity:(MIdentity *)ident {
     
     self = [super init];
     if (self) {
+        
+        self.identity = ident;
         self.realName = ident.principal;
         self.musubiName = [IdentityManager displayNameForIdentity: ident];
-/*        if(ident.musubiThumbnail) {
+        /* Delay this until cell render, expensive operation
+        if(ident.musubiThumbnail) {
             self.profilePicture = [UIImage imageWithData:ident.musubiThumbnail];
         } else {
             self.profilePicture = [UIImage imageWithData:ident.thumbnail];
         }*/
         
+        NSCharacterSet* splitChars = [NSCharacterSet characterSetWithCharactersInString:@" -,."];
+
+        _structuredNames = [NSMutableArray array];
+        [_structuredNames addObjectsFromArray:[self.realName componentsSeparatedByCharactersInSet:splitChars]];
+        [_structuredNames addObjectsFromArray:[self.musubiName componentsSeparatedByCharactersInSet:splitChars]];
+        
         self.selected = NO;
+        self.pinned = NO;
     }
     return self;
 }

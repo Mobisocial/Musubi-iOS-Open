@@ -319,10 +319,10 @@ static int operationCount;
         [_feedManager attachMember: sender toFeed:newFeed];
         
         for (MIdentity* recipient in im.recipients) {
-            [_feedManager attachMember: recipient toFeed: newFeed];
+            BOOL added = [_feedManager attachMember: recipient toFeed: newFeed];
             
              // Send a profile request if we don't have one from them yet
-             if (recipient.receivedProfileVersion == 0) {
+             if (added) {
                  _shouldRunProfilePush = YES;
              }
         }
@@ -413,10 +413,10 @@ static int operationCount;
     
     BOOL shouldRunProfilePushBecauseOfExpand = NO;
     for (MIdentity* participant in participants.allValues) {
-        [_feedManager attachMember:participant toFeed:feed];
+        BOOL added = [_feedManager attachMember:participant toFeed:feed];
         
         // Send a profile request if we don't have one from them yet
-        if (participant.receivedProfileVersion == 0) {
+        if (added) {
             shouldRunProfilePushBecauseOfExpand = YES;
         }
         

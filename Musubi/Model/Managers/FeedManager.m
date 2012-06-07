@@ -145,12 +145,14 @@
 }
 
 
-- (void) attachMember: (MIdentity*) mId toFeed: (MFeed*) feed {
+- (BOOL) attachMember: (MIdentity*) mId toFeed: (MFeed*) feed {
     if ([store queryFirst:[NSPredicate predicateWithFormat:@"feed = %@ AND identity = %@", feed, mId] onEntity:@"FeedMember"] == nil) {
         MFeedMember* fm = (MFeedMember*)[store createEntity:@"FeedMember"];
         [fm setFeed: feed];
         [fm setIdentity: mId];
+        return YES;
     }
+    return NO;
 }
 
 - (void) attachMembers: (NSArray*) participants toFeed: (MFeed*) feed {

@@ -27,8 +27,9 @@
 #import "FriendPickerViewController.h"
 #import "FeedViewController.h"
 
-@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate> {
+@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate, UIActionSheetDelegate> {
     UILabel* incomingLabel;
 }
+- (IBAction)newConversation:(id)sender;
 
 @end

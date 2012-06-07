@@ -117,22 +117,10 @@
 
 
 - (FriendListItem*) itemForIdentity: (MIdentity*) ident {
-    FriendListItem* item = [[FriendListItem alloc] init];
-    item.identity = ident;
-    item.realName = ident.principal;
-    item.musubiName = [IdentityManager displayNameForIdentity: ident];
+    FriendListItem* item = [[FriendListItem alloc] initWithIdentity:ident];
     
-    if(ident.musubiThumbnail) {
-        item.profilePicture = [UIImage imageWithData:ident.musubiThumbnail];
-    } else {
-        item.profilePicture = [UIImage imageWithData:ident.thumbnail];
-    }
-
     item.selected = [_selection containsObject:ident];
-    
-    if ([_pinnedIdentities containsObject:ident]) {
-        item.pinned = YES;
-    }
+    item.pinned = [_pinnedIdentities containsObject:ident];
     
     return item;
 }
@@ -163,9 +151,19 @@
         
         NSMutableArray* sectionMatches = nil;
         for (FriendListItem* item in [searchItems objectAtIndex:i]) {
-            if (!text || text.length == 0 || (item.musubiName && [item.musubiName rangeOfString:text options:NSCaseInsensitiveSearch].location != NSNotFound)
-                || (item.realName && [item.realName rangeOfString:text options:NSCaseInsensitiveSearch].location != NSNotFound)) {
+            BOOL match = NO;
+            if (!text || text.length == 0) {
+                match = YES;
+            } else {
+                for (NSString* name in item.structuredNames) {
+                    if (name.length >= text.length && [[name substringToIndex:text.length] isEqualToString:text]) {
+                        match = YES;
+                        break;
+                    }
+                }
+            }
                 
+            if (match) {
                 if (sectionMatches == nil) {
                     sectionMatches = [NSMutableArray array];
                     [matchedSections addObject:section];

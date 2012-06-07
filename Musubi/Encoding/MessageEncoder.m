@@ -74,7 +74,6 @@
     if (os != nil) {
         //workaround for buggy old version
         if(!os.signature || !os.key || !os.encryptedKey) {
-            [TestFlight passCheckpoint:@"deleting corrupted outgoing secret"];
             [[transportDataProvider store].context deleteObject:os];
             [[transportDataProvider store] save];
             os = nil;

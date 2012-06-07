@@ -123,6 +123,10 @@ static NSUInteger kDefaultStrokeWidth = 1;
     _titleLabel.left = left;
     _titleLabel.width = width;
     _bubbleLabel.frame = _titleLabel.frame;
+    
+    [self stripeView];
+    _stripeView.frame = _pictureView.frame;
+    _stripeView.height = _bubbleLabel.bottom;
     self.textLabel.left = left;
     self.textLabel.width = width;
     self.detailTextLabel.left = left;
@@ -145,6 +149,7 @@ static NSUInteger kDefaultStrokeWidth = 1;
         self.bubbleLabel.hidden = NO;
         self.bubbleLabel.text = object.title;
         self.pictureView.hidden = NO;
+        self.stripeView.hidden = NO;
         self.pictureView.image = object.picture;
     } else {
         self.detailTextLabel.hidden = NO;
@@ -152,6 +157,7 @@ static NSUInteger kDefaultStrokeWidth = 1;
         self.timestampLabel.hidden = NO;
         self.bubbleLabel.hidden = YES;
         self.pictureView.image = nil;
+        self.stripeView.hidden = YES;
         self.pictureView.hidden = YES;
     }
     self.profilePictureView.image = object.image;
@@ -175,7 +181,7 @@ static NSUInteger kDefaultStrokeWidth = 1;
         _bubbleLabel.font = [UIFont boldSystemFontOfSize:14.0];
         _bubbleLabel.backgroundColor = [UIColor clearColor];
         _bubbleLabel.strokeColor = [UIColor blackColor];
-        _bubbleLabel.strokeWidth = 2;
+        _bubbleLabel.strokeWidth = 0;
         _bubbleLabel.textColor = [UIColor whiteColor];
         _bubbleLabel.clipsToBounds = YES;
         _bubbleLabel.userInteractionEnabled = YES;        
@@ -202,7 +208,15 @@ static NSUInteger kDefaultStrokeWidth = 1;
     }
     return _pictureView;
 }
-
+- (UIImageView*)stripeView {
+    if (!_stripeView) {
+        _stripeView = [[UIView alloc] init];
+        _stripeView.backgroundColor = [UIColor colorWithWhite:0 alpha:.55];
+        _stripeView.opaque = NO;
+        [self.contentView insertSubview:_stripeView atIndex:1];
+    }
+    return _stripeView;
+}
 
 + (CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object {
     return 70;
