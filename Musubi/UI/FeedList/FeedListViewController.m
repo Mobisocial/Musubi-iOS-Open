@@ -119,15 +119,15 @@
     }
     if(lastRedraw) {
         NSDate* now = [NSDate date];
-        if([lastRedraw timeIntervalSinceDate:now] > 1) {
-        
-        } else {
+        if([lastRedraw timeIntervalSinceDate:now] < 1) {
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 11 * NSEC_PER_SEC / 10);
             nextRedraw = [lastRedraw dateByAddingTimeInterval:1];
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 nextRedraw = nil;
+                lastRedraw = nil;
                 [self feedUpdated:notification];
             });
+            return;
         }
     }
     FeedListDataSource* feeds = self.dataSource;
