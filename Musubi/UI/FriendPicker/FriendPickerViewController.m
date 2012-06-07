@@ -182,6 +182,11 @@
     return ((FriendListItem*) obj).musubiName;
 }
 
+- (IBAction)friendsSelected:(id)sender {
+    FriendListDataSource* ds = (FriendListDataSource*)self.dataSource;
+    [_delegate friendsSelected:ds.selectedIdentities];
+}
+
 @end
 
 @implementation FriendPickerTableViewDelegate

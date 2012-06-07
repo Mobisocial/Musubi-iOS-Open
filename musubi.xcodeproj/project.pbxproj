@@ -82,7 +82,6 @@
 		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
 		D250C9631579815600955AB2 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */; };
-		D2582662157D818100B47FEE /* FriendPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2582661157D818100B47FEE /* FriendPickerTableViewController.m */; };
 		D2582666157D847500B47FEE /* FriendPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2582665157D847500B47FEE /* FriendPickerViewController.m */; };
 		D2582669157D84EE00B47FEE /* FriendListDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D2582668157D84EE00B47FEE /* FriendListDataSource.m */; };
 		D258266C157D853600B47FEE /* FriendListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D258266B157D853600B47FEE /* FriendListModel.m */; };
@@ -486,8 +485,6 @@
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		D2582660157D818100B47FEE /* FriendPickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendPickerTableViewController.h; path = Feed/old/FriendPickerTableViewController.h; sourceTree = "<group>"; };
-		D2582661157D818100B47FEE /* FriendPickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendPickerTableViewController.m; path = Feed/old/FriendPickerTableViewController.m; sourceTree = "<group>"; };
 		D2582664157D847500B47FEE /* FriendPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendPickerViewController.h; path = FriendPicker/FriendPickerViewController.h; sourceTree = "<group>"; };
 		D2582665157D847500B47FEE /* FriendPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendPickerViewController.m; path = FriendPicker/FriendPickerViewController.m; sourceTree = "<group>"; };
 		D2582667157D84EE00B47FEE /* FriendListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendListDataSource.h; path = FriendPicker/FriendListDataSource.h; sourceTree = "<group>"; };
@@ -1284,7 +1281,6 @@
 		D23EED011554854200B18153 /* FeedList */ = {
 			isa = PBXGroup;
 			children = (
-				D258265F157D80EB00B47FEE /* old */,
 				D26D0F591576D57100722E3B /* FeedListViewController.h */,
 				D26D0F5A1576D57200722E3B /* FeedListViewController.m */,
 				D26D0F5C1576DC1700722E3B /* FeedListModel.h */,
@@ -1346,15 +1342,6 @@
 				D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		D258265F157D80EB00B47FEE /* old */ = {
-			isa = PBXGroup;
-			children = (
-				D2582660157D818100B47FEE /* FriendPickerTableViewController.h */,
-				D2582661157D818100B47FEE /* FriendPickerTableViewController.m */,
-			);
-			name = old;
 			sourceTree = "<group>";
 		};
 		D2582663157D840900B47FEE /* FriendPicker */ = {
@@ -3374,7 +3361,6 @@
 				2FB1693A157D261000832396 /* AudioRecorderViewController.m in Sources */,
 				2FB1693F157D264600832396 /* VoiceObj.m in Sources */,
 				5679215D157D5673008B43A6 /* FeedNameObjItemCell.m in Sources */,
-				D2582662157D818100B47FEE /* FriendPickerTableViewController.m in Sources */,
 				D2582666157D847500B47FEE /* FriendPickerViewController.m in Sources */,
 				D2582669157D84EE00B47FEE /* FriendListDataSource.m in Sources */,
 				D258266C157D853600B47FEE /* FriendListModel.m in Sources */,

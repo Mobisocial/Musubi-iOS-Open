@@ -26,7 +26,7 @@
 #import "Three20/Three20.h"
 
 @protocol FriendPickerViewControllerDelegate
-
+    - (void) friendsSelected:(NSArray*)selection;
 @end
 
 
