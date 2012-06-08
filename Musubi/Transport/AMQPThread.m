@@ -32,7 +32,7 @@
 
 @implementation AMQPThread
 
-@synthesize connMngr, storeFactory, threadStore;
+@synthesize connMngr, storeFactory;
 
 - (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf {
     
@@ -61,7 +61,6 @@
 
 - (void)main {
     // We need to create a new PersistentModelStore here, because it's not thread-safe
-    self.threadStore = [storeFactory newStore];
 }
 
 

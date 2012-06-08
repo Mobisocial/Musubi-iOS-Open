@@ -261,7 +261,6 @@
         if(i.row > row)
             row = i.row;
     }
-    NSLog(@"index %d", row);
     return row;
 }
 - (void)activated: (NSNotification*) notification

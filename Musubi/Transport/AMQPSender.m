@@ -73,19 +73,20 @@
     // Run AMQPThread common
     [super main];
     
-    EncodedMessageManager* emm = [[EncodedMessageManager alloc] initWithStore:threadStore];
-    
     // Perpetually wait for messages to become available
     while (![[NSThread currentThread] isCancelled]) {
         
         [_messagesWaitingCondition lock];
+        EncodedMessageManager* emm = [[EncodedMessageManager alloc] initWithStore:[storeFactory newStore]];
         
         NSArray* unsent = nil;
         while (unsent == nil || unsent.count == 0) {
             // Timeout is only used in case the connection crashes while messages are still waiting to be sent
             // We can afford a long delay in that border case. In the usual case, we will be signaled
             // as soon as a message is ready.
+            
             [_messagesWaitingCondition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+            
             unsent = [emm unsentOutboundMessages];
         }
         
@@ -94,8 +95,7 @@
         }
 
         @try {
-            NSArray* unsent = [emm unsentOutboundMessages];
-            
+            unsent = [emm unsentOutboundMessages];
             if (unsent != nil) {
                 if (unsent.count > 0)
                     [self log:@"Sending %d messages", unsent.count];
@@ -139,10 +139,11 @@
         IBEncryptionIdentity* ident = [[[IBEncryptionIdentity alloc] initWithKey:((Recipient*)[m.r objectAtIndex:i]).i] keyAtTemporalFrame:0];
         [hidForQueue addObject: ident];
         
-        MIdentity* mIdent = (MIdentity*)[threadStore createEntity:@"Identity"];
+        PersistentModelStore* store = [storeFactory newStore];
+        MIdentity* mIdent = (MIdentity*)[store createEntity:@"Identity"];
         [mIdent setPrincipalHash:[ident hashed]];
         [mIdent setType: [ident authority]];
-        [threadStore save];
+        [store save];
         [ids addObject:mIdent];
     }
     

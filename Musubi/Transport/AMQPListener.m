@@ -36,17 +36,19 @@
 @implementation AMQPListener 
 
 
-@synthesize deviceManager,identityManager, backgroundTaskId;
+@synthesize backgroundTaskId;
 
 - (void) main {
     // Run AMQPThread common
     [super main];
-    self.deviceManager = [[MusubiDeviceManager alloc] initWithStore:threadStore];
-    self.identityManager = [[IdentityManager alloc] initWithStore:threadStore];
     
     while (![[NSThread currentThread] isCancelled]) {
         restartRequested = NO;
-        
+
+        PersistentModelStore* store = [storeFactory newStore];
+        IdentityManager* identityManager = [[IdentityManager alloc] initWithStore:store];
+        MusubiDeviceManager* deviceManager = [[MusubiDeviceManager alloc] initWithStore:store];
+
         @try {                        
             // This opens connection and channel
             if (![connMngr connectionIsAlive]) {
@@ -56,6 +58,7 @@
             }
 
             @synchronized(self.connMngr.connLock) {
+                
                 // Declare the device queue
                 uint64_t deviceName = [deviceManager localDeviceName];
                 NSData* devNameData = [NSData dataWithBytes:&deviceName length:sizeof(deviceName)];
@@ -63,6 +66,7 @@
                 
                 [connMngr declareQueue:deviceQueueName onChannel:kAMQPChannelIncoming passive:NO durable:YES exclusive:NO];
                 //TODO: device_queue_name needs to involve the identities some how? or be a larger byte array
+                
                 
                 // Declare queues for each identity
                 for (MIdentity* me in [identityManager ownedIdentities]) {
@@ -163,16 +167,22 @@
             need_reset = NO;
             idleTime = [[NSDate date] dateByAddingTimeInterval:15];
             
-            MEncodedMessage* encoded = (MEncodedMessage*)[threadStore createEntity:@"EncodedMessage"];
+            
+            PersistentModelStore* store = [storeFactory newStore];
+            MEncodedMessage* encoded = (MEncodedMessage*)[store createEntity:@"EncodedMessage"];
             encoded.encoded = body;
             encoded.processed = NO;
             encoded.outbound = NO;
-            [threadStore save];
             
-            [self log:@"Incoming: %@", body.sha256Digest];
+            NSError* error = nil;
+            if (![store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:encoded] error:&error]) {
+                @throw error;
+            }
+            [store save];
+            
             [self log:@"Incoming: %@", encoded.objectID];
             
-            [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:nil]];
+            [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:encoded.objectID]];
             [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
         }
     } 

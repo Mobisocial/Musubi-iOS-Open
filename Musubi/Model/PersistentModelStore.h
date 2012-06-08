@@ -35,6 +35,8 @@
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator;
 - (id) initWithParent: (PersistentModelStore*)parent;
 
+- (BOOL) isDeletedObject: (NSManagedObject*) object;
+
 - (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName;
 - (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor;
 - (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor limit:(NSInteger)limit;
@@ -42,7 +44,6 @@
 - (NSManagedObject *)createEntity: (NSString*) entityName;
 
 - (void) save;
-- (void) reset;
 
 @end
 

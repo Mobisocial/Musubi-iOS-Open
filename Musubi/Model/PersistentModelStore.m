@@ -163,7 +163,6 @@ static PersistentModelStoreFactory *sharedInstance = nil;
 
 - (void) otherContextSaved: (NSNotification*) notification {
     if (notification.object != context) {
-
         // call the result handler block on the main queue (i.e. main thread)
         dispatch_async( dispatch_get_main_queue(), ^{
             [context mergeChangesFromContextDidSaveNotification:notification];
@@ -172,6 +171,15 @@ static PersistentModelStoreFactory *sharedInstance = nil;
                 NSLog(@"failed to save changes merged from other context");
             }
         });
+    }
+}
+
+- (BOOL) isDeletedObject: (NSManagedObject*) object {
+    NSManagedObject* clone = [context existingObjectWithID:object.objectID error:NULL];
+    if (!clone) {
+        return YES;
+    } else {
+        return NO;
     }
 }
 
@@ -217,9 +225,6 @@ static PersistentModelStoreFactory *sharedInstance = nil;
     if(![context save:&err]) {
         @throw [NSException exceptionWithName:kMusubiExceptionUnexpected reason:[NSString stringWithFormat:@"Unexpected error occurred: %@", err] userInfo:nil];
     }
-}
-- (void)reset {
-    [context reset];
 }
 
 @end

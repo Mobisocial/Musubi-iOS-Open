@@ -68,23 +68,43 @@
         [self setQueue: [NSOperationQueue new]];
         [_queue setMaxConcurrentOperationCount:1];
         
-        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationEncodedMessageReceived object:nil];
+        [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process:) name:kMusubiNotificationEncodedMessageReceived object:nil];
         [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationEncodedMessageReceived object:nil];
     }
     
     return self;
 }
 
-- (void) process {    
-    // This is called on some background thread (through notificationCenter), so we need a new store
-    PersistentModelStore* store = [_storeFactory newStore];
 
-    BOOL messagesQueued = NO;
+- (void) process: (NSNotification*) notification {    
+    NSManagedObjectID* specificId = nil;
+    
+    if (notification.object != nil && [notification.object isKindOfClass:[NSManagedObjectID class]]) {
+        specificId = notification.object;
+    }
+    
+    if (specificId) {
+        [self processMessagesWithIds:[NSArray arrayWithObject:specificId]];
+    } else {
+        [self processPendingMessages];
+    }
+}
+
+- (void) processPendingMessages {
+    
+    // This may be called on some background thread (through notificationCenter), so we need a new store
+    PersistentModelStore* store = [_storeFactory newStore];
+    
+    NSMutableArray* messages = [NSMutableArray array];
     for (MEncodedMessage* msg in [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"]) {
+        
+        // The decoder apparently deleted this message already, move on
+        if ([store isDeletedObject:msg])
+            continue;
+        
         @try
         {
             if(msg.processed == YES) {
-                NSLog(@"Shut 'er down clancy, she's a pumpin' mud!!");
                 continue;
             }
         }
@@ -95,19 +115,30 @@
                 continue;
             }
         }
+        
+        [messages addObject:msg.objectID];
+    }
+    
+    [self processMessagesWithIds:messages];
+}
+
+- (void) processMessagesWithIds: (NSArray*) messageObjectIDs {
+    BOOL messagesQueued = NO;
+    for (NSManagedObjectID* msgId in messageObjectIDs) {
+        
         messagesQueued = YES;
         
         // Don't process the same obj twice in different threads
         // pending is atomic, so we should be able to do this safely
         // Store ObjectID instead of object, because that is thread-safe
-        if ([_pending containsObject: msg.objectID]) {
+        if ([_pending containsObject: msgId]) {
             continue;
         } else {
-            [_pending addObject: msg.objectID];
+            [_pending addObject: msgId];
         }
         
         // Find the thread to run this on
-        [_queue addOperation: [[MessageDecodeOperation alloc] initWithMessageId:msg.objectID andService:self]];
+        [_queue addOperation: [[MessageDecodeOperation alloc] initWithMessageId:msgId andService:self]];
     }
     
     if (messagesQueued)
@@ -157,8 +188,13 @@ static int operationCount;
     @try {
         // Get the obj and decode it
         [self setStore: [_service.storeFactory newStore]];
-        MEncodedMessage* msg = (MEncodedMessage*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _messageId] onEntity:@"EncodedMessage"];
+        NSError* error = nil;
+        MEncodedMessage* msg = (MEncodedMessage*)[_store.context existingObjectWithID:_messageId error:&error];
         
+        if (error != nil) {
+            @throw error;
+        }
+
         if (msg) {
             [self setDeviceManager: [[MusubiDeviceManager alloc] initWithStore: _store]];
             [self setTransportManager: [[TransportManager alloc] initWithStore:_store encryptionScheme: _service.identityProvider.encryptionScheme signatureScheme:_service.identityProvider.signatureScheme deviceName:[_deviceManager localDeviceName]]];
@@ -171,6 +207,9 @@ static int operationCount;
             [self decodeMessage:msg];
         }
     } @catch (NSException* e) {
+        NSLog(@"Error: %@", e);
+    } @catch (NSError* e) {
+        NSLog(@"Error: %@", e);
     } @finally {
         operationCount--;
 
@@ -186,13 +225,12 @@ static int operationCount;
     if (msg == nil)
         @throw [NSException exceptionWithName:kMusubiExceptionUnexpected reason:@"Message was nil!" userInfo:nil];
     
-    NSLog(@"Decoding %@", msg);
+    NSLog(@"Decoding %@", msg.objectID);
     
     assert (msg != nil);
     IncomingMessage* im = nil;
     @try {
         im = [_decoder decodeMessage:msg];
-        NSLog(@"Decoded %@", im);
     }
     @catch (NSException *exception) {
         if ([exception.name isEqualToString:kMusubiExceptionNeedEncryptionUserKey]) {

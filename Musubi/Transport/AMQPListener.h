@@ -32,8 +32,6 @@
     BOOL restartRequested;
 }
 
-@property (nonatomic, strong) MusubiDeviceManager* deviceManager;
-@property (nonatomic, strong) IdentityManager* identityManager;
 @property (atomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
 
 - (void) consumeMessages;
