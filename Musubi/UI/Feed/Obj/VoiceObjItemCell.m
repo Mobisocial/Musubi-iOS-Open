@@ -38,9 +38,7 @@
 }
 
 + (CGFloat)renderHeightForItem:(FeedItem *)item {
-//    CGSize size = [kVoiceObjText sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
-//    return size.height;
-    return 50;
+    return 45;
 }
 
 - (NSString*)formattedSecondStringWithSeconds:(int)seconds
@@ -92,10 +90,42 @@
     }
 }
 
-- (UIButton *)playButton
+- (TTStyle*)playButtonStyle:(UIControlState)state {
+    if (state == UIControlStateNormal) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:8] next:
+         [TTInsetStyle styleWithInset:UIEdgeInsetsMake(0, 0, 1, 0) next:
+          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0) blur:1 offset:CGSizeMake(0, 1) next:
+           [TTLinearGradientFillStyle styleWithColor1:RGBCOLOR(255, 255, 255)
+                                               color2:RGBCOLOR(216, 221, 231) next:
+            [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
+             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
+              [TTTextStyle styleWithFont:nil color:TTSTYLEVAR(linkTextColor)
+                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
+                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]]]];
+    } else if (state == UIControlStateHighlighted) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:8] next:
+         [TTInsetStyle styleWithInset:UIEdgeInsetsMake(0, 0, 1, 0) next:
+          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0.9) blur:1 offset:CGSizeMake(0, 1) next:
+           [TTLinearGradientFillStyle styleWithColor1:RGBCOLOR(225, 225, 225)
+                                               color2:RGBCOLOR(196, 201, 221) next:
+            [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
+             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
+              [TTTextStyle styleWithFont:nil color:[UIColor whiteColor]
+                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
+                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]]]];
+    } else {
+        return nil;
+    }
+}
+
+- (TTButton *)playButton
 {
     if (!_playButton) {
-        _playButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _playButton = [[TTButton alloc] init];
+        [_playButton setStyle:[self playButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
+        [_playButton setStyle:[self playButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
         [_playButton setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
         [self resetCurrentAudioDurationTextField];       
         [_playButton addTarget:self action:@selector(playPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -110,7 +140,6 @@
     if ([self.player isPlaying] == NO) {
         [self.player prepareToPlay];
 
-        NSLog(@"Play button pressed!");
         UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
         AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,sizeof (audioRouteOverride),&audioRouteOverride);
     
@@ -146,6 +175,6 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.playButton.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, self.detailTextLabel.frame.size.height);
+    self.playButton.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, 50);
 }
 @end

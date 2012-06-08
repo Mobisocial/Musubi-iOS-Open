@@ -130,7 +130,7 @@
     if (!_audioRVC) {
         _audioRVC = [[AudioRecorderViewController alloc] init];
         _audioRVC.delegate = self;
-        _audioRVC.backgroundView = self.view;
+//        _audioRVC.backgroundView = self.view;
     }
     return _audioRVC;
 }

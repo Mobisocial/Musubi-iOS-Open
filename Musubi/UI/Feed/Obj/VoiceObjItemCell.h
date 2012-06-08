@@ -25,11 +25,12 @@
 
 #import "FeedItemCell.h"
 #import <AVFoundation/AVFoundation.h>
+#import "Three20/Three20.h"
 
 @interface VoiceObjItemCell : FeedItemCell <AVAudioPlayerDelegate, AVAudioSessionDelegate>
 
 //@property (nonatomic, readonly) UIImageView* iconView;
-@property (nonatomic, strong) UIButton *playButton;
+@property (nonatomic, strong) TTButton *playButton;
 @property (nonatomic, strong) AVAudioPlayer *player;
 @property (nonatomic) int audioDuration;
 @property (nonatomic) int currentAudioDuration;

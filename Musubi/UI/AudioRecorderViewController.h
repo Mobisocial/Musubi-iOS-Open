@@ -26,6 +26,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "VoiceObj.h"
+#import "Three20/Three20.h"
 
 // The delegate must receive an audio data object and deal
 // with it
@@ -37,19 +38,16 @@
 
 @interface AudioRecorderViewController : UIViewController <AVAudioRecorderDelegate, AVAudioPlayerDelegate, AVAudioSessionDelegate>
 
-@property (nonatomic) UIView *backgroundView;
-@property (nonatomic) BOOL userIsRecording;
 @property (nonatomic, strong) AVAudioRecorder *recorder;
 @property (nonatomic, strong) AVAudioPlayer *player;
+
 // This is the temporary path of the audio file
 @property (nonatomic, strong) NSURL *filePath;
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityView;
-// We need these buttons as properties so we can hide them
-@property (nonatomic, strong) UIButton *recordButton;
-@property (nonatomic, strong) UIButton *playButton;
-@property (nonatomic, strong) UIButton *submitButton;
-@property (nonatomic, strong) UITextView *audioDurationTextView;
+@property (nonatomic, strong) TTButton *submitButton;
+@property (nonatomic, strong) TTButton *resetButton;
+@property (nonatomic, strong) UILabel *audioDurationTextView;
 @property (nonatomic) int audioDuration;
 
 @property (nonatomic, weak) id delegate;
