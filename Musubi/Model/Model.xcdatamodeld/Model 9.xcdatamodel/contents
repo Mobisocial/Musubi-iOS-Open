@@ -35,10 +35,6 @@
             <compoundIndex>
                 <index value="shortMessageHash"/>
             </compoundIndex>
-            <compoundIndex>
-                <index value="outbound"/>
-                <index value="processed"/>
-            </compoundIndex>
         </compoundIndexes>
     </entity>
     <entity name="EncryptionUserKey" representedClassName="MEncryptionUserKey" syncable="YES">
@@ -56,11 +52,6 @@
         <attribute name="shortCapability" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="latestRenderableObj" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Obj" syncable="YES"/>
-        <compoundIndexes>
-            <compoundIndex>
-                <index value="shortCapability"/>
-            </compoundIndex>
-        </compoundIndexes>
     </entity>
     <entity name="FeedApp" representedClassName="MFeedApp" syncable="YES">
         <relationship name="app" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="App" syncable="YES"/>
@@ -105,14 +96,6 @@
         <relationship name="device" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" syncable="YES"/>
         <relationship name="myIdentity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
         <relationship name="otherIdentity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
-        <compoundIndexes>
-            <compoundIndex>
-                <index value="myIdentity"/>
-                <index value="otherIdentity"/>
-                <index value="encryptionPeriod"/>
-                <index value="signaturePeriod"/>
-            </compoundIndex>
-        </compoundIndexes>
     </entity>
     <entity name="Like" representedClassName="MLike" syncable="YES">
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -155,14 +138,6 @@
         <attribute name="signaturePeriod" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="myIdentity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
         <relationship name="otherIdentity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
-        <compoundIndexes>
-            <compoundIndex>
-                <index value="myIdentity"/>
-                <index value="otherIdentity"/>
-                <index value="encryptionPeriod"/>
-                <index value="signaturePeriod"/>
-            </compoundIndex>
-        </compoundIndexes>
     </entity>
     <entity name="SequenceNumber" representedClassName="MSequenceNumber" syncable="YES">
         <attribute name="sequenceNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -184,12 +159,12 @@
         <element name="FeedApp" positionX="160" positionY="192" width="128" height="75"/>
         <element name="FeedMember" positionX="160" positionY="192" width="128" height="75"/>
         <element name="Identity" positionX="160" positionY="192" width="128" height="330"/>
-        <element name="IncomingSecret" positionX="160" positionY="192" width="128" height="165"/>
+        <element name="IncomingSecret" positionX="160" positionY="192" width="128" height="180"/>
         <element name="Like" positionX="160" positionY="192" width="128" height="90"/>
         <element name="MissingMessage" positionX="160" positionY="192" width="128" height="75"/>
         <element name="MyDeviceName" positionX="160" positionY="192" width="128" height="60"/>
         <element name="Obj" positionX="160" positionY="192" width="128" height="330"/>
-        <element name="OutgoingSecret" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="OutgoingSecret" positionX="160" positionY="192" width="128" height="165"/>
         <element name="SequenceNumber" positionX="160" positionY="192" width="128" height="90"/>
         <element name="SignatureUserKey" positionX="160" positionY="192" width="128" height="105"/>
     </elements>

@@ -482,6 +482,7 @@
 		D216DE6314F48952001A4166 /* MusubiAppTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusubiAppTest.h; sourceTree = "<group>"; };
 		D216DE6414F48952001A4166 /* MusubiAppTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusubiAppTest.m; sourceTree = "<group>"; };
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
+		D22352611581D3D100A6FB63 /* Model 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 9.xcdatamodel"; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSender.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -3752,6 +3753,7 @@
 		D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D22352611581D3D100A6FB63 /* Model 9.xcdatamodel */,
 				C0733345157D83A300B2A391 /* Model 8.xcdatamodel */,
 				C08679261571DB9F00F4F2BA /* Model 7.xcdatamodel */,
 				D26D1693156C81B700FC7650 /* Model 4.xcdatamodel */,

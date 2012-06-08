@@ -86,7 +86,7 @@
             // We can afford a long delay in that border case. In the usual case, we will be signaled
             // as soon as a message is ready.
             [_messagesWaitingCondition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-            unsent = [emm unsentOutboundMessages];            
+            unsent = [emm unsentOutboundMessages];
         }
         
         while (![connMngr connectionIsAlive]){
