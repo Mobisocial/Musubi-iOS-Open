@@ -59,6 +59,8 @@
 
             @synchronized(self.connMngr.connLock) {
                 
+                NSLog(@"Restarting listener");
+                
                 // Declare the device queue
                 uint64_t deviceName = [deviceManager localDeviceName];
                 NSData* devNameData = [NSData dataWithBytes:&deviceName length:sizeof(deviceName)];
@@ -95,14 +97,14 @@
                         }
                         
                         // Consume the initial identity messages, non-exclusive
-                        [connMngr consumeFromQueue:initialQueueName onChannel:probe nolocal:YES exclusive:NO];
+                        [connMngr consumeFromQueue:initialQueueName onChannel:kAMQPChannelIncoming nolocal:YES exclusive:NO];
                     }
                     @catch (NSException *exception) {
                         [self log:@"Exception: %@", exception];
                         [self log:@"Initial queue did not exist, ok"];
-                        [connMngr closeChannel:probe];
                     }
                     @finally {
+                        [connMngr closeChannel:probe];
                     }
 
                 }
@@ -180,13 +182,17 @@
             }
             [store save];
             
+            NSLog(@"Last seq number: %llu", [connMngr lastIncomingSequenceNumber]);
+            
+            [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
+            
             [self log:@"Incoming: %@", encoded.objectID];
             
             [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:encoded.objectID]];
-            [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
         }
-    } 
-    @finally {
+    } @catch (NSException* e) {
+        NSLog(@"AMQPListener exception: %@", e);  
+    } @finally {
         if(backgroundTaskId != ~0U) {
             [application endBackgroundTask:backgroundTaskId];
             backgroundTaskId = ~0U;

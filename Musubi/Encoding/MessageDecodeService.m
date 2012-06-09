@@ -141,8 +141,8 @@
         [_queue addOperation: [[MessageDecodeOperation alloc] initWithMessageId:msgId andService:self]];
     }
     
-    if (messagesQueued)
-        [_queue addOperation: [[MessageDecodedNotifyOperation alloc] init]]; 
+    //if (messagesQueued)
+    //    [_queue addOperation: [[MessageDecodedNotifyOperation alloc] init]]; 
 }
 
 @end
@@ -279,7 +279,7 @@ static int operationCount;
             // RabbitMQ does not support the "no deliver to self" routing policy.
             // don't log self-routed device duplicates, everything else we want to know about
             if (from.deviceName != _deviceManager.localDeviceName) {
-                NSLog(@"Failed to decode message %@: %@", msg, exception);
+                NSLog(@"Failed to decode message %@: %@", msg.objectID, exception);
             }
             
             [_store.context deleteObject:msg];
@@ -287,7 +287,7 @@ static int operationCount;
             return YES;
             
         } else {
-            NSLog(@"Failed to decode message: %@: %@", msg, exception);
+            NSLog(@"Failed to decode message: %@: %@", msg.objectID, exception);
             [_store.context deleteObject:msg];
             [_store save];
             return YES;
@@ -411,6 +411,13 @@ static int operationCount;
     // Finish up
     [msg setProcessed: YES];
     [msg setProcessedTime: [NSDate date]];
+    
+    NSError* error;
+    if (![_store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:mObj] error:&error])
+        @throw error;
+    
+    // Notify the ObjPipeline
+    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAppObjReady object:mObj.objectID]];
     
     [_store save];        
     _success = YES;

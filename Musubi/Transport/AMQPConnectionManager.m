@@ -205,6 +205,9 @@
     
     amqp_channel_open(conn, ++last_channel);
     [self amqpCheckReplyInContext:@"Opening new channel"];
+    
+    amqp_confirm_select(conn, last_channel);
+    
     [connLock unlock];
     
     return last_channel;
@@ -363,7 +366,7 @@
         FD_SET(sock, &error_flags);
         struct timeval timeout;
         timeout.tv_sec = 0;
-        timeout.tv_usec = 500000;
+        timeout.tv_usec = 50000;
 
         //dont freeze the connection while waiting for data
         [connLock unlock];
@@ -400,6 +403,7 @@
             //date must always be < heartbeat request time submitted to the server
             int res = amqp_send_frame(conn, &f);
             if (res < 0) {
+                [connLock unlock];
                 @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Error sending heartbeat" userInfo:nil];
             }
 
@@ -420,8 +424,7 @@
         
         if (result < 0) {
             @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Got error waiting for frame" userInfo:nil];
-        }
-        if (frame.frame_type == AMQP_FRAME_HEARTBEAT) {
+        } else if (frame.frame_type == AMQP_FRAME_HEARTBEAT) {
             amqp_frame_t f;
             f.frame_type = AMQP_FRAME_HEARTBEAT;
             f.channel = 0;
@@ -431,13 +434,10 @@
             }
             [connLock unlock];
             return nil;
-        }        
-        if (frame.frame_type != AMQP_FRAME_METHOD) {
-            [connLock unlock];
-            return nil;
-        }
-        
-        if (frame.payload.method.id == AMQP_BASIC_ACK_METHOD) {
+        } else if (frame.frame_type != AMQP_FRAME_METHOD) {
+            [self closeConnection];
+            @throw [NSException exceptionWithName:kAMQPConnectionException reason:[NSString stringWithFormat: @"Unhandled AMQP frame %d", frame.frame_type] userInfo:nil];
+        } else if (frame.payload.method.id == AMQP_BASIC_ACK_METHOD) {
             if(pending.count == 0)
                 @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Unexpected basic ack from broker" userInfo:nil];
             void (^ack_block)()  = (void(^)())[pending objectAtIndex:0];
@@ -445,10 +445,12 @@
             [connLock unlock];
             ack_block();
             return nil;
-        }
-        if (frame.payload.method.id != AMQP_BASIC_DELIVER_METHOD) {
-            [connLock unlock];
-            return nil;
+        } else if (frame.payload.method.id == AMQP_CHANNEL_CLOSE_METHOD) {
+            [self closeConnection];
+            @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Unexpected channel close from broker" userInfo:nil];
+        } else if (frame.payload.method.id != AMQP_BASIC_DELIVER_METHOD) {            
+            [self closeConnection];
+            @throw [NSException exceptionWithName:kAMQPConnectionException reason:[NSString stringWithFormat: @"Unhandled AMQP method %d", frame.payload.method.id] userInfo:nil];
         }
         
         lastIncomingDeliveryTag = ((amqp_basic_deliver_t*) frame.payload.method.decoded)->delivery_tag;
@@ -488,6 +490,7 @@
         return messageData;
         
     } @catch (NSException* exception) {
+        NSLog(@"AMQP exception: %@", exception);
         [connLock unlock];
         @throw exception;
     }
@@ -510,7 +513,8 @@
     message.len = [data length];
     
     int result = amqp_basic_publish(conn, channel, amqp_cstring_bytes(destName), amqp_cstring_bytes(""), 1, 0, NULL, message);
-    if (result > 0) {
+    if (result != 0) {
+        [connLock unlock];
         @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Error while publishing" userInfo:nil];
     }
     [pending addObject:onAck];
@@ -526,8 +530,12 @@
         @throw [NSException exceptionWithName:kAMQPConnectionException reason: @"Connection not ready" userInfo: nil];
     }
     
-    amqp_basic_ack(conn, channel, deliveryTag, FALSE);
-    
+    int result = amqp_basic_ack(conn, channel, deliveryTag, FALSE);
+    if (result != 0) {
+        [connLock unlock];
+        @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Error while acking" userInfo:nil];
+    }
+
     [connLock unlock];
 }
 

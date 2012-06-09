@@ -56,17 +56,38 @@
     self.operations = [NSOperationQueue new];
     [operations setMaxConcurrentOperationCount: 1];
     
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationAppObjReady object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process:) name:kMusubiNotificationAppObjReady object:nil];
     [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationAppObjReady object:nil];
     
     return self;
 }
 
-- (void) process {
+- (void) process: (NSNotification*) notification {
+    NSManagedObjectID* specificId = nil;
+    
+    if (notification.object != nil && [notification.object isKindOfClass:[NSManagedObjectID class]]) {
+        specificId = notification.object;
+    }
+    
+    if (specificId) {
+        NSLog(@"Got an AppObjReady notification for id: %@", specificId);
+        [self processObjsWithIds:[NSArray arrayWithObject:specificId]];
+    } else {
+        [self processPendingObjs];
+    }
+}
+
+- (void) processPendingObjs {
     // This is called on some background thread (through notificationCenter), so we need a new store
     PersistentModelStore* store = [storeFactory newStore];
     
+    NSMutableArray* objs = [NSMutableArray array];
     for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"] onEntity:@"Obj"]) {
+        
+        // The encoder apparently deleted this message already, move on
+        if ([store isDeletedObject:obj])
+            continue;
+        
         @try
         {
             if(obj.processed == YES) {
@@ -82,16 +103,26 @@
             }
         }
 
+        
+        [objs addObject:obj.objectID];
+    }
+    
+    [self processObjsWithIds:objs];
+}
+
+- (void) processObjsWithIds: (NSArray*) objIDs {
+    for (NSManagedObjectID* objID in objIDs) {
+        
         // Don't process the same obj twice in different threads
         // pending is atomic, so we should be able to do this safely
         // Store ObjectID instead of object, because that is thread-safe
-        if ([pending containsObject: obj.objectID]) {
+        if ([pending containsObject: objID]) {
             continue;
         } else {
-            [pending addObject: obj.objectID];
+            [pending addObject: objID];
         }
         
-        [operations addOperation: [[ObjProcessorOperation alloc] initWithObjId:obj.objectID andService:self]];
+        [operations addOperation: [[ObjProcessorOperation alloc] initWithObjId:objID andService:self]];
     }
 }
 
@@ -119,7 +150,12 @@ static int operationCount = 0;
     operationCount++;
 
     // Get the obj and decode it
-    MObj* obj = (MObj*)[_store queryFirst:[NSPredicate predicateWithFormat:@"self == %@", _objId] onEntity:@"Obj"];
+    NSError* error;
+    NSLog(@"ObjID: %@", _objId);
+    MObj* obj = (MObj*)[_store.context existingObjectWithID:_objId error:&error];
+    NSLog(@"Obj: %@", obj);
+    if (!obj)
+        @throw error;
     
     if (obj) {
         @try {

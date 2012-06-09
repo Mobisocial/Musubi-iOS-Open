@@ -94,9 +94,14 @@
     [mObj setRenderable: [ObjHelper isRenderable:obj]];
     [mObj setEncoded: nil];
     [mObj setParent: nil];
+    
+    NSError* error;
+    if (![store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:mObj] error:&error])
+        @throw error;
+    
     [store save];
     
-    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationPlainObjReady object:nil];
+    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationPlainObjReady object:mObj.objectID];
     
     return mObj;
 }

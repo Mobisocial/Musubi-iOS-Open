@@ -83,31 +83,67 @@
         [queue setMaxConcurrentOperationCount:1];
     }
     
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process) name:kMusubiNotificationPlainObjReady object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process:) name:kMusubiNotificationPlainObjReady object:nil];
     //in case we bailed with a message in the pipes
     [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationPlainObjReady object:nil];
 
     return self;
 }
 
-- (void) process {
-    // This is called on some background thread (through notificationCenter), so we need a new store
+- (void) process: (NSNotification*) notification {
+    NSManagedObjectID* specificId = nil;
+    
+    if (notification.object != nil && [notification.object isKindOfClass:[NSManagedObjectID class]]) {
+        specificId = notification.object;
+    }
+    
+    if (specificId) {
+        [self processObjsWithIds:[NSArray arrayWithObject:specificId]];
+    } else {
+        [self processPendingObjs];
+    }
+}
+
+- (void) processPendingObjs {
+    
+    // This may be called on some background thread (through notificationCenter), so we need a new store
     PersistentModelStore* store = [_storeFactory newStore];
     
-    NSMutableSet* usedQueues = [NSMutableSet setWithCapacity:2];
-
+    NSMutableArray* objs = [NSMutableArray array];
     for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(encoded == nil)"] onEntity:@"Obj"]) {
+        
+        // The encoder apparently deleted this message already, move on
+        if ([store isDeletedObject:obj])
+            continue;
+        
+        [objs addObject:obj.objectID];
+    }
+    
+    [self processObjsWithIds:objs];
+}
+
+- (void) processObjsWithIds: (NSArray*) objObjectIDs {
+    // This is called on some background thread (through notificationCenter), so we need a new store
+    PersistentModelStore* store = [_storeFactory newStore];
+
+    NSMutableSet* usedQueues = [NSMutableSet setWithCapacity:2];
+    
+    for (NSManagedObjectID* objID in objObjectIDs) {
+        
+        MObj* obj = (MObj*)[store.context existingObjectWithID:objID error:nil];
+        if (!obj)
+            continue;
         
         assert (obj.encoded == nil);
         
         @synchronized(_pendingLock) {
-            if ([_pending containsObject: obj.objectID]) {
+            if ([_pending containsObject: objID]) {
                 continue;
             } else {
-                [_pending addObject: obj.objectID];
+                [_pending addObject: objID];
             }
         }
-
+        
         // Find the thread to run this on
         NSOperationQueue* queue = nil;
         if([obj.feed.name isEqualToString:kFeedNameGlobalWhitelist] && obj.feed.type == kFeedTypeAsymmetric) {
@@ -122,7 +158,7 @@
         }
         
         [usedQueues addObject: queue];
-        [queue addOperation: [[MessageEncodeOperation alloc] initWithObjId:obj.objectID andService:self]];
+        [queue addOperation: [[MessageEncodeOperation alloc] initWithObjId:objID andService:self]];
     }
     
     // At the end, notify everybody
@@ -161,7 +197,7 @@
     self.store = [_service.storeFactory newStore];
     
     NSError* error;
-    MObj* obj = (MObj*)[_store.context objectWithID:_objId];
+    MObj* obj = (MObj*)[_store.context existingObjectWithID:_objId error:&error];
     if(obj == nil) {
         NSLog(@"Encode failed lookup %@: %@", _objId, error);
     }
