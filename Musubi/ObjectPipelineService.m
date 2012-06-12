@@ -100,8 +100,6 @@
 }
 
 - (void) processObjsWithIds: (NSArray*) objectIds {
-    NSLog(@"Running with %@", objectIds);
-    
     // This is called on some background thread (through notificationCenter), so we need a new store
     PersistentModelStore* store = [_storeFactory newStore];
     
@@ -159,7 +157,6 @@
     
     NSError* error;
     assert (!_objId.isTemporaryID);
-    NSLog(@"Getting %@", _objId);
     NSManagedObject* obj = [_store.context existingObjectWithID:_objId error:&error];
     
     BOOL done = NO;

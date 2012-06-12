@@ -201,9 +201,16 @@
         [feed setAccepted: NO];
         [feed setType: kFeedTypeAsymmetric];
         [feed setName: kFeedNameLocalWhitelist];
+        
+        [_store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:nil];
         [_store save];
+
+        NSLog(@"Feed: %@", feed);
+        account.feed = feed;
+        NSLog(@"Feed: %@", account.feed);
     }
     
+    NSLog(@"Feed: %@", account.feed);
     [fm attachMembers:identities toFeed:account.feed];    
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
