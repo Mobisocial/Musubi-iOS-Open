@@ -33,6 +33,7 @@
 
 #define kAMQPConnectionException @"AMQPConnectionException"
 
+@class Reachability;
 
 @interface AMQPConnectionManager : NSObject {
     amqp_connection_state_t conn;
@@ -41,11 +42,14 @@
     BOOL connectionReady;
     uint32_t sequenceNumber;
     uint64_t lastIncomingDeliveryTag;
+    
+    Reachability* _reachability;
 }
 
 @property (nonatomic, strong) NSRecursiveLock* connLock;
 @property (atomic, strong) NSString* connectionState;
 @property (nonatomic, assign) int connectionAttempts;
+@property (nonatomic, strong) Reachability* reachability;
 
 - (BOOL) connectionIsAlive;
 - (void) initializeConnection;

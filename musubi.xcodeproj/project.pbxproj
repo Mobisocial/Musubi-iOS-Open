@@ -27,7 +27,7 @@
 		C03A66B6157C1307009A5CBA /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B3157C1307009A5CBA /* XPathQuery.m */; };
 		C03A66B9157C137E009A5CBA /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B8157C137E009A5CBA /* DejalActivityView.m */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
-		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; };
+		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0867924157038FC00F4F2BA /* ProfileObj.m */; };
 		C086792C1572E2BF00F4F2BA /* MAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = C086792B1572E2BC00F4F2BA /* MAccount.m */; };
 		C086792F1572E2C800F4F2BA /* MApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C086792E1572E2C400F4F2BA /* MApp.m */; };

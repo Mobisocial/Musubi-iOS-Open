@@ -33,12 +33,15 @@
 #import "APNPushManager.h"
 #import "Musubi.h"
 #include <sys/socket.h>
+#import "Reachability.h"
+
+#define kMusubiAMQPServerHost @"bumblebee.musubi.us"
 
 @implementation AMQPConnectionManager {
     NSMutableArray* pending;
 }
 
-@synthesize connLock, connectionState, connectionAttempts;
+@synthesize connLock, connectionState, connectionAttempts, reachability;
 
 - (id)init {
     self = [super init];
@@ -50,8 +53,18 @@
     connectionAttempts = 0;
     pending = [NSMutableArray array];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    
+    self.reachability = [Reachability reachabilityWithHostName:kMusubiAMQPServerHost];
+    [self.reachability startNotifier];
+    
     return self;
 }
+
+- (void) reachabilityChanged: (Reachability*) r {
+    NSLog(@"OK!?");
+}
+
 
 - (void) amqpCheckReplyInContext: (NSString*) context {
     if (amqp_get_rpc_reply(conn).reply_type != AMQP_RESPONSE_NORMAL) {
@@ -139,7 +152,7 @@
     //        amqp_destroy_connection(conn);
     
     // Open socket to AMQP server
-    int sockfd = amqp_open_socket("bumblebee.musubi.us", 5672);
+    int sockfd = amqp_open_socket([kMusubiAMQPServerHost UTF8String], 5672);
     if (sockfd < 0) {
         amqp_destroy_connection(new_conn);
         [connLock unlock];
