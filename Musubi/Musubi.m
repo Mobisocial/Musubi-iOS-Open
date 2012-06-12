@@ -87,23 +87,29 @@ static Musubi* _sharedInstance = nil;
     self.storeFactory = [PersistentModelStoreFactory sharedInstance];
     self.mainStore = storeFactory.rootStore;
     
+    [self cleanUp];
+    
+    // The notification sender informs every major part in the system about what's going on
+    self.notificationCenter = [[NSNotificationCenter alloc] init];
+            
+    [self performSelectorInBackground:@selector(startServices) withObject:nil];
+   
+    return self;
+}
+
+- (void) cleanUp {
     NSArray* res = [self.mainStore query:[NSPredicate predicateWithFormat:@"principalShortHash == 0 AND principal == null AND name == null"] onEntity:@"Identity"];
     NSLog(@"Deleting %d unknown contacts", res.count);
     for (MIdentity* i in res) {
         [self.mainStore.context deleteObject:i];
     }
     
-    res = [self.mainStore query:[NSPredicate predicateWithFormat:@"(encoded != nil)"] onEntity:@"Obj"];
+    res = [self.mainStore query:[NSPredicate predicateWithFormat:@"(feed == nil) OR (identity == nil)"] onEntity:@"FeedMember"];
+    NSLog(@"Deleting %d corrupt feed members", res.count);
     for (MObj* i in res) {
-        NSManagedObjectID* encId = i.encoded.objectID;
-        NSError* error;
-        NSManagedObject* obj = [self.mainStore.context existingObjectWithID:encId error:&error];
-        if (!obj) {
-            i.encoded = nil;
-        }
+        [self.mainStore.context deleteObject:i];
     }
-
-
+    
     NSDate* weekAgo = [NSDate dateWithTimeIntervalSinceNow:-604800.0];
     res = [self.mainStore query:[NSPredicate predicateWithFormat:@"(processed == YES) AND (lastModified < %@) AND (encoded != nil)", weekAgo] onEntity:@"Obj"];
     NSLog(@"Deleting %d old encoded messages", res.count);
@@ -113,13 +119,6 @@ static Musubi* _sharedInstance = nil;
     }
     
     [self.mainStore.context save:nil];
-    
-    // The notification sender informs every major part in the system about what's going on
-    self.notificationCenter = [[NSNotificationCenter alloc] init];
-            
-    [self performSelectorInBackground:@selector(startServices) withObject:nil];
-   
-    return self;
 }
 
 - (void) startServices {

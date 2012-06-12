@@ -49,6 +49,7 @@
 #import "MApp.h"
 #import "Three20/Three20.h"
 #import "Three20UI/UIViewAdditions.h"
+#import "StatusTextView.h"
 #import "DejalActivityView.h"
 
 @implementation FeedViewController
@@ -100,7 +101,7 @@
     [postView addSubview: statusFieldBox];    
     
 
-    statusField = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, statusFieldBox.width, statusFieldBox.height)];
+    statusField = [[StatusTextView alloc] initWithFrame:CGRectMake(0, 0, statusFieldBox.width, statusFieldBox.height)];
     statusField.font = [UIFont systemFontOfSize:15.0];
     statusField.backgroundColor = [UIColor clearColor];
     statusField.delegate = self;

@@ -163,6 +163,7 @@
 		D2C66F2E156DF1B1001A0124 /* FeedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C66F2D156DF1B1001A0124 /* FeedDataSource.m */; };
 		D2C66F31156E01E0001A0124 /* FeedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C66F30156E01DF001A0124 /* FeedModel.m */; };
 		D2CB073C14EDCBB50006D1E9 /* IBEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */; };
+		D2CB53921587AC0C002E196F /* StatusTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2CB53911587AC0C002E196F /* StatusTextView.m */; };
 		D2CD028A1443A1830080861E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD02891443A1830080861E /* CoreLocation.framework */; };
 		D2CD05DC14450E3E0080861E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
 		D2D03BBE1578840600DBF40B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2D03BBD1578840600DBF40B /* AppDelegate.m */; };
@@ -968,6 +969,8 @@
 		D2C66F30156E01DF001A0124 /* FeedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedModel.m; path = Feed/FeedModel.m; sourceTree = "<group>"; };
 		D2CB073A14EDCBB50006D1E9 /* IBEncryptionScheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBEncryptionScheme.h; sourceTree = "<group>"; };
 		D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBEncryptionScheme.m; sourceTree = "<group>"; };
+		D2CB53901587AC0C002E196F /* StatusTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusTextView.h; path = Feed/StatusTextView.h; sourceTree = "<group>"; };
+		D2CB53911587AC0C002E196F /* StatusTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusTextView.m; path = Feed/StatusTextView.m; sourceTree = "<group>"; };
 		D2CD02891443A1830080861E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D2CD05DB14450E3E0080861E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D2CD05E314462BD90080861E /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
@@ -2662,6 +2665,8 @@
 				56EC332A157C345F00438473 /* FeedSettingsViewController.m */,
 				56EC332C157C347300438473 /* FeedNameCell.h */,
 				56EC332D157C347300438473 /* FeedNameCell.m */,
+				D2CB53901587AC0C002E196F /* StatusTextView.h */,
+				D2CB53911587AC0C002E196F /* StatusTextView.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -3375,6 +3380,7 @@
 				D25826D615800B4E00B47FEE /* FriendListItem.m in Sources */,
 				D23F12A11586ACE600BA0602 /* AMQPUtil.m in Sources */,
 				D23F12A41586BA9600BA0602 /* ObjectPipelineService.m in Sources */,
+				D2CB53921587AC0C002E196F /* StatusTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

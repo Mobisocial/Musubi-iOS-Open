@@ -28,7 +28,7 @@
 #import "AudioRecorderViewController.h"
 #import "FeedSettingsViewController.h"
 
-@class MFeed;
+@class MFeed, StatusTextView;
 
 @protocol FeedViewControllerDelegate
     - (void) friendsForNewConversationSelected:(NSArray*)selection;
@@ -41,7 +41,7 @@
     IBOutlet UIView* postView;
     IBOutlet UIButton* actionButton;
     IBOutlet TTButton* sendButton;
-    IBOutlet UITextView* statusField;
+    IBOutlet StatusTextView* statusField;
     
     int lastRow;
 }
