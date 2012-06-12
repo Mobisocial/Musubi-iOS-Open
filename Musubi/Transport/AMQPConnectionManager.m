@@ -138,7 +138,7 @@
     }
 
     self.connectionState = @"Offline. Waiting to reconnect...";
-    [NSThread sleepForTimeInterval: MIN(300, powl(2, connectionAttempts) - 1)];
+    [NSThread sleepForTimeInterval: MIN(60, powl(2, connectionAttempts) - 1)];
     self.connectionState = @"Connecting...";
     connectionAttempts++;
     
