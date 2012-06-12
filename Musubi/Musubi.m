@@ -130,9 +130,11 @@ static Musubi* _sharedInstance = nil;
     
     // The encoding service encodes all our messages, to be picked up by the transport
     self.encodeService = [[MessageEncodeService alloc] initWithStoreFactory: storeFactory andIdentityProvider:identityProvider];
+    [self.encodeService start];
     
     // The decoding service decodes incoming encoded messages
     self.decodeService = [[MessageDecodeService alloc] initWithStoreFactory: storeFactory andIdentityProvider:identityProvider];
+    [self.decodeService start];
     
     // The transport sends and receives raw data from the network
     self.transport = [[AMQPTransport alloc] initWithStoreFactory:storeFactory];
@@ -140,6 +142,7 @@ static Musubi* _sharedInstance = nil;
     
     // The obj pipeline will process our objs so we can render them
     self.objPipelineService = [[ObjProcessorService alloc] initWithStoreFactory: storeFactory];
+    [self.objPipelineService start];
     
     // Make sure we keep the facebook friends up to date
     self.facebookIdentityUpdater = [[FacebookIdentityUpdater alloc] initWithStoreFactory: storeFactory];

@@ -49,10 +49,12 @@
 
 - (void) start {
     [listener start];
+    [sender start];
 }
 
 - (void)stop {
     [listener cancel];
+    [sender stop];
 }
 
 - (void) restart {
@@ -79,7 +81,7 @@
 }
 
 - (BOOL)done {
-    return sender.pending.count == 0 && [listener isFinished];
+    return [sender isFinished] == 0 && [listener isFinished];
 }
 
 @end

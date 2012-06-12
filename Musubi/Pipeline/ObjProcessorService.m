@@ -79,7 +79,8 @@ static int operationCount = 0;
     } @finally {
         operationCount--;
     }
-
+    
+    return YES;
 }
 
 - (void) processObj:(MObj*)mObj {

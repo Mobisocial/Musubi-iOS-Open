@@ -57,9 +57,9 @@
     
     self = [super initWithStoreFactory:sf andConfiguration:config];
     if (self) {
-        _connMngr = conn;
+        self.connMngr = conn;
         self.declaredGroups = [NSMutableSet set];
-        _groupProbeChannel = -1;
+        self.groupProbeChannel = -1;
     }
     return self;
 }
@@ -73,7 +73,7 @@
     MEncodedMessage* msg = (MEncodedMessage*) object;
     
     AMQPConnectionManager* connMngr = ((AMQPSenderService*) self.service).connMngr;
-
+    
     while (![connMngr connectionIsAlive]){
         [connMngr initializeConnection];
     }
@@ -86,9 +86,11 @@
         [self log:@"Crashed in send: %@", exception];
         // Failed to send message, close connection
         [connMngr closeConnection];
-    } @finally {
+        
+        return NO;
     }
     
+    return YES;
 }
 
 - (void) send: (MEncodedMessage*) msg {

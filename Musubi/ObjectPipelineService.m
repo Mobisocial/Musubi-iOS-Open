@@ -58,13 +58,25 @@
         [self.queues addObject: q];
     }
     
-    // Listen on the specified notification
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process:) name:config.notificationName object:nil];
-    
-    // Do an initial run
-    [self process:nil];
     
     return self;
+}
+
+- (void) start {
+    // Listen on the specified notification
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process:) name:self.config.notificationName object:nil];
+    
+    // Do an initial run
+    [self process: nil];
+}
+
+- (void) stop {
+    // Stop listening on the specified notification
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:self.config.notificationName object:nil];
+}
+
+- (BOOL) isFinished {
+    return self.pending.count == 0;
 }
 
 - (void) process: (NSNotification*) notification {
@@ -122,17 +134,21 @@
             }
         }
         
-        int selectedQueue = 0;
-        if (_config.queueSelector) {
-            selectedQueue = _config.queueSelector(object);
-        }
-        
-        
-        NSOperationQueue* queue = [_queues objectAtIndex:selectedQueue];
-        [usedQueues addObject: queue];
-        NSOperation* operation = [((ObjectPipelineOperation*)[_config.operationClass alloc]) initWithObjectId:objectID andService:self];
-        [queue addOperation: operation];
+        [self runOperationForObject:object];
     }
+}
+
+- (void) runOperationForObject: (NSManagedObject*) object {
+    int selectedQueue = 0;
+    if (_config.queueSelector) {
+        selectedQueue = _config.queueSelector(object);
+    }
+    
+    NSLog(@"%@ (%@): Queued", _config.operationClass, object.objectID.URIRepresentation.lastPathComponent);
+    
+    NSOperationQueue* queue = [_queues objectAtIndex:selectedQueue];
+    NSOperation* operation = [((ObjectPipelineOperation*)[_config.operationClass alloc]) initWithObjectId:object.objectID andService:self];
+    [queue addOperation: operation];
 }
 
 @end
@@ -157,22 +173,33 @@
     
     NSError* error;
     assert (!_objId.isTemporaryID);
-    NSManagedObject* obj = [_store.context existingObjectWithID:_objId error:&error];
+    NSManagedObject* object = [_store.context existingObjectWithID:_objId error:&error];
     
     BOOL done = NO;
     
-    if(obj == nil) {
+    [self log:@"Started"];
+    
+    if(object == nil) {
         // Don't process any objects that don't exist
         done = YES;
-    } else if ([self performOperationOnObject: obj]) {
-        // Remove from the pending queue
-        done = YES;
+    } else {
+        @try {
+            done = [self performOperationOnObject: object];
+        }
+        @catch (NSException *exception) {
+            [self log:@"Exception: %@", exception];
+            done = NO;
+        }
     }
     
     if (done) {
+        [self log:@"Done"];
         @synchronized(_service.pendingLock) {
             [_service.pending removeObject:_objId];
         }
+    } else {
+        [self log:@"Failed, retrying"];
+        [_service runOperationForObject:object];
     }
 }
 
@@ -183,7 +210,7 @@
 - (void) log:(NSString*) format, ... {
     va_list args;
     va_start(args, format);
-    NSLogv([NSString stringWithFormat: @"%@: %@", self.class, format], args);
+    NSLogv([NSString stringWithFormat: @"%@ (%@): %@", self.class, self.objId.URIRepresentation.lastPathComponent, format], args);
     va_end(args);
 }
 

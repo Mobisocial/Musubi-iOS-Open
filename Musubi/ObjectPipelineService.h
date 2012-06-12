@@ -52,6 +52,9 @@ typedef int(^QueueSelector)(NSManagedObject* obj);
 @property (nonatomic, strong) NSLock* pendingLock;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) sf andConfiguration: (ObjectPipelineServiceConfiguration*) config;
+- (void) start;
+- (void) stop;
+- (BOOL) isFinished;
 
 @end
 
