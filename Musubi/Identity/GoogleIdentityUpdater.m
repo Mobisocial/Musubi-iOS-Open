@@ -194,6 +194,7 @@
     MAccount* account = [am accountWithName: email andType: kAccountTypeGoogle];
     if (account == nil) {
         NSLog(@"Skipping google import because we havent connected yet");
+        return;
     }
     
     if (account.feed == nil) {
@@ -205,12 +206,9 @@
         [_store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:nil];
         [_store save];
 
-        NSLog(@"Feed: %@", feed);
         account.feed = feed;
-        NSLog(@"Feed: %@", account.feed);
     }
     
-    NSLog(@"Feed: %@", account.feed);
     [fm attachMembers:identities toFeed:account.feed];    
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

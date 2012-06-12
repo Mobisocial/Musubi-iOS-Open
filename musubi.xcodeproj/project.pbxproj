@@ -468,7 +468,7 @@
 		D210C1771526795300280605 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GTMOAuth2ViewTouch.xib; path = ../../../Libraries/OAuth2/Touch/GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
 		D210C1791526D70B00280605 /* GoogleIdentityUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GoogleIdentityUpdater.h; path = Identity/GoogleIdentityUpdater.h; sourceTree = "<group>"; };
 		D210C17A1526D70B00280605 /* GoogleIdentityUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GoogleIdentityUpdater.m; path = Identity/GoogleIdentityUpdater.m; sourceTree = "<group>"; };
-		D211D8AF151944E100E38051 /* AMQPListenerThread.h */ = {isa = PBXFileReference; fileEncoding = 4; path = AMQPListenerThread.h; sourceTree = "<group>"; };
+		D211D8AF151944E100E38051 /* AMQPListenerThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPListenerThread.h; sourceTree = "<group>"; };
 		D211D8B0151944E100E38051 /* AMQPListenerThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPListenerThread.m; sourceTree = "<group>"; };
 		D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "facebook-ios-sdk.xcodeproj"; path = "Facebook/src/facebook-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
 		D211D96A151979D200E38051 /* NamePictureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamePictureCell.h; sourceTree = "<group>"; };
@@ -482,7 +482,7 @@
 		D216DE6414F48952001A4166 /* MusubiAppTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusubiAppTest.m; sourceTree = "<group>"; };
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
 		D22352611581D3D100A6FB63 /* Model 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 9.xcdatamodel"; sourceTree = "<group>"; };
-		D2313BDC1519319000BB0526 /* AMQPSenderService.h */ = {isa = PBXFileReference; fileEncoding = 4; path = AMQPSenderService.h; sourceTree = "<group>"; };
+		D2313BDC1519319000BB0526 /* AMQPSenderService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSenderService.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSenderService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSenderService.m; sourceTree = "<group>"; };
 		D23F129F1586ACE600BA0602 /* AMQPUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPUtil.h; sourceTree = "<group>"; };
 		D23F12A01586ACE600BA0602 /* AMQPUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPUtil.m; sourceTree = "<group>"; };
