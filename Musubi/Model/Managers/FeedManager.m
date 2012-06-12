@@ -207,8 +207,10 @@
         feed.type = kFeedTypeAsymmetric;
         
         [self.store.context insertObject:feed];
+        NSError* error;
+        [self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:&error];
         [self.store save];
-        return (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@)", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
+        return feed;
     }
 }
 

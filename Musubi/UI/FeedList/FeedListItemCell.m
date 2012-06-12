@@ -131,6 +131,9 @@ static NSUInteger kDefaultStrokeWidth = 1;
     self.textLabel.width = width;
     self.detailTextLabel.left = left;
     self.detailTextLabel.width = _unreadLabel.left - left - kTableCellMargin;
+    self.timestampLabel.backgroundColor = [UIColor clearColor];
+    self.timestampLabel.textColor = [UIColor whiteColor];
+    self.timestampLabel.opaque = NO;
     
 }
 
@@ -142,22 +145,15 @@ static NSUInteger kDefaultStrokeWidth = 1;
         unread = [NSString stringWithFormat:@"%d new", object.unread];
     }
     self.unreadLabel.text = unread;
+    self.bubbleLabel.text = object.title;
+    self.titleLabel.hidden = YES;
     if(object.picture) {
-        self.titleLabel.hidden = YES;
         self.detailTextLabel.hidden = YES;
-        self.timestampLabel.hidden = YES;
-        self.bubbleLabel.hidden = NO;
-        self.bubbleLabel.text = object.title;
         self.pictureView.hidden = NO;
-        self.stripeView.hidden = NO;
         self.pictureView.image = object.picture;
     } else {
         self.detailTextLabel.hidden = NO;
-        self.titleLabel.hidden = NO;
-        self.timestampLabel.hidden = NO;
-        self.bubbleLabel.hidden = YES;
         self.pictureView.image = nil;
-        self.stripeView.hidden = YES;
         self.pictureView.hidden = YES;
     }
     self.profilePictureView.image = object.image;
@@ -208,7 +204,7 @@ static NSUInteger kDefaultStrokeWidth = 1;
     }
     return _pictureView;
 }
-- (UIImageView*)stripeView {
+- (UIView*)stripeView {
     if (!_stripeView) {
         _stripeView = [[UIView alloc] init];
         _stripeView.backgroundColor = [UIColor colorWithWhite:0 alpha:.55];
