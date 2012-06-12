@@ -182,7 +182,7 @@
             if (body == nil) {
                 continue;
             }
-            need_reset = NO;
+            need_reset = YES;
             idleTime = [[NSDate date] dateByAddingTimeInterval:15];
             
             
