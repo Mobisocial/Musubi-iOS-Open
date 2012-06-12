@@ -110,14 +110,6 @@ static Musubi* _sharedInstance = nil;
         [self.mainStore.context deleteObject:i];
     }
     
-    NSDate* weekAgo = [NSDate dateWithTimeIntervalSinceNow:-604800.0];
-    res = [self.mainStore query:[NSPredicate predicateWithFormat:@"(processed == YES) AND (lastModified < %@) AND (encoded != nil)", weekAgo] onEntity:@"Obj"];
-    NSLog(@"Deleting %d old encoded messages", res.count);
-    for (MObj* i in res) {
-        [self.mainStore.context deleteObject:i.encoded];
-        i.encoded = nil;
-    }
-    
     [self.mainStore.context save:nil];
 }
 
