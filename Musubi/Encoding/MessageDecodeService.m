@@ -259,6 +259,8 @@ static int operationCount;
         }
         [newFeed setType: obj.feedType];
         [newFeed setAccepted: whiteListed];
+        NSError* error = nil;
+        [self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:newFeed] error:&error];
         [self.store save];
         
         [_feedManager attachMember: sender toFeed:newFeed];
