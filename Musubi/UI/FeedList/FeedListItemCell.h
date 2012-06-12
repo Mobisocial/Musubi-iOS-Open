@@ -42,6 +42,6 @@
 @property (nonatomic, readonly, retain) OutlineTextLabel* bubbleLabel;
 @property (nonatomic, readonly, retain) UIImageView* profilePictureView;
 @property (nonatomic, readonly, retain) UIImageView* pictureView;
-@property (nonatomic, readonly, retain) UIImageView* stripeView;
+@property (nonatomic, readonly, retain) UIView* stripeView;
 
 @end
