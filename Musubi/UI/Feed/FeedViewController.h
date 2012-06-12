@@ -38,7 +38,7 @@
     MFeed* _feed;
     
     IBOutlet UIView* mainView;
-    IBOutlet UIView* postView;
+    IBOutlet TTView* postView;
     IBOutlet UIButton* actionButton;
     IBOutlet TTButton* sendButton;
     IBOutlet StatusTextView* statusField;

@@ -92,12 +92,20 @@
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.variableHeightRows = YES;
     
+    postView.backgroundColor = [UIColor clearColor];
+    postView.style = [TTInsetStyle styleWithInset:UIEdgeInsetsMake(0, -1, -1, -1) next:
+                      [TTLinearGradientFillStyle styleWithColor1:RGBCOLOR(240,240,240) color2:RGBCOLOR(210,210,210) next:
+                      [TTSolidBorderStyle styleWithColor:RGBCOLOR(170,170,170) width:1 next:nil]]];
+    
     TTView* statusFieldBox = [[TTView alloc] initWithFrame:CGRectMake(44, 6, postView.frame.size.width - 115, 32)];
     statusFieldBox.backgroundColor = [UIColor clearColor];
     statusFieldBox.style = [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
                             [TTSolidFillStyle styleWithColor:[UIColor whiteColor] next:
                              [TTInnerShadowStyle styleWithColor:RGBACOLOR(0,0,0,0.5) blur:3 offset:CGSizeMake(1, 1) next:
                               [TTSolidBorderStyle styleWithColor:RGBCOLOR(158, 163, 172) width:1 next:nil]]]];
+    
+    
+    
     [postView addSubview: statusFieldBox];    
     
 
