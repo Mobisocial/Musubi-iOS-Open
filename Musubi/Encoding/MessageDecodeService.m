@@ -118,9 +118,9 @@ static int operationCount;
             [self decodeMessage:msg];
         }
     } @catch (NSException* e) {
-        NSLog(@"Error: %@", e);
+        [self log:@"Error: %@", e];
     } @catch (NSError* e) {
-        NSLog(@"Error: %@", e);
+        [self log:@"Error: %@", e];
     } @finally {
         operationCount--;
 
@@ -132,7 +132,6 @@ static int operationCount;
     if (msg == nil)
         @throw [NSException exceptionWithName:kMusubiExceptionUnexpected reason:@"Message was nil!" userInfo:nil];
     
-    NSLog(@"Decoding %@", msg.objectID);
     id<IdentityProvider> identityProvider = ((MessageDecodeService*) self.service).identityProvider;
     
     assert (msg != nil);
@@ -142,12 +141,11 @@ static int operationCount;
     }
     @catch (NSException *exception) {
         if ([exception.name isEqualToString:kMusubiExceptionNeedEncryptionUserKey]) {
-            NSLog(@"Err: %@", exception);
             
             @try {
                 IBEncryptionIdentity* errId = (IBEncryptionIdentity*)[exception.userInfo objectForKey:@"identity"];
                 if (errId) {
-                    NSLog(@"Getting new encryption key for %@", errId);
+                    [self log:@"Getting new encryption key for %@", errId];
                     
                     MIdentity* to = [_identityManager identityForIBEncryptionIdentity:errId];
                     IBEncryptionUserKey* userKey = [identityProvider encryptionKeyForIdentity:errId];
@@ -171,7 +169,7 @@ static int operationCount;
                 
             }
             @catch (NSException *exception) {
-                NSLog(@"Failed to decode message beause a user key was required for %@: %@", msg.fromIdentity, exception);
+                [self log:@"Failed to decode message beause a user key was required for %@: %@", msg.fromIdentity, exception];
                 /*TODO: refresh key
                  if(mKeyUpdateHandler != null) {
                  if (DBG) Log.i(TAG, "Updating key for identity #" + e.identity_, e);
@@ -187,7 +185,7 @@ static int operationCount;
             // RabbitMQ does not support the "no deliver to self" routing policy.
             // don't log self-routed device duplicates, everything else we want to know about
             if (from.deviceName != _deviceManager.localDeviceName) {
-                NSLog(@"Failed to decode message %@: %@", msg.objectID, exception);
+                [self log:@"Failed to decode message %@: %@", msg.objectID, exception];
             }
             
             [self.store.context deleteObject:msg];
@@ -195,7 +193,7 @@ static int operationCount;
             return YES;
             
         } else {
-            NSLog(@"Failed to decode message: %@: %@", msg.objectID, exception);
+            [self log:@"Failed to decode message: %@: %@", msg.objectID, exception];
             [self.store.context deleteObject:msg];
             [self.store save];
             return YES;
@@ -212,7 +210,7 @@ static int operationCount;
     @try {
         obj = [ObjEncoder decodeObj: im.data];
     } @catch (NSException *exception) {
-        NSLog(@"Failed to decode message %@: %@", im, exception);
+        [self log:@"Failed to decode message %@: %@", im, exception];
         [self.store.context deleteObject:msg];
         [self.store save];
         return YES;
@@ -223,7 +221,7 @@ static int operationCount;
         //never even make it an MObj
         [ProfileObj handleFromSender:sender profileJson:obj.jsonSrc profileRaw:obj.raw withStore:self.store];
         
-        NSLog(@"Message was profile message %@", obj);
+        [self log:@"Message was profile message %@", obj];
         [self.store.context deleteObject:msg];
         [self.store save];
         return true;
@@ -235,7 +233,7 @@ static int operationCount;
         // Fixed feeds have well-known capabilities.
         NSData* computedCapability = [FeedManager fixedIdentifierForIdentities: im.recipients];
         if (![computedCapability isEqualToData:obj.feedCapability]) {
-            NSLog(@"Capability mismatch");
+            [self log:@"Capability mismatch"];
             [self.store.context deleteObject:msg];
             [self.store save];
             return YES;
@@ -331,9 +329,9 @@ static int operationCount;
     // Notify the ObjPipeline
     [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAppObjReady object:mObj.objectID]];
     
-    NSLog(@"Decoded: %@", mObj.objectID);
+    [self log:@"Decoded: %@", mObj.objectID];
     if(_shouldRunProfilePush) {
-        NSLog(@"Detected new identities, pinging them");
+        [self log:@"Detected new identities, pinging them"];
         NSMutableArray* new_peeps = [NSMutableArray arrayWithCapacity:im.recipients.count];
         for (MIdentity* recipient in im.recipients) {
             if(recipient.receivedProfileVersion != 0)

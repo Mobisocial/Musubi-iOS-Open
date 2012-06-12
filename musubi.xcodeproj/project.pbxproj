@@ -68,8 +68,7 @@
 		D210C1761526716E00280605 /* libOAuthTouch2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2E812ED1526631200649FB2 /* libOAuthTouch2.a */; };
 		D210C1781526795300280605 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = D210C1771526795300280605 /* GTMOAuth2ViewTouch.xib */; };
 		D210C17B1526D70B00280605 /* GoogleIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D210C17A1526D70B00280605 /* GoogleIdentityUpdater.m */; };
-		D211D8B1151944E100E38051 /* AMQPListener.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D8B0151944E100E38051 /* AMQPListener.m */; };
-		D211D8B4151945D400E38051 /* AMQPThread.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D8B3151945D400E38051 /* AMQPThread.m */; };
+		D211D8B1151944E100E38051 /* AMQPListenerThread.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D8B0151944E100E38051 /* AMQPListenerThread.m */; };
 		D211D8B515194DD800E38051 /* MessageListener.m in Sources */ = {isa = PBXBuildFile; fileRef = D208158715152A2700F12039 /* MessageListener.m */; };
 		D211D96E151979D200E38051 /* NamePictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D96B151979D200E38051 /* NamePictureCell.m */; };
 		D211D96F151979D200E38051 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D211D96D151979D200E38051 /* SettingsViewController.m */; };
@@ -79,7 +78,7 @@
 		D216DE5C14F48951001A4166 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D216DE6014F48951001A4166 /* InfoPlist.strings */; };
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
-		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
+		D2313BDE1519319100BB0526 /* AMQPSenderService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSenderService.m */; };
 		D23F12A11586ACE600BA0602 /* AMQPUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D23F12A01586ACE600BA0602 /* AMQPUtil.m */; };
 		D23F12A41586BA9600BA0602 /* ObjectPipelineService.m in Sources */ = {isa = PBXBuildFile; fileRef = D23F12A31586BA9500BA0602 /* ObjectPipelineService.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
@@ -469,10 +468,8 @@
 		D210C1771526795300280605 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GTMOAuth2ViewTouch.xib; path = ../../../Libraries/OAuth2/Touch/GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
 		D210C1791526D70B00280605 /* GoogleIdentityUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GoogleIdentityUpdater.h; path = Identity/GoogleIdentityUpdater.h; sourceTree = "<group>"; };
 		D210C17A1526D70B00280605 /* GoogleIdentityUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GoogleIdentityUpdater.m; path = Identity/GoogleIdentityUpdater.m; sourceTree = "<group>"; };
-		D211D8AF151944E100E38051 /* AMQPListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPListener.h; sourceTree = "<group>"; };
-		D211D8B0151944E100E38051 /* AMQPListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPListener.m; sourceTree = "<group>"; };
-		D211D8B2151945D400E38051 /* AMQPThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPThread.h; sourceTree = "<group>"; };
-		D211D8B3151945D400E38051 /* AMQPThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPThread.m; sourceTree = "<group>"; };
+		D211D8AF151944E100E38051 /* AMQPListenerThread.h */ = {isa = PBXFileReference; fileEncoding = 4; path = AMQPListenerThread.h; sourceTree = "<group>"; };
+		D211D8B0151944E100E38051 /* AMQPListenerThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPListenerThread.m; sourceTree = "<group>"; };
 		D211D95E151978DB00E38051 /* facebook-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "facebook-ios-sdk.xcodeproj"; path = "Facebook/src/facebook-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
 		D211D96A151979D200E38051 /* NamePictureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamePictureCell.h; sourceTree = "<group>"; };
 		D211D96B151979D200E38051 /* NamePictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamePictureCell.m; sourceTree = "<group>"; };
@@ -485,8 +482,8 @@
 		D216DE6414F48952001A4166 /* MusubiAppTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusubiAppTest.m; sourceTree = "<group>"; };
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
 		D22352611581D3D100A6FB63 /* Model 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 9.xcdatamodel"; sourceTree = "<group>"; };
-		D2313BDC1519319000BB0526 /* AMQPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSender.h; sourceTree = "<group>"; };
-		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
+		D2313BDC1519319000BB0526 /* AMQPSenderService.h */ = {isa = PBXFileReference; fileEncoding = 4; path = AMQPSenderService.h; sourceTree = "<group>"; };
+		D2313BDD1519319000BB0526 /* AMQPSenderService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSenderService.m; sourceTree = "<group>"; };
 		D23F129F1586ACE600BA0602 /* AMQPUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPUtil.h; sourceTree = "<group>"; };
 		D23F12A01586ACE600BA0602 /* AMQPUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPUtil.m; sourceTree = "<group>"; };
 		D23F12A21586BA9400BA0602 /* ObjectPipelineService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectPipelineService.h; sourceTree = "<group>"; };
@@ -985,7 +982,7 @@
 		D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RabbitMQ.xcodeproj; path = RabbitMQ/RabbitMQ/RabbitMQ.xcodeproj; sourceTree = "<group>"; };
 		D2F8C67B1524FB0C005AD880 /* ObjFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFactory.h; sourceTree = "<group>"; };
 		D2F8C67C1524FB0C005AD880 /* ObjFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjFactory.m; sourceTree = "<group>"; };
-		D2F8C67E1524FB29005AD880 /* ObjProcessorService.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ObjProcessorService.h; sourceTree = "<group>"; };
+		D2F8C67E1524FB29005AD880 /* ObjProcessorService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjProcessorService.h; sourceTree = "<group>"; };
 		D2F8C67F1524FB29005AD880 /* ObjProcessorService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjProcessorService.m; sourceTree = "<group>"; };
 		D2F8C68115250713005AD880 /* ObjHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjHelper.h; sourceTree = "<group>"; };
 		D2F8C68215250713005AD880 /* ObjHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjHelper.m; sourceTree = "<group>"; };
@@ -1453,12 +1450,10 @@
 			children = (
 				D2081554151171D800F12039 /* AMQPConnectionManager.h */,
 				D2081555151171D800F12039 /* AMQPConnectionManager.m */,
-				D211D8AF151944E100E38051 /* AMQPListener.h */,
-				D211D8B0151944E100E38051 /* AMQPListener.m */,
-				D2313BDC1519319000BB0526 /* AMQPSender.h */,
-				D2313BDD1519319000BB0526 /* AMQPSender.m */,
-				D211D8B2151945D400E38051 /* AMQPThread.h */,
-				D211D8B3151945D400E38051 /* AMQPThread.m */,
+				D211D8AF151944E100E38051 /* AMQPListenerThread.h */,
+				D211D8B0151944E100E38051 /* AMQPListenerThread.m */,
+				D2313BDC1519319000BB0526 /* AMQPSenderService.h */,
+				D2313BDD1519319000BB0526 /* AMQPSenderService.m */,
 				D2081557151273C400F12039 /* AMQPTransport.h */,
 				D2081558151273C400F12039 /* AMQPTransport.m */,
 				C0294C49155CEE5B005894DF /* APNPushManager.h */,
@@ -3255,9 +3250,8 @@
 				D208158B151541D600F12039 /* MusubiDeviceManager.m in Sources */,
 				D208158E1515421200F12039 /* EntityManager.m in Sources */,
 				D2081559151273C400F12039 /* AMQPTransport.m in Sources */,
-				D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */,
-				D211D8B1151944E100E38051 /* AMQPListener.m in Sources */,
-				D211D8B4151945D400E38051 /* AMQPThread.m in Sources */,
+				D2313BDE1519319100BB0526 /* AMQPSenderService.m in Sources */,
+				D211D8B1151944E100E38051 /* AMQPListenerThread.m in Sources */,
 				D211D96E151979D200E38051 /* NamePictureCell.m in Sources */,
 				D211D96F151979D200E38051 /* SettingsViewController.m in Sources */,
 				D272FB59151A69DF00D2521A /* AccountManager.m in Sources */,

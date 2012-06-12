@@ -16,14 +16,14 @@
 
 
 //
-//  AMQPListener.m
+//  AMQPListenerThread.m
 //  Musubi
 //
 //  Created by Willem Bult on 3/20/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AMQPListener.h"
+#import "AMQPListenerThread.h"
 #import "Musubi.h"
 #import "AMQPConnectionManager.h"
 #import "MusubiDeviceManager.h"
@@ -32,11 +32,27 @@
 #import "IBEncryptionScheme.h"
 #import "PersistentModelStore.h"
 #import "APNPushManager.h"
+#import "AMQPUtil.h"
 
-@implementation AMQPListener 
+@implementation AMQPListenerThread 
 
 
-@synthesize backgroundTaskId;
+@synthesize backgroundTaskId, connMngr, storeFactory;
+
+
+- (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf {
+    
+    self = [super init];
+    if (!self)
+        return nil;
+    
+    self.connMngr = conn;
+    self.storeFactory = sf;
+    self.threadPriority = kMusubiThreadPriorityBackground;
+    
+    return self;
+}
+
 
 - (void) main {
     // Run AMQPThread common
@@ -59,12 +75,12 @@
 
             @synchronized(self.connMngr.connLock) {
                 
-                NSLog(@"Restarting listener");
+                [self log:@"Restarting"];
                 
                 // Declare the device queue
                 uint64_t deviceName = [deviceManager localDeviceName];
                 NSData* devNameData = [NSData dataWithBytes:&deviceName length:sizeof(deviceName)];
-                NSString* deviceQueueName = [self queueNameForKey:devNameData withPrefix:@"ibedevice-"];
+                NSString* deviceQueueName = [AMQPUtil queueNameForKey:devNameData withPrefix:@"ibedevice-"];
                 
                 [connMngr declareQueue:deviceQueueName onChannel:kAMQPChannelIncoming passive:NO durable:YES exclusive:NO];
                 //TODO: device_queue_name needs to involve the identities some how? or be a larger byte array
@@ -73,8 +89,8 @@
                 // Declare queues for each identity
                 for (MIdentity* me in [identityManager ownedIdentities]) {
                     IBEncryptionIdentity* ident = [identityManager ibEncryptionIdentityForIdentity:me forTemporalFrame:0];
-                    NSString* identityExchangeName = [self queueNameForKey:ident.key withPrefix:@"ibeidentity-"];
-                    NSLog(@"Listening on %@", identityExchangeName);
+                    NSString* identityExchangeName = [AMQPUtil queueNameForKey:ident.key withPrefix:@"ibeidentity-"];
+                    [self log:@"Listening on %@", identityExchangeName];
                     
                     //[self log:@"Declaring exchange %@ => %@", identityExchangeName, deviceQueueName];
                     [connMngr declareExchange:identityExchangeName onChannel:kAMQPChannelIncoming passive:NO durable:YES];                
@@ -118,7 +134,7 @@
             NSMutableArray* idents = [[NSMutableArray alloc] init];
             for (MIdentity* me in [identityManager ownedIdentities]) {
                 IBEncryptionIdentity* ident = [identityManager ibEncryptionIdentityForIdentity:me forTemporalFrame:0];
-                NSString* identityExchangeName = [self queueNameForKey:ident.key withPrefix:@"ibeidentity-"];
+                NSString* identityExchangeName = [AMQPUtil queueNameForKey:ident.key withPrefix:@"ibeidentity-"];
                 [idents addObject:identityExchangeName];
             }
             NSString* deviceToken = [Musubi sharedInstance].apnDeviceToken;
@@ -189,7 +205,7 @@
             [[Musubi sharedInstance].notificationCenter postNotification: [NSNotification notificationWithName:kMusubiNotificationEncodedMessageReceived object:encoded.objectID]];
         }
     } @catch (NSException* e) {
-        NSLog(@"AMQPListener exception: %@", e);  
+        [self log:@"Exception: %@", e];  
     } @finally {
         if(backgroundTaskId != ~0U) {
             [application endBackgroundTask:backgroundTaskId];
@@ -199,8 +215,15 @@
 }
 
 - (void)restart {
-    NSLog(@"AMQPListener: restarting");
+    [self log:@"Restarting"];
     restartRequested = YES;
+}
+
+- (void) log:(NSString*) format, ... {
+    va_list args;
+    va_start(args, format);
+    NSLogv([NSString stringWithFormat: @"AMQPListener: %@", format], args);
+    va_end(args);
 }
 
 

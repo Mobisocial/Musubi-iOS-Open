@@ -16,7 +16,7 @@
 
 
 //
-//  AMQPThread.h
+//  AMQPSenderService.h
 //  Musubi
 //
 //  Created by Willem Bult on 3/20/12.
@@ -24,21 +24,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+#import "ObjectPipelineService.h"
 
-@class AMQPConnectionManager, PersistentModelStoreFactory, PersistentModelStore;
+@class AMQPConnectionManager;
 
-@interface AMQPThread : NSThread {
-    AMQPConnectionManager* connMngr;
-    PersistentModelStoreFactory* storeFactory;
-}
+@interface AMQPSenderService : ObjectPipelineService
 
-@property (nonatomic, strong) AMQPConnectionManager* connMngr;
-@property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic, retain) AMQPConnectionManager* connMngr;
+@property (nonatomic, strong) NSMutableSet* declaredGroups;
+@property (nonatomic, assign) int groupProbeChannel;
 
-- (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf;
+- (id)initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf;
 
-- (void) log:(NSString*) format, ...;
+@end
 
-- (NSString*) queueNameForKey: (NSData*) key withPrefix: (NSString*) prefix;
+@interface AMQPSendOperation : ObjectPipelineOperation
 
 @end

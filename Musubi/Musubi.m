@@ -113,7 +113,6 @@ static Musubi* _sharedInstance = nil;
     }
     
     [self.mainStore.context save:nil];
-    NSLog(@"Saved");
     
     // The notification sender informs every major part in the system about what's going on
     self.notificationCenter = [[NSNotificationCenter alloc] init];

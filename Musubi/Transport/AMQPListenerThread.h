@@ -16,7 +16,7 @@
 
 
 //
-//  AMQPListener.h
+//  AMQPListenerThread.h
 //  Musubi
 //
 //  Created by Willem Bult on 3/20/12.
@@ -24,16 +24,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AMQPThread.h"
 
-@class MusubiDeviceManager, IdentityManager;
+@class IdentityManager, AMQPConnectionManager, PersistentModelStoreFactory;
 
-@interface AMQPListener : AMQPThread {
+@interface AMQPListenerThread : NSThread {
     BOOL restartRequested;
 }
 
 @property (atomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
+@property (nonatomic, strong) AMQPConnectionManager* connMngr;
+@property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
 
+- (id) initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf;
 - (void) consumeMessages;
 - (void) restart;
 

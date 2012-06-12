@@ -25,13 +25,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class AMQPConnectionManager, AMQPSender, AMQPListener, PersistentModelStoreFactory;
+@class AMQPConnectionManager, AMQPSenderService, AMQPListenerThread, PersistentModelStoreFactory;
 
 @interface AMQPTransport : NSObject
 
 @property (nonatomic, strong) AMQPConnectionManager* connMngr;
-@property (nonatomic, strong) AMQPSender* sender;
-@property (nonatomic, strong) AMQPListener* listener;
+@property (nonatomic, strong) AMQPSenderService* sender;
+@property (nonatomic, strong) AMQPListenerThread* listener;
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) storeFactory;
 

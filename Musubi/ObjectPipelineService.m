@@ -183,4 +183,11 @@
     return FALSE;
 }
 
+- (void) log:(NSString*) format, ... {
+    va_list args;
+    va_start(args, format);
+    NSLogv([NSString stringWithFormat: @"%@: %@", self.class, format], args);
+    va_end(args);
+}
+
 @end

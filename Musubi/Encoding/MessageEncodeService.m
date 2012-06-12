@@ -205,7 +205,7 @@
             @try {
                 IBEncryptionIdentity* errId = (IBEncryptionIdentity*)[exception.userInfo objectForKey:@"identity"];
                 if (errId) {
-                    NSLog(@"Making new signature key for %@", errId);
+                    [self log:@"Making new signature key for %@", errId];
                     
                     IBSignatureUserKey* userKey = [identityProvider signatureKeyForIdentity:errId];
                     
@@ -228,7 +228,7 @@
                 
             }
             @catch (NSException *exception) {
-                NSLog(@"Error: %@", exception);
+                [self log:@"Error: %@", exception];
             }
         } else {
             @throw exception;

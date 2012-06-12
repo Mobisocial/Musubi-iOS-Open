@@ -26,8 +26,8 @@
 #import "AMQPTransport.h"
 #import "Musubi.h"
 #import "AMQPConnectionManager.h"
-#import "AMQPSender.h"
-#import "AMQPListener.h"
+#import "AMQPSenderService.h"
+#import "AMQPListenerThread.h"
 
 @implementation AMQPTransport
 
@@ -39,20 +39,19 @@
     if (!self) return nil;
     
     connMngr = [[AMQPConnectionManager alloc] init];
-    listener = [[AMQPListener alloc] initWithConnectionManager:connMngr storeFactory:storeFactory];
-    sender = [[AMQPSender alloc] initWithConnectionManager:connMngr storeFactory:storeFactory];
+    listener = [[AMQPListenerThread alloc] initWithConnectionManager:connMngr storeFactory:storeFactory];
+    sender = [[AMQPSenderService alloc] initWithConnectionManager:connMngr storeFactory:storeFactory];
+    
     [[Musubi sharedInstance].notificationCenter addObserver:listener selector:@selector(restart) name:kMusubiNotificationOwnedIdentityAvailable object:nil];
 
     return self;
 }
 
 - (void) start {
-//    [sender start];
     [listener start];
 }
 
 - (void)stop {
-//    [sender cancel];
     [listener cancel];
 }
 

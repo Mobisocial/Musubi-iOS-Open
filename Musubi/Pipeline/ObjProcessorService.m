@@ -74,7 +74,7 @@ static int operationCount = 0;
     @try {
         [self processObj: obj];
     } @catch (NSException *e) {
-        NSLog(@"Error while processing obj: %@", e);
+        [self log:@"Error while processing obj: %@", e];
         [self.store.context deleteObject: obj];
     } @finally {
         operationCount--;
@@ -106,7 +106,7 @@ static int operationCount = 0;
             ObjManager* objMgr = [[ObjManager alloc] initWithStore: self.store];
             MObj* parentObj = [objMgr objWithUniversalHash: hash];
             if (parentObj == nil) {
-                NSLog(@"Waiting for parent %@", targetHash);
+                [self log:@"Waiting for parent %@", targetHash];
                 @synchronized(service.pendingParentHashes) {
                     NSMutableArray* children = [service.pendingParentHashes objectForKey:targetHash];
                     if(children == nil) {
@@ -139,7 +139,7 @@ static int operationCount = 0;
     if (keepObject) {
         mObj.processed = YES;
     } else {
-        NSLog(@"Discarding %@", mObj.type);
+        [self log:@"Discarding %@", mObj.type];
         [self.store.context deleteObject: mObj];
     }
     
@@ -150,7 +150,7 @@ static int operationCount = 0;
     
     [self.store save];
     
-    NSLog(@"Processed: %@", obj);
+    [self log:@"Processed: %@", obj];
     
     [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationUpdatedFeed object:feed.objectID];
 

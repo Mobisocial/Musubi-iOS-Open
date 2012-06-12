@@ -63,4 +63,5 @@ typedef int(^QueueSelector)(NSManagedObject* obj);
 
 - (id) initWithObjectId: (NSManagedObjectID*) objId andService: (ObjectPipelineService*) service;
 - (BOOL)performOperationOnObject: (NSManagedObject*) object;
+- (void) log:(NSString*) format, ...;
 @end
