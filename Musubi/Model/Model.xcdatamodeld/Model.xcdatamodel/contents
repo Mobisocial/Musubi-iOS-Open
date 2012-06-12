@@ -141,7 +141,7 @@
         <attribute name="universalHash" optional="YES" attributeType="Binary" syncable="YES"/>
         <relationship name="app" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="App" syncable="YES"/>
         <relationship name="device" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Device" syncable="YES"/>
-        <relationship name="encoded" optional="YES" minCount="1" maxCount="1" deletionRule="No Action" destinationEntity="EncodedMessage" syncable="YES"/>
+        <relationship name="encoded" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="EncodedMessage" syncable="YES"/>
         <relationship name="feed" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" syncable="YES"/>
         <relationship name="identity" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Identity" syncable="YES"/>
         <relationship name="likes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Like" inverseName="obj" inverseEntity="Like" syncable="YES"/>

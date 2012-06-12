@@ -16,25 +16,30 @@
 
 
 //
-//  MessageEncodeService.h
-//  Musubi
+//  ObjPipelineService.h
+//  musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by Willem Bult on 3/29/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "IdentityProvider.h"
 #import "ObjectPipelineService.h"
 
-@interface MessageEncodeService : ObjectPipelineService
+@class PersistentModelStoreFactory, IdentityManager;
 
-@property (nonatomic, strong) id<IdentityProvider> identityProvider;
+@interface ObjProcessorService : ObjectPipelineService
 
-- (id) initWithStoreFactory: (PersistentModelStoreFactory*) sf andIdentityProvider: (id<IdentityProvider>) ip;
+@property (atomic, strong) NSMutableArray* feedsToNotify;
+@property (nonatomic, strong) NSMutableDictionary* pendingParentHashes;
+
+- (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf;
 
 @end
 
-@interface MessageEncodeOperation : ObjectPipelineOperation
+@interface ObjProcessOperation : ObjectPipelineOperation
+
++ (int) operationCount;
+
 @end

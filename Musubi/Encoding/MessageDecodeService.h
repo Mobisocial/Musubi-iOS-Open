@@ -27,59 +27,30 @@
 #import <CoreData/CoreData.h>
 
 #import "IdentityProvider.h"
+#import "ObjectPipelineService.h"
 
 @class PersistentModelStoreFactory, PersistentModelStore;
 @class FeedManager, MusubiDeviceManager, TransportManager, AccountManager, AppManager, IdentityManager;
 @class MessageDecoder;
 
-@interface MessageDecodeService : NSObject {
-    PersistentModelStoreFactory* _storeFactory;
-    id<IdentityProvider> _identityProvider;
-    
-    NSOperationQueue* _queue;
-    
-    NSMutableArray* _pending;
-}
-
-@property (nonatomic) PersistentModelStoreFactory* storeFactory;
-@property (nonatomic) id<IdentityProvider> identityProvider;
-
-// List of operation threads
-@property (nonatomic) NSOperationQueue* queue;
-
-// List of objs that are pending processing
-@property (atomic) NSMutableArray* pending;
+@interface MessageDecodeService : ObjectPipelineService
 
 - (id) initWithStoreFactory: (PersistentModelStoreFactory*) sf andIdentityProvider: (id<IdentityProvider>) ip;
+
+@property (nonatomic, retain) id<IdentityProvider> identityProvider;
 
 @end
 
 
-@interface MessageDecodeOperation : NSOperation {
+@interface MessageDecodeOperation : ObjectPipelineOperation {
     // ManagedObject is not thread-safe, ObjectID is
-    NSManagedObjectID* _messageId;
-    MessageDecodeService* _service;
     NSMutableArray* _dirtyFeeds;
-    BOOL _success;
-    
-    PersistentModelStore* _store;
-    MusubiDeviceManager* _deviceManager;
-    IdentityManager* _identityManager;
-    TransportManager* _transportManager;
-    FeedManager* _feedManager;
-    AccountManager* _accountManager;
-    AppManager* _appManager;
-    MessageDecoder* _decoder;
 }
 
-@property (nonatomic) NSManagedObjectID* messageId;
-@property (nonatomic) MessageDecodeService* service;
 @property (nonatomic) NSMutableArray* dirtyFeeds;
 @property (nonatomic, assign) BOOL shouldRunProfilePush;
-@property (nonatomic, assign) BOOL success;
 
 @property (nonatomic) MessageDecoder* decoder;
-@property (nonatomic) PersistentModelStore* store;
 @property (nonatomic) MusubiDeviceManager* deviceManager;
 @property (nonatomic) IdentityManager* identityManager;
 @property (nonatomic) TransportManager* transportManager;
@@ -87,12 +58,6 @@
 @property (nonatomic) AccountManager* accountManager;
 @property (nonatomic) AppManager* appManager;
 
-- (id) initWithMessageId: (NSManagedObjectID*) msgId andService: (MessageDecodeService*) service;
 + (int) operationCount;
 
 @end
-
-
-@interface MessageDecodedNotifyOperation : NSOperation
-@end
-

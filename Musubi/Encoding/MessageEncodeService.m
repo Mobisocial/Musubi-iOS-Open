@@ -55,168 +55,60 @@
 #import "ProfileObj.h"
 #import "DeleteObj.h"
 #import "LikeObj.h"
+#import "ObjectPipelineService.h"
 
 #define kSmallProcessorCutOff 20
 
 @implementation MessageEncodeService
 
-@synthesize storeFactory = _storeFactory, identityProvider = _identityProvider, pending = _pending, queues = _queues, pendingLock = _pendingLock;
+@synthesize identityProvider = _identityProvider;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf andIdentityProvider:(id<IdentityProvider>)ip {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    self.storeFactory = sf;
-    self.identityProvider = ip;
+    NSDate* weekAgo = [NSDate dateWithTimeIntervalSinceNow:-604800.0];
+    PersistentModelStore* store = [self.storeFactory newStore];
     
-    // List of objs pending encoding
-    self.pending = [NSMutableArray arrayWithCapacity:10];
-    self.pendingLock = [[NSLock alloc] init];
-
-    // Two processing threads, one for small feeds, one for large.
-    self.queues = [NSArray arrayWithObjects:[NSOperationQueue new], [NSOperationQueue new], nil];
-    
-    // Start the thread
-    for (NSOperationQueue* queue in _queues) {
-        [queue setMaxConcurrentOperationCount:1];
-    }
-    
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(process:) name:kMusubiNotificationPlainObjReady object:nil];
-    //in case we bailed with a message in the pipes
-    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationPlainObjReady object:nil];
-
-    return self;
-}
-
-- (void) process: (NSNotification*) notification {
-    NSManagedObjectID* specificId = nil;
-    
-    if (notification.object != nil && [notification.object isKindOfClass:[NSManagedObjectID class]]) {
-        specificId = notification.object;
-    }
-    
-    if (specificId) {
-        [self processObjsWithIds:[NSArray arrayWithObject:specificId]];
-    } else {
-        [self processPendingObjs];
-    }
-}
-
-- (void) processPendingObjs {
-    
-    // This may be called on some background thread (through notificationCenter), so we need a new store
-    PersistentModelStore* store = [_storeFactory newStore];
-    
-    NSMutableArray* objs = [NSMutableArray array];
-    for (MObj* obj in [store query:[NSPredicate predicateWithFormat:@"(encoded == nil)"] onEntity:@"Obj"]) {
-        
-        // The encoder apparently deleted this message already, move on
-        if ([store isDeletedObject:obj])
-            continue;
-        
-        [objs addObject:obj.objectID];
-    }
-    
-    [self processObjsWithIds:objs];
-}
-
-- (void) processObjsWithIds: (NSArray*) objObjectIDs {
-    // This is called on some background thread (through notificationCenter), so we need a new store
-    PersistentModelStore* store = [_storeFactory newStore];
-
-    NSMutableSet* usedQueues = [NSMutableSet setWithCapacity:2];
-    
-    for (NSManagedObjectID* objID in objObjectIDs) {
-        
-        MObj* obj = (MObj*)[store.context existingObjectWithID:objID error:nil];
-        if (!obj)
-            continue;
-        
-        assert (obj.encoded == nil);
-        
-        @synchronized(_pendingLock) {
-            if ([_pending containsObject: objID]) {
-                continue;
-            } else {
-                [_pending addObject: objID];
-            }
-        }
-        
-        // Find the thread to run this on
-        NSOperationQueue* queue = nil;
-        if([obj.feed.name isEqualToString:kFeedNameGlobalWhitelist] && obj.feed.type == kFeedTypeAsymmetric) {
-            queue = [_queues objectAtIndex:0];
+    int (^selectQueue)(NSManagedObject* obj) =  ^(NSManagedObject* obj) {
+        MObj* mObj = (MObj*) obj;
+        if ([mObj.feed.name isEqualToString:kFeedNameGlobalWhitelist] && mObj.feed.type == kFeedTypeAsymmetric) {
+            return 0;
         } else {
-            NSArray* members = [store query:[NSPredicate predicateWithFormat:@"feed = %@", obj.feed] onEntity:@"FeedMember"];
+            NSArray* members = [store query:[NSPredicate predicateWithFormat:@"feed = %@", mObj.feed] onEntity:@"FeedMember"];
             if (members.count > kSmallProcessorCutOff) {
-                queue = [_queues objectAtIndex:0];
+                return 0;
             } else {
-                queue = [_queues objectAtIndex:1];
+                return 1;
             }
         }
-        
-        [usedQueues addObject: queue];
-        [queue addOperation: [[MessageEncodeOperation alloc] initWithObjId:objID andService:self]];
-    }
+    };
     
-    // At the end, notify everybody
-    for (NSOperationQueue* queue in usedQueues) {
-        [queue addOperation: [[MessageEncodedNotifyOperation alloc] init]]; 
+    ObjectPipelineServiceConfiguration* config = [[ObjectPipelineServiceConfiguration alloc] init];
+    config.model = @"Obj";
+    config.selector = [NSPredicate predicateWithFormat:@"(encoded == nil) AND (lastModified > %@)", weekAgo];
+    config.notificationName = kMusubiNotificationPlainObjReady;
+    config.numberOfQueues = 2;
+    config.queueSelector = selectQueue;
+    config.operationClass = [MessageEncodeOperation class];
+
+    self = [super initWithStoreFactory:sf andConfiguration:config];
+    if (self) {
+        _identityProvider = ip;
     }
-}
-
-@end
-
-@implementation MessageEncodedNotifyOperation
-
-- (void)main {
-    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAppObjReady object:nil]];
-    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationPreparedEncoded object:nil]];
+    return self;
 }
 
 @end
 
 @implementation MessageEncodeOperation
 
-@synthesize objId = _objId, success, store = _store, service = _service;
-
-- (id)initWithObjId:(NSManagedObjectID *)oId andService:(MessageEncodeService *)service {
-    self = [super init];
-    if (self) {
-        self.service = service;
-        self.objId = oId;
-        [self setThreadPriority: kMusubiThreadPriorityBackground];
-    }
-    return self;
-}
-
-
-- (void)main {
-    self.store = [_service.storeFactory newStore];
+- (BOOL)performOperationOnObject:(NSManagedObject *)object {
+    MObj* obj = (MObj*) object;
     
-    NSError* error;
-    MObj* obj = (MObj*)[_store.context existingObjectWithID:_objId error:&error];
-    if(obj == nil) {
-        NSLog(@"Encode failed lookup %@: %@", _objId, error);
-    }
-
-    [self encodeObj: obj];
-    
-    // Remove from the pending queue
-    @synchronized(_service.pendingLock) {
-        [_service.pending removeObject:_objId];
-    }
-}
-
-- (void) encodeObj: (MObj*) obj {
     FeedManager * feedManager = [[FeedManager alloc] initWithStore:self.store];
     IdentityManager * identityManager = [[IdentityManager alloc] initWithStore:self.store];
     
     // Make sure we have all the required inputs
     assert(obj != nil);
-
+    
     MFeed* feed = obj.feed;
     assert(feed != nil);
     
@@ -225,13 +117,13 @@
     
     BOOL localOnly = sender.type == kIdentityTypeLocal;
     if (!localOnly && !sender.owned) {
-        EncodedMessageManager* emm = [[EncodedMessageManager alloc] initWithStore:_store];
+        EncodedMessageManager* emm = [[EncodedMessageManager alloc] initWithStore:self.store];
         MEncodedMessage* encoded = [emm create];
         obj.encoded = encoded;
         encoded.processed = YES;
         encoded.outbound = NO;
-        [_store save];
-        return;
+        [self.store save];
+        return YES;
     }
     
     MApp* app = obj.app;
@@ -241,7 +133,7 @@
     if(feed.type == kFeedTypeAsymmetric && [feed.name isEqualToString:kFeedNameGlobalWhitelist]) {
         recipients = [NSMutableArray arrayWithArray:[identityManager claimedIdentities]];
     } else {
-        for (MFeedMember* fm in [_store query:[NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
+        for (MFeedMember* fm in [self.store query:[NSPredicate predicateWithFormat:@"feed = %@", feed] onEntity:@"FeedMember"]) {
             [recipients addObject: fm.identity];
         }
     }
@@ -285,7 +177,7 @@
     
     // Universal hash it, must happen before the encoding step so
     // Local messages can still run through the pipeline
-    MusubiDeviceManager* deviceManager = [[MusubiDeviceManager alloc] initWithStore:_store];
+    MusubiDeviceManager* deviceManager = [[MusubiDeviceManager alloc] initWithStore:self.store];
     MDevice* device = obj.device;
     assert (device.deviceName == [deviceManager localDeviceName]);
     
@@ -294,14 +186,16 @@
     
     
     if (localOnly) {
-        [self setSuccess: YES];
-        return;
+        return YES;
     }
     
-    id<IdentityProvider> identityProvider = _service.identityProvider;
-    TransportManager* transportManager = [[TransportManager alloc] initWithStore:_store encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:deviceManager.localDeviceName];
+    id<IdentityProvider> identityProvider = ((MessageEncodeService*)self.service).identityProvider;
+    TransportManager* transportManager = [[TransportManager alloc] initWithStore:self.store encryptionScheme:identityProvider.encryptionScheme signatureScheme:identityProvider.signatureScheme deviceName:deviceManager.localDeviceName];
     MessageEncoder* encoder = [[MessageEncoder alloc] initWithTransportDataProvider:transportManager];
     MEncodedMessage* encoded = nil;
+    
+    BOOL success = NO;
+    
     @try {
         encoded = [encoder encodeOutgoingMessage:om];        
         success = YES;
@@ -313,7 +207,7 @@
                 if (errId) {
                     NSLog(@"Making new signature key for %@", errId);
                     
-                    IBSignatureUserKey* userKey = [_service.identityProvider signatureKeyForIdentity:errId];
+                    IBSignatureUserKey* userKey = [identityProvider signatureKeyForIdentity:errId];
                     
                     if (userKey) {
                         SignatureUserKeyManager* sigUserKeyMgr = transportManager.signatureUserKeyManager;
@@ -331,7 +225,7 @@
                 } else {
                     @throw exception;
                 }
-
+                
             }
             @catch (NSException *exception) {
                 NSLog(@"Error: %@", exception);
@@ -342,15 +236,20 @@
     }
     
     if([obj.type isEqualToString:kObjTypeProfile]) {
-        [_store.context deleteObject:obj];
+        [self.store.context deleteObject:obj];
     } else {
         obj.encoded = encoded;
     }
     if(feed.type == kFeedTypeOneTimeUse) {
         [feedManager deleteFeedAndMembersAndObjs:feed];
     }
-        
-    [_store save];
+    
+    [self.store save];
+    
+    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAppObjReady object:nil]];
+    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationPreparedEncoded object:nil]];
+
+    return success;
 }
 
 @end

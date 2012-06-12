@@ -80,6 +80,8 @@
 		D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D216DE6014F48951001A4166 /* InfoPlist.strings */; };
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
 		D2313BDE1519319100BB0526 /* AMQPSender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSender.m */; };
+		D23F12A11586ACE600BA0602 /* AMQPUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D23F12A01586ACE600BA0602 /* AMQPUtil.m */; };
+		D23F12A41586BA9600BA0602 /* ObjectPipelineService.m in Sources */ = {isa = PBXBuildFile; fileRef = D23F12A31586BA9500BA0602 /* ObjectPipelineService.m */; };
 		D248D2F114F84ABC00DF96DB /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
 		D250C9631579815600955AB2 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */; };
 		D2582666157D847500B47FEE /* FriendPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2582665157D847500B47FEE /* FriendPickerViewController.m */; };
@@ -174,7 +176,7 @@
 		D2D9311B1522A307006E4F58 /* libRabbitMQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D931181522A2DE006E4F58 /* libRabbitMQ.a */; };
 		D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */; };
 		D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67C1524FB0C005AD880 /* ObjFactory.m */; };
-		D2F8C6801524FB29005AD880 /* ObjPipelineService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67F1524FB29005AD880 /* ObjPipelineService.m */; };
+		D2F8C6801524FB29005AD880 /* ObjProcessorService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67F1524FB29005AD880 /* ObjProcessorService.m */; };
 		D2F8C68315250713005AD880 /* ObjHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C68215250713005AD880 /* ObjHelper.m */; };
 		D2F8C686152524DF005AD880 /* StatusObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C685152524DF005AD880 /* StatusObj.m */; };
 		D2F8C689152533D6005AD880 /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */; };
@@ -485,6 +487,10 @@
 		D22352611581D3D100A6FB63 /* Model 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 9.xcdatamodel"; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSender.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSender.m; sourceTree = "<group>"; };
+		D23F129F1586ACE600BA0602 /* AMQPUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPUtil.h; sourceTree = "<group>"; };
+		D23F12A01586ACE600BA0602 /* AMQPUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPUtil.m; sourceTree = "<group>"; };
+		D23F12A21586BA9400BA0602 /* ObjectPipelineService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectPipelineService.h; sourceTree = "<group>"; };
+		D23F12A31586BA9500BA0602 /* ObjectPipelineService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectPipelineService.m; sourceTree = "<group>"; };
 		D248D2F014F84ABC00DF96DB /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		D2582664157D847500B47FEE /* FriendPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendPickerViewController.h; path = FriendPicker/FriendPickerViewController.h; sourceTree = "<group>"; };
@@ -979,8 +985,8 @@
 		D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RabbitMQ.xcodeproj; path = RabbitMQ/RabbitMQ/RabbitMQ.xcodeproj; sourceTree = "<group>"; };
 		D2F8C67B1524FB0C005AD880 /* ObjFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFactory.h; sourceTree = "<group>"; };
 		D2F8C67C1524FB0C005AD880 /* ObjFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjFactory.m; sourceTree = "<group>"; };
-		D2F8C67E1524FB29005AD880 /* ObjPipelineService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjPipelineService.h; sourceTree = "<group>"; };
-		D2F8C67F1524FB29005AD880 /* ObjPipelineService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjPipelineService.m; sourceTree = "<group>"; };
+		D2F8C67E1524FB29005AD880 /* ObjProcessorService.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ObjProcessorService.h; sourceTree = "<group>"; };
+		D2F8C67F1524FB29005AD880 /* ObjProcessorService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjProcessorService.m; sourceTree = "<group>"; };
 		D2F8C68115250713005AD880 /* ObjHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjHelper.h; sourceTree = "<group>"; };
 		D2F8C68215250713005AD880 /* ObjHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjHelper.m; sourceTree = "<group>"; };
 		D2F8C684152524DF005AD880 /* StatusObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusObj.h; path = SocialKit/Obj/StatusObj.h; sourceTree = "<group>"; };
@@ -1410,7 +1416,7 @@
 				D2B13D4514F865760067B197 /* Encoding */,
 				D21F732B15199F1C00C57BC3 /* Identity */,
 				D248D2EE14F84ABC00DF96DB /* Model */,
-				D2F8C67A1524FB0B005AD880 /* Pipeline */,
+				D2F8C67A1524FB0B005AD880 /* ObjProcessor */,
 				D2773CAF151C420000A161F9 /* SocialKit */,
 				D26D36CC147B3ED400C4FE93 /* Transport */,
 				D211D9681519797800E38051 /* UI */,
@@ -1421,6 +1427,8 @@
 				D2D03BC11578843A00DBF40B /* main.m */,
 				D2D03BBC1578840600DBF40B /* AppDelegate.h */,
 				D2D03BBD1578840600DBF40B /* AppDelegate.m */,
+				D23F12A21586BA9400BA0602 /* ObjectPipelineService.h */,
+				D23F12A31586BA9500BA0602 /* ObjectPipelineService.m */,
 				D26D36B4147B3ED400C4FE93 /* Musubi.h */,
 				D26D36B5147B3ED400C4FE93 /* Musubi.m */,
 			);
@@ -1455,6 +1463,8 @@
 				D2081558151273C400F12039 /* AMQPTransport.m */,
 				C0294C49155CEE5B005894DF /* APNPushManager.h */,
 				C0294C4A155CEE5B005894DF /* APNPushManager.m */,
+				D23F129F1586ACE600BA0602 /* AMQPUtil.h */,
+				D23F12A01586ACE600BA0602 /* AMQPUtil.m */,
 			);
 			path = Transport;
 			sourceTree = "<group>";
@@ -2769,16 +2779,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D2F8C67A1524FB0B005AD880 /* Pipeline */ = {
+		D2F8C67A1524FB0B005AD880 /* ObjProcessor */ = {
 			isa = PBXGroup;
 			children = (
+				D2F8C67E1524FB29005AD880 /* ObjProcessorService.h */,
+				D2F8C67F1524FB29005AD880 /* ObjProcessorService.m */,
 				D2F8C67B1524FB0C005AD880 /* ObjFactory.h */,
 				D2F8C67C1524FB0C005AD880 /* ObjFactory.m */,
-				D2F8C67E1524FB29005AD880 /* ObjPipelineService.h */,
-				D2F8C67F1524FB29005AD880 /* ObjPipelineService.m */,
 				D2F8C68115250713005AD880 /* ObjHelper.h */,
 				D2F8C68215250713005AD880 /* ObjHelper.m */,
 			);
+			name = ObjProcessor;
 			path = Pipeline;
 			sourceTree = "<group>";
 		};
@@ -3267,7 +3278,7 @@
 				D2773CCC151D638900A161F9 /* AppManager.m in Sources */,
 				D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */,
 				D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */,
-				D2F8C6801524FB29005AD880 /* ObjPipelineService.m in Sources */,
+				D2F8C6801524FB29005AD880 /* ObjProcessorService.m in Sources */,
 				D2F8C68315250713005AD880 /* ObjHelper.m in Sources */,
 				D2F8C686152524DF005AD880 /* StatusObj.m in Sources */,
 				D2F8C689152533D6005AD880 /* NSDate+TimeAgo.m in Sources */,
@@ -3368,6 +3379,8 @@
 				D258266C157D853600B47FEE /* FriendListModel.m in Sources */,
 				D25826D3157FFEC800B47FEE /* FriendListItemCell.m in Sources */,
 				D25826D615800B4E00B47FEE /* FriendListItem.m in Sources */,
+				D23F12A11586ACE600BA0602 /* AMQPUtil.m in Sources */,
+				D23F12A41586BA9600BA0602 /* ObjectPipelineService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

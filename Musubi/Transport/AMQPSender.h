@@ -24,15 +24,31 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 #import "AMQPThread.h"
 
 @class MEncodedMessage;
 
-@interface AMQPSender : AMQPThread
+@interface AMQPSender : NSObject
 
+@property (nonatomic, strong) NSOperationQueue* queue;
+@property (nonatomic, strong) NSMutableArray* pending;
+@property (nonatomic, retain) AMQPConnectionManager* connMngr;
 @property (nonatomic, strong) NSMutableSet* declaredGroups;
 @property (nonatomic, strong) NSCondition* messagesWaitingCondition;
+@property (nonatomic, retain) PersistentModelStoreFactory* storeFactory;
+@property (nonatomic, assign) int groupProbeChannel;
 
-- (void) sendMessage: (MEncodedMessage*) msg;
+- (id)initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf;
+
+@end
+
+@interface AMQPSendOperation : NSOperation
+
+@property (nonatomic, retain) NSManagedObjectID* messageId;
+@property (nonatomic, retain) AMQPSender* sender;
+
+- (id)initWithMessageId:(NSManagedObjectID *)msgId andSender:(AMQPSender *)sender;
+- (void) send: (MEncodedMessage*) msg;
 
 @end

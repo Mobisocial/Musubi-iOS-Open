@@ -60,7 +60,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 #define kMusubiThreadPriorityBackground 0.0
 
-@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjPipelineService, FacebookIdentityUpdater, GoogleIdentityUpdater, CorralHTTPServer;
+@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjProcessorService, FacebookIdentityUpdater, GoogleIdentityUpdater, CorralHTTPServer;
 
 
 @interface Musubi : NSObject {
@@ -77,7 +77,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 @property (nonatomic, strong) IdentityKeyManager* keyManager;
 @property (nonatomic, strong) MessageEncodeService* encodeService;
 @property (nonatomic, strong) MessageDecodeService* decodeService;
-@property (nonatomic, strong) ObjPipelineService* objPipelineService;
+@property (nonatomic, strong) ObjProcessorService* objPipelineService;
 //this is updated in the main thread for notifications, but it also 
 //read from a background thread
 @property (atomic, strong) NSString* apnDeviceToken;

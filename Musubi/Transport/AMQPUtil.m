@@ -16,25 +16,20 @@
 
 
 //
-//  MessageEncodeService.h
-//  Musubi
+//  AMQPUtil.m
+//  musubi
 //
-//  Created by Willem Bult on 3/22/12.
+//  Created by Willem Bult on 6/11/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
-#import "IdentityProvider.h"
-#import "ObjectPipelineService.h"
+#import "AMQPUtil.h"
+#import "NSData+Base64.h"
 
-@interface MessageEncodeService : ObjectPipelineService
+@implementation AMQPUtil
 
-@property (nonatomic, strong) id<IdentityProvider> identityProvider;
-
-- (id) initWithStoreFactory: (PersistentModelStoreFactory*) sf andIdentityProvider: (id<IdentityProvider>) ip;
-
-@end
-
-@interface MessageEncodeOperation : ObjectPipelineOperation
++ (NSString*) queueNameForKey: (NSData*) key withPrefix: (NSString*) prefix {
+    // the \n is because the android version shoved that in on base64 encode... not really URL safe...lol
+    return [NSString stringWithFormat:@"%@%@\n", prefix, [key encodeBase64WebSafe]];
+}
 @end

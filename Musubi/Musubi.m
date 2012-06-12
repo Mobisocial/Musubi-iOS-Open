@@ -39,7 +39,7 @@
 #import "AMQPTransport.h"
 #import "FacebookIdentityUpdater.h"
 #import "GoogleIdentityUpdater.h"
-#import "ObjPipelineService.h"
+#import "ObjProcessorService.h"
 #import "CorralHTTPServer.h"
 
 #import "PersistentModelStore.h"
@@ -51,6 +51,8 @@
 #import "MApp.h"
 #import "MFeed.h"
 #import "MIdentity.h"
+#import "MObj.h"
+#import "MEncodedMessage.h"
 
 #import "IntroductionObj.h"
 #import "Authorities.h"
@@ -88,27 +90,30 @@ static Musubi* _sharedInstance = nil;
     NSArray* res = [self.mainStore query:[NSPredicate predicateWithFormat:@"principalShortHash == 0 AND principal == null AND name == null"] onEntity:@"Identity"];
     NSLog(@"Deleting %d unknown contacts", res.count);
     for (MIdentity* i in res) {
-        /*
-        NSArray* bla = nil;
-        bla = [self.mainStore query:[NSPredicate predicateWithFormat:@"fromIdentity == %@", i] onEntity:@"EncodedMessage"];
-        if (bla.count > 0)
-            continue;
-        
-        bla = [self.mainStore query:[NSPredicate predicateWithFormat:@"otherIdentity == %@", i] onEntity:@"IncomingSecret"];
-        if (bla.count > 0)
-            continue;
-        
-        bla = [self.mainStore query:[NSPredicate predicateWithFormat:@"identity == %@", i] onEntity:@"FeedMember"];
-        if (bla.count > 0)
-            continue;
-        
-        bla = [self.mainStore query:[NSPredicate predicateWithFormat:@"otherIdentity == %@", i] onEntity:@"OutgoingSecret"];
-        if (bla.count > 0)
-            continue;*/
-        
         [self.mainStore.context deleteObject:i];
     }
+    
+    res = [self.mainStore query:[NSPredicate predicateWithFormat:@"(encoded != nil)"] onEntity:@"Obj"];
+    for (MObj* i in res) {
+        NSManagedObjectID* encId = i.encoded.objectID;
+        NSError* error;
+        NSManagedObject* obj = [self.mainStore.context existingObjectWithID:encId error:&error];
+        if (!obj) {
+            i.encoded = nil;
+        }
+    }
+
+
+    NSDate* weekAgo = [NSDate dateWithTimeIntervalSinceNow:-604800.0];
+    res = [self.mainStore query:[NSPredicate predicateWithFormat:@"(processed == YES) AND (lastModified < %@) AND (encoded != nil)", weekAgo] onEntity:@"Obj"];
+    NSLog(@"Deleting %d old encoded messages", res.count);
+    for (MObj* i in res) {
+        [self.mainStore.context deleteObject:i.encoded];
+        i.encoded = nil;
+    }
+    
     [self.mainStore.context save:nil];
+    NSLog(@"Saved");
     
     // The notification sender informs every major part in the system about what's going on
     self.notificationCenter = [[NSNotificationCenter alloc] init];
@@ -136,7 +141,7 @@ static Musubi* _sharedInstance = nil;
     [transport start];
     
     // The obj pipeline will process our objs so we can render them
-    self.objPipelineService = [[ObjPipelineService alloc] initWithStoreFactory: storeFactory];
+    self.objPipelineService = [[ObjProcessorService alloc] initWithStoreFactory: storeFactory];
     
     // Make sure we keep the facebook friends up to date
     self.facebookIdentityUpdater = [[FacebookIdentityUpdater alloc] initWithStoreFactory: storeFactory];

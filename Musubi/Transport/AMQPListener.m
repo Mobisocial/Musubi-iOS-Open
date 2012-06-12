@@ -182,8 +182,6 @@
             }
             [store save];
             
-            NSLog(@"Last seq number: %llu", [connMngr lastIncomingSequenceNumber]);
-            
             [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
             
             [self log:@"Incoming: %@", encoded.objectID];

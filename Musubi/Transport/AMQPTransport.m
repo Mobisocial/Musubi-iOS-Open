@@ -47,12 +47,12 @@
 }
 
 - (void) start {
-    [sender start];
+//    [sender start];
     [listener start];
 }
 
 - (void)stop {
-    [sender cancel];
+//    [sender cancel];
     [listener cancel];
 }
 
@@ -80,7 +80,7 @@
 }
 
 - (BOOL)done {
-    return [sender isFinished] && [listener isFinished];
+    return sender.pending.count == 0 && [listener isFinished];
 }
 
 @end

@@ -25,6 +25,7 @@
 
 #import "AMQPSender.h"
 #import "AMQPConnectionManager.h"
+#import "AMQPUtil.h"
 #import "NSData+Base64.h"
 
 #import "Musubi.h"
@@ -40,88 +41,109 @@
 #import "Message.h"
 #import "Recipient.h"
 
-@implementation AMQPSender {
-    int groupProbeChannel;
-}
+@implementation AMQPSender
 
 @synthesize declaredGroups, messagesWaitingCondition = _messagesWaitingCondition;
+@synthesize pending = _pending;
+@synthesize queue = _queue;
+@synthesize connMngr = _connMngr;
+@synthesize storeFactory = _storeFactory;
+@synthesize groupProbeChannel = _groupProbeChannel;
 
 - (id)initWithConnectionManager:(AMQPConnectionManager *)conn storeFactory:(PersistentModelStoreFactory *)sf {
-    self = [super initWithConnectionManager:conn storeFactory:sf];
+    self = [super init];
+//    self = [super initWithConnectionManager:conn storeFactory:sf];
     if (!self)
         return nil;
+    
+    _storeFactory = sf;
+    _connMngr = conn;
+    _queue = [NSOperationQueue new];
+    _queue.maxConcurrentOperationCount = 1;
+    
+    // List of objs pending encoding
+    _pending = [NSMutableArray arrayWithCapacity:10];
+    
     self.declaredGroups = [NSMutableSet set];
-    groupProbeChannel = -1;
+    _groupProbeChannel = -1;
     
     self.messagesWaitingCondition = [[NSCondition alloc] init];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(signalMessagesReady) name:kMusubiNotificationPreparedEncoded object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(processMessages:) name:kMusubiNotificationPreparedEncoded object:nil];
     return self;
 }
 
-- (void) signalMessagesReady {
-    if (![NSThread isMainThread]) {
-        [self performSelectorOnMainThread:@selector(signalMessagesReady) withObject:nil waitUntilDone:NO];
-        return;
+- (void) processMessages: (NSNotification*) notification {
+    EncodedMessageManager* emm = [[EncodedMessageManager alloc] initWithStore:[_storeFactory newStore]];
+    
+    NSMutableArray* ids = [NSMutableArray array];
+    for (MEncodedMessage* msg in [emm unsentOutboundMessages]) {
+        [ids addObject: msg.objectID];
     }
     
-    //[_messagesWaitingCondition lock];
-    [_messagesWaitingCondition signal];
-    //[_messagesWaitingCondition unlock];
+    [self processMessagesWithIds: ids];
 }
 
-- (void)main {
-    // Run AMQPThread common
-    [super main];
-    
-    // Perpetually wait for messages to become available
-    while (![[NSThread currentThread] isCancelled]) {
+- (void) processMessagesWithIds: (NSArray*) messageObjectIDs {
+    for (NSManagedObjectID* msgId in messageObjectIDs) {
         
-        [_messagesWaitingCondition lock];
-        EncodedMessageManager* emm = [[EncodedMessageManager alloc] initWithStore:[storeFactory newStore]];
-        
-        NSArray* unsent = nil;
-        while (unsent == nil || unsent.count == 0) {
-            // Timeout is only used in case the connection crashes while messages are still waiting to be sent
-            // We can afford a long delay in that border case. In the usual case, we will be signaled
-            // as soon as a message is ready.
-            
-            [_messagesWaitingCondition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-            
-            unsent = [emm unsentOutboundMessages];
+        // Don't process the same obj twice in different threads
+        // pending is atomic, so we should be able to do this safely
+        // Store ObjectID instead of object, because that is thread-safe
+        if ([_pending containsObject: msgId]) {
+            continue;
+        } else {
+            [_pending addObject: msgId];
         }
         
-        while (![connMngr connectionIsAlive]){
-            [connMngr initializeConnection];
-        }
+        // Find the thread to run this on
+        [_queue addOperation: [[AMQPSendOperation alloc] initWithMessageId:msgId andSender:self]];
+    }
+}
 
-        @try {
-            unsent = [emm unsentOutboundMessages];
-            if (unsent != nil) {
-                if (unsent.count > 0)
-                    [self log:@"Sending %d messages", unsent.count];
-                //TODO: in memory pending list to not resend
-                
-                int left = unsent.count;
-                for (MEncodedMessage* msg in unsent) {
-                    assert(msg.outbound);
-                    self.connMngr.connectionState = [NSString stringWithFormat:@"Sending %d messages...", left--];
-                    [self sendMessage: msg];
-                }
-            }
-        } @catch (NSException* exception) {
-            [self log:@"Crashed in send: %@", exception];
-            // Failed to send message, close connection
-            [connMngr closeConnection];
-        } @finally {
-        }
-        
-        [_messagesWaitingCondition unlock];
+@end 
+
+
+@implementation AMQPSendOperation
+
+@synthesize sender = _sender, messageId = _messageId;
+
+- (id)initWithMessageId:(NSManagedObjectID *)msgId andSender:(AMQPSender *)sender {
+    self = [super init];
+    if (self) {
+        _sender = sender;
+        _messageId = msgId;
+    }
+    return self;
+}
+
+- (void) main {
+    PersistentModelStore* store = [_sender.storeFactory newStore];
+    NSError* error;
+    
+    MEncodedMessage* msg = (MEncodedMessage*)[store.context existingObjectWithID:_messageId error:&error];
+    if (!msg)
+        @throw error;
+    
+    while (![_sender.connMngr connectionIsAlive]){
+        [_sender.connMngr initializeConnection];
     }
     
-    [connMngr closeConnection];
+    @try {
+        assert(msg.outbound);
+        _sender.connMngr.connectionState = [NSString stringWithFormat:@"Sending %d messages...", _sender.pending.count];
+        [self send: msg];
+    } @catch (NSException* exception) {
+        NSLog(@"Crashed in send: %@", exception);
+        // Failed to send message, close connection
+        [_sender.connMngr closeConnection];
+    } @finally {
+    }
+    
+    // Remove from the pending queue
+    [_sender.pending removeObject:_messageId];
 }
 
-- (void) sendMessage: (MEncodedMessage*) msg {
+- (void) send: (MEncodedMessage*) msg {
     Message* m = [BSONEncoder decodeMessage:msg.encoded];
     
     NSMutableArray* ids = [NSMutableArray arrayWithCapacity:[m.r count]];
@@ -139,7 +161,7 @@
         IBEncryptionIdentity* ident = [[[IBEncryptionIdentity alloc] initWithKey:((Recipient*)[m.r objectAtIndex:i]).i] keyAtTemporalFrame:0];
         [hidForQueue addObject: ident];
         
-        PersistentModelStore* store = [storeFactory newStore];
+        PersistentModelStore* store = [_sender.storeFactory newStore];
         MIdentity* mIdent = (MIdentity*)[store createEntity:@"Identity"];
         [mIdent setPrincipalHash:[ident hashed]];
         [mIdent setType: [ident authority]];
@@ -150,44 +172,44 @@
     NSData* groupExchangeNameBytes = [FeedManager fixedIdentifierForIdentities: ids];
     //the original android group exchanges were ibegroup and they were durable.  the non-durable version
     //has a t in the name, for temporary.
-    NSString* groupExchangeName = [self queueNameForKey:groupExchangeNameBytes withPrefix:@"ibetgroup-"];
+    NSString* groupExchangeName = [AMQPUtil queueNameForKey:groupExchangeNameBytes withPrefix:@"ibetgroup-"];
     
     
-    if (![declaredGroups containsObject:groupExchangeName]) {
-        [connMngr declareExchange:groupExchangeName onChannel:kAMQPChannelOutgoing passive:NO durable:NO];
+    if (![_sender.declaredGroups containsObject:groupExchangeName]) {
+        [_sender.connMngr declareExchange:groupExchangeName onChannel:kAMQPChannelOutgoing passive:NO durable:NO];
         //[self log:@"Creating group exchange: %@", groupExchangeName];
         
         for (IBEncryptionIdentity* recipient in hidForQueue) {
-            NSString* dest = [self queueNameForKey:recipient.key withPrefix:@"ibeidentity-"];
+            NSString* dest = [AMQPUtil queueNameForKey:recipient.key withPrefix:@"ibeidentity-"];
             NSLog(@"Sending message to %@", dest);
             
-            if(groupProbeChannel == -1)
-                groupProbeChannel = [connMngr createChannel];
+            if(_sender.groupProbeChannel == -1)
+                _sender.groupProbeChannel = [_sender.connMngr createChannel];
             @try {
                 // This will fail if the exchange doesn't exist
-                [connMngr declareExchange:dest onChannel:groupProbeChannel passive:YES durable:YES];
+                [_sender.connMngr declareExchange:dest onChannel:_sender.groupProbeChannel passive:YES durable:YES];
             } @catch (NSException *exception) {
-                [connMngr closeChannel:groupProbeChannel];
-                groupProbeChannel = -1;
+                [_sender.connMngr closeChannel:_sender.groupProbeChannel];
+                _sender.groupProbeChannel = -1;
                 [self log:@"Identity change was not bound, define initial queue"];
                 
                 NSString* initialQueueName = [NSString stringWithFormat:@"initial-%@", dest];
-                [connMngr declareQueue:initialQueueName onChannel:kAMQPChannelOutgoing passive:NO durable:YES exclusive:NO];
-                [connMngr declareExchange:dest onChannel:kAMQPChannelOutgoing passive:NO durable:YES];
-                [connMngr bindQueue:initialQueueName toExchange:dest onChannel:kAMQPChannelOutgoing];
+                [_sender.connMngr declareQueue:initialQueueName onChannel:kAMQPChannelOutgoing passive:NO durable:YES exclusive:NO];
+                [_sender.connMngr declareExchange:dest onChannel:kAMQPChannelOutgoing passive:NO durable:YES];
+                [_sender.connMngr bindQueue:initialQueueName toExchange:dest onChannel:kAMQPChannelOutgoing];
             }
             
             //[self log:@"Binding exchange %@ <= exchange %@", dest, groupExchangeName];
-            [connMngr bindExchange:dest to:groupExchangeName onChannel:kAMQPChannelOutgoing];
+            [_sender.connMngr bindExchange:dest to:groupExchangeName onChannel:kAMQPChannelOutgoing];
         }
-        [declaredGroups addObject:groupExchangeName];
+        [_sender.declaredGroups addObject:groupExchangeName];
     }
     
     //[self log:@"Publishing to %@", groupExchangeName];
     
-    uint32_t deliveryTag = [connMngr nextSequenceNumber];
+    uint32_t deliveryTag = [_sender.connMngr nextSequenceNumber];
     NSManagedObjectID* obj_id = msg.objectID;
-    [connMngr publish:msg.encoded to:groupExchangeName onChannel:kAMQPChannelOutgoing onAck:[^{
+    [_sender.connMngr publish:msg.encoded to:groupExchangeName onChannel:kAMQPChannelOutgoing onAck:[^{
         PersistentModelStore* store = [[Musubi sharedInstance] newStore];
         NSError* error;
         MEncodedMessage* msg = (MEncodedMessage*)[store.context existingObjectWithID:obj_id error:&error];
@@ -196,6 +218,13 @@
         [store save];
 
     } copy]];
+}
+
+- (void) log:(NSString*) format, ... {
+    va_list args;
+    va_start(args, format);
+    NSLogv([NSString stringWithFormat: @"AMQPTransport %p: %@", self, format], args);
+    va_end(args);
 }
 
 @end

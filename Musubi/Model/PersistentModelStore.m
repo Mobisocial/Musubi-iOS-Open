@@ -199,10 +199,16 @@ static PersistentModelStoreFactory *sharedInstance = nil;
         [request setFetchLimit: limit];
     
     NSError *error = nil;
-    return [context executeFetchRequest:request error:&error];
+    NSDate* start = [NSDate date];
+    NSArray* result = [context executeFetchRequest:request error:&error];
+    NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:start];
+//    NSLog(@"Query %@ took %f", predicate, interval);
+    return result;
 }
 
-- (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor{
+- (NSArray*) query: (NSPredicate*)
+
+predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor{
     return [self query:predicate onEntity:entityName sortBy:sortDescriptor limit:-1];
 }
 
