@@ -45,6 +45,8 @@
 @implementation FeedListViewController {
     NSDate* nextRedraw;
     NSDate* lastRedraw;
+    NSDate* nextPendingRedraw;
+    NSDate* lastPendingRedraw;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -153,6 +155,26 @@
         [self performSelectorOnMainThread:@selector(updatePending) withObject:nil waitUntilDone:NO];
         return;
     }
+
+    if(nextPendingRedraw) {
+        return;
+    }
+    if(lastPendingRedraw) {
+        NSDate* now = [NSDate date];
+        if([lastPendingRedraw timeIntervalSinceDate:now] < 1) {
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 11 * NSEC_PER_SEC / 10);
+            nextPendingRedraw = [lastPendingRedraw dateByAddingTimeInterval:1];
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                nextPendingRedraw = nil;
+                lastPendingRedraw = nil;
+                [self updatePending];
+            });
+            return;
+        }
+    }
+    lastPendingRedraw = [NSDate date];
+    nextPendingRedraw = nil;
+
     
     NSString* newText = nil;
     
