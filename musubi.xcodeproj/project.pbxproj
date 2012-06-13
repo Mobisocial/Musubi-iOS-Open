@@ -26,6 +26,7 @@
 		C03A66B5157C1307009A5CBA /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B1157C1307009A5CBA /* TFHppleElement.m */; };
 		C03A66B6157C1307009A5CBA /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B3157C1307009A5CBA /* XPathQuery.m */; };
 		C03A66B9157C137E009A5CBA /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B8157C137E009A5CBA /* DejalActivityView.m */; };
+		C04E907E158875A3003C6A0A /* GridHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C04E907D158875A3003C6A0A /* GridHandler.m */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
 		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0867924157038FC00F4F2BA /* ProfileObj.m */; };
@@ -384,6 +385,8 @@
 		C03A66B3157C1307009A5CBA /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPathQuery.m; path = Hpple/XPathQuery.m; sourceTree = "<group>"; };
 		C03A66B7157C137E009A5CBA /* DejalActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DejalActivityView.h; path = DejalActivityView/DejalActivityView.h; sourceTree = "<group>"; };
 		C03A66B8157C137E009A5CBA /* DejalActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DejalActivityView.m; path = DejalActivityView/DejalActivityView.m; sourceTree = "<group>"; };
+		C04E907C158875A3003C6A0A /* GridHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GridHandler.h; path = Nearby/GridHandler.h; sourceTree = "<group>"; };
+		C04E907D158875A3003C6A0A /* GridHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridHandler.m; path = Nearby/GridHandler.m; sourceTree = "<group>"; };
 		C0733345157D83A300B2A391 /* Model 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 8.xcdatamodel"; sourceTree = "<group>"; };
 		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
@@ -1162,6 +1165,15 @@
 			name = DejalActivityView;
 			sourceTree = "<group>";
 		};
+		C04E907B1588756F003C6A0A /* Nearby */ = {
+			isa = PBXGroup;
+			children = (
+				C04E907C158875A3003C6A0A /* GridHandler.h */,
+				C04E907D158875A3003C6A0A /* GridHandler.m */,
+			);
+			name = Nearby;
+			sourceTree = "<group>";
+		};
 		C0D5757C1551F94600B6624C /* TestFlight */ = {
 			isa = PBXGroup;
 			children = (
@@ -1412,27 +1424,28 @@
 		D26D3691147B3ED300C4FE93 /* Musubi */ = {
 			isa = PBXGroup;
 			children = (
-				D4DB1293157C2BD800337A16 /* Corral */,
+				D2D03BBC1578840600DBF40B /* AppDelegate.h */,
+				D2D03BBD1578840600DBF40B /* AppDelegate.m */,
 				D2773CBA151C4CE400A161F9 /* Auth */,
+				D4DB1293157C2BD800337A16 /* Corral */,
 				D26D369B147B3ED300C4FE93 /* Crypto */,
 				D2B13D4514F865760067B197 /* Encoding */,
 				D21F732B15199F1C00C57BC3 /* Identity */,
+				D2D03BBF1578842900DBF40B /* InfoPlist.strings */,
+				D2D03BC11578843A00DBF40B /* main.m */,
 				D248D2EE14F84ABC00DF96DB /* Model */,
+				D26D36DF147B3ED400C4FE93 /* Musubi-Info.plist */,
+				D26D36E0147B3ED400C4FE93 /* Musubi-Prefix.pch */,
+				D26D36B4147B3ED400C4FE93 /* Musubi.h */,
+				D26D36B5147B3ED400C4FE93 /* Musubi.m */,
+				C04E907B1588756F003C6A0A /* Nearby */,
+				D23F12A21586BA9400BA0602 /* ObjectPipelineService.h */,
+				D23F12A31586BA9500BA0602 /* ObjectPipelineService.m */,
 				D2F8C67A1524FB0B005AD880 /* ObjProcessor */,
 				D2773CAF151C420000A161F9 /* SocialKit */,
 				D26D36CC147B3ED400C4FE93 /* Transport */,
 				D211D9681519797800E38051 /* UI */,
 				D26D36D4147B3ED400C4FE93 /* Util */,
-				D2D03BBF1578842900DBF40B /* InfoPlist.strings */,
-				D26D36DF147B3ED400C4FE93 /* Musubi-Info.plist */,
-				D26D36E0147B3ED400C4FE93 /* Musubi-Prefix.pch */,
-				D2D03BC11578843A00DBF40B /* main.m */,
-				D2D03BBC1578840600DBF40B /* AppDelegate.h */,
-				D2D03BBD1578840600DBF40B /* AppDelegate.m */,
-				D23F12A21586BA9400BA0602 /* ObjectPipelineService.h */,
-				D23F12A31586BA9500BA0602 /* ObjectPipelineService.m */,
-				D26D36B4147B3ED400C4FE93 /* Musubi.h */,
-				D26D36B5147B3ED400C4FE93 /* Musubi.m */,
 			);
 			path = Musubi;
 			sourceTree = "<group>";
@@ -3383,6 +3396,7 @@
 				D23F12A11586ACE600BA0602 /* AMQPUtil.m in Sources */,
 				D23F12A41586BA9600BA0602 /* ObjectPipelineService.m in Sources */,
 				D2CB53921587AC0C002E196F /* StatusTextView.m in Sources */,
+				C04E907E158875A3003C6A0A /* GridHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
