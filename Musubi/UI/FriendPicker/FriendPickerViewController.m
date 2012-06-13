@@ -28,6 +28,7 @@
 #import "Three20UI/UIViewAdditions.h"
 #import "FriendListItem.h"
 #import "Musubi.h"
+#import "AccountManager.h"
 
 @interface FriendPickerViewController ()
 
@@ -71,6 +72,15 @@
     _importingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
     _importingLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:_importingLabel];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    AccountManager* accMgr = [[AccountManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    if ([accMgr claimedAccounts].count == 0) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"No accounts" message:@"Please connect to another service on the settings page first to use Musubi" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

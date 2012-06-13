@@ -94,6 +94,7 @@
     [mObj setRenderable: [ObjHelper isRenderable:obj]];
     [mObj setEncoded: nil];
     [mObj setParent: nil];
+    [mObj setSent: NO];
     
     NSError* error;
     if (![store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:mObj] error:&error])

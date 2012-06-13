@@ -36,6 +36,7 @@
 #import "EncodedMessageManager.h"
 #import "MEncodedMessage.h"
 #import "MIdentity.h"
+#import "MObj.h"
 
 #import "BSONEncoder.h"
 #import "Message.h"
@@ -165,7 +166,16 @@
         MEncodedMessage* msg = (MEncodedMessage*)[store.context existingObjectWithID:msgObjId error:&error];
         assert(msg.outbound);
         msg.processed = YES;
+        
+        MObj* obj = (MObj*)[store queryFirst:[NSPredicate predicateWithFormat:@"encoded = %@", msg] onEntity:@"Obj"];
+        if (obj) {
+            obj.sent = YES;
+        }
+        
         [store save];
+        
+        [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationEncodedMessageSent object:msg.objectID]];
+
 
     } copy]];
 }

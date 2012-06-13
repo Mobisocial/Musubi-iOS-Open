@@ -90,6 +90,7 @@
 }
 
 - (void)insertOutgoingSecret:(MOutgoingSecret *)os myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
+    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:os] error:nil];
     [store.context insertObject:os];
     [store.context save:NULL];
 }
@@ -112,6 +113,7 @@
 }
 
 - (void)insertIncomingSecret:(MIncomingSecret *)is otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
+    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:is] error:nil];
     [store.context insertObject:is];
     [store.context save:NULL];
 }
@@ -203,10 +205,12 @@
 }
 
 - (void)insertEncodedMessage:(MEncodedMessage *)encoded forOutgoingMessage:(OutgoingMessage *)om {
+    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:encoded] error:nil];
     [[store context] save: NULL];
 }
 
 - (void)updateEncodedMetadata:(MEncodedMessage *)encoded {
+    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:encoded] error:nil];
     [[store context] save: NULL];
 }
 

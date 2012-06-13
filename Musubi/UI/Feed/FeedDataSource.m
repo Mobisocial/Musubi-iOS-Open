@@ -70,6 +70,7 @@
 #import "ManagedObjFeedItem.h"
 
 #import "Musubi.h"
+#import "PersistentModelStore.h"
 
 @implementation FeedDataSource
 
@@ -84,6 +85,7 @@
     _startingAt = startingAt;
     [model.delegates addObject:self];
     _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    
 
     return self;
 }
@@ -162,7 +164,25 @@
     return item;
 }
 
-- (void)tableViewDidLoadModel:(UITableView *)tableView {
+
+- (void) tableViewDidLoadModel:(UITableView *)tableView {
+    [self loadItemsForObjs:[(FeedModel*)self.model consumeNewResults] inTableView:tableView];
+}
+
+- (NSIndexPath*) indexPathForObj: (MObj*) obj {
+    for (int i=0; i<self.items.count; i++) {
+        TTTableItem* item = [self.items objectAtIndex:i];
+        if ([item isKindOfClass:[FeedItem class]]) {
+            if ([((FeedItem*)item).obj.objectID isEqual:obj.objectID]) {
+                return [NSIndexPath indexPathForRow:i inSection:0];
+            }
+        }
+    }
+    
+    return nil;
+}
+
+- (void) loadItemsForObjs: (NSArray*) objs inTableView: (UITableView*) tableView {
     // remove the "Load earlier" item first, so we can safely assume all items are FeedItems
     TTTableMoreButton* loadMoreButton = nil;
     if (self.items.count && [[self.items objectAtIndex:0] isKindOfClass:[TTTableMoreButton class]]) {
@@ -171,7 +191,7 @@
     
     loadMoreButton = [TTTableMoreButton itemWithText:@"Earlier messages..."];
     
-    for (MObj *mObj in [(FeedModel*)self.model consumeNewResults]) {
+    for (MObj *mObj in objs) {
         FeedItem* item = [self itemFromObj:mObj];
 
         if (item) {

@@ -132,6 +132,9 @@
     button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [button addTarget:self action:@selector(changeName) forControlEvents:UIControlEventTouchDown];
     self.navigationItem.titleView = button;
+    
+    
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(reloadMessage:) name:kMusubiNotificationEncodedMessageSent object:nil];
 }
 
 - (AudioRecorderViewController*)audioRVC
@@ -244,6 +247,23 @@
     }
 }
 
+
+- (void) reloadMessage: (NSNotification*) notification {
+    if (![NSThread currentThread].isMainThread) {
+        [self performSelectorOnMainThread:@selector(reloadMessage:) withObject:notification waitUntilDone:NO];
+        return;
+    }
+    
+    if ([notification.object isKindOfClass:[NSManagedObjectID class]]) {
+        NSManagedObjectID* msgId = (NSManagedObjectID*)notification.object;
+        MObj* obj = (MObj*)[[Musubi sharedInstance].mainStore queryFirst:[NSPredicate predicateWithFormat:@"encoded == %@", msgId] onEntity:@"Obj"];
+        if (obj) {
+            [(FeedDataSource*)self.dataSource loadItemsForObjs:[NSArray arrayWithObject:obj] inTableView: self.tableView];
+            NSIndexPath* ip = [(FeedDataSource*)self.dataSource indexPathForObj:obj];
+            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:ip] withRowAnimation:UITableViewRowAnimationNone];
+        }
+    }
+}
 
 - (void) refreshFeed {
     FeedModel* model = (FeedModel*)self.model;

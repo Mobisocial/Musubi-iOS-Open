@@ -25,7 +25,7 @@
 
 #import "Three20/Three20.h"
 
-@class MFeed, ObjManager;
+@class MFeed, MObj, ObjManager;
 
 @interface FeedDataSource : TTListDataSource {
     ObjManager* _objManager;
@@ -33,5 +33,6 @@
 }
 
 - (id) initWithFeed: (MFeed*) feed messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt;
-
+- (void) loadItemsForObjs: (NSArray*) objs inTableView: (UITableView*) tableView;
+- (NSIndexPath*) indexPathForObj: (MObj*) obj;
 @end

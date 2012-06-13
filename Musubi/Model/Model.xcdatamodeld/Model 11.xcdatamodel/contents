@@ -131,10 +131,10 @@
         <attribute name="intKey" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="json" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastModified" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="passedEncoding" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="processed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="raw" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="renderable" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="sent" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="shortUniversalHash" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="stringKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>

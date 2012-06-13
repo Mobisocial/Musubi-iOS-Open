@@ -197,7 +197,6 @@
     [encoded setProcessed: NO];
     [encoded setOutbound: YES];
     [encoded setSequenceNumber: mySeqNumber];
-
     
     // Track the message and sequence numbers in the TransportDataProvider
     [transportDataProvider insertEncodedMessage: encoded forOutgoingMessage: om];

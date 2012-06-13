@@ -134,7 +134,6 @@
         <attribute name="processed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="raw" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="renderable" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="sent" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="shortUniversalHash" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="stringKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
@@ -189,7 +188,7 @@
         <element name="Like" positionX="160" positionY="192" width="128" height="90"/>
         <element name="MissingMessage" positionX="160" positionY="192" width="128" height="75"/>
         <element name="MyDeviceName" positionX="160" positionY="192" width="128" height="60"/>
-        <element name="Obj" positionX="160" positionY="192" width="128" height="345"/>
+        <element name="Obj" positionX="160" positionY="192" width="128" height="330"/>
         <element name="OutgoingSecret" positionX="160" positionY="192" width="128" height="150"/>
         <element name="SequenceNumber" positionX="160" positionY="192" width="128" height="90"/>
         <element name="SignatureUserKey" positionX="160" positionY="192" width="128" height="105"/>

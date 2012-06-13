@@ -311,6 +311,7 @@ static int operationCount;
     [mObj setDeleted: NO];
     [mObj setRenderable: NO];
     [mObj setProcessed: NO];
+    [mObj setSent: YES];
     
     // Grant app access
     if (![_appManager isSuperApp: mApp]) {

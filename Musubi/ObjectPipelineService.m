@@ -115,8 +115,6 @@
     // This is called on some background thread (through notificationCenter), so we need a new store
     PersistentModelStore* store = [_storeFactory newStore];
     
-    NSMutableSet* usedQueues = [NSMutableSet setWithCapacity:2];
-    
     for (NSManagedObjectID* objectID in objectIds) {
         
         NSManagedObject* object = [store.context existingObjectWithID:objectID error:nil];
@@ -124,7 +122,6 @@
             NSLog(@"Object with id %@ not found", objectID);
             continue;
         }
-            
         
         @synchronized(_pendingLock) {
             if ([_pending containsObject: objectID]) {

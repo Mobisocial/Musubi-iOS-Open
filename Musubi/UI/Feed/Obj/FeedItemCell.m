@@ -199,8 +199,10 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
         if (item.sender.length) {
             self.senderLabel.text = item.sender;
         }
-        if (item.timestamp) {
+        if (item.obj.sent && item.timestamp) {
             self.timestampLabel.text = [item.timestamp formatShortTime];
+        } else {
+            self.timestampLabel.text = @"...";
         }
         if (item.profilePicture) {
             [self.profilePictureButton setImage:item.profilePicture forState:UIControlStateNormal];

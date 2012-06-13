@@ -39,6 +39,7 @@
 @dynamic json;
 @dynamic lastModified;
 @dynamic processed;
+@dynamic sent;
 @dynamic raw;
 @dynamic intKey;
 @dynamic stringKey;

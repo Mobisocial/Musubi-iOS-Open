@@ -64,7 +64,6 @@
 @synthesize identityProvider = _identityProvider;
 
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf andIdentityProvider:(id<IdentityProvider>)ip {
-    NSDate* weekAgo = [NSDate dateWithTimeIntervalSinceNow:-604800.0];
     PersistentModelStore* store = [self.storeFactory newStore];
     
     int (^selectQueue)(NSManagedObject* obj) =  ^(NSManagedObject* obj) {
@@ -83,7 +82,7 @@
     
     ObjectPipelineServiceConfiguration* config = [[ObjectPipelineServiceConfiguration alloc] init];
     config.model = @"Obj";
-    config.selector = [NSPredicate predicateWithFormat:@"(encoded == nil) AND (lastModified > %@)", weekAgo];
+    config.selector = [NSPredicate predicateWithFormat:@"(encoded == nil) AND (sent == NO)"];
     config.notificationName = kMusubiNotificationPlainObjReady;
     config.numberOfQueues = 2;
     config.queueSelector = selectQueue;
@@ -240,14 +239,17 @@
     } else {
         obj.encoded = encoded;
     }
+    
     if(feed.type == kFeedTypeOneTimeUse) {
         [feedManager deleteFeedAndMembersAndObjs:feed];
     }
     
     [self.store save];
     
-    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAppObjReady object:nil]];
-    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationPreparedEncoded object:nil]];
+    NSLog(@"obj: %@", obj);
+    
+    //[[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAppObjReady object:nil]];
+    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationPreparedEncoded object:encoded.objectID]];
 
     return success;
 }

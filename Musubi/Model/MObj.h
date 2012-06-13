@@ -34,6 +34,7 @@
 @property (nonatomic, retain) NSString * json;
 @property (nonatomic, retain) NSDate* lastModified;
 @property (nonatomic) BOOL processed;
+@property (nonatomic) BOOL sent;
 @property (nonatomic, retain) NSData * raw;
 @property (nonatomic) NSNumber * intKey;
 @property (nonatomic, retain) NSString * stringKey;

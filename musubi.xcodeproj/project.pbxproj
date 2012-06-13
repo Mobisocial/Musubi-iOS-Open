@@ -153,7 +153,7 @@
 		D2B13D5514F869CF0067B197 /* OutgoingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5414F869CF0067B197 /* OutgoingMessage.m */; };
 		D2B13D5B14F882590067B197 /* Secret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5A14F882580067B197 /* Secret.m */; };
 		D2C0AA9B14FF035100E9D0BF /* MessageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */; };
-		D2C66EFB156CC2AD001A0124 /* Model.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D2C66EFA156CC2AD001A0124 /* Model.xcmappingmodel */; };
+		D2C66EFB156CC2AD001A0124 /* Model5-6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D2C66EFA156CC2AD001A0124 /* Model5-6.xcmappingmodel */; };
 		D2C66F01156CCF22001A0124 /* heart32_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D2C66F00156CCF22001A0124 /* heart32_gray.png */; };
 		D2C66F1F156DF02C001A0124 /* FeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C66F0B156DF02C001A0124 /* FeedItem.m */; };
 		D2C66F20156DF02C001A0124 /* FeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C66F0D156DF02C001A0124 /* FeedItemCell.m */; };
@@ -950,7 +950,7 @@
 		D2C0AA9914FF035100E9D0BF /* MessageDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDecoder.h; sourceTree = "<group>"; };
 		D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDecoder.m; sourceTree = "<group>"; };
 		D2C66E8F156CBEE6001A0124 /* Model 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 5.xcdatamodel"; sourceTree = "<group>"; };
-		D2C66EFA156CC2AD001A0124 /* Model.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = Model.xcmappingmodel; sourceTree = "<group>"; };
+		D2C66EFA156CC2AD001A0124 /* Model5-6.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "Model5-6.xcmappingmodel"; sourceTree = "<group>"; };
 		D2C66EFC156CC5DC001A0124 /* Model 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 6.xcdatamodel"; sourceTree = "<group>"; };
 		D2C66F00156CCF22001A0124 /* heart32_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart32_gray.png; sourceTree = "<group>"; };
 		D2C66F0A156DF02C001A0124 /* FeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedItem.h; sourceTree = "<group>"; };
@@ -983,6 +983,8 @@
 		D2D930251522417D006E4F58 /* Three20.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20.xcodeproj; path = Three20/src/Three20/Three20.xcodeproj; sourceTree = "<group>"; };
 		D2D930B415225E99006E4F58 /* Three20.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Three20.bundle; path = Three20/src/Three20.bundle; sourceTree = "<group>"; };
 		D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RabbitMQ.xcodeproj; path = RabbitMQ/RabbitMQ/RabbitMQ.xcodeproj; sourceTree = "<group>"; };
+		D2E708331587EE730015E43D /* Model 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 10.xcdatamodel"; sourceTree = "<group>"; };
+		D2E708341587F6C00015E43D /* Model 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 11.xcdatamodel"; sourceTree = "<group>"; };
 		D2F8C67B1524FB0C005AD880 /* ObjFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFactory.h; sourceTree = "<group>"; };
 		D2F8C67C1524FB0C005AD880 /* ObjFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjFactory.m; sourceTree = "<group>"; };
 		D2F8C67E1524FB29005AD880 /* ObjProcessorService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjProcessorService.h; sourceTree = "<group>"; };
@@ -1339,7 +1341,7 @@
 				C086794E1572E33F00F4F2BA /* MObj.h */,
 				C086794F1572E34000F4F2BA /* MObj.m */,
 				D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */,
-				D2C66EFA156CC2AD001A0124 /* Model.xcmappingmodel */,
+				D2C66EFA156CC2AD001A0124 /* Model5-6.xcmappingmodel */,
 				C08679511572E34200F4F2BA /* MOutgoingSecret.h */,
 				C08679521572E34300F4F2BA /* MOutgoingSecret.m */,
 				C086795A1572E35800F4F2BA /* MSequenceNumber.h */,
@@ -3289,7 +3291,7 @@
 				D48048A11561CC980066279D /* MLikeCache.m in Sources */,
 				D480496D1561F6C70066279D /* LikeObj.m in Sources */,
 				D4E42AB0156224EF00C21FDA /* DeleteObj.m in Sources */,
-				D2C66EFB156CC2AD001A0124 /* Model.xcmappingmodel in Sources */,
+				D2C66EFB156CC2AD001A0124 /* Model5-6.xcmappingmodel in Sources */,
 				D2C66F1F156DF02C001A0124 /* FeedItem.m in Sources */,
 				D2C66F20156DF02C001A0124 /* FeedItemCell.m in Sources */,
 				D2C66F22156DF02C001A0124 /* PictureObjItemCell.m in Sources */,
@@ -3766,6 +3768,8 @@
 		D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D2E708341587F6C00015E43D /* Model 11.xcdatamodel */,
+				D2E708331587EE730015E43D /* Model 10.xcdatamodel */,
 				D22352611581D3D100A6FB63 /* Model 9.xcdatamodel */,
 				C0733345157D83A300B2A391 /* Model 8.xcdatamodel */,
 				C08679261571DB9F00F4F2BA /* Model 7.xcdatamodel */,
