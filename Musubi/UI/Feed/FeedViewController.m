@@ -132,9 +132,6 @@
     button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [button addTarget:self action:@selector(changeName) forControlEvents:UIControlEventTouchDown];
     self.navigationItem.titleView = button;
-    
-    
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(reloadMessage:) name:kMusubiNotificationEncodedMessageSent object:nil];
 }
 
 - (AudioRecorderViewController*)audioRVC
@@ -207,6 +204,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(reloadObj:) name:kMusubiNotificationObjSent object:nil];
 
     if(!_startingAt) {
         [self scrollToBottomAnimated:NO];
@@ -217,6 +215,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationObjSent object:nil];
+
 }
 
 - (void)createModel {
@@ -248,15 +248,15 @@
 }
 
 
-- (void) reloadMessage: (NSNotification*) notification {
+- (void) reloadObj: (NSNotification*) notification {
     if (![NSThread currentThread].isMainThread) {
-        [self performSelectorOnMainThread:@selector(reloadMessage:) withObject:notification waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(reloadObj:) withObject:notification waitUntilDone:NO];
         return;
     }
     
     if ([notification.object isKindOfClass:[NSManagedObjectID class]]) {
-        NSManagedObjectID* msgId = (NSManagedObjectID*)notification.object;
-        MObj* obj = (MObj*)[[Musubi sharedInstance].mainStore queryFirst:[NSPredicate predicateWithFormat:@"encoded == %@", msgId] onEntity:@"Obj"];
+        NSManagedObjectID* objId = (NSManagedObjectID*)notification.object;
+        MObj* obj = (MObj*)[[Musubi sharedInstance].mainStore.context existingObjectWithID:objId error:nil];
         if (obj) {
             [(FeedDataSource*)self.dataSource loadItemsForObjs:[NSArray arrayWithObject:obj] inTableView: self.tableView];
             NSIndexPath* ip = [(FeedDataSource*)self.dataSource indexPathForObj:obj];

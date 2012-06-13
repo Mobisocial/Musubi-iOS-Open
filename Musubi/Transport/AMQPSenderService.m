@@ -163,18 +163,22 @@
     [service.connMngr publish:msg.encoded to:groupExchangeName onChannel:kAMQPChannelOutgoing onAck:[^{
         PersistentModelStore* store = [[Musubi sharedInstance] newStore];
         NSError* error;
-        MEncodedMessage* msg = (MEncodedMessage*)[store.context existingObjectWithID:msgObjId error:&error];
-        assert(msg.outbound);
-        msg.processed = YES;
         
-        MObj* obj = (MObj*)[store queryFirst:[NSPredicate predicateWithFormat:@"encoded = %@", msg] onEntity:@"Obj"];
-        if (obj) {
-            obj.sent = YES;
-        }
+        MEncodedMessage* sentMessage = (MEncodedMessage*)[store.context existingObjectWithID:msgObjId error:&error];
+        if (!sentMessage)
+            @throw error;
         
+        assert(sentMessage.outbound);
+        sentMessage.processed = YES;
+        
+        MObj* obj = (MObj*)[store queryFirst:[NSPredicate predicateWithFormat:@"encoded == %@", msgObjId] onEntity:@"Obj"];
+        assert (obj != nil);
+
+        obj.sent = YES;
         [store save];
         
-        [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationEncodedMessageSent object:msg.objectID]];
+        [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationObjSent object:obj.objectID]];
+        [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationEncodedMessageSent object:msgObjId]];
 
 
     } copy]];
