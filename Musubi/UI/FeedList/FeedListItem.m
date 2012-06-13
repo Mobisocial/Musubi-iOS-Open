@@ -31,11 +31,15 @@
 #import "MIdentity.h"
 #import "ObjFactory.h"
 #import "StatusObj.h"
+#import "VoiceObj.h"
+#import "StoryObj.h"
 #import "Musubi.h"
 #import "UIImage+Resize.h"
 #import "PictureObj.h"
 #import "Three20Core/NSDateAdditions.h"
 #import "NSData+Crypto.h"
+#import "IdentityManager.h"
+#import "PersistentModelStore.h"
 
 @interface SneakyDate : NSObject
 - (SneakyDate*)initWithDate:(NSDate*)date andNewest:(NSDate*)newest andOldest:(NSDate*)oldest;
@@ -98,6 +102,7 @@ static NSMutableDictionary* sContactImages;
 @synthesize start = _start;
 @synthesize end = _end;
 @synthesize picture = _picture;
+@synthesize special = _special;
 
 - (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before {
     self = [super init];
@@ -110,16 +115,29 @@ static NSMutableDictionary* sContactImages;
     self.title = [feedMgr identityStringForFeed:feed];
     self.timestamp = [[SneakyDate alloc] initWithDate:[NSDate dateWithTimeIntervalSince1970:feed.latestRenderableObjTime] andNewest:after andOldest:before];
 
-    _obj = [objMgr latestObjOfType:kObjTypeStatus inFeed:feed after:nil before:nil];
-    if (_obj) {
-        StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_obj];
-        self.text = obj.text;
+    
+    _obj = [feed latestRenderableObj];
+    if (_obj != nil) 
+        _obj = (MObj*)[[Musubi sharedInstance].mainStore.context existingObjectWithID:_obj.objectID error:nil];
+    
+    if (_obj == nil) {
+        _obj = [objMgr latestStatusObjInFeed:feed];
     }
-    MObj* picture = [objMgr latestObjOfType:kObjTypePicture inFeed:feed after:nil before:_obj.timestamp];
-    if (picture) {
-        PictureObj* obj = (PictureObj*) [ObjFactory objFromManagedObj:picture];
-        _obj = picture;
-        self.picture =  [UIImage imageWithData:obj.raw];
+    NSString* sender = [IdentityManager displayNameForIdentity:_obj.identity];
+    sender = [[sender componentsSeparatedByString:@" "] objectAtIndex:0];
+    
+    if ([_obj.type isEqualToString:kObjTypeStatus]) {
+        StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_obj];
+        self.text = [NSString stringWithFormat: @"%@: %@", sender, obj.text];
+    } else {
+        NSDictionary* objDescriptions = [NSDictionary dictionaryWithObjectsAndKeys:@"a picture", kObjTypePicture, @"a voice memo", kObjTypeVoice, @"a story", kObjTypeStory, nil];
+        
+        NSString* objDesc = [objDescriptions objectForKey:_obj.type];
+        if (objDesc == nil)
+            objDesc = @"an app message";
+        
+        self.text = [NSString stringWithFormat: @"%@ sent %@", sender, objDesc];
+        self.special = YES;
     }
     /*
     for (MIdentity* ident in [feedMgr identitiesInFeed:feed]) {
@@ -159,6 +177,7 @@ static NSMutableDictionary* sContactImages;
     NSMutableArray* images = [NSMutableArray arrayWithCapacity:4];
     NSMutableSet* knownpics = [NSMutableSet set];
 
+    /*
     for (MIdentity* i in order) {
         if (selected.count > 3)
             break;
@@ -176,8 +195,9 @@ static NSMutableDictionary* sContactImages;
             [selected addObject:i];
         }
         
-    }
+    }*/
     for (MIdentity* i in identities) {
+        /*
         BOOL dupe = NO;
         for(MIdentity* j in order) {
             if([j isEqual:i]) {
@@ -186,7 +206,10 @@ static NSMutableDictionary* sContactImages;
             }
         }
         if(dupe)
+            continue;*/
+        if (i.owned)
             continue;
+        
         if (selected.count > 3)
             break;
         NSData* thumbnail = i.musubiThumbnail;

@@ -36,6 +36,7 @@
 @property (nonatomic, strong) MObj* obj;
 @property (nonatomic, strong) NSDate* start;
 @property (nonatomic, strong) NSDate* end;
+@property (nonatomic, assign) BOOL special;
 
 - (id)initWithFeed:(MFeed *)feed after:(NSDate*)after before:(NSDate*)before;
 

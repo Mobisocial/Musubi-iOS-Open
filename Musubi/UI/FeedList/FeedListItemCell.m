@@ -46,6 +46,7 @@ static NSUInteger kDefaultStrokeWidth = 1;
     
     return self;
 }
+
 -(void)drawTextInRect:(CGRect)rect
 {
     [super drawTextInRect:rect];
@@ -107,11 +108,6 @@ static NSUInteger kDefaultStrokeWidth = 1;
     _profilePictureView.contentMode = UIViewContentModeScaleAspectFit;
     _profilePictureView.frame = CGRectMake(0, 0, kDefaultMessageImageWidth, kDefaultMessageImageHeight);
     
-    [self pictureView];
-    _pictureView.contentMode = UIViewContentModeScaleAspectFill;
-    _pictureView.clipsToBounds = YES;
-    _pictureView.frame = CGRectMake(kDefaultMessageImageWidth, 0, self.frame.size.width - kDefaultMessageImageWidth, kDefaultMessageImageHeight);
-    
     [_unreadLabel sizeToFit];
     _unreadLabel.left = self.contentView.width - _unreadLabel.width - kTableCellSmallMargin;
     _unreadLabel.top = kTableCellSmallMargin + _timestampLabel.height + kTableCellSmallMargin;
@@ -122,19 +118,26 @@ static NSUInteger kDefaultStrokeWidth = 1;
     
     _titleLabel.left = left;
     _titleLabel.width = width;
-    _bubbleLabel.frame = _titleLabel.frame;
+//    _bubbleLabel.frame = _titleLabel.frame;
     
-    [self stripeView];
-    _stripeView.frame = _pictureView.frame;
-    _stripeView.height = _bubbleLabel.bottom;
+    
+//    [self stripeView];
+//    _stripeView.frame = _pictureView.frame;
+//    _stripeView.height = _bubbleLabel.bottom;
     self.textLabel.left = left;
     self.textLabel.width = width;
     self.detailTextLabel.left = left;
     self.detailTextLabel.width = _unreadLabel.left - left - kTableCellMargin;
     self.timestampLabel.backgroundColor = [UIColor clearColor];
-    self.timestampLabel.textColor = [UIColor whiteColor];
+//    self.timestampLabel.textColor = [UIColor whiteColor];
     self.timestampLabel.opaque = NO;
     
+    [self pictureView];
+    _pictureView.contentMode = UIViewContentModeScaleAspectFit;
+    _pictureView.clipsToBounds = YES;
+    _pictureView.frame = CGRectMake(left, self.detailTextLabel.top, self.frame.size.width - kDefaultMessageImageWidth, self.detailTextLabel.height);
+    
+
 }
 
 
@@ -145,8 +148,16 @@ static NSUInteger kDefaultStrokeWidth = 1;
         unread = [NSString stringWithFormat:@"%d new", object.unread];
     }
     self.unreadLabel.text = unread;
-    self.bubbleLabel.text = object.title;
-    self.titleLabel.hidden = YES;
+//    self.bubbleLabel.text = object.title;
+    self.titleLabel.text = object.title;
+    
+    if (object.special) {
+        self.detailTextLabel.font = [UIFont italicSystemFontOfSize:14.0];
+    } else {
+        self.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
+    }
+    /*
+    
     if(object.picture) {
         self.detailTextLabel.hidden = YES;
         self.pictureView.hidden = NO;
@@ -155,7 +166,7 @@ static NSUInteger kDefaultStrokeWidth = 1;
         self.detailTextLabel.hidden = NO;
         self.pictureView.image = nil;
         self.pictureView.hidden = YES;
-    }
+    }*/
     self.profilePictureView.image = object.image;
 }
 
@@ -173,12 +184,12 @@ static NSUInteger kDefaultStrokeWidth = 1;
 
 - (UILabel*)bubbleLabel {
     if (!_bubbleLabel) {
-        _bubbleLabel = [[OutlineTextLabel alloc] init];
+        _bubbleLabel = [[UILabel alloc] init];
         _bubbleLabel.font = [UIFont boldSystemFontOfSize:14.0];
-        _bubbleLabel.backgroundColor = [UIColor clearColor];
-        _bubbleLabel.strokeColor = [UIColor blackColor];
-        _bubbleLabel.strokeWidth = 0;
-        _bubbleLabel.textColor = [UIColor whiteColor];
+//        _bubbleLabel.backgroundColor = [UIColor clearColor];
+//        _bubbleLabel.strokeColor = [UIColor blackColor];
+//        _bubbleLabel.strokeWidth = 0;
+//        _bubbleLabel.textColor = [UIColor whiteColor];
         _bubbleLabel.clipsToBounds = YES;
         _bubbleLabel.userInteractionEnabled = YES;        
         _bubbleLabel.opaque = NO;
