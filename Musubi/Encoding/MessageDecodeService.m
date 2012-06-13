@@ -259,8 +259,8 @@ static int operationCount;
         }
         [newFeed setType: obj.feedType];
         [newFeed setAccepted: whiteListed];
-        NSError* error = nil;
-        [self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:newFeed] error:&error];
+        //NSError* error = nil;
+        //[self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:newFeed] error:&error];
         [self.store save];
         
         [_feedManager attachMember: sender toFeed:newFeed];
@@ -322,10 +322,10 @@ static int operationCount;
     [msg setProcessed: YES];
     [msg setProcessedTime: [NSDate date]];
     
-    NSError* error;
+    /*NSError* error;
     if (![self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:mObj] error:&error])
         @throw error;
-    
+    */
 
     [self.store save];        
 

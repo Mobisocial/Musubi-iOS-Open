@@ -172,14 +172,17 @@
         sentMessage.processed = YES;
         
         MObj* obj = (MObj*)[store queryFirst:[NSPredicate predicateWithFormat:@"encoded == %@", msgObjId] onEntity:@"Obj"];
-        assert (obj != nil);
-
-        obj.sent = YES;
+        if (obj) {
+            obj.sent = YES;
+        }
+        
         [store save];
         
-        [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationObjSent object:obj.objectID]];
         [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationEncodedMessageSent object:msgObjId]];
-
+        
+        if (obj) {
+            [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationObjSent object:obj.objectID]];
+        }
 
     } copy]];
 }

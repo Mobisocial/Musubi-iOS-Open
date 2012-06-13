@@ -28,9 +28,11 @@
 
 @interface PersistentModelStore : NSObject {
     NSManagedObjectContext* context;
+    NSMutableArray* createdObjects;
 }
 
 @property (nonatomic, strong) NSManagedObjectContext* context;
+@property (nonatomic, strong) NSMutableArray* createdObjects;
 
 - (id) initWithCoordinator: (NSPersistentStoreCoordinator*) coordinator;
 - (id) initWithParent: (PersistentModelStore*)parent;

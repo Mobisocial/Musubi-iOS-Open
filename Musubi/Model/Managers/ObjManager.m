@@ -151,7 +151,7 @@
     }
     
     if (!matched) {
-        MLike* like = [NSEntityDescription insertNewObjectForEntityForName:@"Like" inManagedObjectContext: [store context]];
+        MLike* like = (MLike*)[store createEntity:@"Like"];
 
         like.obj = obj;
         like.sender = contextedSender;
@@ -169,7 +169,7 @@
     MLikeCache* likes = [self likeCountForObj:obj];
     
     if (!likes) {
-        likes = [NSEntityDescription insertNewObjectForEntityForName:@"LikeCache" inManagedObjectContext: [store context]];
+        likes = (MLikeCache*)[store createEntity:@"LikeCache"];
         likes.parentObj = obj;
     }
     

@@ -84,8 +84,8 @@
     [feed setShortCapability: *(uint64_t *)feed.capability.bytes];
     [feed setAccepted: YES];
 
-    NSError* error = nil;
-    [self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:&error];
+    //NSError* error = nil;
+    //[self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:&error];
     
     [self attachMembers:participants toFeed:feed];
     return feed;
@@ -123,8 +123,8 @@
     [feed setAccepted: NO];
     
     [self attachMembers:participants toFeed:feed];
-    NSError* error = nil;
-    [self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:&error];
+    //NSError* error = nil;
+    //[self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:&error];
     return feed;
 }
 
@@ -146,7 +146,7 @@
     }
     
     [store.context deleteObject:feed];    
-    [store.context save:nil];
+    [store save];
 }
 
 
@@ -212,8 +212,8 @@
         feed.type = kFeedTypeAsymmetric;
         
         [self.store.context insertObject:feed];
-        NSError* error;
-        [self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:&error];
+        //NSError* error;
+        //[self.store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:&error];
         [self.store save];
         return feed;
     }

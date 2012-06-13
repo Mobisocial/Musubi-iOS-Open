@@ -39,6 +39,7 @@
 #import "MIncomingSecret.h"
 #import "MOutgoingSecret.h"
 #import "MDevice.h"
+#import "MEncodedMessage.h"
 
 @implementation TransportManager
 
@@ -90,9 +91,10 @@
 }
 
 - (void)insertOutgoingSecret:(MOutgoingSecret *)os myIdentity:(IBEncryptionIdentity *)me otherIdentity:(IBEncryptionIdentity *)other {
-    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:os] error:nil];
+    //if (os.objectID.isTemporaryID)
+    //    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:os] error:nil];
     [store.context insertObject:os];
-    [store.context save:NULL];
+    [store save];
 }
 
 - (MIncomingSecret *)lookupIncomingSecretFrom:(MIdentity *)from onDevice:(MDevice *)device to:(MIdentity *)to withSignature:(NSData *)signature otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
@@ -113,9 +115,11 @@
 }
 
 - (void)insertIncomingSecret:(MIncomingSecret *)is otherIdentity:(IBEncryptionIdentity *)other myIdentity:(IBEncryptionIdentity *)me {
-    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:is] error:nil];
+    //if (is.objectID.isTemporaryID)
+    //    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:is] error:nil];
+
     [store.context insertObject:is];
-    [store.context save:NULL];
+    [store save];
 }
 
 - (void)incrementSequenceNumberTo:(MIdentity *)to {
@@ -138,7 +142,7 @@
         
         MIdentity* ident = (MIdentity*)[store queryFirst:[NSPredicate predicateWithFormat:@"principalHash=%@", rcptHash] onEntity:@"Identity"];
         
-        MSequenceNumber* seqNumber = (MSequenceNumber*) [NSEntityDescription insertNewObjectForEntityForName:@"SequenceNumber" inManagedObjectContext: [store context]];
+        MSequenceNumber* seqNumber = (MSequenceNumber*) [store createEntity:@"SequenceNumber"];
         [seqNumber setRecipient:ident];
         [seqNumber setSequenceNumber: [(NSNumber*)[seqNumbers objectForKey:ident] longLongValue]];
         [seqNumber setEncodedMessage: encoded];
@@ -195,7 +199,7 @@
     MDevice* dev = (MDevice*) [store queryFirst:[NSPredicate predicateWithFormat:@"identity = %@ AND deviceName = %llu", ident, devName] onEntity:@"Device"];
     
     if (dev == nil) {
-        dev = (MDevice*) [NSEntityDescription insertNewObjectForEntityForName:@"Device" inManagedObjectContext: [store context]];
+        dev = (MDevice*) [store createEntity:@"Device"];
         [dev setDeviceName: devName];
         [dev setIdentity: ident];
         [dev setMaxSequenceNumber: 0];
@@ -205,13 +209,15 @@
 }
 
 - (void)insertEncodedMessage:(MEncodedMessage *)encoded forOutgoingMessage:(OutgoingMessage *)om {
-    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:encoded] error:nil];
-    [[store context] save: NULL];
+    //if (encoded.objectID.isTemporaryID)
+    //    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:encoded] error:nil];
+    [store save];
 }
 
 - (void)updateEncodedMetadata:(MEncodedMessage *)encoded {
-    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:encoded] error:nil];
-    [[store context] save: NULL];
+    //if (encoded.objectID.isTemporaryID)
+    //    [store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:encoded] error:nil];
+    [store save];
 }
 
 - (BOOL)haveHash:(NSData *)hash {

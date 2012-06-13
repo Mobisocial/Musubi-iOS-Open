@@ -56,8 +56,7 @@
 }
 
 - (id)create {
-    NSManagedObject* entity = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext: [store context]];
-    return entity;
+    return [store createEntity:entityName];
 }
 
 @end

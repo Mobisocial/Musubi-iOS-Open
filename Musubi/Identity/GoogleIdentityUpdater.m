@@ -203,7 +203,7 @@
         [feed setType: kFeedTypeAsymmetric];
         [feed setName: kFeedNameLocalWhitelist];
         
-        [_store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:nil];
+        //[_store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:nil];
         [_store save];
 
         account.feed = feed;

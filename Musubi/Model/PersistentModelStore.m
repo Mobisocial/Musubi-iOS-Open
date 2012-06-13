@@ -131,7 +131,8 @@ static PersistentModelStoreFactory *sharedInstance = nil;
 
 @implementation PersistentModelStore
 
-@synthesize context;
+@synthesize context, createdObjects;
+
 - (id) initWithParent: (PersistentModelStore*)parent
 {
     self = [super init];
@@ -140,6 +141,7 @@ static PersistentModelStoreFactory *sharedInstance = nil;
 
     self.context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
     self.context.parentContext = parent.context;
+    self.createdObjects = [NSMutableArray array];
     
     return self;
 }
@@ -150,6 +152,7 @@ static PersistentModelStoreFactory *sharedInstance = nil;
     
     self.context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     context.persistentStoreCoordinator = coordinator;
+    self.createdObjects = [NSMutableArray array];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(otherContextSaved:) name:NSManagedObjectContextDidSaveNotification object:nil];
     return self;
@@ -206,9 +209,7 @@ static PersistentModelStoreFactory *sharedInstance = nil;
     return result;
 }
 
-- (NSArray*) query: (NSPredicate*)
-
-predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor{
+- (NSArray*) query: (NSPredicate*) predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescriptor{
     return [self query:predicate onEntity:entityName sortBy:sortDescriptor limit:-1];
 }
 
@@ -223,11 +224,29 @@ predicate onEntity: (NSString*) entityName sortBy:(NSSortDescriptor *)sortDescri
 
 - (NSManagedObject *)createEntity: (NSString*) entityName {
     NSManagedObject* entity = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext: context];
+    [createdObjects addObject:entity];
     return entity;
 }
 
 - (void)save {
     NSError* err = nil;
+    
+    // Filter out the objects that already have a permanent ID
+    for (NSManagedObject* object in createdObjects) {
+        if (!object.objectID.isTemporaryID) {
+            [createdObjects removeObject:object];
+        }
+    }
+    
+    // Get a permanent ID for the rest
+    if (![context obtainPermanentIDsForObjects:createdObjects error:&err]) {
+        @throw [NSException exceptionWithName:kMusubiExceptionUnexpected reason:[NSString stringWithFormat:@"Unexpected error occurred: %@", err] userInfo:nil];
+    }
+    
+    // And clear
+    [createdObjects removeAllObjects];
+    
+    // Save and exit
     if(![context save:&err]) {
         @throw [NSException exceptionWithName:kMusubiExceptionUnexpected reason:[NSString stringWithFormat:@"Unexpected error occurred: %@", err] userInfo:nil];
     }

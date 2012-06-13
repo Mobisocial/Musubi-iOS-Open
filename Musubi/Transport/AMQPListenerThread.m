@@ -192,10 +192,10 @@
             encoded.processed = NO;
             encoded.outbound = NO;
             
-            NSError* error = nil;
+            /*NSError* error = nil;
             if (![store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:encoded] error:&error]) {
                 @throw error;
-            }
+            }*/
             [store save];
             
             [connMngr ackMessage:[connMngr lastIncomingSequenceNumber] onChannel: kAMQPChannelIncoming];
