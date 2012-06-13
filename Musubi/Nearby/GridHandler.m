@@ -34,7 +34,7 @@ static float getDist(float x1, float y1, float x2, float y2){
     return (float)sqrt((x1-x2)*(x1-x2)+ (y1-y2)*(y1-y2));
 }
 
-static NSArray* hexagonMap(float touchX, float touchY, int step){
+static NSMutableArray* hexagonMap(float touchX, float touchY, int step){
     
     float sqrt3 = (float) sqrt(3);
     //int step = 100;
