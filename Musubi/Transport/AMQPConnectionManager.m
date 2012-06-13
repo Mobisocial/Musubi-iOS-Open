@@ -415,14 +415,13 @@
             f.channel = 0;
             //date must always be < heartbeat request time submitted to the server
             int res = amqp_send_frame(conn, &f);
+            [connLock unlock];
             if (res < 0) {
-                [connLock unlock];
                 @throw [NSException exceptionWithName:kAMQPConnectionException reason:@"Error sending heartbeat" userInfo:nil];
             }
 
             block();
-            date = nil;
-            block = nil;
+            return nil;
         }
     }
     @try {
