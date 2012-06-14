@@ -32,15 +32,12 @@
 #import "NSData+Base64.h"
 
 @interface HTMLAppViewController : UIViewController<UIWebViewDelegate> {
-    MApp* app;
-    
-    @private
-    
     NSMutableDictionary* updates;
     IBOutlet UIWebView* webView;
-    
 }
 
 @property (nonatomic,retain) MApp* app;
+@property (nonatomic,retain) MFeed* feed;
+@property (nonatomic,retain) MObj* obj;
 
 @end

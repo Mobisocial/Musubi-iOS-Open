@@ -24,10 +24,17 @@
 //
 
 #import "HTMLAppViewController.h"
+#import "MIdentity.h"
+#import "MObj.h"
+#import "MEncodedMessage.h"
+#import "MFeed.h"
+#import "MApp.h"
+#import "FeedManager.h"
+#import "IdentityManager.h"
 
 @implementation HTMLAppViewController
 
-@synthesize app;
+@synthesize app = _app, feed = _feed, obj = _obj;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -60,32 +67,54 @@
 {
     [super viewDidLoad];
     
-    NSURL* html = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html" subdirectory:[NSString stringWithFormat: @"apps/%@", app.appId]];
+    NSURL* html = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html" subdirectory:[NSString stringWithFormat: @"apps/apps/%@", _app.appId]];
+    NSLog(@"HTML: %@, %@", html, _app.appId);
+    NSLog(@"Web: %@", webView);
     [webView loadRequest:[NSURLRequest requestWithURL:html]];
     [webView setDelegate:self];
     ((UIScrollView*)[webView.subviews objectAtIndex:0]).bounces = NO;
     
 //    [[Musubi sharedInstance] listenToGroup:[app feed] withListener:self];
 }
-/*
+
+- (NSDictionary*) objToDict: (MObj*) obj {
+    return [NSDictionary dictionaryWithObjectsAndKeys:obj.type, @"type", obj.json, @"data", [self identityToDict:obj.encoded.fromIdentity], @"sender", obj.app.appId, @"appId", [NSString stringWithFormat:@"%lld", obj.feed.shortCapability], @"feedSession", [NSNumber numberWithInt:[obj.timestamp timeIntervalSince1970]], @"date", nil];
+}
+- (NSDictionary*) feedToDict: (MFeed*) feed {
+    
+    FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    NSMutableArray* members = [NSMutableArray array];
+    for (MIdentity* member in [feedMgr identitiesInFeed:feed]) {
+        [members addObject:[self identityToDict:member]];
+    }
+
+    return [NSDictionary dictionaryWithObjectsAndKeys:[feedMgr identityStringForFeed:_feed], @"name", [NSString stringWithFormat:@"%lld", feed.shortCapability], @"session", members, @"members", nil];
+}
+- (NSDictionary*) identityToDict: (MIdentity*) identity {
+    return [NSDictionary dictionaryWithObjectsAndKeys:[IdentityManager displayNameForIdentity:identity], @"name", identity.principal, @"id", identity.principal, @"personId", nil];
+}
+
+
 - (void)webViewDidFinishLoad:(UIWebView *)wv {
+    NSString *iosBinding = [NSString stringWithContentsOfFile:@"apps/lib/platforms/socialKit-ios.js"];
+    //[wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:iosBinding waitUntilDone:YES];
+    
     // Launch app
-    NSError* err = nil;
     SBJsonWriter* writer = [[SBJsonWriter alloc] init];
-    NSString* appJson = [writer stringWithObject: [app json] error:&err];
-    if (err != nil) {
-        NSLog(@"Error: %@", err);
-    }
-    User* user = [[Identity sharedInstance] user];
-    NSString* userJson = [writer stringWithObject: [user json] error:&err];
-    if (err != nil) {
-        NSLog(@"Error: %@", err);
-    }
+    
+    NSDictionary* appDict = [NSDictionary dictionaryWithObjectsAndKeys:_app.appId, @"id", [self feedToDict:_feed], @"feed", [self objToDict:_obj], @"message", nil];
+    NSString* appJson = [writer stringWithObject: appDict];
+    
+    FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MIdentity* owned = [feedMgr ownedIdentityForFeed:_feed];
+    NSString* userJson = [writer stringWithObject: [self identityToDict:owned]];
+    
+    NSLog(@"%@, %@", appJson, userJson);
     
     NSString* jsString = [NSString stringWithFormat:@"if (typeof Musubi !== 'undefined') {Musubi._launchApp(%@, %@);} else {alert('Musubi library not loaded. Please include musubiLib.js');}", appJson, userJson];
-    //NSString* jsString = [NSString stringWithFormat:@"function checkMusubi() {if (typeof Musubi !== 'undefined') {Musubi._launchApp(%@);} else {setTimeout(checkMusubi, 500);}}; checkMusubi() ", feedJson];
-    [wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:NO];    
-}*/
+    [wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:NO];
+    
+}
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -99,6 +128,7 @@
     NSURL* url = [request URL];
     
     if ([[url scheme] isEqualToString:@"musubi"]) {
+        /*
         URLFeedCommand* cmd = [URLFeedCommand createFromURL:url withApp: app];
         id result = [cmd execute];
         
@@ -114,7 +144,7 @@
         }
         
         NSString* jsString = [NSString stringWithFormat:@"Musubi.platform._commandResult(%@);", json];
-        [wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:FALSE];
+        [wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:FALSE];*/
         return NO;
     } else if ([[url scheme] isEqualToString:@"console"]) {
         NSLog(@"Javascript: %@", [[url queryComponents] objectForKey:@"log"]);

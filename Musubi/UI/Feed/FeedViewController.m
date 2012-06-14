@@ -465,13 +465,13 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         }
         case 2: // Audio
         {
-            //            [self presentModalViewController:audioRVC animated:YES];
             [self hideKeyboard];
             [self slideSubView:self.audioRVC.view];
             break;
+        }
         case 3: // app
         {
-            NSString* appId = @"edu.stanford.mobisocial.tictactoe";
+            NSString* appId = @"mobisocial.tictactoe";
             
             NSMutableArray* userKeys = [NSMutableArray array];
             FeedManager* feedMgr = [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
@@ -491,8 +491,8 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
             MApp* app = [appMgr ensureAppWithAppId:appId];
             
-            [ObjHelper sendObj:obj toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-            [self launchApp: app];
+            MObj* mObj = [ObjHelper sendObj:obj toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+            [self launchApp: app withObj:mObj];
         }
     }
 }
@@ -518,10 +518,13 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     //    [self dismissModalViewControllerAnimated:YES];    
     [self.audioRVC.view removeFromSuperview];
     [self refreshFeed];
+}
 
-- (void)launchApp: (MApp*) app { 
-    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"app"];
-    [appViewController setApp: app];
+- (void)launchApp: (MApp*) app withObj: (MObj*) obj { 
+    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"AppView"];
+    appViewController.app = app;
+    appViewController.feed = _feed;
+    appViewController.obj = obj;
     
     [[self navigationController] pushViewController:appViewController animated:YES];
 }

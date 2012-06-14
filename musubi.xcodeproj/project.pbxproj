@@ -51,6 +51,8 @@
 		C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5757D1551F94600B6624C /* libTestFlight.a */; };
 		C0D575821551F94600B6624C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757E1551F94600B6624C /* README.txt */; };
 		C0D575831551F94600B6624C /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757F1551F94600B6624C /* release_notes.txt */; };
+		D20152451589191B00D2D73B /* HTMLAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D20152421589191B00D2D73B /* HTMLAppViewController.m */; };
+		D20152461589191B00D2D73B /* URLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = D20152441589191B00D2D73B /* URLCommand.m */; };
 		D2081556151171D800F12039 /* AMQPConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081555151171D800F12039 /* AMQPConnectionManager.m */; };
 		D2081559151273C400F12039 /* AMQPTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081558151273C400F12039 /* AMQPTransport.m */; };
 		D208155C1512851700F12039 /* AMQPTransportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155B1512851700F12039 /* AMQPTransportTest.m */; };
@@ -176,8 +178,6 @@
 		D2D930B515225E99006E4F58 /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D2D930B415225E99006E4F58 /* Three20.bundle */; };
 		D2D9311B1522A307006E4F58 /* libRabbitMQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D931181522A2DE006E4F58 /* libRabbitMQ.a */; };
 		D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */; };
-		D2EC5D681570537F00FD202C /* HTMLAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2EC5D651570537F00FD202C /* HTMLAppViewController.m */; };
-		D2EC5D691570537F00FD202C /* URLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = D2EC5D671570537F00FD202C /* URLCommand.m */; };
 		D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67C1524FB0C005AD880 /* ObjFactory.m */; };
 		D2F8C6801524FB29005AD880 /* ObjProcessorService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67F1524FB29005AD880 /* ObjProcessorService.m */; };
 		D2F8C68315250713005AD880 /* ObjHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C68215250713005AD880 /* ObjHelper.m */; };
@@ -438,6 +438,10 @@
 		C0D5757E1551F94600B6624C /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		C0D5757F1551F94600B6624C /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
 		C0D575801551F94600B6624C /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		D20152411589191B00D2D73B /* HTMLAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLAppViewController.h; sourceTree = "<group>"; };
+		D20152421589191B00D2D73B /* HTMLAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAppViewController.m; sourceTree = "<group>"; };
+		D20152431589191B00D2D73B /* URLCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLCommand.h; sourceTree = "<group>"; };
+		D20152441589191B00D2D73B /* URLCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLCommand.m; sourceTree = "<group>"; };
 		D2081554151171D800F12039 /* AMQPConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionManager.h; sourceTree = "<group>"; };
 		D2081555151171D800F12039 /* AMQPConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionManager.m; sourceTree = "<group>"; };
 		D2081557151273C400F12039 /* AMQPTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPTransport.h; sourceTree = "<group>"; };
@@ -990,10 +994,6 @@
 		D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RabbitMQ.xcodeproj; path = RabbitMQ/RabbitMQ/RabbitMQ.xcodeproj; sourceTree = "<group>"; };
 		D2E708331587EE730015E43D /* Model 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 10.xcdatamodel"; sourceTree = "<group>"; };
 		D2E708341587F6C00015E43D /* Model 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 11.xcdatamodel"; sourceTree = "<group>"; };
-		D2EC5D641570537F00FD202C /* HTMLAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLAppViewController.h; path = App/HTMLAppViewController.h; sourceTree = "<group>"; };
-		D2EC5D651570537F00FD202C /* HTMLAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLAppViewController.m; path = App/HTMLAppViewController.m; sourceTree = "<group>"; };
-		D2EC5D661570537F00FD202C /* URLCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = URLCommand.h; path = App/URLCommand.h; sourceTree = "<group>"; };
-		D2EC5D671570537F00FD202C /* URLCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = URLCommand.m; path = App/URLCommand.m; sourceTree = "<group>"; };
 		D2F8C67B1524FB0C005AD880 /* ObjFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFactory.h; sourceTree = "<group>"; };
 		D2F8C67C1524FB0C005AD880 /* ObjFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjFactory.m; sourceTree = "<group>"; };
 		D2F8C67E1524FB29005AD880 /* ObjProcessorService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjProcessorService.h; sourceTree = "<group>"; };
@@ -1191,6 +1191,17 @@
 			path = TestFlight;
 			sourceTree = "<group>";
 		};
+		D20152401589191B00D2D73B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D20152411589191B00D2D73B /* HTMLAppViewController.h */,
+				D20152421589191B00D2D73B /* HTMLAppViewController.m */,
+				D20152431589191B00D2D73B /* URLCommand.h */,
+				D20152441589191B00D2D73B /* URLCommand.m */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		D208156115128BA800F12039 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1233,14 +1244,16 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D20152401589191B00D2D73B /* App */,
 				D2582663157D840900B47FEE /* FriendPicker */,
 				2FB16938157D261000832396 /* AudioRecorderViewController.h */,
 				2FB16939157D261000832396 /* AudioRecorderViewController.m */,
 				2F07123A157BB6E7008B6FEE /* Profile */,
-				D2EC5D63157052DA00FD202C /* App */,
-				D26D3700147B3ED400C4FE93 /* MainStoryboard_iPhone.storyboard */,
-				D26D36E2147B3ED400C4FE93 /* AppDelegate.h */,
-				D26D36E3147B3ED400C4FE93 /* AppDelegate.m */,
+				D26028D91566EEBE00CF6500 /* assets */,
+				D2A1FC141521A6C500C10BE2 /* Feed */,
+				D23EED011554854200B18153 /* FeedList */,
+				D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */,
+				D211D969151979D200E38051 /* Settings */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -2800,18 +2813,6 @@
 			sourceTree = "<group>";
 		};
 		D2F8C67A1524FB0B005AD880 /* ObjProcessor */ = {
-		D2EC5D63157052DA00FD202C /* App */ = {
-			isa = PBXGroup;
-			children = (
-				D2EC5D641570537F00FD202C /* HTMLAppViewController.h */,
-				D2EC5D651570537F00FD202C /* HTMLAppViewController.m */,
-				D2EC5D661570537F00FD202C /* URLCommand.h */,
-				D2EC5D671570537F00FD202C /* URLCommand.m */,
-			);
-			name = App;
-			sourceTree = "<group>";
-		};
-		D2F8C67A1524FB0B005AD880 /* Pipeline */ = {
 			isa = PBXGroup;
 			children = (
 				D2F8C67E1524FB29005AD880 /* ObjProcessorService.h */,
@@ -3330,7 +3331,6 @@
 				D2C66F2E156DF1B1001A0124 /* FeedDataSource.m in Sources */,
 				D2C66F31156E01E0001A0124 /* FeedModel.m in Sources */,
 				C086777B156DA0F700F4F2BA /* Reachability.m in Sources */,
-<<<<<<< HEAD
 				C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */,
 				C086792C1572E2BF00F4F2BA /* MAccount.m in Sources */,
 				C086792F1572E2C800F4F2BA /* MApp.m in Sources */,
@@ -3415,8 +3415,8 @@
 				D23F12A41586BA9600BA0602 /* ObjectPipelineService.m in Sources */,
 				D2CB53921587AC0C002E196F /* StatusTextView.m in Sources */,
 				C04E907E158875A3003C6A0A /* GridHandler.m in Sources */,
-				D2EC5D681570537F00FD202C /* HTMLAppViewController.m in Sources */,
-				D2EC5D691570537F00FD202C /* URLCommand.m in Sources */,
+				D20152451589191B00D2D73B /* HTMLAppViewController.m in Sources */,
+				D20152461589191B00D2D73B /* URLCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
