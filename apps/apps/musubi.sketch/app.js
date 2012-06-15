@@ -16,7 +16,7 @@ var undoStack = new Array();
 Musubi.ready(function(appContext) {
   console.log("Musubi.ready() called");
   canvas = document.getElementById("sketchpad");
-
+  console.log("got canvas");
   var args = {id:"sketchpad", size: parseInt($("#width").val()), color: $("#color").css("background-color") };
   console.log("checking for obj on " + appContext);
   if (appContext.obj != null) {

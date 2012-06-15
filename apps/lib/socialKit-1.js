@@ -94,6 +94,84 @@ if (typeof Musubi_android_platform == "object") {
   };
 
   if (DBG) console.log("Android socialkit bridge loaded.");
+} else {
+    // ios
+    Musubi.platform = {
+    _queryFeed: function(feedSession, query, sortOrder) {
+        Musubi.platform._runCommand("Feed", "messages", {feedName: feedName}, function(json) {
+                                    // convert json messages to Objs
+                                    var msgs = [];
+                                    for (var key in json) {
+                                    var msg = new SocialKit.Obj(json[key]);
+                                    msgs.push(msg);
+                                    }
+                                    
+                                    callback(msgs);
+                                    });
+    },
+	    
+    _postObjToFeed: function(obj, feedSession) {
+        Musubi.platform._runCommand("Feed", "post", {feedSession: feedSession, obj: JSON.stringify(obj)});
+    },
+	    
+    _setConfig: function(config) {
+        var cmdUrl = "config://?";
+        for (var key in config) {
+            cmdUrl += encodeURIComponent(key) + "=" + encodeURIComponent(config[key]) + "&";
+        }
+        
+        this.__backgroundUrl(cmdUrl);
+    },
+	    
+	    
+    _urlForRaw: function(objId) {
+        self._log("urlForRaw() not implemented yet");
+    },
+	    
+    _back: function() {
+        this.__backgroundUrl("musubi://app.back");
+    },
+        
+    _quit: function() {
+        this.__backgroundUrl("musubi://app.quit");
+    },
+	    
+    _log: function(msg) {
+        this.__backgroundUrl("console://?log=" + encodeURIComponent(msg));
+    },
+	    
+    _commandCallbacks: [],
+	    
+    _runCommand: function(className, methodName, parameters, callback) {
+        if (typeof callback == "undefined")
+            callback = function() {};
+        
+        Musubi.platform._commandCallbacks.push(callback);
+        
+        var cmdUrl = "musubi://" + className + "." + methodName + "?";
+        for (var key in parameters) {
+            cmdUrl += encodeURIComponent(key) + "=" + encodeURIComponent(parameters[key]) + "&";
+        }
+        console.log("sending url command " + cmdUrl);
+        this.__backgroundUrl(cmdUrl);
+    },
+	    
+    _commandResult: function(result) {
+        var cb = Musubi.platform._commandCallbacks[0];
+        delete Musubi.platform._commandCallbacks[0];
+        if (cb != null) {
+            cb(result);
+        }
+    },
+        
+    __backgroundUrl: function(url) {
+        var iframe = document.createElement("IFRAME");
+        iframe.setAttribute("src", url);
+        document.documentElement.appendChild(iframe);
+        iframe.parentNode.removeChild(iframe);
+        iframe = null;
+    }
+  };
 }
 
 
@@ -136,7 +214,7 @@ SocialKit.AppContext.prototype.setBack = function(newSetBack) {
 };
                     
 SocialKit.AppContext.prototype.toString = function() {
-    return "<AppContext: " + this.appId + "," + this.feed.toString() + "," + this.message.toString() + ">";
+    return "<AppContext: " + this.appId + "," + this.feed + "," + this.obj + ">";
 };
 
 /*
@@ -248,7 +326,7 @@ SocialKit.DbObj.prototype.init = function(json) {
 };
 
 SocialKit.DbObj.prototype.toString = function() {
-    return "<DbObj: " + this.objId + "," + this.sender.toString() + "," + this.appId + "," + this.session + "," + ((this.data != null) ? JSON.stringify(this.data) : null) + ">";
+    return "<DbObj: " + this.objId + "," + this.sender + "," + this.appId + "," + this.session + "," + ((this.data != null) ? JSON.stringify(this.data) : null) + ">";
 };
 
 
