@@ -131,11 +131,11 @@ if (typeof Musubi_android_platform == "object") {
 	    },
 	    
 	    _back: function() {
-	    	self._log("back() not implemented yet");
+	    	this.__backgroundUrl("musubi://app.back");
 	    },
 	     
 	    _quit: function() {
-	    	self._log("quit() not implemented yet");
+	    	this.__backgroundUrl("musubi://app.quit");
 	    },
 	    
 	    _log: function(msg) {

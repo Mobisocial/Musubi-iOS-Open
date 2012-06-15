@@ -30,12 +30,13 @@
 #import "NSData+Base64.h"
 #import "Musubi.h"
 #import "PersistentModelStore.h"
+#import "HTMLAppViewController.h"
 
 @implementation URLFeedCommand
 
-@synthesize url, className, methodName, parameters, app;
+@synthesize url, className, methodName, parameters, app, viewController;
 
-+ (id)createFromURL:(NSURL *)url withApp:(MApp*) app{
++ (id)createFromURL:(NSURL *)url withApp:(MApp*) app withViewController:(HTMLAppViewController *)viewController {
     NSArray* hostComponents = [[url host] componentsSeparatedByString:@"."];
     NSString* className = [NSString stringWithFormat:@"%@Command", [[hostComponents objectAtIndex:0] capitalizedString]];
     NSString* methodName = [NSString stringWithFormat:@"%@WithParams:", [hostComponents objectAtIndex:1]];
@@ -63,6 +64,7 @@
     [cmd setParameters:params];
     [cmd setMethodName:methodName];
     [cmd setApp:app];
+    [cmd setViewController:viewController];
         
     return cmd;
 }
@@ -124,6 +126,20 @@
     }
     [ObjHelper sendObj:obj toFeed:feed fromApp:app usingStore:store];
 
+    return nil;
+}
+
+@end
+
+@implementation AppCommand
+
+-(id)backWithParams:(NSDictionary*) params {
+    [[self viewController].navigationController popViewControllerAnimated:true];
+    return nil;
+}
+
+-(id)quitWithParams:(NSDictionary*) params {
+    [[self viewController].navigationController popViewControllerAnimated:true];
     return nil;
 }
 

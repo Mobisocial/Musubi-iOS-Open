@@ -56,7 +56,6 @@
             [self.pictureView setImage: image];
         } else {
             NSLog(@"Bad image data");
-            [self.pictureView setImage: [UIImage imageNamed:@"heart32.png"]];
         }
     }
 }

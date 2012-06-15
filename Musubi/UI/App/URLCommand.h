@@ -28,6 +28,8 @@
 #import "XQueryComponents.h"
 #import "MApp.h"
 
+@class HTMLAppViewController;
+
 @interface URLFeedCommand : NSObject {
     NSURL* url;
     NSString* className;
@@ -35,6 +37,7 @@
     NSDictionary* parameters;
 
     MApp* app;
+    HTMLAppViewController* viewController;
 }
 
 @property (nonatomic,retain) NSURL* url;
@@ -42,9 +45,10 @@
 @property (nonatomic,retain) NSString* methodName;
 @property (nonatomic,retain) NSDictionary* parameters;
 @property (nonatomic,retain) MApp* app;
+@property (nonatomic,retain) HTMLAppViewController* viewController;
 
 - (NSString*) execute;
-+ (id)createFromURL:(NSURL *)url withApp:(MApp*) app;
++ (id)createFromURL:(NSURL *)url withApp:(MApp*) app withViewController: (HTMLAppViewController*) viewController;
 
 @end
 
@@ -53,4 +57,9 @@
 - (id) messagesWithParams: (NSDictionary*) params;
 - (id) postWithParams: (NSDictionary*) params;
 
+@end
+
+@interface AppCommand : URLFeedCommand
+- (id) quitWithParams:(NSDictionary*) params;
+- (id) backWithParams:(NSDictionary*) params;
 @end

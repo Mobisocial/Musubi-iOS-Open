@@ -136,9 +136,10 @@
     NSURL* url = [request URL];
     // NSLog(@"Load request %@", url);
     if ([[url scheme] isEqualToString:@"musubi"]) {
-        URLFeedCommand* cmd = [URLFeedCommand createFromURL:url withApp:_app];
+        URLFeedCommand* cmd = [URLFeedCommand createFromURL:url withApp:_app withViewController:self];
         id result = [cmd execute];
-        
+
+        cmd.viewController = nil; // clears circular reference? right?
         NSString* json = @"";
         if (result != nil) {
             SBJsonWriter* writer = [[SBJsonWriter alloc] init];
