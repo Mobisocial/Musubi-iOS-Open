@@ -28,7 +28,7 @@
 #import "AudioRecorderViewController.h"
 #import "FeedSettingsViewController.h"
 
-@class MFeed, StatusTextView;
+@class MApp, MFeed, StatusTextView;
 
 @protocol FeedViewControllerDelegate
     - (void) friendsForNewConversationSelected:(NSArray*)selection;
@@ -48,7 +48,6 @@
 
 - (IBAction)sendMessage:(id)sender;
 - (void)userChoseAudioData:(NSURL *)file; // AudioRecorderDelegate
-
 
 @property (nonatomic, retain) MFeed* feed;
 @property (nonatomic, weak) id<FeedViewControllerDelegate> delegate;

@@ -51,6 +51,8 @@
 		C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5757D1551F94600B6624C /* libTestFlight.a */; };
 		C0D575821551F94600B6624C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757E1551F94600B6624C /* README.txt */; };
 		C0D575831551F94600B6624C /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757F1551F94600B6624C /* release_notes.txt */; };
+		D20152451589191B00D2D73B /* HTMLAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D20152421589191B00D2D73B /* HTMLAppViewController.m */; };
+		D20152461589191B00D2D73B /* URLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = D20152441589191B00D2D73B /* URLCommand.m */; };
 		D2081556151171D800F12039 /* AMQPConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081555151171D800F12039 /* AMQPConnectionManager.m */; };
 		D2081559151273C400F12039 /* AMQPTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081558151273C400F12039 /* AMQPTransport.m */; };
 		D208155C1512851700F12039 /* AMQPTransportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155B1512851700F12039 /* AMQPTransportTest.m */; };
@@ -436,6 +438,10 @@
 		C0D5757E1551F94600B6624C /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		C0D5757F1551F94600B6624C /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
 		C0D575801551F94600B6624C /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		D20152411589191B00D2D73B /* HTMLAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLAppViewController.h; sourceTree = "<group>"; };
+		D20152421589191B00D2D73B /* HTMLAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAppViewController.m; sourceTree = "<group>"; };
+		D20152431589191B00D2D73B /* URLCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLCommand.h; sourceTree = "<group>"; };
+		D20152441589191B00D2D73B /* URLCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLCommand.m; sourceTree = "<group>"; };
 		D2081554151171D800F12039 /* AMQPConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionManager.h; sourceTree = "<group>"; };
 		D2081555151171D800F12039 /* AMQPConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionManager.m; sourceTree = "<group>"; };
 		D2081557151273C400F12039 /* AMQPTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPTransport.h; sourceTree = "<group>"; };
@@ -1185,6 +1191,17 @@
 			path = TestFlight;
 			sourceTree = "<group>";
 		};
+		D20152401589191B00D2D73B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D20152411589191B00D2D73B /* HTMLAppViewController.h */,
+				D20152421589191B00D2D73B /* HTMLAppViewController.m */,
+				D20152431589191B00D2D73B /* URLCommand.h */,
+				D20152441589191B00D2D73B /* URLCommand.m */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		D208156115128BA800F12039 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1227,6 +1244,7 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D20152401589191B00D2D73B /* App */,
 				D2582663157D840900B47FEE /* FriendPicker */,
 				2FB16938157D261000832396 /* AudioRecorderViewController.h */,
 				2FB16939157D261000832396 /* AudioRecorderViewController.m */,
@@ -3397,6 +3415,8 @@
 				D23F12A41586BA9600BA0602 /* ObjectPipelineService.m in Sources */,
 				D2CB53921587AC0C002E196F /* StatusTextView.m in Sources */,
 				C04E907E158875A3003C6A0A /* GridHandler.m in Sources */,
+				D20152451589191B00D2D73B /* HTMLAppViewController.m in Sources */,
+				D20152461589191B00D2D73B /* URLCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
