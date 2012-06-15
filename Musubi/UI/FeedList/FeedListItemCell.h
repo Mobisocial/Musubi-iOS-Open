@@ -25,23 +25,14 @@
 
 #import "Three20/Three20.h"
 
-@interface OutlineTextLabel : UILabel 
-@property (nonatomic, assign) NSUInteger strokeWidth;
-@property (nonatomic, retain) UIColor* strokeColor;
-@end
-
 @interface FeedListItemCell : TTTableMessageItemCell {
     UILabel* _unreadLabel;
     UIImageView* _profilePictureView;
     UIImageView* _pictureView;
-    OutlineTextLabel* _bubbleLabel;
-    UIView* _stripeView;
 }
 
 @property (nonatomic, readonly, retain) UILabel* unreadLabel;
-@property (nonatomic, readonly, retain) UILabel* bubbleLabel;
 @property (nonatomic, readonly, retain) UIImageView* profilePictureView;
 @property (nonatomic, readonly, retain) UIImageView* pictureView;
-@property (nonatomic, readonly, retain) UIView* stripeView;
 
 @end

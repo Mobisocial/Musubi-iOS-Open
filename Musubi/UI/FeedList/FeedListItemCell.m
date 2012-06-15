@@ -32,74 +32,18 @@ static const CGFloat    kDefaultMessageImageWidth   = 70.0f;
 static const CGFloat    kDefaultMessageImageHeight  = 70.0f;
 
 static NSUInteger kDefaultStrokeWidth = 1;
-@implementation OutlineTextLabel
-@synthesize strokeWidth = _strokeWidth;
-@synthesize strokeColor = _strokeColor;
-
--(id)init
-{
-    if((self = [super init]))
-    {
-        _strokeWidth = kDefaultStrokeWidth;
-        _strokeColor = [UIColor blackColor];
-    }
-    
-    return self;
-}
-
--(void)drawTextInRect:(CGRect)rect
-{
-    [super drawTextInRect:rect];
-    
-    CGSize shadowOffset = self.shadowOffset;
-    UIColor* textColor = self.textColor;
-    BOOL highlighted = self.highlighted;
-    
-    CGContextRef c = UIGraphicsGetCurrentContext();
-    
-    // Draw the stroke
-    if( _strokeWidth > 0 )
-    {
-        CGContextSetLineWidth(c, _strokeWidth);
-        CGContextSetTextDrawingMode(c, kCGTextStroke);
-        
-        self.textColor = _strokeColor;
-        self.shadowColor = _strokeColor;
-        self.shadowOffset = CGSizeMake(0, 0);
-        self.highlighted = NO;
-        
-        [super drawTextInRect:rect];
-    }
-    
-    // Revert to the original UILabel Params
-    self.highlighted = highlighted;
-    self.textColor = textColor;
-    
-    // If we need to draw with stroke, we're gonna have to rely on the shadow
-    if(_strokeWidth > 0)
-    {
-        self.shadowOffset = CGSizeMake(0, 1); // Yes. It's inverted.
-    }
-    
-    // Now we can draw the actual text
-    CGContextSetTextDrawingMode(c, kCGTextFill);
-    [super drawTextInRect:rect];
-    
-    // Revert to the original Shadow Offset
-    self.shadowOffset = shadowOffset;
-}
-@end
-
 @implementation FeedListItemCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
     if (self) {
         self.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
+        self.selectionStyle = UITableViewCellSelectionStyleBlue;
+        self.userInteractionEnabled = YES;
+
     }
     return self;
 }
-
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -118,18 +62,11 @@ static NSUInteger kDefaultStrokeWidth = 1;
     
     _titleLabel.left = left;
     _titleLabel.width = width;
-//    _bubbleLabel.frame = _titleLabel.frame;
-    
-    
-//    [self stripeView];
-//    _stripeView.frame = _pictureView.frame;
-//    _stripeView.height = _bubbleLabel.bottom;
     self.textLabel.left = left;
     self.textLabel.width = width;
     self.detailTextLabel.left = left;
     self.detailTextLabel.width = _unreadLabel.left - left - kTableCellMargin;
     self.timestampLabel.backgroundColor = [UIColor clearColor];
-//    self.timestampLabel.textColor = [UIColor whiteColor];
     self.timestampLabel.opaque = NO;
     
     [self pictureView];
@@ -148,7 +85,6 @@ static NSUInteger kDefaultStrokeWidth = 1;
         unread = [NSString stringWithFormat:@"%d new", object.unread];
     }
     self.unreadLabel.text = unread;
-//    self.bubbleLabel.text = object.title;
     self.titleLabel.text = object.title;
     
     if (object.special) {
@@ -156,18 +92,9 @@ static NSUInteger kDefaultStrokeWidth = 1;
     } else {
         self.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
     }
-    /*
     
-    if(object.picture) {
-        self.detailTextLabel.hidden = YES;
-        self.pictureView.hidden = NO;
-        self.pictureView.image = object.picture;
-    } else {
-        self.detailTextLabel.hidden = NO;
-        self.pictureView.image = nil;
-        self.pictureView.hidden = YES;
-    }*/
     self.profilePictureView.image = object.image;
+    self.selectionStyle = UITableViewCellSelectionStyleGray;
 }
 
 - (UILabel*)unreadLabel {
@@ -182,22 +109,6 @@ static NSUInteger kDefaultStrokeWidth = 1;
     return _unreadLabel;
 }
 
-- (UILabel*)bubbleLabel {
-    if (!_bubbleLabel) {
-        _bubbleLabel = [[UILabel alloc] init];
-        _bubbleLabel.font = [UIFont boldSystemFontOfSize:14.0];
-//        _bubbleLabel.backgroundColor = [UIColor clearColor];
-//        _bubbleLabel.strokeColor = [UIColor blackColor];
-//        _bubbleLabel.strokeWidth = 0;
-//        _bubbleLabel.textColor = [UIColor whiteColor];
-        _bubbleLabel.clipsToBounds = YES;
-        _bubbleLabel.userInteractionEnabled = YES;        
-        _bubbleLabel.opaque = NO;
-        [self.contentView addSubview:_bubbleLabel];
-    }
-    return _bubbleLabel;
-    
-}
 
 - (UIImageView*)profilePictureView {
     if (!_profilePictureView) {
@@ -214,15 +125,6 @@ static NSUInteger kDefaultStrokeWidth = 1;
 
     }
     return _pictureView;
-}
-- (UIView*)stripeView {
-    if (!_stripeView) {
-        _stripeView = [[UIView alloc] init];
-        _stripeView.backgroundColor = [UIColor colorWithWhite:0 alpha:.55];
-        _stripeView.opaque = NO;
-        [self.contentView insertSubview:_stripeView atIndex:1];
-    }
-    return _stripeView;
 }
 
 + (CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object {

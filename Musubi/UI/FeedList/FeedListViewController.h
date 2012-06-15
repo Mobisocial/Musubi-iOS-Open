@@ -27,9 +27,14 @@
 #import "FriendPickerViewController.h"
 #import "FeedViewController.h"
 
+@interface FeedListViewControllerDelegate : TTTableViewVarHeightDelegate
+
+@end
+
 @interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate, UIActionSheetDelegate> {
     UILabel* incomingLabel;
 }
+
 - (IBAction)newConversation:(id)sender;
 
 @end

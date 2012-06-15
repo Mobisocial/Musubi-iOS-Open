@@ -59,6 +59,8 @@
         _clearsSelectionOnViewWillAppear = YES;
         _flags.isViewInvalid = YES;
         
+
+        
         [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     }
     return self;
@@ -263,6 +265,8 @@
 }
 
 - (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
+    [super didSelectObject:object atIndexPath:indexPath];
+    
     FeedListItem* item = [[((FeedListDataSource*)self.dataSource).items objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"ShowFeed" sender:item];
 }

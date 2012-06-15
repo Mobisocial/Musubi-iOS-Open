@@ -177,36 +177,7 @@ static NSMutableDictionary* sContactImages;
     NSMutableArray* images = [NSMutableArray arrayWithCapacity:4];
     NSMutableSet* knownpics = [NSMutableSet set];
 
-    /*
-    for (MIdentity* i in order) {
-        if (selected.count > 3)
-            break;
-        
-        NSData* thumbnail = i.musubiThumbnail;
-        if(!thumbnail)
-            thumbnail = i.thumbnail;
-        
-        //skip dupes
-        if([knownpics containsObject:thumbnail.sha1Digest])
-            continue;
-        
-        if(thumbnail) {
-            [knownpics addObject:thumbnail.sha1Digest];
-            [selected addObject:i];
-        }
-        
-    }*/
     for (MIdentity* i in identities) {
-        /*
-        BOOL dupe = NO;
-        for(MIdentity* j in order) {
-            if([j isEqual:i]) {
-                dupe = YES;
-                break;
-            }
-        }
-        if(dupe)
-            continue;*/
         if (i.owned)
             continue;
         
@@ -266,11 +237,11 @@ static NSMutableDictionary* sContactImages;
         
         // The number of rows for the second column, and the x-pos offset for it
         int rows = images.count - 1;
-        CGFloat colOffset = (size.width / MIN(3, rows+1)) + 1; // add 1 for the line
+        CGFloat colOffset = size.width - (size.width / MIN(3, rows+1)) + 1; // add 1 for the line
         
-        // The right column image is the largest, and placed at (colOffset,0)
-        UIImage* leftImg = [(UIImage*)[images objectAtIndex:0] centerFitAndResizeTo:CGSizeMake(size.width - colOffset, size.height)];
-        [leftImg drawAtPoint: CGPointMake(colOffset, 0)];
+        // The left column image is the largest, and placed at (0,0)
+        UIImage* leftImg = [(UIImage*)[images objectAtIndex:0] centerFitAndResizeTo:CGSizeMake(colOffset, size.height)];
+        [leftImg drawAtPoint: CGPointMake(0, 0)];
         
         // Draw a line to the right of it
         pointBuffer[0] = CGPointMake(colOffset-1, 0);
@@ -278,19 +249,19 @@ static NSMutableDictionary* sContactImages;
         CGContextStrokeLineSegments(context, pointBuffer, 2);
         
         // Calc the size of the small images in the right column
-        CGSize colImgBounds = CGSizeMake(colOffset, size.height / rows);
+        CGSize colImgBounds = CGSizeMake(size.width - colOffset, size.height / rows);
         
-        // Draw the left column
+        // Draw the right column
         for (int row=0; row<rows; row++) {
             // Resize/crop the image and draw it
             UIImage* curImg = ((UIImage*)[images objectAtIndex:row + 1]);            
             UIImage* cropped = [curImg centerFitAndResizeTo:colImgBounds];          
-            [cropped drawAtPoint: CGPointMake(0, colImgBounds.height * row)];
+            [cropped drawAtPoint: CGPointMake(colOffset, colImgBounds.height * row)];
             
             // Draw a line under it if we have more coming
             if (row<rows-1) {                
-                pointBuffer[0] = CGPointMake(0, colImgBounds.height * (row + 1) - 1);
-                pointBuffer[1] = CGPointMake(colOffset-1, colImgBounds.height * (row + 1) - 1);
+                pointBuffer[0] = CGPointMake(colOffset-1, colImgBounds.height * (row + 1) - 1);
+                pointBuffer[1] = CGPointMake(size.width, colImgBounds.height * (row + 1) - 1);
                 CGContextStrokeLineSegments(context, pointBuffer, 2);
             }
         }
@@ -299,9 +270,6 @@ static NSMutableDictionary* sContactImages;
         UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         free(pointBuffer);
-        
-        [feedImageCache setObject:result forKey:selected_ids];
-        
         return result;        
     } else if (images.count == 1) {
         return [images objectAtIndex:0];

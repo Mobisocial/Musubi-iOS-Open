@@ -52,7 +52,9 @@
     UITableView* tableViewToUpdate;
     NSMutableDictionary* feedCache;
 }
+
 @synthesize dateRanges;
+
 - (id) init {
     self = [super init];
     if (self) {
@@ -69,6 +71,7 @@
 {
     [feedCache removeObjectForKey:oid];
 }
+
 - (void)tableViewDidLoadModel:(UITableView *)tableView {
     NSDate *today = [NSDate date];
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -154,6 +157,7 @@
     self.sections = sections;
     self.items = section_items;
 }
+
 - (NSMutableArray*) filterFeeds:(NSMutableArray*)newItems withActivityAfter:(NSDate*)start until:(NSDate*)end
 {
     NSMutableArray* hits = [NSMutableArray arrayWithCapacity:newItems.count];
@@ -177,6 +181,7 @@
     }
     return hits;
 }
+
 - (Class)tableView:(UITableView *)tableView cellClassForObject:(id)object {
     return [FeedListItemCell class];
 }
