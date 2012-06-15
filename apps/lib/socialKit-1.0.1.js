@@ -140,7 +140,11 @@ Musubi.platform = {
 	    },
 	    
 	    _log: function(msg) {
-	        window.location = "console://?log=" + encodeURIComponent(msg);
+            var iframe = document.createElement("IFRAME");
+            iframe.setAttribute("src", "console://?log=" + encodeURIComponent(msg));
+            document.documentElement.appendChild(iframe);
+            iframe.parentNode.removeChild(iframe);
+            iframe = null;
 	    },
 	    
 	    _commandCallbacks: [],

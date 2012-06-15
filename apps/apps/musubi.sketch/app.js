@@ -1,7 +1,6 @@
 /**
  * Musu Sketch
  */
-//console.log("Loaded musubi.sketch/app.js");
 
 var testingInBrowser = false;
 
