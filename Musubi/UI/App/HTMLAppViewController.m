@@ -113,8 +113,8 @@
     MIdentity* owned = [feedMgr ownedIdentityForFeed:_feed];
     NSString* userJson = [writer stringWithObject: [self identityToDict:owned]];
     NSString* feedJson = @"{}";
-    NSString* objJson = @"{}";
-    NSLog(@"launching app:\n  user: %@,\n  feed: %@,\n  app: %@,\n  obj: %@", userJson, feedJson, appJson, objJson);
+    NSString* objJson = @"false";
+    NSLog(@"launching app from objC:\n  user: %@,\n  feed: %@,\n  app: %@,\n  obj: %@", userJson, feedJson, appJson, objJson);
     
     NSString* jsString = [NSString stringWithFormat:@"if (typeof Musubi !== 'undefined') {Musubi._launch(%@, %@, %@, %@);} else {alert('Musubi library not loaded. Please include musubiLib.js');}", userJson, feedJson, appJson, objJson];
     [wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:NO];
@@ -132,7 +132,7 @@
 - (BOOL)webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
 
     NSURL* url = [request URL];
-    NSLog(@"Load request %@", url);
+    // NSLog(@"Load request %@", url);
     if ([[url scheme] isEqualToString:@"musubi"]) {
         /*
         URLFeedCommand* cmd = [URLFeedCommand createFromURL:url withApp: app];

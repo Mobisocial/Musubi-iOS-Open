@@ -1,4 +1,4 @@
-DBG = true;
+var DBG = true;
 var globalAppContext
 console.origLog = console.log;
 console.log = function(msg) {
@@ -123,7 +123,7 @@ Musubi.platform = {
 	            cmdUrl += encodeURIComponent(key) + "=" + encodeURIComponent(config[key]) + "&";
 	        }
 	        
-	        window.location = cmdUrl;
+	        this.__backgroundUrl(cmdUrl);
 	    },
 	    
 	    
@@ -140,11 +140,7 @@ Musubi.platform = {
 	    },
 	    
 	    _log: function(msg) {
-            var iframe = document.createElement("IFRAME");
-            iframe.setAttribute("src", "console://?log=" + encodeURIComponent(msg));
-            document.documentElement.appendChild(iframe);
-            iframe.parentNode.removeChild(iframe);
-            iframe = null;
+            this.__backgroundUrl("console://?log=" + encodeURIComponent(msg));
 	    },
 	    
 	    _commandCallbacks: [],
@@ -160,7 +156,7 @@ Musubi.platform = {
 	            cmdUrl += encodeURIComponent(key) + "=" + encodeURIComponent(parameters[key]) + "&";
 	        }
 	        
-	        window.location = cmdUrl;
+	        this.__backgroundUrl(cmdUrl);
 	    },
 	    
 	    _commandResult: function(result) {
@@ -169,7 +165,15 @@ Musubi.platform = {
 	        if (cb != null) {
 	            cb(result);
 	        }
-	    }
+	    },
+
+        __backgroundUrl: function(url) {
+            var iframe = document.createElement("IFRAME");
+            iframe.setAttribute("src", url);
+            document.documentElement.appendChild(iframe);
+            iframe.parentNode.removeChild(iframe);
+            iframe = null;
+        }
 	};
 /*
  * AppContext class
@@ -210,7 +214,7 @@ SocialKit.AppContext.prototype.setBack = function(newSetBack) {
 };
                     
 SocialKit.AppContext.prototype.toString = function() {
-    return "<AppContext: " + this.appId + "," + this.feed.toString() + "," + this.message.toString() + ">";
+    return "<AppContext: " + this.appId + "," + this.feed + "," + this.obj + ">";
 };
 
 /*
@@ -315,7 +319,7 @@ SocialKit.Obj.prototype.init = function(json) {
 };
 
 SocialKit.Obj.prototype.toString = function() {
-	return "<Obj: " + this.type + "," + JSON.stringify(this.data) + this.sender ? this.sender.toString() : "" + "," + this.appId + "," + this.feedSession + ">";
+	return "<Obj:: type: " + this.type + ", data: " + JSON.stringify(this.data) + ", sender: " + this.sender + ", appId: " + this.appId + "," + this.feedSession + ">";
 };
 
 
