@@ -392,7 +392,7 @@
             
         [connLock lock];
         if (res <= 0) {
-            if(self.connectionState)
+            if(self.connectionState && [self.connectionState rangeOfString:@"Sending"].location == NSNotFound)
                 self.connectionState = nil;
         }
         if (!connectionReady) {
@@ -406,7 +406,7 @@
         if (res > 0) {
             break;
         }
-        if(self.connectionState)
+        if(self.connectionState && [self.connectionState rangeOfString:@"Sending"].location == NSNotFound)
             self.connectionState = nil;
         if(date && block && [[NSDate date] timeIntervalSinceDate:date] > 0) {
             //send a heart beat whenever the receive timer runs out

@@ -121,7 +121,7 @@
     }
     if(lastRedraw) {
         NSDate* now = [NSDate date];
-        if([lastRedraw timeIntervalSinceDate:now] < 1) {
+        if([lastRedraw timeIntervalSinceDate:now] < -1) {
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 11 * NSEC_PER_SEC / 10);
             nextRedraw = [lastRedraw dateByAddingTimeInterval:1];
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -155,15 +155,15 @@
         [self performSelectorOnMainThread:@selector(updatePending) withObject:nil waitUntilDone:NO];
         return;
     }
-
+    
     if(nextPendingRedraw) {
         return;
     }
     if(lastPendingRedraw) {
         NSDate* now = [NSDate date];
-        if([lastPendingRedraw timeIntervalSinceDate:now] < 1) {
+        if([lastPendingRedraw timeIntervalSinceDate:now] < -.5) {
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 11 * NSEC_PER_SEC / 10);
-            nextPendingRedraw = [lastPendingRedraw dateByAddingTimeInterval:1];
+            nextPendingRedraw = [lastPendingRedraw dateByAddingTimeInterval:.5];
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 nextPendingRedraw = nil;
                 lastPendingRedraw = nil;
@@ -185,9 +185,9 @@
         newText = connectionState;
     } else {
         PersistentModelStore* store = [Musubi sharedInstance].mainStore;
-        NSArray* encoded = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
+        NSArray* decoding = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
         
-        int pending = encoded.count;
+        int pending = decoding.count;
         
         if (pending > 0) {
             newText = [NSString stringWithFormat: @"Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
