@@ -437,7 +437,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 }
 
 - (IBAction)commandButtonPushed: (id) sender {
-    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", @"Record Audio", @"Application", nil];
+    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", @"Record Audio", @"Sketch", nil];
     
     [commandPicker showInView:mainView];
 }
@@ -469,10 +469,12 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             [self slideSubView:self.audioRVC.view];
             break;
         }
-        case 3: // app
+        case 3: // app (sketch)
         {
-            NSString* appId = @"mobisocial.tictactoe";
-            
+            NSString* appId = @"musubi.sketch";
+            AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+            MApp* app = [appMgr ensureAppWithAppId:appId];
+
             NSMutableArray* userKeys = [NSMutableArray array];
             FeedManager* feedMgr = [[FeedManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
             for (MIdentity* ident in [feedMgr identitiesInFeed:_feed]) {
@@ -485,14 +487,14 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             NSMutableDictionary* appDict = [[NSMutableDictionary alloc] init];
             [appDict setObject:userKeys forKey:@"membership"];
             
+            // don't need to send an obj to launch an app.
+            /*
             Obj* obj = [[Obj alloc] initWithType:@"appstate"];
             [obj setData:appDict];
-            
-            AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
-            MApp* app = [appMgr ensureAppWithAppId:appId];
-            
             MObj* mObj = [ObjHelper sendObj:obj toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-            [self launchApp: app withObj:mObj];
+            */
+            
+            [self launchApp: app withObj:nil];
         }
     }
 }

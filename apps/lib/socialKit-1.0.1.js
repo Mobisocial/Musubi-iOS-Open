@@ -18,7 +18,7 @@ Musubi = {
     _contexts: [],
     _launchCallback: null,
     _launch: function(user, feed, appId, obj) {
-        if (DBG) console.log("launching socialkit.js app");
+        if (DBG) console.log("*** launching socialkit.js app");
         	Musubi.platform._setConfig({title: document.title});
         if (DBG) console.log("preparing musubi context");
         	var context = new SocialKit.AppContext({appId: appId, feed: feed, user: user, obj: obj});

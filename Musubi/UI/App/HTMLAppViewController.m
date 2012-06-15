@@ -77,6 +77,10 @@
 //    [[Musubi sharedInstance] listenToGroup:[app feed] withListener:self];
 }
 
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    NSLog(@"*** WebView failed to load, %@", error);
+}
+
 - (NSDictionary*) objToDict: (MObj*) obj {
     return [NSDictionary dictionaryWithObjectsAndKeys:obj.type, @"type", obj.json, @"data", [self identityToDict:obj.encoded.fromIdentity], @"sender", obj.app.appId, @"appId", [NSString stringWithFormat:@"%lld", obj.feed.shortCapability], @"feedSession", [NSNumber numberWithInt:[obj.timestamp timeIntervalSince1970]], @"date", nil];
 }
@@ -108,10 +112,11 @@
     FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MIdentity* owned = [feedMgr ownedIdentityForFeed:_feed];
     NSString* userJson = [writer stringWithObject: [self identityToDict:owned]];
+    NSString* feedJson = @"{}";
+    NSString* objJson = @"{}";
+    NSLog(@"launching app:\n  user: %@,\n  feed: %@,\n  app: %@,\n  obj: %@", userJson, feedJson, appJson, objJson);
     
-    NSLog(@"%@, %@", appJson, userJson);
-    
-    NSString* jsString = [NSString stringWithFormat:@"if (typeof Musubi !== 'undefined') {Musubi._launchApp(%@, %@);} else {alert('Musubi library not loaded. Please include musubiLib.js');}", appJson, userJson];
+    NSString* jsString = [NSString stringWithFormat:@"if (typeof Musubi !== 'undefined') {Musubi._launch(%@, %@, %@, %@);} else {alert('Musubi library not loaded. Please include musubiLib.js');}", userJson, feedJson, appJson, objJson];
     [wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:NO];
     
 }
@@ -125,8 +130,9 @@
 
 // This allows us to execute functions from Javascript. We can open URL's in the format musubi://class.method?key=value
 - (BOOL)webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+
     NSURL* url = [request URL];
-    
+    NSLog(@"Load request %@", url);
     if ([[url scheme] isEqualToString:@"musubi"]) {
         /*
         URLFeedCommand* cmd = [URLFeedCommand createFromURL:url withApp: app];

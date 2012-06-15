@@ -1,6 +1,8 @@
 /**
  * Musu Sketch
  */
+//console.log("Loaded musubi.sketch/app.js");
+
 var testingInBrowser = false;
 
 var sketch; // Global context for SketchApp.
@@ -13,6 +15,7 @@ var usingEraser = false;
 var undoStack = new Array();
 
 Musubi.ready(function(appContext) {
+  console.log("Musubi.ready() called");
   canvas = document.getElementById("sketchpad");
   var args = {id:"sketchpad", size: parseInt($("#width").val()), color: $("#color").css("background-color") };
   if (appContext.obj != null) {
