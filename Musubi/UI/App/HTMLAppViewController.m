@@ -91,8 +91,8 @@
     for (MIdentity* member in [feedMgr identitiesInFeed:feed]) {
         [members addObject:[self identityToDict:member]];
     }
-
-    return [NSDictionary dictionaryWithObjectsAndKeys:[feedMgr identityStringForFeed:_feed], @"name", [NSString stringWithFormat:@"%lld", feed.shortCapability], @"session", members, @"members", nil];
+    NSURL* feedId = [[feed objectID] URIRepresentation];
+    return [NSDictionary dictionaryWithObjectsAndKeys:[feedMgr identityStringForFeed:_feed], @"name", [feedId absoluteString], @"session", members, @"members", nil];
 }
 - (NSDictionary*) identityToDict: (MIdentity*) identity {
     return [NSDictionary dictionaryWithObjectsAndKeys:[IdentityManager displayNameForIdentity:identity], @"name", identity.principal, @"id", identity.principal, @"personId", nil];
@@ -112,7 +112,9 @@
     FeedManager* feedMgr = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MIdentity* owned = [feedMgr ownedIdentityForFeed:_feed];
     NSString* userJson = [writer stringWithObject: [self identityToDict:owned]];
-    NSString* feedJson = @"{}";
+    
+    NSDictionary* feedDict = [self feedToDict:_feed];
+    NSString* feedJson = [writer stringWithObject:feedDict];
     NSString* objJson = @"false";
     NSLog(@"launching app from objC:\n  user: %@,\n  feed: %@,\n  app: %@,\n  obj: %@", userJson, feedJson, appJson, objJson);
     
@@ -134,8 +136,7 @@
     NSURL* url = [request URL];
     // NSLog(@"Load request %@", url);
     if ([[url scheme] isEqualToString:@"musubi"]) {
-        /*
-        URLFeedCommand* cmd = [URLFeedCommand createFromURL:url withApp: app];
+        URLFeedCommand* cmd = [URLFeedCommand createFromURL:url withApp:_app];
         id result = [cmd execute];
         
         NSString* json = @"";
@@ -150,7 +151,7 @@
         }
         
         NSString* jsString = [NSString stringWithFormat:@"Musubi.platform._commandResult(%@);", json];
-        [wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:FALSE];*/
+        [wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:FALSE];
         return NO;
     } else if ([[url scheme] isEqualToString:@"console"]) {
         NSLog(@"Javascript: %@", [[url queryComponents] objectForKey:@"log"]);
@@ -164,16 +165,4 @@
     }
 }
 
-/*
-- (void)newMessage:(SignedMessage *)message {
-    SBJsonWriter* writer = [[SBJsonWriter alloc] init];
-    NSError* err = nil;
-    NSString* jsString = [NSString stringWithFormat:@"Musubi._newMessage(%@);", [writer stringWithObject:[message json] error:&err]];
-    if (err != nil) {
-        NSLog(@"JSON Encoding error: %@", err);
-    }
-    NSLog(@"JSON: %@", jsString);
-    [webView performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsString waitUntilDone:FALSE];
-}
-*/
 @end

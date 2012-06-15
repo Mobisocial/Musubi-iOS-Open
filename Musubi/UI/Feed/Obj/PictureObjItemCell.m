@@ -51,14 +51,21 @@
 - (void)setObject:(ManagedObjFeedItem*)object {
     if (_item != object) {
         [super setObject:object];
-        UIImage* image = object.computedData;
-        [self.pictureView setImage: image];
+        if (object.computedData != nil) {
+            UIImage* image = object.computedData;
+            [self.pictureView setImage: image];
+        } else {
+            NSLog(@"Bad image data");
+            [self.pictureView setImage: [UIImage imageNamed:@"heart32.png"]];
+        }
     }
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.pictureView.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, self.detailTextLabel.frame.size.height);
+    if (self.pictureView.image != nil) {
+        self.pictureView.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, self.detailTextLabel.frame.size.height);
+    }
 }
 
 @end

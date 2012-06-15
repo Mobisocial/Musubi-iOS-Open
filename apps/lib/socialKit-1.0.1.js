@@ -97,9 +97,8 @@ if (typeof Musubi_android_platform == "object") {
   };
 
   if (DBG) console.log("Android socialkit bridge loaded.");
-}
-
-Musubi.platform = {
+} else {
+  Musubi.platform = {
 		_queryFeed: function(feedSession, query, sortOrder) {
 	    	Musubi.platform._runCommand("Feed", "messages", {feedName: feedName}, function(json) {
 	            // convert json messages to Objs
@@ -155,7 +154,7 @@ Musubi.platform = {
 	        for (var key in parameters) {
 	            cmdUrl += encodeURIComponent(key) + "=" + encodeURIComponent(parameters[key]) + "&";
 	        }
-	        
+	        console.log("sending url command " + cmdUrl);
 	        this.__backgroundUrl(cmdUrl);
 	    },
 	    
@@ -175,6 +174,8 @@ Musubi.platform = {
             iframe = null;
         }
 	};
+}
+
 /*
  * AppContext class
  */
@@ -276,50 +277,57 @@ SocialKit.Feed.prototype.post = function(obj) {
 };
 
 
+
 /*
  * Obj class
  */
 
 SocialKit.Obj = function(json) {
-	this.id = null;
-	
-	this.data = null;
-	this.type = null;
-	
-	this.sender = null;
+    this.type = json.type;
+    this.json = json.json;
+    this.raw_data_url = json.raw_data_url;
+    this.intKey = json.intKey;
+    this.stringKey = json.stringKey;
+};
+
+SocialKit.Obj.prototype.toString = function() {
+    return "<Obj: " + this.type + "," + JSON.stringify(this.json) + ">";
+};
+
+/*
+ * Objects persisted in SocialDB
+ */
+
+SocialKit.DbObj = function(json) {
+    this.sender = null;
+    this.recipients = [];
     this.appId = null;
-    this.feedSession = null;
-    this.timestamp = null;
-	
+    this.session = null;
+    this.date = null;
+    
     if (json) {
         this.init(json);
     }
 };
 
-SocialKit.Obj.prototype.init = function(json) {
-    if (DBG) console.log("Obj(" + JSON.stringify(json));
+SocialKit.DbObj.prototype.init = function(json) {
+    if (DBG) console.log("DbObj(" + JSON.stringify(json));
+    this.sender = new SocialKit.User(json.sender);
+    this.recipients = [];
+    this.objId = json.objId;
+    this.data = json.data;
     
-    if (json.type)
-    	this.type = json.type;
+    for (var key in json.recipients) {
+        this.members.push( new SocialKit.User(json.recipients[key]) );
+    }
     
-    if (json.data)
-    	this.data = json.data;
-    
-    if (json.sender)
-    	this.sender = new SocialKit.User(json.sender);
-    
-    if (json.appId)
-    	this.appId = json.appId;
-    
-    if (json.feedSession)
-    	this.feedSession = json.feedSession;
-    
-    if (json.timestamp)
-    	this.date = new Date(parseInt(json.timestamp));
+    this.appId = json.appId;
+    this.session = json.session;
+    this.date = new Date(parseInt(json.timestamp));
 };
 
-SocialKit.Obj.prototype.toString = function() {
-	return "<Obj:: type: " + this.type + ", data: " + JSON.stringify(this.data) + ", sender: " + this.sender + ", appId: " + this.appId + "," + this.feedSession + ">";
+SocialKit.DbObj.prototype.toString = function() {
+    return "<DbObj: " + this.objId + "," + this.sender.toString() + "," + this.appId + "," + this.session + "," + ((this.data != null) ? JSON.stringify(this.data) : null) + ">";
 };
 
 

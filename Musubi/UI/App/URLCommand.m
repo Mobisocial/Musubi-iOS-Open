@@ -24,6 +24,12 @@
 //
 
 #import "URLCommand.h"
+#import "SBJsonParser.h"
+#import "ObjHelper.h"
+#import "Obj.h"
+#import "NSData+Base64.h"
+#import "Musubi.h"
+#import "PersistentModelStore.h"
 
 @implementation URLFeedCommand
 
@@ -34,7 +40,7 @@
     NSString* className = [NSString stringWithFormat:@"%@Command", [[hostComponents objectAtIndex:0] capitalizedString]];
     NSString* methodName = [NSString stringWithFormat:@"%@WithParams:", [hostComponents objectAtIndex:1]];
     
-    NSLog(@"Creating %@:%@", className, methodName);
+    NSLog(@"URLFeedCommand-- %@:%@", className, methodName);
     
     URLFeedCommand* cmd = [[NSClassFromString(className) alloc] init];
     if (!cmd) {
@@ -83,16 +89,41 @@
 }
 
 - (id) postWithParams:(NSDictionary *)params {
-    /*
-    SBJsonParser* parser = [[[SBJsonParser alloc] init] autorelease];
+    SBJsonParser* parser = [[SBJsonParser alloc] init];
     NSDictionary* json = [parser objectWithString:[params objectForKey:@"obj"]];
-    
+    NSString* feedIdString = [params objectForKey:@"feedSession"];
+    if (feedIdString == nil || json == nil) {
+        NSLog(@"Bad arguments to post");
+        return nil;
+    }
+
     Obj* obj = [[Obj alloc] init];
     [obj setType:[json objectForKey:@"type"]];
-    [obj setData:[json objectForKey:@"data"]];
-    
-    [[Musubi sharedInstance] sendMessage:[Message createWithObj:obj forApp:app]];
-    */
+    [obj setData:[json objectForKey:@"json"]];
+    if ([[json allKeys] containsObject:@"raw_data_url"]) {
+        NSString* b64UrlString = [json objectForKey:@"raw_data_url"];
+        NSRange range = [b64UrlString rangeOfString:@"base64,"];
+        if (range.location != NSNotFound) {
+            NSInteger b64Index = range.location + range.length;
+            NSString* b64String = [b64UrlString substringFromIndex:b64Index];
+            NSData* raw = [b64String decodeBase64];
+            [obj setRaw:raw];  
+        } else {
+            NSLog(@"Malformed base64 data url");
+        } 
+    }
+
+    PersistentModelStore* store = [[Musubi sharedInstance] mainStore];
+    NSURL* feedUri = [NSURL URLWithString:feedIdString];
+    NSManagedObjectID* feedId = [store.context.persistentStoreCoordinator managedObjectIDForURIRepresentation:feedUri];
+    NSError* error;
+    MFeed* feed = (MFeed*)[store.context existingObjectWithID:feedId error:&error];
+    if (feed == nil) {
+        NSLog(@"Bad feed in feed.post()");
+        return nil;
+    }
+    [ObjHelper sendObj:obj toFeed:feed fromApp:app usingStore:store];
+
     return nil;
 }
 
