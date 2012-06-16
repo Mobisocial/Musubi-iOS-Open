@@ -77,6 +77,7 @@
     // We only need to know when a message starts getting decrypted, when it is completely processed
     [[Musubi sharedInstance].transport.connMngr addObserver:self forKeyPath:@"connectionState" options:0 context:nil];
     [[Musubi sharedInstance] addObserver:self forKeyPath:@"transport" options:0 context:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageEncodeStarted object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageDecodeStarted object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageDecodeFinished object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationUpdatedFeed object:nil];
@@ -161,9 +162,9 @@
     }
     if(lastPendingRedraw) {
         NSDate* now = [NSDate date];
-        if([lastPendingRedraw timeIntervalSinceDate:now] < -.5) {
+        if([lastPendingRedraw timeIntervalSinceDate:now] < -.25) {
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 11 * NSEC_PER_SEC / 10);
-            nextPendingRedraw = [lastPendingRedraw dateByAddingTimeInterval:.5];
+            nextPendingRedraw = [lastPendingRedraw dateByAddingTimeInterval:.25];
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 nextPendingRedraw = nil;
                 lastPendingRedraw = nil;
@@ -185,13 +186,22 @@
         newText = connectionState;
     } else {
         PersistentModelStore* store = [Musubi sharedInstance].mainStore;
-        NSArray* decoding = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
-        
-        int pending = decoding.count;
+        NSArray* encoding = [store query:[NSPredicate predicateWithFormat:@"(encoded == nil) AND (sent == NO)"] onEntity:@"Obj"];
+        int pending = encoding.count;
         
         if (pending > 0) {
-            newText = [NSString stringWithFormat: @"Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+            newText = [NSString stringWithFormat: @"Encrypting %@outgoing message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+        } else {
+            NSArray* decoding = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
+            
+            pending = decoding.count;
+            
+            if (pending > 0) {
+                newText = [NSString stringWithFormat: @"Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+            }
         }
+        
+        
     }
     
     if (newText.length > 0) {

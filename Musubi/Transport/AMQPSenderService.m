@@ -162,8 +162,6 @@
     
     //[self log:@"Publishing to %@", groupExchangeName];
     
-    [NSThread sleepForTimeInterval:2];
-    
     NSManagedObjectID* msgObjId = msg.objectID;
     [service.connMngr publish:msg.encoded to:groupExchangeName onChannel:kAMQPChannelOutgoing onAck:[^{
         PersistentModelStore* store = [[Musubi sharedInstance] newStore];
