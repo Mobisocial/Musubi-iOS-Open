@@ -48,7 +48,7 @@
     }
 
     NSError* error;
-    parsedJson = [NSJSONSerialization JSONObjectWithData:[managedObj.json dataUsingEncoding:NSUnicodeStringEncoding] options:0 error:&error];
+    parsedJson = [NSJSONSerialization JSONObjectWithData:[managedObj.json dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
     if (!parsedJson) {
         NSLog(@"Failed to parse json %@", error);
     }

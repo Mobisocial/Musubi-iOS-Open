@@ -55,7 +55,7 @@
             fail(error);
             return;
         }
-        NSData* key = [[[@"happysalt621" stringByAppendingString:password] dataUsingEncoding:NSUnicodeStringEncoding] sha256Digest];
+        NSData* key = [[[@"happysalt621" stringByAppendingString:password] dataUsingEncoding:NSUTF8StringEncoding] sha256Digest];
         NSData* iv = [NSData generateSecureRandomKeyOf:16];
         NSData* partial_enc_data = [data encryptWithAES128CBCPKCS7WithKey:key andIV:iv];
         NSMutableData* enc_data = [NSMutableData dataWithData:iv];
@@ -71,7 +71,7 @@
         
         NSMutableArray* enc_coords = [NSMutableArray array];
         for(NSNumber* coord in coords) {
-            NSData* partial_coord = [[@"sadsalt193s" stringByAppendingString:password] dataUsingEncoding:NSUnicodeStringEncoding];
+            NSData* partial_coord = [[@"sadsalt193s" stringByAppendingString:password] dataUsingEncoding:NSUTF8StringEncoding];
             NSMutableData* raw_coord = [NSMutableData dataWithData:partial_coord];
             long long local_coord = coord.longLongValue;
             [raw_coord appendBytes:&local_coord length:8];
