@@ -18,17 +18,15 @@ Musubi.ready(function(appContext) {
   canvas = document.getElementById("sketchpad");
   console.log("got canvas");
   var args = {id:"sketchpad", size: parseInt($("#width").val()), color: $("#color").css("background-color") };
-  console.log("checking for obj on " + appContext);
   if (appContext.obj != null) {
-    console.log("getting image for " + appContext.obj);
     var img = Musubi.urlForRawData(appContext.obj.objId);
+    console.log("got it " + img);
     if (img != null) {
       args.bg = img;
     }
   }
   console.log("creating SketchApp...");
   sketch = new SketchApp(args); 
-  console.log("Sketchapp " + sketch);
   $("#post").click(function(e) {
     var elm = document.getElementById('sketchpad');
     var copy = document.createElement("canvas");

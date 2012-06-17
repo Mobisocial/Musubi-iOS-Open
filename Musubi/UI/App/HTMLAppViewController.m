@@ -31,6 +31,7 @@
 #import "MApp.h"
 #import "FeedManager.h"
 #import "IdentityManager.h"
+#import "NSData+HexString.h"
 
 @implementation HTMLAppViewController
 
@@ -82,7 +83,8 @@
 }
 
 - (NSDictionary*) objToDict: (MObj*) obj {
-    return [NSDictionary dictionaryWithObjectsAndKeys:obj.type, @"type", obj.json, @"data", [self identityToDict:obj.encoded.fromIdentity], @"sender", obj.app.appId, @"appId", [NSString stringWithFormat:@"%lld", obj.feed.shortCapability], @"feedSession", [NSNumber numberWithInt:[obj.timestamp timeIntervalSince1970]], @"date", nil];
+    NSString* objId = [obj.universalHash hexString];
+    return [NSDictionary dictionaryWithObjectsAndKeys:obj.type, @"type", objId, @"objId", obj.json, @"data", [self identityToDict:obj.encoded.fromIdentity], @"sender", obj.app.appId, @"appId", [NSString stringWithFormat:@"%lld", obj.feed.shortCapability], @"feedSession", [NSNumber numberWithInt:[obj.timestamp timeIntervalSince1970]], @"date", nil];
 }
 - (NSDictionary*) feedToDict: (MFeed*) feed {
     
@@ -115,7 +117,14 @@
     
     NSDictionary* feedDict = [self feedToDict:_feed];
     NSString* feedJson = [writer stringWithObject:feedDict];
-    NSString* objJson = @"false";
+    
+    NSString* objJson;
+    if (_obj != nil) {
+        NSDictionary* objDict = [self objToDict:_obj];
+        objJson = [writer stringWithObject:objDict];
+    } else {
+        objJson = @"false";
+    }
     NSLog(@"launching app from objC:\n  user: %@,\n  feed: %@,\n  app: %@,\n  obj: %@", userJson, feedJson, appJson, objJson);
     
     NSString* jsString = [NSString stringWithFormat:@"if (typeof Musubi !== 'undefined') {Musubi._launch(%@, %@, %@, %@);} else {alert('Musubi library not loaded. Please include musubiLib.js');}", userJson, feedJson, appJson, objJson];

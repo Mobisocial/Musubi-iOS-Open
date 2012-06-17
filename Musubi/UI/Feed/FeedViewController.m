@@ -41,9 +41,11 @@
 #import "PictureObj.h"
 #import "StatusObj.h"
 #import "StoryObj.h"
-#import "StoryObjItemCell.h"
 #import "FeedNameObj.h"
 #import "IntroductionObj.h"
+
+#import "StoryObjItemCell.h"
+#import "PictureObjItemCell.h"
 
 #import "AppManager.h"
 #import "MApp.h"
@@ -647,7 +649,8 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    FeedItemCell* cell = (FeedItemCell*)[tableView cellForRowAtIndexPath:indexPath];
+
     if (indexPath.row == 0 && [cell isKindOfClass:[TTTableMoreButtonCell class]]) {
         TTTableMoreButton* moreLink = [(TTTableMoreButtonCell *)cell object];
         moreLink.isLoading = YES;
@@ -660,7 +663,13 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         if(!url)
             return;
         [[UIApplication sharedApplication] openURL:url];
-    };
+    } else if ([cell isKindOfClass:[PictureObjItemCell class]]) {
+        NSString* appId = @"musubi.sketch";
+        AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+        MApp* app = [appMgr ensureAppWithAppId:appId];
+        MObj* obj = ((FeedItem*)cell.object).obj;
+        [(FeedViewController*)self.controller launchApp:app withObj:obj];
+    }
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
 }

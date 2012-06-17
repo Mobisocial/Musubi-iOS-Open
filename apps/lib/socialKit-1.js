@@ -125,7 +125,7 @@ if (typeof Musubi_android_platform == "object") {
 	    
 	    
     _urlForRaw: function(objId) {
-        self._log("urlForRaw() not implemented yet");
+        return "http://localhost:8225/raw/"+encodeURIComponent(objId);
     },
 	    
     _back: function() {
