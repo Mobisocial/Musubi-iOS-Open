@@ -68,7 +68,7 @@
 {
     [super viewDidLoad];
     
-    NSURL* html = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html" subdirectory:[NSString stringWithFormat: @"apps/apps/%@", _app.appId]];
+    NSURL* html = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html" subdirectory:[NSString stringWithFormat: @"html5/apps/%@", _app.appId]];
     NSLog(@"HTML: %@, %@", html, _app.appId);
     NSLog(@"Web: %@", webView);
     [webView loadRequest:[NSURLRequest requestWithURL:html]];
@@ -102,7 +102,7 @@
 
 
 - (void)webViewDidFinishLoad:(UIWebView *)wv {
-    NSString *iosBinding = [NSString stringWithContentsOfFile:@"apps/lib/platforms/socialKit-ios.js"];
+    NSString *iosBinding = [NSString stringWithContentsOfFile:@"html5/lib/platforms/socialKit-ios.js"];
     //[wv performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:iosBinding waitUntilDone:YES];
     
     // Launch app

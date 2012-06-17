@@ -117,7 +117,7 @@
 		D26D3722147B3ED400C4FE93 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DA147B3ED400C4FE93 /* UIImage+Resize.m */; };
 		D26D3723147B3ED400C4FE93 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DC147B3ED400C4FE93 /* UIImage+RoundedCorner.m */; };
 		D26D3724147B3ED400C4FE93 /* XQueryComponents.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */; };
-		D26D3736147B41B700C4FE93 /* apps in Resources */ = {isa = PBXBuildFile; fileRef = D298FA40143D0E84000831DD /* apps */; };
+		D26D3736147B41B700C4FE93 /* html5 in Resources */ = {isa = PBXBuildFile; fileRef = D298FA40143D0E84000831DD /* html5 */; };
 		D272FB541519C19E00D2521A /* EncodingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1C14FD7A4B00C6ABB3 /* EncodingTest.m */; };
 		D272FB561519C19E00D2521A /* IBEncryptionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155E1512863000F12039 /* IBEncryptionTest.m */; };
 		D272FB59151A69DF00D2521A /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB58151A69DF00D2521A /* AccountManager.m */; };
@@ -930,7 +930,7 @@
 		D298F9F6143CE6DF000831DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D298F9F8143CE6DF000831DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D298FA15143CE6DF000831DD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		D298FA40143D0E84000831DD /* apps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = apps; sourceTree = "<group>"; };
+		D298FA40143D0E84000831DD /* html5 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html5; sourceTree = "<group>"; };
 		D298FA4B143E5B4E000831DD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D2A1FC051521009400C10BE2 /* Authorities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authorities.h; sourceTree = "<group>"; };
 		D2A1FC1015211F6B00C10BE2 /* FacebookIdentityUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookIdentityUpdater.h; path = Identity/FacebookIdentityUpdater.h; sourceTree = "<group>"; };
@@ -2647,7 +2647,7 @@
 			isa = PBXGroup;
 			children = (
 				D26D3691147B3ED300C4FE93 /* Musubi */,
-				D298FA40143D0E84000831DD /* apps */,
+				D298FA40143D0E84000831DD /* html5 */,
 				D2794AF11457D33F00C5FDAB /* Libraries */,
 				D216DE5D14F48951001A4166 /* MusubiAppTest */,
 				D298F9F5143CE6DF000831DD /* Frameworks */,
@@ -3175,7 +3175,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D26D3736147B41B700C4FE93 /* apps in Resources */,
+				D26D3736147B41B700C4FE93 /* html5 in Resources */,
 				D2D930B515225E99006E4F58 /* Three20.bundle in Resources */,
 				D210C1781526795300280605 /* GTMOAuth2ViewTouch.xib in Resources */,
 				C0D575821551F94600B6624C /* README.txt in Resources */,
