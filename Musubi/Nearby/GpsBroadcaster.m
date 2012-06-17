@@ -16,15 +16,19 @@
 
 
 //
-//  GridHandler.h
+//  GpsBroadcaster.h
 //  musubi
 //
-//  Created by T.J. Purtell on 6/13/12.
+//  Created by T.J. Purtell on 6/17/12.
 //  Copyright (c) 2012 Stanford MobiSocial Labratory. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 
-@interface GridHandler : NSObject
-+ (NSArray*) hexTilesForSizeInFeet:(int)feet atLatitude:(double)latitude andLongitude:(double)longitude;
+#import "GpsBroadcaster.h"
+
+@implementation GpsBroadcaster
++ (void)broadcastNearby:(NearbyFeed*)feed withPassword:(NSString*)password onSuccess:(void(^)())success onFail:(void(^)(NSError*))fail {
+    fail([NSError errorWithDomain:@"Nearby Unimplemented" code:-1 userInfo:nil]);
+}
+
 @end

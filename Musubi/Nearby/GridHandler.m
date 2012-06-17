@@ -19,8 +19,8 @@
 //  GridHandler.m
 //  musubi
 //
-//  Created by MokaFive User on 6/13/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by T.J. Purtell on 6/13/12.
+//  Copyright (c) 2012 Stanford MobiSocial Labratory. All rights reserved.
 //
 
 #import "GridHandler.h"

@@ -16,15 +16,15 @@
 
 
 //
-//  GridHandler.h
+//  NearbyFeed.h
 //  musubi
 //
-//  Created by T.J. Purtell on 6/13/12.
+//  Created by T.J. Purtell on 6/17/12.
 //  Copyright (c) 2012 Stanford MobiSocial Labratory. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "NearbyFeed.h"
 
-@interface GridHandler : NSObject
-+ (NSArray*) hexTilesForSizeInFeet:(int)feet atLatitude:(double)latitude andLongitude:(double)longitude;
+@implementation NearbyFeed
+@synthesize groupCapability, groupName, thumbnail, sharerHash, sharerName, sharerType, memberCount;
 @end
