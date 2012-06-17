@@ -73,7 +73,7 @@
         for(NSNumber* coord in coords) {
             NSData* partial_coord = [[@"sadsalt193s" stringByAppendingString:password] dataUsingEncoding:NSUTF8StringEncoding];
             NSMutableData* raw_coord = [NSMutableData data];
-            long long local_coord = coord.longLongValue;
+            long long local_coord = CFSwapInt64HostToBig(coord.longLongValue);
             [raw_coord appendBytes:&local_coord length:8];
             [raw_coord appendData:partial_coord];
             [enc_coords addObject:[[[raw_coord sha256Digest] encodeBase64] stringByAppendingString:@"\n"]];
