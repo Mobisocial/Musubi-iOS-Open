@@ -44,10 +44,11 @@
         [descriptor setObject:feedData.sharerName forKey:@"sharer_name"];
         [descriptor setObject:[NSNumber numberWithInt:feedData.sharerType] forKey:@"sharer_type"];
         [descriptor setObject:[feedData.sharerHash encodeBase64] forKey:@"sharer_hash"];
+        [descriptor setObject:[NSNumber numberWithInt:feedData.memberCount] forKey:@"member_count"];
+        NSLog(@"descriptor %@", descriptor);
         if(feedData.thumbnail) 
             [descriptor setObject:[feedData.thumbnail encodeBase64] forKey:@"thumbnail"];
-        [descriptor setObject:[NSNumber numberWithInt:feedData.memberCount] forKey:@"member_count"];
-        
+
         NSError* error = nil;
         NSData* data = [NSJSONSerialization dataWithJSONObject:descriptor options:0 error:&error];
         if(!data) {
