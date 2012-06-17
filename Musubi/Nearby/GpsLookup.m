@@ -35,9 +35,10 @@
         return nil;
 
     locationManager = [[CLLocationManager alloc] init];
+    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     locationManager.delegate = self;
-    [locationManager startUpdatingLocation];
-    
+    locationManager.purpose = @"Share a conversation nearby";
+
     return self;
 }
 - (void)lookupAndCall:(void (^)(CLLocation *))success orFail:(void (^)(NSError *))fail 
@@ -46,9 +47,27 @@
     NSAssert(fail, @"must specify fail callback");
     NSAssert(!successCallback && !failCallback, @"only one lookup call is allowed");
     
-    success = successCallback;
-    fail = failCallback;
-    
+    successCallback = success;
+    failCallback = fail;
+
+    //TODO: this logic doesn't really figure it out ocrrectly if the user turned of location for musubi
+    if(![CLLocationManager locationServicesEnabled]) {
+        NSError* error = [NSError errorWithDomain:@"Location services are disabled" code:-1 userInfo:nil];
+        failCallback(error);
+        return;
+    } else if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+        NSLog(@"Location authorization required");
+    } else if([CLLocationManager authorizationStatus] !=  kCLAuthorizationStatusAuthorized) {
+        NSError* error = [NSError errorWithDomain:@"You blocked Musubi from using location data" code:-1 userInfo:nil];
+        failCallback(error);
+        return;
+    }
+
+    if(locationManager.location != nil)
+    {
+        success(locationManager.location);
+        return;
+    }
     [locationManager startUpdatingLocation];
 }
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status

@@ -76,8 +76,6 @@
     [super viewDidLoad];
     
     
-    broadcastSwitch = [[UIButton alloc] init];
-    [broadcastSwitch addTarget: self action: @selector(flip:) forControlEvents:UIControlEventTouchUpInside];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -190,7 +188,8 @@
         case 2: {
             switch (indexPath.row) {
                 case 0: {
-                    static NSString *cellIdentifier = @"BroadcastCell";                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+                    static NSString *cellIdentifier = @"BroadcastCell";                    
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
                     if (cell == nil) {
                         cell = [[UITableViewCell alloc]
                                 initWithStyle:UITableViewCellStyleValue2 
@@ -199,8 +198,11 @@
                     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     cell.detailTextLabel.text = @"Broadcast";
                     
-                    cell.accessoryView = [[UIView alloc] initWithFrame:broadcastSwitch.frame];
-                    [cell.accessoryView addSubview:broadcastSwitch];
+                    broadcastSwitch = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                    [broadcastSwitch setTitle:@"For 1 Hour" forState:UIControlStateNormal];
+                    [broadcastSwitch setFrame:CGRectMake(0, 0, 100, 35)];
+                    [broadcastSwitch addTarget: self action: @selector(flip:) forControlEvents:UIControlEventTouchUpInside];
+                    cell.accessoryView = broadcastSwitch;
                     
                     return cell;
                 }
@@ -360,12 +362,6 @@
     
     [[[GpsBroadcaster alloc] init] broadcastNearby:nearby_feed withPassword:password onSuccess:^{
         [DejalBezelActivityView removeViewAnimated:YES];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
-                                                        message:[NSString stringWithFormat:@"Your friends can join for one hour with the password \"%@\".", password] 
-                                                       delegate:nil 
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show]; 
     } onFail:^(NSError *error) {
         [DejalBezelActivityView removeViewAnimated:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 

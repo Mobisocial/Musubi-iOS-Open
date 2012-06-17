@@ -34,16 +34,18 @@
 @implementation GpsBroadcaster
 @synthesize feed;
 - (void)broadcastNearby:(NearbyFeed*)feedData withPassword:(NSString*)password onSuccess:(void(^)())success onFail:(void(^)(NSError*))fail {
+    if(!password)
+        password = @"";
     feed = feedData;
     [self lookupAndCall:^(CLLocation *location) {
         NSMutableDictionary* descriptor = [NSMutableDictionary dictionary];
         [descriptor setObject:feedData.groupName forKey:@"group_name"];
-        [descriptor setObject:feedData.groupCapability forKey:@"group_capability"];
+        [descriptor setObject:[feedData.groupCapability encodeBase64] forKey:@"group_capability"];
         [descriptor setObject:feedData.sharerName forKey:@"sharer_name"];
         [descriptor setObject:[NSNumber numberWithInt:feedData.sharerType] forKey:@"sharer_type"];
-        [descriptor setObject:feedData.sharerHash forKey:@"sharer_hash"];
+        [descriptor setObject:[feedData.sharerHash encodeBase64] forKey:@"sharer_hash"];
         if(feedData.thumbnail) 
-            [descriptor setObject:feedData.thumbnail forKey:@"thumbnail"];
+            [descriptor setObject:[feedData.thumbnail encodeBase64] forKey:@"thumbnail"];
         [descriptor setObject:[NSNumber numberWithInt:feedData.memberCount] forKey:@"member_count"];
         
         NSError* error = nil;
@@ -65,20 +67,23 @@
         double lng = location.coordinate.longitude;
         
         NSArray* coords = [GridHandler hexTilesForSizeInFeet:5280 / 2 atLatitude:lat andLongitude:lng];
+        NSLog(@"coords, %@", coords);
+        
         NSMutableArray* enc_coords = [NSMutableArray array];
         for(NSNumber* coord in coords) {
             NSData* partial_coord = [[@"sadsalt193s" stringByAppendingString:password] dataUsingEncoding:NSUnicodeStringEncoding];
             NSMutableData* raw_coord = [NSMutableData dataWithData:partial_coord];
             long long local_coord = coord.longLongValue;
             [raw_coord appendBytes:&local_coord length:8];
-            [enc_coords addObject:[[raw_coord sha256Digest] encodeBase64]];
+            [enc_coords addObject:[[[raw_coord sha256Digest] encodeBase64] stringByAppendingString:@"\n"]];
         }
+        NSLog(@"buckets, %@", enc_coords);
         
         NSMutableDictionary* enc_descriptor = [NSMutableDictionary dictionary];\
         [enc_descriptor setValue:enc_coords forKey:@"buckets"];
         [enc_descriptor setValue:[enc_data encodeBase64] forKey:@"data"];
         [enc_descriptor setValue:[NSNumber numberWithLongLong:(((NSDate*)[NSDate date]).timeIntervalSince1970 * 1000 + 1000 * 60 * 60)] forKey:@"expiration"];
-        
+
         NSData* enc_ser_descriptor = [NSJSONSerialization dataWithJSONObject:enc_descriptor options:0 error:&error];
         if(!enc_descriptor) {
             NSLog(@"FAiled to encode encrypted nearby feed descriptor %@", error);
@@ -102,7 +107,8 @@
                 fail(error);
                 return;
             }
-            if(![[@"ok" dataUsingEncoding:NSUnicodeStringEncoding] isEqualToData:data]) {
+            NSString* r = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+            if(![@"ok" isEqualToString:r]) {
                 error = [NSError errorWithDomain:@"Failed to publish gps, non ok response" code:-1 userInfo:nil];
                 fail(error);
                 return;

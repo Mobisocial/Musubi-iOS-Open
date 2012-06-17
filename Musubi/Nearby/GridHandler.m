@@ -227,8 +227,6 @@ static NSArray* getXYZ(double x, double y, int gridsize, int gridType){
     [res replaceObjectAtIndex:0 withObject:[NSNumber numberWithFloat:((NSNumber*)[res objectAtIndex:0]).floatValue /stripHeightPerDeg]]; 
     [res replaceObjectAtIndex:0 withObject:[NSNumber numberWithFloat:((NSNumber*)[res objectAtIndex:0]).floatValue + xMod]]; 
     //System.err.println("res : " + res[0] + "," + res[1]);
-    [res replaceObjectAtIndex:0 withObject:[NSNumber numberWithFloat:((NSNumber*)[res objectAtIndex:0]).floatValue /stripHeightPerDeg]]; 
-    [res replaceObjectAtIndex:0 withObject:[NSNumber numberWithFloat:((NSNumber*)[res objectAtIndex:0]).floatValue + xMod]]; 
     [res replaceObjectAtIndex:1 withObject:[NSNumber numberWithFloat:((NSNumber*)[res objectAtIndex:1]).floatValue /stripWidthPerDeg]]; 
     //System.err.println("lat lon : " + res[0] + "," + res[1]);
     //return xyz;
@@ -241,32 +239,32 @@ static NSArray* getXYZ(double x, double y, int gridsize, int gridType){
 {
     NSMutableArray* res = [NSMutableArray array];
     
-    int gridsize_meters = (int) (feet / CONVERSION); // All grids conversions are done in meters.
+    int gridsize_meters = (int) ((float)feet / CONVERSION); // All grids conversions are done in meters.
     
     //System.err.println("Location retrieved is : Latitude: " + mlatitude + "\t Longitude: " + mlongitude + "\t Grid size (in feet): " + gridsize_feet);
     
     
     
-    long latlon;
+    long long latlon;
     NSArray* xyz;
     // Get all three grid types --- remember there are three grids that are overlapping that we need to check against. 
     xyz = getXYZ(latitude, longitude, gridsize_meters, 0);
-    latlon = (long)(((NSNumber*)[xyz objectAtIndex:0]).floatValue*1E6);
+    latlon = (long long)(((NSNumber*)[xyz objectAtIndex:0]).floatValue*1E6);
     latlon <<= 24;
-    latlon |= (long)(((NSNumber*)[xyz objectAtIndex:1]).floatValue*1E6);
-    [res addObject:[NSNumber numberWithLong:latlon]];
+    latlon |= (long long)(((NSNumber*)[xyz objectAtIndex:1]).floatValue*1E6);
+    [res addObject:[NSNumber numberWithLongLong:latlon]];
     
     xyz = getXYZ(latitude, longitude, gridsize_meters, 1);
-    latlon = (long)(((NSNumber*)[xyz objectAtIndex:0]).floatValue*1E6);
+    latlon = (long long)(((NSNumber*)[xyz objectAtIndex:0]).floatValue*1E6);
     latlon <<= 24;
-    latlon |= (long)(((NSNumber*)[xyz objectAtIndex:1]).floatValue*1E6);
-    [res addObject:[NSNumber numberWithLong:latlon]];
+    latlon |= (long long)(((NSNumber*)[xyz objectAtIndex:1]).floatValue*1E6);
+    [res addObject:[NSNumber numberWithLongLong:latlon]];
     
     xyz = getXYZ(latitude, longitude, gridsize_meters, 2);
-    latlon = (long)(((NSNumber*)[xyz objectAtIndex:0]).floatValue*1E6);
+    latlon = (long long)(((NSNumber*)[xyz objectAtIndex:0]).floatValue*1E6);
     latlon <<= 24;
-    latlon |= (long)(((NSNumber*)[xyz objectAtIndex:1]).floatValue*1E6);
-    [res addObject:[NSNumber numberWithLong:latlon]];
+    latlon |= (long long)(((NSNumber*)[xyz objectAtIndex:1]).floatValue*1E6);
+    [res addObject:[NSNumber numberWithLongLong:latlon]];
 
     return res;
 }
