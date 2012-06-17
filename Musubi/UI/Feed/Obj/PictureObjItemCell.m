@@ -34,6 +34,8 @@
 
 + (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
     UIImage* image = item.computedData;
+    if(!image)
+        image = [UIImage imageNamed:@"error.png"];
     return (250 / image.size.width) * image.size.height;
 }
 
@@ -52,10 +54,10 @@
     if (_item != object) {
         [super setObject:object];
         if (object.computedData != nil) {
-            UIImage* image = object.computedData;
-            [self.pictureView setImage: image];
+            self.pictureView.image = object.computedData;
         } else {
             NSLog(@"Bad image data");
+            self.pictureView.image = [UIImage imageNamed:@"error.png"];
         }
     }
 }

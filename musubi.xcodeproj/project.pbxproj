@@ -27,6 +27,7 @@
 		C03A66B6157C1307009A5CBA /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B3157C1307009A5CBA /* XPathQuery.m */; };
 		C03A66B9157C137E009A5CBA /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = C03A66B8157C137E009A5CBA /* DejalActivityView.m */; };
 		C04E907E158875A3003C6A0A /* GridHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C04E907D158875A3003C6A0A /* GridHandler.m */; };
+		C04E9140158E5586003C6A0A /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = C04E913F158E5586003C6A0A /* error.png */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
 		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0867924157038FC00F4F2BA /* ProfileObj.m */; };
@@ -389,6 +390,7 @@
 		C03A66B8157C137E009A5CBA /* DejalActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DejalActivityView.m; path = DejalActivityView/DejalActivityView.m; sourceTree = "<group>"; };
 		C04E907C158875A3003C6A0A /* GridHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GridHandler.h; path = Nearby/GridHandler.h; sourceTree = "<group>"; };
 		C04E907D158875A3003C6A0A /* GridHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridHandler.m; path = Nearby/GridHandler.m; sourceTree = "<group>"; };
+		C04E913F158E5586003C6A0A /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
 		C0733345157D83A300B2A391 /* Model 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 8.xcdatamodel"; sourceTree = "<group>"; };
 		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
@@ -1425,6 +1427,7 @@
 		D26028D91566EEBE00CF6500 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				C04E913F158E5586003C6A0A /* error.png */,
 				2FB1693B157D261D00832396 /* gradienttoolbar.png */,
 				2F071241157BB7A6008B6FEE /* Default.png */,
 				2F071242157BB7A6008B6FEE /* Default@2x.png */,
@@ -3192,6 +3195,7 @@
 				D4DB133F157C2D5100337A16 /* About.txt in Resources */,
 				D4DB1347157C2D5100337A16 /* README.txt in Resources */,
 				2FB1693C157D261D00832396 /* gradienttoolbar.png in Resources */,
+				C04E9140158E5586003C6A0A /* error.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
