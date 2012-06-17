@@ -23,6 +23,7 @@
 //  Copyright (c) 2012 Stanford MobiSocial Labratory. All rights reserved.
 //
 #import <Foundation/Foundation.h>
+@class PersistentModelStore, NSManagedObjectID;
 
 @interface NearbyFeed : NSObject
 @property (nonatomic, strong) NSData* thumbnail;
@@ -32,4 +33,7 @@
 @property (nonatomic, assign) int sharerType;
 @property (nonatomic, strong) NSData* sharerHash;
 @property (nonatomic, assign) int memberCount;
+
+- (id)initWithFeedId:(NSManagedObjectID*)feedId andStore:(PersistentModelStore*)store;
+- (id)init;
 @end

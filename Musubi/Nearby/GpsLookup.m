@@ -42,8 +42,9 @@
 }
 - (void)lookupAndCall:(void (^)(CLLocation *))success orFail:(void (^)(NSError *))fail 
 {
-    assert(!successCallback);
-    assert(!failCallback);
+    NSAssert(success, @"must specify success callback");
+    NSAssert(fail, @"must specify fail callback");
+    NSAssert(!successCallback && !failCallback, @"only one lookup call is allowed");
     
     success = successCallback;
     fail = failCallback;

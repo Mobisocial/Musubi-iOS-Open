@@ -30,5 +30,6 @@
 @class NearbyFeed;
 
 @interface GpsBroadcaster : GpsLookup
-- (void)broadcastNearby:(NearbyFeed*)feed withPassword:(NSString*)password onSuccess:(void(^)())success onFail:(void(^)(NSError*))fail;
+@property (nonatomic, strong) NearbyFeed* feed;
+- (void)broadcastNearby:(NearbyFeed*)feedData withPassword:(NSString*)password onSuccess:(void(^)())success onFail:(void(^)(NSError*))fail;
 @end
