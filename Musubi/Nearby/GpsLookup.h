@@ -27,6 +27,13 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface GpsLookup : NSObject <CLLocationManagerDelegate>
+@property (nonatomic, strong) CLLocationManager* locationManager;
+@property (nonatomic, strong) void(^successCallback)(CLLocation*) ;
+@property (nonatomic, strong) void(^failCallback)(NSError*);
+
+- (id)init;
+- (void)lookupAndCall:(void(^)(CLLocation*))success orFail:(void(^)(NSError*))fail;
+
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status;
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region;
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region;

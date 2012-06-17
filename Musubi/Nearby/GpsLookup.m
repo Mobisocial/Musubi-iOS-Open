@@ -26,6 +26,30 @@
 #import "GpsLookup.h"
 
 @implementation GpsLookup
+@synthesize locationManager, successCallback, failCallback;
+
+- (id)init
+{
+    self = [super init];
+    if (!self)
+        return nil;
+
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    [locationManager startUpdatingLocation];
+    
+    return self;
+}
+- (void)lookupAndCall:(void (^)(CLLocation *))success orFail:(void (^)(NSError *))fail 
+{
+    assert(!successCallback);
+    assert(!failCallback);
+    
+    success = successCallback;
+    fail = failCallback;
+    
+    [locationManager startUpdatingLocation];
+}
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
     
@@ -42,7 +66,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    
+    failCallback(error);
 }
 
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
@@ -57,7 +81,8 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    
+    [locationManager stopUpdatingLocation];
+    successCallback(newLocation);
 }
 
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
