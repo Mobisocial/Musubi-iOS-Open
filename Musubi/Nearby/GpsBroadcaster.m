@@ -27,7 +27,7 @@
 #import "GpsBroadcaster.h"
 
 @implementation GpsBroadcaster
-+ (void)broadcastNearby:(NearbyFeed*)feed withPassword:(NSString*)password onSuccess:(void(^)())success onFail:(void(^)(NSError*))fail {
+- (void)broadcastNearby:(NearbyFeed*)feed withPassword:(NSString*)password onSuccess:(void(^)())success onFail:(void(^)(NSError*))fail {
     fail([NSError errorWithDomain:@"Nearby Unimplemented" code:-1 userInfo:nil]);
 }
 

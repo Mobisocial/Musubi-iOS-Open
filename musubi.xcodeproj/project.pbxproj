@@ -55,6 +55,7 @@
 		C0E75B95158E6A2A000C3FE3 /* GpsScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75B94158E6A2A000C3FE3 /* GpsScanner.m */; };
 		C0E75B98158E6A41000C3FE3 /* GpsBroadcaster.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75B97158E6A41000C3FE3 /* GpsBroadcaster.m */; };
 		C0E75B9B158E6AB6000C3FE3 /* NearbyFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75B9A158E6AB6000C3FE3 /* NearbyFeed.m */; };
+		C0E75B9E158E70B7000C3FE3 /* GpsLookup.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75B9D158E70B7000C3FE3 /* GpsLookup.m */; };
 		D20152451589191B00D2D73B /* HTMLAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D20152421589191B00D2D73B /* HTMLAppViewController.m */; };
 		D20152461589191B00D2D73B /* URLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = D20152441589191B00D2D73B /* URLCommand.m */; };
 		D2081556151171D800F12039 /* AMQPConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081555151171D800F12039 /* AMQPConnectionManager.m */; };
@@ -449,6 +450,8 @@
 		C0E75B97158E6A41000C3FE3 /* GpsBroadcaster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GpsBroadcaster.m; path = Nearby/GpsBroadcaster.m; sourceTree = "<group>"; };
 		C0E75B99158E6AB6000C3FE3 /* NearbyFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NearbyFeed.h; path = Nearby/NearbyFeed.h; sourceTree = "<group>"; };
 		C0E75B9A158E6AB6000C3FE3 /* NearbyFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NearbyFeed.m; path = Nearby/NearbyFeed.m; sourceTree = "<group>"; };
+		C0E75B9C158E70B7000C3FE3 /* GpsLookup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GpsLookup.h; path = Nearby/GpsLookup.h; sourceTree = "<group>"; };
+		C0E75B9D158E70B7000C3FE3 /* GpsLookup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GpsLookup.m; path = Nearby/GpsLookup.m; sourceTree = "<group>"; };
 		D20152411589191B00D2D73B /* HTMLAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLAppViewController.h; sourceTree = "<group>"; };
 		D20152421589191B00D2D73B /* HTMLAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAppViewController.m; sourceTree = "<group>"; };
 		D20152431589191B00D2D73B /* URLCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLCommand.h; sourceTree = "<group>"; };
@@ -1187,6 +1190,8 @@
 			children = (
 				C0E75B96158E6A41000C3FE3 /* GpsBroadcaster.h */,
 				C0E75B97158E6A41000C3FE3 /* GpsBroadcaster.m */,
+				C0E75B9C158E70B7000C3FE3 /* GpsLookup.h */,
+				C0E75B9D158E70B7000C3FE3 /* GpsLookup.m */,
 				C0E75B93158E6A2A000C3FE3 /* GpsScanner.h */,
 				C0E75B94158E6A2A000C3FE3 /* GpsScanner.m */,
 				C04E907C158875A3003C6A0A /* GridHandler.h */,
@@ -3439,6 +3444,7 @@
 				C0E75B95158E6A2A000C3FE3 /* GpsScanner.m in Sources */,
 				C0E75B98158E6A41000C3FE3 /* GpsBroadcaster.m in Sources */,
 				C0E75B9B158E6AB6000C3FE3 /* NearbyFeed.m in Sources */,
+				C0E75B9E158E70B7000C3FE3 /* GpsLookup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

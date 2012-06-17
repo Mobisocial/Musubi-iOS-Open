@@ -25,9 +25,10 @@
 
 
 #import <Foundation/Foundation.h>
+#import "GpsLookup.h"
 
 @class NearbyFeed;
 
-@interface GpsBroadcaster : NSObject
-+ (void)broadcastNearby:(NearbyFeed*)feed withPassword:(NSString*)password onSuccess:(void(^)())success onFail:(void(^)(NSError*))fail;
+@interface GpsBroadcaster : GpsLookup
+- (void)broadcastNearby:(NearbyFeed*)feed withPassword:(NSString*)password onSuccess:(void(^)())success onFail:(void(^)(NSError*))fail;
 @end

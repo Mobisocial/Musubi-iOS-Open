@@ -27,7 +27,7 @@
 #import "GpsScanner.h"
 
 @implementation GpsScanner
-+ (void)scanForNearbyWithPassword:(NSString*)password onSuccess:(void(^)(NSArray*))success onFail:(void(^)(NSError*))fail
+- (void)scanForNearbyWithPassword:(NSString*)password onSuccess:(void(^)(NSArray*))success onFail:(void(^)(NSError*))fail
 {
     fail([NSError errorWithDomain:@"Nearby Unimplemented" code:-1 userInfo:nil]);
 }

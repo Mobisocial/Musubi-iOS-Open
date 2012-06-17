@@ -24,7 +24,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GpsLookup.h"
 
-@interface GpsScanner : NSObject
-+ (void)scanForNearbyWithPassword:(NSString*)password onSuccess:(void(^)(NSArray*))success onFail:(void(^)(NSError*))fail;
+@interface GpsScanner : GpsLookup
+- (void)scanForNearbyWithPassword:(NSString*)password onSuccess:(void(^)(NSArray*))success onFail:(void(^)(NSError*))fail;
 @end
