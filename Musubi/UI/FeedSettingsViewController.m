@@ -32,12 +32,17 @@
 #import "FeedNameObj.h"
 #import "AppManager.h"
 #import "ObjHelper.h"
+#import "GpsBroadcaster.h"
+#import "NearbyFeed.h"
+#import "DejalActivityView.h"
 
 @interface FeedSettingsViewController ()
 
 @end
 
-@implementation FeedSettingsViewController
+@implementation FeedSettingsViewController {
+    UITextField* broadcastTextField;
+}
 
 @synthesize feed = _feed;
 @synthesize feedManager = _feedManager;
@@ -71,8 +76,8 @@
     [super viewDidLoad];
     
     
-    broadcastSwitch = [[UISwitch alloc] init];
-    [broadcastSwitch addTarget: self action: @selector(flip:) forControlEvents:UIControlEventValueChanged];
+    broadcastSwitch = [[UIButton alloc] init];
+    [broadcastSwitch addTarget: self action: @selector(flip:) forControlEvents:UIControlEventTouchUpInside];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -124,6 +129,7 @@
         case 2:
             return 2;
     }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -210,22 +216,20 @@
                     }
                     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     cell.detailTextLabel.text = @"Password";
-                    UITextField *textField;
-                    
-                    textField = [[UITextField alloc] initWithFrame:CGRectMake(90,
+                    broadcastTextField = [[UITextField alloc] initWithFrame:CGRectMake(90,
                                                                               tableView.rowHeight / 2 - 10, 200, 20)];
-                    textField.borderStyle = UITextBorderStyleNone;
-                    textField.textColor = [UIColor blackColor];
-                    textField.font = [UIFont systemFontOfSize:14];
-                    textField.placeholder = @"Leave empty for public sharing";
-                    textField.backgroundColor = [UIColor clearColor];
-                    textField.autocorrectionType = UITextAutocorrectionTypeNo;
-                    textField.keyboardType = UIKeyboardTypeDefault;
-                    textField.returnKeyType = UIReturnKeyDone;
-                    textField.tag = kBroadcastPassword;
-                    textField.delegate = self;
+                    broadcastTextField.borderStyle = UITextBorderStyleNone;
+                    broadcastTextField.textColor = [UIColor blackColor];
+                    broadcastTextField.font = [UIFont systemFontOfSize:14];
+                    broadcastTextField.placeholder = @"Leave empty for public sharing";
+                    broadcastTextField.backgroundColor = [UIColor clearColor];
+                    broadcastTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+                    broadcastTextField.keyboardType = UIKeyboardTypeDefault;
+                    broadcastTextField.returnKeyType = UIReturnKeyDone;
+                    broadcastTextField.tag = kBroadcastPassword;
+                    broadcastTextField.delegate = self;
                     
-                    [cell.contentView addSubview:textField];
+                    [cell.contentView addSubview:broadcastTextField];
                     
                     return cell;
                 }
@@ -350,24 +354,28 @@
 }
 
 - (IBAction) flip: (id) sender {
-    UISwitch *onoff = (UISwitch *) sender;
-    NSLog(@"%@", onoff.on ? @"On" : @"Off");
-    if (onoff.on) {
+    NSString* password = broadcastTextField.text;
+    [DejalBezelActivityView activityViewForView:self.view withLabel:@"Identifying Location" width:200];
+    NearbyFeed* nearby_feed = [[NearbyFeed alloc] initWithFeedId:self.feed.objectID andStore:[Musubi sharedInstance].mainStore];
+    
+    [[[GpsBroadcaster alloc] init] broadcastNearby:nearby_feed withPassword:password onSuccess:^{
+        [DejalBezelActivityView removeViewAnimated:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
-                                                        message:@"You are now broadcasting nearby, but I doubt anyone will join." 
+                                                        message:[NSString stringWithFormat:@"Your friends can join for one hour with the password \"%@\".", password] 
                                                        delegate:nil 
-                                              cancelButtonTitle:@"Nobody loves me."
+                                              cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show]; 
-    }
-    else {
+    } onFail:^(NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
-                                                        message:@"You are no longer broadcasting nearby." 
+                                                        message:[NSString stringWithFormat:@"Unable to share conversation nearby, %@", error] 
                                                        delegate:nil 
-                                              cancelButtonTitle:@"It's for the best."
+                                              cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show]; 
-    }
+    }];
+    
 }
 
 #pragma mark - Friend picker delegate
