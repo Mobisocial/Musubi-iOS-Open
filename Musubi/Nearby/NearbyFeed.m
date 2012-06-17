@@ -31,6 +31,7 @@
 #import "Authorities.h"
 #import "FeedManager.h"
 #import "PersistentModelStore.h"
+#import "FeedListItem.h"
 
 @implementation NearbyFeed
 @synthesize groupCapability, groupName, thumbnail, sharerHash, sharerName, sharerType, memberCount;
@@ -79,6 +80,10 @@
         sharerName = sharer.principal;
     if(!sharerName)
         sharerName = @"Unknown";
+    
+    thumbnail = sharer.musubiThumbnail;
+    if(!thumbnail)
+        thumbnail = sharer.thumbnail;
     
     return self;
 }
