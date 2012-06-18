@@ -66,7 +66,7 @@ static NSString* kNameField = @"name";
 }
 
 - (id)initWithData:(NSDictionary *)data {
-    self = [super initWithType:kObjTypeJoinRequest];
+    self = [super initWithType:kObjTypeJoinRequest data:data andRaw:nil];
     return self;
 }
 -(BOOL)processObjWithRecord:(MObj *)obj
