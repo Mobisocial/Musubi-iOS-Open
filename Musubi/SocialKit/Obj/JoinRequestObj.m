@@ -77,16 +77,19 @@ static NSString* kNameField = @"name";
     NSError* error;
     
     MFeed* feed = (MFeed*)[store.context existingObjectWithID:obj.feed.objectID error:&error];
-    [fm attachMember:(MIdentity*)[store.context existingObjectWithID:obj.identity.objectID error:&error] toFeed:feed];
+    BOOL added = [fm attachMember:(MIdentity*)[store.context existingObjectWithID:obj.identity.objectID error:&error] toFeed:feed];
     
     [store save];
     
-    AppManager* am = [[AppManager alloc] initWithStore:store];
-    MApp* app = [am ensureSuperApp];
-    //TODO: don't just relay data, extract it from db
-    IntroductionObj* intro = [[IntroductionObj alloc] initWithData:[NSJSONSerialization JSONObjectWithData:[obj.json dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error]];
-    
-    [ObjHelper sendObj:intro toFeed:feed fromApp:app usingStore:store];
+    //only intro them if they are not already a part of the group
+    if(added) {
+        AppManager* am = [[AppManager alloc] initWithStore:store];
+        MApp* app = [am ensureSuperApp];
+        //TODO: don't just relay data, extract it from db
+        IntroductionObj* intro = [[IntroductionObj alloc] initWithData:[NSJSONSerialization JSONObjectWithData:[obj.json dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error]];
+        
+        [ObjHelper sendObj:intro toFeed:feed fromApp:app usingStore:store];
+    }
     return NO;
 }
 @end
