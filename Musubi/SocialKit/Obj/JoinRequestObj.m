@@ -24,7 +24,15 @@
 //
 
 #import "JoinRequestObj.h"
+#import "IntroductionObj.h"
+#import "MFeed.h"
 #import "MIdentity.h"
+#import "MObj.h"
+#import "FeedManager.h"
+#import "AppManager.h"
+#import "Musubi.h"
+#import "PersistentModelStore.h"
+#import "ObjHelper.h"
 
 static NSString* kIdentitiesField = @"identities";
 static NSString* kAuthorityField = @"authority";
@@ -61,5 +69,23 @@ static NSString* kNameField = @"name";
     self = [super initWithType:kObjTypeJoinRequest];
     return self;
 }
-
+-(BOOL)processObjWithRecord:(MObj *)obj
+{
+    //TODO: incorporate the information into the database (like introduction obj)
+    PersistentModelStore* store = [[Musubi sharedInstance] newStore];
+    FeedManager* fm = [[FeedManager alloc] initWithStore:store];
+    NSError* error;
+    
+    MFeed* feed = (MFeed*)[store.context existingObjectWithID:obj.feed.objectID error:&error];
+    [fm attachMember:(MIdentity*)[store.context existingObjectWithID:obj.identity.objectID error:&error] toFeed:feed];
+    
+    [store save];
+    //TODO: don't just relay data, extract it from db
+    IntroductionObj* intro = [[IntroductionObj alloc] initWithData:[NSJSONSerialization JSONObjectWithData:[obj.json dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error]];
+    
+    AppManager* am = [[AppManager alloc] initWithStore:store];
+    MApp* app = [am ensureSuperApp];
+    [ObjHelper sendObj:intro toFeed:feed fromApp:app usingStore:store];
+    return NO;
+}
 @end

@@ -62,4 +62,6 @@ static NSString* kNameField = @"name";
     return self;
 }
 
+//TODO: incorporate the information into the database
+
 @end

@@ -56,6 +56,7 @@
 		C0E75B98158E6A41000C3FE3 /* GpsBroadcaster.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75B97158E6A41000C3FE3 /* GpsBroadcaster.m */; };
 		C0E75B9B158E6AB6000C3FE3 /* NearbyFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75B9A158E6AB6000C3FE3 /* NearbyFeed.m */; };
 		C0E75B9E158E70B7000C3FE3 /* GpsLookup.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75B9D158E70B7000C3FE3 /* GpsLookup.m */; };
+		C0E75BA1158EA671000C3FE3 /* JoinRequestObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75BA0158EA670000C3FE3 /* JoinRequestObj.m */; };
 		D20152451589191B00D2D73B /* HTMLAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D20152421589191B00D2D73B /* HTMLAppViewController.m */; };
 		D20152461589191B00D2D73B /* URLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = D20152441589191B00D2D73B /* URLCommand.m */; };
 		D2081556151171D800F12039 /* AMQPConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081555151171D800F12039 /* AMQPConnectionManager.m */; };
@@ -452,6 +453,8 @@
 		C0E75B9A158E6AB6000C3FE3 /* NearbyFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NearbyFeed.m; path = Nearby/NearbyFeed.m; sourceTree = "<group>"; };
 		C0E75B9C158E70B7000C3FE3 /* GpsLookup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GpsLookup.h; path = Nearby/GpsLookup.h; sourceTree = "<group>"; };
 		C0E75B9D158E70B7000C3FE3 /* GpsLookup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GpsLookup.m; path = Nearby/GpsLookup.m; sourceTree = "<group>"; };
+		C0E75B9F158EA670000C3FE3 /* JoinRequestObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoinRequestObj.h; path = SocialKit/Obj/JoinRequestObj.h; sourceTree = "<group>"; };
+		C0E75BA0158EA670000C3FE3 /* JoinRequestObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JoinRequestObj.m; path = SocialKit/Obj/JoinRequestObj.m; sourceTree = "<group>"; };
 		D20152411589191B00D2D73B /* HTMLAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLAppViewController.h; sourceTree = "<group>"; };
 		D20152421589191B00D2D73B /* HTMLAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAppViewController.m; sourceTree = "<group>"; };
 		D20152431589191B00D2D73B /* URLCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLCommand.h; sourceTree = "<group>"; };
@@ -1589,6 +1592,8 @@
 				2FB1693E157D264600832396 /* VoiceObj.m */,
 				D4F0C09315791EBE00541F5C /* VideoObj.h */,
 				D4F0C09415791EBE00541F5C /* VideoObj.m */,
+				C0E75B9F158EA670000C3FE3 /* JoinRequestObj.h */,
+				C0E75BA0158EA670000C3FE3 /* JoinRequestObj.m */,
 			);
 			name = Obj;
 			sourceTree = "<group>";
@@ -3445,6 +3450,7 @@
 				C0E75B98158E6A41000C3FE3 /* GpsBroadcaster.m in Sources */,
 				C0E75B9B158E6AB6000C3FE3 /* NearbyFeed.m in Sources */,
 				C0E75B9E158E70B7000C3FE3 /* GpsLookup.m in Sources */,
+				C0E75BA1158EA671000C3FE3 /* JoinRequestObj.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
