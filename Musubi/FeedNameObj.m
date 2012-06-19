@@ -33,11 +33,12 @@ static NSString* kNameField = @"name";
 
 @synthesize name = _name;
 
-- (id)initWithName:(NSString *)name {
+- (id)initWithName:(NSString *)name andThumbnail: (NSData*) thumbnail {
     self = [super init];
     if (self) {
         self.type = kObjTypeFeedName;
         self.name = name;
+        self.raw = thumbnail;
         self.data = [NSDictionary dictionaryWithObjectsAndKeys:name, kNameField, nil];        
     }
     
@@ -53,7 +54,12 @@ static NSString* kNameField = @"name";
  the object in the data store, false to discard it.
  */
 - (BOOL)processObjWithRecord: (MObj*) obj {
-    obj.feed.name = _name;
+    if (_name != nil) {
+        obj.feed.name = _name;
+    }
+    if (self.raw != nil) {
+        obj.feed.thumbnail = self.raw;
+    }
     return YES;
 }
 @end

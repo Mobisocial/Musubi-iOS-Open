@@ -135,8 +135,11 @@ static NSMutableDictionary* sContactImages;
     }*/
     
     NSArray* order = _obj ? [NSArray arrayWithObject:_obj.identity] : nil;
-    self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed] preferredOrder:order];
-    
+    if (feed.thumbnail != nil) {
+        self.image = [UIImage imageWithData:feed.thumbnail];
+    } else {
+        self.image = [self imageForIdentities: [feedMgr identitiesInFeed:feed] preferredOrder:order];
+    }
     _unread = feed.numUnread;
     self.start = after;
     self.end = before;
