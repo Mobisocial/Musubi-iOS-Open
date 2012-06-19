@@ -98,7 +98,9 @@
     if(!sharerName)
         sharerName = @"Unknown";
     
-    thumbnail = sharer.musubiThumbnail;
+    thumbnail = feed.thumbnail;
+    if(!thumbnail)
+        thumbnail = sharer.musubiThumbnail;
     if(!thumbnail)
         thumbnail = sharer.thumbnail;
     
@@ -128,6 +130,7 @@
         feed.capability = groupCapability;
         feed.shortCapability = *(int64_t*)[groupCapability bytes];
         feed.name = groupName;
+        feed.thumbnail = thumbnail;
 
         [fm attachMember:me toFeed:feed];
         BOOL added = NO, changed = NO;
