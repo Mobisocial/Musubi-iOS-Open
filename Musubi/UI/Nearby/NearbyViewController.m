@@ -33,7 +33,9 @@
 
 @end
 
-@implementation NearbyViewController
+@implementation NearbyViewController {
+    NearbyFeed* feed;
+}
 @synthesize password;
 @synthesize table;
 @synthesize nearbyFeeds;
@@ -78,15 +80,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
     return nearbyFeeds.count > 0 ? 1 : 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
     return nearbyFeeds.count;
 }
 
@@ -149,9 +147,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* groupName = @"Group Name";
+    feed = [nearbyFeeds objectAtIndex:indexPath.row];
 
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Join Conversation" message:[NSString stringWithFormat:@"Would you like to join the conversation \"%@\"?", groupName]  delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Join Conversation" message:[NSString stringWithFormat:@"Would you like to join the conversation \"%@\"?", feed.groupName]  delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
 
     [alert show];
 }
@@ -159,8 +157,9 @@
 {
     if(buttonIndex == 0)
         return;
+
+    [feed join];
     
-    //TODO: join the group
     [self.navigationController popViewControllerAnimated:YES];
         
 }

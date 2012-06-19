@@ -36,4 +36,5 @@
 
 - (id)initWithFeedId:(NSManagedObjectID*)feedId andStore:(PersistentModelStore*)store;
 - (id)initWithJSON:(NSDictionary*)json;
+- (void)join;
 @end

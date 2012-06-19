@@ -33,6 +33,12 @@
 #import "PersistentModelStore.h"
 #import "FeedListItem.h"
 #import "NSData+Base64.h"
+#import "JoinRequestObj.h"
+#import "ObjHelper.h"
+#import "AppManager.h"
+#import "Musubi.h"
+#import "Authorities.h"
+#import "IBEncryptionScheme.h"
 
 @implementation NearbyFeed
 @synthesize groupCapability, groupName, thumbnail, sharerHash, sharerName, sharerType, memberCount;
@@ -97,6 +103,42 @@
         thumbnail = sharer.thumbnail;
     
     return self;
+}
+
+- (void)join 
+{
+    PersistentModelStore* store = [[Musubi sharedInstance] newStore];
+    IdentityManager* im = [[IdentityManager alloc] initWithStore:store];
+    AppManager* am = [[AppManager alloc] initWithStore:store];
+    FeedManager* fm = [[FeedManager alloc] initWithStore:store];
+    
+    MIdentity* me = nil;
+    for(MIdentity* maybe in [im ownedIdentities]) {
+        if(maybe.type != kIdentityTypeLocal) {
+            me = maybe;
+            break;
+        }
+    }
+    NSAssert(me, @"Must have an identity bound");
+    JoinRequestObj* jr = [[JoinRequestObj alloc] initWithIdentities:[NSArray arrayWithObject:me]];
+    MFeed* feed = [fm feedWithType:kFeedTypeExpanding andCapability:groupCapability];
+    if(!feed) {
+        feed = [fm create];
+        feed.type = kFeedTypeExpanding;
+        feed.capability = groupCapability;
+        feed.shortCapability = *(int64_t*)[groupCapability bytes];
+        feed.name = groupName;
+    }
+    [fm attachMember:me toFeed:feed];
+    BOOL added = NO, changed = NO;
+    IBEncryptionIdentity* hid = [[IBEncryptionIdentity alloc] initWithAuthority:sharerType hashedKey:sharerHash temporalFrame:0];
+    MIdentity* sharer = [im ensureIdentity:hid withName:sharerName identityAdded:&added profileDataChanged:&changed];
+    [fm attachMember:sharer toFeed:feed];
+    
+    [store save];    
+    MApp* app = [am ensureSuperApp];
+    [ObjHelper sendObj:jr toFeed:feed fromApp:app usingStore:store];
+    
 }
 
 @end
