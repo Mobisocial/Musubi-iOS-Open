@@ -344,12 +344,6 @@
             break;
         }
         case kBroadcastPassword: {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
-                                                            message:@"Why even bother setting a password?" 
-                                                           delegate:nil 
-                                                  cancelButtonTitle:@"No one wants to join anyways."
-                                                  otherButtonTitles:nil];
-            [alert show]; 
             break;
         }
     }
