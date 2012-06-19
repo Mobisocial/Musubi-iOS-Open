@@ -67,7 +67,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
-                                <action selector="passwordChanged:" destination="7m1-lg-Ljz" eventType="valueChanged" id="1Hx-Br-8Vc"/>
+                                <action selector="passwordChanged:" destination="7m1-lg-Ljz" eventType="editingChanged" id="cSm-4x-JEK"/>
                             </connections>
                         </textField>
                         <prototypes>
@@ -120,6 +120,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="password" destination="Gdj-BI-Dac" id="u9I-Ib-o9n"/>
+                        <outlet property="table" destination="Hqz-3f-atc" id="LcQ-Za-88Q"/>
+                        <outlet property="tableView" destination="Hqz-3f-atc" id="gc0-7G-ZNp"/>
                     </connections>
                 </tableViewController>
             </objects>
@@ -466,6 +468,7 @@
                 <relationship kind="action" name="passwordChanged:"/>
                 <relationship kind="action" name="refresh:"/>
                 <relationship kind="outlet" name="password" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="table" candidateClass="UITableView"/>
             </relationships>
         </class>
         <class className="ProfileNamePictureCell" superclassName="UITableViewCell">

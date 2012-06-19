@@ -25,6 +25,9 @@
 
 #import "NearbyViewController.h"
 #import "NearbyFeedCell.h"
+#import "NearbyFeed.h"
+#import "GpsScanner.h"
+#import "DejalActivityView.h"
 
 @interface NearbyViewController ()
 
@@ -32,6 +35,8 @@
 
 @implementation NearbyViewController
 @synthesize password;
+@synthesize table;
+@synthesize nearbyFeeds;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -51,11 +56,14 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self passwordChanged:nil];
 }
 
 - (void)viewDidUnload
 {
     [self setPassword:nil];
+    [self setTableView:nil];
+    [self setTable:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -72,14 +80,14 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 1;
+    return nearbyFeeds.count > 0 ? 1 : 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 3;
+    return nearbyFeeds.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -87,8 +95,14 @@
     static NSString *CellIdentifier = @"NearbyFeedCell";
     NearbyFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
+    NearbyFeed* item = [nearbyFeeds objectAtIndex:indexPath.row];
+    if(cell.thumbnail)
+        cell.thumbnail.image = [UIImage imageWithData:item.thumbnail];
+    else 
+        cell.thumbnail.image = [UIImage imageNamed:@"missing.png"];
     
+    cell.sharerName.text = item.sharerName;
+    cell.groupName.text = item.groupName;
     return cell;
 }
 
@@ -152,8 +166,42 @@
 }
 
 - (IBAction)refresh:(id)sender {
+    [DejalBezelActivityView activityViewForView:self.tableView withLabel:@"Identifying Location" width:200];
+    GpsScanner* scanner = [[GpsScanner alloc] init];
+    [scanner scanForNearbyWithPassword:password.text onSuccess:^(NSArray *nearby) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        nearbyFeeds = nearby;
+        NSLog(@"nearby: %@", nearbyFeeds);
+        [table reloadData];
+    } onFail:^(NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
+                                                        message:[NSString stringWithFormat:@"Unable to find conversations nearby, %@", error] 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [table reloadData];
+        [alert show]; 
+        
+    }];
 }
 
 - (IBAction)passwordChanged:(id)sender {
+    GpsScanner* scanner = [[GpsScanner alloc] init];
+    [scanner scanForNearbyWithPassword:password.text onSuccess:^(NSArray *nearby) {
+        nearbyFeeds = nearby;
+        NSLog(@"nearby: %@", nearbyFeeds);
+        [table reloadData];
+    } onFail:^(NSError *error) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
+                                                        message:[NSString stringWithFormat:@"Unable to find conversations nearby, %@", error] 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        nearbyFeeds = nil;
+        [table reloadData];
+        [alert show]; 
+        
+    }];
 }
 @end

@@ -29,5 +29,7 @@
 - (IBAction)refresh:(id)sender;
 - (IBAction)passwordChanged:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *password;
+@property (weak, nonatomic) IBOutlet UITableView *table;
+@property (strong, nonatomic) NSArray* nearbyFeeds;
 
 @end
