@@ -237,34 +237,34 @@ static NSMutableDictionary* sContactImages;
         
         // The number of rows for the second column, and the x-pos offset for it
         int rows = images.count - 1;
-        CGFloat colOffset = size.width - (size.width / MIN(3, rows+1)) + 1; // add 1 for the line
+        CGFloat leftColWidth = (size.width / MIN(3, rows+1)) + 1; // add 1 for the line
         
-        // The left column image is the largest, and placed at (0,0)
-        UIImage* leftImg = [(UIImage*)[images objectAtIndex:0] centerFitAndResizeTo:CGSizeMake(colOffset, size.height)];
-        [leftImg drawAtPoint: CGPointMake(0, 0)];
+        // The right column image is the largest, and placed at (0,0)
+        UIImage* rightImg = [(UIImage*)[images objectAtIndex:0] centerFitAndResizeTo:CGSizeMake(size.width - leftColWidth, size.height)];
+        [rightImg drawAtPoint: CGPointMake(leftColWidth, 0)];
         
-        // Draw a line to the right of it
-        pointBuffer[0] = CGPointMake(colOffset-1, 0);
-        pointBuffer[1] = CGPointMake(colOffset-1, size.height);
-        CGContextStrokeLineSegments(context, pointBuffer, 2);
+        // Calc the size of the small images in the left column
+        CGSize leftColImgBounds = CGSizeMake(leftColWidth, size.height / rows);
         
-        // Calc the size of the small images in the right column
-        CGSize colImgBounds = CGSizeMake(size.width - colOffset, size.height / rows);
-        
-        // Draw the right column
+        // Draw the left column
         for (int row=0; row<rows; row++) {
             // Resize/crop the image and draw it
             UIImage* curImg = ((UIImage*)[images objectAtIndex:row + 1]);            
-            UIImage* cropped = [curImg centerFitAndResizeTo:colImgBounds];          
-            [cropped drawAtPoint: CGPointMake(colOffset, colImgBounds.height * row)];
+            UIImage* cropped = [curImg centerFitAndResizeTo:leftColImgBounds];          
+            [cropped drawAtPoint: CGPointMake(0, leftColImgBounds.height * row)];
             
             // Draw a line under it if we have more coming
             if (row<rows-1) {                
-                pointBuffer[0] = CGPointMake(colOffset-1, colImgBounds.height * (row + 1) - 1);
-                pointBuffer[1] = CGPointMake(size.width, colImgBounds.height * (row + 1) - 1);
+                pointBuffer[0] = CGPointMake(0, leftColImgBounds.height * (row + 1) - 1);
+                pointBuffer[1] = CGPointMake(leftColWidth, leftColImgBounds.height * (row + 1) - 1);
                 CGContextStrokeLineSegments(context, pointBuffer, 2);
             }
         }
+        
+        // Draw a line to the right of it
+        pointBuffer[0] = CGPointMake(leftColWidth+1, 0);
+        pointBuffer[1] = CGPointMake(leftColWidth+1, size.height);
+        CGContextStrokeLineSegments(context, pointBuffer, 2);
         
         // Clear and return
         UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
