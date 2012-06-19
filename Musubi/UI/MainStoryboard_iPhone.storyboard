@@ -3,7 +3,7 @@
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
     <scenes>
         <!--Feed List View Controller - Groups-->
@@ -308,9 +308,41 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="5oc-cZ-BW5"/>
+                    <connections>
+                        <segue destination="ujN-ZJ-EIb" kind="push" identifier="ShowQRCode" id="twi-K1-BBz"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1015" y="-69"/>
+        </scene>
+        <!--Encoder View Controller-->
+        <scene sceneID="xJx-V1-Znc">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GaF-Mc-bX4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="ujN-ZJ-EIb" customClass="QREncoderViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7Hg-Tx-2OH">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="SPd-pg-Fcv">
+                                <rect key="frame" x="35" y="83" width="250" height="250"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="Qjc-22-zPV">
+                                <rect key="frame" x="130" y="178" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="JiN-lu-LsS"/>
+                    <connections>
+                        <outlet property="imageView" destination="SPd-pg-Fcv" id="Drh-VS-wOM"/>
+                        <outlet property="thumbnailImageView" destination="Qjc-22-zPV" id="qSU-dp-Rkh"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1083" y="579"/>
         </scene>
         <!--Navigation Controller - Settings-->
         <scene sceneID="ZxP-gz-J33">
@@ -337,86 +369,6 @@
         <image name="gear.png" width="20" height="20"/>
         <image name="missing.png" width="289" height="287"/>
     </resources>
-    <classes>
-        <class className="FeedListViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="newConversation:"/>
-            </relationships>
-        </class>
-        <class className="FeedSettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedSettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="flip:"/>
-            </relationships>
-        </class>
-        <class className="FeedViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="sendMessage:"/>
-                <relationship kind="outlet" name="actionButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="mainView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="postView" candidateClass="TTView"/>
-                <relationship kind="outlet" name="sendButton" candidateClass="TTButton"/>
-                <relationship kind="outlet" name="statusField" candidateClass="StatusTextView"/>
-            </relationships>
-        </class>
-        <class className="FriendPickerViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FriendPickerViewController.h"/>
-        </class>
-        <class className="NamePictureCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NamePictureCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="nameTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="pictureButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="ProfileNamePictureCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileNamePictureCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="principal" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ProfileViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileViewController.h"/>
-        </class>
-        <class className="SettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="pictureClicked:"/>
-            </relationships>
-        </class>
-        <class className="StatusTextView" superclassName="UITextView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StatusTextView.h"/>
-        </class>
-        <class className="TTBaseViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTBaseViewController.h"/>
-        </class>
-        <class className="TTButton" superclassName="UIControl">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTButton.h"/>
-        </class>
-        <class className="TTModelViewController" superclassName="TTViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTModelViewController.h"/>
-        </class>
-        <class className="TTNavigatorViewController" superclassName="TTBaseViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTNavigatorViewController.h"/>
-        </class>
-        <class className="TTTableViewController" superclassName="TTModelViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="TTView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTView.h"/>
-        </class>
-        <class className="TTViewController" superclassName="TTNavigatorViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

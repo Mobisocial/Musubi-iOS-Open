@@ -18,6 +18,10 @@
 #import "MIdentity.h"
 #import "IdentityManager.h"
 #import "ProfileObj.h"
+#import "QREncoderViewController.h"
+#import "NSStringAdditions.h"
+#import "IdentityUtils.h"
+
 
 @implementation SettingsViewController
 
@@ -114,7 +118,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -126,6 +130,8 @@
             return accountTypes.count;
         case 2:
             return 2;
+        case 3:
+            return 1;
     }
     
     return 0;
@@ -140,6 +146,8 @@
             return @"Networks";
         case 2:
             return @"Dropbox Backup";
+        case 3:
+            return @"QR Code";
     }
     
     return nil;
@@ -219,7 +227,19 @@
                 }
             }
             
-           
+            return cell;
+        }
+        case 3: {
+            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
+            }
+            
+            [[cell textLabel] setText: @"My QR Code"];
+            [[cell detailTextLabel] setText: @""];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            
             return cell;
         }
     }
@@ -295,6 +315,32 @@
             }
                         
             break;
+        }
+        case 3: {
+            [self performSegueWithIdentifier:@"ShowQRCode" sender:self];
+        }
+     }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([[segue identifier] isEqualToString:@"ShowQRCode"]) {
+        IdentityManager* idMgr = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        NSArray *ids = [idMgr ownedIdentities];
+        if(ids.count > 0) {
+            NSString *url = [NSString stringWithString:@"https://musubi.us/intro?"];
+            for(MIdentity* identity in ids) {
+                NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                        [IdentityUtils internalSafeNameForIdentity:identity], @"n",
+                                        [NSString stringWithFormat:@"%d", identity.type], @"t",
+                                        identity.principal, @"p", nil];
+                url  = [url stringByAddingQueryDictionary:params];
+            }
+                        
+            [segue.destinationViewController performSelector:@selector(setDataToEncode:) withObject:url];
+        } else {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"No accounts" message:@"Please connect to another service on the settings page first to use Musubi" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
         }
     }
 }

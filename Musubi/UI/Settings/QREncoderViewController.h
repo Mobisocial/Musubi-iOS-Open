@@ -24,7 +24,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QREncoder.h"
+#import "DataMatrix.h"
 
 @interface QREncoderViewController : UIViewController
+
+@property (nonatomic, weak) NSString* dataToEncode;
 
 @end

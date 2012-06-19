@@ -1,6 +1,6 @@
 
 //
-//  UIUtil.h
+//  IdentityUtil.h
 //  musubi
 //
 //  Created by Steve on 12-06-18.
@@ -9,6 +9,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UIUtil : NSObject
+@class MIdentity;
 
+@interface IdentityUtils : NSObject
++ (NSString*) internalSafeNameForIdentity:(MIdentity*) identity;
++ (NSString*) safePrincipalForIdentity:(MIdentity*) identity;
 @end
