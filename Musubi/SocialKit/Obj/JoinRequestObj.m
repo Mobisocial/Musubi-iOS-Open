@@ -71,6 +71,9 @@ static NSString* kNameField = @"name";
 }
 -(BOOL)processObjWithRecord:(MObj *)obj
 {
+    //never process our own joins.
+    if(obj.identity.owned)
+        return NO;
     //TODO: incorporate the information into the database (like introduction obj)
     PersistentModelStore* store = [[Musubi sharedInstance] newStore];
     FeedManager* fm = [[FeedManager alloc] initWithStore:store];
