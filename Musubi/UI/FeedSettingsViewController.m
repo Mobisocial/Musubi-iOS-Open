@@ -42,6 +42,7 @@
 
 @implementation FeedSettingsViewController {
     UITextField* broadcastTextField;
+    NSMutableArray* pending;
 }
 
 @synthesize feed = _feed;
@@ -75,7 +76,7 @@
 {
     [super viewDidLoad];
     
-    
+    pending = [NSMutableArray array];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -354,9 +355,13 @@
     [DejalBezelActivityView activityViewForView:self.view withLabel:@"Identifying Location" width:200];
     NearbyFeed* nearby_feed = [[NearbyFeed alloc] initWithFeedId:self.feed.objectID andStore:[Musubi sharedInstance].mainStore];
     
-    [[[GpsBroadcaster alloc] init] broadcastNearby:nearby_feed withPassword:password onSuccess:^{
+    GpsBroadcaster* broadcaster = [[GpsBroadcaster alloc] init];
+    [pending addObject:broadcaster];
+    [broadcaster broadcastNearby:nearby_feed withPassword:password onSuccess:^{
+        [pending removeObject:broadcaster];
         [DejalBezelActivityView removeViewAnimated:YES];
     } onFail:^(NSError *error) {
+        [pending removeObject:broadcaster];
         [DejalBezelActivityView removeViewAnimated:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
                                                         message:[NSString stringWithFormat:@"Unable to share conversation nearby, %@", error] 
