@@ -24,12 +24,14 @@
 //
 
 #import "NearbyViewController.h"
+#import "NearbyFeedCell.h"
 
 @interface NearbyViewController ()
 
 @end
 
 @implementation NearbyViewController
+@synthesize password;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -53,6 +55,7 @@
 
 - (void)viewDidUnload
 {
+    [self setPassword:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -69,20 +72,20 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *CellIdentifier = @"NearbyFeedCell";
+    NearbyFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
     
@@ -132,13 +135,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    NSString* groupName = @"Group Name";
+
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Join Conversation" message:[NSString stringWithFormat:@"Would you like to join the conversation \"%@\"?", groupName]  delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+
+    [alert show];
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 0)
+        return;
+    
+    //TODO: join the group
+    [self.navigationController popViewControllerAnimated:YES];
+        
 }
 
+- (IBAction)refresh:(id)sender {
+}
+
+- (IBAction)passwordChanged:(id)sender {
+}
 @end

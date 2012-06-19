@@ -29,6 +29,7 @@
 		C04E907E158875A3003C6A0A /* GridHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C04E907D158875A3003C6A0A /* GridHandler.m */; };
 		C04E9140158E5586003C6A0A /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = C04E913F158E5586003C6A0A /* error.png */; };
 		C04ED9F7158FFB96001E80C9 /* NearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C04ED9F6158FFB96001E80C9 /* NearbyViewController.m */; };
+		C04ED9FA158FFF9D001E80C9 /* NearbyFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C04ED9F9158FFF9C001E80C9 /* NearbyFeedCell.m */; };
 		C075913415605A790006948E /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = C075913315605A790006948E /* NSData+HexString.m */; };
 		C086777B156DA0F700F4F2BA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = C086777A156DA0F600F4F2BA /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C0867925157038FD00F4F2BA /* ProfileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0867924157038FC00F4F2BA /* ProfileObj.m */; };
@@ -399,6 +400,8 @@
 		C04E913F158E5586003C6A0A /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
 		C04ED9F5158FFB96001E80C9 /* NearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NearbyViewController.h; path = Nearby/NearbyViewController.h; sourceTree = "<group>"; };
 		C04ED9F6158FFB96001E80C9 /* NearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NearbyViewController.m; path = Nearby/NearbyViewController.m; sourceTree = "<group>"; };
+		C04ED9F8158FFF9C001E80C9 /* NearbyFeedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NearbyFeedCell.h; path = Nearby/NearbyFeedCell.h; sourceTree = "<group>"; };
+		C04ED9F9158FFF9C001E80C9 /* NearbyFeedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NearbyFeedCell.m; path = Nearby/NearbyFeedCell.m; sourceTree = "<group>"; };
 		C0733345157D83A300B2A391 /* Model 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 8.xcdatamodel"; sourceTree = "<group>"; };
 		C075913215605A790006948E /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		C075913315605A790006948E /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
@@ -1213,6 +1216,8 @@
 			children = (
 				C04ED9F5158FFB96001E80C9 /* NearbyViewController.h */,
 				C04ED9F6158FFB96001E80C9 /* NearbyViewController.m */,
+				C04ED9F8158FFF9C001E80C9 /* NearbyFeedCell.h */,
+				C04ED9F9158FFF9C001E80C9 /* NearbyFeedCell.m */,
 			);
 			name = Nearby;
 			sourceTree = "<group>";
@@ -3465,6 +3470,7 @@
 				C0E75B9E158E70B7000C3FE3 /* GpsLookup.m in Sources */,
 				C0E75BA1158EA671000C3FE3 /* JoinRequestObj.m in Sources */,
 				C04ED9F7158FFB96001E80C9 /* NearbyViewController.m in Sources */,
+				C04ED9FA158FFF9D001E80C9 /* NearbyFeedCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

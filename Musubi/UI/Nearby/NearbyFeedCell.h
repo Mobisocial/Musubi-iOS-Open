@@ -16,7 +16,7 @@
 
 
 //
-//  NearbyViewController.h
+//  NearbyFeedCell.h
 //  musubi
 //
 //  Created by MokaFive User on 6/18/12.
@@ -25,9 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NearbyViewController : UITableViewController
-- (IBAction)refresh:(id)sender;
-- (IBAction)passwordChanged:(id)sender;
-@property (weak, nonatomic) IBOutlet UITextField *password;
-
+@interface NearbyFeedCell : UITableViewCell
+@property (nonatomic, weak) IBOutlet UIImageView* thumbnail;
+@property (nonatomic, weak) IBOutlet UITextView* sharerName;
+@property (nonatomic, weak) IBOutlet UITextView* groupName;
 @end

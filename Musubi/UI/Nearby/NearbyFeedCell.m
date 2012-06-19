@@ -16,18 +16,31 @@
 
 
 //
-//  NearbyViewController.h
+//  NearbyFeedCell.m
 //  musubi
 //
 //  Created by MokaFive User on 6/18/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "NearbyFeedCell.h"
 
-@interface NearbyViewController : UITableViewController
-- (IBAction)refresh:(id)sender;
-- (IBAction)passwordChanged:(id)sender;
-@property (weak, nonatomic) IBOutlet UITextField *password;
+@implementation NearbyFeedCell
+@synthesize groupName, sharerName, thumbnail;
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (!self) 
+        return nil;
+    return self;
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
 
 @end
