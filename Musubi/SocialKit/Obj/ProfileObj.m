@@ -76,7 +76,7 @@
     }
 
     NSError* error = nil;
-    NSDictionary* profile = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUnicodeStringEncoding] options:0 error:&error];
+    NSDictionary* profile = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
     if(!profile) {
         NSLog(@"failed to parse json in profile obj from %@ : %@", sender, error);
         return;
@@ -124,7 +124,7 @@
             NSObject* principalString = [profile valueForKey:kProfileObjPrincipal];
             if(principalString && [principalString isKindOfClass:[NSString class]]) {
                 NSString* principal = (NSString*)principalString;
-                if([sender.principalHash isEqualToData:[[principal dataUsingEncoding:NSUnicodeStringEncoding] sha256Digest]]) {
+                if([sender.principalHash isEqualToData:[[principal dataUsingEncoding:NSUTF8StringEncoding] sha256Digest]]) {
                     sender.principal = principal;
                     changed = YES;
                 }

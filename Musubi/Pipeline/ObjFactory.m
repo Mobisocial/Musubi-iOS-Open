@@ -39,6 +39,7 @@
 #import "StoryObj.h"
 #import "UnknownObj.h"
 #import "FeedNameObj.h"
+#import "JoinRequestObj.h"
 
 @implementation ObjFactory
 
@@ -57,6 +58,8 @@
         return [[StatusObj alloc] initWithData:data];
     } else if ([objType isEqualToString:kObjTypeIntroduction]) {
         return [[IntroductionObj alloc] initWithData:data];
+    } else if ([objType isEqualToString:kObjTypeJoinRequest]) {
+        return [[JoinRequestObj alloc] initWithData:data];
     } else if ([objType isEqualToString:kObjTypePicture]) {
         return [[PictureObj alloc] initWithRaw:mObj.raw];
     } else if ([objType isEqualToString:kObjTypeLike]) {
@@ -72,7 +75,7 @@
     } else if ([objType isEqualToString:kObjTypeVideo]) {
         return [[VideoObj alloc] initWithType:objType data:data andRaw:mObj.raw];
     } else if ([objType isEqualToString:kObjTypeFeedName]) {
-        return [[FeedNameObj alloc] initWithData:data];
+        return [[FeedNameObj alloc] initWithType:objType data:data andRaw:mObj.raw];
     }
     
     return [[UnknownObj alloc] initWithType:objType data:data andRaw:mObj.raw];

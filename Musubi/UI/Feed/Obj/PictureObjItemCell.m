@@ -34,6 +34,8 @@
 
 + (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
     UIImage* image = item.computedData;
+    if(!image)
+        image = [UIImage imageNamed:@"error.png"];
     return (250 / image.size.width) * image.size.height;
 }
 
@@ -51,14 +53,20 @@
 - (void)setObject:(ManagedObjFeedItem*)object {
     if (_item != object) {
         [super setObject:object];
-        UIImage* image = object.computedData;
-        [self.pictureView setImage: image];
+        if (object.computedData != nil) {
+            self.pictureView.image = object.computedData;
+        } else {
+            NSLog(@"Bad image data");
+            self.pictureView.image = [UIImage imageNamed:@"error.png"];
+        }
     }
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.pictureView.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, self.detailTextLabel.frame.size.height);
+    if (self.pictureView.image != nil) {
+        self.pictureView.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, self.detailTextLabel.frame.size.height);
+    }
 }
 
 @end

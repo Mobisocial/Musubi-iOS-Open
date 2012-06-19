@@ -58,8 +58,10 @@ static NSString* kNameField = @"name";
 }
 
 - (id)initWithData:(NSDictionary *)data {
-    self = [super initWithType:kObjTypeIntroduction];
+    self = [super initWithType:kObjTypeIntroduction data:data andRaw:nil];
     return self;
 }
+
+//TODO: incorporate the information into the database
 
 @end

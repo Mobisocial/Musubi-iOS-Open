@@ -38,5 +38,6 @@
 @dynamic shortCapability;
 @dynamic type;
 @dynamic latestRenderableObj;
+@dynamic thumbnail;
 
 @end

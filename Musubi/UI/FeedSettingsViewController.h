@@ -35,7 +35,7 @@
 @end
 
 @interface FeedSettingsViewController : UITableViewController<UITextFieldDelegate> {
-    UISwitch* broadcastSwitch;
+    UIButton* broadcastSwitch;
 }
 
 @property (nonatomic, retain) MFeed* feed;

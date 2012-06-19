@@ -54,6 +54,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numUnread" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="shortCapability" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="latestRenderableObj" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Obj" syncable="YES"/>
         <compoundIndexes>
@@ -181,7 +182,7 @@
         <element name="Device" positionX="160" positionY="192" width="128" height="105"/>
         <element name="EncodedMessage" positionX="160" positionY="192" width="128" height="180"/>
         <element name="EncryptionUserKey" positionX="160" positionY="192" width="128" height="105"/>
-        <element name="Feed" positionX="160" positionY="192" width="128" height="180"/>
+        <element name="Feed" positionX="160" positionY="192" width="128" height="195"/>
         <element name="FeedApp" positionX="160" positionY="192" width="128" height="75"/>
         <element name="FeedMember" positionX="160" positionY="192" width="128" height="75"/>
         <element name="Identity" positionX="160" positionY="192" width="128" height="330"/>

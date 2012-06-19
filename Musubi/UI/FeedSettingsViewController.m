@@ -32,12 +32,18 @@
 #import "FeedNameObj.h"
 #import "AppManager.h"
 #import "ObjHelper.h"
+#import "GpsBroadcaster.h"
+#import "NearbyFeed.h"
+#import "DejalActivityView.h"
 
 @interface FeedSettingsViewController ()
 
 @end
 
-@implementation FeedSettingsViewController
+@implementation FeedSettingsViewController {
+    UITextField* broadcastTextField;
+    NSMutableArray* pending;
+}
 
 @synthesize feed = _feed;
 @synthesize feedManager = _feedManager;
@@ -70,9 +76,7 @@
 {
     [super viewDidLoad];
     
-    
-    broadcastSwitch = [[UISwitch alloc] init];
-    [broadcastSwitch addTarget: self action: @selector(flip:) forControlEvents:UIControlEventValueChanged];
+    pending = [NSMutableArray array];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -124,6 +128,7 @@
         case 2:
             return 2;
     }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -184,7 +189,8 @@
         case 2: {
             switch (indexPath.row) {
                 case 0: {
-                    static NSString *cellIdentifier = @"BroadcastCell";                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+                    static NSString *cellIdentifier = @"BroadcastCell";                    
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
                     if (cell == nil) {
                         cell = [[UITableViewCell alloc]
                                 initWithStyle:UITableViewCellStyleValue2 
@@ -193,8 +199,11 @@
                     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     cell.detailTextLabel.text = @"Broadcast";
                     
-                    cell.accessoryView = [[UIView alloc] initWithFrame:broadcastSwitch.frame];
-                    [cell.accessoryView addSubview:broadcastSwitch];
+                    broadcastSwitch = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                    [broadcastSwitch setTitle:@"For 1 Hour" forState:UIControlStateNormal];
+                    [broadcastSwitch setFrame:CGRectMake(0, 0, 100, 35)];
+                    [broadcastSwitch addTarget: self action: @selector(flip:) forControlEvents:UIControlEventTouchUpInside];
+                    cell.accessoryView = broadcastSwitch;
                     
                     return cell;
                 }
@@ -210,22 +219,20 @@
                     }
                     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     cell.detailTextLabel.text = @"Password";
-                    UITextField *textField;
-                    
-                    textField = [[UITextField alloc] initWithFrame:CGRectMake(90,
+                    broadcastTextField = [[UITextField alloc] initWithFrame:CGRectMake(90,
                                                                               tableView.rowHeight / 2 - 10, 200, 20)];
-                    textField.borderStyle = UITextBorderStyleNone;
-                    textField.textColor = [UIColor blackColor];
-                    textField.font = [UIFont systemFontOfSize:14];
-                    textField.placeholder = @"Leave empty for public sharing";
-                    textField.backgroundColor = [UIColor clearColor];
-                    textField.autocorrectionType = UITextAutocorrectionTypeNo;
-                    textField.keyboardType = UIKeyboardTypeDefault;
-                    textField.returnKeyType = UIReturnKeyDone;
-                    textField.tag = kBroadcastPassword;
-                    textField.delegate = self;
+                    broadcastTextField.borderStyle = UITextBorderStyleNone;
+                    broadcastTextField.textColor = [UIColor blackColor];
+                    broadcastTextField.font = [UIFont systemFontOfSize:14];
+                    broadcastTextField.placeholder = @"Leave empty for public sharing";
+                    broadcastTextField.backgroundColor = [UIColor clearColor];
+                    broadcastTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+                    broadcastTextField.keyboardType = UIKeyboardTypeDefault;
+                    broadcastTextField.returnKeyType = UIReturnKeyDone;
+                    broadcastTextField.tag = kBroadcastPassword;
+                    broadcastTextField.delegate = self;
                     
-                    [cell.contentView addSubview:textField];
+                    [cell.contentView addSubview:broadcastTextField];
                     
                     return cell;
                 }
@@ -338,36 +345,32 @@
             break;
         }
         case kBroadcastPassword: {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
-                                                            message:@"Why even bother setting a password?" 
-                                                           delegate:nil 
-                                                  cancelButtonTitle:@"No one wants to join anyways."
-                                                  otherButtonTitles:nil];
-            [alert show]; 
             break;
         }
     }
 }
 
 - (IBAction) flip: (id) sender {
-    UISwitch *onoff = (UISwitch *) sender;
-    NSLog(@"%@", onoff.on ? @"On" : @"Off");
-    if (onoff.on) {
+    NSString* password = broadcastTextField.text;
+    [DejalBezelActivityView activityViewForView:self.view withLabel:@"Identifying Location" width:200];
+    NearbyFeed* nearby_feed = [[NearbyFeed alloc] initWithFeedId:self.feed.objectID andStore:[Musubi sharedInstance].mainStore];
+    
+    GpsBroadcaster* broadcaster = [[GpsBroadcaster alloc] init];
+    [pending addObject:broadcaster];
+    [broadcaster broadcastNearby:nearby_feed withPassword:password onSuccess:^{
+        [pending removeObject:broadcaster];
+        [DejalBezelActivityView removeViewAnimated:YES];
+    } onFail:^(NSError *error) {
+        [pending removeObject:broadcaster];
+        [DejalBezelActivityView removeViewAnimated:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
-                                                        message:@"You are now broadcasting nearby, but I doubt anyone will join." 
+                                                        message:[NSString stringWithFormat:@"Unable to share conversation nearby, %@", error] 
                                                        delegate:nil 
-                                              cancelButtonTitle:@"Nobody loves me."
+                                              cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show]; 
-    }
-    else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
-                                                        message:@"You are no longer broadcasting nearby." 
-                                                       delegate:nil 
-                                              cancelButtonTitle:@"It's for the best."
-                                              otherButtonTitles:nil];
-        [alert show]; 
-    }
+    }];
+    
 }
 
 #pragma mark - Friend picker delegate

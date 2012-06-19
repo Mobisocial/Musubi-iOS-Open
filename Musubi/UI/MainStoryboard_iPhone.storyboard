@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vh5-YM-htJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vh5-YM-htJ">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
@@ -25,6 +25,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="s4b-rn-gXZ" kind="push" identifier="ShowFeed" id="nHK-F1-yOs"/>
+                        <segue destination="7m1-lg-Ljz" kind="push" id="3bB-Kg-VcR"/>
                     </connections>
                 </tableViewController>
             </objects>
@@ -50,6 +51,81 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1560" y="-1017"/>
+        </scene>
+        <!--Nearby View Controller - Nearby-->
+        <scene sceneID="btq-Cf-luL">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lCi-OG-Wlp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController storyboardIdentifier="NearbyFeeds" id="7m1-lg-Ljz" customClass="NearbyViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="Hqz-3f-atc">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <textField key="tableHeaderView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Group Password..." minimumFontSize="17" id="Gdj-BI-Dac">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <action selector="passwordChanged:" destination="7m1-lg-Ljz" eventType="editingChanged" id="cSm-4x-JEK"/>
+                            </connections>
+                        </textField>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NearbyFeedCell" rowHeight="60" id="7yq-Db-2nP" customClass="NearbyFeedCell">
+                                <rect key="frame" x="0.0" y="53" width="320" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="missing.png" id="1qa-n6-LFG">
+                                            <rect key="frame" x="11" y="4" width="51" height="51"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Sharer" id="EYF-f3-Fsh">
+                                            <rect key="frame" x="64" y="4" width="160" height="29"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Group Name" id="DiP-WR-8RU">
+                                            <rect key="frame" x="64" y="28" width="160" height="27"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <connections>
+                                    <outlet property="groupName" destination="DiP-WR-8RU" id="cv2-fL-bwL"/>
+                                    <outlet property="sharerName" destination="EYF-f3-Fsh" id="gJu-2v-WAl"/>
+                                    <outlet property="thumbnail" destination="1qa-n6-LFG" id="TPa-sT-dS0"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7m1-lg-Ljz" id="UeO-zT-VdK"/>
+                            <outlet property="delegate" destination="7m1-lg-Ljz" id="HLj-OT-CFb"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Nearby" id="Jxj-Sm-mET">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="R01-U3-klF">
+                            <connections>
+                                <action selector="refresh:" destination="7m1-lg-Ljz" id="V4O-rP-kwk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="password" destination="Gdj-BI-Dac" id="u9I-Ib-o9n"/>
+                        <outlet property="table" destination="Hqz-3f-atc" id="LcQ-Za-88Q"/>
+                        <outlet property="tableView" destination="Hqz-3f-atc" id="gc0-7G-ZNp"/>
+                    </connections>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="1906" y="-1015"/>
         </scene>
         <!--Feed View Controller-->
         <scene sceneID="Grt-Qy-rsw">
@@ -197,7 +273,7 @@
         <scene sceneID="yFB-PN-lX8">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kia-Oz-EZ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="app" title="App" id="VuN-I6-gQd" customClass="HTMLAppViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AppView" title="App" id="VuN-I6-gQd" customClass="HTMLAppViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rYu-M0-21N">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -369,13 +445,116 @@
         <image name="gear.png" width="20" height="20"/>
         <image name="missing.png" width="289" height="287"/>
     </resources>
+    <classes>
+        <class className="FeedListViewController" superclassName="TTTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="newConversation:"/>
+            </relationships>
+        </class>
+        <class className="FeedSettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedSettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="flip:"/>
+            </relationships>
+        </class>
+        <class className="FeedViewController" superclassName="TTTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="sendMessage:"/>
+                <relationship kind="outlet" name="actionButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="mainView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="postView" candidateClass="TTView"/>
+                <relationship kind="outlet" name="sendButton" candidateClass="TTButton"/>
+                <relationship kind="outlet" name="statusField" candidateClass="StatusTextView"/>
+            </relationships>
+        </class>
+        <class className="FriendPickerViewController" superclassName="TTTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FriendPickerViewController.h"/>
+        </class>
+        <class className="HTMLAppViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HTMLAppViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="NamePictureCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NamePictureCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="nameTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="pictureButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="NearbyFeedCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NearbyFeedCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="groupName" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="sharerName" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="thumbnail" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="NearbyViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NearbyViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="passwordChanged:"/>
+                <relationship kind="action" name="refresh:"/>
+                <relationship kind="outlet" name="password" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="table" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="ProfileNamePictureCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileNamePictureCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="principal" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ProfileViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileViewController.h"/>
+        </class>
+        <class className="SettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="pictureClicked:"/>
+            </relationships>
+        </class>
+        <class className="StatusTextView" superclassName="UITextView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StatusTextView.h"/>
+        </class>
+        <class className="TTBaseViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTBaseViewController.h"/>
+        </class>
+        <class className="TTButton" superclassName="UIControl">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTButton.h"/>
+        </class>
+        <class className="TTModelViewController" superclassName="TTViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTModelViewController.h"/>
+        </class>
+        <class className="TTNavigatorViewController" superclassName="TTBaseViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTNavigatorViewController.h"/>
+        </class>
+        <class className="TTTableViewController" superclassName="TTModelViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="TTView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTView.h"/>
+        </class>
+        <class className="TTViewController" superclassName="TTNavigatorViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="thq-lQ-aa5"/>
         <segue reference="nHK-F1-yOs"/>
+        <segue reference="thq-lQ-aa5"/>
     </inferredMetricsTieBreakers>
 </document>

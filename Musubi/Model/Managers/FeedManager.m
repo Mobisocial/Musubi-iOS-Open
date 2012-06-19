@@ -255,7 +255,17 @@
     if(unknowns) {
         [otherParticipants addObject:[NSString stringWithFormat:@"+%d more", unknowns]];
     }
-    
+    //in case there is no one else
+    if(!otherParticipants.count) {
+        for (MIdentity* ident in [self identitiesInFeed:feed]) {
+            if (ident.musubiName)
+                [otherParticipants addObject: ident.musubiName];
+            else if (ident.name)
+                [otherParticipants addObject: ident.name];
+            else if (ident.principal)
+                [otherParticipants addObject: ident.principal];
+        }
+    }
     return [otherParticipants componentsJoinedByString:@", "];
 }
 

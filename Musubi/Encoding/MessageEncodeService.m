@@ -100,6 +100,8 @@
 @implementation MessageEncodeOperation
 
 - (BOOL)performOperationOnObject:(NSManagedObject *)object {
+    [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationMessageEncodeStarted object:nil];
+
     MObj* obj = (MObj*) object;
     
     FeedManager * feedManager = [[FeedManager alloc] initWithStore:self.store];

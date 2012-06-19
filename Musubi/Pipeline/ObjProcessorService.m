@@ -98,7 +98,7 @@ static int operationCount = 0;
     ObjProcessorService* service = (ObjProcessorService*) self.service;
 
     NSError* error;
-    NSDictionary*parsedJson = [NSJSONSerialization JSONObjectWithData:[mObj.json dataUsingEncoding:NSUnicodeStringEncoding] options:0 error:&error];
+    NSDictionary*parsedJson = [NSJSONSerialization JSONObjectWithData:[mObj.json dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
     NSString* targetHash = [parsedJson objectForKey:kObjFieldTargetHash];
     if (targetHash != nil) {
         NSString* targetRelation = [parsedJson objectForKey:kObjFieldTargetRelation];

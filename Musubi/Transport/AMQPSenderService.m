@@ -81,7 +81,10 @@
 
     @try {
         assert(msg.outbound);
-        connMngr.connectionState = [NSString stringWithFormat:@"Sending %d messages...", ((AMQPSenderService*) self.service).pending.count];
+        
+        int pending = ((AMQPSenderService*) self.service).pending.count;
+        connMngr.connectionState = [NSString stringWithFormat: @"Sending %@message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+        
         [self send: msg];
     } @catch (NSException* exception) {
         [self log:@"Crashed in send: %@", exception];
@@ -177,6 +180,8 @@
         }
         
         [store save];
+        
+        [self log:@"Message acked"];
         
         [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationEncodedMessageSent object:msgObjId]];
         

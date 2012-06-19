@@ -49,5 +49,6 @@
 @property (nonatomic) int64_t shortCapability;
 @property (nonatomic) int16_t type;
 @property (nonatomic, retain) MObj *latestRenderableObj;
+@property (nonatomic, retain) NSData* thumbnail;
 
 @end
