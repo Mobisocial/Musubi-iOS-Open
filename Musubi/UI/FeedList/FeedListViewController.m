@@ -31,6 +31,7 @@
 #import "PersistentModelStore.h"
 #import "AMQPTransport.h"
 #import "AMQPConnectionManager.h"
+#import "NearbyViewController.h"
 
 #import "FeedViewController.h"
 
@@ -254,6 +255,8 @@
         }
         case 1: // find nearby groups
         {   
+            NearbyViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"NearbyFeeds"];
+            [self.navigationController pushViewController:vc animated:YES];
             break;
         }
     }
