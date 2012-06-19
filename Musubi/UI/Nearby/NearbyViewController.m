@@ -34,6 +34,7 @@
 @end
 
 @implementation NearbyViewController {
+    NSMutableArray* pending;
     NearbyFeed* feed;
 }
 @synthesize password;
@@ -43,21 +44,15 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
+    if (!self)
+        return nil;
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    pending = [NSMutableArray array];
     [self passwordChanged:nil];
 }
 
@@ -167,12 +162,15 @@
 - (IBAction)refresh:(id)sender {
     [DejalBezelActivityView activityViewForView:self.tableView withLabel:@"Identifying Location" width:200];
     GpsScanner* scanner = [[GpsScanner alloc] init];
+    [pending addObject:scanner];
     [scanner scanForNearbyWithPassword:password.text onSuccess:^(NSArray *nearby) {
+        [pending removeObject:scanner];
         [DejalBezelActivityView removeViewAnimated:YES];
         nearbyFeeds = nearby;
         NSLog(@"nearby: %@", nearbyFeeds);
         [table reloadData];
     } onFail:^(NSError *error) {
+        [pending removeObject:scanner];
         [DejalBezelActivityView removeViewAnimated:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
                                                         message:[NSString stringWithFormat:@"Unable to find conversations nearby, %@", error] 
@@ -187,11 +185,14 @@
 
 - (IBAction)passwordChanged:(id)sender {
     GpsScanner* scanner = [[GpsScanner alloc] init];
+    [pending addObject:scanner];
     [scanner scanForNearbyWithPassword:password.text onSuccess:^(NSArray *nearby) {
+        [pending removeObject:scanner];
         nearbyFeeds = nearby;
         NSLog(@"nearby: %@", nearbyFeeds);
         [table reloadData];
     } onFail:^(NSError *error) {
+        [pending removeObject:scanner];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nearby" 
                                                         message:[NSString stringWithFormat:@"Unable to find conversations nearby, %@", error] 
                                                        delegate:nil 
