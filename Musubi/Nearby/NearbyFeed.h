@@ -35,5 +35,5 @@
 @property (nonatomic, assign) int memberCount;
 
 - (id)initWithFeedId:(NSManagedObjectID*)feedId andStore:(PersistentModelStore*)store;
-- (id)init;
+- (id)initWithJSON:(NSDictionary*)json;
 @end

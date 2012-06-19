@@ -32,13 +32,24 @@
 #import "FeedManager.h"
 #import "PersistentModelStore.h"
 #import "FeedListItem.h"
+#import "NSData+Base64.h"
 
 @implementation NearbyFeed
 @synthesize groupCapability, groupName, thumbnail, sharerHash, sharerName, sharerType, memberCount;
 
--(id)init 
+-(id)initWithJSON:(NSDictionary *)descriptor
 {
     self = [super init];
+    if(!self)
+        return nil;
+    
+    groupName = [descriptor objectForKey:@"group_name"];
+    groupCapability = [[descriptor objectForKey:@"group_capability"] decodeBase64];
+    sharerName = [descriptor objectForKey:@"sharer_name"];
+    sharerType = ((NSNumber*)[descriptor objectForKey:@"sharer_type"]).intValue;
+    sharerHash = [[descriptor objectForKey:@"sharer_hash"] decodeBase64];
+    memberCount = ((NSNumber*)[descriptor objectForKey:@"member_count"]).intValue;
+    thumbnail = [[descriptor objectForKey:@"thumbnail"] decodeBase64];
     return self;
 }
 

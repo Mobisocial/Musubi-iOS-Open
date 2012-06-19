@@ -87,7 +87,7 @@
         [enc_descriptor setValue:[NSNumber numberWithLongLong:(((NSDate*)[NSDate date]).timeIntervalSince1970 * 1000 + 1000 * 60 * 60)] forKey:@"expiration"];
 
         NSData* enc_ser_descriptor = [NSJSONSerialization dataWithJSONObject:enc_descriptor options:0 error:&error];
-        if(!enc_descriptor) {
+        if(!enc_ser_descriptor) {
             NSLog(@"FAiled to encode encrypted nearby feed descriptor %@", error);
             fail(error);
             return;
