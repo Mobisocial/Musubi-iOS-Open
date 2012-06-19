@@ -128,16 +128,20 @@
         feed.capability = groupCapability;
         feed.shortCapability = *(int64_t*)[groupCapability bytes];
         feed.name = groupName;
+
+        [fm attachMember:me toFeed:feed];
+        BOOL added = NO, changed = NO;
+        IBEncryptionIdentity* hid = [[IBEncryptionIdentity alloc] initWithAuthority:sharerType hashedKey:sharerHash temporalFrame:0];
+        MIdentity* sharer = [im ensureIdentity:hid withName:sharerName identityAdded:&added profileDataChanged:&changed];
+        [fm attachMember:sharer toFeed:feed];
+        
+        [store save];    
+        MApp* app = [am ensureSuperApp];
+        [ObjHelper sendObj:jr toFeed:feed fromApp:app usingStore:store];
+    } else {
+        feed.latestRenderableObjTime = [[NSDate date] timeIntervalSince1970];
+        [store save];    
     }
-    [fm attachMember:me toFeed:feed];
-    BOOL added = NO, changed = NO;
-    IBEncryptionIdentity* hid = [[IBEncryptionIdentity alloc] initWithAuthority:sharerType hashedKey:sharerHash temporalFrame:0];
-    MIdentity* sharer = [im ensureIdentity:hid withName:sharerName identityAdded:&added profileDataChanged:&changed];
-    [fm attachMember:sharer toFeed:feed];
-    
-    [store save];    
-    MApp* app = [am ensureSuperApp];
-    [ObjHelper sendObj:jr toFeed:feed fromApp:app usingStore:store];
     
 }
 
