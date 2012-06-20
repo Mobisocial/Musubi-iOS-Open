@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vh5-YM-htJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vh5-YM-htJ">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
     </dependencies>
     <scenes>
         <!--Feed List View Controller - Groups-->
@@ -25,11 +25,76 @@
                     </navigationItem>
                     <connections>
                         <segue destination="s4b-rn-gXZ" kind="push" identifier="ShowFeed" id="nHK-F1-yOs"/>
-                        <segue destination="7m1-lg-Ljz" kind="push" id="3bB-Kg-VcR"/>
+                        <segue destination="7m1-lg-Ljz" kind="push" identifier="Nearby" id="3bB-Kg-VcR"/>
+                        <segue destination="Xha-HF-lG4" kind="push" identifier="FriendPicker" id="Ul8-LG-a2e"/>
+                        <segue destination="scf-k1-rT0" kind="push" identifier="Welcome" id="Xf4-cU-I0J"/>
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1015" y="-675"/>
+            <point key="canvasLocation" x="1059" y="-659"/>
+        </scene>
+        <!--Welcome View Controller - Welcome-->
+        <scene sceneID="cnw-GT-ZJG">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gEW-m3-Cu0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController title="Welcome" id="scf-k1-rT0" customClass="WelcomeViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GSV-i6-uhf">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="welcome_background.png" id="2Db-n4-gw7">
+                                <rect key="frame" x="0.0" y="-4" width="320" height="420"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ljX-S6-3Gg">
+                                <rect key="frame" x="69" y="306" width="183" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="facebook_signin.png">
+                                    <color key="titleColor" red="0.60323324550000001" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="authNetwork:" destination="scf-k1-rT0" eventType="touchUpInside" id="3t8-kC-RnG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TOd-ks-T37">
+                                <rect key="frame" x="78" y="355" width="164" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="google_signin.png">
+                                    <color key="titleColor" red="0.60323324550000001" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="authNetwork:" destination="scf-k1-rT0" eventType="touchUpInside" id="tWF-rY-JWW"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Find your friends:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="KMd-eP-9GC">
+                                <rect key="frame" x="20" y="272" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.18752127885818481" green="0.18755075335502625" blue="0.18751057982444763" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Welcome" id="AfF-EH-AqZ"/>
+                    <connections>
+                        <outlet property="facebookButton" destination="ljX-S6-3Gg" id="CUx-UF-YHX"/>
+                        <outlet property="googleButton" destination="TOd-ks-T37" id="sgC-B0-dMG"/>
+                        <outlet property="statusLabel" destination="KMd-eP-9GC" id="hHm-u2-oEX"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1059" y="-1369"/>
         </scene>
         <!--Friend Picker View Controller-->
         <scene sceneID="Vsg-9u-3B5">
@@ -50,7 +115,7 @@
                     </navigationItem>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1560" y="-1017"/>
+            <point key="canvasLocation" x="1728" y="-1369"/>
         </scene>
         <!--Nearby View Controller - Nearby-->
         <scene sceneID="btq-Cf-luL">
@@ -125,7 +190,7 @@
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1906" y="-1015"/>
+            <point key="canvasLocation" x="1728" y="19"/>
         </scene>
         <!--Feed View Controller-->
         <scene sceneID="Grt-Qy-rsw">
@@ -136,7 +201,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="t65-qL-TF4">
+                            <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="t65-qL-TF4">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="373"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -187,7 +252,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1560" y="-376"/>
+            <point key="canvasLocation" x="1728" y="-675"/>
         </scene>
         <!--Feed Settings View Controller - Options-->
         <scene sceneID="nxq-2E-yPz">
@@ -209,7 +274,7 @@
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1560" y="208"/>
+            <point key="canvasLocation" x="2376" y="-1085"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="pB9-c5-dfE">
@@ -262,12 +327,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="OI8-bg-82Y"/>
-                    <connections>
-                        <segue destination="s4b-rn-gXZ" kind="push" identifier="ShowFeed" id="c6N-mI-1DO"/>
-                    </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="2071" y="-376"/>
+            <point key="canvasLocation" x="2376" y="-144"/>
         </scene>
         <!--App View Controller - App-->
         <scene sceneID="yFB-PN-lX8">
@@ -291,7 +353,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2874" y="-422"/>
+            <point key="canvasLocation" x="2926" y="-634"/>
         </scene>
         <!--Navigation Controller - Groups-->
         <scene sceneID="rne-Ov-fys">
@@ -304,7 +366,6 @@
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="uxw-co-NbP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.60323324550000001" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="G2Y-3C-SI1">
@@ -389,7 +450,7 @@
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1015" y="-69"/>
+            <point key="canvasLocation" x="1059" y="155"/>
         </scene>
         <!--Encoder View Controller-->
         <scene sceneID="xJx-V1-Znc">
@@ -418,143 +479,22 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1083" y="579"/>
-        </scene>
-        <!--Navigation Controller - Settings-->
-        <scene sceneID="ZxP-gz-J33">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="W2J-ec-COD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController id="sOa-Fq-Klh" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" id="E7q-UR-vae"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="xc8-S1-SJv">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.60323324550000001" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="ayD-7Y-iPW" kind="relationship" relationship="rootViewController" id="9wc-wM-uie"/>
-                    </connections>
-                </navigationController>
-            </objects>
-            <point key="canvasLocation" x="489" y="-69"/>
+            <point key="canvasLocation" x="1728" y="775"/>
         </scene>
     </scenes>
     <resources>
+        <image name="facebook_signin.png" width="162" height="29"/>
         <image name="gear.png" width="20" height="20"/>
+        <image name="google_signin.png" width="162" height="29"/>
         <image name="missing.png" width="289" height="287"/>
+        <image name="welcome_background.png" width="640" height="840"/>
     </resources>
-    <classes>
-        <class className="FeedListViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedListViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="newConversation:"/>
-            </relationships>
-        </class>
-        <class className="FeedSettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedSettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="flip:"/>
-            </relationships>
-        </class>
-        <class className="FeedViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="sendMessage:"/>
-                <relationship kind="outlet" name="actionButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="mainView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="postView" candidateClass="TTView"/>
-                <relationship kind="outlet" name="sendButton" candidateClass="TTButton"/>
-                <relationship kind="outlet" name="statusField" candidateClass="StatusTextView"/>
-            </relationships>
-        </class>
-        <class className="FriendPickerViewController" superclassName="TTTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FriendPickerViewController.h"/>
-        </class>
-        <class className="HTMLAppViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/HTMLAppViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="NamePictureCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NamePictureCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="nameTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="pictureButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="NearbyFeedCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NearbyFeedCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="groupName" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="sharerName" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="thumbnail" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="NearbyViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NearbyViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="passwordChanged:"/>
-                <relationship kind="action" name="refresh:"/>
-                <relationship kind="outlet" name="password" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="table" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="ProfileNamePictureCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileNamePictureCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="principal" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ProfileViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileViewController.h"/>
-        </class>
-        <class className="SettingsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="pictureClicked:"/>
-            </relationships>
-        </class>
-        <class className="StatusTextView" superclassName="UITextView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StatusTextView.h"/>
-        </class>
-        <class className="TTBaseViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTBaseViewController.h"/>
-        </class>
-        <class className="TTButton" superclassName="UIControl">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTButton.h"/>
-        </class>
-        <class className="TTModelViewController" superclassName="TTViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTModelViewController.h"/>
-        </class>
-        <class className="TTNavigatorViewController" superclassName="TTBaseViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTNavigatorViewController.h"/>
-        </class>
-        <class className="TTTableViewController" superclassName="TTModelViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="TTView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTView.h"/>
-        </class>
-        <class className="TTViewController" superclassName="TTNavigatorViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="nHK-F1-yOs"/>
-        <segue reference="thq-lQ-aa5"/>
+        <segue reference="Ul8-LG-a2e"/>
     </inferredMetricsTieBreakers>
 </document>

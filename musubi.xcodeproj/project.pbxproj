@@ -64,6 +64,7 @@
 		C0E75BA1158EA671000C3FE3 /* JoinRequestObj.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E75BA0158EA670000C3FE3 /* JoinRequestObj.m */; };
 		D20152451589191B00D2D73B /* HTMLAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D20152421589191B00D2D73B /* HTMLAppViewController.m */; };
 		D20152461589191B00D2D73B /* URLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = D20152441589191B00D2D73B /* URLCommand.m */; };
+		D206D44D15916B9D00EF206A /* welcome_background.png in Resources */ = {isa = PBXBuildFile; fileRef = D206D44C15916B9D00EF206A /* welcome_background.png */; };
 		D2081556151171D800F12039 /* AMQPConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081555151171D800F12039 /* AMQPConnectionManager.m */; };
 		D2081559151273C400F12039 /* AMQPTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = D2081558151273C400F12039 /* AMQPTransport.m */; };
 		D208155C1512851700F12039 /* AMQPTransportTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155B1512851700F12039 /* AMQPTransportTest.m */; };
@@ -92,6 +93,9 @@
 		D216DE5C14F48951001A4166 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D216DE6014F48951001A4166 /* InfoPlist.strings */; };
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
+		D228E5BC15925AE9002E15E6 /* MusubiStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = D228E5BB15925AE9002E15E6 /* MusubiStyleSheet.m */; };
+		D228E5BE159289E3002E15E6 /* cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = D228E5BD159289E3002E15E6 /* cloud.png */; };
+		D228E5C2159296E1002E15E6 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D228E5C1159296E1002E15E6 /* background.jpg */; };
 		D2313BDE1519319100BB0526 /* AMQPSenderService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSenderService.m */; };
 		D23F12A11586ACE600BA0602 /* AMQPUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D23F12A01586ACE600BA0602 /* AMQPUtil.m */; };
 		D23F12A41586BA9600BA0602 /* ObjectPipelineService.m in Sources */ = {isa = PBXBuildFile; fileRef = D23F12A31586BA9500BA0602 /* ObjectPipelineService.m */; };
@@ -128,6 +132,8 @@
 		D26D3723147B3ED400C4FE93 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DC147B3ED400C4FE93 /* UIImage+RoundedCorner.m */; };
 		D26D3724147B3ED400C4FE93 /* XQueryComponents.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */; };
 		D26D3736147B41B700C4FE93 /* html5 in Resources */ = {isa = PBXBuildFile; fileRef = D298FA40143D0E84000831DD /* html5 */; };
+		D270D18515917DE2001278E4 /* facebook_signin.png in Resources */ = {isa = PBXBuildFile; fileRef = D270D18315917DE2001278E4 /* facebook_signin.png */; };
+		D270D18615917DE2001278E4 /* google_signin.png in Resources */ = {isa = PBXBuildFile; fileRef = D270D18415917DE2001278E4 /* google_signin.png */; };
 		D272FB541519C19E00D2521A /* EncodingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1C14FD7A4B00C6ABB3 /* EncodingTest.m */; };
 		D272FB561519C19E00D2521A /* IBEncryptionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155E1512863000F12039 /* IBEncryptionTest.m */; };
 		D272FB59151A69DF00D2521A /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D272FB58151A69DF00D2521A /* AccountManager.m */; };
@@ -188,6 +194,7 @@
 		D2D9302315223F4A006E4F58 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D9302215223F4A006E4F58 /* QuartzCore.framework */; };
 		D2D930B515225E99006E4F58 /* Three20.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D2D930B415225E99006E4F58 /* Three20.bundle */; };
 		D2D9311B1522A307006E4F58 /* libRabbitMQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D931181522A2DE006E4F58 /* libRabbitMQ.a */; };
+		D2EBDB001591574A006436EA /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2EBDAFF1591574A006436EA /* WelcomeViewController.m */; };
 		D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE6114FEF0FD00C6ABB3 /* PersistentModelStore.m */; };
 		D2F8C67D1524FB0C005AD880 /* ObjFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67C1524FB0C005AD880 /* ObjFactory.m */; };
 		D2F8C6801524FB29005AD880 /* ObjProcessorService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C67F1524FB29005AD880 /* ObjProcessorService.m */; };
@@ -494,6 +501,7 @@
 		D20152421589191B00D2D73B /* HTMLAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAppViewController.m; sourceTree = "<group>"; };
 		D20152431589191B00D2D73B /* URLCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLCommand.h; sourceTree = "<group>"; };
 		D20152441589191B00D2D73B /* URLCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLCommand.m; sourceTree = "<group>"; };
+		D206D44C15916B9D00EF206A /* welcome_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = welcome_background.png; sourceTree = "<group>"; };
 		D2081554151171D800F12039 /* AMQPConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPConnectionManager.h; sourceTree = "<group>"; };
 		D2081555151171D800F12039 /* AMQPConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPConnectionManager.m; sourceTree = "<group>"; };
 		D2081557151273C400F12039 /* AMQPTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPTransport.h; sourceTree = "<group>"; };
@@ -544,6 +552,10 @@
 		D216DE6414F48952001A4166 /* MusubiAppTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusubiAppTest.m; sourceTree = "<group>"; };
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
 		D22352611581D3D100A6FB63 /* Model 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 9.xcdatamodel"; sourceTree = "<group>"; };
+		D228E5BA15925AE9002E15E6 /* MusubiStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusubiStyleSheet.h; sourceTree = "<group>"; };
+		D228E5BB15925AE9002E15E6 /* MusubiStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusubiStyleSheet.m; sourceTree = "<group>"; };
+		D228E5BD159289E3002E15E6 /* cloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud.png; sourceTree = "<group>"; };
+		D228E5C1159296E1002E15E6 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSenderService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSenderService.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSenderService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSenderService.m; sourceTree = "<group>"; };
 		D23F129F1586ACE600BA0602 /* AMQPUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPUtil.h; sourceTree = "<group>"; };
@@ -610,6 +622,8 @@
 		D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XQueryComponents.m; sourceTree = "<group>"; };
 		D26D36DF147B3ED400C4FE93 /* Musubi-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Musubi-Info.plist"; sourceTree = "<group>"; };
 		D26D36E0147B3ED400C4FE93 /* Musubi-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Musubi-Prefix.pch"; sourceTree = "<group>"; };
+		D270D18315917DE2001278E4 /* facebook_signin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook_signin.png; sourceTree = "<group>"; };
+		D270D18415917DE2001278E4 /* google_signin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = google_signin.png; sourceTree = "<group>"; };
 		D272FB57151A69DF00D2521A /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
 		D272FB58151A69DF00D2521A /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
 		D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DDExtensions.m"; sourceTree = "<group>"; };
@@ -1046,6 +1060,8 @@
 		D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RabbitMQ.xcodeproj; path = RabbitMQ/RabbitMQ/RabbitMQ.xcodeproj; sourceTree = "<group>"; };
 		D2E708331587EE730015E43D /* Model 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 10.xcdatamodel"; sourceTree = "<group>"; };
 		D2E708341587F6C00015E43D /* Model 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 11.xcdatamodel"; sourceTree = "<group>"; };
+		D2EBDAFE1591574A006436EA /* WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WelcomeViewController.h; path = Welcome/WelcomeViewController.h; sourceTree = "<group>"; };
+		D2EBDAFF1591574A006436EA /* WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WelcomeViewController.m; path = Welcome/WelcomeViewController.m; sourceTree = "<group>"; };
 		D2F8C67B1524FB0C005AD880 /* ObjFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjFactory.h; sourceTree = "<group>"; };
 		D2F8C67C1524FB0C005AD880 /* ObjFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjFactory.m; sourceTree = "<group>"; };
 		D2F8C67E1524FB29005AD880 /* ObjProcessorService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjProcessorService.h; sourceTree = "<group>"; };
@@ -1326,6 +1342,7 @@
 		D211D9681519797800E38051 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D2EBDAFD159156E3006436EA /* Welcome */,
 				C04ED9F4158FFB6A001E80C9 /* Nearby */,
 				D20152401589191B00D2D73B /* App */,
 				D2582663157D840900B47FEE /* FriendPicker */,
@@ -1337,6 +1354,8 @@
 				D23EED011554854200B18153 /* FeedList */,
 				D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */,
 				D211D969151979D200E38051 /* Settings */,
+				D228E5BA15925AE9002E15E6 /* MusubiStyleSheet.h */,
+				D228E5BB15925AE9002E15E6 /* MusubiStyleSheet.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1510,6 +1529,11 @@
 		D26028D91566EEBE00CF6500 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				D228E5C1159296E1002E15E6 /* background.jpg */,
+				D228E5BD159289E3002E15E6 /* cloud.png */,
+				D270D18315917DE2001278E4 /* facebook_signin.png */,
+				D270D18415917DE2001278E4 /* google_signin.png */,
+				D206D44C15916B9D00EF206A /* welcome_background.png */,
 				C04E913F158E5586003C6A0A /* error.png */,
 				2FB1693B157D261D00832396 /* gradienttoolbar.png */,
 				2F071241157BB7A6008B6FEE /* Default.png */,
@@ -2903,6 +2927,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D2EBDAFD159156E3006436EA /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				D2EBDAFE1591574A006436EA /* WelcomeViewController.h */,
+				D2EBDAFF1591574A006436EA /* WelcomeViewController.m */,
+			);
+			name = Welcome;
+			sourceTree = "<group>";
+		};
 		D2F8C67A1524FB0B005AD880 /* ObjProcessor */ = {
 			isa = PBXGroup;
 			children = (
@@ -3303,6 +3336,11 @@
 				D4DB1347157C2D5100337A16 /* README.txt in Resources */,
 				2FB1693C157D261D00832396 /* gradienttoolbar.png in Resources */,
 				C04E9140158E5586003C6A0A /* error.png in Resources */,
+				D206D44D15916B9D00EF206A /* welcome_background.png in Resources */,
+				D270D18515917DE2001278E4 /* facebook_signin.png in Resources */,
+				D270D18615917DE2001278E4 /* google_signin.png in Resources */,
+				D228E5BE159289E3002E15E6 /* cloud.png in Resources */,
+				D228E5C2159296E1002E15E6 /* background.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3537,6 +3575,8 @@
 				C0E75BA1158EA671000C3FE3 /* JoinRequestObj.m in Sources */,
 				C04ED9F7158FFB96001E80C9 /* NearbyViewController.m in Sources */,
 				C04ED9FA158FFF9D001E80C9 /* NearbyFeedCell.m in Sources */,
+				D2EBDB001591574A006436EA /* WelcomeViewController.m in Sources */,
+				D228E5BC15925AE9002E15E6 /* MusubiStyleSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

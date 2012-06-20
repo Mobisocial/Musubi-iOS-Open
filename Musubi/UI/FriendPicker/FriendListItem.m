@@ -37,8 +37,9 @@
     if (self) {
         
         self.identity = ident;
-        self.realName = ident.principal;
         self.musubiName = [IdentityManager displayNameForIdentity: ident];
+        self.realName = ![ident.name isEqualToString: self.musubiName] ? ident.name : ident.principal;
+        
         /* Delay this until cell render, expensive operation
         if(ident.musubiThumbnail) {
             self.profilePicture = [UIImage imageWithData:ident.musubiThumbnail];

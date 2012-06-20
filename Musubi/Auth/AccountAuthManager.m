@@ -221,7 +221,7 @@
         // of this processing if the account is already owned.
         MIdentity* mId = [identityManager identityForIBEncryptionIdentity:ibeId];
         if (mAccount != nil && mId != nil && mId.owned) {
-            return nil;
+            return mAccount;
         }
         
         NSArray* existing = [identityManager ownedIdentities];

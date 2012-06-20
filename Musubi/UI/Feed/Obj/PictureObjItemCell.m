@@ -56,7 +56,6 @@
         if (object.computedData != nil) {
             self.pictureView.image = object.computedData;
         } else {
-            NSLog(@"Bad image data");
             self.pictureView.image = [UIImage imageNamed:@"error.png"];
         }
     }

@@ -349,6 +349,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
         _label.textColor = TTSTYLEVAR(timestampTextColor);
         _label.highlightedTextColor = [UIColor whiteColor];
         _label.contentMode = UIViewContentModeLeft;
+        _label.backgroundColor = [UIColor clearColor];
         [self addSubview:_label];
     }
     return _label;

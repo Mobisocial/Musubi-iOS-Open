@@ -93,9 +93,90 @@
     [self.view addSubview:incomingLabel];
     [self updatePending];
     
-    // Cardinal
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
+    // Color
+    self.navigationController.navigationBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
+    
+    if (NO /* we have no account yet */) {
+        [self performSegueWithIdentifier:@"Welcome" sender:self];
+    }    
+    
+    [self displayNoFeedViewIfNeeded];
 }
+
+- (void) displayNoFeedViewIfNeeded {
+    if (((FeedListDataSource*)self.dataSource).items.count == 0) {
+        self.tableView.hidden = YES;
+        self.view.backgroundColor = [UIColor clearColor];
+
+        noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+        noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
+        
+        [self.view addSubview:noFeedsView];
+        UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
+        cloud.frame = CGRectMake(50, 30, 220, 150);
+        cloud.contentMode = UIViewContentModeScaleAspectFit;
+        [noFeedsView addSubview:cloud];
+        
+        UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 200, 220, 30)];
+        headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
+        headerLabel.textAlignment = UITextAlignmentCenter;
+        headerLabel.text = @"No conversations yet :(";
+        headerLabel.backgroundColor = [UIColor clearColor];
+        [noFeedsView addSubview:headerLabel];
+        
+        UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(50, 250, 220, 60)];
+        infoLabel.font = [UIFont systemFontOfSize: 14];
+        infoLabel.textAlignment = UITextAlignmentCenter;
+        infoLabel.text = @"Let's pick a few friends to start a chat with!";
+        infoLabel.backgroundColor = [UIColor clearColor];
+        infoLabel.editable = NO;
+        infoLabel.userInteractionEnabled = NO;
+        [infoLabel sizeToFit];
+        [noFeedsView addSubview:infoLabel];
+        
+        TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
+        [startButton setStyle:[self startButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
+        [startButton setStyle:[self startButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+        [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
+        [noFeedsView addSubview:startButton];
+        
+        [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
+    }
+
+}
+
+- (TTStyle*)startButtonStyle:(UIControlState)state {
+    UIFont* font = [UIFont boldSystemFontOfSize:14];
+    
+    if (state == UIControlStateNormal) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:8] next:
+         [TTInsetStyle styleWithInset:UIEdgeInsetsMake(0, 0, 1, 0) next:
+          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0) blur:1 offset:CGSizeMake(0, 1) next:
+           [TTLinearGradientFillStyle styleWithColor1:RGBCOLOR(255, 255, 255)
+                                               color2:RGBCOLOR(216, 221, 231) next:
+            [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
+             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
+              [TTTextStyle styleWithFont:font color:TTSTYLEVAR(linkTextColor)
+                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
+                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]]]];
+    } else if (state == UIControlStateHighlighted) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:8] next:
+         [TTInsetStyle styleWithInset:UIEdgeInsetsMake(0, 0, 1, 0) next:
+          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0.9) blur:1 offset:CGSizeMake(0, 1) next:
+           [TTLinearGradientFillStyle styleWithColor1:RGBCOLOR(225, 225, 225)
+                                               color2:RGBCOLOR(196, 201, 221) next:
+            [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
+             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
+              [TTTextStyle styleWithFont:font color:[UIColor whiteColor]
+                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
+                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]]]];
+    } else {
+        return nil;
+    }
+}
+
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -250,9 +331,7 @@
     switch (buttonIndex) {
         case 0: // create from contact list
         {
-            FriendPickerViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendPicker"];
-            [vc setDelegate:self];
-            [self.navigationController pushViewController:vc animated:YES];
+            [self showFriendPicker];
             break;
         }
         case 1: // find nearby groups
@@ -262,6 +341,12 @@
             break;
         }
     }
+}
+
+- (void) showFriendPicker {
+    FriendPickerViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendPicker"];
+    [vc setDelegate:self];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {

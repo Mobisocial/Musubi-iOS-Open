@@ -16,26 +16,15 @@
 
 
 //
-//  FeedListViewController.h
+//  MusubiStyleSheet.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
+//  Created by Willem Bult on 6/20/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "Three20/Three20.h"
-#import "FriendPickerViewController.h"
-#import "FeedViewController.h"
 
-@interface FeedListViewControllerDelegate : TTTableViewVarHeightDelegate
-
-@end
-
-@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate, UIActionSheetDelegate> {
-    UILabel* incomingLabel;
-    UIView* noFeedsView;
-}
-
-- (IBAction)newConversation:(id)sender;
+@interface MusubiStyleSheet : TTDefaultStyleSheet
 
 @end

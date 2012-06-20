@@ -34,6 +34,8 @@
 #import "PersistentModelStore.h"
 #import "MObj.h"
 #import "MIdentity.h"
+#import "Three20/Three20.h"
+#import "MusubiStyleSheet.h"
 
 @implementation AppDelegate
 
@@ -43,12 +45,19 @@
 {
     //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
     //[TestFlight takeOff:@"xxx"];
+    
+    NSDate* showUIDate = [NSDate dateWithTimeIntervalSinceNow:1];
         
     DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"" appSecret:@"" root:kDBRootAppFolder];
     [DBSession setSharedSession:dbSession];
     
     [Musubi sharedInstance];
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+    
+    [TTStyleSheet setGlobalStyleSheet:[[MusubiStyleSheet alloc] init]];
+    
+    // Pause on the loading screen for a bit, for awesomeness display reasons
+    [NSThread sleepUntilDate:showUIDate];
     
     return YES;
 }

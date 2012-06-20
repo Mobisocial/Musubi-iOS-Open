@@ -191,7 +191,7 @@
         *identityAdded = YES;
     }
     
-    if (name != nil && mId.name == nil) {
+    if (name != nil) {
         changed = YES;
         [mId setName: name];
     }
@@ -206,6 +206,8 @@
         [self updateIdentity: mId];
         *profileDataChanged = YES;
     }
+    
+    NSLog(@"Id: %@", mId);
     
     return mId;
 }

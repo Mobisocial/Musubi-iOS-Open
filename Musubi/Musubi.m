@@ -174,7 +174,6 @@ static Musubi* _sharedInstance = nil;
     [self startServices];
 }
 
-
 - (PersistentModelStore *) newStore {
     return [storeFactory newStore];
 }

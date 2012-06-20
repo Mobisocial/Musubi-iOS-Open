@@ -38,7 +38,6 @@ static NSUInteger kDefaultStrokeWidth = 1;
     self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
     if (self) {
         self.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
-        self.selectionStyle = UITableViewCellSelectionStyleBlue;
         self.userInteractionEnabled = YES;
 
     }

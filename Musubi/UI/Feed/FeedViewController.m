@@ -92,7 +92,7 @@
                                      style:UIBarButtonItemStyleBordered
                                     target:nil
                                     action:nil];
-    CGRect bounds = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height - 50);
+    CGRect bounds = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height - 43);
     self.tableView.frame = bounds;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.variableHeightRows = YES;
@@ -112,6 +112,7 @@
     
     
     [postView addSubview: statusFieldBox];    
+    [self.view bringSubviewToFront:postView];
     
 
     statusField = [[StatusTextView alloc] initWithFrame:CGRectMake(0, 0, statusFieldBox.width, statusFieldBox.height)];
@@ -203,8 +204,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    // Cardinal
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:164.0/256.0 green:0 blue:29.0/256.0 alpha:1];
+    // Color
+    self.navigationController.navigationBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activated:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];

@@ -123,8 +123,14 @@ static NSMutableDictionary* sContactImages;
     if (_obj == nil) {
         _obj = [objMgr latestStatusObjInFeed:feed];
     }
-    NSString* sender = [IdentityManager displayNameForIdentity:_obj.identity];
-    sender = [[sender componentsSeparatedByString:@" "] objectAtIndex:0];
+    
+    NSString* sender = nil;
+    if (_obj.identity.owned) {
+        sender = @"You";
+    } else {
+        sender = [IdentityManager displayNameForIdentity:_obj.identity];
+        sender = [[sender componentsSeparatedByString:@" "] objectAtIndex:0];
+    }
     
     if ([_obj.type isEqualToString:kObjTypeStatus]) {
         StatusObj* obj = (StatusObj*) [ObjFactory objFromManagedObj:_obj];

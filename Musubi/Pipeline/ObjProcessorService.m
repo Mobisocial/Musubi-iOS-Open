@@ -127,6 +127,10 @@ static int operationCount = 0;
     Obj* obj = [ObjFactory objFromManagedObj:mObj];
     if ([ObjHelper isRenderable: obj]) {
         [mObj setRenderable: YES];
+        
+        // it seems sometimes we don't have the correct mObj here yet, let's get it
+        [self.store save];
+
         [feed setLatestRenderableObjTime: [mObj.timestamp timeIntervalSince1970]];
         [feed setLatestRenderableObj: mObj];
         

@@ -126,6 +126,8 @@
 }
 
 - (void)search:(NSString *)text {
+    text = [text uppercaseString];
+    
     NSArray* searchItems = nil;
     NSArray* searchSections = nil;
     
@@ -156,7 +158,7 @@
                 match = YES;
             } else {
                 for (NSString* name in item.structuredNames) {
-                    if (name.length >= text.length && [[name substringToIndex:text.length] isEqualToString:text]) {
+                    if (name.length >= text.length && [[[name substringToIndex:text.length] uppercaseString] isEqualToString:text]) {
                         match = YES;
                         break;
                     }

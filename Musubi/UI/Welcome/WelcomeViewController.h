@@ -16,26 +16,24 @@
 
 
 //
-//  FeedListViewController.h
+//  WelcomeViewController.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
+//  Created by Willem Bult on 6/19/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Three20/Three20.h"
-#import "FriendPickerViewController.h"
-#import "FeedViewController.h"
+#import <UIKit/UIKit.h>
+#import "AccountAuthManager.h"
 
-@interface FeedListViewControllerDelegate : TTTableViewVarHeightDelegate
-
-@end
-
-@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate, UIActionSheetDelegate> {
-    UILabel* incomingLabel;
-    UIView* noFeedsView;
+@interface WelcomeViewController : UIViewController<AccountAuthManagerDelegate> {
 }
 
-- (IBAction)newConversation:(id)sender;
+@property (nonatomic, retain) AccountAuthManager* authMgr;
+@property (nonatomic, strong) IBOutlet UIButton* facebookButton;
+@property (nonatomic, strong) IBOutlet UIButton* googleButton;
+@property (nonatomic, strong) IBOutlet UILabel* statusLabel;
+
+- (IBAction)authNetwork:(id)sender;
 
 @end

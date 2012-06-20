@@ -263,7 +263,6 @@
         case 2: {
             MFeed* feed = [feeds objectAtIndex:indexPath.row];
             [_delegate selectedFeed:feed];
-//            [self performSegueWithIdentifier:@"ShowFeed" sender:feed];
             break;
         }
     }
