@@ -42,6 +42,7 @@
 
 #import "ObjHelper.h"
 #import "IntroductionObj.h"
+#import "AccountManager.h"
 
 @implementation FeedListViewController {
     NSDate* nextRedraw;
@@ -96,7 +97,9 @@
     // Color
     self.navigationController.navigationBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
     
-    if (NO /* we have no account yet */) {
+    AccountManager* accMgr = [[AccountManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    
+    if ([accMgr claimedAccounts].count == 0) {
         [self performSegueWithIdentifier:@"Welcome" sender:self];
     }    
     

@@ -57,7 +57,13 @@
     [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationIdentityImported object:nil];
     [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationIdentityImportFinished object:nil];
 }
-    
+
+- (UINavigationItem *)navigationItem {
+    UINavigationItem* item = [super navigationItem];
+    item.hidesBackButton = YES;
+    return item;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
