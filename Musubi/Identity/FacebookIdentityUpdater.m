@@ -138,8 +138,6 @@
         long long uid = [[f objectForKey:@"uid"] longLongValue];
         IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeFacebook principal:[NSString stringWithFormat:@"%llu", uid] temporalFrame:0];
         
-        NSLog(@"Bla: %@", f);
-        
         MIdentity* mId = [im ensureIdentity:ident withName:[f objectForKey:@"name"] identityAdded:&_identityAdded profileDataChanged:&_profileDataChanged];
         
         if (mId.thumbnail == nil) {

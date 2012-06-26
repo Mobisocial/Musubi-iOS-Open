@@ -45,8 +45,8 @@ static NSString* kNameField = @"name";
     return self;
 }
 
-- (id)initWithData:(NSDictionary *)data {
-    return [self initWithName: [data objectForKey:kNameField]];
+- (id)initWithData:(NSDictionary *)data andRaw:(NSData *)raw {
+    return [self initWithName: [data objectForKey:kNameField] andThumbnail:raw];
 }
 
 /**
@@ -54,8 +54,11 @@ static NSString* kNameField = @"name";
  the object in the data store, false to discard it.
  */
 - (BOOL)processObjWithRecord: (MObj*) obj {
+    NSLog(@"Name: %@", _name);
     if (_name != nil) {
         obj.feed.name = _name;
+        
+        NSLog(@"Feed name is now %@", obj.feed.name);
     }
     if (self.raw != nil) {
         obj.feed.thumbnail = self.raw;
