@@ -249,10 +249,11 @@
                         <outlet property="postView" destination="9g9-Wc-oJA" id="Klw-On-5eV"/>
                         <outlet property="sendButton" destination="HfX-wR-nJ0" id="1rP-7F-JHc"/>
                         <segue destination="K98-fY-kuD" kind="push" identifier="ShowProfile" id="A7m-5b-BSd"/>
+                        <segue destination="VtU-Lw-Thf" kind="custom" identifier="SharePicture" customClass="NonAnimatedSegue" id="EoE-0z-oi3"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1728" y="-675"/>
+            <point key="canvasLocation" x="1728" y="-659"/>
         </scene>
         <!--Feed Settings View Controller - Options-->
         <scene sceneID="nxq-2E-yPz">
@@ -329,7 +330,21 @@
                     <navigationItem key="navigationItem" id="OI8-bg-82Y"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="2376" y="-144"/>
+            <point key="canvasLocation" x="2376" y="286"/>
+        </scene>
+        <!--Share Picture View Controller - Share picture-->
+        <scene sceneID="uo4-tV-gb3">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rp7-9X-DzY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="pictureShare" title="Share picture" id="VtU-Lw-Thf" customClass="SharePictureViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3VX-W4-tpg">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2376" y="-412"/>
         </scene>
         <!--App View Controller - App-->
         <scene sceneID="yFB-PN-lX8">
@@ -489,6 +504,128 @@
         <image name="missing.png" width="289" height="287"/>
         <image name="welcome_background.png" width="640" height="840"/>
     </resources>
+    <classes>
+        <class className="FeedListViewController" superclassName="TTTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="newConversation:"/>
+            </relationships>
+        </class>
+        <class className="FeedSettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedSettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="flip:"/>
+            </relationships>
+        </class>
+        <class className="FeedViewController" superclassName="TTTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="sendMessage:"/>
+                <relationship kind="outlet" name="actionButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="mainView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="postView" candidateClass="TTView"/>
+                <relationship kind="outlet" name="sendButton" candidateClass="TTButton"/>
+                <relationship kind="outlet" name="statusField" candidateClass="StatusTextView"/>
+            </relationships>
+        </class>
+        <class className="FriendPickerViewController" superclassName="TTTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FriendPickerViewController.h"/>
+        </class>
+        <class className="HTMLAppViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HTMLAppViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="NamePictureCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NamePictureCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="nameTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="pictureButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="NearbyFeedCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NearbyFeedCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="groupName" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="sharerName" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="thumbnail" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="NearbyViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NearbyViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="passwordChanged:"/>
+                <relationship kind="action" name="refresh:"/>
+                <relationship kind="outlet" name="password" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="table" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="ProfileNamePictureCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileNamePictureCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="name" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="principal" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ProfileViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileViewController.h"/>
+        </class>
+        <class className="QREncoderViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/QREncoderViewController.h"/>
+        </class>
+        <class className="SettingsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="pictureClicked:"/>
+            </relationships>
+        </class>
+        <class className="SharePictureViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SharePictureViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="share:"/>
+                <relationship kind="outlet" name="captionView" candidateClass="TTView"/>
+            </relationships>
+        </class>
+        <class className="StatusTextView" superclassName="UITextView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StatusTextView.h"/>
+        </class>
+        <class className="TTBaseViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTBaseViewController.h"/>
+        </class>
+        <class className="TTButton" superclassName="UIControl">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTButton.h"/>
+        </class>
+        <class className="TTModelViewController" superclassName="TTViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTModelViewController.h"/>
+        </class>
+        <class className="TTNavigatorViewController" superclassName="TTBaseViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTNavigatorViewController.h"/>
+        </class>
+        <class className="TTTableViewController" superclassName="TTModelViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="TTView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTView.h"/>
+        </class>
+        <class className="TTViewController" superclassName="TTNavigatorViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TTViewController.h"/>
+        </class>
+        <class className="WelcomeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WelcomeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="authNetwork:"/>
+                <relationship kind="outlet" name="facebookButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="googleButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -27,12 +27,14 @@
 #import "UIImage+Resize.h"
 
 static NSString* kMimeField = @"mimeType";
+static NSString* kTextField = @"text";
 
 @implementation PictureObj
 
 @synthesize image = _image;
+@synthesize text = _text;
 
-- (id)initWithImage:(UIImage *)img {
+- (id)initWithImage:(UIImage *)img andText:(NSString *)text {
     self = [super init];
     if (self) {
         int width = MIN(img.size.width, 480);
@@ -40,15 +42,26 @@ static NSString* kMimeField = @"mimeType";
         
         [self setType: kObjTypePicture];
         [self setImage: [img resizedImage:size interpolationQuality:kCGInterpolationHigh]];
+        [self setText: text];
         [self setRaw: UIImageJPEGRepresentation(_image, .9)];
-        [self setData: [NSDictionary dictionary]];        
+        
+        [self setData: [NSDictionary dictionaryWithObjectsAndKeys:text, kTextField, nil]];
     }
     
     return self;
 }
 
-- (id)initWithRaw:(NSData *)data {
-    return [self initWithImage: [UIImage imageWithData:data]];
+- (id)initWithImage:(UIImage *)img {
+    return [self initWithImage:img andText:nil];
 }
+
+- (id)initWithRaw:(NSData *)raw andData: (NSDictionary*) data {
+    return [self initWithImage: [UIImage imageWithData:raw] andText:[data objectForKey:kTextField]];
+}
+
+- (id)initWithRaw:(NSData *)raw {
+    return [self initWithImage: [UIImage imageWithData:raw]];
+}
+
 
 @end

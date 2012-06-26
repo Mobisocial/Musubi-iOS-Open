@@ -25,6 +25,7 @@
 
 #import "FeedViewController.h"
 #import "ProfileViewController.h"
+#import "PictureOverlayViewController.h"
 #import "FeedSettingsViewController.h"
 #import "FeedDataSource.h"
 #import "FeedModel.h"
@@ -50,6 +51,7 @@
 #import "AppManager.h"
 #import "MApp.h"
 
+#import "MusubiStyleSheet.h"
 #import "Three20/Three20.h"
 #import "Three20UI/UIViewAdditions.h"
 #import "StatusTextView.h"
@@ -98,17 +100,11 @@
     self.variableHeightRows = YES;
     
     postView.backgroundColor = [UIColor clearColor];
-    postView.style = [TTInsetStyle styleWithInset:UIEdgeInsetsMake(0, -1, -1, -1) next:
-                      [TTLinearGradientFillStyle styleWithColor1:RGBCOLOR(240,240,240) color2:RGBCOLOR(210,210,210) next:
-                      [TTSolidBorderStyle styleWithColor:RGBCOLOR(170,170,170) width:1 next:nil]]];
+    postView.style = [MusubiStyleSheet bottomPanelStyle];
     
     TTView* statusFieldBox = [[TTView alloc] initWithFrame:CGRectMake(44, 6, postView.frame.size.width - 115, 32)];
     statusFieldBox.backgroundColor = [UIColor clearColor];
-    statusFieldBox.style = [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
-                            [TTSolidFillStyle styleWithColor:[UIColor whiteColor] next:
-                             [TTInnerShadowStyle styleWithColor:RGBACOLOR(0,0,0,0.5) blur:3 offset:CGSizeMake(1, 1) next:
-                              [TTSolidBorderStyle styleWithColor:RGBCOLOR(158, 163, 172) width:1 next:nil]]]];
-    
+    statusFieldBox.style = [MusubiStyleSheet textViewBorder];
     
     
     [postView addSubview: statusFieldBox];    
@@ -123,8 +119,9 @@
 
     [sendButton setBackgroundColor:[UIColor clearColor]];
     [sendButton setTitle:@"Send" forState:UIControlStateNormal];
-    [sendButton setStyle:[self embossedButton:UIControlStateNormal] forState:UIControlStateNormal];
-    [sendButton setStyle:[self embossedButton:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+    
+    [sendButton setStyle:[MusubiStyleSheet embossedButton:UIControlStateNormal] forState:UIControlStateNormal];
+    [sendButton setStyle:[MusubiStyleSheet embossedButton:UIControlStateHighlighted] forState:UIControlStateHighlighted];
     [sendButton addTarget:self action:@selector(sendMessage:) forControlEvents:UIControlEventTouchUpInside];
     
     //[sendButton setStyle:[TTSTYLESHEET toolbarButtonForState:UIControlStateNormal shape:shape tintColor:tintColor font:nil] forState:UIControlStateNormal];
@@ -174,32 +171,6 @@
     [ObjHelper sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
     [(UIButton*)self.navigationItem.titleView setTitle:name forState:UIControlStateNormal];
 }
-
-
-- (TTStyle*)embossedButton:(UIControlState)state {
-    if (state == UIControlStateNormal) {
-        return
-        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
-          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0) blur:1 offset:CGSizeMake(0, 1) next:
-           [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
-             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
-              [TTTextStyle styleWithFont:nil color:TTSTYLEVAR(timestampTextColor)
-                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
-                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]];
-    } else if (state == UIControlStateHighlighted) {
-        return
-        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
-          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0.9) blur:1 offset:CGSizeMake(0, 1) next:
-           [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
-             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
-              [TTTextStyle styleWithFont:nil color:TTSTYLEVAR(timestampTextColor)
-                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
-                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]];
-    } else {
-        return nil;
-    }
-}
-
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -359,14 +330,14 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     UIView *mainSubviewOfWindow = window.rootViewController.view;
     CGRect keyboardFrameConverted = [mainSubviewOfWindow convertRect:keyboardFrame fromView:window];
 
-    [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, self.view.frame.size.height - postView.frame.size.height - keyboardFrameConverted.size.height)];
-    [postView setFrame:CGRectMake(0, self.tableView.frame.size.height, postView.frame.size.width, postView.frame.size.height)];
+    [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, self.view.frame.size.height - postView.frame.size.height - keyboardFrameConverted.size.height + 1)]; // +1 to hide bottom border
+    [postView setFrame:CGRectMake(0, self.tableView.frame.size.height - 1, postView.frame.size.width, postView.frame.size.height)]; // -1 to hide bottom border
     
     [self scrollToBottomAnimated:NO];
 }
 - (void) keyboardDidHide:(NSNotification*)notification {
     [postView setFrame:CGRectMake(0, self.view.frame.size.height - postView.frame.size.height, postView.frame.size.width, postView.frame.size.height)];
-    [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, postView.frame.origin.y)];
+    [self.tableView setFrame: CGRectMake(0, 0, self.tableView.frame.size.width, postView.frame.origin.y + 1)]; // +1 to hide bottom border
 }
 - (void) hideKeyboard {
     
@@ -436,9 +407,9 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self hideKeyboard];
-        [statusField setText:@""];
-        [self textViewDidChange:statusField];
-        [self refreshFeed];
+    [statusField setText:@""];
+    [self textViewDidChange:statusField];
+    [self refreshFeed];
 }
 
 - (IBAction)commandButtonPushed: (id) sender {
@@ -452,20 +423,26 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     switch (buttonIndex) {
         case 0: // take picture
         {
-            UIImagePickerController* picker = [[UIImagePickerController alloc] init];
-            [picker setSourceType:UIImagePickerControllerSourceTypeCamera];
-            [picker setDelegate:self];
-            
-            [self presentModalViewController:picker animated:YES];
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                _pictureViewController = [[PictureOverlayViewController alloc] init];
+                _pictureViewController.delegate = self;
+                [_pictureViewController setupImagePicker:UIImagePickerControllerSourceTypeCamera];
+                [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't have a camera" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            }
             break;
         }
         case 1: // existing picture
         {   
-            UIImagePickerController* picker = [[UIImagePickerController alloc] init];
-            [picker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-            [picker setDelegate:self];            
-            
-            [self presentModalViewController:picker animated:YES];
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+                _pictureViewController = [[PictureOverlayViewController alloc] init];
+                _pictureViewController.delegate = self;
+                [_pictureViewController setupImagePicker:UIImagePickerControllerSourceTypePhotoLibrary];
+                [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't support the photo library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            }
             break;
         }
         case 2: // Audio
@@ -536,19 +513,16 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [[self navigationController] pushViewController:appViewController animated:YES];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
-    
-    PictureObj* pic = [[PictureObj alloc] initWithImage: image];
-    
+- (void)picturePickerFinishedWithPicture:(UIImage *)picture withCaption:(NSString *)caption {
+    PictureObj* obj = [[PictureObj alloc] initWithImage:picture andText:caption];
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureSuperApp];
     
-    [ObjHelper sendObj:pic toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    [ObjHelper sendObj:obj toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
-    [self refreshFeed];  
+    [self refreshFeed]; 
 }
-
 
 - (void)friendsSelected:(NSArray *)selection {
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;

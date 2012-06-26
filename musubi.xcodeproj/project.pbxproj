@@ -93,6 +93,8 @@
 		D216DE5C14F48951001A4166 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D216DE6014F48951001A4166 /* InfoPlist.strings */; };
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
+		D21A714C1598C78800743842 /* PictureEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D21A714B1598C78800743842 /* PictureEditViewController.m */; };
+		D21A714F1598E3BD00743842 /* PictureOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D21A714E1598E3BD00743842 /* PictureOverlayViewController.m */; };
 		D228E5BC15925AE9002E15E6 /* MusubiStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = D228E5BB15925AE9002E15E6 /* MusubiStyleSheet.m */; };
 		D228E5BE159289E3002E15E6 /* cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = D228E5BD159289E3002E15E6 /* cloud.png */; };
 		D228E5C2159296E1002E15E6 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D228E5C1159296E1002E15E6 /* background.jpg */; };
@@ -551,6 +553,10 @@
 		D216DE6314F48952001A4166 /* MusubiAppTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusubiAppTest.h; sourceTree = "<group>"; };
 		D216DE6414F48952001A4166 /* MusubiAppTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusubiAppTest.m; sourceTree = "<group>"; };
 		D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiAppTest-Prefix.pch"; sourceTree = "<group>"; };
+		D21A714A1598C78800743842 /* PictureEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureEditViewController.h; sourceTree = "<group>"; };
+		D21A714B1598C78800743842 /* PictureEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureEditViewController.m; sourceTree = "<group>"; };
+		D21A714D1598E3BD00743842 /* PictureOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOverlayViewController.h; sourceTree = "<group>"; };
+		D21A714E1598E3BD00743842 /* PictureOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOverlayViewController.m; sourceTree = "<group>"; };
 		D22352611581D3D100A6FB63 /* Model 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 9.xcdatamodel"; sourceTree = "<group>"; };
 		D228E5BA15925AE9002E15E6 /* MusubiStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusubiStyleSheet.h; sourceTree = "<group>"; };
 		D228E5BB15925AE9002E15E6 /* MusubiStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusubiStyleSheet.m; sourceTree = "<group>"; };
@@ -1402,6 +1408,18 @@
 				D216DE6614F48952001A4166 /* MusubiAppTest-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D21A71491598C78800743842 /* Picture */ = {
+			isa = PBXGroup;
+			children = (
+				D21A714A1598C78800743842 /* PictureEditViewController.h */,
+				D21A714B1598C78800743842 /* PictureEditViewController.m */,
+				D21A714D1598E3BD00743842 /* PictureOverlayViewController.h */,
+				D21A714E1598E3BD00743842 /* PictureOverlayViewController.m */,
+			);
+			name = Picture;
+			path = Feed/Picture;
 			sourceTree = "<group>";
 		};
 		D21F732B15199F1C00C57BC3 /* Identity */ = {
@@ -2802,6 +2820,7 @@
 		D2A1FC141521A6C500C10BE2 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				D21A71491598C78800743842 /* Picture */,
 				D2C66F09156DF02C001A0124 /* Obj */,
 				D2C66F29156DF043001A0124 /* FeedViewController.h */,
 				D2C66F2A156DF043001A0124 /* FeedViewController.m */,
@@ -3577,6 +3596,8 @@
 				C04ED9FA158FFF9D001E80C9 /* NearbyFeedCell.m in Sources */,
 				D2EBDB001591574A006436EA /* WelcomeViewController.m in Sources */,
 				D228E5BC15925AE9002E15E6 /* MusubiStyleSheet.m in Sources */,
+				D21A714C1598C78800743842 /* PictureEditViewController.m in Sources */,
+				D21A714F1598E3BD00743842 /* PictureOverlayViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3902,7 +3923,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Thomas Purtell";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/Dropbox\"",
@@ -3930,7 +3951,7 @@
 					"-lIBE",
 				);
 				PRODUCT_NAME = Musubi;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "CA7F94FB-0D3D-4EA2-9243-C299E0D27C7E";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

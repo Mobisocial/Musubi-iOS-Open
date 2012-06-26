@@ -25,6 +25,8 @@
 
 #import "PictureObjItemCell.h"
 #import "ManagedObjFeedItem.h"
+#import "ObjHelper.h"
+#import "UIViewAdditions.h"
 
 @implementation PictureObjItemCell
 
@@ -32,11 +34,35 @@
     item.computedData = [UIImage imageWithData: item.managedObj.raw];
 }
 
-+ (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
++ (NSString*) textForItem: (ManagedObjFeedItem*) item {
+    NSString* text = nil;
+    text = [[item parsedJson] objectForKey: kObjFieldText];
+    if (text == nil) {
+        text = [[item parsedJson] objectForKey: kObjFieldStatusText];
+    }
+    return text;
+}
+
++ (CGFloat) pictureHeightForImage:(UIImage*)image {
+    if (image.size.width > 250) {
+        return (250 / image.size.width) * image.size.height;
+    } else {
+        return image.size.height;
+    }
+}
+
++ (CGFloat) pictureHeightForItem:(ManagedObjFeedItem*) item {
     UIImage* image = item.computedData;
     if(!image)
         image = [UIImage imageNamed:@"error.png"];
-    return (250 / image.size.width) * image.size.height;
+
+    return [PictureObjItemCell pictureHeightForImage:image];
+}
+
++ (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
+    
+    CGSize size = [[PictureObjItemCell textForItem: (ManagedObjFeedItem*)item] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    return [PictureObjItemCell pictureHeightForItem:item] + size.height + kTableCellMargin;
 }
 
 - (UIImageView *)pictureView {
@@ -58,13 +84,22 @@
         } else {
             self.pictureView.image = [UIImage imageNamed:@"error.png"];
         }
+        
+        NSString* text = [PictureObjItemCell textForItem:(ManagedObjFeedItem*)object];
+        self.detailTextLabel.text = text;
     }
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     if (self.pictureView.image != nil) {
-        self.pictureView.frame = CGRectMake(self.detailTextLabel.frame.origin.x, self.detailTextLabel.frame.origin.y + 5, self.detailTextLabel.frame.size.width, self.detailTextLabel.frame.size.height);
+        CGFloat left = self.detailTextLabel.origin.x;
+        CGFloat top = self.timestampLabel.origin.y + self.timestampLabel.height + kTableCellMargin;
+        
+        self.pictureView.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, [PictureObjItemCell pictureHeightForImage:self.pictureView.image]);
+        
+        CGFloat textTop = top + self.pictureView.height;
+        self.detailTextLabel.frame = CGRectMake(left, textTop, self.detailTextLabel.width, self.contentView.height - textTop);
     }
 }
 

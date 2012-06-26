@@ -152,3 +152,12 @@
 
 
 @end
+
+@implementation NonAnimatedSegue
+
+//@synthesize appDelegate = _appDelegate;
+
+-(void) perform{
+    [[[self sourceViewController] navigationController] pushViewController:[self destinationViewController] animated:NO];
+}
+@end

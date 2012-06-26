@@ -27,13 +27,6 @@
 
 @implementation MusubiStyleSheet
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark -
-#pragma mark TTDefaultStyleSheet
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UIColor*)navigationBarTintColor {
     //return [UIColor colorWithRed:125.0/255.0 green:41.0/255.0 blue:165.0/255.0 alpha:1]; // Purple
     return [UIColor colorWithRed:5.0/255.0 green:115.0/255.0 blue:155.0/255.0 alpha:1]; // Cyan
@@ -70,5 +63,61 @@
 - (UIColor *)linkTextColor {
     return [UIColor colorWithRed:10.0/255.0 green:115.0/255.0 blue:255.0/255.0 alpha:1];
 }
+
++ (TTStyle *)transparentRoundedButton:(UIControlState)state {
+    if (state == UIControlStateNormal) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:10] next:
+         [TTSolidBorderStyle styleWithColor:RGBCOLOR(70,70,70) width:1 next:
+          [TTSolidFillStyle styleWithColor:RGBACOLOR(255,255,255,.4) next:
+           [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 10, 10, 10) next:
+            [TTTextStyle styleWithFont:[UIFont boldSystemFontOfSize:14] color:RGBCOLOR(0, 0, 0) next:nil]]]]];
+    } else if (state == UIControlStateHighlighted) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:10] next:
+         [TTSolidBorderStyle styleWithColor:RGBCOLOR(70,70,70) width:1 next:
+          [TTSolidFillStyle styleWithColor:RGBACOLOR(255,255,255,.7) next:
+           [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 10, 10, 10) next:
+            [TTTextStyle styleWithFont:[UIFont boldSystemFontOfSize:14] color:RGBCOLOR(0, 0, 0) next:nil]]]]];
+    } else {
+        return nil;
+    }
+}
+
++ (TTStyle*)embossedButton:(UIControlState)state {
+    if (state == UIControlStateNormal) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
+         [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0) blur:1 offset:CGSizeMake(0, 1) next:
+          [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
+           [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
+            [TTTextStyle styleWithFont:nil color:TTSTYLEVAR(timestampTextColor)
+                           shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
+                          shadowOffset:CGSizeMake(0, -1) next:nil]]]]];
+    } else if (state == UIControlStateHighlighted) {
+        return
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
+         [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0.9) blur:1 offset:CGSizeMake(0, 1) next:
+          [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
+           [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
+            [TTTextStyle styleWithFont:nil color:TTSTYLEVAR(timestampTextColor)
+                           shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
+                          shadowOffset:CGSizeMake(0, -1) next:nil]]]]];
+    } else {
+        return nil;
+    }
+}
++ (TTStyle*) textViewBorder {
+    return [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:4] next:
+     [TTSolidFillStyle styleWithColor:[UIColor whiteColor] next:
+      [TTInnerShadowStyle styleWithColor:RGBACOLOR(0,0,0,0.5) blur:3 offset:CGSizeMake(1, 1) next:
+       [TTSolidBorderStyle styleWithColor:RGBCOLOR(158, 163, 172) width:1 next:nil]]]];
+}
++ (TTStyle*) bottomPanelStyle {
+    return [TTInsetStyle styleWithInset:UIEdgeInsetsMake(0, -1, -1, -1) next:
+            [TTLinearGradientFillStyle styleWithColor1:RGBCOLOR(240,240,240) color2:RGBCOLOR(210,210,210) next:
+             [TTSolidBorderStyle styleWithColor:RGBCOLOR(170,170,170) width:1 next:nil]]];
+}
+
 
 @end

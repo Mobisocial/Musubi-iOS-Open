@@ -27,15 +27,18 @@
 #import "ProfileViewController.h"
 #import "AudioRecorderViewController.h"
 #import "FeedSettingsViewController.h"
+#import "PictureOverlayViewController.h"
 
-@class MApp, MFeed, StatusTextView;
+@class MApp, MFeed, StatusTextView, PictureOverlayViewController;
 
 @protocol FeedViewControllerDelegate
     - (void) friendsForNewConversationSelected:(NSArray*)selection;
 @end
 
-@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate, FeedSettingsViewControllerDelegate> {
+@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate, FeedSettingsViewControllerDelegate, PictureOverlayViewControllerDelegate> {
     MFeed* _feed;
+    
+    PictureOverlayViewController* _pictureViewController;
     
     IBOutlet UIView* mainView;
     IBOutlet TTView* postView;

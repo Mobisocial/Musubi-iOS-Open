@@ -128,11 +128,15 @@ static int operationCount = 0;
     if ([ObjHelper isRenderable: obj]) {
         [mObj setRenderable: YES];
         
-        // it seems sometimes we don't have the correct mObj here yet, let's get it
-        [self.store save];
+        // Sometimes these things come in out of order
+        NSTimeInterval objTime = [mObj.timestamp timeIntervalSince1970];
+        if (objTime >= feed.latestRenderableObjTime) {
+            // it seems sometimes we don't have the correct mObj here yet, let's get it
+            [self.store save];
 
-        [feed setLatestRenderableObjTime: [mObj.timestamp timeIntervalSince1970]];
-        [feed setLatestRenderableObj: mObj];
+            [feed setLatestRenderableObjTime: [mObj.timestamp timeIntervalSince1970]];
+            [feed setLatestRenderableObj: mObj];
+        }
         
         if (!sender.owned) {
             [feed setNumUnread: feed.numUnread + 1];

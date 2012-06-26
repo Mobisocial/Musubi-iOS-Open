@@ -26,5 +26,8 @@
 #import "Three20/Three20.h"
 
 @interface MusubiStyleSheet : TTDefaultStyleSheet
-
++ (TTStyle*)embossedButton:(UIControlState)state;
++ (TTStyle*)transparentRoundedButton:(UIControlState)state;
++ (TTStyle*) textViewBorder;
++ (TTStyle*) bottomPanelStyle;
 @end

@@ -38,3 +38,7 @@
 - (void) restart;
 
 @end
+
+
+@interface NonAnimatedSegue : UIStoryboardSegue
+@end

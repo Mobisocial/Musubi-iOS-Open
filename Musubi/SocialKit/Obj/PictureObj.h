@@ -29,11 +29,15 @@
 
 @interface PictureObj : Obj<RenderableObj> {
     UIImage* _image;
+    NSString* _text;
 }
 
 @property (nonatomic) UIImage* image;
+@property (nonatomic) NSString* text;
 
 - (id) initWithImage: (UIImage*) img;
-- (id) initWithRaw: (NSData*) data;
+- (id) initWithImage: (UIImage*) img andText: (NSString*) text;
+- (id) initWithRaw: (NSData*)raw;
+- (id) initWithRaw:(NSData *)raw andData: (NSDictionary*) data;
 
 @end

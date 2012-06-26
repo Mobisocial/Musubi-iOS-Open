@@ -61,7 +61,7 @@
     } else if ([objType isEqualToString:kObjTypeJoinRequest]) {
         return [[JoinRequestObj alloc] initWithData:data];
     } else if ([objType isEqualToString:kObjTypePicture]) {
-        return [[PictureObj alloc] initWithRaw:mObj.raw];
+        return [[PictureObj alloc] initWithRaw:mObj.raw andData:data];
     } else if ([objType isEqualToString:kObjTypeLike]) {
         return [[LikeObj alloc] initWithData:data];
     } else if ([objType isEqualToString:kObjTypeDelete]) {
