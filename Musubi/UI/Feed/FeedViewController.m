@@ -164,7 +164,7 @@
     if(!name || !name.length)
         return;
     
-    FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name];
+    FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name andThumbnail:nil];
     
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureSuperApp];

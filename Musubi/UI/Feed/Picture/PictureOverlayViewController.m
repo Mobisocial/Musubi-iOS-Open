@@ -51,7 +51,6 @@
     return self;
 }
 
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -73,11 +72,9 @@
             //
             // ensure that our custom view's frame fits within the parent frame
             CGRect overlayViewFrame = self.imagePickerController.cameraOverlayView.frame;
-            CGRect newFrame = CGRectMake(0.0,
-                                         CGRectGetHeight(overlayViewFrame) -
-                                         self.view.frame.size.height - 10.0,
+            CGRect newFrame = CGRectMake(0.0, 50.0,
                                          CGRectGetWidth(overlayViewFrame),
-                                         self.view.frame.size.height + 10.0);
+                                         366);
             self.view.frame = newFrame;
             
             [self.imagePickerController.cameraOverlayView addSubview:self.view];
@@ -106,7 +103,7 @@
 - (TTButton*) captionButton {
     if (!_captionButton) {
         _captionButton = [[TTButton alloc] init];
-        _captionButton.frame = CGRectMake(230, 372, 80, 29);
+        _captionButton.frame = CGRectMake(210, 328, 100, 34);
         [_captionButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateNormal] forState:UIControlStateNormal]; 
         [_captionButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateHighlighted] forState:UIControlStateHighlighted]; 
         [_captionButton setTitle:@"Caption" forState:UIControlStateNormal];
@@ -119,7 +116,7 @@
 
 - (UILabel*) captionLabel {
     if (!_captionLabel) {
-        _captionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 372, 320, 44)];
+        _captionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 333, 320, 44)];
         _captionLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
         _captionLabel.font = [UIFont systemFontOfSize:14];
         _captionLabel.textColor = [UIColor whiteColor];
@@ -133,7 +130,7 @@
 
 - (UIView*) captionView {
     if (!_captionView) {
-        _captionView = [[TTView alloc] initWithFrame:CGRectMake(0, 460, 320, 44)];
+        _captionView = [[TTView alloc] initWithFrame:CGRectMake(0, 410, 320, 44)];
         ((TTView*)_captionView).style = [MusubiStyleSheet bottomPanelStyle];
         _captionView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
         
@@ -181,10 +178,10 @@
     
     if (self.captionLabel.text.length) {
         self.captionLabel.hidden = NO;
-        self.captionButton.center = CGPointMake(270, 350);
+        self.captionButton.center = CGPointMake(260, 302);
     } else {
         self.captionLabel.hidden = YES;
-        self.captionButton.center = CGPointMake(270, 394);
+        self.captionButton.center = CGPointMake(260, 346);
     }
 }
 

@@ -59,10 +59,14 @@
     return [PictureObjItemCell pictureHeightForImage:image];
 }
 
-+ (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
-    
++ (CGFloat) textHeightForItem: (ManagedObjFeedItem*) item {
     CGSize size = [[PictureObjItemCell textForItem: (ManagedObjFeedItem*)item] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
-    return [PictureObjItemCell pictureHeightForItem:item] + size.height + kTableCellMargin;
+    
+    return size.height;
+}
+
++ (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
+    return [PictureObjItemCell pictureHeightForItem:item] + [PictureObjItemCell textHeightForItem:item] + kTableCellSmallMargin;
 }
 
 - (UIImageView *)pictureView {
@@ -99,7 +103,7 @@
         self.pictureView.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, [PictureObjItemCell pictureHeightForImage:self.pictureView.image]);
         
         CGFloat textTop = top + self.pictureView.height;
-        self.detailTextLabel.frame = CGRectMake(left, textTop, self.detailTextLabel.width, self.contentView.height - textTop);
+        self.detailTextLabel.frame = CGRectMake(left, textTop, self.detailTextLabel.width, [PictureObjItemCell textHeightForItem:(ManagedObjFeedItem*)_item] + kTableCellSmallMargin);
     }
 }
 
