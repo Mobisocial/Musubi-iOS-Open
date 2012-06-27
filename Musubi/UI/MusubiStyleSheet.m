@@ -67,18 +67,18 @@
 + (TTStyle *)transparentRoundedButton:(UIControlState)state {
     if (state == UIControlStateNormal) {
         return
-        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:10] next:
-         [TTSolidBorderStyle styleWithColor:RGBCOLOR(70,70,70) width:1 next:
-          [TTSolidFillStyle styleWithColor:RGBACOLOR(255,255,255,.4) next:
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:17] next:
+         [TTSolidBorderStyle styleWithColor:RGBCOLOR(0,0,0) width:.5 next:
+          [TTSolidFillStyle styleWithColor:RGBACOLOR(255,255,255,.3) next:
            [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 10, 10, 10) next:
-            [TTTextStyle styleWithFont:[UIFont boldSystemFontOfSize:14] color:RGBCOLOR(0, 0, 0) next:nil]]]]];
+            [TTTextStyle styleWithFont:[UIFont boldSystemFontOfSize:16] color:RGBCOLOR(0, 0, 0) next:nil]]]]];
     } else if (state == UIControlStateHighlighted) {
         return
-        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:10] next:
-         [TTSolidBorderStyle styleWithColor:RGBCOLOR(70,70,70) width:1 next:
+        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:17] next:
+         [TTSolidBorderStyle styleWithColor:RGBCOLOR(0,0,0) width:.5 next:
           [TTSolidFillStyle styleWithColor:RGBACOLOR(255,255,255,.7) next:
            [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 10, 10, 10) next:
-            [TTTextStyle styleWithFont:[UIFont boldSystemFontOfSize:14] color:RGBCOLOR(0, 0, 0) next:nil]]]]];
+            [TTTextStyle styleWithFont:[UIFont boldSystemFontOfSize:16] color:RGBCOLOR(0, 0, 0) next:nil]]]]];
     } else {
         return nil;
     }

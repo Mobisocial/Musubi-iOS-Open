@@ -69,6 +69,7 @@
 - (void)setPicture:(UIImage *)picture {
     _picture = picture;
     self.pictureView.image = picture;
+    self.pictureView.contentMode = UIViewContentModeScaleAspectFit;
 }
 
 - (void)setOverlayViewController:(UIViewController *)overlayViewController {
@@ -77,7 +78,7 @@
     }
     
     _overlayViewController = overlayViewController;
-    _overlayViewController.view.frame = CGRectMake(0, 0, 320, 416);
+    _overlayViewController.view.frame = CGRectMake(0, 40, 320, 356);
     [self.view addSubview:_overlayViewController.view];
     [self.view bringSubviewToFront:_overlayViewController.view];
 }

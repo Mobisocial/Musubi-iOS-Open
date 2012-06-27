@@ -111,7 +111,7 @@ static Musubi* _sharedInstance = nil;
     }
 
     NSDate* weekAgo = [NSDate dateWithTimeIntervalSinceNow:-604800.0];
-    res = [self.mainStore query:[NSPredicate predicateWithFormat:@"(encoded != nil) AND (sent == NO) AND (lastModified < %@)", weekAgo] onEntity:@"Obj"];
+    res = [self.mainStore query:[NSPredicate predicateWithFormat:@"(encoded != nil) AND (sent == NO OR sent == nil) AND (lastModified < %@)", weekAgo] onEntity:@"Obj"];
     NSLog(@"Marking %d old objs as sent", res.count);
     for (MObj* i in res) {
         i.sent = YES;
