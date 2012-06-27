@@ -15,22 +15,18 @@
  */
 
 
-//
-//  CorralHttpServer.h
-//  musubi
-//
-//  Created by Ben Dodson on 6/3/12.
-//  Copyright (c) 2012 Stanford University. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
-#import "HTTPServer.h"
-#import "MObj.h"
+#import "Three20/Three20.h"
+#import "MFeed.h"
 
-#define kCorralHttpPort 8225
+@interface FeedPhotoSource : TTURLRequestModel <TTPhotoSource> {
+    NSString* _title;
+    NSArray* _photos;
+}
 
-@interface CorralHTTPServer : HTTPServer
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, strong) NSArray* photos;
 
-+ (NSString*) urlForRaw:(MObj*)obj;
+- (id) initWithFeed: (MFeed*)feed;
 
 @end

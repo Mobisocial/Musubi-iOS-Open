@@ -58,6 +58,7 @@
 #import "DejalActivityView.h"
 #import "MIdentity.h"
 #import "HTMLAppViewController.h"
+#import "FeedPhoto.h"
 
 @implementation FeedViewController
 
@@ -641,11 +642,10 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             return;
         [[UIApplication sharedApplication] openURL:url];
     } else if ([cell isKindOfClass:[PictureObjItemCell class]]) {
-        NSString* appId = @"musubi.sketch";
-        AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
-        MApp* app = [appMgr ensureAppWithAppId:appId];
-        MObj* obj = ((FeedItem*)cell.object).obj;
-        [(FeedViewController*)self.controller launchApp:app withObj:obj];
+        ManagedObjFeedItem* objItem = cell.object;
+        FeedPhoto* photo = [[FeedPhoto alloc] initWithObj:objItem.managedObj];
+        TTPhotoViewController* gallery = [[TTPhotoViewController alloc] initWithPhoto:photo];
+        [[self.controller navigationController] pushViewController:gallery animated:true];
     }
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];

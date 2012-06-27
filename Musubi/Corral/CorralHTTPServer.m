@@ -25,6 +25,7 @@
 
 #import "CorralHTTPServer.h"
 #import "CorralHTTPConnection.h"
+#import "NSData+HexString.h"
 
 @implementation CorralHTTPServer
 - (id)init
@@ -38,4 +39,8 @@
     return self;
 }
 
++ (NSString *)urlForRaw:(MObj *)obj {
+    NSString* universalHash = [obj.universalHash hexString];
+    return [NSString stringWithFormat:@"http://127.0.0.1:%d/raw/%@", kCorralHttpPort, universalHash];
+}
 @end

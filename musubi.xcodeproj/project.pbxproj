@@ -207,6 +207,8 @@
 		D2F8C6CB152655C5005AD880 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */; };
 		D410BA4C1573085900951D94 /* UnknownObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D410BA4B1573085900951D94 /* UnknownObj.m */; };
 		D410BA5215734DEC00951D94 /* HtmlObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D410BA5115734DEB00951D94 /* HtmlObjItemCell.m */; };
+		D437B091159A639A00A4E625 /* FeedPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = D437B090159A639A00A4E625 /* FeedPhoto.m */; };
+		D437B094159A667100A4E625 /* FeedPhotoSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D437B093159A667100A4E625 /* FeedPhotoSource.m */; };
 		D4698A301575E6EF000749CF /* ManagedObjFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D4698A2F1575E6EE000749CF /* ManagedObjFeedItem.m */; };
 		D4698A331575FBBD000749CF /* IntroductionObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4698A321575FBBC000749CF /* IntroductionObjItemCell.m */; };
 		D48048A11561CC980066279D /* MLikeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D48048A01561CC980066279D /* MLikeCache.m */; };
@@ -1086,6 +1088,10 @@
 		D410BA4B1573085900951D94 /* UnknownObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnknownObj.m; path = SocialKit/Obj/UnknownObj.m; sourceTree = "<group>"; };
 		D410BA5015734DEB00951D94 /* HtmlObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HtmlObjItemCell.h; sourceTree = "<group>"; };
 		D410BA5115734DEB00951D94 /* HtmlObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HtmlObjItemCell.m; sourceTree = "<group>"; };
+		D437B08F159A639A00A4E625 /* FeedPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedPhoto.h; sourceTree = "<group>"; };
+		D437B090159A639A00A4E625 /* FeedPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedPhoto.m; sourceTree = "<group>"; };
+		D437B092159A667100A4E625 /* FeedPhotoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedPhotoSource.h; sourceTree = "<group>"; };
+		D437B093159A667100A4E625 /* FeedPhotoSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedPhotoSource.m; sourceTree = "<group>"; };
 		D4698A2E1575E6EE000749CF /* ManagedObjFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjFeedItem.h; sourceTree = "<group>"; };
 		D4698A2F1575E6EE000749CF /* ManagedObjFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjFeedItem.m; sourceTree = "<group>"; };
 		D4698A311575FBBC000749CF /* IntroductionObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroductionObjItemCell.h; sourceTree = "<group>"; };
@@ -1357,6 +1363,7 @@
 				2F07123A157BB6E7008B6FEE /* Profile */,
 				D26028D91566EEBE00CF6500 /* assets */,
 				D2A1FC141521A6C500C10BE2 /* Feed */,
+				D437B08E159A636B00A4E625 /* Gallery */,
 				D23EED011554854200B18153 /* FeedList */,
 				D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */,
 				D211D969151979D200E38051 /* Settings */,
@@ -2969,6 +2976,18 @@
 			path = Pipeline;
 			sourceTree = "<group>";
 		};
+		D437B08E159A636B00A4E625 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				D437B08F159A639A00A4E625 /* FeedPhoto.h */,
+				D437B090159A639A00A4E625 /* FeedPhoto.m */,
+				D437B092159A667100A4E625 /* FeedPhotoSource.h */,
+				D437B093159A667100A4E625 /* FeedPhotoSource.m */,
+			);
+			name = Gallery;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		D4DB1293157C2BD800337A16 /* Corral */ = {
 			isa = PBXGroup;
 			children = (
@@ -3598,6 +3617,8 @@
 				D228E5BC15925AE9002E15E6 /* MusubiStyleSheet.m in Sources */,
 				D21A714C1598C78800743842 /* PictureEditViewController.m in Sources */,
 				D21A714F1598E3BD00743842 /* PictureOverlayViewController.m in Sources */,
+				D437B091159A639A00A4E625 /* FeedPhoto.m in Sources */,
+				D437B094159A667100A4E625 /* FeedPhotoSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
