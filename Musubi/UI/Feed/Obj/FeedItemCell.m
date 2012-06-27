@@ -199,6 +199,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
         if (item.sender.length) {
             self.senderLabel.text = item.sender;
         }
+
         if (item.obj.sent && item.timestamp) {
             self.timestampLabel.text = [item.timestamp formatShortTime];
         } else {

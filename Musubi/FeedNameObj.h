@@ -31,7 +31,7 @@
 
 @property (nonatomic, strong) NSString* name;
 
-- (id) initWithName: (NSString*) name;
-- (id) initWithData: (NSDictionary*) data;
+- (id)initWithName:(NSString *)name andThumbnail: (NSData*) thumbnail;
+- (id) initWithData: (NSDictionary*) data andRaw: (NSData*) raw;
 
 @end

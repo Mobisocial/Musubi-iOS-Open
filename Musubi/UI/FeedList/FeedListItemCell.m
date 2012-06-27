@@ -48,7 +48,8 @@ static NSUInteger kDefaultStrokeWidth = 1;
     [super layoutSubviews];
     
     [self profilePictureView];
-    _profilePictureView.contentMode = UIViewContentModeScaleAspectFit;
+    _profilePictureView.clipsToBounds = YES;
+    _profilePictureView.contentMode = UIViewContentModeScaleAspectFill;
     _profilePictureView.frame = CGRectMake(0, 0, kDefaultMessageImageWidth, kDefaultMessageImageHeight);
     
     [_unreadLabel sizeToFit];
