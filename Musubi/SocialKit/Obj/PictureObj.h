@@ -26,6 +26,8 @@
 #import "Obj.h"
 
 #define kObjTypePicture @"picture"
+#define kMimeField @"mimeType"
+#define kTextField @"text"
 
 @interface PictureObj : Obj<RenderableObj> {
     UIImage* _image;

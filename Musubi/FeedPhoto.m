@@ -18,6 +18,8 @@
 #import "FeedPhoto.h"
 #import "FeedPhotoSource.h"
 #import "CorralHTTPServer.h"
+#import "SBJsonParser.h"
+#import "PictureObj.h"
 
 @implementation FeedPhoto
 @synthesize caption = _caption;
@@ -39,7 +41,11 @@
 
 - (id)initWithObj: (MObj*) obj andSource: (FeedPhotoSource*)source andIndex: (NSInteger) index {
     if (self = [super init]) {
-        self.caption = nil;
+        if (obj.json) {
+            SBJsonParser* parser = [[SBJsonParser alloc] init];
+            NSDictionary *json = [parser objectWithString:obj.json];
+            self.caption = [json objectForKey:kTextField];
+        }
         self.urlLarge = [CorralHTTPServer urlForRaw:obj];
         self.urlSmall = self.urlLarge;
         self.urlThumb = self.urlLarge;

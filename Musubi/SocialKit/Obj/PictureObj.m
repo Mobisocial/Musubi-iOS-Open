@@ -26,9 +26,6 @@
 #import "PictureObj.h"
 #import "UIImage+Resize.h"
 
-static NSString* kMimeField = @"mimeType";
-static NSString* kTextField = @"text";
-
 @implementation PictureObj
 
 @synthesize image = _image;
