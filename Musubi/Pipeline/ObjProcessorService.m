@@ -89,7 +89,10 @@ static int operationCount = 0;
     MFeed* feed = mObj.feed;    
     assert (mObj != nil);
     assert (mObj.universalHash != nil);
-    assert (!mObj.processed);
+    if(mObj.processed) {
+        NSLog(@"evil trying to reprocess obj %@", mObj);
+        return;
+    }
     assert (mObj.shortUniversalHash == *(uint64_t *)mObj.universalHash.bytes);
     
     if (mObj.processed)
