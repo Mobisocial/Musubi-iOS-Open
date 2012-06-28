@@ -252,6 +252,7 @@
 		D4FFE27515780B2E007F918E /* StoryObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27415780B2D007F918E /* StoryObjItemCell.m */; };
 		D4FFE27815780BB8007F918E /* StoryObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27715780BB8007F918E /* StoryObj.m */; };
 		D95D190B157D3085003AA911 /* VoiceObj.h in Sources */ = {isa = PBXBuildFile; fileRef = 2FB1693D157D264600832396 /* VoiceObj.h */; };
+		F7FDB0F7159BDD2700BDA402 /* target-script-min.js in Sources */ = {isa = PBXBuildFile; fileRef = F7FDB0F6159BDD2700BDA402 /* target-script-min.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1176,6 +1177,7 @@
 		D4FFE27415780B2D007F918E /* StoryObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryObjItemCell.m; sourceTree = "<group>"; };
 		D4FFE27615780BB8007F918E /* StoryObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoryObj.h; path = SocialKit/Obj/StoryObj.h; sourceTree = "<group>"; };
 		D4FFE27715780BB8007F918E /* StoryObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoryObj.m; path = SocialKit/Obj/StoryObj.m; sourceTree = "<group>"; };
+		F7FDB0F6159BDD2700BDA402 /* target-script-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "target-script-min.js"; path = "html5/apps/musubi.sketch/lib/target-script-min.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2783,6 +2785,7 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
+				F7FDB0F6159BDD2700BDA402 /* target-script-min.js */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
 				D298FA40143D0E84000831DD /* html5 */,
 				D2794AF11457D33F00C5FDAB /* Libraries */,
@@ -3619,6 +3622,7 @@
 				D21A714F1598E3BD00743842 /* PictureOverlayViewController.m in Sources */,
 				D437B091159A639A00A4E625 /* FeedPhoto.m in Sources */,
 				D437B094159A667100A4E625 /* FeedPhotoSource.m in Sources */,
+				F7FDB0F7159BDD2700BDA402 /* target-script-min.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

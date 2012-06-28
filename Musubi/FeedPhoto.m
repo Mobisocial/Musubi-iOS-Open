@@ -29,6 +29,7 @@
 @synthesize photoSource = _photoSource;
 @synthesize size = _size;
 @synthesize index = _index;
+@synthesize obj = _obj;
 
 - (id)initWithObj: (MObj*) obj {
     if (self = [super init]) {
@@ -41,6 +42,7 @@
 
 - (id)initWithObj: (MObj*) obj andSource: (FeedPhotoSource*)source andIndex: (NSInteger) index {
     if (self = [super init]) {
+        _obj = obj;
         if (obj.json) {
             SBJsonParser* parser = [[SBJsonParser alloc] init];
             NSDictionary *json = [parser objectWithString:obj.json];
