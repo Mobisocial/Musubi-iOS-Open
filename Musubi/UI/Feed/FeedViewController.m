@@ -477,7 +477,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             MObj* mObj = [ObjHelper sendObj:obj toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
             */
             
-            [FeedViewController launchApp: app withObj:nil feed: _feed andController:self];
+            [FeedViewController launchApp: app withObj:nil feed: _feed andController:self popViewController:false];
         }
     }
 }
@@ -505,12 +505,17 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [self refreshFeed];
 }
 
-+ (void)launchApp: (MApp*) app withObj: (MObj*) obj feed: (MFeed*)feed andController: (UIViewController*) controller { 
++ (void)launchApp: (MApp*) app withObj: (MObj*) obj feed: (MFeed*)feed andController: (UIViewController*) controller popViewController: (BOOL) shouldPop { 
     HTMLAppViewController* appViewController = (HTMLAppViewController*) [[controller storyboard] instantiateViewControllerWithIdentifier:@"AppView"];
     appViewController.app = app;
     appViewController.feed = feed;
     appViewController.obj = obj;
     
+    // If we are editing an existing gallery photo, we should pop the TTPhotoViewController off the
+    // stack so that clicking "Post" from MusuSketch will return the user to the feed view
+    if (shouldPop) {
+        [[controller navigationController] popViewControllerAnimated:false];
+    }
     [[controller navigationController] pushViewController:appViewController animated:YES];
 }
 
@@ -597,7 +602,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 @implementation FeedViewTableDelegate
 
 @synthesize gallery = _gallery;
-@synthesize feedCell = _feedCell;
+@synthesize feedViewController = _feedViewController;
 
 - (void)likedAtIndexPath:(NSIndexPath *)indexPath {
     FeedItem* item = [self.controller.dataSource tableView:self.controller.tableView objectForRowAtIndexPath:indexPath];
@@ -652,7 +657,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
                                                       target:self
                                                       action:@selector(openActionSheet:)];
         self.gallery = [[TTPhotoViewController alloc] initWithPhoto:photo andButton:button];
-        self.feedCell = cell;
+        self.feedViewController = (FeedViewController*)self.controller;
         
         [[self.controller navigationController] pushViewController:self.gallery animated:true];
     }
@@ -678,6 +683,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     switch(buttonIndex)  {
         case 0:
         {
+            // Save the image to the Camera Roll
             NSURL    *aUrl  = [NSURL URLWithString:[self.gallery.centerPhoto URLForVersion:TTPhotoVersionLarge]];
             NSData   *data = [NSData dataWithContentsOfURL:aUrl];
             UIImage  *img  = [[UIImage alloc] initWithData:data];
@@ -687,12 +693,20 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         }
         case 1:
         {
+            // Open the image in MusuSketch
             FeedPhoto* feedPhoto = (FeedPhoto*)self.gallery.centerPhoto;
             NSString* appId = @"musubi.sketch";
             AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
             MApp* app = [appMgr ensureAppWithAppId:appId];
             MObj* obj = feedPhoto.obj;
-            [FeedViewController launchApp:app withObj:obj feed:obj.feed andController:self.controller];
+            [FeedViewController launchApp:app withObj:obj feed:obj.feed andController:self.feedViewController popViewController:true];
+            
+            break;
+        }
+        case 2:
+        {
+            // Share the image
+            
             break;
         }
         case 3:

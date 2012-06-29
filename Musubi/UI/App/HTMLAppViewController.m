@@ -67,7 +67,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+
     NSURL* html = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html" subdirectory:[NSString stringWithFormat: @"html5/apps/%@", _app.appId]];
     NSLog(@"HTML: %@, %@", html, _app.appId);
     NSLog(@"Web: %@", webView);

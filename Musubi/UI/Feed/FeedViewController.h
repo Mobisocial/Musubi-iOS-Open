@@ -72,6 +72,6 @@
 - (void) profilePictureButtonPressedAtIndexPath: (NSIndexPath*) indexPath;
 
 @property (nonatomic, strong) TTPhotoViewController* gallery;
-@property (nonatomic, strong) FeedItemCell* feedCell;
+@property (nonatomic, strong) FeedViewController* feedViewController;
 
 @end
