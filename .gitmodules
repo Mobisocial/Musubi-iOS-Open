@@ -4,3 +4,6 @@
 [submodule "Libraries/DejalActivityView"]
 	path = Libraries/DejalActivityView
 	url = git://github.com/Dejal/DejalActivityView.git
+[submodule "Submodules/ShareKit"]
+	path = Submodules/ShareKit
+	url = git://github.com/ShareKit/ShareKit.git

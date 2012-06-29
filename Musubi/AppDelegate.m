@@ -36,6 +36,8 @@
 #import "MIdentity.h"
 #import "Three20/Three20.h"
 #import "MusubiStyleSheet.h"
+#import "Util/MusubiShareKitConfigurator.h"
+#import "SHKConfiguration.h"
 
 @implementation AppDelegate
 
@@ -58,7 +60,10 @@
     
     // Pause on the loading screen for a bit, for awesomeness display reasons
     [NSThread sleepUntilDate:showUIDate];
-    
+
+    DefaultSHKConfigurator *configurator = [[MusubiShareKitConfigurator alloc] init];
+    [SHKConfiguration sharedInstanceWithConfigurator:configurator];
+
     return YES;
 }
 
