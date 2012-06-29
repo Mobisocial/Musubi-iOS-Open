@@ -477,7 +477,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             MObj* mObj = [ObjHelper sendObj:obj toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
             */
             
-            [self launchApp: app withObj:nil];
+            [FeedViewController launchApp: app withObj:nil feed: _feed andController:self popViewController:false];
         }
     }
 }
@@ -505,13 +505,18 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [self refreshFeed];
 }
 
-- (void)launchApp: (MApp*) app withObj: (MObj*) obj { 
-    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[self storyboard] instantiateViewControllerWithIdentifier:@"AppView"];
++ (void)launchApp: (MApp*) app withObj: (MObj*) obj feed: (MFeed*)feed andController: (UIViewController*) controller popViewController: (BOOL) shouldPop { 
+    HTMLAppViewController* appViewController = (HTMLAppViewController*) [[controller storyboard] instantiateViewControllerWithIdentifier:@"AppView"];
     appViewController.app = app;
-    appViewController.feed = _feed;
+    appViewController.feed = feed;
     appViewController.obj = obj;
     
-    [[self navigationController] pushViewController:appViewController animated:YES];
+    // If we are editing an existing gallery photo, we should pop the TTPhotoViewController off the
+    // stack so that clicking "Post" from MusuSketch will return the user to the feed view
+    if (shouldPop) {
+        [[controller navigationController] popViewControllerAnimated:false];
+    }
+    [[controller navigationController] pushViewController:appViewController animated:YES];
 }
 
 - (void)picturePickerFinishedWithPicture:(UIImage *)picture withCaption:(NSString *)caption {
@@ -621,6 +626,9 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 
 @implementation FeedViewTableDelegate
 
+@synthesize gallery = _gallery;
+@synthesize feedViewController = _feedViewController;
+
 - (void)likedAtIndexPath:(NSIndexPath *)indexPath {
     FeedItem* item = [self.controller.dataSource tableView:self.controller.tableView objectForRowAtIndexPath:indexPath];
     
@@ -669,11 +677,69 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     } else if ([cell isKindOfClass:[PictureObjItemCell class]]) {
         ManagedObjFeedItem* objItem = cell.object;
         FeedPhoto* photo = [[FeedPhoto alloc] initWithObj:objItem.managedObj];
-        TTPhotoViewController* gallery = [[TTPhotoViewController alloc] initWithPhoto:photo];
-        [[self.controller navigationController] pushViewController:gallery animated:true];
+        UIBarButtonItem* button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemAction
+         //TTIMAGE(@"UIBarButtonReply.png")
+                                                      target:self
+                                                      action:@selector(openActionSheet:)];
+        self.gallery = [[TTPhotoViewController alloc] initWithPhoto:photo andButton:button];
+        self.feedViewController = (FeedViewController*)self.controller;
+        
+        [[self.controller navigationController] pushViewController:self.gallery animated:true];
     }
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+}
+
+- (void)openActionSheet:(UIActionSheet *)actionSheet
+{
+    UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Save Image", @"Edit Image", @"Share Image", nil];
+    
+    [actions showInView:self.gallery.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    
+    switch(buttonIndex)  {
+        case 0:
+        {
+            // Save the image to the Camera Roll
+            NSURL    *aUrl  = [NSURL URLWithString:[self.gallery.centerPhoto URLForVersion:TTPhotoVersionLarge]];
+            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
+            UIImage  *img  = [[UIImage alloc] initWithData:data];
+            
+            UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
+            break;
+        }
+        case 1:
+        {
+            // Open the image in MusuSketch
+            FeedPhoto* feedPhoto = (FeedPhoto*)self.gallery.centerPhoto;
+            NSString* appId = @"musubi.sketch";
+            AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+            MApp* app = [appMgr ensureAppWithAppId:appId];
+            MObj* obj = feedPhoto.obj;
+            [FeedViewController launchApp:app withObj:obj feed:obj.feed andController:self.feedViewController popViewController:true];
+            
+            break;
+        }
+        case 2:
+        {
+            // Share the image
+            
+            break;
+        }
+        case 3:
+        {
+            break;
+        }
+            
+    }
 }
 
 

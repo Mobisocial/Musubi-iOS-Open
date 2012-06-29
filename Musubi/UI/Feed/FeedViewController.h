@@ -28,6 +28,7 @@
 #import "AudioRecorderViewController.h"
 #import "FeedSettingsViewController.h"
 #import "PictureOverlayViewController.h"
+#import "FeedItemCell.h"
 
 @class MApp, MFeed, StatusTextView, PictureOverlayViewController, PersistentModelStore;
 
@@ -45,6 +46,7 @@
     IBOutlet UIButton* actionButton;
     IBOutlet TTButton* sendButton;
     IBOutlet StatusTextView* statusField;
+    
     
     int lastRow;
 }
@@ -64,8 +66,14 @@
 
 // FeedViewTableDelegate
 
-@interface FeedViewTableDelegate : TTTableViewVarHeightDelegate
+@interface FeedViewTableDelegate : TTTableViewVarHeightDelegate {
+    //TTPhotoViewController* gallery;
+}
+
 - (void) likedAtIndexPath: (NSIndexPath*) indexPath;
 - (void) profilePictureButtonPressedAtIndexPath: (NSIndexPath*) indexPath;
+
+@property (nonatomic, strong) TTPhotoViewController* gallery;
+@property (nonatomic, strong) FeedViewController* feedViewController;
 
 @end

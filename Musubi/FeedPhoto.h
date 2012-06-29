@@ -29,6 +29,7 @@
     id <TTPhotoSource> _photoSource;
     CGSize _size;
     NSInteger _index;
+    MObj* _obj;
 }
 
 @property (nonatomic, copy) NSString *caption;
@@ -38,6 +39,7 @@
 @property (nonatomic, strong) id <TTPhotoSource> photoSource;
 @property (nonatomic) CGSize size;
 @property (nonatomic) NSInteger index;
+@property (nonatomic, strong) MObj* obj;
 
 - (id)initWithObj: (MObj*)obj;
 - (id)initWithObj:(MObj *)obj andSource:(FeedPhotoSource*)source andIndex: (NSInteger) index;
