@@ -49,7 +49,7 @@
         
         NSCharacterSet* splitChars = [NSCharacterSet characterSetWithCharactersInString:@" -,."];
 
-        _structuredNames = [NSMutableArray array];
+        _structuredNames = [NSMutableArray arrayWithObjects:self.realName, self.musubiName, nil];
         [_structuredNames addObjectsFromArray:[self.realName componentsSeparatedByCharactersInSet:splitChars]];
         [_structuredNames addObjectsFromArray:[self.musubiName componentsSeparatedByCharactersInSet:splitChars]];
         
