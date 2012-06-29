@@ -36,7 +36,7 @@
 @property (nonatomic, copy) NSString *urlLarge;
 @property (nonatomic, copy) NSString *urlSmall;
 @property (nonatomic, copy) NSString *urlThumb;
-@property (nonatomic, strong) id <TTPhotoSource> photoSource;
+@property (nonatomic, strong) id<TTPhotoSource> photoSource;
 @property (nonatomic) CGSize size;
 @property (nonatomic) NSInteger index;
 @property (nonatomic, strong) MObj* obj;

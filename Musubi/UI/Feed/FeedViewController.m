@@ -59,6 +59,7 @@
 #import "MIdentity.h"
 #import "HTMLAppViewController.h"
 #import "FeedPhoto.h"
+#import "FeedPhotoViewController.h"
 
 @implementation FeedViewController
 
@@ -677,71 +678,15 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     } else if ([cell isKindOfClass:[PictureObjItemCell class]]) {
         ManagedObjFeedItem* objItem = cell.object;
         FeedPhoto* photo = [[FeedPhoto alloc] initWithObj:objItem.managedObj];
-        UIBarButtonItem* button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemAction
-         //TTIMAGE(@"UIBarButtonReply.png")
-                                                      target:self
-                                                      action:@selector(openActionSheet:)];
-        self.gallery = [[TTPhotoViewController alloc] initWithPhoto:photo andButton:button];
+        
         self.feedViewController = (FeedViewController*)self.controller;
+        self.gallery = [[FeedPhotoViewController alloc] initWithFeedViewController:self.feedViewController andPhoto:photo];
         
         [[self.controller navigationController] pushViewController:self.gallery animated:true];
     }
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
 }
-
-- (void)openActionSheet:(UIActionSheet *)actionSheet
-{
-    UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Save Image", @"Edit Image", @"Share Image", nil];
-    
-    [actions showInView:self.gallery.view];
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    
-    switch(buttonIndex)  {
-        case 0:
-        {
-            // Save the image to the Camera Roll
-            NSURL    *aUrl  = [NSURL URLWithString:[self.gallery.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-            UIImage  *img  = [[UIImage alloc] initWithData:data];
-            
-            UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
-            break;
-        }
-        case 1:
-        {
-            // Open the image in MusuSketch
-            FeedPhoto* feedPhoto = (FeedPhoto*)self.gallery.centerPhoto;
-            NSString* appId = @"musubi.sketch";
-            AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
-            MApp* app = [appMgr ensureAppWithAppId:appId];
-            MObj* obj = feedPhoto.obj;
-            [FeedViewController launchApp:app withObj:obj feed:obj.feed andController:self.feedViewController popViewController:true];
-            
-            break;
-        }
-        case 2:
-        {
-            // Share the image
-            
-            break;
-        }
-        case 3:
-        {
-            break;
-        }
-            
-    }
-}
-
 
 /*- (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {
     MFeed* feed = [((FeedListDataSource*)self.dataSource) feedForIndex:indexPath.row];

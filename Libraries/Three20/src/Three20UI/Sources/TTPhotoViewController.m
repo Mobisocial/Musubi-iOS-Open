@@ -63,11 +63,11 @@ static const NSInteger kActivityLabelTag          = 96;
 @implementation TTPhotoViewController
 
 @synthesize centerPhoto       = _centerPhoto;
-@synthesize actionButton      = _actionButton;
 @synthesize centerPhotoIndex  = _centerPhotoIndex;
 @synthesize defaultImage      = _defaultImage;
 @synthesize captionStyle      = _captionStyle;
 @synthesize photoSource       = _photoSource;
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -105,15 +105,6 @@ static const NSInteger kActivityLabelTag          = 96;
   return self;
 }
 
-- (id)initWithPhoto:(id<TTPhoto>)photo andButton:(UIBarButtonItem *)button {
-	self = [self initWithNibName:nil bundle:nil];
-    if (self) {
-        self.centerPhoto = photo;
-        self.actionButton = button;
-    }
-    
-    return self;
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithPhotoSource:(id<TTPhotoSource>)photoSource {
@@ -532,9 +523,6 @@ static const NSInteger kActivityLabelTag          = 96;
                                     target:self
                                     action:@selector(previousAction)];
 
-    _clickActionItem = self.actionButton;
-    //[_clickActionItem setAction:@selector(openActionSheet:)];
-    
   UIBarButtonItem* playButton =
     [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay
                                                    target:self
@@ -542,17 +530,9 @@ static const NSInteger kActivityLabelTag          = 96;
      autorelease];
   playButton.tag = 1;
 
-  UIBarButtonItem* space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:
+  UIBarItem* space = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:
                        UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
 
-    UIBarButtonItem* fixedSpace1 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace target: nil action: nil] autorelease];
-    
-    fixedSpace1.width = 90;
- 
-    UIBarButtonItem* fixedSpace2 = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemFixedSpace target: nil action: nil] autorelease];
-    
-    fixedSpace2.width = 55;
-    
   _toolbar = [[UIToolbar alloc] initWithFrame:
               CGRectMake(0, screenFrame.size.height - TT_ROW_HEIGHT,
                          screenFrame.size.width, TT_ROW_HEIGHT)];
@@ -562,21 +542,11 @@ static const NSInteger kActivityLabelTag          = 96;
 
   _toolbar.barStyle = self.navigationBarStyle;
   _toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
-    _toolbar.items = [NSArray arrayWithObjects: _clickActionItem, space, nil];
-  //_toolbar.items = [NSArray arrayWithObjects:
-  //                  fixedSpace1, _previousButton, space, _nextButton, fixedSpace2, _clickActionItem, nil];
+  _toolbar.items = [NSArray arrayWithObjects:
+                    space, _previousButton, space, _nextButton, space, nil];
   [_innerView addSubview:_toolbar];
-    
 }
-     
 
-
-/**
- BJD: Pass in to the TTPhotoViewController both a button: and actionSheet:. The delegate openActionSheet just calls:
-    [actionSheet showInView:self.view]
- instead of
-    [actions showInView:self.view]
- **/
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)viewDidUnload {

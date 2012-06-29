@@ -27,6 +27,7 @@
 #import "PictureObj.h"
 #import "Three20/Three20.h"
 #import "MusubiStyleSheet.h"
+#import "UIImage+Resize.h"
 
 @implementation PictureEditViewController
 
@@ -35,10 +36,7 @@
 @synthesize overlayViewController = _overlayViewController;
 
 - (void)loadView {
-    [super loadView];    
-    
-    _pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 416)];
-    [self.view addSubview:_pictureView];
+    [super loadView];
     
     UIToolbar* toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 416, 320, 44)];
     toolbar.tintColor = [UIColor colorWithWhite:240.0/255.0 alpha:1.0];
@@ -68,8 +66,22 @@
 
 - (void)setPicture:(UIImage *)picture {
     _picture = picture;
-    self.pictureView.image = picture;
-    self.pictureView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    /* For some bizar reason, UIViewContentModeScaleAspectFit doesn't always scale images properly, so we'll do it ourselves */
+    
+    CGFloat xScale = picture.size.width / 320;
+    CGFloat yScale = picture.size.height / 427;
+    CGFloat scale = MAX(xScale, yScale);
+    CGSize bounds = CGSizeMake(picture.size.width / scale * 2, picture.size.height / scale * 2);
+    
+    UIImage* scaledImage = [picture resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:bounds interpolationQuality:0.9];
+
+    if (bounds.height > self.pictureView.frame.size.height * 2) {
+        self.pictureView.contentMode = UIViewContentModeScaleAspectFill;
+    } else {
+        self.pictureView.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    self.pictureView.image = scaledImage;
 }
 
 - (void)setOverlayViewController:(UIViewController *)overlayViewController {
@@ -90,11 +102,12 @@
 
 - (UIImageView *)pictureView {
     if (_pictureView == nil) {
-        _pictureView = [[UIImageView alloc] initWithFrame: CGRectMake(0.0, 0.0, 320.0, 420.0)];
+        _pictureView = [[UIImageView alloc] initWithFrame: CGRectMake(0.0, 0.0, 320.0, 416.0)];
         _pictureView.backgroundColor = [UIColor blackColor];
-        _pictureView.contentMode = UIViewContentModeScaleAspectFit;
+        _pictureView.clipsToBounds = YES;
 
         [self.view addSubview:_pictureView];
+        [self.view bringSubviewToFront:_overlayViewController.view];
     }
     
     return _pictureView;

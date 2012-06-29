@@ -55,6 +55,7 @@
 - (void)userChoseAudioData:(NSURL *)file; // AudioRecorderDelegate
 - (MObj*) sendObj:(Obj *)obj fromApp: (MApp*) app;
 + (MObj*) sendObj:(Obj *)obj toFeed: (MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store;
++ (void)launchApp: (MApp*) app withObj: (MObj*) obj feed: (MFeed*)feed andController: (UIViewController*) controller popViewController: (BOOL) shouldPop;
 
 @property (nonatomic, retain) MFeed* feed;
 @property (nonatomic, weak) id<FeedViewControllerDelegate> delegate;

@@ -31,7 +31,6 @@
   TTThumbsViewControllerDelegate
 > {
   id<TTPhoto>       _centerPhoto;
-    UIBarButtonItem*  _actionButton;
   NSInteger         _centerPhotoIndex;
 
   UIView*           _innerView;
@@ -41,7 +40,6 @@
   UIToolbar*        _toolbar;
   UIBarButtonItem*  _nextButton;
   UIBarButtonItem*  _previousButton;
-    UIBarButtonItem*  _clickActionItem;
 
   TTStyle*          _captionStyle;
 
@@ -70,7 +68,6 @@
  * You can assign this directly to change the photoSource to the one that contains the photo.
  */
 @property (nonatomic, retain) id<TTPhoto> centerPhoto;
-@property (nonatomic, retain) UIBarButtonItem* actionButton;
 
 /**
  * The index of the currently visible photo.
@@ -91,7 +88,6 @@
 @property (nonatomic, retain) TTStyle* captionStyle;
 
 - (id)initWithPhoto:(id<TTPhoto>)photo;
-- (id)initWithPhoto:(id<TTPhoto>)photo andButton:(UIBarButtonItem *)button;
 - (id)initWithPhotoSource:(id<TTPhotoSource>)photoSource;
 
 /**

@@ -214,6 +214,7 @@
         
         [((UIViewController*)self.delegate) presentModalViewController:editVC animated:YES];
     } else {
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
         [self.delegate picturePickerFinishedWithPicture:image withCaption:self.captionLabel.text];        
     }
 }

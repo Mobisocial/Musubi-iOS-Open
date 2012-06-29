@@ -205,6 +205,7 @@
 		D2F8C689152533D6005AD880 /* NSDate+TimeAgo.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */; };
 		D2F8C68C1526438F005AD880 /* GoogleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C68B1526438F005AD880 /* GoogleAuth.m */; };
 		D2F8C6CB152655C5005AD880 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */; };
+		D2FBCED7159D4ED2008C2015 /* FeedPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FBCED6159D4ED2008C2015 /* FeedPhotoViewController.m */; };
 		D410BA4C1573085900951D94 /* UnknownObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D410BA4B1573085900951D94 /* UnknownObj.m */; };
 		D410BA5215734DEC00951D94 /* HtmlObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D410BA5115734DEB00951D94 /* HtmlObjItemCell.m */; };
 		D437B091159A639A00A4E625 /* FeedPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = D437B090159A639A00A4E625 /* FeedPhoto.m */; };
@@ -1085,6 +1086,8 @@
 		D2F8C68B1526438F005AD880 /* GoogleAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAuth.m; sourceTree = "<group>"; };
 		D2F8C68E152647D3005AD880 /* GTMOAuth2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GTMOAuth2.xcodeproj; path = OAuth2/GTMOAuth2.xcodeproj; sourceTree = "<group>"; };
 		D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		D2FBCED5159D4ED2008C2015 /* FeedPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedPhotoViewController.h; path = UI/Gallery/FeedPhotoViewController.h; sourceTree = "<group>"; };
+		D2FBCED6159D4ED2008C2015 /* FeedPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedPhotoViewController.m; path = UI/Gallery/FeedPhotoViewController.m; sourceTree = "<group>"; };
 		D410BA4A1573085900951D94 /* UnknownObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnknownObj.h; path = SocialKit/Obj/UnknownObj.h; sourceTree = "<group>"; };
 		D410BA4B1573085900951D94 /* UnknownObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnknownObj.m; path = SocialKit/Obj/UnknownObj.m; sourceTree = "<group>"; };
 		D410BA5015734DEB00951D94 /* HtmlObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HtmlObjItemCell.h; sourceTree = "<group>"; };
@@ -2986,6 +2989,8 @@
 				D437B090159A639A00A4E625 /* FeedPhoto.m */,
 				D437B092159A667100A4E625 /* FeedPhotoSource.h */,
 				D437B093159A667100A4E625 /* FeedPhotoSource.m */,
+				D2FBCED5159D4ED2008C2015 /* FeedPhotoViewController.h */,
+				D2FBCED6159D4ED2008C2015 /* FeedPhotoViewController.m */,
 			);
 			name = Gallery;
 			path = ..;
@@ -3623,6 +3628,7 @@
 				D437B091159A639A00A4E625 /* FeedPhoto.m in Sources */,
 				D437B094159A667100A4E625 /* FeedPhotoSource.m in Sources */,
 				F7FDB0F7159BDD2700BDA402 /* target-script-min.js in Sources */,
+				D2FBCED7159D4ED2008C2015 /* FeedPhotoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

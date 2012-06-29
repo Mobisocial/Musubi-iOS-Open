@@ -54,7 +54,6 @@
         self.index = index;
         UIImage* image = [[UIImage alloc] initWithData:obj.raw];
         self.size = [image size];
-        NSLog(@"image size %1f, %1f", self.size.width, self.size.height);
         self.photoSource = source;
     }
     return self;

@@ -207,8 +207,6 @@
         *profileDataChanged = YES;
     }
     
-    NSLog(@"Id: %@", mId);
-    
     return mId;
 }
 
