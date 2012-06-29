@@ -28,5 +28,7 @@
 @interface FeedNameCell : UITableViewCell
 
 @property (nonatomic, strong) IBOutlet UITextField* name;
+@property (nonatomic) IBOutlet UIImageView* picture;
+@property (nonatomic) IBOutlet UIButton* pictureButton;
 
 @end
