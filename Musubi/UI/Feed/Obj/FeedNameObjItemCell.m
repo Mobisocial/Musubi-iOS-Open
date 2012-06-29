@@ -31,7 +31,7 @@
 @implementation FeedNameObjItemCell
 
 + (NSString*) textForItem: (ManagedObjFeedItem*) item {
-    NSString* text = @"I renamed the feed to ";
+    NSString* text = @"I changed the feed details for ";
     NSString* name = [[item parsedJson] objectForKey: @"name"];
     
     text = [text stringByAppendingFormat:@"\"%@\"", name];

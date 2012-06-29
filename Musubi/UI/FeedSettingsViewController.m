@@ -84,6 +84,15 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+
+- (void)pictureClicked:(id)sender {    
+    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+    [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+    [picker setDelegate:self];
+    
+    [self presentModalViewController:picker animated:YES];
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -117,6 +126,17 @@
     return 3;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+        case 0: {
+            return 90;
+        }
+        default: {
+            return 44;
+        }
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
@@ -133,35 +153,40 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"index = %d", indexPath.section);
     switch (indexPath.section) {
         case 0: {
             static NSString *cellIdentifier = @"FeedNameCell";
-            //FeedNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc]
-                        initWithStyle:UITableViewCellStyleValue2 
-                        reuseIdentifier:cellIdentifier];
+            FeedNameCell *cell = (FeedNameCell*) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            /*PersistentModelStore* store = [[Musubi sharedInstance] newStore];
+             IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
+             NSArray* mine = [idm ownedIdentities];
+             if(mine.count > 0) {
+             MIdentity* me = [mine objectAtIndex:0];
+             if(me.musubiThumbnail) {
+             cell.picture.image = [UIImage imageWithData:me.musubiThumbnail];
+             }
+             cell.nameTextField.text = me.musubiName;
+             }*/
+            
+            
+            cell.name.text = [_feedManager identityStringForFeed: _feed];
+            /*
+            cell.name.borderStyle = UITextBorderStyleNone;
+            cell.name.textColor = [UIColor blackColor];
+            cell.name.font = [UIFont systemFontOfSize:14];
+            cell.name.placeholder = @"Conversation Title";
+            cell.name.text = [_feedManager identityStringForFeed: _feed];
+            cell.name.backgroundColor = [UIColor clearColor];
+            cell.name.autocorrectionType = UITextAutocorrectionTypeNo;
+            cell.name.keyboardType = UIKeyboardTypeDefault;
+            cell.name.returnKeyType = UIReturnKeyDone;*/
+            cell.name.tag = kFeedNameTag;
+            
+            if (_feed.thumbnail != nil) {
+                cell.picture.image = [UIImage imageWithData:_feed.thumbnail];
             }
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            cell.detailTextLabel.text = @"Title";
-            UITextField *textField;
             
-            textField = [[UITextField alloc] initWithFrame:CGRectMake(90,
-                                                                      tableView.rowHeight / 2 - 10, 200, 20)];
-            textField.borderStyle = UITextBorderStyleNone;
-            textField.textColor = [UIColor blackColor];
-            textField.font = [UIFont systemFontOfSize:14];
-            textField.placeholder = @"Conversation Title";
-            textField.text = [_feedManager identityStringForFeed: _feed];
-            textField.backgroundColor = [UIColor clearColor];
-            textField.autocorrectionType = UITextAutocorrectionTypeNo;
-            textField.keyboardType = UIKeyboardTypeDefault;
-            textField.returnKeyType = UIReturnKeyDone;
-            textField.tag = kFeedNameTag;
-            textField.delegate = self;
-            
-            [cell.contentView addSubview:textField];
             
             return cell;
         }
@@ -169,7 +194,7 @@
             switch (indexPath.row) {
                 case 0: {
                     static NSString *cellIdentifier = @"MembersCell";
-                    //FeedNameCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    
                     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
                     if (cell == nil) {
                         cell = [[UITableViewCell alloc]
@@ -374,6 +399,32 @@
 }
 
 #pragma mark - Friend picker delegate
+
+#pragma mark - Image picker delegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
+    if(!image)
+        return;
+    
+    UIImage* resized = [image centerFitAndResizeTo:CGSizeMake(256, 256)];
+    NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
+    
+    
+    NSString* name = [_feedManager identityStringForFeed: _feed];
+    
+    FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name andThumbnail:thumbnail];
+    
+    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MApp* app = [am ensureSuperApp];
+    
+    [ObjHelper sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    
+    [_delegate changedName:name];
+    
+    
+    [[self tableView] reloadData];
+    [[self modalViewController] dismissModalViewControllerAnimated:YES];
+}
 
 
 @end

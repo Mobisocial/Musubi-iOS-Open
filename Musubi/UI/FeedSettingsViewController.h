@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 #import "FriendPickerViewController.h"
+#import "FeedNameCell.h"
+#import "UIImage+Resize.h"
 
 @class MFeed;
 @class FeedManager;
@@ -34,7 +36,7 @@
 - (void) changedName: (NSString*) name;
 @end
 
-@interface FeedSettingsViewController : UITableViewController<UITextFieldDelegate> {
+@interface FeedSettingsViewController : UITableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
     UIButton* broadcastSwitch;
 }
 
@@ -43,5 +45,7 @@
 @property (nonatomic, weak) id<FeedSettingsViewControllerDelegate> delegate;
 
 - (IBAction)flip:(id)sender;
+
+- (IBAction) pictureClicked: (id)sender;
 
 @end

@@ -3,7 +3,7 @@
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
     <scenes>
         <!--Feed List View Controller - Groups-->
@@ -264,6 +264,56 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FeedNameCell" rowHeight="90" id="yN1-CA-oTc" customClass="FeedNameCell">
+                                <rect key="frame" x="0.0" y="46" width="320" height="92"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="10" y="1" width="300" height="89"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your name" minimumFontSize="17" id="q1p-DK-6Ko">
+                                            <rect key="frame" x="105" y="28" width="175" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="drl-Jy-2Sr" id="Umj-7N-Ojd"/>
+                                            </connections>
+                                        </textField>
+                                        <imageView contentMode="scaleAspectFit" image="missing.png" id="BHm-vH-XAb">
+                                            <rect key="frame" x="11" y="8" width="72" height="71.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <accessibility key="accessibilityConfiguration" label="">
+                                                <accessibilityTraits key="traits" none="YES" image="YES"/>
+                                                <bool key="isElement" value="YES"/>
+                                            </accessibility>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XZd-KZ-8WT">
+                                            <rect key="frame" x="11" y="8" width="72" height="71.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="pictureClicked:" destination="drl-Jy-2Sr" eventType="touchUpInside" id="crL-yv-XjV"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <connections>
+                                    <outlet property="name" destination="q1p-DK-6Ko" id="U4e-3s-vpM"/>
+                                    <outlet property="picture" destination="BHm-vH-XAb" id="yqo-5q-Npb"/>
+                                    <outlet property="pictureButton" destination="XZd-KZ-8WT" id="NvJ-r2-Ajo"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="drl-Jy-2Sr" id="uWl-dt-QKM"/>
                             <outlet property="delegate" destination="drl-Jy-2Sr" id="6wL-Zq-TZz"/>
@@ -511,10 +561,19 @@
                 <relationship kind="action" name="newConversation:"/>
             </relationships>
         </class>
+        <class className="FeedNameCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedNameCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="name" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="pictureButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
         <class className="FeedSettingsViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedSettingsViewController.h"/>
             <relationships>
                 <relationship kind="action" name="flip:"/>
+                <relationship kind="action" name="pictureClicked:"/>
             </relationships>
         </class>
         <class className="FeedViewController" superclassName="TTTableViewController">
@@ -582,13 +641,6 @@
                 <relationship kind="action" name="pictureClicked:"/>
             </relationships>
         </class>
-        <class className="SharePictureViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SharePictureViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="share:"/>
-                <relationship kind="outlet" name="captionView" candidateClass="TTView"/>
-            </relationships>
-        </class>
         <class className="StatusTextView" superclassName="UITextView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StatusTextView.h"/>
         </class>
@@ -632,6 +684,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Ul8-LG-a2e"/>
+        <segue reference="j4C-eM-Obr"/>
     </inferredMetricsTieBreakers>
 </document>
