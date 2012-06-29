@@ -44,7 +44,7 @@
 - (id)initWithStoreFactory:(PersistentModelStoreFactory *)sf {
     ObjectPipelineServiceConfiguration* config = [[ObjectPipelineServiceConfiguration alloc] init];
     config.model = @"Obj";
-    config.selector = [NSPredicate predicateWithFormat:@"(processed == NO) AND (encoded != nil)"];
+    config.selector = [NSPredicate predicateWithFormat:@"((processed == NO) OR (processed == nil)) AND (encoded != nil)"];
     config.notificationName = kMusubiNotificationAppObjReady;
     config.numberOfQueues = 1;
     config.operationClass = [ObjProcessOperation class];

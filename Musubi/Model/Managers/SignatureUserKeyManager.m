@@ -52,7 +52,7 @@
     if (key != nil) {
         return [[IBSignatureUserKey alloc] initWithRaw: key.key];
     }
-        
+    
     @throw [NSException exceptionWithName:kMusubiExceptionNeedSignatureUserKey reason:@"Don't have signature key" userInfo:[NSDictionary dictionaryWithObjectsAndKeys:me, @"identity", nil]];
 }
 

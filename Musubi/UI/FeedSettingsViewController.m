@@ -35,6 +35,7 @@
 #import "GpsBroadcaster.h"
 #import "NearbyFeed.h"
 #import "DejalActivityView.h"
+#import "FeedViewController.h"
 
 @interface FeedSettingsViewController ()
 
@@ -339,7 +340,7 @@
             AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
             MApp* app = [am ensureSuperApp];
             
-            [ObjHelper sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+            [FeedViewController sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
             
             [_delegate changedName:name];
             break;

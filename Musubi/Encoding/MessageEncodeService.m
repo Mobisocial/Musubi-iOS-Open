@@ -229,6 +229,8 @@
                 
             }
             @catch (NSException *exception) {
+                // If we can't get the identity
+                self.retry = NO;
                 [self log:@"Error: %@", exception];
             }
         } else {

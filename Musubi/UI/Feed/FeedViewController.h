@@ -29,7 +29,7 @@
 #import "FeedSettingsViewController.h"
 #import "PictureOverlayViewController.h"
 
-@class MApp, MFeed, StatusTextView, PictureOverlayViewController;
+@class MApp, MFeed, StatusTextView, PictureOverlayViewController, PersistentModelStore;
 
 @protocol FeedViewControllerDelegate
     - (void) friendsForNewConversationSelected:(NSArray*)selection;
@@ -51,6 +51,8 @@
 
 - (IBAction)sendMessage:(id)sender;
 - (void)userChoseAudioData:(NSURL *)file; // AudioRecorderDelegate
+- (MObj*) sendObj:(Obj *)obj fromApp: (MApp*) app;
++ (MObj*) sendObj:(Obj *)obj toFeed: (MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store;
 
 @property (nonatomic, retain) MFeed* feed;
 @property (nonatomic, weak) id<FeedViewControllerDelegate> delegate;

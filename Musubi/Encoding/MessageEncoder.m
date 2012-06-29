@@ -113,17 +113,17 @@
 
 - (MEncodedMessage *) encodeOutgoingMessage:(OutgoingMessage *)om {
     // create the IBE identity for the sender
-    IBEncryptionIdentity* me = [[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]];
     
-    /* TODO: verify if principal was intentionaly left out here. It crashes the refetch when signature is missing.
-    IBEncryptionIdentity* me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];
+    IBEncryptionIdentity* me = [[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]];
+
+    /* we only need principal to request from aphid, but we'll construct a new identity in signatureKeyForIdentity, so, we don't need principal here 
     IBEncryptionIdentity* me = nil;
     if ([om fromIdentity].principal != nil) {
-        me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type principal:[om fromIdentity].principal temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];        
+        me = [[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type principal:[om fromIdentity].principal temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]];
     } else {
-        me = [[[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]] autorelease];        
+        me = [[IBEncryptionIdentity alloc] initWithAuthority:[om fromIdentity].type hashedKey:[om fromIdentity].principalHash temporalFrame:[transportDataProvider signatureTimeFrom:[om fromIdentity]]];
     }*/
-
+    
     // create an array of IBE identities for the recipients
     NSMutableArray* rcptIdentities = [NSMutableArray arrayWithCapacity:[[om recipients] count]];
     for (MIdentity* mRcpt in [om recipients]) {

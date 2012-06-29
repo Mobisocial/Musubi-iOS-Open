@@ -373,7 +373,7 @@
     MFeed* f = [fm createExpandingFeedWithParticipants:selection];
     
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:selection];
-    [ObjHelper sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
+    [FeedViewController sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
     
     [self.navigationController popViewControllerAnimated:NO];
     [self performSegueWithIdentifier:@"ShowFeed" sender:[[FeedListItem alloc] initWithFeed:f after:nil before:nil]];

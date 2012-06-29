@@ -43,6 +43,8 @@
 #import "MDevice.h"
 #import "MObj.h"
 #import "MIdentity.h"
+#import "MAccount.h"
+
 
 @implementation FeedManager
 
@@ -191,17 +193,37 @@
 }
 
 - (MIdentity *)ownedIdentityForFeed:(MFeed *)feed {
-    MFeedMember* fm = (MFeedMember*)[store queryFirst: [NSPredicate predicateWithFormat:@"(feed == %@) and (identity.owned == 1)", feed] onEntity:@"FeedMember"];
+    NSArray* members = [store query: [NSPredicate predicateWithFormat:@"(feed == %@) and (identity.owned == 1)", feed] onEntity:@"FeedMember"];
+    
+    for (MFeedMember* member in members) {
+        MAccount* acc = (MAccount*)[store queryFirst: [NSPredicate predicateWithFormat:@"identity == %@", member.identity] onEntity:@"Account"];
+        if (acc != nil) {
+            return member.identity;
+        }
+    }
+/*
+    members = [store query: [NSPredicate predicateWithFormat:@"(identity.owned == 1)", feed] onEntity:@"FeedMember"];
+    for (MFeedMember* member in members) {
+        MAccount* acc = (MAccount*)[store query: [NSPredicate predicateWithFormat:@"identity == %@", member.identity] onEntity:@"Account"];
+        if (acc != nil) {
+            return member.identity;
+        }
+    }
+    
+*/
+    return nil;
+
+    /*MFeedMember* fm = (MFeedMember*)[store queryFirst: [NSPredicate predicateWithFormat:@"(feed == %@) and (identity.owned == 1)", feed] onEntity:@"FeedMember"];
     if (fm)
         return fm.identity;
     else
-        return nil;
+        return nil;*/
 }
 
 - (MFeed *)global {
     MFeed* feed = (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@)", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
     if(feed)
-        return feed;
+         return feed;
     @synchronized([FeedManager class]) {
         feed = (MFeed*)[self queryFirst: [NSPredicate predicateWithFormat:@"(type == %hd) AND (name == %@)", kFeedTypeAsymmetric, kFeedNameGlobalWhitelist]];
         if(feed)

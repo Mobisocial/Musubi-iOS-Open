@@ -169,7 +169,7 @@
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureSuperApp];
     
-    [ObjHelper sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    [self sendObj:name_change fromApp:app];
     [(UIButton*)self.navigationItem.titleView setTitle:name forState:UIControlStateNormal];
 }
 
@@ -367,7 +367,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
                     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
                     MApp* app = [am ensureSuperApp];
                     
-                    [ObjHelper sendObj:story toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+                    [self sendObj:story fromApp:app];
                     [statusField setText:@""];
                     [self refreshFeed];
                     [DejalBezelActivityView removeViewAnimated:YES];
@@ -382,7 +382,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
             MApp* app = [am ensureSuperApp];
             
-            [ObjHelper sendObj:status toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+            [self sendObj:status fromApp:app];
             
             [statusField setText:@""];
             [self refreshFeed];
@@ -499,7 +499,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     VoiceObj* audio = [[VoiceObj alloc] initWithURL:file withData:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:seconds], kObjFieldVoiceDuration, nil]];
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureSuperApp];
-    [ObjHelper sendObj:audio toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    [self sendObj:audio fromApp:app];
     //    [self dismissModalViewControllerAnimated:YES];    
     [self.audioRVC.view removeFromSuperview];
     [self refreshFeed];
@@ -519,7 +519,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureSuperApp];
     
-    [ObjHelper sendObj:obj toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    [self sendObj:obj fromApp:app];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
     [self refreshFeed]; 
@@ -540,7 +540,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [fm attachMembers:selection toFeed:_feed];
     //send an introduction
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:selection];
-    [ObjHelper sendObj: invitationObj toFeed:_feed fromApp:app usingStore: store];
+    [self sendObj: invitationObj fromApp:app];
     
     [self.navigationController popViewControllerAnimated:NO]; // back to the feed
 }
@@ -590,6 +590,31 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 - (void)viewDidUnload {
     [super viewDidUnload];
 }
+
+- (MObj*) sendObj:(Obj *)obj fromApp: (MApp*) app {
+    return [FeedViewController sendObj:obj toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+}
+
++ (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store {
+    @try {
+        MObj* res = [ObjHelper sendObj:obj toFeed:feed fromApp:app usingStore:store];
+        return res;
+    } @catch (NSException* e) {
+        NSString* msg = nil;
+        
+        if ([e.name isEqualToString:kMusubiExceptionFeedWithoutOwnedIdentity]) {
+            msg = @"You have disconnected your account in this feed. To send messages, please reconnect your account on the settings page";
+        } else {
+            msg = @"Something went wrong, please retry";
+        }
+        
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:msg delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    return nil;
+}
+
 @end
 
 
@@ -607,7 +632,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         
         FeedViewController* controller = (FeedViewController*) self.controller;
         
-        MObj* mObj = [ObjHelper sendObj:like toFeed:controller.feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+        MObj* mObj = [controller sendObj:like fromApp:app];
         [like processObjWithRecord: mObj];
         
         [(FeedModel*)self.controller.model loadObj:item.obj.objectID];
