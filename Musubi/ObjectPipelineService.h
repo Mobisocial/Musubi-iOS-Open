@@ -63,6 +63,7 @@ typedef int(^QueueSelector)(NSManagedObject* obj);
 @property (nonatomic, retain) NSManagedObjectID* objId;
 @property (nonatomic, retain) ObjectPipelineService* service;
 @property (nonatomic, retain) PersistentModelStore* store;
+@property (nonatomic, assign) BOOL retry;
 
 - (id) initWithObjectId: (NSManagedObjectID*) objId andService: (ObjectPipelineService*) service;
 - (BOOL)performOperationOnObject: (NSManagedObject*) object;

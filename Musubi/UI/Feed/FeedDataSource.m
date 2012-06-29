@@ -72,6 +72,8 @@
 #import "Musubi.h"
 #import "PersistentModelStore.h"
 
+#import "FeedViewController.h"
+
 @implementation FeedDataSource
 
 - (id)initWithFeed:(MFeed *)feed  messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt{
@@ -258,7 +260,7 @@
 
         id deleteObj = [[DeleteObj alloc] initWithTargetObj: feedItem.obj];
         FeedModel* feedModel = self.model;
-        [ObjHelper sendObj:deleteObj toFeed:feedModel.feed fromApp:app usingStore:store];
+        [FeedViewController sendObj:deleteObj toFeed:feedModel.feed fromApp:app usingStore:store];
 
         [tableView beginUpdates];
         [self.items removeObjectAtIndex:indexPath.row];

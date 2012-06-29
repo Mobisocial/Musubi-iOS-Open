@@ -100,7 +100,6 @@
     
     NSMutableArray* objs = [NSMutableArray array];
     for (NSManagedObject* obj in [store query:_config.selector onEntity:_config.model]) {
-        
         // Don't deal with deleted objects
         if ([store isDeletedObject:obj])
             continue;
@@ -153,13 +152,14 @@
 
 @implementation ObjectPipelineOperation
 
-@synthesize objId = _objId, service = _service, store = _store;
+@synthesize objId = _objId, service = _service, store = _store, retry = _retry;
 
 - (id)initWithObjectId:(NSManagedObjectID *)objId andService:(ObjectPipelineService *)service {
     self = [super init];
     if (self) {
         _objId = objId;
         _service = service;
+        _retry = YES;
         self.threadPriority = kMusubiThreadPriorityBackground;
     }
     return self;
@@ -191,6 +191,11 @@
     
     if (done) {
         [self log:@"Done"];
+        @synchronized(_service.pendingLock) {
+            [_service.pending removeObject:_objId];
+        }
+    } else if (!_retry) {
+        [self log:@"Not done, not retrying"];
         @synchronized(_service.pendingLock) {
             [_service.pending removeObject:_objId];
         }
