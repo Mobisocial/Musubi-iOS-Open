@@ -28,7 +28,7 @@
 @implementation FeedNameCell
 
 
-@synthesize name = _name;
+@synthesize name, picture, pictureButton;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
