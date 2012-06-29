@@ -397,6 +397,34 @@
 			remoteGlobalIDString = 4FC754FA13E77E25006A0C26;
 			remoteInfo = OAuthTouchNonGoogleStaticLib;
 		};
+		F7EDFB40159E46F8001D85CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7EDFB35159E46F8001D85CA /* ShareKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
+			remoteInfo = "Demo App";
+		};
+		F7EDFB42159E46F8001D85CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7EDFB35159E46F8001D85CA /* ShareKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7AB5342E1552AADD00171BCE;
+			remoteInfo = "Static Library";
+		};
+		F7EDFB44159E46F8001D85CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7EDFB35159E46F8001D85CA /* ShareKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7AB5360F1552E26800171BCE;
+			remoteInfo = "Resource Bundle";
+		};
+		F7EDFB46159E46F8001D85CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7EDFB35159E46F8001D85CA /* ShareKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7A0F9246156BA2A0009CB40A;
+			remoteInfo = "Static Library No Submodules";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -1180,6 +1208,7 @@
 		D4FFE27415780B2D007F918E /* StoryObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryObjItemCell.m; sourceTree = "<group>"; };
 		D4FFE27615780BB8007F918E /* StoryObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoryObj.h; path = SocialKit/Obj/StoryObj.h; sourceTree = "<group>"; };
 		D4FFE27715780BB8007F918E /* StoryObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoryObj.m; path = SocialKit/Obj/StoryObj.m; sourceTree = "<group>"; };
+		F7EDFB35159E46F8001D85CA /* ShareKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShareKit.xcodeproj; path = ShareKit/ShareKit.xcodeproj; sourceTree = "<group>"; };
 		F7FDB0F6159BDD2700BDA402 /* target-script-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "target-script-min.js"; path = "html5/apps/musubi.sketch/lib/target-script-min.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1730,6 +1759,7 @@
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F7EDFB35159E46F8001D85CA /* ShareKit.xcodeproj */,
 				AA33534F158FA1A900B6CAF5 /* QRCodeEncoderObjectiveCAtGithub.xcodeproj */,
 				D4DB12EF157C2D5100337A16 /* CocoaHTTPServer */,
 				C03A66BA157C1381009A5CBA /* DejalActivityView */,
@@ -3131,6 +3161,17 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		F7EDFB36159E46F8001D85CA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F7EDFB41159E46F8001D85CA /* ShareKitDemo.app */,
+				F7EDFB43159E46F8001D85CA /* libShareKit.a */,
+				F7EDFB45159E46F8001D85CA /* ShareKit.bundle */,
+				F7EDFB47159E46F8001D85CA /* libShareKitNoSubmodules.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3222,6 +3263,10 @@
 				{
 					ProductGroup = D279662C1457D97200C5FDAB /* Products */;
 					ProjectRef = D279662B1457D97200C5FDAB /* SBJson.xcodeproj */;
+				},
+				{
+					ProductGroup = F7EDFB36159E46F8001D85CA /* Products */;
+					ProjectRef = F7EDFB35159E46F8001D85CA /* ShareKit.xcodeproj */;
 				},
 				{
 					ProductGroup = D2D930261522417D006E4F58 /* Products */;
@@ -3344,6 +3389,34 @@
 			fileType = archive.ar;
 			path = libOAuthTouch2.a;
 			remoteRef = D2E812EE1526631200649FB2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F7EDFB41159E46F8001D85CA /* ShareKitDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ShareKitDemo.app;
+			remoteRef = F7EDFB40159E46F8001D85CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F7EDFB43159E46F8001D85CA /* libShareKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libShareKit.a;
+			remoteRef = F7EDFB42159E46F8001D85CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F7EDFB45159E46F8001D85CA /* ShareKit.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ShareKit.bundle;
+			remoteRef = F7EDFB44159E46F8001D85CA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F7EDFB47159E46F8001D85CA /* libShareKitNoSubmodules.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libShareKitNoSubmodules.a;
+			remoteRef = F7EDFB46159E46F8001D85CA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
