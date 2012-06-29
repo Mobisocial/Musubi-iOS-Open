@@ -137,7 +137,7 @@
             cellClass = [StatusObjItemCell class];
         }   
     }
-
+    
     if (cellClass) {
         item.cellClass = cellClass;
         [cellClass prepareItem: item];
@@ -161,6 +161,8 @@
         else
             [item setProfilePicture: [UIImage imageWithData:managed.identity.thumbnail]];
         [item setLikes: likes];
+    } else {
+        return nil;
     }
     
     return item;
@@ -195,6 +197,8 @@
     
     for (MObj *mObj in objs) {
         FeedItem* item = [self itemFromObj:mObj];
+        
+        NSLog(@"item: %@", item);
 
         if (item) {
             // find correct position to insert feed item based on timestamp
