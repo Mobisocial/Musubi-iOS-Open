@@ -7,6 +7,11 @@
 echo FETCHING DEPENDENCIES
 git submodule update --init
 
+echo FETCHING SHAREKIT DEPENDENCIES
+pushd Submodules/ShareKit
+git submodule update --init --recursive
+popd
+
 echo GENERATING GMP SOURCE
 pushd Libraries/GMP
 xcodebuild -project gmpbuild.xcodeproj/ -target gen-src
