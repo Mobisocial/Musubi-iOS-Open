@@ -30,6 +30,7 @@
 #import "HTMLAppViewController.h"
 #import "FeedNameObj.h"
 #import "ObjHelper.h"
+#import "SHK.h"
 
 @implementation FeedPhotoViewController
 
@@ -108,7 +109,19 @@
         case 2:
         {
             // Share the image
+            // Create the item to share (in this example, a url)
+            NSURL *url = [NSURL URLWithString:@"http://getsharekit.com"];
+            SHKItem *item = [SHKItem URL:url title:@"ShareKit is Awesome!"];
             
+            // Get the ShareKit action sheet
+            SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
+            
+            // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
+            // but sometimes it may not find one. To be safe, set it explicitly
+            [SHK setRootViewController:self];
+            
+            // Display the action sheet
+            [actionSheet showFromToolbar:self.navigationController.toolbar];
             break;
         }
         case 3:
