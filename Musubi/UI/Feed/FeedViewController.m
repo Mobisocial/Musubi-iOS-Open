@@ -27,6 +27,7 @@
 #import "ProfileViewController.h"
 #import "PictureOverlayViewController.h"
 #import "FeedSettingsViewController.h"
+#import "FeedPhotoViewController.h"
 #import "FeedDataSource.h"
 #import "FeedModel.h"
 #import "FeedItem.h"
@@ -680,6 +681,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         FeedPhoto* photo = [[FeedPhoto alloc] initWithObj:objItem.managedObj];
         
         self.feedViewController = (FeedViewController*)self.controller;
+                
         self.gallery = [[FeedPhotoViewController alloc] initWithFeedViewController:self.feedViewController andPhoto:photo];
         
         [[self.controller navigationController] pushViewController:self.gallery animated:true];

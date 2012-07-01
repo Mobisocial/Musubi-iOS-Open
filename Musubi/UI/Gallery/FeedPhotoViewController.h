@@ -27,13 +27,15 @@
 
 @class FeedViewController, FeedPhoto;
 
+
 @interface FeedPhotoViewController : TTPhotoViewController<UIActionSheetDelegate> {
-    UIBarButtonItem* _actionButton;
+    //UIBarButtonItem* _actionButton;
     
 }
 
 @property (nonatomic, readonly) UIBarButtonItem* actionButton;
 @property (nonatomic, retain) FeedViewController* feedViewController;
+
 
 - (id) initWithFeedViewController: (FeedViewController*) feedVC andPhoto: (FeedPhoto*) photo;
 

@@ -36,7 +36,7 @@
     - (void) friendsForNewConversationSelected:(NSArray*)selection;
 @end
 
-@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate, FeedSettingsViewControllerDelegate, PictureOverlayViewControllerDelegate> {
+@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate, FeedSettingsViewControllerDelegate,  PictureOverlayViewControllerDelegate> {
     MFeed* _feed;
     
     PictureOverlayViewController* _pictureViewController;
@@ -53,6 +53,7 @@
 
 - (IBAction)sendMessage:(id)sender;
 - (void)userChoseAudioData:(NSURL *)file; // AudioRecorderDelegate
+- (void)refreshFeed;
 - (MObj*) sendObj:(Obj *)obj fromApp: (MApp*) app;
 + (MObj*) sendObj:(Obj *)obj toFeed: (MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store;
 + (void)launchApp: (MApp*) app withObj: (MObj*) obj feed: (MFeed*)feed andController: (UIViewController*) controller popViewController: (BOOL) shouldPop;

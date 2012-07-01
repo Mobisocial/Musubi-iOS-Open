@@ -28,6 +28,8 @@
 #import "FeedViewController.h"
 #import "AppManager.h"
 #import "HTMLAppViewController.h"
+#import "FeedNameObj.h"
+#import "ObjHelper.h"
 
 @implementation FeedPhotoViewController
 
@@ -67,10 +69,9 @@
 }
 
 
-- (void)openActionSheet
+- (void)openActionSheet: (NSInteger)actionSheetId
 {
-    UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Save Image", @"Edit Image", @"Share Image", nil];
-    
+    UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Save Image", @"Edit Image", @"Share Image", @"Set as conversation photo", nil];
     [actions showInView:self.view];
 }
 
@@ -112,9 +113,34 @@
         }
         case 3:
         {
+            MFeed* feed = ((FeedPhoto*)self.centerPhoto).obj.feed;
+            NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
+            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
+            UIImage  *img  = [[UIImage alloc] initWithData:data];
+
+            UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
+            NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
+            
+            
+            NSString* name = feed.name;
+            
+            FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name andThumbnail:thumbnail];
+            
+            AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+            MApp* app = [am ensureSuperApp];
+            
+            [ObjHelper sendObj:name_change toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+            
+            [_feedViewController refreshFeed];
+            
+            [[self modalViewController] dismissModalViewControllerAnimated:YES];
+
             break;
         }
-            
+        case 4:
+        {
+            break;
+        }            
     }
 }
 @end

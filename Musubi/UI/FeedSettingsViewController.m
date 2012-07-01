@@ -411,7 +411,7 @@
     NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
     
     
-    NSString* name = [_feedManager identityStringForFeed: _feed];
+    NSString* name = _feed.name;
     
     FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name andThumbnail:thumbnail];
     
