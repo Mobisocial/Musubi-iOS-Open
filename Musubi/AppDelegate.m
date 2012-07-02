@@ -38,6 +38,8 @@
 #import "MusubiStyleSheet.h"
 #import "Util/MusubiShareKitConfigurator.h"
 #import "SHKConfiguration.h"
+#import "SHKFacebook.h"
+#import "SHK.h"
 
 @implementation AppDelegate
 
@@ -63,6 +65,7 @@
 
     MusubiShareKitConfigurator *configurator = [[MusubiShareKitConfigurator alloc] init];
     [SHKConfiguration sharedInstanceWithConfigurator:configurator];
+    [SHK flushOfflineQueue];
 
     return YES;
 }
@@ -148,6 +151,14 @@
 // For iOS 4.2+ support
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    NSString* scheme = [url scheme];
+    NSString* prefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
+
+    if ([scheme hasPrefix:prefix]) {
+        return [SHKFacebook handleOpenURL:url];
+    }
+    
     if ([[DBSession sharedSession] handleOpenURL:url]) {
         return YES;
     }
@@ -155,6 +166,14 @@
     return [facebookLoginOperation handleOpenURL:url];
 }
 
+/*- (BOOL)handleOpenURL:(NSURL*)url
+{
+    NSString* scheme = [url scheme];
+    NSString* prefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
+    if ([scheme hasPrefix:prefix])
+        return [SHKFacebook handleOpenURL:url];
+    return YES;
+}*/
 
 @end
 

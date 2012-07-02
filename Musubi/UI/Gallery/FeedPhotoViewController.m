@@ -35,6 +35,7 @@
 #import "SHK.h"
 #import "PersistentModelStore.h"
 #import "ProfileObj.h"
+#import "SHKFacebook.h"
 
 @implementation FeedPhotoViewController
 
@@ -129,10 +130,19 @@
                 case 2:
                 {
                     // Share the image
+                    FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
                     NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
                     NSData   *data = [NSData dataWithContentsOfURL:aUrl];
                     UIImage  *img  = [[UIImage alloc] initWithData:data];
-                    SHKItem *item = [SHKItem image:img title:@"Picture from Musubi"];
+                    NSString *shareCaption = nil;
+                    
+                    if (feedPhoto.caption == nil) {
+                        shareCaption = [NSString stringWithString:@"sent via Musubi"];
+                    } else {
+                        shareCaption = feedPhoto.caption;
+                    }
+                    
+                    SHKItem *item = [SHKItem image:img title:shareCaption];
                     
                     // Get the ShareKit action sheet
                     SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
@@ -205,7 +215,6 @@
                      [[self modalViewController] dismissModalViewControllerAnimated:YES];
                     break;
                 }
-            break;
             }
         }
     }
