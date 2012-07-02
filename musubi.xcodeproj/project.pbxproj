@@ -208,12 +208,11 @@
 		D410BA5215734DEC00951D94 /* HtmlObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D410BA5115734DEB00951D94 /* HtmlObjItemCell.m */; };
 		D437B091159A639A00A4E625 /* FeedPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = D437B090159A639A00A4E625 /* FeedPhoto.m */; };
 		D437B094159A667100A4E625 /* FeedPhotoSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D437B093159A667100A4E625 /* FeedPhotoSource.m */; };
-		D446069D159E64DD000A711C /* libShareKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4460694159E6482000A711C /* libShareKit.a */; };
-		D44606A0159E6610000A711C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D446069F159E6610000A711C /* MessageUI.framework */; };
 		D44606A2159E6628000A711C /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44606A1159E6628000A711C /* Twitter.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D44606A5159E6866000A711C /* MusubiShareKitConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = D44606A4159E6866000A711C /* MusubiShareKitConfigurator.m */; };
-		D44606AC159E6B99000A711C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = D44606AB159E6B99000A711C /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		D44606AD159E6CF7000A711C /* ShareKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D4460696159E6482000A711C /* ShareKit.bundle */; };
+		D44D41CD15A2176C000BAC41 /* libShareKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D44D41C415A2171B000BAC41 /* libShareKit.a */; };
+		D44D41CE15A21793000BAC41 /* ShareKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D44D41C615A2171B000BAC41 /* ShareKit.bundle */; };
+		D44D41CF15A21807000BAC41 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D446069F159E6610000A711C /* MessageUI.framework */; };
 		D4698A301575E6EF000749CF /* ManagedObjFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D4698A2F1575E6EE000749CF /* ManagedObjFeedItem.m */; };
 		D4698A331575FBBD000749CF /* IntroductionObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4698A321575FBBC000749CF /* IntroductionObjItemCell.m */; };
 		D48048A11561CC980066279D /* MLikeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D48048A01561CC980066279D /* MLikeCache.m */; };
@@ -401,44 +400,44 @@
 			remoteGlobalIDString = 4FC754FA13E77E25006A0C26;
 			remoteInfo = OAuthTouchNonGoogleStaticLib;
 		};
-		D4460691159E6482000A711C /* PBXContainerItemProxy */ = {
+		D44D41C115A2171B000BAC41 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D4460686159E6482000A711C /* ShareKit.xcodeproj */;
+			containerPortal = D44D41B615A2171A000BAC41 /* ShareKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
 			remoteInfo = "Demo App";
 		};
-		D4460693159E6482000A711C /* PBXContainerItemProxy */ = {
+		D44D41C315A2171B000BAC41 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D4460686159E6482000A711C /* ShareKit.xcodeproj */;
+			containerPortal = D44D41B615A2171A000BAC41 /* ShareKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 7AB5342E1552AADD00171BCE;
 			remoteInfo = "Static Library";
 		};
-		D4460695159E6482000A711C /* PBXContainerItemProxy */ = {
+		D44D41C515A2171B000BAC41 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D4460686159E6482000A711C /* ShareKit.xcodeproj */;
+			containerPortal = D44D41B615A2171A000BAC41 /* ShareKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 7AB5360F1552E26800171BCE;
 			remoteInfo = "Resource Bundle";
 		};
-		D4460697159E6482000A711C /* PBXContainerItemProxy */ = {
+		D44D41C715A2171B000BAC41 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D4460686159E6482000A711C /* ShareKit.xcodeproj */;
+			containerPortal = D44D41B615A2171A000BAC41 /* ShareKit.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 7A0F9246156BA2A0009CB40A;
 			remoteInfo = "Static Library No Submodules";
 		};
-		D4460699159E64B5000A711C /* PBXContainerItemProxy */ = {
+		D44D41C915A2172E000BAC41 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D4460686159E6482000A711C /* ShareKit.xcodeproj */;
+			containerPortal = D44D41B615A2171A000BAC41 /* ShareKit.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 7AB5342D1552AADD00171BCE;
 			remoteInfo = "Static Library";
 		};
-		D446069B159E64BD000A711C /* PBXContainerItemProxy */ = {
+		D44D41CB15A2173E000BAC41 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D4460686159E6482000A711C /* ShareKit.xcodeproj */;
+			containerPortal = D44D41B615A2171A000BAC41 /* ShareKit.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 7AB5360E1552E26800171BCE;
 			remoteInfo = "Resource Bundle";
@@ -1140,13 +1139,11 @@
 		D437B090159A639A00A4E625 /* FeedPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedPhoto.m; sourceTree = "<group>"; };
 		D437B092159A667100A4E625 /* FeedPhotoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedPhotoSource.h; sourceTree = "<group>"; };
 		D437B093159A667100A4E625 /* FeedPhotoSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedPhotoSource.m; sourceTree = "<group>"; };
-		D4460686159E6482000A711C /* ShareKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShareKit.xcodeproj; path = Submodules/ShareKit/ShareKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		D446069F159E6610000A711C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D44606A1159E6628000A711C /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		D44606A3159E6866000A711C /* MusubiShareKitConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusubiShareKitConfigurator.h; sourceTree = "<group>"; };
 		D44606A4159E6866000A711C /* MusubiShareKitConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusubiShareKitConfigurator.m; sourceTree = "<group>"; };
-		D44606AA159E6B99000A711C /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		D44606AB159E6B99000A711C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		D44D41B615A2171A000BAC41 /* ShareKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShareKit.xcodeproj; path = Submodules/ShareKit/ShareKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		D4698A2E1575E6EE000749CF /* ManagedObjFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjFeedItem.h; sourceTree = "<group>"; };
 		D4698A2F1575E6EE000749CF /* ManagedObjFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjFeedItem.m; sourceTree = "<group>"; };
 		D4698A311575FBBC000749CF /* IntroductionObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroductionObjItemCell.h; sourceTree = "<group>"; };
@@ -1251,8 +1248,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D44D41CF15A21807000BAC41 /* MessageUI.framework in Frameworks */,
+				D44D41CD15A2176C000BAC41 /* libShareKit.a in Frameworks */,
 				D44606A2159E6628000A711C /* Twitter.framework in Frameworks */,
-				D44606A0159E6610000A711C /* MessageUI.framework in Frameworks */,
 				AA33535E158FA1CE00B6CAF5 /* libqrencoder.a in Frameworks */,
 				2FB16943157D299A00832396 /* AudioToolbox.framework in Frameworks */,
 				2FB16941157D298C00832396 /* AVFoundation.framework in Frameworks */,
@@ -1262,7 +1260,6 @@
 				D2F8C6CB152655C5005AD880 /* SystemConfiguration.framework in Frameworks */,
 				D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */,
 				D2D9311B1522A307006E4F58 /* libRabbitMQ.a in Frameworks */,
-				D446069D159E64DD000A711C /* libShareKit.a in Frameworks */,
 				D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */,
 				D2D9302315223F4A006E4F58 /* QuartzCore.framework in Frameworks */,
 				D27968DD1457DA4800C5FDAB /* CoreData.framework in Frameworks */,
@@ -1696,8 +1693,6 @@
 		D26D36D4147B3ED400C4FE93 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				D44606AA159E6B99000A711C /* Reachability.h */,
-				D44606AB159E6B99000A711C /* Reachability.m */,
 				D272FB63151A90F800D2521A /* DDInvocationGrabber.h */,
 				D272FB62151A90F800D2521A /* DDInvocationGrabber.m */,
 				D26D36D5147B3ED400C4FE93 /* LocationController.h */,
@@ -1785,7 +1780,7 @@
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				D4460686159E6482000A711C /* ShareKit.xcodeproj */,
+				D44D41B615A2171A000BAC41 /* ShareKit.xcodeproj */,
 				AA33534F158FA1A900B6CAF5 /* QRCodeEncoderObjectiveCAtGithub.xcodeproj */,
 				D4DB12EF157C2D5100337A16 /* CocoaHTTPServer */,
 				C03A66BA157C1381009A5CBA /* DejalActivityView */,
@@ -3054,13 +3049,13 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		D4460687159E6482000A711C /* Products */ = {
+		D44D41B715A2171A000BAC41 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D4460692159E6482000A711C /* ShareKitDemo.app */,
-				D4460694159E6482000A711C /* libShareKit.a */,
-				D4460696159E6482000A711C /* ShareKit.bundle */,
-				D4460698159E6482000A711C /* libShareKitNoSubmodules.a */,
+				D44D41C215A2171B000BAC41 /* ShareKitDemo.app */,
+				D44D41C415A2171B000BAC41 /* libShareKit.a */,
+				D44D41C615A2171B000BAC41 /* ShareKit.bundle */,
+				D44D41C815A2171B000BAC41 /* libShareKitNoSubmodules.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3234,8 +3229,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				D446069C159E64BD000A711C /* PBXTargetDependency */,
-				D446069A159E64B5000A711C /* PBXTargetDependency */,
+				D44D41CC15A2173E000BAC41 /* PBXTargetDependency */,
+				D44D41CA15A2172E000BAC41 /* PBXTargetDependency */,
 				AA33535D158FA1C500B6CAF5 /* PBXTargetDependency */,
 				D210C1741526708300280605 /* PBXTargetDependency */,
 				D2D9311A1522A302006E4F58 /* PBXTargetDependency */,
@@ -3295,8 +3290,8 @@
 					ProjectRef = D279662B1457D97200C5FDAB /* SBJson.xcodeproj */;
 				},
 				{
-					ProductGroup = D4460687159E6482000A711C /* Products */;
-					ProjectRef = D4460686159E6482000A711C /* ShareKit.xcodeproj */;
+					ProductGroup = D44D41B715A2171A000BAC41 /* Products */;
+					ProjectRef = D44D41B615A2171A000BAC41 /* ShareKit.xcodeproj */;
 				},
 				{
 					ProductGroup = D2D930261522417D006E4F58 /* Products */;
@@ -3421,32 +3416,32 @@
 			remoteRef = D2E812EE1526631200649FB2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D4460692159E6482000A711C /* ShareKitDemo.app */ = {
+		D44D41C215A2171B000BAC41 /* ShareKitDemo.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = ShareKitDemo.app;
-			remoteRef = D4460691159E6482000A711C /* PBXContainerItemProxy */;
+			remoteRef = D44D41C115A2171B000BAC41 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D4460694159E6482000A711C /* libShareKit.a */ = {
+		D44D41C415A2171B000BAC41 /* libShareKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libShareKit.a;
-			remoteRef = D4460693159E6482000A711C /* PBXContainerItemProxy */;
+			remoteRef = D44D41C315A2171B000BAC41 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D4460696159E6482000A711C /* ShareKit.bundle */ = {
+		D44D41C615A2171B000BAC41 /* ShareKit.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ShareKit.bundle;
-			remoteRef = D4460695159E6482000A711C /* PBXContainerItemProxy */;
+			remoteRef = D44D41C515A2171B000BAC41 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D4460698159E6482000A711C /* libShareKitNoSubmodules.a */ = {
+		D44D41C815A2171B000BAC41 /* libShareKitNoSubmodules.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libShareKitNoSubmodules.a;
-			remoteRef = D4460697159E6482000A711C /* PBXContainerItemProxy */;
+			remoteRef = D44D41C715A2171B000BAC41 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -3466,7 +3461,7 @@
 			files = (
 				D26D3736147B41B700C4FE93 /* html5 in Resources */,
 				D2D930B515225E99006E4F58 /* Three20.bundle in Resources */,
-				D44606AD159E6CF7000A711C /* ShareKit.bundle in Resources */,
+				D44D41CE15A21793000BAC41 /* ShareKit.bundle in Resources */,
 				D210C1781526795300280605 /* GTMOAuth2ViewTouch.xib in Resources */,
 				C0D575821551F94600B6624C /* README.txt in Resources */,
 				C0D575831551F94600B6624C /* release_notes.txt in Resources */,
@@ -3733,7 +3728,6 @@
 				F7FDB0F7159BDD2700BDA402 /* target-script-min.js in Sources */,
 				D2FBCED7159D4ED2008C2015 /* FeedPhotoViewController.m in Sources */,
 				D44606A5159E6866000A711C /* MusubiShareKitConfigurator.m in Sources */,
-				D44606AC159E6B99000A711C /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3765,15 +3759,15 @@
 			name = RabbitMQ;
 			targetProxy = D2D931191522A302006E4F58 /* PBXContainerItemProxy */;
 		};
-		D446069A159E64B5000A711C /* PBXTargetDependency */ = {
+		D44D41CA15A2172E000BAC41 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Static Library";
-			targetProxy = D4460699159E64B5000A711C /* PBXContainerItemProxy */;
+			targetProxy = D44D41C915A2172E000BAC41 /* PBXContainerItemProxy */;
 		};
-		D446069C159E64BD000A711C /* PBXTargetDependency */ = {
+		D44D41CC15A2173E000BAC41 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Resource Bundle";
-			targetProxy = D446069B159E64BD000A711C /* PBXContainerItemProxy */;
+			targetProxy = D44D41CB15A2173E000BAC41 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
