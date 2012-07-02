@@ -121,7 +121,7 @@
             [SHK setRootViewController:self];
             
             // Display the action sheet
-            [actionSheet showFromToolbar:self.navigationController.toolbar];
+            [actionSheet showInView:self.view];
             break;
         }
         case 3:
