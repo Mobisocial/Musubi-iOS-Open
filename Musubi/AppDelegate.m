@@ -61,7 +61,7 @@
     // Pause on the loading screen for a bit, for awesomeness display reasons
     [NSThread sleepUntilDate:showUIDate];
 
-    DefaultSHKConfigurator *configurator = [[MusubiShareKitConfigurator alloc] init];
+    MusubiShareKitConfigurator *configurator = [[MusubiShareKitConfigurator alloc] init];
     [SHKConfiguration sharedInstanceWithConfigurator:configurator];
 
     return YES;
