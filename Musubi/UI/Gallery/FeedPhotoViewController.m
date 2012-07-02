@@ -109,15 +109,22 @@
         case 2:
         {
             // Share the image
+            FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
             NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
             NSData   *data = [NSData dataWithContentsOfURL:aUrl];
             UIImage  *img  = [[UIImage alloc] initWithData:data];
-            SHKItem *item = [SHKItem image:img title:@"Picture from Musubi"];
+            NSString *shareCaption = nil;
+            
+            if (feedPhoto.caption == nil) {
+                shareCaption = [NSString stringWithString:@"sent via Musubi"];
+            } else {
+                shareCaption = feedPhoto.caption;
+            }
+            
+            SHKItem *item = [SHKItem image:img title:shareCaption];
             
             // Get the ShareKit action sheet
             SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
-            NSDictionary *facebookUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"];
-            NSString *fbUserName = [facebookUserInfo objectForKey:@"name"];
             
             // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
             // but sometimes it may not find one. To be safe, set it explicitly
