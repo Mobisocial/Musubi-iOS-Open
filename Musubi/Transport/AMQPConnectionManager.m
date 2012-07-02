@@ -33,7 +33,7 @@
 #import "APNPushManager.h"
 #import "Musubi.h"
 #include <sys/socket.h>
-#import "ShareKit/Reachability/Reachability.h"
+#import "Reachability.h"
 
 #define kMusubiAMQPServerHost @"bumblebee.musubi.us"
 

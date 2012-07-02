@@ -31,10 +31,7 @@
 @implementation FeedNameObjItemCell
 
 + (NSString*) textForItem: (ManagedObjFeedItem*) item {
-    NSString* text = @"I changed the feed details for ";
-    NSString* name = [[item parsedJson] objectForKey: @"name"];
-    
-    text = [text stringByAppendingFormat:@"\"%@\"", name];
+    NSString* text = @"I changed the feed details.";
     return text;
 }
 
