@@ -38,6 +38,7 @@
 #import "MusubiStyleSheet.h"
 #import "Util/MusubiShareKitConfigurator.h"
 #import "SHKConfiguration.h"
+#import "SHK.h"
 
 @implementation AppDelegate
 
@@ -63,6 +64,7 @@
 
     MusubiShareKitConfigurator *configurator = [[MusubiShareKitConfigurator alloc] init];
     [SHKConfiguration sharedInstanceWithConfigurator:configurator];
+    [SHK flushOfflineQueue];
 
     return YES;
 }
