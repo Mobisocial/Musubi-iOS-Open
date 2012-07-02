@@ -109,9 +109,10 @@
         case 2:
         {
             // Share the image
-            // Create the item to share (in this example, a url)
-            NSURL *url = [NSURL URLWithString:@"http://getsharekit.com"];
-            SHKItem *item = [SHKItem URL:url title:@"ShareKit is Awesome!"];
+            NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
+            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
+            UIImage  *img  = [[UIImage alloc] initWithData:data];
+            SHKItem *item = [SHKItem image:img title:@"Picture from Musubi"];
             
             // Get the ShareKit action sheet
             SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
