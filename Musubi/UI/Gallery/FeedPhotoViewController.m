@@ -29,6 +29,7 @@
 #import "AppManager.h"
 #import "HTMLAppViewController.h"
 #import "SHK.h"
+#import "SHKFacebook.h"
 
 @implementation FeedPhotoViewController
 
@@ -115,6 +116,8 @@
             
             // Get the ShareKit action sheet
             SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
+            NSDictionary *facebookUserInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"kSHKFacebookUserInfo"];
+            NSString *fbUserName = [facebookUserInfo objectForKey:@"name"];
             
             // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
             // but sometimes it may not find one. To be safe, set it explicitly
