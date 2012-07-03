@@ -59,9 +59,10 @@
     UIBarItem* space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:
                         UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    NSMutableArray* items = [NSMutableArray arrayWithArray:_toolbar.items];
-    [items addObject: space];
-    [items addObject: self.actionButton];
+    NSMutableArray* items = [NSMutableArray arrayWithObjects: self.actionButton, space, nil];
+    //NSMutableArray* items = [NSMutableArray arrayWithArray:_toolbar.items];
+    //[items addObject: space];
+    //[items addObject: self.actionButton];
     _toolbar.items = items;
 }
 

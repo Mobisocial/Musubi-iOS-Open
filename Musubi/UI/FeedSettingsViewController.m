@@ -49,6 +49,7 @@
 @synthesize feed = _feed;
 @synthesize feedManager = _feedManager;
 @synthesize delegate = _delegate;
+@synthesize thumb = _thumb;
 
 
 #define kFeedNameTag 0
@@ -184,7 +185,10 @@
             cell.name.returnKeyType = UIReturnKeyDone;*/
             cell.name.tag = kFeedNameTag;
             
-            if (_feed.thumbnail != nil) {
+            if (self.thumb != nil) {
+                cell.picture.image = self.thumb;
+                self.thumb = nil;
+            } else if (_feed.thumbnail != nil) {
                 cell.picture.image = [UIImage imageWithData:_feed.thumbnail];
             }
             
@@ -407,9 +411,8 @@
     if(!image)
         return;
     
-    UIImage* resized = [image centerFitAndResizeTo:CGSizeMake(256, 256)];
-    NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
-    
+    self.thumb = [image centerFitAndResizeTo:CGSizeMake(256, 256)];
+    NSData* thumbnail = UIImageJPEGRepresentation(self.thumb, 0.90);
     
     NSString* name = _feed.name;
     
@@ -424,6 +427,7 @@
     
     
     [[self tableView] reloadData];
+    
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
 }
 

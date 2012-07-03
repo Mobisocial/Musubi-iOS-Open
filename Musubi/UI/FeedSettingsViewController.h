@@ -43,6 +43,7 @@
 @property (nonatomic, retain) MFeed* feed;
 @property (nonatomic, strong) FeedManager* feedManager;
 @property (nonatomic, weak) id<FeedSettingsViewControllerDelegate> delegate;
+@property (nonatomic, strong) UIImage* thumb;
 
 - (IBAction)flip:(id)sender;
 
