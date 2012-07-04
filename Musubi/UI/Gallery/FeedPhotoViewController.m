@@ -225,7 +225,7 @@
         case 1:
         {
             // Edit image
-            UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Edit..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Sketch", @"MemeYou", nil];
+            UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Edit..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Sketch", @"Caption", nil];
             
             [actions setTag:kEditActionSheetTag];
             [actions showInView:self.view];
