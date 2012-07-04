@@ -38,5 +38,6 @@
 
 
 - (id) initWithFeedViewController: (FeedViewController*) feedVC andPhoto: (FeedPhoto*) photo;
+- (void)showSuccessIndicatorWithText:(NSString*)text;
 
 @end

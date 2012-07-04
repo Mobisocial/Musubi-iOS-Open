@@ -36,6 +36,7 @@
 #import "PersistentModelStore.h"
 #import "ProfileObj.h"
 #import "SHKFacebook.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation FeedPhotoViewController
 
@@ -89,12 +90,64 @@
 
 - (void)openSetAsActionSheet 
 {
-    UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Set as..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Profile Picture", @"Conversation Photo", nil];   
+    UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Set as..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Profile Picture", @"Chat Photo", nil];   
     
     [actions setTag:kSetAsActionSheetTag];
     [actions showInView:self.view];
 }
 
+- (void)showSuccessIndicatorWithText:(NSString*)text {
+    UIView *progressDialogView = [[UIView alloc] initWithFrame: CGRectMake (0,0,200,150)];
+    progressDialogView.center = self.view.center;
+    progressDialogView.backgroundColor = [UIColor clearColor];
+    progressDialogView.alpha = 1.0; //you can leave this line out, since this is the default.
+    
+    
+    UIView *halfTransparentBackgroundView = [[UIView alloc] initWithFrame:CGRectMake (0,0,200,150)];
+    halfTransparentBackgroundView.backgroundColor = [UIColor blackColor]; //or whatever...
+    halfTransparentBackgroundView.alpha = 0.5;
+    halfTransparentBackgroundView.layer.cornerRadius = 10;
+    halfTransparentBackgroundView.layer.masksToBounds = YES;
+    [progressDialogView addSubview: halfTransparentBackgroundView];
+    
+    UILabel *successLabel = [[UILabel alloc] initWithFrame:CGRectMake (progressDialogView.frame.size.width/3,progressDialogView.frame.size.height*2/3+5,100,50)];
+    
+    [successLabel setTextColor:[UIColor whiteColor]];
+    [successLabel setBackgroundColor:[UIColor clearColor]];
+    successLabel.adjustsFontSizeToFitWidth = YES;
+    //[successLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 20.0f]]; 
+    //[successLabel setCenter:progressDialogView.center];
+    successLabel.text = text;
+    [progressDialogView addSubview:successLabel];
+    
+    UIImage* check = [UIImage imageNamed:@"check.png"];
+    
+    int checkWidth = 80;
+    int checkHeight = 88;
+    int checkX = (progressDialogView.frame.size.width - checkWidth)/2;
+    int checkY = (progressDialogView.frame.size.height - checkHeight)/2;
+    UIImageView* checkmark = [[UIImageView alloc] initWithFrame:CGRectMake (checkX,checkY,checkWidth,checkHeight)];
+    checkmark.alpha = 0.7;
+    [checkmark setImage:check];
+    //checkmark.center = progressDialogView.center;
+    
+    [progressDialogView addSubview:checkmark];
+    
+    [UIView transitionWithView:[self view] duration: 0.5
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations: ^{ [[self view] addSubview:progressDialogView]; }
+                    completion: nil];
+    
+    // Delay execution of my block for 1 seconds.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
+        [UIView animateWithDuration:0.5
+                         animations:^{progressDialogView.alpha = 0.0;}
+                         completion:^(BOOL finished){ [progressDialogView removeFromSuperview]; }];
+    });
+    
+    
+
+}
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -189,31 +242,36 @@
                     }
                     [store save];
                     [ProfileObj sendAllProfilesWithStore:store];
+                    [self showSuccessIndicatorWithText:@"Success"];
+
                     break;
                 }
                 case 1:
                 {
-                     MFeed* feed = ((FeedPhoto*)self.centerPhoto).obj.feed;
-                     NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-                     NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-                     UIImage  *img  = [[UIImage alloc] initWithData:data];
-                     
-                     UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
-                     NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
-                     
-                     
-                     NSString* name = feed.name;
-                     
-                     FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name andThumbnail:thumbnail];
-                     
-                     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-                     MApp* app = [am ensureSuperApp];
-                     
-                     [ObjHelper sendObj:name_change toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-                     
-                     [_feedViewController refreshFeed];
-                     
-                     [[self modalViewController] dismissModalViewControllerAnimated:YES];
+                    MFeed* feed = ((FeedPhoto*)self.centerPhoto).obj.feed;
+                    NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
+                    NSData   *data = [NSData dataWithContentsOfURL:aUrl];
+                    UIImage  *img  = [[UIImage alloc] initWithData:data];
+
+                    UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
+                    NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
+
+
+                    NSString* name = feed.name;
+
+                    FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name andThumbnail:thumbnail];
+
+                    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+                    MApp* app = [am ensureSuperApp];
+
+                    [ObjHelper sendObj:name_change toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+
+                    [_feedViewController refreshFeed];
+
+
+                    [[self modalViewController] dismissModalViewControllerAnimated:YES];
+                    [self showSuccessIndicatorWithText:@"Success"];
+
                     break;
                 }
             }

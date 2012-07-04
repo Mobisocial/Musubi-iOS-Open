@@ -256,6 +256,7 @@
 		D4FFE27515780B2E007F918E /* StoryObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27415780B2D007F918E /* StoryObjItemCell.m */; };
 		D4FFE27815780BB8007F918E /* StoryObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27715780BB8007F918E /* StoryObj.m */; };
 		D95D190B157D3085003AA911 /* VoiceObj.h in Sources */ = {isa = PBXBuildFile; fileRef = 2FB1693D157D264600832396 /* VoiceObj.h */; };
+		F7DEE92B15A3BB4E0026397A /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = F7DEE92A15A3BB4E0026397A /* check.png */; };
 		F7FDB0F7159BDD2700BDA402 /* target-script-min.js in Sources */ = {isa = PBXBuildFile; fileRef = F7FDB0F6159BDD2700BDA402 /* target-script-min.js */; };
 /* End PBXBuildFile section */
 
@@ -1228,6 +1229,7 @@
 		D4FFE27415780B2D007F918E /* StoryObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryObjItemCell.m; sourceTree = "<group>"; };
 		D4FFE27615780BB8007F918E /* StoryObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoryObj.h; path = SocialKit/Obj/StoryObj.h; sourceTree = "<group>"; };
 		D4FFE27715780BB8007F918E /* StoryObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoryObj.m; path = SocialKit/Obj/StoryObj.m; sourceTree = "<group>"; };
+		F7DEE92A15A3BB4E0026397A /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		F7FDB0F6159BDD2700BDA402 /* target-script-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "target-script-min.js"; path = "html5/apps/musubi.sketch/lib/target-script-min.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1609,6 +1611,7 @@
 		D26028D91566EEBE00CF6500 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				F7DEE92A15A3BB4E0026397A /* check.png */,
 				D228E5C1159296E1002E15E6 /* background.jpg */,
 				D228E5BD159289E3002E15E6 /* cloud.png */,
 				D270D18315917DE2001278E4 /* facebook_signin.png */,
@@ -3486,6 +3489,7 @@
 				D270D18615917DE2001278E4 /* google_signin.png in Resources */,
 				D228E5BE159289E3002E15E6 /* cloud.png in Resources */,
 				D228E5C2159296E1002E15E6 /* background.jpg in Resources */,
+				F7DEE92B15A3BB4E0026397A /* check.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

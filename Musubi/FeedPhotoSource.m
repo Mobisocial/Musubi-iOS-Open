@@ -40,7 +40,7 @@
         // unlimited content size, we've already downloaded it once!
         [[TTURLRequestQueue mainQueue] setMaxContentLength:0];
 
-        self.title = @"Conversation Photos";
+        self.title = @"Chat Photos";
         ObjManager* objManager = [[ObjManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
         NSLog(@"Loading photos for %@...", feed);
         self.photos = [objManager pictureObjsInFeed:feed];
