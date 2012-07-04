@@ -372,6 +372,12 @@
             [FeedViewController sendObj:name_change toFeed:_feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
             
             [_delegate changedName:name];
+            
+            // Immediately update the feed title in the previous view controller
+            NSArray* vcs = self.navigationController.viewControllers;
+            UIViewController* prev = [vcs objectAtIndex:[vcs count]-2];
+            prev.navigationItem.title = name;
+
             break;
         }
         case kBroadcastPassword: {

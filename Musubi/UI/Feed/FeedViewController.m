@@ -129,15 +129,7 @@
     
     //[sendButton setStyle:[TTSTYLESHEET toolbarButtonForState:UIControlStateNormal shape:shape tintColor:tintColor font:nil] forState:UIControlStateNormal];
     //[sendButton setStyle:[TTSTYLESHEET toolbarButtonForState:UIControlStateNormal shape:shape tintColor:tintColor font:nil] forState:UIControlStateHighlighted];
-    
-    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 120, 32);
-    [button setTitle:self.title forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
 
-    button.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [button addTarget:self action:@selector(changeName) forControlEvents:UIControlEventTouchDown];
-    self.navigationItem.titleView = button;
 }
 
 - (AudioRecorderViewController*)audioRVC
