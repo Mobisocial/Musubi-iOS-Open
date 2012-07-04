@@ -149,6 +149,126 @@
 
 }
 
+- (void)doSetAsActionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex: (NSInteger)buttonIndex {
+    switch(buttonIndex)  {
+        case 0:
+        {
+            PersistentModelStore* store = [[Musubi sharedInstance] newStore];
+            IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
+            NSArray* mine = [idm ownedIdentities];
+            if(mine.count == 0) {
+                NSLog(@"No identity, connect an account");
+                return;
+            }
+            NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
+            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
+            UIImage  *img  = [[UIImage alloc] initWithData:data];
+            
+            UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
+            NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
+            
+            long long now = (long long)([[NSDate date] timeIntervalSince1970] * 1000);
+            for(MIdentity* me in mine) {
+                me.musubiThumbnail = thumbnail;
+                me.receivedProfileVersion = now;
+            }
+            [store save];
+            [ProfileObj sendAllProfilesWithStore:store];
+            [self showSuccessIndicatorWithText:@"Success"];
+            
+            break;
+        }
+        case 1:
+        {
+            MFeed* feed = ((FeedPhoto*)self.centerPhoto).obj.feed;
+            NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
+            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
+            UIImage  *img  = [[UIImage alloc] initWithData:data];
+            
+            UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
+            NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
+            
+            
+            NSString* name = feed.name;
+            
+            FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name andThumbnail:thumbnail];
+            
+            AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+            MApp* app = [am ensureSuperApp];
+            
+            [ObjHelper sendObj:name_change toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+            
+            [_feedViewController refreshFeed];
+            
+            
+            [[self modalViewController] dismissModalViewControllerAnimated:YES];
+            [self showSuccessIndicatorWithText:@"Success"];
+            
+            break;
+        }
+    }
+}
+
+- (void)doMainActionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex: (NSInteger)buttonIndex {
+    switch(buttonIndex)  {
+        case 0:
+        {
+            // Save the image to the Camera Roll
+            NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
+            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
+            UIImage  *img  = [[UIImage alloc] initWithData:data];
+            
+            UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
+            break;
+        }
+        case 1:
+        {
+            // Open the image in MusuSketch
+            FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
+            NSString* appId = @"musubi.memeyou";
+            AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+            MApp* app = [appMgr ensureAppWithAppId:appId];
+            MObj* obj = feedPhoto.obj;
+            [FeedViewController launchApp:app withObj:obj feed:obj.feed andController:_feedViewController popViewController:true];
+            
+            break;
+        }
+        case 2:
+        {
+            // Share the image
+            FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
+            NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
+            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
+            UIImage  *img  = [[UIImage alloc] initWithData:data];
+            NSString *shareCaption = nil;
+            
+            if (feedPhoto.caption == nil) {
+                shareCaption = [NSString stringWithString:@"sent via Musubi"];
+            } else {
+                shareCaption = feedPhoto.caption;
+            }
+            
+            SHKItem *item = [SHKItem image:img title:shareCaption];
+            
+            // Get the ShareKit action sheet
+            SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
+            
+            // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
+            // but sometimes it may not find one. To be safe, set it explicitly
+            [SHK setRootViewController:self];
+            
+            // Display the action sheet
+            [actionSheet showInView:self.view];
+            break;
+        }
+        case 3:
+        {
+            [self openSetAsActionSheet];
+            break;
+        }
+    }
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
@@ -157,125 +277,12 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     switch ([actionSheet tag]) {
-        case kMainActionSheetTag: {
-            switch(buttonIndex)  {
-                case 0:
-                {
-                    // Save the image to the Camera Roll
-                    NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-                    NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-                    UIImage  *img  = [[UIImage alloc] initWithData:data];
-                    
-                    UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
-                    break;
-                }
-                case 1:
-                {
-                    // Open the image in MusuSketch
-                    FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
-                    NSString* appId = @"musubi.sketch";
-                    AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
-                    MApp* app = [appMgr ensureAppWithAppId:appId];
-                    MObj* obj = feedPhoto.obj;
-                    [FeedViewController launchApp:app withObj:obj feed:obj.feed andController:_feedViewController popViewController:true];
-                    
-                    break;
-                }
-                case 2:
-                {
-                    // Share the image
-                    FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
-                    NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-                    NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-                    UIImage  *img  = [[UIImage alloc] initWithData:data];
-                    NSString *shareCaption = nil;
-                    
-                    if (feedPhoto.caption == nil) {
-                        shareCaption = [NSString stringWithString:@"sent via Musubi"];
-                    } else {
-                        shareCaption = feedPhoto.caption;
-                    }
-                    
-                    SHKItem *item = [SHKItem image:img title:shareCaption];
-                    
-                    // Get the ShareKit action sheet
-                    SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
-                    
-                    // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
-                    // but sometimes it may not find one. To be safe, set it explicitly
-                    [SHK setRootViewController:self];
-                    
-                    // Display the action sheet
-                    [actionSheet showInView:self.view];
-                    break;
-                }
-                case 3:
-                {
-                    [self openSetAsActionSheet];
-                    break;
-                }    
+        case kMainActionSheetTag:
+            [self doMainActionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
             break;
-            }
-        }
-        case kSetAsActionSheetTag: {
-            switch(buttonIndex)  {
-                case 0:
-                {
-                    PersistentModelStore* store = [[Musubi sharedInstance] newStore];
-                    IdentityManager* idm = [[IdentityManager alloc] initWithStore:store];
-                    NSArray* mine = [idm ownedIdentities];
-                    if(mine.count == 0) {
-                        NSLog(@"No identity, connect an account");
-                        return;
-                    }
-                    NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-                    NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-                    UIImage  *img  = [[UIImage alloc] initWithData:data];
-                    
-                    UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
-                    NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
-                    
-                    long long now = (long long)([[NSDate date] timeIntervalSince1970] * 1000);
-                    for(MIdentity* me in mine) {
-                        me.musubiThumbnail = thumbnail;
-                        me.receivedProfileVersion = now;
-                    }
-                    [store save];
-                    [ProfileObj sendAllProfilesWithStore:store];
-                    [self showSuccessIndicatorWithText:@"Success"];
-
-                    break;
-                }
-                case 1:
-                {
-                    MFeed* feed = ((FeedPhoto*)self.centerPhoto).obj.feed;
-                    NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-                    NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-                    UIImage  *img  = [[UIImage alloc] initWithData:data];
-
-                    UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
-                    NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
-
-
-                    NSString* name = feed.name;
-
-                    FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name andThumbnail:thumbnail];
-
-                    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-                    MApp* app = [am ensureSuperApp];
-
-                    [ObjHelper sendObj:name_change toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-
-                    [_feedViewController refreshFeed];
-
-
-                    [[self modalViewController] dismissModalViewControllerAnimated:YES];
-                    [self showSuccessIndicatorWithText:@"Success"];
-
-                    break;
-                }
-            }
-        }
+        case kSetAsActionSheetTag:
+            [self doSetAsActionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
+            break;
     }
 }
             
