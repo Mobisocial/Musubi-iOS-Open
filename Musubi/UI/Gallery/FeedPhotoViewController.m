@@ -45,6 +45,7 @@
 
 #define kMainActionSheetTag 0
 #define kSetAsActionSheetTag 1
+#define kEditActionSheetTag 2
 
 - (id)initWithFeedViewController:(FeedViewController *)feedVC andPhoto: (FeedPhoto*) photo {
     self = [super initWithPhoto:photo];
@@ -90,7 +91,7 @@
 
 - (void)openSetAsActionSheet 
 {
-    UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Set as..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Profile Picture", @"Chat Photo", nil];   
+    UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Set as..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Profile Picture", @"Chat Photo", nil];
     
     [actions setTag:kSetAsActionSheetTag];
     [actions showInView:self.view];
@@ -223,14 +224,11 @@
         }
         case 1:
         {
-            // Open the image in MusuSketch
-            FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
-            NSString* appId = @"musubi.memeyou";
-            AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
-            MApp* app = [appMgr ensureAppWithAppId:appId];
-            MObj* obj = feedPhoto.obj;
-            [FeedViewController launchApp:app withObj:obj feed:obj.feed andController:_feedViewController popViewController:true];
+            // Edit image
+            UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Edit..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Sketch", @"MemeYou", nil];
             
+            [actions setTag:kEditActionSheetTag];
+            [actions showInView:self.view];
             break;
         }
         case 2:
@@ -269,6 +267,33 @@
     }
 }
 
+-(void)doEditActionSheet: (UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0: {
+            // Open the image in Sketch
+            FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
+            NSString* appId = @"musubi.sketch";
+            AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+            MApp* app = [appMgr ensureAppWithAppId:appId];
+            MObj* obj = feedPhoto.obj;
+            [FeedViewController launchApp:app withObj:obj feed:obj.feed andController:_feedViewController popViewController:true];
+            
+            break;
+        }
+        case 1: {
+            // Open the image in MemeYou
+            FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
+            NSString* appId = @"musubi.memeyou";
+            AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
+            MApp* app = [appMgr ensureAppWithAppId:appId];
+            MObj* obj = feedPhoto.obj;
+            [FeedViewController launchApp:app withObj:obj feed:obj.feed andController:_feedViewController popViewController:true];
+            
+            break;
+        }
+    }
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
@@ -282,6 +307,9 @@
             break;
         case kSetAsActionSheetTag:
             [self doSetAsActionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
+            break;
+        case kEditActionSheetTag:
+            [self doEditActionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
             break;
     }
 }
