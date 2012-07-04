@@ -121,7 +121,6 @@ function onImageLoaded(img) {
   My = scaleHeight + my;
 
   ctxt.drawImage(img, sx, sy, scaleWidth, scaleHeight);  
-  console.log("drawing img " + scaleWidth + "x" + scaleHeight);
 }
 
 // CanvasDrawr originally from Mike Taylr  http://miketaylr.com/
@@ -184,7 +183,7 @@ function redraw() {
         onImageLoaded($("#backgroundImage")[0]);
     }
 
-    var fontFace = "Londrina Solid";
+    var fontFace = "Passion One";
     var text = $("#caption").val();
     var color = $("#color").css("background-color");
     ctxt.font = "32pt " + fontFace;
@@ -196,9 +195,7 @@ function redraw() {
     var scale = width / dim.width;
     var fontSize = Math.min(32*scale, 50);
     ctxt.font = fontSize + "pt " + fontFace;
-    console.log("writing out " + scale);
     ctxt.fillText(text, 10, my); 
-    
 }
 
 $(function(){
