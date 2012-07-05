@@ -152,18 +152,23 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
-    NSString* scheme = [url scheme];
-    NSString* prefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
-
-    if ([scheme hasPrefix:prefix]) {
+    NSString* facebookPrefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
+    if ([url.scheme hasPrefix:facebookPrefix]) {
+        [facebookLoginOperation handleOpenURL:url];
         return [SHKFacebook handleOpenURL:url];
     }
     
     if ([[DBSession sharedSession] handleOpenURL:url]) {
         return YES;
     }
+
+    NSString* musubiPrefix = @"musubi";
+    if ([url.scheme hasPrefix:musubiPrefix]) {
+        
+    }
     
-    return [facebookLoginOperation handleOpenURL:url];
+    
+    return NO;
 }
 
 /*- (BOOL)handleOpenURL:(NSURL*)url

@@ -178,6 +178,7 @@
 		D2B13D5214F869800067B197 /* MessageEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5114F869800067B197 /* MessageEncoder.m */; };
 		D2B13D5514F869CF0067B197 /* OutgoingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5414F869CF0067B197 /* OutgoingMessage.m */; };
 		D2B13D5B14F882590067B197 /* Secret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5A14F882580067B197 /* Secret.m */; };
+		D2C04A2515A25E9B002C6888 /* EmailAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C04A2415A25E9B002C6888 /* EmailAuth.m */; };
 		D2C0AA9B14FF035100E9D0BF /* MessageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */; };
 		D2C66EFB156CC2AD001A0124 /* Model5-6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D2C66EFA156CC2AD001A0124 /* Model5-6.xcmappingmodel */; };
 		D2C66F01156CCF22001A0124 /* heart32_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D2C66F00156CCF22001A0124 /* heart32_gray.png */; };
@@ -1097,6 +1098,8 @@
 		D2B13D5A14F882580067B197 /* Secret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Secret.m; sourceTree = "<group>"; };
 		D2B13D5C14FB0DB80067B197 /* TransportDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransportDataProvider.h; sourceTree = "<group>"; };
 		D2B428BB14F44F4600ED868D /* IBE.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IBE.xcodeproj; path = IBE/IBE.xcodeproj; sourceTree = "<group>"; };
+		D2C04A2315A25E9B002C6888 /* EmailAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailAuth.h; sourceTree = "<group>"; };
+		D2C04A2415A25E9B002C6888 /* EmailAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailAuth.m; sourceTree = "<group>"; };
 		D2C0AA9914FF035100E9D0BF /* MessageDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDecoder.h; sourceTree = "<group>"; };
 		D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDecoder.m; sourceTree = "<group>"; };
 		D2C66E8F156CBEE6001A0124 /* Model 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 5.xcdatamodel"; sourceTree = "<group>"; };
@@ -1808,6 +1811,8 @@
 				D2773CBE151C4CE600A161F9 /* FacebookAuth.m */,
 				D2F8C68A1526438F005AD880 /* GoogleAuth.h */,
 				D2F8C68B1526438F005AD880 /* GoogleAuth.m */,
+				D2C04A2315A25E9B002C6888 /* EmailAuth.h */,
+				D2C04A2415A25E9B002C6888 /* EmailAuth.m */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -3782,6 +3787,7 @@
 				563FA28A15A6388500FB5AFF /* CheckinViewController.m in Sources */,
 				569D54E015ABB18C002A3275 /* LocationViewController.m in Sources */,
 				5675EBF115B0A6ED00EBD834 /* IndexedTTTableView.m in Sources */,
+				D2C04A2515A25E9B002C6888 /* EmailAuth.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
