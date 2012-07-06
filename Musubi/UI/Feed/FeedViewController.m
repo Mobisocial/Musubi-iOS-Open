@@ -490,7 +490,11 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 - (void)userChoseAudioData:(NSURL *)file withDuration:(int)seconds
 {
     NSLog(@"Audio recorded at %@", [file description]);
-    VoiceObj* audio = [[VoiceObj alloc] initWithURL:file withData:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:seconds], kObjFieldVoiceDuration, nil]];
+    
+    NSData   *deletethis = [NSData dataWithContentsOfURL:file];
+    NSLog(@"Audio size is %d bytes", [deletethis length]);
+    
+    VoiceObj* audio = [[VoiceObj alloc] initWithURL:file withData:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:seconds], kObjFieldVoiceDuration, @"audio/iLBC", kMimeField, nil]];
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureSuperApp];
     [self sendObj:audio fromApp:app];
@@ -521,7 +525,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [self sendObj:obj fromApp:app];
     
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
-    [self refreshFeed]; 
+    [self refreshFeed];
 }
 
 - (void)friendsSelected:(NSArray *)selection {
@@ -626,7 +630,8 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 - (void)likedAtIndexPath:(NSIndexPath *)indexPath {
     FeedItem* item = [self.controller.dataSource tableView:self.controller.tableView objectForRowAtIndexPath:indexPath];
     
-    if (!item.iLiked) {
+    // Commented out by Will Wu since we want to allow people to like something multiple times
+    //if (!item.iLiked) {
         LikeObj* like = [[LikeObj alloc] initWithObjHash: item.obj.universalHash];
                 
         AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
@@ -635,10 +640,10 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         FeedViewController* controller = (FeedViewController*) self.controller;
         
         MObj* mObj = [controller sendObj:like fromApp:app];
-        [like processObjWithRecord: mObj];
+        //[like processObjWithRecord: mObj];
         
         [(FeedModel*)self.controller.model loadObj:item.obj.objectID];
-    }
+    //}
 }
 
 - (void)profilePictureButtonPressedAtIndexPath:(NSIndexPath *)indexPath {

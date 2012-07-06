@@ -32,6 +32,7 @@
 @synthesize profilePicture = _profilePicture;
 @synthesize likes = _likes;
 @synthesize iLiked = _iLiked;
+@synthesize iLikedCount = _iLikedCount;
 @synthesize obj = _obj;
 
 @end
