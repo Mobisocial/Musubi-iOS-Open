@@ -254,7 +254,7 @@
     NSError *error = [NSError alloc];
     
     self.recorder = [[AVAudioRecorder alloc] initWithURL:self.filePath settings:recordSetting error:&error];
-    
+    NSLog(@"%@",self.filePath);
     [recorder setDelegate:self];
     [recorder prepareToRecord];
     [recorder record];
