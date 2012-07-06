@@ -233,9 +233,16 @@
     NSMutableDictionary* recordSetting = [[NSMutableDictionary alloc] init];
     [recordSetting setValue:[NSNumber numberWithInt:8000] forKey:AVSampleRateKey];
     [recordSetting setValue:[NSNumber numberWithInt:1] forKey:AVNumberOfChannelsKey];
-    [recordSetting setValue:[NSNumber numberWithInt: 16] forKey:AVLinearPCMBitDepthKey]; 
+    
+    [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatiLBC] forKey:AVFormatIDKey];
+    [recordSetting setValue:[NSNumber numberWithInt:AVAudioQualityLow] forKey:AVEncoderAudioQualityKey];
+    [recordSetting setValue:[NSNumber numberWithInt:96] forKey:AVEncoderBitRateKey];
+    [recordSetting setValue:[NSNumber numberWithInt:16] forKey:AVEncoderBitDepthHintKey];
+    [recordSetting setValue:[NSNumber numberWithInt:AVAudioQualityLow] forKey:AVSampleRateConverterAudioQualityKey];
+    
+    /*[recordSetting setValue:[NSNumber numberWithInt: 16] forKey:AVLinearPCMBitDepthKey]; 
     [recordSetting setValue:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey]; 
-    [recordSetting setValue:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
+    [recordSetting setValue:[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];*/
     
     // Remove old file
     NSFileManager *filemanager = [NSFileManager defaultManager];

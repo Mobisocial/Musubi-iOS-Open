@@ -26,6 +26,7 @@
 #import "Obj.h"
 #define kObjTypeVoice @"voice"
 #define kObjFieldVoiceDuration @"duration"
+#define kMimeField @"mimeType"
 #define ARVC_MAX_AUDIO_DURATION 30
 
 @interface VoiceObj : Obj<RenderableObj>
