@@ -89,6 +89,7 @@
         [alert show];
         [self.navigationController popViewControllerAnimated:YES];
     }
+    [self.pickerTextField becomeFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
