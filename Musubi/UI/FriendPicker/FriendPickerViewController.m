@@ -58,8 +58,16 @@
     UIScrollView* recipientView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 36)];
     [recipientView setUserInteractionEnabled:YES];
     [recipientView setMultipleTouchEnabled:YES];
+    recipientView.layer.borderWidth = 1;
+    recipientView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    
+    UILabel* toLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 25, recipientView.frame.size.height)];
+    toLabel.text = @"To:";
+    toLabel.textColor = [UIColor grayColor];
+    
+    [recipientView addSubview:toLabel];
     [recipientView addSubview:self.pickerTextField];
-    [self.pickerTextField setFrame:CGRectMake(0, 0, recipientView.frame.size.width, recipientView.frame.size.height)];
+    [self.pickerTextField setFrame:CGRectMake(35, 0, recipientView.frame.size.width, recipientView.frame.size.height)];
     
     self.tableView.top += recipientView.height;
     self.tableView.height -= recipientView.height;
@@ -81,6 +89,7 @@
         [alert show];
         [self.navigationController popViewControllerAnimated:YES];
     }
+    [self.pickerTextField becomeFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -169,7 +178,7 @@
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
     
     if (textField.lineCount > 1) {
-        [textField setFrame:CGRectMake(0, 0, 320, 30 * textField.lineCount + 6)];
+        [textField setFrame:CGRectMake(35, 0, 320, 30 * textField.lineCount + 6)];
         
         [textField.superview setFrame:CGRectMake(0, 0, 320, 70)];
         [self.tableView setFrame:CGRectMake(0, 70, 320, 362)];

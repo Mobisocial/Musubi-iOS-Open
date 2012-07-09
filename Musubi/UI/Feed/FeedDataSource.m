@@ -150,12 +150,14 @@
         [cellClass prepareItem: item];
 
         NSMutableDictionary* likes = [NSMutableDictionary dictionary];
+
         for (MLike* like in [_objManager likesForObj:managed]) {
             if (like.sender) {
                 if (like.sender.owned) {
                     [item setILiked:YES];
+                    [item setILikedCount:like.count];
                 } else {
-                    [likes setObject:[NSNumber numberWithInt:like.count] forKey:[IdentityManager displayNameForIdentity:like.sender]];
+                    [likes setObject:[NSNumber numberWithInt:like.count] forKey:[IdentityManager displayNameForIdentity: like.sender]];
                 }
             }
         }

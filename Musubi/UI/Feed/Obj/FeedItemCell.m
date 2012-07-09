@@ -372,31 +372,58 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     _icon.frame = CGRectZero;
 }
 
-- (void) setObject: (FeedItem*) item {
++ (NSMutableString *) likedStringWithFeedItem: (FeedItem*) item {
     NSMutableString* likers = [NSMutableString string];
-    [likers appendString: [item.likes.allKeys componentsJoinedByString:@", "]];
+    NSString *likeString = nil;
+    
     if (item.iLiked) {
-        if (item.likes.count > 0) {
-            [likers appendString:@" and you like this"];
+        if (item.iLikedCount == 1) {
+            likeString = @"You like this\n";
         } else {
-            [likers appendString:@"You like this"];
+            likeString = @"You like this x%d\n";
         }
-    } else if (item.likes.count > 1) {
-        [likers appendString:@" like this"];
-    } else if (item.likes.count == 1) {
-        [likers appendString:@" likes this"];
+        [likers appendFormat:likeString, item.iLikedCount];
     }
     
-    self.label.text = likers;
+    int count = 1;
+    int likeCount = [item.likes count];
+    
+    
+    for (MLike* like in item.likes) {
+        int numLikes = [[item.likes objectForKey:like] intValue];
+        
+        switch (numLikes) {
+            case 1: {
+                likeString = (count == likeCount) ? @"%@ likes this" : @"%@ likes this\n";
+                break;
+            }
+            default: {
+                likeString = (count == likeCount) ? @"%@ likes this x%d" : @"%@ likes this x%d\n";
+                break;
+            }
+        }
+        
+        [likers appendFormat:likeString, like, numLikes];
+        
+        count++;
+    }
+    
+    return likers;
+
+}
+
+- (void) setObject: (FeedItem*) item {
+       
+    self.label.text = [LikeView likedStringWithFeedItem:item];
+    self.label.numberOfLines = 0;
+    self.label.lineBreakMode = UILineBreakModeWordWrap;
     self.icon.image = [UIImage imageNamed:@"heart32.png"];
 }
 
 + (CGFloat)renderHeightForItem:(FeedItem *)item {
-    // worst case string length
-    NSString* likers = [NSString stringWithFormat:@"%@ and you like this", [item.likes.allKeys componentsJoinedByString:@", "]];
-    
+    NSString* likers = [LikeView likedStringWithFeedItem:item];    
     CGSize size = [likers sizeWithFont:TTSTYLEVAR(tableTimestampFont) constrainedToSize:CGSizeMake(260, 1024) lineBreakMode:UILineBreakModeWordWrap];
-    return size.height;
+    return size.height-10;
 }
 
 

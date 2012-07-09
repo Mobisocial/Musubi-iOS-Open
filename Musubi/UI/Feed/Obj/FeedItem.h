@@ -43,6 +43,7 @@
 @property (nonatomic, copy) UIImage* profilePicture;
 @property (nonatomic) NSDictionary* likes;
 @property (nonatomic) BOOL iLiked;
+@property (nonatomic) int iLikedCount;
 
 @property (nonatomic, retain) MObj* obj;
 
