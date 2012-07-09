@@ -17,6 +17,10 @@
 		2FB1693F157D264600832396 /* VoiceObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB1693E157D264600832396 /* VoiceObj.m */; };
 		2FB16941157D298C00832396 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB16940157D298C00832396 /* AVFoundation.framework */; };
 		2FB16943157D299A00832396 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB16942157D299A00832396 /* AudioToolbox.framework */; };
+		563ACEED15A4BCE6005D88CC /* LocationObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 563ACEEC15A4BCE6005D88CC /* LocationObj.m */; };
+		563ACEF015A4D735005D88CC /* LocationObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 563ACEEF15A4D733005D88CC /* LocationObjItemCell.m */; };
+		563FA28A15A6388500FB5AFF /* CheckinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563FA28915A6388400FB5AFF /* CheckinViewController.m */; };
+		563FA28C15A6486200FB5AFF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563FA28B15A6486200FB5AFF /* MapKit.framework */; };
 		5679215D157D5673008B43A6 /* FeedNameObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */; };
 		56EC332B157C345F00438473 /* FeedSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332A157C345F00438473 /* FeedSettingsViewController.m */; };
 		56EC332E157C347300438473 /* FeedNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332D157C347300438473 /* FeedNameCell.m */; };
@@ -460,12 +464,19 @@
 		2FB1693E157D264600832396 /* VoiceObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceObj.m; sourceTree = "<group>"; };
 		2FB16940157D298C00832396 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2FB16942157D299A00832396 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		563ACEEC15A4BCE6005D88CC /* LocationObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationObj.m; sourceTree = "<group>"; };
+		563ACEEE15A4D731005D88CC /* LocationObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationObjItemCell.h; sourceTree = "<group>"; };
+		563ACEEF15A4D733005D88CC /* LocationObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationObjItemCell.m; sourceTree = "<group>"; };
+		563FA28815A6388400FB5AFF /* CheckinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckinViewController.h; sourceTree = "<group>"; };
+		563FA28915A6388400FB5AFF /* CheckinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckinViewController.m; sourceTree = "<group>"; };
+		563FA28B15A6486200FB5AFF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5679215B157D5671008B43A6 /* FeedNameObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameObjItemCell.h; sourceTree = "<group>"; };
 		5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedNameObjItemCell.m; sourceTree = "<group>"; };
 		56EC3329157C345F00438473 /* FeedSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedSettingsViewController.h; sourceTree = "<group>"; };
 		56EC332A157C345F00438473 /* FeedSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedSettingsViewController.m; sourceTree = "<group>"; };
 		56EC332C157C347300438473 /* FeedNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameCell.h; sourceTree = "<group>"; };
 		56EC332D157C347300438473 /* FeedNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedNameCell.m; sourceTree = "<group>"; };
+		56F7CEED15A4BBFA005174D2 /* LocationObj.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationObj.h; sourceTree = "<group>"; };
 		AA33534F158FA1A900B6CAF5 /* QRCodeEncoderObjectiveCAtGithub.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QRCodeEncoderObjectiveCAtGithub.xcodeproj; path = QRCodeEncoder/QRCodeEncoderObjectiveCAtGithub.xcodeproj; sourceTree = "<group>"; };
 		AA33535F158FA5DD00B6CAF5 /* QREncoderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QREncoderViewController.h; sourceTree = "<group>"; };
 		AA335360158FA5DD00B6CAF5 /* QREncoderViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QREncoderViewController.mm; sourceTree = "<group>"; };
@@ -1250,6 +1261,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				563FA28C15A6486200FB5AFF /* MapKit.framework in Frameworks */,
 				D44D41CF15A21807000BAC41 /* MessageUI.framework in Frameworks */,
 				D44D41CD15A2176C000BAC41 /* libShareKit.a in Frameworks */,
 				D44606A2159E6628000A711C /* Twitter.framework in Frameworks */,
@@ -1747,6 +1759,10 @@
 				D2773CB5151C438200A161F9 /* IntroductionObj.m */,
 				D480496B1561F6C60066279D /* LikeObj.h */,
 				D480496C1561F6C60066279D /* LikeObj.m */,
+				56F7CEED15A4BBFA005174D2 /* LocationObj.h */,
+				563ACEEC15A4BCE6005D88CC /* LocationObj.m */,
+				C0E75B9F158EA670000C3FE3 /* JoinRequestObj.h */,
+				C0E75BA0158EA670000C3FE3 /* JoinRequestObj.m */,
 				D208BDD815339CE700F6FC5C /* PictureObj.h */,
 				D208BDD915339CE700F6FC5C /* PictureObj.m */,
 				C0867923157038FC00F4F2BA /* ProfileObj.h */,
@@ -1761,8 +1777,6 @@
 				2FB1693E157D264600832396 /* VoiceObj.m */,
 				D4F0C09315791EBE00541F5C /* VideoObj.h */,
 				D4F0C09415791EBE00541F5C /* VideoObj.m */,
-				C0E75B9F158EA670000C3FE3 /* JoinRequestObj.h */,
-				C0E75BA0158EA670000C3FE3 /* JoinRequestObj.m */,
 			);
 			name = Obj;
 			sourceTree = "<group>";
@@ -2842,6 +2856,7 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
+				563FA28B15A6486200FB5AFF /* MapKit.framework */,
 				D44606A1159E6628000A711C /* Twitter.framework */,
 				D446069F159E6610000A711C /* MessageUI.framework */,
 				F7FDB0F6159BDD2700BDA402 /* target-script-min.js */,
@@ -2903,6 +2918,8 @@
 				56EC332D157C347300438473 /* FeedNameCell.m */,
 				D2CB53901587AC0C002E196F /* StatusTextView.h */,
 				D2CB53911587AC0C002E196F /* StatusTextView.m */,
+				563FA28815A6388400FB5AFF /* CheckinViewController.h */,
+				563FA28915A6388400FB5AFF /* CheckinViewController.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -2960,6 +2977,8 @@
 		D2C66F09156DF02C001A0124 /* Obj */ = {
 			isa = PBXGroup;
 			children = (
+				563ACEEE15A4D731005D88CC /* LocationObjItemCell.h */,
+				563ACEEF15A4D733005D88CC /* LocationObjItemCell.m */,
 				D2C66F0A156DF02C001A0124 /* FeedItem.h */,
 				D2C66F0B156DF02C001A0124 /* FeedItem.m */,
 				D2C66F0C156DF02C001A0124 /* FeedItemCell.h */,
@@ -3732,6 +3751,9 @@
 				F7FDB0F7159BDD2700BDA402 /* target-script-min.js in Sources */,
 				D2FBCED7159D4ED2008C2015 /* FeedPhotoViewController.m in Sources */,
 				D44606A5159E6866000A711C /* MusubiShareKitConfigurator.m in Sources */,
+				563ACEED15A4BCE6005D88CC /* LocationObj.m in Sources */,
+				563ACEF015A4D735005D88CC /* LocationObjItemCell.m in Sources */,
+				563FA28A15A6388500FB5AFF /* CheckinViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

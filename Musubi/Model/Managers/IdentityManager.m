@@ -202,7 +202,7 @@
         [self createIdentity: mId];
         [feedManager acceptFeedsFromIdentity: mId];
     } else if (changed) {
-        NSLog(@"Updated user %@", name);
+        //NSLog(@"Updated user %@", name);
         [self updateIdentity: mId];
         *profileDataChanged = YES;
     }

@@ -30,6 +30,7 @@
 
 #import "StatusObj.h"
 #import "IntroductionObj.h"
+#import "LocationObj.h"
 #import "PictureObj.h"
 #import "LikeObj.h"
 #import "DeleteObj.h"

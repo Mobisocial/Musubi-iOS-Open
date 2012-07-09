@@ -250,10 +250,49 @@
                         <outlet property="sendButton" destination="HfX-wR-nJ0" id="1rP-7F-JHc"/>
                         <segue destination="K98-fY-kuD" kind="push" identifier="ShowProfile" id="A7m-5b-BSd"/>
                         <segue destination="VtU-Lw-Thf" kind="custom" identifier="SharePicture" customClass="NonAnimatedSegue" id="EoE-0z-oi3"/>
+                        <segue destination="W9M-ue-ONQ" kind="push" identifier="ShowCheckinController" id="asJ-ik-BQS"/>
                     </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1728" y="-659"/>
+        </scene>
+        <!--Checkin View Controller-->
+        <scene sceneID="jfL-l4-2Dd">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K3F-h2-ipW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="W9M-ue-ONQ" customClass="CheckinViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hTK-Hb-IBS">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="dIB-cJ-WaM">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                            <view multipleTouchEnabled="YES" contentMode="scaleToFill" id="zKK-Dc-8fP" customClass="TTView">
+                                <rect key="frame" x="0.0" y="372" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="5JK-2V-hVU" customClass="TTButton">
+                                        <rect key="frame" x="255" y="6" width="60" height="36"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.82761907000000001" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="CbR-h5-rhK"/>
+                    <connections>
+                        <outlet property="mapView" destination="dIB-cJ-WaM" id="oOi-vX-nAm"/>
+                        <outlet property="postView" destination="zKK-Dc-8fP" id="3Fl-Xx-Mdp"/>
+                        <outlet property="sendButton" destination="5JK-2V-hVU" id="sWy-Bn-qI4"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2327" y="-1646"/>
         </scene>
         <!--Feed Settings View Controller - Options-->
         <scene sceneID="nxq-2E-yPz">
@@ -555,6 +594,14 @@
         <image name="welcome_background.png" width="640" height="840"/>
     </resources>
     <classes>
+        <class className="CheckinViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CheckinViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="postView" candidateClass="TTView"/>
+                <relationship kind="outlet" name="sendButton" candidateClass="TTButton"/>
+            </relationships>
+        </class>
         <class className="FeedListViewController" superclassName="TTTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedListViewController.h"/>
             <relationships>

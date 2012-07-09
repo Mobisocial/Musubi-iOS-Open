@@ -40,6 +40,8 @@
         double lat = location.coordinate.latitude;
         double lng = location.coordinate.longitude;
         
+        NSLog(@"%f, %f", lat, lng);
+        
         NSArray* coords = [GridHandler hexTilesForSizeInFeet:5280 / 2 atLatitude:lat andLongitude:lng];
         NSLog(@"coords, %@", coords);
         

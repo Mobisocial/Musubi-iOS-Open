@@ -43,6 +43,9 @@
 #import "StatusObj.h"
 #import "StatusObjItemCell.h"
 
+#import "LocationObj.h"
+#import "LocationObjItemCell.h"
+
 #import "PictureObj.h"
 #import "PictureObjItemCell.h"
 
@@ -126,7 +129,11 @@
         cellClass = [FileObjItemCell class];
     } else if ([managed.type isEqualToString:kObjTypeFeedName]) {
         cellClass = [FeedNameObjItemCell class];
+    } else if ([managed.type isEqualToString:kObjTypeLocation]) {
+        cellClass = [LocationObjItemCell class];
     }
+    NSLog(@"type = %@", managed.type);
+
     
     
     if (cellClass == nil) {

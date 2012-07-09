@@ -27,6 +27,7 @@
 #import "ProfileViewController.h"
 #import "PictureOverlayViewController.h"
 #import "FeedSettingsViewController.h"
+#import "CheckinViewController.h"
 #import "FeedPhotoViewController.h"
 #import "FeedDataSource.h"
 #import "FeedModel.h"
@@ -42,6 +43,7 @@
 #import "LikeObj.h"
 #import "PictureObj.h"
 #import "StatusObj.h"
+#import "LocationObj.h"
 #import "StoryObj.h"
 #import "FeedNameObj.h"
 #import "IntroductionObj.h"
@@ -408,7 +410,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 }
 
 - (IBAction)commandButtonPushed: (id) sender {
-    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", @"Record Audio", @"Sketch", nil];
+    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", @"Record Audio", @"Sketch", @"Check-in", nil];
     
     [commandPicker showInView:mainView];
 }
@@ -472,6 +474,12 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             */
             
             [FeedViewController launchApp: app withObj:nil feed: _feed andController:self popViewController:false];
+            break;
+        }
+        case 4: // check in
+        {
+            [self performSegueWithIdentifier:@"ShowCheckinController" sender:_feed];
+            break;
         }
     }
 }
@@ -569,6 +577,10 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         [vc setDelegate:self];
         //[vc.view addSubview:incomingLabel];
         //[self updatePending:nil];
+    }
+    else if ([[segue identifier] isEqualToString:@"ShowCheckinController"]) {
+        CheckinViewController *vc = [segue destinationViewController];
+        [vc setFeed: _feed];
     }
 }
 

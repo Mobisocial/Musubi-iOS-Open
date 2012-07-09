@@ -31,6 +31,7 @@
 #import "MIdentity.h"
 #import "ObjFactory.h"
 #import "StatusObj.h"
+#import "LocationObj.h"
 #import "VoiceObj.h"
 #import "StoryObj.h"
 #import "Musubi.h"
