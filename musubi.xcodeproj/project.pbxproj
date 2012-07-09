@@ -2882,9 +2882,6 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
-				563FA28B15A6486200FB5AFF /* MapKit.framework */,
-				D44606A1159E6628000A711C /* Twitter.framework */,
-				D446069F159E6610000A711C /* MessageUI.framework */,
 				F7FDB0F6159BDD2700BDA402 /* target-script-min.js */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
 				D298FA40143D0E84000831DD /* html5 */,
@@ -2907,6 +2904,9 @@
 		D298F9F5143CE6DF000831DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				563FA28B15A6486200FB5AFF /* MapKit.framework */,
+				D44606A1159E6628000A711C /* Twitter.framework */,
+				D446069F159E6610000A711C /* MessageUI.framework */,
 				D44606A1159E6628000A711C /* Twitter.framework */,
 				D446069F159E6610000A711C /* MessageUI.framework */,
 				2FB16942157D299A00832396 /* AudioToolbox.framework */,
