@@ -95,10 +95,11 @@
     self.title = [feedManager identityStringForFeed: _feed];
     
     self.navigationItem.backBarButtonItem =
-    [[UIBarButtonItem alloc] initWithTitle:@"Chat"
+    [[UIBarButtonItem alloc] initWithTitle:@"Musubi"
                                      style:UIBarButtonItemStyleBordered
                                     target:nil
                                     action:nil];
+
     CGRect bounds = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height - 43);
     self.tableView.frame = bounds;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -502,7 +503,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     NSData   *deletethis = [NSData dataWithContentsOfURL:file];
     NSLog(@"Audio size is %d bytes", [deletethis length]);
     
-    VoiceObj* audio = [[VoiceObj alloc] initWithURL:file withData:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:seconds], kObjFieldVoiceDuration, @"audio/iLBC", kMimeField, nil]];
+    VoiceObj* audio = [[VoiceObj alloc] initWithURL:file withData:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:seconds], kObjFieldVoiceDuration, @"audio/x-caf", kMimeField, nil]];
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureSuperApp];
     [self sendObj:audio fromApp:app];

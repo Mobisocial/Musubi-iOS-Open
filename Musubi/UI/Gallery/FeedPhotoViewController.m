@@ -36,6 +36,7 @@
 #import "PersistentModelStore.h"
 #import "ProfileObj.h"
 #import "SHKFacebook.h"
+#import "MusubiStyleSheet.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation FeedPhotoViewController
