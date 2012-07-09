@@ -34,7 +34,6 @@
 #import "MApp.h"
 #import "Musubi.h"
 #import "FeedViewController.h"
-#import "GpsLookup.h"
 
 @interface CheckinViewController ()
 
@@ -59,7 +58,9 @@
 {
     [super viewDidLoad];
     
-    GpsLookup* lookup = [[GpsLookup alloc] init];
+    if(lookup == nil) {
+        lookup = [[GpsLookup alloc] init];
+    }
     [_mapView setScrollEnabled:NO];
     [_mapView setZoomEnabled:NO];
     [lookup lookupAndCall:^(CLLocation *location) {
@@ -77,9 +78,9 @@
     }];
    
     _mapView.delegate = self; 
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapViewTapped:)];
+    /*UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapViewTapped:)];
     tapGestureRecognizer.delegate = self;
-    [_mapView addGestureRecognizer:tapGestureRecognizer];
+    [_mapView addGestureRecognizer:tapGestureRecognizer];*/
 }
 
 -(void)mapViewTapped:(UITapGestureRecognizer *) tgr {

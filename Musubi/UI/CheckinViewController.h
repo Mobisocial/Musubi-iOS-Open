@@ -27,6 +27,7 @@
 #import "Three20/Three20.h"
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "GpsLookup.h"
 
 @class MFeed, StatusTextView;
 
@@ -40,6 +41,7 @@
     IBOutlet TTView* postView;
     IBOutlet TTButton* sendButton;
     IBOutlet StatusTextView* statusField;
+    GpsLookup* lookup;
     NSNumber *lat, *lon;
 }
 
