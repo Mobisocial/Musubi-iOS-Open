@@ -561,6 +561,10 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     [self refreshFeed];
 }
 
+- (void) reloadFeed {
+    [self refreshFeed];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
         FriendPickerViewController *vc = segue.destinationViewController;
@@ -585,6 +589,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     else if ([[segue identifier] isEqualToString:@"ShowCheckinController"]) {
         CheckinViewController *vc = [segue destinationViewController];
         [vc setFeed: _feed];
+        [vc setDelegate: self];
     }
 }
 

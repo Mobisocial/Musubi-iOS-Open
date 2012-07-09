@@ -44,6 +44,7 @@
 
 @synthesize mapView = _mapView;
 @synthesize feed = _feed;
+@synthesize delegate = _delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,16 +60,13 @@
     [super viewDidLoad];
     
     GpsLookup* lookup = [[GpsLookup alloc] init];
-    NSLog(@"i'm calling this shit");
     [_mapView setScrollEnabled:NO];
     [_mapView setZoomEnabled:NO];
     [lookup lookupAndCall:^(CLLocation *location) {
-        NSLog(@"we run this");
         lat = [NSNumber numberWithDouble:location.coordinate.latitude];
         lon = [NSNumber numberWithDouble:location.coordinate.longitude];
         MKPointAnnotation *annotationPoint = [[MKPointAnnotation alloc] init];
         annotationPoint.coordinate = location.coordinate;
-        NSLog(@"setting map to %@, %@", lat, lon);
         
         [_mapView addAnnotation:annotationPoint];
         
@@ -76,15 +74,12 @@
         [_mapView setRegion:region animated:NO];
         
     } orFail:^(NSError *error) {
-        NSLog(@"well fuck");
     }];
-    NSLog(@"DID IT CALL");
-	// Do any additional setup after loading the view.
    
-    /*_mapView.delegate = self; 
+    _mapView.delegate = self; 
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapViewTapped:)];
     tapGestureRecognizer.delegate = self;
-    [_mapView addGestureRecognizer:tapGestureRecognizer];*/
+    [_mapView addGestureRecognizer:tapGestureRecognizer];
 }
 
 -(void)mapViewTapped:(UITapGestureRecognizer *) tgr {
@@ -154,15 +149,14 @@
                              initWithText: [statusField text] 
                              andLat: lat
                              andLon: lon];
-    NSLog(@"location = %@", location);
     
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureSuperApp];
     
     [self sendObj:location fromApp:app];
     
-    //[self.navigationController popViewControllerAnimated:YES];
-    
+    [_delegate reloadFeed];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (MObj*) sendObj:(Obj *)obj fromApp: (MApp*) app {
@@ -203,7 +197,6 @@
 - (void) keyboardDidHide:(NSNotification*)notification {
     [postView setFrame:CGRectMake(0, self.view.frame.size.height - postView.frame.size.height, postView.frame.size.width, postView.frame.size.height)];
     [_mapView setFrame: CGRectMake(0, 0, _mapView.frame.size.width, postView.frame.origin.y + 1)]; // +1 to hide bottom border
-    NSLog(@"keyboard did hide");
 }
 - (void) hideKeyboard {
     

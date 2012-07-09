@@ -48,4 +48,9 @@
 }
 
 
+- (id)initWithData:(NSDictionary *)data {
+    return [self initWithText: [data objectForKey:kTextField] andLat: [data objectForKey:kLatField] andLon: [data objectForKey:kLonField]];
+}
+
+
 @end

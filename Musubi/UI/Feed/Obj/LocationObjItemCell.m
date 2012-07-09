@@ -50,6 +50,7 @@
 }
 
 - (void)setObject:(ManagedObjFeedItem*)object {
+    NSLog(@"%@", [object obj]);
     if (_item != object) {
         [super setObject:object];
         

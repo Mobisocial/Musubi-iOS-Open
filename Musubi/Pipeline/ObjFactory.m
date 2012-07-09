@@ -77,6 +77,8 @@
         return [[VideoObj alloc] initWithType:objType data:data andRaw:mObj.raw];
     } else if ([objType isEqualToString:kObjTypeFeedName]) {
         return [[FeedNameObj alloc] initWithData:data andRaw:mObj.raw];
+    } else if ([objType isEqualToString:kObjTypeLocation]) {
+        return [[LocationObj alloc] initWithData:data];
     }
     
     return [[UnknownObj alloc] initWithType:objType data:data andRaw:mObj.raw];

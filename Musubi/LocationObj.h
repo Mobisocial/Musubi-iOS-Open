@@ -39,5 +39,6 @@
 @property (nonatomic, strong) NSNumber* lon;
 
 - (id) initWithText: (NSString*) text andLat: (NSNumber*) lat andLon: (NSNumber*) lon;
+- (id) initWithData: (NSDictionary*) data;
 
 @end

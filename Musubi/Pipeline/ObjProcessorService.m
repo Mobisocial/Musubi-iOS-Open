@@ -128,6 +128,8 @@ static int operationCount = 0;
     }
 
     Obj* obj = [ObjFactory objFromManagedObj:mObj];
+    NSLog(@"obj = %@", obj);
+    NSLog(@"mObj = %@", mObj);
     if ([ObjHelper isRenderable: obj]) {
         [mObj setRenderable: YES];
         

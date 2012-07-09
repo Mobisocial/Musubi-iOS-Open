@@ -132,9 +132,6 @@
     } else if ([managed.type isEqualToString:kObjTypeLocation]) {
         cellClass = [LocationObjItemCell class];
     }
-    NSLog(@"type = %@", managed.type);
-
-    
     
     if (cellClass == nil) {
         Obj* obj = [ObjFactory objFromManagedObj:managed];

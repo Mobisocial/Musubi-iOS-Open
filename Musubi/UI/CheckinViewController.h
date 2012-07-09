@@ -30,6 +30,11 @@
 
 @class MFeed, StatusTextView;
 
+
+@protocol CheckinViewControllerDelegate
+- (void) reloadFeed;
+@end
+
 @interface CheckinViewController : UIViewController <UIGestureRecognizerDelegate, UITextViewDelegate, MKMapViewDelegate> {
     
     IBOutlet TTView* postView;
@@ -40,5 +45,7 @@
 
 @property (nonatomic, retain) MFeed* feed;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
+
+@property (nonatomic, weak) id<CheckinViewControllerDelegate> delegate;
 
 @end
