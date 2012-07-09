@@ -164,10 +164,10 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     
     [_likeButton sizeToFit];
     
-    _likeButton.width = 16;
-    _likeButton.height = 16;
-    _likeButton.left = self.contentView.width - _likeButton.width - kTableCellSmallMargin;
-    _likeButton.top = _senderLabel.top + _timestampLabel.height + kTableCellSmallMargin;
+    _likeButton.width = 32;
+    _likeButton.height = 32;
+    _likeButton.left = self.contentView.width - 24 - kTableCellSmallMargin;
+    _likeButton.top = _senderLabel.top + _timestampLabel.height + kTableCellSmallMargin - 8;
 }
 
 
@@ -212,7 +212,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
             [self.likeView setObject:item];
         }
         
-        [self.likeButton setImage:[UIImage imageNamed:item.iLiked ? @"heart32.png" : @"heart32_gray.png"] forState:UIControlStateNormal];
+        [self.likeButton setImage:[UIImage imageNamed:item.iLiked ? @"heart16.png" : @"heart16_gray.png"] forState:UIControlStateNormal];
 
         UIColor* color;
         if (item.obj.deleted) {
@@ -280,9 +280,10 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
 - (UIButton*)likeButton {
     if (!_likeButton) {
         _likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _likeButton.imageView.image = [UIImage imageNamed:@"heart32_gray.png"];
-        _likeButton.width = 16;
-        _likeButton.height = 16;
+        _likeButton.imageView.image = [UIImage imageNamed:@"heart16_gray.png"];
+        _likeButton.width = 32;
+        _likeButton.height = 32;
+
         _likeButton.userInteractionEnabled = YES;
         [_likeButton addTarget:self action:@selector(likeButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -417,7 +418,7 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     self.label.text = [LikeView likedStringWithFeedItem:item];
     self.label.numberOfLines = 0;
     self.label.lineBreakMode = UILineBreakModeWordWrap;
-    self.icon.image = [UIImage imageNamed:@"heart32.png"];
+    self.icon.image = [UIImage imageNamed:@"heart16.png"];
 }
 
 + (CGFloat)renderHeightForItem:(FeedItem *)item {
