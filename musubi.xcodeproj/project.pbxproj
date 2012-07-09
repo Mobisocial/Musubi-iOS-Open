@@ -167,6 +167,7 @@
 		D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
+		D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D29EF97115AB908500CF4901 /* VerifyViewController.m */; };
 		D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */; };
 		D2A45AF5155EF6DE009C1D73 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A45AF4155EF6DE009C1D73 /* DropboxSDK.framework */; };
 		D2AADE1714FD792300C6ABB3 /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1614FD792300C6ABB3 /* BSONEncoder.m */; };
@@ -1072,6 +1073,8 @@
 		D298FA15143CE6DF000831DD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D298FA40143D0E84000831DD /* html5 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html5; sourceTree = "<group>"; };
 		D298FA4B143E5B4E000831DD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D29EF97015AB908500CF4901 /* VerifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VerifyViewController.h; path = Welcome/VerifyViewController.h; sourceTree = "<group>"; };
+		D29EF97115AB908500CF4901 /* VerifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VerifyViewController.m; path = Welcome/VerifyViewController.m; sourceTree = "<group>"; };
 		D2A1FC051521009400C10BE2 /* Authorities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authorities.h; sourceTree = "<group>"; };
 		D2A1FC1015211F6B00C10BE2 /* FacebookIdentityUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookIdentityUpdater.h; path = Identity/FacebookIdentityUpdater.h; sourceTree = "<group>"; };
 		D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookIdentityUpdater.m; path = Identity/FacebookIdentityUpdater.m; sourceTree = "<group>"; };
@@ -2904,6 +2907,8 @@
 		D298F9F5143CE6DF000831DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D44606A1159E6628000A711C /* Twitter.framework */,
+				D446069F159E6610000A711C /* MessageUI.framework */,
 				2FB16942157D299A00832396 /* AudioToolbox.framework */,
 				2FB16940157D298C00832396 /* AVFoundation.framework */,
 				D4DB1348157C2DC000337A16 /* CFNetwork.framework */,
@@ -3066,6 +3071,8 @@
 			children = (
 				D2EBDAFE1591574A006436EA /* WelcomeViewController.h */,
 				D2EBDAFF1591574A006436EA /* WelcomeViewController.m */,
+				D29EF97015AB908500CF4901 /* VerifyViewController.h */,
+				D29EF97115AB908500CF4901 /* VerifyViewController.m */,
 			);
 			name = Welcome;
 			sourceTree = "<group>";
@@ -3788,6 +3795,7 @@
 				569D54E015ABB18C002A3275 /* LocationViewController.m in Sources */,
 				5675EBF115B0A6ED00EBD834 /* IndexedTTTableView.m in Sources */,
 				D2C04A2515A25E9B002C6888 /* EmailAuth.m in Sources */,
+				D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

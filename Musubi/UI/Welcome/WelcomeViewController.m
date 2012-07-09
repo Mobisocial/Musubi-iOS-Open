@@ -27,10 +27,11 @@
 #import "MAccount.h"
 #import "Musubi.h"
 #import "Three20/Three20.h"
+#import "VerifyViewController.h"
 
 @implementation WelcomeViewController
 
-@synthesize authMgr = _authMgr, facebookButton = _facebookButton, googleButton = _googleButton, statusLabel = _statusLabel;
+@synthesize authMgr = _authMgr, facebookButton = _facebookButton, googleButton = _googleButton, statusLabel = _statusLabel, emailField = _emailField;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -45,9 +46,15 @@
     
     // Color
     self.navigationController.navigationBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updateImporting:) name:kMusubiNotificationIdentityImported object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updateImporting:) name:kMusubiNotificationIdentityImportFinished object:nil];
+    
+    self.emailField.delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -72,6 +79,15 @@
 - (void)authNetwork:(id)sender {
     NSString* type = sender == self.facebookButton ? kAccountTypeFacebook : kAccountTypeGoogle;
     [_authMgr performSelectorInBackground:@selector(connect:) withObject:type];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog(@"Preparing");
+    [super prepareForSegue:segue sender:sender];
+    
+    if ([segue.identifier isEqualToString:@"Verify"]) {
+        ((VerifyViewController*) segue.destinationViewController).email = _emailField.text;
+    }
 }
 
 #pragma mark - AccountAuthManager delegate
@@ -111,5 +127,13 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
+
+#pragma mark - UITextField delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
 
 @end

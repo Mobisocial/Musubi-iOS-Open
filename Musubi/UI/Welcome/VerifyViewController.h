@@ -16,25 +16,17 @@
 
 
 //
-//  WelcomeViewController.h
+//  VerifyViewController.h
 //  musubi
 //
-//  Created by Willem Bult on 6/19/12.
+//  Created by Willem Bult on 7/9/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "AccountAuthManager.h"
 
-@interface WelcomeViewController : UIViewController<AccountAuthManagerDelegate, UITextFieldDelegate> {
-}
+@interface VerifyViewController : UIViewController<UIAlertViewDelegate>
 
-@property (nonatomic, retain) AccountAuthManager* authMgr;
-@property (nonatomic, strong) IBOutlet UIButton* facebookButton;
-@property (nonatomic, strong) IBOutlet UIButton* googleButton;
-@property (nonatomic, strong) IBOutlet UILabel* statusLabel;
-@property (nonatomic, strong) IBOutlet UITextField* emailField;
-
-- (IBAction)authNetwork:(id)sender;
+@property (nonatomic, strong) NSString* email;
 
 @end
