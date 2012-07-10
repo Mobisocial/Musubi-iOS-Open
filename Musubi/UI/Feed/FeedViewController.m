@@ -210,7 +210,7 @@
 
 - (void) scrollToBottomAnimated: (BOOL) animated {
     FeedDataSource* source = (FeedDataSource*)self.dataSource;
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(source.items.count - 1) inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(source.items.count - 1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
 
 - (void) feedUpdated: (NSNotification*) notification {    
