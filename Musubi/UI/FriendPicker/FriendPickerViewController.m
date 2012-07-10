@@ -29,6 +29,11 @@
 #import "FriendListItem.h"
 #import "Musubi.h"
 #import "AccountManager.h"
+#import "IBEncryptionScheme.h"
+#import "MIdentity.h"
+#import "IdentityManager.h"
+#import "Authorities.h"
+
 
 @interface FriendPickerViewController ()
 
@@ -155,9 +160,11 @@
         _pickerTextField.autocorrectionType = UITextAutocorrectionTypeNo;
         _pickerTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _pickerTextField.rightViewMode = UITextFieldViewModeAlways;
-        _pickerTextField.returnKeyType = UIReturnKeyDone;
+        _pickerTextField.returnKeyType = UIReturnKeyDefault;
         _pickerTextField.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         _pickerTextField.font = [UIFont systemFontOfSize:14.0];
+        _pickerTextField.text = @"";
+        [_pickerTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingDidEnd];
     }
     
     return _pickerTextField;
@@ -186,6 +193,47 @@
         int newY = 30 * (textField.lineCount - 2);
         [((UIScrollView*)textField.superview) setContentOffset:CGPointMake(0, newY) animated:NO];
     }
+}
+
+- (BOOL) validateEmail: (NSString *) candidate {
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"; 
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex]; 
+    
+    return [emailTest evaluateWithObject:candidate];
+}
+
+- (void)textFieldDidChange:(TTPickerTextField*)picker {
+    
+    BOOL identityAdded = NO;
+    BOOL profileDataChanged = NO;
+    FriendListItem* newListItem = [FriendListItem alloc];
+    
+    IdentityManager* im = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    
+    // Trim leading whitespace
+    NSString* newIdentityName = [picker.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    // Ensure the entered email address is valid
+    if ([self validateEmail:newIdentityName]) {
+        
+        IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:newIdentityName temporalFrame:0];
+        
+        MIdentity* mId = [im ensureIdentity:ident withName:newIdentityName identityAdded:&identityAdded profileDataChanged:&profileDataChanged];
+        
+        newListItem.musubiName = newIdentityName;
+        newListItem.realName = newIdentityName;
+        newListItem.identity = mId;
+        
+        [self.pickerTextField addCellWithObject:newListItem];
+        
+        [self.pickerTextField becomeFirstResponder];
+        
+    } else {
+        // Invalid Email Specified
+        // TODO: Reset the search criteria so that nothing is filtered out of the list
+
+    }
+    
 }
 
 - (void) textField: (UITextField*)tf didRemoveCellAtIndex: (int) idx {
@@ -219,6 +267,7 @@
         TTPickerTextField* picker = ((FriendPickerViewController*)self.controller).pickerTextField;
         
         if (!item.selected) {
+            
             [picker addCellWithObject: item];
         } else {
             [picker removeCellWithObject: item];
