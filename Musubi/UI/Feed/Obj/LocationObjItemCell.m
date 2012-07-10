@@ -59,7 +59,7 @@
         
         text = [LocationObjItemCell textForItem:(ManagedObjFeedItem*)object];
         sender = object.sender;
-        //self.detailTextLabel.text = text;
+        self.detailTextLabel.text = [NSString stringWithFormat: @"I just checked in to: %@", text];
     }
 }
 
@@ -97,20 +97,23 @@
 }
 
 + (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
-    return [LocationObjItemCell mapHeight] + [LocationObjItemCell textHeightForItem:item] + kTableCellSmallMargin;
+    /*return [LocationObjItemCell mapHeight] + [LocationObjItemCell textHeightForItem:item] + kTableCellSmallMargin;*/
+    CGSize size = [[LocationObjItemCell textForItem: (ManagedObjFeedItem*)item] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    
+    return size.height; 
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat left = self.detailTextLabel.origin.x;
+    /*CGFloat left = self.detailTextLabel.origin.x;
     CGFloat top = self.timestampLabel.origin.y + self.timestampLabel.height + kTableCellMargin;
     
     self.mapView.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, [LocationObjItemCell mapHeight]);
     
     CGFloat textTop = top + self.mapView.height;
     self.detailTextLabel.frame = CGRectMake(left, textTop, self.detailTextLabel.width, [LocationObjItemCell textHeightForItem:(ManagedObjFeedItem*)_item] + kTableCellSmallMargin);
-
+    */
 }
 
 @end

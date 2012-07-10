@@ -22,6 +22,7 @@
 		563FA28A15A6388500FB5AFF /* CheckinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563FA28915A6388400FB5AFF /* CheckinViewController.m */; };
 		563FA28C15A6486200FB5AFF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563FA28B15A6486200FB5AFF /* MapKit.framework */; };
 		5679215D157D5673008B43A6 /* FeedNameObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */; };
+		569D54E015ABB18C002A3275 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 569D54DF15ABB18B002A3275 /* LocationViewController.m */; };
 		56EC332B157C345F00438473 /* FeedSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332A157C345F00438473 /* FeedSettingsViewController.m */; };
 		56EC332E157C347300438473 /* FeedNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332D157C347300438473 /* FeedNameCell.m */; };
 		AA33535E158FA1CE00B6CAF5 /* libqrencoder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA335359158FA1A900B6CAF5 /* libqrencoder.a */; };
@@ -472,6 +473,8 @@
 		563FA28B15A6486200FB5AFF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		5679215B157D5671008B43A6 /* FeedNameObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameObjItemCell.h; sourceTree = "<group>"; };
 		5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedNameObjItemCell.m; sourceTree = "<group>"; };
+		569D54DE15ABB18B002A3275 /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationViewController.h; sourceTree = "<group>"; };
+		569D54DF15ABB18B002A3275 /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
 		56EC3329157C345F00438473 /* FeedSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedSettingsViewController.h; sourceTree = "<group>"; };
 		56EC332A157C345F00438473 /* FeedSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedSettingsViewController.m; sourceTree = "<group>"; };
 		56EC332C157C347300438473 /* FeedNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameCell.h; sourceTree = "<group>"; };
@@ -2920,6 +2923,8 @@
 				D2CB53911587AC0C002E196F /* StatusTextView.m */,
 				563FA28815A6388400FB5AFF /* CheckinViewController.h */,
 				563FA28915A6388400FB5AFF /* CheckinViewController.m */,
+				569D54DE15ABB18B002A3275 /* LocationViewController.h */,
+				569D54DF15ABB18B002A3275 /* LocationViewController.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -3754,6 +3759,7 @@
 				563ACEED15A4BCE6005D88CC /* LocationObj.m in Sources */,
 				563ACEF015A4D735005D88CC /* LocationObjItemCell.m in Sources */,
 				563FA28A15A6388500FB5AFF /* CheckinViewController.m in Sources */,
+				569D54E015ABB18C002A3275 /* LocationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

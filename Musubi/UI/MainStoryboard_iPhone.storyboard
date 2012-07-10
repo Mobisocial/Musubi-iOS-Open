@@ -251,6 +251,7 @@
                         <segue destination="K98-fY-kuD" kind="push" identifier="ShowProfile" id="A7m-5b-BSd"/>
                         <segue destination="VtU-Lw-Thf" kind="custom" identifier="SharePicture" customClass="NonAnimatedSegue" id="EoE-0z-oi3"/>
                         <segue destination="W9M-ue-ONQ" kind="push" identifier="ShowCheckinController" id="asJ-ik-BQS"/>
+                        <segue destination="j4Z-IB-nb2" kind="push" identifier="ShowLocationController" id="0ez-3i-6fx"/>
                     </connections>
                 </viewController>
             </objects>
@@ -293,6 +294,33 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="2327" y="-1646"/>
+        </scene>
+        <!--Location View Controller-->
+        <scene sceneID="Bkl-oE-Yw7">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nfd-Cg-Egn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="j4Z-IB-nb2" customClass="LocationViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="H8P-3B-iYJ">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="Y11-ky-UX7">
+                                <rect key="frame" x="0.0" y="-30" width="320" height="446"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="j4Z-IB-nb2" id="9HR-nf-YgL"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="d1u-0g-mxP"/>
+                    <connections>
+                        <outlet property="mapView" destination="Y11-ky-UX7" id="FgK-7B-hom"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2853" y="-1549"/>
         </scene>
         <!--Feed Settings View Controller - Options-->
         <scene sceneID="nxq-2E-yPz">
@@ -600,6 +628,7 @@
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="postView" candidateClass="TTView"/>
                 <relationship kind="outlet" name="sendButton" candidateClass="TTButton"/>
+                <relationship kind="outlet" name="statusField" candidateClass="StatusTextView"/>
             </relationships>
         </class>
         <class className="FeedListViewController" superclassName="TTTableViewController">
@@ -641,6 +670,12 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/HTMLAppViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="LocationViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
             </relationships>
         </class>
         <class className="NamePictureCell" superclassName="UITableViewCell">

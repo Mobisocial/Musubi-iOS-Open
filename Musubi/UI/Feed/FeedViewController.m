@@ -35,6 +35,7 @@
 #import "Musubi.h"
 #import "PersistentModelStore.h"
 #import "APNPushManager.h"
+#import "LocationViewController.h"
 
 #import "FeedManager.h"
 #import "MFeed.h"
@@ -50,6 +51,7 @@
 
 #import "StoryObjItemCell.h"
 #import "PictureObjItemCell.h"
+#import "LocationObjItemCell.h"
 
 #import "AppManager.h"
 #import "MApp.h"
@@ -591,6 +593,11 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         [vc setFeed: _feed];
         [vc setDelegate: self];
     }
+    else if ([[segue identifier] isEqualToString:@"ShowLocationController"]) {
+        LocationViewController *vc = [segue destinationViewController];
+        [vc setManagedObjFeedItem:(ManagedObjFeedItem*) sender];
+        NSLog(@"show location controller");
+    }
 }
 
 - (void)selectedFeed:(MFeed *)feed {
@@ -695,10 +702,23 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         FeedPhoto* photo = [[FeedPhoto alloc] initWithObj:objItem.managedObj];
         
         self.feedViewController = (FeedViewController*)self.controller;
-                
+        
         self.gallery = [[FeedPhotoViewController alloc] initWithFeedViewController:self.feedViewController andPhoto:photo];
         
         [[self.controller navigationController] pushViewController:self.gallery animated:true];
+    } else if ([cell isKindOfClass:[LocationObjItemCell class]]) {
+        ManagedObjFeedItem* objItem = cell.object;
+        NSLog(@"obj = %@", objItem.obj);
+        
+        FeedViewController* controller = (FeedViewController*) self.controller;
+        [controller performSegueWithIdentifier:@"ShowLocationController" sender:objItem];
+       /* LocationObj* photo = [[FeedPhoto alloc] initWithObj:objItem.managedObj];
+        
+        self.feedViewController = (FeedViewController*)self.controller;
+        
+        self.gallery = [[FeedPhotoViewController alloc] initWithFeedViewController:self.feedViewController andPhoto:photo];
+        
+        [[self.controller navigationController] pushViewController:self.gallery animated:true];*/
     }
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];

@@ -16,29 +16,26 @@
 
 
 //
-//  LocationObjItemCell.h
+//  LocationViewController.h
 //  musubi
 //
-//  Created by Ian Vo on 7/4/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ian Vo on 7/9/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import "FeedItemCell.h"
-#import "ManagedObjFeedItem.h"
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "Three20/Three20.h"
 #import <MapKit/MapKit.h>
+#import "ManagedObjFeedItem.h"
 
-
-@interface LocationObjItemCell : FeedItemCell { 
-    MKMapView* mapView;
+@interface LocationViewController : UIViewController {
     CLLocationCoordinate2D coord;
     NSString* text;
-    NSString* sender;
 }
 
-+(NSString*) textForItem: (ManagedObjFeedItem*) item;
-+(NSNumber*) latForItem: (ManagedObjFeedItem*) item;
-+(NSNumber*) lonForItem: (ManagedObjFeedItem*) item;
 
-@property (nonatomic, readonly) MKMapView* mapView;
+@property (nonatomic, retain) ManagedObjFeedItem* managedObjFeedItem;
+@property (strong, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
