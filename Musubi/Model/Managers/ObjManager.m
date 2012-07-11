@@ -102,7 +102,7 @@
 
 
 - (NSArray *)pictureObjsInFeed:(MFeed *)feed {
-    return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (type == 'picture') AND ((processed == YES) OR (encoded == nil))", feed.objectID] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:FALSE] limit:-1];
+    return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (type == 'picture') AND ((processed == YES) OR (encoded == nil))", feed.objectID] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:TRUE] limit:-1];
 }
 
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed {

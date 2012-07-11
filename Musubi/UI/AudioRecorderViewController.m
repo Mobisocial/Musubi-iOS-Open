@@ -26,6 +26,9 @@
 #import "AudioRecorderViewController.h"
 #import <Foundation/Foundation.h>
 
+#define FORMAT_ILBC = 0x696C6263;
+#define FORMAT_PCM  = 0x6C70636D; 		
+
 @interface AudioRecorderViewController ()
 
 @end
@@ -168,7 +171,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.filePath = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"temp.caf"]];
+    //self.filePath = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"temp.caf"]];
+    self.filePath = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"temp.lbc"]];
 
     // Setup AudioSession
     AVAudioSession *avSession = [AVAudioSession sharedInstance];
@@ -216,6 +220,7 @@
         [self startRecording];
     } else {
         [self stopRecording];
+        
         [self.delegate userChoseAudioData:self.filePath withDuration:self.audioDuration];        
     }
 }
