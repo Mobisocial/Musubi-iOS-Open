@@ -77,6 +77,10 @@
     ((UIScrollView*)[webView.subviews objectAtIndex:0]).bounces = NO;
     
 //    [[Musubi sharedInstance] listenToGroup:[app feed] withListener:self];
+    
+    // change the back button to cancel and add an event handler
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(handleBack:)];
+    self.navigationItem.leftBarButtonItem = backButton;    
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -101,6 +105,11 @@
     return [NSDictionary dictionaryWithObjectsAndKeys:[IdentityManager displayNameForIdentity:identity], @"name", identity.principal, @"id", identity.principal, @"personId", nil];
 }
 
+- (void) handleBack:(id) sender {
+    NSString* jsBack = @"javascript:globalAppContext.back()";
+    [webView performSelectorOnMainThread:@selector(stringByEvaluatingJavaScriptFromString:) withObject:jsBack waitUntilDone:FALSE];
+    //[self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (void)webViewDidFinishLoad:(UIWebView *)wv {
     NSString *iosBinding = [NSString stringWithContentsOfFile:@"html5/lib/platforms/socialKit-ios.js"];
