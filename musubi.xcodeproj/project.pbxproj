@@ -209,6 +209,10 @@
 		D2F8C68C1526438F005AD880 /* GoogleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F8C68B1526438F005AD880 /* GoogleAuth.m */; };
 		D2F8C6CB152655C5005AD880 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */; };
 		D2FBCED7159D4ED2008C2015 /* FeedPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2FBCED6159D4ED2008C2015 /* FeedPhotoViewController.m */; };
+		D40B061D15AE3F6600E3F944 /* heart16_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D40B061915AE3F6600E3F944 /* heart16_gray.png */; };
+		D40B061E15AE3F6600E3F944 /* heart16_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D40B061A15AE3F6600E3F944 /* heart16_gray@2x.png */; };
+		D40B061F15AE3F6600E3F944 /* heart16.png in Resources */ = {isa = PBXBuildFile; fileRef = D40B061B15AE3F6600E3F944 /* heart16.png */; };
+		D40B062015AE3F6600E3F944 /* heart16@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D40B061C15AE3F6600E3F944 /* heart16@2x.png */; };
 		D410BA4C1573085900951D94 /* UnknownObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D410BA4B1573085900951D94 /* UnknownObj.m */; };
 		D410BA5215734DEC00951D94 /* HtmlObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D410BA5115734DEB00951D94 /* HtmlObjItemCell.m */; };
 		D437B091159A639A00A4E625 /* FeedPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = D437B090159A639A00A4E625 /* FeedPhoto.m */; };
@@ -1146,6 +1150,10 @@
 		D2F8C6CA152655C3005AD880 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D2FBCED5159D4ED2008C2015 /* FeedPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedPhotoViewController.h; path = UI/Gallery/FeedPhotoViewController.h; sourceTree = "<group>"; };
 		D2FBCED6159D4ED2008C2015 /* FeedPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedPhotoViewController.m; path = UI/Gallery/FeedPhotoViewController.m; sourceTree = "<group>"; };
+		D40B061915AE3F6600E3F944 /* heart16_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart16_gray.png; sourceTree = "<group>"; };
+		D40B061A15AE3F6600E3F944 /* heart16_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart16_gray@2x.png"; sourceTree = "<group>"; };
+		D40B061B15AE3F6600E3F944 /* heart16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart16.png; sourceTree = "<group>"; };
+		D40B061C15AE3F6600E3F944 /* heart16@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart16@2x.png"; sourceTree = "<group>"; };
 		D410BA4A1573085900951D94 /* UnknownObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnknownObj.h; path = SocialKit/Obj/UnknownObj.h; sourceTree = "<group>"; };
 		D410BA4B1573085900951D94 /* UnknownObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnknownObj.m; path = SocialKit/Obj/UnknownObj.m; sourceTree = "<group>"; };
 		D410BA5015734DEB00951D94 /* HtmlObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HtmlObjItemCell.h; sourceTree = "<group>"; };
@@ -1626,6 +1634,10 @@
 		D26028D91566EEBE00CF6500 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				D40B061915AE3F6600E3F944 /* heart16_gray.png */,
+				D40B061A15AE3F6600E3F944 /* heart16_gray@2x.png */,
+				D40B061B15AE3F6600E3F944 /* heart16.png */,
+				D40B061C15AE3F6600E3F944 /* heart16@2x.png */,
 				F7DEE92A15A3BB4E0026397A /* check.png */,
 				D228E5C1159296E1002E15E6 /* background.jpg */,
 				D228E5BD159289E3002E15E6 /* cloud.png */,
@@ -3514,6 +3526,10 @@
 				D228E5BE159289E3002E15E6 /* cloud.png in Resources */,
 				D228E5C2159296E1002E15E6 /* background.jpg in Resources */,
 				F7DEE92B15A3BB4E0026397A /* check.png in Resources */,
+				D40B061D15AE3F6600E3F944 /* heart16_gray.png in Resources */,
+				D40B061E15AE3F6600E3F944 /* heart16_gray@2x.png in Resources */,
+				D40B061F15AE3F6600E3F944 /* heart16.png in Resources */,
+				D40B062015AE3F6600E3F944 /* heart16@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
