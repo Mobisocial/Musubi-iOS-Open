@@ -142,13 +142,13 @@
 
 - (UITextField*) captionField {
     if (!_captionField) {
-        _captionField = [[UITextField alloc] initWithFrame: CGRectMake(10, 5, 300, 34)];
+        _captionField = [[UITextField alloc] initWithFrame: CGRectMake(10, 5, 290, 34)];
         _captionField.backgroundColor = [UIColor clearColor];
         _captionField.font = [UIFont systemFontOfSize:16.0];
         _captionField.delegate = self;
         _captionField.textColor = [UIColor blackColor];
         
-        TTView* statusFieldBox = [[TTView alloc] initWithFrame:CGRectMake(5, 5, _captionField.frame.size.width, _captionField.frame.size.height)];
+        TTView* statusFieldBox = [[TTView alloc] initWithFrame:CGRectMake(5, 5, _captionField.frame.size.width+20, _captionField.frame.size.height)];
         statusFieldBox.backgroundColor = [UIColor whiteColor];
         statusFieldBox.style = [MusubiStyleSheet textViewBorder];
         [statusFieldBox addSubview: _captionField];
