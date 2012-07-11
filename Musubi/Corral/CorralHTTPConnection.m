@@ -48,6 +48,7 @@
         }
     }
 
+    NSLog(@"Failed to handle request for %@", path);
     NSData* invalid = [@"Invalid" dataUsingEncoding:NSUTF8StringEncoding];
     HTTPDataResponse* response = [[HTTPDataResponse alloc] initWithData:invalid];
     return response;
