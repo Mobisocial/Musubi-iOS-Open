@@ -64,7 +64,6 @@
 @property (nonatomic, strong) NSDate* newerThan;
 @property (nonatomic, strong) NSDate* startingAt;
 @property (nonatomic, strong) AudioRecorderViewController*audioRVC;
-
 @end
 
 // FeedViewTableDelegate

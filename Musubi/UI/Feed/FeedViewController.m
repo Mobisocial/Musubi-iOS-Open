@@ -86,7 +86,6 @@
     return self;
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
@@ -669,7 +668,11 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         [(FeedModel*)self.controller.model loadObj:item.obj.objectID];
     //}
 }
-
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [(FeedViewController*)self.controller hideKeyboard];
+    //[searchBar resignFirstResponder];
+}
 - (void)profilePictureButtonPressedAtIndexPath:(NSIndexPath *)indexPath {
     FeedViewController* controller = (FeedViewController*) self.controller;
     
