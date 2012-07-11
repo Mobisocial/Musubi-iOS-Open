@@ -1,7 +1,6 @@
 /**
  * Musu Sketch
  */
-
 var testingInBrowser = false;
 
 var sketch; // Global context for SketchApp.
@@ -14,20 +13,19 @@ var usingEraser = false;
 var undoStack = new Array();
 
 Musubi.ready(function(appContext) {
-  console.log("Musubi.ready() called");
   canvas = document.getElementById("sketchpad");
-  console.log("got canvas");
   var args = {id:"sketchpad", size: parseInt($("#width").val()), color: $("#color").css("background-color") };
-  if (appContext.obj != null) {
+  if (appContext != null && appContext.obj != null) {
     var img = Musubi.urlForRawData(appContext.obj.objId);
-    console.log("got it " + img);
     if (img != null) {
       args.bg = img;
     }
   }
-  console.log("creating SketchApp...");
+
   sketch = new SketchApp(args); 
+
   $("#post").click(function(e) {
+    $("#post").attr("disabled","disabled");
     var elm = document.getElementById('sketchpad');
     var copy = document.createElement("canvas");
     var w = Mx - mx;
@@ -73,8 +71,6 @@ Musubi.ready(function(appContext) {
 		usingEraser = true;
 		$("#width :nth-child(8)").attr("selected", "true");
 	}
-                    
-    console.log("Musubi.ready() done");
   });
 
   /**
@@ -98,18 +94,19 @@ Musubi.ready(function(appContext) {
     $("#confirm").hide();
   });
   var postDialogVisible = false;
-  appContext.setBack(function() {
-    if(pickerVisible) {
-       pickerVisible = false;
-       $("#colorpicker").hide();
-       return;
-    }
-    if(postDialogVisible == false && mx >= Mx && my >= My) {
-      appContext.quit();
-    }
-    $("#confirm").toggle();
-  });
-
+  if (!testingInBrowser) {
+    appContext.setBack(function() {
+      if(pickerVisible) {
+         pickerVisible = false;
+         $("#colorpicker").hide();
+         return;
+      }
+      if(postDialogVisible == false && mx >= Mx && my >= My) {
+        appContext.quit();
+      }
+      $("#confirm").toggle();
+    });
+  }
   $("#color").click(function(e) {
     showColorPicker();
   });
