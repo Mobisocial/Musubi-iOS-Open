@@ -78,9 +78,9 @@
     }];
    
     _mapView.delegate = self; 
-    /*UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapViewTapped:)];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapViewTapped:)];
     tapGestureRecognizer.delegate = self;
-    [_mapView addGestureRecognizer:tapGestureRecognizer];*/
+    [_mapView addGestureRecognizer:tapGestureRecognizer];
 }
 
 -(void)mapViewTapped:(UITapGestureRecognizer *) tgr {
@@ -96,8 +96,11 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    /*[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];*/
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 
@@ -179,20 +182,46 @@
 
 /// ACTIONS
 
-- (void) keyboardDidShow:(NSNotification*)notification {
+- (void) keyboardWillShow:(NSNotification*)notification {
+    
     CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     UIWindow *window = [[[UIApplication sharedApplication] windows]objectAtIndex:0];
     UIView *mainSubviewOfWindow = window.rootViewController.view;
     CGRect keyboardFrameConverted = [mainSubviewOfWindow convertRect:keyboardFrame fromView:window];
     
+    NSDictionary *userInfo = [notification userInfo];
+    // Get the duration of the relevant animation (Not sure why this is here, but it is in the Apple Tutorial
+    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSTimeInterval animationDuration;
+    [animationDurationValue getValue:&animationDuration];
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:animationDuration];
+    
     [_mapView setFrame: CGRectMake(0, 0, _mapView.frame.size.width, self.view.frame.size.height - postView.frame.size.height - keyboardFrameConverted.size.height + 1)]; // +1 to hide bottom border
     [postView setFrame:CGRectMake(0, _mapView.frame.size.height - 1, postView.frame.size.width, postView.frame.size.height)]; // -1 to hide bottom border
     
+    [UIView commitAnimations]; 
 }
-- (void) keyboardDidHide:(NSNotification*)notification {
+
+- (void) keyboardWillHide:(NSNotification*)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    
+    // Get the duration of the relevant animation (Not sure why this is here, but it is in the Apple Tutorial
+    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSTimeInterval animationDuration;
+    [animationDurationValue getValue:&animationDuration];
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:animationDuration];
+    
     [postView setFrame:CGRectMake(0, self.view.frame.size.height - postView.frame.size.height, postView.frame.size.width, postView.frame.size.height)];
     [_mapView setFrame: CGRectMake(0, 0, _mapView.frame.size.width, postView.frame.origin.y + 1)]; // +1 to hide bottom border
+    
+    [UIView commitAnimations]; 
+    
 }
+
 - (void) hideKeyboard {
     
     [statusField resignFirstResponder];
