@@ -99,9 +99,9 @@
     
     AccountManager* accMgr = [[AccountManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     
-    //if ([accMgr claimedAccounts].count == 0) {
+    if ([accMgr claimedAccounts].count == 0) {
         [self performSegueWithIdentifier:@"Welcome" sender:self];
-    //}    
+    }    
     
     [self displayNoFeedViewIfNeeded];
 }

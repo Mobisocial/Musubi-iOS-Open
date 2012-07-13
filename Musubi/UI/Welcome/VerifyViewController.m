@@ -24,10 +24,12 @@
 //
 
 #import "VerifyViewController.h"
+#import "WelcomeViewController.h"
+
 
 @implementation VerifyViewController
 
-@synthesize email = _email;
+@synthesize emailAuth = _emailAuth;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,14 +49,22 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+
     // Release any retained subviews of the main view.
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Verify" message:@"We've sent you an email with a verification link. Please open the mail on your phone." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    [alert show];
+    UINavigationController* navController = (UINavigationController*)[[[UIApplication sharedApplication] keyWindow] rootViewController];
+    
+    if ([navController.topViewController isKindOfClass:WelcomeViewController.class]) {
+        [navController popViewControllerAnimated:NO];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -62,6 +72,10 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark UIAlertView delegate
+#pragma mark AccountAuthManager delegate
+
+- (void)accountWithType:(NSString *)type isConnected:(BOOL)connected {
+    [EmailAuthManager dismissView];
+}
 
 @end

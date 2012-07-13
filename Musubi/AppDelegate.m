@@ -25,7 +25,7 @@
 
 #import "AppDelegate.h"
 #import "FacebookAuth.h"
-#import "Musubi.h"
+xxx#import "Musubi.h"
 #import "APNPushManager.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "NSData+HexString.h"
@@ -154,8 +154,11 @@
     
     NSString* facebookPrefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
     if ([url.scheme hasPrefix:facebookPrefix]) {
-        [facebookLoginOperation handleOpenURL:url];
-        return [SHKFacebook handleOpenURL:url];
+        if (facebookLoginOperation != nil) {
+            [facebookLoginOperation handleOpenURL:url];
+        } else {
+            return [SHKFacebook handleOpenURL:url];
+        }
     }
     
     if ([[DBSession sharedSession] handleOpenURL:url]) {
@@ -164,21 +167,12 @@
 
     NSString* musubiPrefix = @"musubi";
     if ([url.scheme hasPrefix:musubiPrefix]) {
-        
+        if ([EmailAuthManager handleOpenURL: url])
+            return YES;
     }
-    
     
     return NO;
 }
-
-/*- (BOOL)handleOpenURL:(NSURL*)url
-{
-    NSString* scheme = [url scheme];
-    NSString* prefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
-    if ([scheme hasPrefix:prefix])
-        return [SHKFacebook handleOpenURL:url];
-    return YES;
-}*/
 
 @end
 

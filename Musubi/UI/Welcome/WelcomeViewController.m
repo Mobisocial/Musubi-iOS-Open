@@ -29,6 +29,7 @@
 #import "Three20/Three20.h"
 #import "VerifyViewController.h"
 
+
 @implementation WelcomeViewController
 
 @synthesize authMgr = _authMgr, facebookButton = _facebookButton, googleButton = _googleButton, statusLabel = _statusLabel, emailField = _emailField;
@@ -81,15 +82,6 @@
     [_authMgr performSelectorInBackground:@selector(connect:) withObject:type];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog(@"Preparing");
-    [super prepareForSegue:segue sender:sender];
-    
-    if ([segue.identifier isEqualToString:@"Verify"]) {
-        ((VerifyViewController*) segue.destinationViewController).email = _emailField.text;
-    }
-}
-
 #pragma mark - AccountAuthManager delegate
 
 - (void)accountWithType:(NSString *)type isConnected:(BOOL)connected {
@@ -129,6 +121,10 @@
 }
 
 #pragma mark - UITextField delegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [_authMgr connect:kAccountTypeEmail withPrincipal:_emailField.text];
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];

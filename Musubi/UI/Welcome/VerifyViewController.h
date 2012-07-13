@@ -24,9 +24,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AccountAuthManager.h"
 
-@interface VerifyViewController : UIViewController<UIAlertViewDelegate>
+@class EmailAuth;
 
-@property (nonatomic, strong) NSString* email;
+@interface VerifyViewController : UIViewController<UIAlertViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate, AccountAuthManagerDelegate>
+
+@property (nonatomic, retain) EmailAuth* emailAuth;
 
 @end
