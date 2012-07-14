@@ -167,6 +167,8 @@
 		D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
+		D29A2CCD15B0AA5F00EA748A /* AphidRSAIdentityProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D29A2CCC15B0AA5F00EA748A /* AphidRSAIdentityProvider.m */; };
+		D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D29A2CDB15B0B20000EA748A /* RSAEncryptionScheme.m */; };
 		D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D29EF97115AB908500CF4901 /* VerifyViewController.m */; };
 		D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */; };
 		D2A45AF5155EF6DE009C1D73 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A45AF4155EF6DE009C1D73 /* DropboxSDK.framework */; };
@@ -1073,6 +1075,11 @@
 		D298FA15143CE6DF000831DD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D298FA40143D0E84000831DD /* html5 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html5; sourceTree = "<group>"; };
 		D298FA4B143E5B4E000831DD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D29A2CCB15B0AA5E00EA748A /* AphidRSAIdentityProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AphidRSAIdentityProvider.h; path = Identity/AphidRSAIdentityProvider.h; sourceTree = "<group>"; };
+		D29A2CCC15B0AA5F00EA748A /* AphidRSAIdentityProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AphidRSAIdentityProvider.m; path = Identity/AphidRSAIdentityProvider.m; sourceTree = "<group>"; };
+		D29A2CDA15B0B20000EA748A /* RSAEncryptionScheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSAEncryptionScheme.h; sourceTree = "<group>"; };
+		D29A2CDB15B0B20000EA748A /* RSAEncryptionScheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSAEncryptionScheme.m; sourceTree = "<group>"; };
+		D29A2CDD15B0E34A00EA748A /* CryptoIdentity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptoIdentity.h; sourceTree = "<group>"; };
 		D29EF97015AB908500CF4901 /* VerifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VerifyViewController.h; path = Welcome/VerifyViewController.h; sourceTree = "<group>"; };
 		D29EF97115AB908500CF4901 /* VerifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VerifyViewController.m; path = Welcome/VerifyViewController.m; sourceTree = "<group>"; };
 		D2A1FC051521009400C10BE2 /* Authorities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authorities.h; sourceTree = "<group>"; };
@@ -1532,6 +1539,8 @@
 				D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */,
 				D210C1791526D70B00280605 /* GoogleIdentityUpdater.h */,
 				D210C17A1526D70B00280605 /* GoogleIdentityUpdater.m */,
+				D29A2CCB15B0AA5E00EA748A /* AphidRSAIdentityProvider.h */,
+				D29A2CCC15B0AA5F00EA748A /* AphidRSAIdentityProvider.m */,
 			);
 			name = Identity;
 			sourceTree = "<group>";
@@ -1700,12 +1709,15 @@
 		D26D369B147B3ED300C4FE93 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
+				D29A2CDD15B0E34A00EA748A /* CryptoIdentity.h */,
 				D26D369C147B3ED300C4FE93 /* NSData+Base64.h */,
 				D26D369D147B3ED300C4FE93 /* NSData+Base64.m */,
 				D26D36A0147B3ED300C4FE93 /* NSData+Crypto.h */,
 				D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */,
 				D2CB073A14EDCBB50006D1E9 /* IBEncryptionScheme.h */,
 				D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */,
+				D29A2CDA15B0B20000EA748A /* RSAEncryptionScheme.h */,
+				D29A2CDB15B0B20000EA748A /* RSAEncryptionScheme.m */,
 			);
 			path = Crypto;
 			sourceTree = "<group>";
@@ -3796,6 +3808,8 @@
 				5675EBF115B0A6ED00EBD834 /* IndexedTTTableView.m in Sources */,
 				D2C04A2515A25E9B002C6888 /* EmailAuth.m in Sources */,
 				D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */,
+				D29A2CCD15B0AA5F00EA748A /* AphidRSAIdentityProvider.m in Sources */,
+				D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
