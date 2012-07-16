@@ -88,6 +88,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self createModel];
 }
 
 - (void)loadView {
