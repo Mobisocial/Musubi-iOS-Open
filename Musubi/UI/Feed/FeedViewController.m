@@ -66,6 +66,8 @@
 #import "FeedPhoto.h"
 #import "FeedPhotoViewController.h"
 
+#import "IndexedTTTableView.h"
+
 @implementation FeedViewController
 
 @synthesize newerThan = _newerThan;
@@ -91,6 +93,37 @@
     
     [self createModel];
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (UITableView*)tableView {
+    if (nil == _tableView) {
+        _tableView = [[IndexedTTTableView alloc] initWithFrame:self.view.bounds style:_tableViewStyle];
+        _tableView.autoresizingMask =  UIViewAutoresizingFlexibleWidth
+        | UIViewAutoresizingFlexibleHeight;
+        
+        UIColor* separatorColor = _tableViewStyle == UITableViewStyleGrouped
+        ? TTSTYLEVAR(tableGroupedCellSeparatorColor)
+        : TTSTYLEVAR(tablePlainCellSeparatorColor);
+        if (separatorColor) {
+            _tableView.separatorColor = separatorColor;
+        }
+        
+        _tableView.separatorStyle = _tableViewStyle == UITableViewStyleGrouped
+        ? TTSTYLEVAR(tableGroupedCellSeparatorStyle)
+        : TTSTYLEVAR(tablePlainCellSeparatorStyle);
+        
+        UIColor* backgroundColor = _tableViewStyle == UITableViewStyleGrouped
+        ? TTSTYLEVAR(tableGroupedBackgroundColor)
+        : TTSTYLEVAR(tablePlainBackgroundColor);
+        if (backgroundColor) {
+            _tableView.backgroundColor = backgroundColor;
+            self.view.backgroundColor = backgroundColor;
+        }
+        [self.view addSubview:_tableView];
+    }
+    return _tableView;
+}
+
 
 - (void)loadView {
     [super loadView];

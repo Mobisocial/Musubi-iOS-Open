@@ -27,6 +27,7 @@
 #import "ObjManager.h"
 #import "MObj.h"
 #import "Musubi.h"
+#import "IndexedTTTableView.h"
 
 @implementation FeedModel
 
@@ -40,7 +41,6 @@
     _objManager = [[ObjManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
     _feed = feed;
     _requireSince = newerThan;
-    
     return self;
 }
 
@@ -83,6 +83,11 @@
     [self didFinishLoad];
 }
 
+- (void) setTableView:(UITableView *)tableView {
+    _tableView = tableView;
+}
+
+
 - (void) load:(TTURLRequestCachePolicy)cachePolicy more:(BOOL)more {
     if (!more) {
         [self reset];
@@ -124,9 +129,9 @@
         }
     }
     _loaded = YES;
-    _loading = NO;    
-    [self didFinishLoad];
-}
+    _loading = NO;  
+    [(IndexedTTTableView*)_tableView setIndexPathRow:_newResults.count+1];
+    [self didFinishLoad];}
 
 - (void) loadNew {
     if (_latestModifiedFetched) {

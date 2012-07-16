@@ -27,10 +27,12 @@
 #import "MAccount.h"
 #import "Musubi.h"
 #import "Three20/Three20.h"
+#import "VerifyViewController.h"
+
 
 @implementation WelcomeViewController
 
-@synthesize authMgr = _authMgr, facebookButton = _facebookButton, googleButton = _googleButton, statusLabel = _statusLabel;
+@synthesize authMgr = _authMgr, facebookButton = _facebookButton, googleButton = _googleButton, statusLabel = _statusLabel, emailField = _emailField;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -45,9 +47,15 @@
     
     // Color
     self.navigationController.navigationBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
-    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updateImporting:) name:kMusubiNotificationIdentityImported object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updateImporting:) name:kMusubiNotificationIdentityImportFinished object:nil];
+    
+    self.emailField.delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -111,5 +119,17 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
+
+#pragma mark - UITextField delegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [_authMgr connect:kAccountTypeEmail withPrincipal:_emailField.text];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
 
 @end

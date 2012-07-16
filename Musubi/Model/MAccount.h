@@ -33,6 +33,7 @@
 #define kAccountTypeInternal @"mobisocial.musubi.internal"
 #define kAccountTypeFacebook @"com.facebook.auth.login"
 #define kAccountTypeGoogle @"com.google"
+#define kAccountTypeEmail @"mobisocial.musubi.email"
 
 
 @interface MAccount : NSManagedObject

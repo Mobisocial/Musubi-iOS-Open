@@ -25,7 +25,7 @@
 
 #import "AppDelegate.h"
 #import "FacebookAuth.h"
-#import "Musubi.h"
+xxx#import "Musubi.h"
 #import "APNPushManager.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "NSData+HexString.h"
@@ -139,43 +139,31 @@
     [self.window setRootViewController:vc];
 }
 
-// Pre iOS 4.2 support
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    if ([[DBSession sharedSession] handleOpenURL:url]) {
-        return YES;
-    }
-    
-    return [facebookLoginOperation handleOpenURL:url];
-}
-
 // For iOS 4.2+ support
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
-    NSString* scheme = [url scheme];
-    NSString* prefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
-    BOOL shk = NO, fb = NO;
-    
-    if ([scheme hasPrefix:prefix]) {
+    NSString* facebookPrefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
+    if ([url.scheme hasPrefix:facebookPrefix]) {
+        BOOL shk, fb;
         shk = [SHKFacebook handleOpenURL:url];
         fb = [facebookLoginOperation handleOpenURL:url];
+        
+        return shk && fb;
     }
     
     if ([[DBSession sharedSession] handleOpenURL:url]) {
         return YES;
     }
-    
-    return (fb && shk);
-}
 
-/*- (BOOL)handleOpenURL:(NSURL*)url
-{
-    NSString* scheme = [url scheme];
-    NSString* prefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
-    if ([scheme hasPrefix:prefix])
-        return [SHKFacebook handleOpenURL:url];
-    return YES;
-}*/
+    NSString* musubiPrefix = @"musubi";
+    if ([url.scheme hasPrefix:musubiPrefix]) {
+        if ([EmailAuthManager handleOpenURL: url])
+            return YES;
+    }
+    
+    return NO;
+}
 
 @end
 

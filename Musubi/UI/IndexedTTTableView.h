@@ -16,25 +16,20 @@
 
 
 //
-//  WelcomeViewController.h
+//  IndexedTTTableView.h
 //  musubi
 //
-//  Created by Willem Bult on 6/19/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ian Vo on 7/13/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "AccountAuthManager.h"
+#import "Three20/Three20.h"
 
-@interface WelcomeViewController : UIViewController<AccountAuthManagerDelegate, UITextFieldDelegate> {
+@interface IndexedTTTableView : TTTableView {
+    int _indexPathRow;
 }
 
-@property (nonatomic, retain) AccountAuthManager* authMgr;
-@property (nonatomic, strong) IBOutlet UIButton* facebookButton;
-@property (nonatomic, strong) IBOutlet UIButton* googleButton;
-@property (nonatomic, strong) IBOutlet UILabel* statusLabel;
-@property (nonatomic, strong) IBOutlet UITextField* emailField;
-
-- (IBAction)authNetwork:(id)sender;
-
+- (void) setIndexPathRow:(int) indexPathRow;
+- (int) getIndexPathRow;
+- (void) displayIndexPathRow;
 @end

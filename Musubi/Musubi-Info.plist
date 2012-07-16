@@ -39,9 +39,10 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string></string>
+			<string>us.musubi</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>musubi</string>
 				<string>fb</string>
 				<string>db-</string>
 			</array>

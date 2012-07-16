@@ -46,8 +46,12 @@
 
 - (BOOL) isConnected: (NSString*) type;
 - (void) checkStatus: (NSString*) type;
+- (void) checkStatus: (NSString *)type withPrincipal: (NSString*) principal;
 - (void) connect: (NSString*) type;
+- (void) connect:(NSString *)type withPrincipal: (NSString*) principal;
 - (void) disconnect: (NSString*) type;
+- (void) disconnect:(NSString *)type withPrincipal: (NSString*) principal;
+- (NSArray*) principalsForAccount: (NSString*) type;
 
 // private
 - (void) populateIdentity: (MIdentity*) mIdent fromIBEIdentity: (IBEncryptionIdentity*) ibeId andOriginal: (MIdentity*) original withManager: (IdentityManager*) identityManager andAccountName: (NSString*) accountName;

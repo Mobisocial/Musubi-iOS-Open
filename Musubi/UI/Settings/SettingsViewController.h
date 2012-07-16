@@ -27,13 +27,14 @@
 #import "NamePictureCell.h"
 #import "UIImage+Resize.h"
 #import "AccountAuthManager.h"
+#import "Three20/Three20.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 #define kDBOperationNotStarted -1
 #define kDBOperationCompleted -2
 #define kDBOperationFailed -3
 
-@interface SettingsViewController : UITableViewController<UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,AccountAuthManagerDelegate,DBRestClientDelegate> {
+@interface SettingsViewController : UIViewController<UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,AccountAuthManagerDelegate,DBRestClientDelegate,TTTextBarDelegate> {
     AccountAuthManager* authMgr;
     NSDictionary* accountTypes;
     
@@ -47,6 +48,8 @@
 
 @property (nonatomic) AccountAuthManager* authMgr;
 @property (nonatomic) NSDictionary* accountTypes;
+@property (nonatomic) NSMutableDictionary* accountPrincipals;
+@property (nonatomic) IBOutlet UITableView* tableView;
 
 - (IBAction) pictureClicked: (id)sender;
 
