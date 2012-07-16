@@ -16,24 +16,20 @@
 
 
 //
-//  FeedDataSource.h
+//  IndexedTTTableView.h
 //  musubi
 //
-//  Created by Willem Bult on 5/23/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ian Vo on 7/13/12.
+//  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
 #import "Three20/Three20.h"
 
-@class MFeed, MObj, ObjManager;
-
-@interface FeedDataSource : TTListDataSource {
-    ObjManager* _objManager;
-    NSDate* _startingAt;
-    BOOL didLoadMore;
+@interface IndexedTTTableView : TTTableView {
+    int _indexPathRow;
 }
 
-- (id) initWithFeed: (MFeed*) feed messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt;
-- (void) loadItemsForObjs: (NSArray*) objs inTableView: (UITableView*) tableView;
-- (NSIndexPath*) indexPathForObj: (MObj*) obj;
+- (void) setIndexPathRow:(int) indexPathRow;
+- (int) getIndexPathRow;
+- (void) displayIndexPathRow;
 @end

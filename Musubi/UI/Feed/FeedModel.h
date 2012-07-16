@@ -33,6 +33,8 @@
     ObjManager* _objManager;
     NSMutableArray* _newResults;
     
+    UITableView* _tableView;
+    
     NSDate* _earliestTimestampFetched;
     NSDate* _latestModifiedFetched;
 
@@ -51,6 +53,8 @@
 - (id) initWithFeed: (MFeed*) feed messagesNewerThan:(NSDate*)newerThan;
 - (void) loadNew;
 - (void) loadObj:(NSManagedObjectID*)objId;
+- (void) setTableView:(UITableView *)tableView;
+- (void) setIndexPathRow:(int) indexPathRow;
 - (NSArray*) consumeNewResults;
 
 @end

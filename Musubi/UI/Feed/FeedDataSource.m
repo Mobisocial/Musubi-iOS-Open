@@ -76,6 +76,7 @@
 #import "PersistentModelStore.h"
 
 #import "FeedViewController.h"
+#import "IndexedTTTableView.h"
 
 @implementation FeedDataSource
 
@@ -87,10 +88,12 @@
     
     FeedModel* model = [[FeedModel alloc] initWithFeed:feed messagesNewerThan:newerThan];
     self.model = model;
+    
     _startingAt = startingAt;
     [model.delegates addObject:self];
     _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     
+    didLoadMore = NO;
 
     return self;
 }
@@ -176,7 +179,20 @@
 
 
 - (void) tableViewDidLoadModel:(UITableView *)tableView {
+    [(FeedModel*)self.model setTableView:tableView];
     [self loadItemsForObjs:[(FeedModel*)self.model consumeNewResults] inTableView:tableView];
+}
+
+- (void)tableView:(UITableView*)tableView cell:(UITableViewCell*)cell willAppearAtIndexPath:(NSIndexPath*)indexPath {
+	[super tableView:tableView cell:cell willAppearAtIndexPath:indexPath];
+	if (didLoadMore == NO && indexPath.row == 0 && [cell isKindOfClass:[TTTableMoreButtonCell class]]) {
+        didLoadMore = YES;
+        [self.model load:TTURLRequestCachePolicyDefault more:YES];
+	}
+    else if (didLoadMore == YES) {
+        [(IndexedTTTableView*)tableView displayIndexPathRow];
+        didLoadMore = NO;
+    }
 }
 
 - (NSIndexPath*) indexPathForObj: (MObj*) obj {
@@ -199,7 +215,7 @@
         [self.items removeObjectAtIndex:0];
     }
     
-    loadMoreButton = [TTTableMoreButton itemWithText:@"Earlier messages..."];
+    loadMoreButton = [TTTableMoreButton itemWithText:@"..."];
     
     for (MObj *mObj in objs) {
         FeedItem* item = [self itemFromObj:mObj];

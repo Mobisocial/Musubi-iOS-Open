@@ -21,6 +21,7 @@
 		563ACEF015A4D735005D88CC /* LocationObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 563ACEEF15A4D733005D88CC /* LocationObjItemCell.m */; };
 		563FA28A15A6388500FB5AFF /* CheckinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563FA28915A6388400FB5AFF /* CheckinViewController.m */; };
 		563FA28C15A6486200FB5AFF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563FA28B15A6486200FB5AFF /* MapKit.framework */; };
+		5675EBF115B0A6ED00EBD834 /* IndexedTTTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5675EBF015B0A6ED00EBD834 /* IndexedTTTableView.m */; };
 		5679215D157D5673008B43A6 /* FeedNameObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */; };
 		569D54E015ABB18C002A3275 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 569D54DF15ABB18B002A3275 /* LocationViewController.m */; };
 		56EC332B157C345F00438473 /* FeedSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332A157C345F00438473 /* FeedSettingsViewController.m */; };
@@ -475,6 +476,8 @@
 		563FA28815A6388400FB5AFF /* CheckinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckinViewController.h; sourceTree = "<group>"; };
 		563FA28915A6388400FB5AFF /* CheckinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckinViewController.m; sourceTree = "<group>"; };
 		563FA28B15A6486200FB5AFF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		5675EBEF15B0A6EC00EBD834 /* IndexedTTTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexedTTTableView.h; sourceTree = "<group>"; };
+		5675EBF015B0A6ED00EBD834 /* IndexedTTTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexedTTTableView.m; sourceTree = "<group>"; };
 		5679215B157D5671008B43A6 /* FeedNameObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameObjItemCell.h; sourceTree = "<group>"; };
 		5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedNameObjItemCell.m; sourceTree = "<group>"; };
 		569D54DE15ABB18B002A3275 /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationViewController.h; sourceTree = "<group>"; };
@@ -2937,6 +2940,8 @@
 				563FA28915A6388400FB5AFF /* CheckinViewController.m */,
 				569D54DE15ABB18B002A3275 /* LocationViewController.h */,
 				569D54DF15ABB18B002A3275 /* LocationViewController.m */,
+				5675EBEF15B0A6EC00EBD834 /* IndexedTTTableView.h */,
+				5675EBF015B0A6ED00EBD834 /* IndexedTTTableView.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -3776,6 +3781,7 @@
 				563ACEF015A4D735005D88CC /* LocationObjItemCell.m in Sources */,
 				563FA28A15A6388500FB5AFF /* CheckinViewController.m in Sources */,
 				569D54E015ABB18C002A3275 /* LocationViewController.m in Sources */,
+				5675EBF115B0A6ED00EBD834 /* IndexedTTTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
