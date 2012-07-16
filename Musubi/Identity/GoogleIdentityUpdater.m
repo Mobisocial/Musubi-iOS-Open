@@ -37,6 +37,7 @@
 #import "MFeed.h"
 #import "GTMOAuth2Authentication.h"
 #import "SBJSON.h"
+#import "AccountAuthManager.h"
 
 
 @implementation GoogleIdentityUpdater
@@ -62,8 +63,11 @@
 - (void) refreshFriendsIfNeeded {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate* lastFetch = [defaults objectForKey:kMusubiSettingsGoogleLastIdentityFetch];
-    
-    if (lastFetch == nil || [lastFetch timeIntervalSinceNow] < -kGoogleIdentityUpdaterFrequency / 2) {
+    AccountAuthManager* authMgr = [[AccountAuthManager alloc] initWithDelegate:self];
+    BOOL gConnected = [authMgr isConnected:kAccountTypeGoogle];
+
+    if ((lastFetch == nil || [lastFetch timeIntervalSinceNow] < -kGoogleIdentityUpdaterFrequency / 2) && gConnected)
+    {
         [self refreshFriends];
     }
 }
