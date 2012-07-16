@@ -139,26 +139,17 @@ xxx#import "Musubi.h"
     [self.window setRootViewController:vc];
 }
 
-// Pre iOS 4.2 support
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    if ([[DBSession sharedSession] handleOpenURL:url]) {
-        return YES;
-    }
-    
-    return [facebookLoginOperation handleOpenURL:url];
-}
-
 // For iOS 4.2+ support
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
     NSString* facebookPrefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
     if ([url.scheme hasPrefix:facebookPrefix]) {
-        if (facebookLoginOperation != nil) {
-            [facebookLoginOperation handleOpenURL:url];
-        } else {
-            return [SHKFacebook handleOpenURL:url];
-        }
+        BOOL shk, fb;
+        shk = [SHKFacebook handleOpenURL:url];
+        fb = [facebookLoginOperation handleOpenURL:url];
+        
+        return shk && fb;
     }
     
     if ([[DBSession sharedSession] handleOpenURL:url]) {
