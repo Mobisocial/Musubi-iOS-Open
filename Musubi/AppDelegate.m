@@ -154,16 +154,18 @@
     
     NSString* scheme = [url scheme];
     NSString* prefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
-
+    BOOL shk = NO, fb = NO;
+    
     if ([scheme hasPrefix:prefix]) {
-        return [SHKFacebook handleOpenURL:url];
+        shk = [SHKFacebook handleOpenURL:url];
+        fb = [facebookLoginOperation handleOpenURL:url];
     }
     
     if ([[DBSession sharedSession] handleOpenURL:url]) {
         return YES;
     }
     
-    return [facebookLoginOperation handleOpenURL:url];
+    return (fb && shk);
 }
 
 /*- (BOOL)handleOpenURL:(NSURL*)url
