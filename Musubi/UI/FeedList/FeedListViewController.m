@@ -303,7 +303,7 @@
         
     }
     
-    if (newText.length > 0) {
+    /*if (newText.length > 0) {
         incomingLabel.hidden = NO;
         [incomingLabel setText: [NSString stringWithFormat:@"  %@", newText]];
         if (incomingLabel.superview == self.view) {
@@ -313,7 +313,8 @@
         }
     } else {
         incomingLabel.hidden = YES;
-    }
+    }*/
+    incomingLabel.hidden = YES;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
