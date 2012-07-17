@@ -281,7 +281,17 @@
 //                [self performSelectorInBackground:@selector(connectAccountWithType:) withObject:accountType];
                 [self connectAccountWithType:accountType];
             } else {
-                [authMgr disconnect:accountType withPrincipal:[_accountPrincipals objectForKey:accountType]];
+                if ([accountType isEqualToString:kAccountTypeEmail]) {
+                    [authMgr disconnect:accountType withPrincipal:[_accountPrincipals objectForKey:accountType]];
+                } else {
+                    // This is a band-aid fix for a larger problem. The _accountPrincipals
+                    // array doesn't contain the Facebook UID as the principal -- instead,
+                    // it contains the Facebook username. This is wrong, and the result is
+                    // that the Facebook account isn't disconnected properly. Therefore, we
+                    // are passing in "nil" as the principal to force the account to be
+                    // disconnected.
+                    [authMgr disconnect:accountType withPrincipal:nil];
+                }
             }
             
             break;

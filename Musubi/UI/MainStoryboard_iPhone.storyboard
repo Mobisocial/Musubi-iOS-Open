@@ -3,7 +3,7 @@
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1179"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
     <scenes>
         <!--Feed List View Controller - Groups-->
@@ -631,6 +631,9 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="fPB-td-nVp" id="fjy-BH-e6g"/>
+                                                    </connections>
                                                 </textField>
                                                 <imageView contentMode="scaleAspectFit" image="missing.png" id="Hyr-Iz-2lh">
                                                     <rect key="frame" x="11" y="8" width="72" height="71.5"/>
@@ -651,6 +654,9 @@
                                                     <state key="highlighted">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="pictureClicked:" destination="fPB-td-nVp" eventType="touchUpInside" id="7uK-mM-AUz"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -868,6 +874,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Ul8-LG-a2e"/>
+        <segue reference="j4C-eM-Obr"/>
     </inferredMetricsTieBreakers>
 </document>
