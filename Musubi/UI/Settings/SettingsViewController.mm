@@ -21,29 +21,42 @@
 #import "QREncoderViewController.h"
 #import "NSStringAdditions.h"
 #import "IdentityUtils.h"
-
+#import "Three20/Three20.h"
 
 @implementation SettingsViewController
 
 @synthesize authMgr, accountTypes;
+@synthesize accountPrincipals = _accountPrincipals;
+@synthesize tableView = _tableView;
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     [self setAuthMgr:[[AccountAuthManager alloc] initWithDelegate:self]];
-    [self setAccountTypes: [NSDictionary dictionaryWithObjectsAndKeys:@"Facebook", kAccountTypeFacebook, @"Google", kAccountTypeGoogle, nil]];
-    
+    [self setAccountTypes: [NSDictionary dictionaryWithObjectsAndKeys:@"Facebook", kAccountTypeFacebook, @"Google", kAccountTypeGoogle, @"Email", kAccountTypeEmail, nil]];
+
+    _accountPrincipals = [NSMutableDictionary dictionaryWithCapacity:accountTypes.count];
     for (NSString* type in accountTypes.allKeys) {
+        NSArray* principals = [authMgr principalsForAccount:type];
+        if (principals.count > 0) {
+            [_accountPrincipals setObject:[principals objectAtIndex:0] forKey:type];
+        }
+        
         [authMgr performSelectorInBackground:@selector(checkStatus:) withObject:type];
         [authMgr checkStatus: type];
     }
     
     dbUploadProgress = kDBOperationNotStarted;
     dbDownloadProgress = kDBOperationNotStarted;
+    
 
+    UITapGestureRecognizer* gestureRc = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeKeyboard)];
+    gestureRc.cancelsTouchesInView = NO;
+    [self.tableView addGestureRecognizer:gestureRc];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -97,6 +110,10 @@
     [self presentModalViewController:picker animated:YES];
 }
 
+- (void) closeKeyboard {
+    [self.tableView endEditing:YES];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -126,7 +143,7 @@
         case 0:
             return @"Profile";
         case 1:
-            return @"Networks";
+            return @"Accounts";
         case 2:
             return @"Dropbox Backup";
         case 3:
@@ -261,9 +278,10 @@
         case 1: {
             NSString* accountType = [accountTypes.allKeys objectAtIndex:indexPath.row];
             if (![authMgr isConnected: accountType]) {
-                [authMgr performSelectorInBackground:@selector(connect:) withObject:accountType];
+//                [self performSelectorInBackground:@selector(connectAccountWithType:) withObject:accountType];
+                [self connectAccountWithType:accountType];
             } else {
-                [authMgr disconnect:accountType];
+                [authMgr disconnect:accountType withPrincipal:[_accountPrincipals objectForKey:accountType]];
             }
             
             break;
@@ -304,6 +322,45 @@
         }
      }
 }
+
+- (void) connectAccountWithType: (NSString*) type {
+    if ([type isEqualToString:kAccountTypeEmail]) {
+
+        TTTextBarController* emailBarController = [[TTTextBarController alloc] init];
+        emailBarController.delegate = self;
+        [emailBarController.postButton setTitle:@"Connect" forState:UIControlStateNormal];
+        emailBarController.textEditor.placeholder = @"Your email address";        
+        [emailBarController showInView:self.view animated:YES];
+
+    } else {
+        [authMgr performSelectorInBackground:@selector(connect:) withObject:type];
+    }
+}
+
+- (void)textBarDidBeginEditing:(TTTextBarController *)textBar {
+    self.tableView.userInteractionEnabled = NO;
+}
+
+- (void)textBarDidEndEditing:(TTTextBarController *)textBar {
+    self.tableView.userInteractionEnabled = YES;
+}
+
+- (BOOL)textBar:(TTTextBarController *)textBar willPostText:(NSString *)text {
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"; 
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex]; 
+    
+    if ([emailTest evaluateWithObject:text]) {
+        [authMgr connect:kAccountTypeEmail withPrincipal:text];
+        return YES;
+    } else {
+        [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"The email address you entered doesn't appear to be valid" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+        
+        textBar.textEditor.text = text;
+    }
+    
+    return NO;
+}
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

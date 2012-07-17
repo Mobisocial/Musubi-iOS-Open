@@ -167,6 +167,8 @@
 		D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
+		D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D29A2CDB15B0B20000EA748A /* RSAEncryptionScheme.m */; };
+		D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D29EF97115AB908500CF4901 /* VerifyViewController.m */; };
 		D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */; };
 		D2A45AF5155EF6DE009C1D73 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A45AF4155EF6DE009C1D73 /* DropboxSDK.framework */; };
 		D2AADE1714FD792300C6ABB3 /* BSONEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1614FD792300C6ABB3 /* BSONEncoder.m */; };
@@ -178,6 +180,7 @@
 		D2B13D5214F869800067B197 /* MessageEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5114F869800067B197 /* MessageEncoder.m */; };
 		D2B13D5514F869CF0067B197 /* OutgoingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5414F869CF0067B197 /* OutgoingMessage.m */; };
 		D2B13D5B14F882590067B197 /* Secret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5A14F882580067B197 /* Secret.m */; };
+		D2C04A2515A25E9B002C6888 /* EmailAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C04A2415A25E9B002C6888 /* EmailAuth.m */; };
 		D2C0AA9B14FF035100E9D0BF /* MessageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */; };
 		D2C66EFB156CC2AD001A0124 /* Model5-6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D2C66EFA156CC2AD001A0124 /* Model5-6.xcmappingmodel */; };
 		D2C66F01156CCF22001A0124 /* heart32_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D2C66F00156CCF22001A0124 /* heart32_gray.png */; };
@@ -266,6 +269,12 @@
 		D4FFE27515780B2E007F918E /* StoryObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27415780B2D007F918E /* StoryObjItemCell.m */; };
 		D4FFE27815780BB8007F918E /* StoryObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE27715780BB8007F918E /* StoryObj.m */; };
 		D95D190B157D3085003AA911 /* VoiceObj.h in Sources */ = {isa = PBXBuildFile; fileRef = 2FB1693D157D264600832396 /* VoiceObj.h */; };
+		F74F95E915B4B45C00E75D7D /* facebook_signin@2x.psd in Resources */ = {isa = PBXBuildFile; fileRef = F74F95E715B4B45C00E75D7D /* facebook_signin@2x.psd */; };
+		F74F95EA15B4B45D00E75D7D /* google_signin@2x.psd in Resources */ = {isa = PBXBuildFile; fileRef = F74F95E815B4B45C00E75D7D /* google_signin@2x.psd */; };
+		F74F95EF15B4B48300E75D7D /* facebook_signin.png in Resources */ = {isa = PBXBuildFile; fileRef = F74F95EB15B4B48200E75D7D /* facebook_signin.png */; };
+		F74F95F015B4B48300E75D7D /* facebook_signin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F74F95EC15B4B48200E75D7D /* facebook_signin@2x.png */; };
+		F74F95F115B4B48300E75D7D /* google_signin.png in Resources */ = {isa = PBXBuildFile; fileRef = F74F95ED15B4B48200E75D7D /* google_signin.png */; };
+		F74F95F215B4B48300E75D7D /* google_signin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F74F95EE15B4B48200E75D7D /* google_signin@2x.png */; };
 		F7DEE92B15A3BB4E0026397A /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = F7DEE92A15A3BB4E0026397A /* check.png */; };
 		F7FDB0F7159BDD2700BDA402 /* target-script-min.js in Sources */ = {isa = PBXBuildFile; fileRef = F7FDB0F6159BDD2700BDA402 /* target-script-min.js */; };
 /* End PBXBuildFile section */
@@ -1071,6 +1080,11 @@
 		D298FA15143CE6DF000831DD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		D298FA40143D0E84000831DD /* html5 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html5; sourceTree = "<group>"; };
 		D298FA4B143E5B4E000831DD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D29A2CDA15B0B20000EA748A /* RSAEncryptionScheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSAEncryptionScheme.h; sourceTree = "<group>"; };
+		D29A2CDB15B0B20000EA748A /* RSAEncryptionScheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSAEncryptionScheme.m; sourceTree = "<group>"; };
+		D29A2CDD15B0E34A00EA748A /* CryptoIdentity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CryptoIdentity.h; sourceTree = "<group>"; };
+		D29EF97015AB908500CF4901 /* VerifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VerifyViewController.h; path = Welcome/VerifyViewController.h; sourceTree = "<group>"; };
+		D29EF97115AB908500CF4901 /* VerifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VerifyViewController.m; path = Welcome/VerifyViewController.m; sourceTree = "<group>"; };
 		D2A1FC051521009400C10BE2 /* Authorities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Authorities.h; sourceTree = "<group>"; };
 		D2A1FC1015211F6B00C10BE2 /* FacebookIdentityUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookIdentityUpdater.h; path = Identity/FacebookIdentityUpdater.h; sourceTree = "<group>"; };
 		D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookIdentityUpdater.m; path = Identity/FacebookIdentityUpdater.m; sourceTree = "<group>"; };
@@ -1097,6 +1111,8 @@
 		D2B13D5A14F882580067B197 /* Secret.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Secret.m; sourceTree = "<group>"; };
 		D2B13D5C14FB0DB80067B197 /* TransportDataProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransportDataProvider.h; sourceTree = "<group>"; };
 		D2B428BB14F44F4600ED868D /* IBE.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IBE.xcodeproj; path = IBE/IBE.xcodeproj; sourceTree = "<group>"; };
+		D2C04A2315A25E9B002C6888 /* EmailAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailAuth.h; sourceTree = "<group>"; };
+		D2C04A2415A25E9B002C6888 /* EmailAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailAuth.m; sourceTree = "<group>"; };
 		D2C0AA9914FF035100E9D0BF /* MessageDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDecoder.h; sourceTree = "<group>"; };
 		D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDecoder.m; sourceTree = "<group>"; };
 		D2C66E8F156CBEE6001A0124 /* Model 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 5.xcdatamodel"; sourceTree = "<group>"; };
@@ -1254,6 +1270,12 @@
 		D4FFE27415780B2D007F918E /* StoryObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryObjItemCell.m; sourceTree = "<group>"; };
 		D4FFE27615780BB8007F918E /* StoryObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StoryObj.h; path = SocialKit/Obj/StoryObj.h; sourceTree = "<group>"; };
 		D4FFE27715780BB8007F918E /* StoryObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StoryObj.m; path = SocialKit/Obj/StoryObj.m; sourceTree = "<group>"; };
+		F74F95E715B4B45C00E75D7D /* facebook_signin@2x.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "facebook_signin@2x.psd"; sourceTree = "<group>"; };
+		F74F95E815B4B45C00E75D7D /* google_signin@2x.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "google_signin@2x.psd"; sourceTree = "<group>"; };
+		F74F95EB15B4B48200E75D7D /* facebook_signin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook_signin.png; sourceTree = "<group>"; };
+		F74F95EC15B4B48200E75D7D /* facebook_signin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook_signin@2x.png"; sourceTree = "<group>"; };
+		F74F95ED15B4B48200E75D7D /* google_signin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = google_signin.png; sourceTree = "<group>"; };
+		F74F95EE15B4B48200E75D7D /* google_signin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "google_signin@2x.png"; sourceTree = "<group>"; };
 		F7DEE92A15A3BB4E0026397A /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		F7FDB0F6159BDD2700BDA402 /* target-script-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "target-script-min.js"; path = "html5/apps/musubi.sketch/lib/target-script-min.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1637,6 +1659,10 @@
 		D26028D91566EEBE00CF6500 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				F74F95EB15B4B48200E75D7D /* facebook_signin.png */,
+				F74F95EC15B4B48200E75D7D /* facebook_signin@2x.png */,
+				F74F95ED15B4B48200E75D7D /* google_signin.png */,
+				F74F95EE15B4B48200E75D7D /* google_signin@2x.png */,
 				D40B061915AE3F6600E3F944 /* heart16_gray.png */,
 				D40B061A15AE3F6600E3F944 /* heart16_gray@2x.png */,
 				D40B061B15AE3F6600E3F944 /* heart16.png */,
@@ -1694,12 +1720,15 @@
 		D26D369B147B3ED300C4FE93 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
+				D29A2CDD15B0E34A00EA748A /* CryptoIdentity.h */,
 				D26D369C147B3ED300C4FE93 /* NSData+Base64.h */,
 				D26D369D147B3ED300C4FE93 /* NSData+Base64.m */,
 				D26D36A0147B3ED300C4FE93 /* NSData+Crypto.h */,
 				D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */,
 				D2CB073A14EDCBB50006D1E9 /* IBEncryptionScheme.h */,
 				D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */,
+				D29A2CDA15B0B20000EA748A /* RSAEncryptionScheme.h */,
+				D29A2CDB15B0B20000EA748A /* RSAEncryptionScheme.m */,
 			);
 			path = Crypto;
 			sourceTree = "<group>";
@@ -1808,6 +1837,8 @@
 				D2773CBE151C4CE600A161F9 /* FacebookAuth.m */,
 				D2F8C68A1526438F005AD880 /* GoogleAuth.h */,
 				D2F8C68B1526438F005AD880 /* GoogleAuth.m */,
+				D2C04A2315A25E9B002C6888 /* EmailAuth.h */,
+				D2C04A2415A25E9B002C6888 /* EmailAuth.m */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -2874,10 +2905,8 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
-				563FA28B15A6486200FB5AFF /* MapKit.framework */,
-				D44606A1159E6628000A711C /* Twitter.framework */,
-				D446069F159E6610000A711C /* MessageUI.framework */,
 				F7FDB0F6159BDD2700BDA402 /* target-script-min.js */,
+				F74F95E615B4B45C00E75D7D /* Resources */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
 				D298FA40143D0E84000831DD /* html5 */,
 				D2794AF11457D33F00C5FDAB /* Libraries */,
@@ -2899,6 +2928,11 @@
 		D298F9F5143CE6DF000831DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				563FA28B15A6486200FB5AFF /* MapKit.framework */,
+				D44606A1159E6628000A711C /* Twitter.framework */,
+				D446069F159E6610000A711C /* MessageUI.framework */,
+				D44606A1159E6628000A711C /* Twitter.framework */,
+				D446069F159E6610000A711C /* MessageUI.framework */,
 				2FB16942157D299A00832396 /* AudioToolbox.framework */,
 				2FB16940157D298C00832396 /* AVFoundation.framework */,
 				D4DB1348157C2DC000337A16 /* CFNetwork.framework */,
@@ -3061,6 +3095,8 @@
 			children = (
 				D2EBDAFE1591574A006436EA /* WelcomeViewController.h */,
 				D2EBDAFF1591574A006436EA /* WelcomeViewController.m */,
+				D29EF97015AB908500CF4901 /* VerifyViewController.h */,
+				D29EF97115AB908500CF4901 /* VerifyViewController.m */,
 			);
 			name = Welcome;
 			sourceTree = "<group>";
@@ -3237,6 +3273,15 @@
 				D4DB132C157C2D5100337A16 /* README.txt */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F74F95E615B4B45C00E75D7D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F74F95E715B4B45C00E75D7D /* facebook_signin@2x.psd */,
+				F74F95E815B4B45C00E75D7D /* google_signin@2x.psd */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3535,6 +3580,12 @@
 				D40B061E15AE3F6600E3F944 /* heart16_gray@2x.png in Resources */,
 				D40B061F15AE3F6600E3F944 /* heart16.png in Resources */,
 				D40B062015AE3F6600E3F944 /* heart16@2x.png in Resources */,
+				F74F95E915B4B45C00E75D7D /* facebook_signin@2x.psd in Resources */,
+				F74F95EA15B4B45D00E75D7D /* google_signin@2x.psd in Resources */,
+				F74F95EF15B4B48300E75D7D /* facebook_signin.png in Resources */,
+				F74F95F015B4B48300E75D7D /* facebook_signin@2x.png in Resources */,
+				F74F95F115B4B48300E75D7D /* google_signin.png in Resources */,
+				F74F95F215B4B48300E75D7D /* google_signin@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3782,6 +3833,9 @@
 				563FA28A15A6388500FB5AFF /* CheckinViewController.m in Sources */,
 				569D54E015ABB18C002A3275 /* LocationViewController.m in Sources */,
 				5675EBF115B0A6ED00EBD834 /* IndexedTTTableView.m in Sources */,
+				D2C04A2515A25E9B002C6888 /* EmailAuth.m in Sources */,
+				D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */,
+				D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -66,6 +66,15 @@
     return self;
 }
 
+- (NSArray *)principalsForAccount:(NSString *)type {
+    NSMutableArray* principals = [NSMutableArray array];
+    AccountManager* accMgr = [[AccountManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
+    for (MAccount* acc in [accMgr accountsWithType:type]) {
+        [principals addObject:acc.name];
+    }
+    return principals;
+}
+
 - (BOOL)isConnected:(NSString *)type {
     AccountManager* accMgr = [[AccountManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
     NSArray* accounts = [accMgr accountsWithType:type];
@@ -73,7 +82,10 @@
 }
 
 - (void) checkStatus:(NSString *)type {
-    
+    [self checkStatus:type withPrincipal:nil];
+}
+
+- (void) checkStatus:(NSString *)type withPrincipal:(NSString*)principal {
     // First see if there is an account for the network.
     if (![self isConnected: type]) {
         [self onAccount:type isValid:NO];
@@ -92,8 +104,7 @@
     }
 }
 
-- (void)connect:(NSString *)type {
-    
+- (void)connect:(NSString *)type withPrincipal: (NSString*) principal {
     if ([type isEqualToString:kAccountTypeFacebook]) {
         FacebookLoginOperation* op = [[FacebookLoginOperation alloc] initWithManager:self];
         [queue addOperation: op];
@@ -105,16 +116,24 @@
     }
 }
 
-- (void)disconnect:(NSString *)type {
+- (void)connect:(NSString *)type {
+    [self connect:type withPrincipal:nil];
+}
+
+- (void)disconnect:(NSString *)type withPrincipal: (NSString*) principal {
     AccountManager* accMgr = [[AccountManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
     
     if ([type isEqualToString:kAccountTypeFacebook]) {
         for (MAccount* acc in [accMgr accountsWithType:kAccountTypeFacebook]) {
-            [accMgr deleteAccount:acc];
+            if (principal == nil || [principal isEqualToString:acc.name]) {
+                [accMgr deleteAccount:acc];
+            }
         }
     } else if ([type isEqualToString:kAccountTypeGoogle]){
         for (MAccount* acc in [accMgr accountsWithType:kAccountTypeGoogle]) {
-            [accMgr deleteAccount:acc];
+            if (principal == nil || [principal isEqualToString:acc.name]) {
+                [accMgr deleteAccount:acc];
+            }
         }
         
         [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kGoogleKeyChainItemName];
@@ -126,6 +145,9 @@
     [self onAccount:type isValid:NO];
 }
 
+- (void)disconnect:(NSString *)type {
+    [self disconnect: type withPrincipal:nil];
+}
 
 - (void)onAccount:(NSString *)type isValid:(BOOL)valid {
     [[((NSObject*)delegate) invokeOnMainThread] accountWithType:type isConnected:valid];

@@ -32,6 +32,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 #define kMusubiNotificationAuthTokenRefresh @"AuthTokenRefresh"
 #define kMusubiNotificationFacebookFriendRefresh @"FacebookFriendRefresh"
 #define kMusubiNotificationGoogleFriendRefresh @"GoogleFriendRefresh"
+#define kMusubiNotificationAddressBookRefresh @"AddressBookRefresh"
 #define kMusubiNotificationMyProfileUpdate @"MyProfileUpdated"
 #define kMusubiNotificationObjSent @"ObjSent"
 #define kMusubiNotificationEncodedMessageSent @"EncodedMessageSent"

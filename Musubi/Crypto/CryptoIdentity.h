@@ -16,25 +16,15 @@
 
 
 //
-//  WelcomeViewController.h
+//  CryptoIdentity.h
 //  musubi
 //
-//  Created by Willem Bult on 6/19/12.
+//  Created by Willem Bult on 7/13/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "AccountAuthManager.h"
+#import <Foundation/Foundation.h>
 
-@interface WelcomeViewController : UIViewController<AccountAuthManagerDelegate, UITextFieldDelegate> {
-}
-
-@property (nonatomic, retain) AccountAuthManager* authMgr;
-@property (nonatomic, strong) IBOutlet UIButton* facebookButton;
-@property (nonatomic, strong) IBOutlet UIButton* googleButton;
-@property (nonatomic, strong) IBOutlet UILabel* statusLabel;
-@property (nonatomic, strong) IBOutlet UITextField* emailField;
-
-- (IBAction)authNetwork:(id)sender;
+@protocol CryptoIdentity <NSObject>
 
 @end
