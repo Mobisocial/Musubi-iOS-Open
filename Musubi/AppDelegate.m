@@ -43,7 +43,7 @@ xxx#import "Musubi.h"
 
 @implementation AppDelegate
 
-@synthesize window = _window, facebookLoginOperation, navController;
+@synthesize window = _window, facebookLoginOperation, navController, corralHTTPServer;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -85,21 +85,34 @@ xxx#import "Musubi.h"
         });
     }    
 }
+
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {     
     NSLog(@"Error in registration. Error: %@", err);
 }    
+
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {          
     [Musubi sharedInstance].apnDeviceToken = [deviceToken hexString];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    // launch the corral service
+    self.corralHTTPServer = [[CorralHTTPServer alloc] init];
+    NSError* corralError;
+    if ([self.corralHTTPServer start:&corralError]) {
+        NSLog(@"Corral server running on port %hu", [self.corralHTTPServer listeningPort]);
+    } else {
+        NSLog(@"Error starting corral server: %@", corralError);
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     [APNPushManager resetLocalUnreadInBackgroundTask:NO];
 
-    
+    // Shutdown corral http server
+    [self.corralHTTPServer stop];
+    self.corralHTTPServer = nil;
+
     /*
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
