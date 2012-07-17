@@ -36,6 +36,8 @@
     UIView* noFeedsView;
 }
 
+@property (nonatomic, strong) UIView* initialView;
+
 - (IBAction)newConversation:(id)sender;
 
 @end

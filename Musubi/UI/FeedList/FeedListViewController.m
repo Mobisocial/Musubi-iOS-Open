@@ -51,6 +51,8 @@
     NSDate* lastPendingRedraw;
 }
 
+@synthesize initialView = _initialView;
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -85,6 +87,7 @@
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageDecodeStarted object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageDecodeFinished object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationUpdatedFeed object:nil];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -108,42 +111,51 @@
 
 - (void) displayNoFeedViewIfNeeded {
     if (((FeedListDataSource*)self.dataSource).items.count == 0) {
-        self.tableView.hidden = YES;
-        self.view.backgroundColor = [UIColor clearColor];
+        if (self.initialView == nil) {
+            self.tableView.hidden = YES;
+            self.view.backgroundColor = [UIColor clearColor];
 
-        noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
-        noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
-        
-        [self.view addSubview:noFeedsView];
-        UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
-        cloud.frame = CGRectMake(50, 30, 220, 150);
-        cloud.contentMode = UIViewContentModeScaleAspectFit;
-        [noFeedsView addSubview:cloud];
-        
-        UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 200, 220, 30)];
-        headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
-        headerLabel.textAlignment = UITextAlignmentCenter;
-        headerLabel.text = @"No conversations yet :(";
-        headerLabel.backgroundColor = [UIColor clearColor];
-        [noFeedsView addSubview:headerLabel];
-        
-        UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(50, 250, 220, 60)];
-        infoLabel.font = [UIFont systemFontOfSize: 14];
-        infoLabel.textAlignment = UITextAlignmentCenter;
-        infoLabel.text = @"Let's pick a few friends to start a chat with!";
-        infoLabel.backgroundColor = [UIColor clearColor];
-        infoLabel.editable = NO;
-        infoLabel.userInteractionEnabled = NO;
-        [infoLabel sizeToFit];
-        [noFeedsView addSubview:infoLabel];
-        
-        TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
-        [startButton setStyle:[self startButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
-        [startButton setStyle:[self startButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
-        [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
-        [noFeedsView addSubview:startButton];
-        
-        [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
+            noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+            self.initialView = noFeedsView;
+            noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
+            
+            [self.view addSubview:noFeedsView];
+            UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
+            cloud.frame = CGRectMake(50, 30, 220, 150);
+            cloud.contentMode = UIViewContentModeScaleAspectFit;
+            [noFeedsView addSubview:cloud];
+            
+            UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 200, 220, 30)];
+            headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
+            headerLabel.textAlignment = UITextAlignmentCenter;
+            headerLabel.text = @"No conversations yet :(";
+            headerLabel.backgroundColor = [UIColor clearColor];
+            [noFeedsView addSubview:headerLabel];
+            
+            UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(50, 250, 220, 60)];
+            infoLabel.font = [UIFont systemFontOfSize: 14];
+            infoLabel.textAlignment = UITextAlignmentCenter;
+            infoLabel.text = @"Let's pick a few friends to start a chat with!";
+            infoLabel.backgroundColor = [UIColor clearColor];
+            infoLabel.editable = NO;
+            infoLabel.userInteractionEnabled = NO;
+            [infoLabel sizeToFit];
+            [noFeedsView addSubview:infoLabel];
+            
+            TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
+            [startButton setStyle:[self startButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
+            [startButton setStyle:[self startButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+            [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
+            [noFeedsView addSubview:startButton];
+            
+            [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
+        }
+    } else {
+        if (self.initialView != nil) {
+            [self.initialView removeFromSuperview];
+            self.tableView.hidden = NO;
+            self.initialView = nil;
+        }
     }
 
 }
