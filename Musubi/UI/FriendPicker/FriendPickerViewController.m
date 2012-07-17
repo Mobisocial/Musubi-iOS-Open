@@ -33,7 +33,7 @@
 #import "MIdentity.h"
 #import "IdentityManager.h"
 #import "Authorities.h"
-
+#import "PersistentModelStore.h"
 
 @interface FriendPickerViewController ()
 
@@ -85,6 +85,8 @@
     _importingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
     _importingLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:_importingLabel];
+    
+    nextButton.enabled = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -94,6 +96,7 @@
         [alert show];
         [self.navigationController popViewControllerAnimated:YES];
     }
+    
     [self.pickerTextField becomeFirstResponder];
 }
 
@@ -162,6 +165,7 @@
         _pickerTextField.rightViewMode = UITextFieldViewModeAlways;
         _pickerTextField.returnKeyType = UIReturnKeyDefault;
         _pickerTextField.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        _pickerTextField.keyboardType = UIKeyboardTypeEmailAddress;
         _pickerTextField.font = [UIFont systemFontOfSize:14.0];
         _pickerTextField.text = @"";
         [_pickerTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingDidEnd];
@@ -193,6 +197,8 @@
         int newY = 30 * (textField.lineCount - 2);
         [((UIScrollView*)textField.superview) setContentOffset:CGPointMake(0, newY) animated:NO];
     }
+    
+    nextButton.enabled = ds.items.count > 0;
 }
 
 - (BOOL) validateEmail: (NSString *) candidate {
@@ -223,9 +229,9 @@
         newListItem.musubiName = newIdentityName;
         newListItem.realName = newIdentityName;
         newListItem.identity = mId;
+
         
         [self.pickerTextField addCellWithObject:newListItem];
-        
         [self.pickerTextField becomeFirstResponder];
         
     } else {
@@ -244,6 +250,8 @@
     NSIndexPath* path = [ds indexPathForItem:item];
     if (path != nil)
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
+    
+    nextButton.enabled = ds.items.count > 0;
 }
 
 - (NSString*) tableView:(UITableView*)tv labelForObject:(id) obj {

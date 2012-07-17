@@ -39,6 +39,8 @@
     
     UILabel* _importingLabel;
     NSMutableDictionary* _remainingImports;
+    
+    IBOutlet UIBarButtonItem* nextButton;
 }
 
 @property (nonatomic,retain) id<FriendPickerViewControllerDelegate> delegate;
