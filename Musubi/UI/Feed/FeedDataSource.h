@@ -36,7 +36,7 @@
     BOOL _firstLoad;
 }
 
-- (id) initWithFeed: (MFeed*) feed messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt unreadCount:(int32_t) numUnread;
+- (id) initWithFeed: (MFeed*) feed messagesNewerThan:(NSDate*)newerThan unreadCount:(int32_t) numUnread;
 - (void) loadItemsForObjs: (NSArray*) objs inTableView: (UITableView*) tableView;
 - (NSIndexPath*) indexPathForObj: (MObj*) obj;
 @end

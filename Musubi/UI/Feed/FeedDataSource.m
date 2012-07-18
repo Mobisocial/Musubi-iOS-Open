@@ -81,7 +81,7 @@
 
 @implementation FeedDataSource
 
-- (id)initWithFeed:(MFeed *)feed  messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt unreadCount:(int32_t) numUnread{
+- (id)initWithFeed:(MFeed *)feed  messagesNewerThan:(NSDate*)newerThan unreadCount:(int32_t) numUnread{
     self = [super init];
     if (!self)
         return nil;
@@ -89,7 +89,6 @@
     FeedModel* model = [[FeedModel alloc] initWithFeed:feed messagesNewerThan:newerThan];
     self.model = model;
     
-    _startingAt = startingAt;
     _numUnread = numUnread;
     [model.delegates addObject:self];
     _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
@@ -253,42 +252,35 @@
         loadMoreButton.isLoading = NO;
         [self.items insertObject:loadMoreButton atIndex:0];
     }
-    if(_startingAt) {
-        MObj* newest = nil;
-        int idx = -1;
-        for (int i = 1; i < self.items.count; i++) {
-            FeedItem* existing = [self.items objectAtIndex:i];
-            if ([existing.obj.timestamp compare:_startingAt] < 0 &&  (!newest || [existing.obj.timestamp compare:newest.timestamp] >= 0)) {
-                newest = existing.obj;
-                idx = i;
-            }
-        }
-        dispatch_async(dispatch_get_current_queue(), ^{
-            [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-        });
-        _startingAt = nil;
-    }
     
+    dispatch_async(dispatch_get_current_queue(), ^{
+        [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(self.items.count-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    });
+        
     /* Highlight all the unread messages if this is the first load of the feed */
-    if(_firstLoad && _numUnread > 0) {
+    
+    if(_firstLoad) {
         _firstLoad = NO;
-        _earliestUnreadMessageRow = self.items.count - (_numUnread);
-        dispatch_async(dispatch_get_current_queue(), ^{
-            [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_earliestUnreadMessageRow inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-            
-            for(int i = _earliestUnreadMessageRow; i < self.items.count; i++) {
-                [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-            }
-            
+        if(_numUnread > 0) {
+            _earliestUnreadMessageRow = self.items.count - (_numUnread);
             dispatch_async(dispatch_get_current_queue(), ^{
-                [NSTimer scheduledTimerWithTimeInterval:.75
-                                                          target:self 
-                                                        selector:@selector(deselectNewRows:) 
-                                                        userInfo:tableView 
-                                                         repeats:NO];
+                [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_earliestUnreadMessageRow inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+                
+                for(int i = _earliestUnreadMessageRow; i < self.items.count; i++) {
+                    NSLog(@"highlighting %d", i);
+                    [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+                }
+                
+                dispatch_async(dispatch_get_current_queue(), ^{
+                    [NSTimer scheduledTimerWithTimeInterval:.75
+                                                     target:self 
+                                                   selector:@selector(deselectNewRows:) 
+                                                   userInfo:tableView 
+                                                    repeats:NO];
+                });
             });
-        });
-    }
+        }  
+    } 
 }
 
 -(void)deselectNewRows:(NSTimer *) theTimer

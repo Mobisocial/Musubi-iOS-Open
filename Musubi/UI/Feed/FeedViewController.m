@@ -219,9 +219,6 @@
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(reloadObj:) name:kMusubiNotificationObjSent object:nil];
 
-    if(!_startingAt) {
-        [self scrollToBottomAnimated:NO];
-    }
     [self resetUnreadCount];    
 }
 
@@ -234,7 +231,7 @@
 }
 
 - (void)createModel {
-    self.dataSource = [[FeedDataSource alloc] initWithFeed:_feed  messagesNewerThan:_newerThan startingAt:_startingAt unreadCount:_feed.numUnread];
+    self.dataSource = [[FeedDataSource alloc] initWithFeed:_feed  messagesNewerThan:_newerThan unreadCount:_feed.numUnread];
 }
 
 - (id<UITableViewDelegate>)createDelegate {
@@ -631,6 +628,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog(@"where am i going?");
     if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
         FriendPickerViewController *vc = segue.destinationViewController;
         FeedManager* fm = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];

@@ -155,7 +155,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"index = %d", indexPath.section);
     switch (indexPath.section) {
         case 0: {
             static NSString *cellIdentifier = @"FeedNameCell";
