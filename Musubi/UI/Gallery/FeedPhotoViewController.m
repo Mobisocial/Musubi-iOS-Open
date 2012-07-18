@@ -35,9 +35,11 @@
 #import "SHK.h"
 #import "PersistentModelStore.h"
 #import "ProfileObj.h"
+#import "PictureObj.h"
 #import "SHKFacebook.h"
 #import "MusubiStyleSheet.h"
 #import <QuartzCore/QuartzCore.h>
+#import "AFPhotoEditorController.h"
 
 @implementation FeedPhotoViewController
 
@@ -226,7 +228,7 @@
         case 1:
         {
             // Edit image
-            UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Edit..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Sketch", @"Caption", nil];
+            UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Edit..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Aviary", @"Sketch", @"Caption", nil];
             
             [actions setTag:kEditActionSheetTag];
             [actions showInView:self.view];
@@ -271,6 +273,18 @@
 -(void)doEditActionSheet: (UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     switch (buttonIndex) {
         case 0: {
+            // Open the image in Aviary
+            NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
+            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
+            UIImage  *img  = [[UIImage alloc] initWithData:data];
+            
+            AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage: img];
+            [editorController setDelegate:self];
+            [self presentModalViewController:editorController animated:YES];
+            
+            break;
+        }
+        case 1: {
             // Open the image in Sketch
             FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
             NSString* appId = @"musubi.sketch";
@@ -281,7 +295,7 @@
             
             break;
         }
-        case 1: {
+        case 2: {
             // Open the image in MemeYou
             FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
             NSString* appId = @"musubi.memeyou";
@@ -313,6 +327,24 @@
             [self doEditActionSheet:actionSheet clickedButtonAtIndex:buttonIndex];
             break;
     }
+}
+
+#pragma mark AFPhotoEditorController delegate
+
+- (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
+{
+    PictureObj* obj = [[PictureObj alloc] initWithImage:image andText:@""];
+        
+    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MApp* app = [am ensureSuperApp];
+    [_feedViewController sendObj:obj fromApp:app];
+    [_feedViewController refreshFeed];
+    [[self modalViewController] dismissModalViewControllerAnimated:YES];
+}
+
+- (void)photoEditorCanceled:(AFPhotoEditorController *)editor
+{
+    [[self modalViewController] dismissModalViewControllerAnimated:YES];
 }
             
 @end
