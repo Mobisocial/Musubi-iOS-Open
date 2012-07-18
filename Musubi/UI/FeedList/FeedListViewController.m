@@ -43,6 +43,8 @@
 #import "ObjHelper.h"
 #import "IntroductionObj.h"
 #import "AccountManager.h"
+#import "MIdentity.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
 @implementation FeedListViewController {
     NSDate* nextRedraw;
@@ -51,7 +53,7 @@
     NSDate* lastPendingRedraw;
 }
 
-@synthesize initialView = _initialView;
+@synthesize initialView = _initialView, unclaimed = _unclaimed;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -377,6 +379,27 @@
 }
 
 - (void) friendsSelected: (NSArray*) selection {
+    
+    NSMutableArray* unclaimedSelection = [[NSMutableArray alloc] init];
+    
+    // Prompt to invite users if necessary
+    for (MIdentity* mId in selection) {
+        if (mId.claimed == NO && mId.type == 0) {
+            NSLog(@"%@ NOT CLAIMED", mId.principal);
+            [unclaimedSelection addObject:mId];
+        }
+    }
+    if ([unclaimedSelection count] > 0 && [MFMailComposeViewController canSendMail]) {
+        self.unclaimed = unclaimedSelection;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invite Friends?" 
+                                                        message:@"Some of the friends in this feed aren't using Musubi yet. Would you like to send an invitation email?" 
+                                                       delegate:self 
+                                              cancelButtonTitle:@"No"
+                                              otherButtonTitles:@"Yes",nil];
+        [alert show];  
+    }
+    
+    
     PersistentModelStore* store = [Musubi sharedInstance].mainStore;
     
     AppManager* am = [[AppManager alloc] initWithStore:store];
@@ -390,6 +413,34 @@
     
     [self.navigationController popViewControllerAnimated:NO];
     [self performSegueWithIdentifier:@"ShowFeed" sender:[[FeedListItem alloc] initWithFeed:f after:nil before:nil]];
+}
+
+#pragma UIAlertView Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+        controller.mailComposeDelegate = self;
+        [controller setSubject:@"Please join my conversation in Musubi"];
+        [controller setMessageBody:@"I'd like to chat with you securely via Musubi." isHTML:NO];
+        
+        NSMutableArray* recipients = [[NSMutableArray alloc] init];
+        for (MIdentity* mId in self.unclaimed) {
+            [recipients addObject:[NSString stringWithFormat:@"%@ <%@>", mId.name, mId.principal]]; 
+        }
+        
+        [controller setToRecipients:recipients];
+        if (controller) [self presentModalViewController:controller animated:YES];
+    }
+    
+    self.unclaimed = nil;
+}
+
+#pragma MFMailComposeViewController Delegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    if (result == MFMailComposeResultSent) {
+        NSLog(@"Invitation email sent.");
+    }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end
