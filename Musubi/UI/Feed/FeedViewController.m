@@ -90,7 +90,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.tableView.allowsMultipleSelection = YES;
     [self createModel];
 }
 
@@ -234,7 +234,7 @@
 }
 
 - (void)createModel {
-    self.dataSource = [[FeedDataSource alloc] initWithFeed:_feed  messagesNewerThan:_newerThan startingAt:_startingAt];
+    self.dataSource = [[FeedDataSource alloc] initWithFeed:_feed  messagesNewerThan:_newerThan startingAt:_startingAt unreadCount:_feed.numUnread];
 }
 
 - (id<UITableViewDelegate>)createDelegate {
@@ -751,6 +751,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     FeedItemCell* cell = (FeedItemCell*)[tableView cellForRowAtIndexPath:indexPath];
+    NSLog(@"selected");
 
     if (indexPath.row == 0 && [cell isKindOfClass:[TTTableMoreButtonCell class]]) {
         TTTableMoreButton* moreLink = [(TTTableMoreButtonCell *)cell object];
@@ -789,6 +790,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     }
     
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /*- (void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath {

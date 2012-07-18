@@ -221,6 +221,8 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
             color = [UIColor clearColor];
         }
         self.contentView.backgroundColor = color;
+        
+        self.selectionStyle = UITableViewCellSelectionStyleGray;
     }    
 }
 

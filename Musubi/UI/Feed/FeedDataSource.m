@@ -78,11 +78,11 @@
 #import "FeedViewController.h"
 #import "IndexedTTTableView.h"
 
+
 @implementation FeedDataSource
 
-- (id)initWithFeed:(MFeed *)feed  messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt{
+- (id)initWithFeed:(MFeed *)feed  messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt unreadCount:(int32_t) numUnread{
     self = [super init];
-    
     if (!self)
         return nil;
     
@@ -90,11 +90,13 @@
     self.model = model;
     
     _startingAt = startingAt;
+    _numUnread = numUnread;
     [model.delegates addObject:self];
     _objManager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     
-    didLoadMore = NO;
+    _didLoadMore = NO;
 
+    _firstLoad = YES;
     return self;
 }
 
@@ -184,14 +186,15 @@
 }
 
 - (void)tableView:(UITableView*)tableView cell:(UITableViewCell*)cell willAppearAtIndexPath:(NSIndexPath*)indexPath {
+    NSLog(@"loading %d", indexPath.row);
 	[super tableView:tableView cell:cell willAppearAtIndexPath:indexPath];
-	if (didLoadMore == NO && indexPath.row == 0 && [cell isKindOfClass:[TTTableMoreButtonCell class]]) {
-        didLoadMore = YES;
+	if (_didLoadMore == NO && indexPath.row == 0 && [cell isKindOfClass:[TTTableMoreButtonCell class]]) {
+        _didLoadMore = YES;
         [self.model load:TTURLRequestCachePolicyDefault more:YES];
 	}
-    else if (didLoadMore == YES) {
+    else if (_didLoadMore == YES) {
         [(IndexedTTTableView*)tableView displayIndexPathRow];
-        didLoadMore = NO;
+        _didLoadMore = NO;
     }
 }
 
@@ -265,6 +268,34 @@
             [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         });
         _startingAt = nil;
+    }
+    
+    /* Highlight all the unread messages if this is the first load of the feed */
+    if(_firstLoad && _numUnread > 0) {
+        _firstLoad = NO;
+        _earliestUnreadMessageRow = self.items.count - (_numUnread);
+        dispatch_async(dispatch_get_current_queue(), ^{
+            [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_earliestUnreadMessageRow inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+            
+            for(int i = _earliestUnreadMessageRow; i < self.items.count; i++) {
+                [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+            }
+            
+            dispatch_async(dispatch_get_current_queue(), ^{
+                [NSTimer scheduledTimerWithTimeInterval:.75
+                                                          target:self 
+                                                        selector:@selector(deselectNewRows:) 
+                                                        userInfo:tableView 
+                                                         repeats:NO];
+            });
+        });
+    }
+}
+
+-(void)deselectNewRows:(NSTimer *) theTimer
+{   
+    for(int i = _earliestUnreadMessageRow; i < self.items.count; i++) {
+        [((UITableView*) [theTimer userInfo]) deselectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES];
     }
 }
 
