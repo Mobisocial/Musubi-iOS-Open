@@ -37,6 +37,7 @@
 }
 
 @property (nonatomic, strong) UIView* initialView;
+@property (nonatomic, strong) NSMutableArray* unclaimed;
 
 - (IBAction)newConversation:(id)sender;
 
