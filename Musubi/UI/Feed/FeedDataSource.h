@@ -30,10 +30,13 @@
 @interface FeedDataSource : TTListDataSource {
     ObjManager* _objManager;
     NSDate* _startingAt;
-    BOOL didLoadMore;
+    int32_t _numUnread;
+    int _earliestUnreadMessageRow;
+    BOOL _didLoadMore;
+    BOOL _firstLoad;
 }
 
-- (id) initWithFeed: (MFeed*) feed messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt;
+- (id) initWithFeed: (MFeed*) feed messagesNewerThan:(NSDate*)newerThan startingAt:(NSDate*)startingAt unreadCount:(int32_t) numUnread;
 - (void) loadItemsForObjs: (NSArray*) objs inTableView: (UITableView*) tableView;
 - (NSIndexPath*) indexPathForObj: (MObj*) obj;
 @end
