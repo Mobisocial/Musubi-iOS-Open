@@ -40,7 +40,6 @@
 #import "FacebookIdentityUpdater.h"
 #import "GoogleIdentityUpdater.h"
 #import "ObjProcessorService.h"
-#import "CorralHTTPServer.h"
 
 #import "PersistentModelStore.h"
 #import "FeedManager.h"
@@ -61,7 +60,7 @@
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, facebookIdentityUpdater, googleIdentityUpdater, corralHttpServer;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, facebookIdentityUpdater, googleIdentityUpdater;
 
 +(Musubi*)sharedInstance
 {
@@ -156,14 +155,6 @@ static Musubi* _sharedInstance = nil;
     
     self.googleIdentityUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: storeFactory];
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.googleIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
-    
-    self.corralHttpServer = [[CorralHTTPServer alloc] init];
-    NSError* corralError;
-    if ([self.corralHttpServer start:&corralError]) {
-        NSLog(@"Corral server running on port %hu", [self.corralHttpServer listeningPort]);
-    } else {
-        NSLog(@"Error starting corral server: %@", corralError);
-    }
 }
 
 - (void) stopServices {

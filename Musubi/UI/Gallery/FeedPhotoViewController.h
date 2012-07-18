@@ -24,11 +24,12 @@
 //
 
 #import "Three20/Three20.h"
+#import "AFPhotoEditorController.h"
 
 @class FeedViewController, FeedPhoto;
 
 
-@interface FeedPhotoViewController : TTPhotoViewController<UIActionSheetDelegate> {
+@interface FeedPhotoViewController : TTPhotoViewController<UIActionSheetDelegate,AFPhotoEditorControllerDelegate> {
     //UIBarButtonItem* _actionButton;
     
 }
