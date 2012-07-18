@@ -275,13 +275,21 @@
         case 0: {
             // Open the image in Aviary
             NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-            UIImage  *img  = [[UIImage alloc] initWithData:data];
             
-            AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage: img];
-            [editorController setDelegate:self];
-            [self presentModalViewController:editorController animated:YES];
             
+            NSURLRequest* request = [NSURLRequest requestWithURL:aUrl];
+            [NSURLConnection sendAsynchronousRequest:request 
+                                               queue:[NSOperationQueue mainQueue]
+                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                       UIImage  *img  = [[UIImage alloc] initWithData:data];
+                                       NSLog(@"Got the picture!");
+                                       
+                                       AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage: img];
+                                       [editorController setDelegate:self];
+                                       [self presentModalViewController:editorController animated:YES];
+
+                                   }];
+                        
             break;
         }
         case 1: {
