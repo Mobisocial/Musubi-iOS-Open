@@ -253,14 +253,17 @@
         [self.items insertObject:loadMoreButton atIndex:0];
     }
     
-    dispatch_async(dispatch_get_current_queue(), ^{
-        [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(self.items.count-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-    });
         
     /* Highlight all the unread messages if this is the first load of the feed */
     
     if(_firstLoad) {
         _firstLoad = NO;
+        
+        
+        dispatch_async(dispatch_get_current_queue(), ^{
+            [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(self.items.count-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        });
+        
         if(_numUnread > 0) {
             _earliestUnreadMessageRow = self.items.count - (_numUnread);
             dispatch_async(dispatch_get_current_queue(), ^{
