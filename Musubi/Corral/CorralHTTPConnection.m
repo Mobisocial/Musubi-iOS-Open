@@ -43,7 +43,6 @@
         ObjManager* manager = [[ObjManager alloc] initWithStore:store];
         NSData* hash = [hashString dataFromHex];
         MObj* obj = [manager objWithUniversalHash:hash];
-        NSLog(@"returning data %@", obj);
         if (obj) {
             return [[HTTPDataResponse alloc] initWithData:obj.raw];
         }
