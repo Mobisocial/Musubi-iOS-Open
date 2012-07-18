@@ -186,7 +186,6 @@
 }
 
 - (void)tableView:(UITableView*)tableView cell:(UITableViewCell*)cell willAppearAtIndexPath:(NSIndexPath*)indexPath {
-    NSLog(@"loading %d", indexPath.row);
 	[super tableView:tableView cell:cell willAppearAtIndexPath:indexPath];
 	if (_didLoadMore == NO && indexPath.row == 0 && [cell isKindOfClass:[TTTableMoreButtonCell class]]) {
         _didLoadMore = YES;
