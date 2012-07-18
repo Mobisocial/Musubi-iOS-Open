@@ -37,9 +37,10 @@
     //NSLog(@"Requested %@", path);
     //NSLog(@"connected to %@", [asyncSocket connectedHost]);
 
+    PersistentModelStore* store =[[Musubi sharedInstance] newStore];
     if ([path hasPrefix:@"/raw/"]) {
         NSString* hashString = [path substringFromIndex:5];
-        ObjManager* manager = [[ObjManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        ObjManager* manager = [[ObjManager alloc] initWithStore:store];
         NSData* hash = [hashString dataFromHex];
         MObj* obj = [manager objWithUniversalHash:hash];
         NSLog(@"returning data %@", obj);
