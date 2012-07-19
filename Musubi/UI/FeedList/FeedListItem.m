@@ -34,6 +34,8 @@
 #import "LocationObj.h"
 #import "VoiceObj.h"
 #import "StoryObj.h"
+#import "IntroductionObj.h"
+#import "FeedNameObj.h"
 #import "Musubi.h"
 #import "UIImage+Resize.h"
 #import "PictureObj.h"
@@ -141,14 +143,25 @@ static NSMutableDictionary* sContactImages;
         LocationObj* obj = (LocationObj*) [ObjFactory objFromManagedObj:_obj];
         self.text = [NSString stringWithFormat: @"%@ just checked in to: %@", sender, obj.text];
     }
+    else if ([_obj.type isEqualToString:kObjTypeStory]) {
+        self.text = [NSString stringWithFormat: @"%@ just shared a story.", sender];
+    }
+    else if ([_obj.type isEqualToString:kObjTypeIntroduction]) {
+        self.text = [NSString stringWithFormat: @"%@ just added some people to the chat.", sender];
+    }
+    else if ([_obj.type isEqualToString:kObjTypeFeedName]) {
+        self.text = [NSString stringWithFormat: @"%@ just changed the chat details.", sender];
+    }
     else {
         NSDictionary* objDescriptions = [NSDictionary dictionaryWithObjectsAndKeys:@"a picture", kObjTypePicture, @"a voice memo", kObjTypeVoice, @"a story", kObjTypeStory, nil];
         
         NSString* objDesc = [objDescriptions objectForKey:_obj.type];
-        if (objDesc == nil)
-            objDesc = @"an app message";
-        
-        self.text = [NSString stringWithFormat: @"%@ sent %@", sender, objDesc];
+        if (objDesc == nil) {
+            self.text = [NSString stringWithFormat: @"%@ just did something in an app.", sender];
+        }
+        else {
+            self.text = [NSString stringWithFormat: @"%@ sent %@", sender, objDesc];
+        }
         self.special = YES;
     }
     /*

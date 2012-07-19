@@ -31,7 +31,7 @@
 @implementation FeedNameObjItemCell
 
 + (NSString*) textForItem: (ManagedObjFeedItem*) item {
-    NSString* text = @"I changed the feed details.";
+    NSString* text = @"I changed the chat details.";
     return text;
 }
 
