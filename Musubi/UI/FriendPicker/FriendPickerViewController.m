@@ -87,8 +87,6 @@
     _importingLabel.backgroundColor = [UIColor colorWithRed:78.0/256.0 green:137.0/256.0 blue:236.0/256.0 alpha:1];
     _importingLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:_importingLabel];
-    
-    nextButton.enabled = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -199,8 +197,6 @@
         int newY = 30 * (textField.lineCount - 2);
         [((UIScrollView*)textField.superview) setContentOffset:CGPointMake(0, newY) animated:NO];
     }
-    
-    nextButton.enabled = ds.items.count > 0;
 }
 
 - (BOOL) validateEmail: (NSString *) candidate {
@@ -252,8 +248,6 @@
     NSIndexPath* path = [ds indexPathForItem:item];
     if (path != nil)
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
-    
-    nextButton.enabled = ds.items.count > 0;
 }
 
 - (NSString*) tableView:(UITableView*)tv labelForObject:(id) obj {
@@ -261,6 +255,7 @@
 }
 
 - (IBAction)friendsSelected:(id)sender {
+    [self textFieldDidChange:self.pickerTextField];
     FriendListDataSource* ds = (FriendListDataSource*)self.dataSource;
     [_delegate friendsSelected:ds.selectedIdentities];
 }
