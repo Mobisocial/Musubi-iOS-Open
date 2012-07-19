@@ -74,6 +74,8 @@
     [recipientView addSubview:self.pickerTextField];
     [self.pickerTextField setFrame:CGRectMake(35, 0, recipientView.frame.size.width, recipientView.frame.size.height)];
     
+    [self.pickerTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
+    
     self.tableView.top += recipientView.height;
     self.tableView.height -= recipientView.height;
     
