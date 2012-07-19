@@ -53,7 +53,7 @@
     NSDate* lastPendingRedraw;
 }
 
-@synthesize initialView = _initialView, unclaimed = _unclaimed;
+@synthesize initialView = _initialView, unclaimed = _unclaimed, ownedId = _ownedId;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -382,13 +382,23 @@
     
     NSMutableArray* unclaimedSelection = [[NSMutableArray alloc] init];
     
+    PersistentModelStore* store = [Musubi sharedInstance].mainStore;
+    
+    AppManager* am = [[AppManager alloc] initWithStore:store];
+    MApp* app = [am ensureSuperApp];
+    
+    FeedManager* fm = [[FeedManager alloc] initWithStore: store];
+    MFeed* f = [fm createExpandingFeedWithParticipants:selection];
+    
+    self.ownedId = [fm ownedIdentityForFeed:f];
+    
     // Prompt to invite users if necessary
     for (MIdentity* mId in selection) {
         if (mId.claimed == NO && mId.type == 0) {
-            NSLog(@"%@ NOT CLAIMED", mId.principal);
             [unclaimedSelection addObject:mId];
         }
     }
+    
     if ([unclaimedSelection count] > 0 && [MFMailComposeViewController canSendMail]) {
         self.unclaimed = unclaimedSelection;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invite Friends?" 
@@ -399,15 +409,6 @@
         [alert show];  
     }
     
-    
-    PersistentModelStore* store = [Musubi sharedInstance].mainStore;
-    
-    AppManager* am = [[AppManager alloc] initWithStore:store];
-    MApp* app = [am ensureSuperApp];
-    
-    FeedManager* fm = [[FeedManager alloc] initWithStore: store];
-    MFeed* f = [fm createExpandingFeedWithParticipants:selection];
-    
     Obj* invitationObj = [[IntroductionObj alloc] initWithIdentities:selection];
     [FeedViewController sendObj: invitationObj toFeed:f fromApp:app usingStore: store];
     
@@ -417,22 +418,32 @@
 
 #pragma UIAlertView Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
+    if (buttonIndex == 1 && self.ownedId != nil) {
+        NSString* nameForURL = [self.ownedId.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString* principalForURL = [self.ownedId.principal stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString* typeForURL = [NSString stringWithFormat:@"%d", self.ownedId.type];
+        
         MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+        
         controller.mailComposeDelegate = self;
-        [controller setSubject:@"Please join my conversation in Musubi"];
-        [controller setMessageBody:@"I'd like to chat with you securely via Musubi." isHTML:NO];
         
         NSMutableArray* recipients = [[NSMutableArray alloc] init];
+        
         for (MIdentity* mId in self.unclaimed) {
             [recipients addObject:[NSString stringWithFormat:@"%@ <%@>", mId.name, mId.principal]]; 
         }
         
+        [controller setSubject:@"Please join my conversation in Musubi"];
+
+        [controller setMessageBody:[NSString stringWithFormat:@"I'd like to chat with you securely via <a href='http://musubi.us/intro?n=%@&t=%@&p=%@'>Musubi</a>.", nameForURL, typeForURL, principalForURL] isHTML:YES];
+        
         [controller setToRecipients:recipients];
+        
         if (controller) [self presentModalViewController:controller animated:YES];
     }
     
     self.unclaimed = nil;
+    self.ownedId = nil;
 }
 
 #pragma MFMailComposeViewController Delegate

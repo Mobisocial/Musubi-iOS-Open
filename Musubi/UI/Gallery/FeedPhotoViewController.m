@@ -165,52 +165,71 @@
                 return;
             }
             NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-            UIImage  *img  = [[UIImage alloc] initWithData:data];
+            NSURLRequest* request = [NSURLRequest requestWithURL:aUrl];
+            [NSURLConnection sendAsynchronousRequest:request 
+                                               queue:[NSOperationQueue mainQueue]
+                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                       UIImage  *img  = [[UIImage alloc] initWithData:data];
+                                       [self performSelectorOnMainThread:@selector(setFeedPicture:) withObject:img waitUntilDone:NO];
+                                       UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
+                                       NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
+                                       
+                                       long long now = (long long)([[NSDate date] timeIntervalSince1970] * 1000);
+                                       for(MIdentity* me in mine) {
+                                           me.musubiThumbnail = thumbnail;
+                                           me.receivedProfileVersion = now;
+                                       }
+                                       [store save];
+                                       [ProfileObj sendAllProfilesWithStore:store];
+                                       [self showSuccessIndicatorWithText:@"Success"];
+                                   }];
             
-            UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
-            NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
-            
-            long long now = (long long)([[NSDate date] timeIntervalSince1970] * 1000);
-            for(MIdentity* me in mine) {
-                me.musubiThumbnail = thumbnail;
-                me.receivedProfileVersion = now;
-            }
-            [store save];
-            [ProfileObj sendAllProfilesWithStore:store];
-            [self showSuccessIndicatorWithText:@"Success"];
+           
             
             break;
         }
         case 1:
         {
-            MFeed* feed = ((FeedPhoto*)self.centerPhoto).obj.feed;
             NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-            UIImage  *img  = [[UIImage alloc] initWithData:data];
-            
-            UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
-            NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
-            
-            
-            NSString* name = feed.name;
-            
-            FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name andThumbnail:thumbnail];
-            
-            AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-            MApp* app = [am ensureSuperApp];
-            
-            [ObjHelper sendObj:name_change toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
-            
-            [_feedViewController refreshFeed];
-            
-            
-            [[self modalViewController] dismissModalViewControllerAnimated:YES];
-            [self showSuccessIndicatorWithText:@"Success"];
+                        
+            NSURLRequest* request = [NSURLRequest requestWithURL:aUrl];
+            [NSURLConnection sendAsynchronousRequest:request 
+                                               queue:[NSOperationQueue mainQueue]
+                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                       UIImage  *img  = [[UIImage alloc] initWithData:data];
+                                       [self performSelectorOnMainThread:@selector(setFeedPicture:) withObject:img waitUntilDone:NO];
+                                       
+                                   }];
             
             break;
         }
     }
+}
+
+- (void) setFeedPicture: (UIImage*) img {
+    MFeed* feed = ((FeedPhoto*)self.centerPhoto).obj.feed;
+
+    NSLog(@"Got the picture!");
+    
+    UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
+    NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
+    
+    
+    NSString* name = feed.name;
+    
+    FeedNameObj* name_change = [[FeedNameObj alloc] initWithName:name andThumbnail:thumbnail];
+    
+    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MApp* app = [am ensureSuperApp];
+    
+    [ObjHelper sendObj:name_change toFeed:feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    
+    [_feedViewController refreshFeed];
+    
+    
+    [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    [self showSuccessIndicatorWithText:@"Success"];
+
 }
 
 - (void)doMainActionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex: (NSInteger)buttonIndex {
@@ -219,10 +238,15 @@
         {
             // Save the image to the Camera Roll
             NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-            UIImage  *img  = [[UIImage alloc] initWithData:data];
+            NSURLRequest* request = [NSURLRequest requestWithURL:aUrl];
+            [NSURLConnection sendAsynchronousRequest:request 
+                                               queue:[NSOperationQueue mainQueue]
+                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                       UIImage  *img  = [[UIImage alloc] initWithData:data];
+                                       UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);                                       
+                                   }];
+
             
-            UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
             break;
         }
         case 1:
@@ -239,28 +263,32 @@
             // Share the image
             FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
             NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
-            NSData   *data = [NSData dataWithContentsOfURL:aUrl];
-            UIImage  *img  = [[UIImage alloc] initWithData:data];
-            NSString *shareCaption = nil;
-            
-            if (feedPhoto.caption == nil) {
-                shareCaption = [NSString stringWithString:@"sent via Musubi"];
-            } else {
-                shareCaption = feedPhoto.caption;
-            }
-            
-            SHKItem *item = [SHKItem image:img title:shareCaption];
-            
-            // Get the ShareKit action sheet
-            SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
-            
-            // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
-            // but sometimes it may not find one. To be safe, set it explicitly
-            [SHK setRootViewController:self];
-            
-            // Display the action sheet
-            [actionSheet showInView:self.view];
-            break;
+            NSURLRequest* request = [NSURLRequest requestWithURL:aUrl];
+            [NSURLConnection sendAsynchronousRequest:request 
+                                               queue:[NSOperationQueue mainQueue]
+                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                       UIImage  *img  = [[UIImage alloc] initWithData:data];
+                                       NSString *shareCaption = nil;
+                                       
+                                       if (feedPhoto.caption == nil) {
+                                           shareCaption = [NSString stringWithString:@"sent via Musubi"];
+                                       } else {
+                                           shareCaption = feedPhoto.caption;
+                                       }
+                                       
+                                       SHKItem *item = [SHKItem image:img title:shareCaption];
+                                       
+                                       // Get the ShareKit action sheet
+                                       SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
+                                       
+                                       // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
+                                       // but sometimes it may not find one. To be safe, set it explicitly
+                                       [SHK setRootViewController:self];
+                                       
+                                       // Display the action sheet
+                                       [actionSheet showInView:self.view];
+                                   }];
+                        break;
         }
         case 3:
         {

@@ -38,6 +38,7 @@
 
 @property (nonatomic, strong) UIView* initialView;
 @property (nonatomic, strong) NSMutableArray* unclaimed;
+@property (nonatomic, strong) MIdentity* ownedId;
 
 - (IBAction)newConversation:(id)sender;
 

@@ -31,5 +31,6 @@
 @interface VerifyViewController : UIViewController<UIAlertViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate, AccountAuthManagerDelegate>
 
 @property (nonatomic, retain) EmailAuth* emailAuth;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *verifySpinner;
 
 @end
