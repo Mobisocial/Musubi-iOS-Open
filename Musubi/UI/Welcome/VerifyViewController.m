@@ -30,6 +30,7 @@
 @implementation VerifyViewController
 
 @synthesize emailAuth = _emailAuth;
+@synthesize verifySpinner = _verifySpinner;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,6 +49,7 @@
 
 - (void)viewDidUnload
 {
+    [self setVerifySpinner:nil];
     [super viewDidUnload];
 
     // Release any retained subviews of the main view.
@@ -55,10 +57,12 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self.verifySpinner startAnimating];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    [self.verifySpinner stopAnimating];
     
     UINavigationController* navController = (UINavigationController*)[[[UIApplication sharedApplication] keyWindow] rootViewController];
     
