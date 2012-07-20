@@ -141,7 +141,12 @@ static NSMutableDictionary* sContactImages;
     }
     else if ([_obj.type isEqualToString:kObjTypeLocation]) {
         LocationObj* obj = (LocationObj*) [ObjFactory objFromManagedObj:_obj];
-        self.text = [NSString stringWithFormat: @"%@ just checked in to: %@", sender, obj.text];
+        if(obj.text.length == 0) {
+            self.text = [NSString stringWithFormat: @"%@ just checked in somewhere.", sender];
+        }
+        else {
+            self.text = [NSString stringWithFormat: @"%@ just checked in to: %@", sender, obj.text];
+        }
     }
     else if ([_obj.type isEqualToString:kObjTypeStory]) {
         self.text = [NSString stringWithFormat: @"%@ just shared a story.", sender];
