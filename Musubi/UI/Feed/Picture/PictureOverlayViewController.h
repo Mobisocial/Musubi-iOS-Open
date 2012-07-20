@@ -49,6 +49,7 @@
 @property (nonatomic, readonly) TTButton* captionButton;
 @property (nonatomic, readonly) TTButton* editButton;
 @property (nonatomic, readonly) UIToolbar* toolBar;
+@property (nonatomic, readonly) UIImageView* preview;
 
 @property (nonatomic, strong) UIImagePickerController* imagePickerController;
 @property (nonatomic, strong) id<PictureOverlayViewControllerDelegate> delegate;
