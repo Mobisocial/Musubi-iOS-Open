@@ -47,6 +47,7 @@
 #import "MIdentity.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "MusubiStyleSheet.h"
+#import "EulaViewController.h"
 
 @implementation FeedListViewController {
     NSDate* nextRedraw;
@@ -104,8 +105,17 @@
     // Color
     self.navigationController.navigationBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
     
-    AccountManager* accMgr = [[AccountManager alloc] initWithStore:[Musubi sharedInstance].mainStore];    
-    if ([accMgr claimedAccounts].count == 0) {
+    AccountManager* accMgr = [[AccountManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+
+    // Require EULA
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber* eulaAccepted = (NSNumber*)[defaults objectForKey:kMusubiSettingsEulaAccepted];
+    if ([eulaAccepted intValue] < kEulaRequiredVersion) {
+        [self performSegueWithIdentifier:@"eula" sender:self];
+    }
+
+    // Require an account
+    else if ([accMgr claimedAccounts].count == 0) {
         [self performSegueWithIdentifier:@"Welcome" sender:self];
     } else {
         IdentityManager* idMgr = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];    
