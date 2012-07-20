@@ -24,6 +24,7 @@
 //
 
 #import "Three20/Three20.h"
+#import "MIdentity.h"
 
 @class IdentityManager, FriendListItem;
 
@@ -40,6 +41,7 @@
 
 - (FriendListItem*) itemAtIndexPath: (NSIndexPath*) indexPath;
 - (NSIndexPath*) indexPathForItem: (FriendListItem*) item;
+- (FriendListItem*) itemForIdentity: (MIdentity*) ident;
 - (BOOL) toggleSelectionForItem: (FriendListItem*) item;
-
+- (FriendListItem*) existingItemByPrincipal: (NSString*) principal;
 @end
