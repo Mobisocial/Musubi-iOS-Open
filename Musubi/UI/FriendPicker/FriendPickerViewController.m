@@ -27,6 +27,7 @@
 #import "FriendListDataSource.h"
 #import "Three20UI/UIViewAdditions.h"
 #import "FriendListItem.h"
+#import "FriendListModel.h"
 #import "Musubi.h"
 #import "AccountManager.h"
 #import "IBEncryptionScheme.h"
@@ -210,10 +211,10 @@
     
     BOOL identityAdded = NO;
     BOOL profileDataChanged = NO;
-    FriendListItem* newListItem = [FriendListItem alloc];
+    FriendListItem* newListItem = nil;
     
     IdentityManager* im = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-    
+
     // Trim leading whitespace
     NSString* newIdentityName = [picker.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
@@ -221,21 +222,54 @@
     if ([self validateEmail:newIdentityName]) {
         
         IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:newIdentityName temporalFrame:0];
-        
         MIdentity* mId = [im ensureIdentity:ident withName:newIdentityName identityAdded:&identityAdded profileDataChanged:&profileDataChanged];
-        
-        newListItem.musubiName = newIdentityName;
-        newListItem.realName = newIdentityName;
-        newListItem.identity = mId;
+        FriendListDataSource* ds = (FriendListDataSource*)self.dataSource;
 
+        NSMutableArray* selectedPrincipals = [[NSMutableArray alloc] init];
+        NSArray* pinned = nil;
         
-        [self.pickerTextField addCellWithObject:newListItem];
-        [self.pickerTextField becomeFirstResponder];
+        // Save the pinned identities, if there are any
+        if (ds.pinnedIdentities.count > 0) {
+            pinned = ds.pinnedIdentities;
+        }
         
+        // Save the currently selected principals
+        for (MIdentity* identity in ds.selectedIdentities) {
+            [selectedPrincipals addObject:identity.principal];
+        }
+        
+        // Add the new principal
+        [selectedPrincipals addObject:mId.principal];
+        
+        // Clear the cells from the picker text field
+        [self.pickerTextField removeAllCells];
+
+        // Reload the datasource from the database so that the new identity is shown in the table
+        [self createModel];
+        
+        // Get a pointer to the newly allocated dataSource
+        ds = (FriendListDataSource*)self.dataSource;
+        
+        // Re-add the pinned identities, if necessary
+        if (pinned != nil) {
+            ds.pinnedIdentities = pinned;
+            [ds tableViewDidLoadModel:self.tableView];
+        }
+        
+        // Add the previously selected principals + the new one
+        for (NSString* principal in selectedPrincipals) {
+            newListItem = [ds existingItemByPrincipal:principal];
+            if (newListItem != nil) {
+                [self.pickerTextField addCellWithObject:newListItem];
+            }
+            newListItem = nil;
+        }
+       
+        [self.pickerTextField becomeFirstResponder]; 
+
     } else {
         // Invalid Email Specified
         // TODO: Reset the search criteria so that nothing is filtered out of the list
-
     }
     
 }
@@ -272,13 +306,11 @@
         TTPickerTextField* picker = ((FriendPickerViewController*)self.controller).pickerTextField;
         
         if (!item.selected) {
-            
             [picker addCellWithObject: item];
         } else {
             [picker removeCellWithObject: item];
         }
     }
 }
-
 
 @end
