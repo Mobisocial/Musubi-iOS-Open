@@ -39,6 +39,7 @@
 #import "AMQPTransport.h"
 #import "FacebookIdentityUpdater.h"
 #import "GoogleIdentityUpdater.h"
+#import "AddressBookIdentityManager.h"
 #import "ObjProcessorService.h"
 
 #import "PersistentModelStore.h"
@@ -60,7 +61,7 @@
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, facebookIdentityUpdater, googleIdentityUpdater;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, facebookIdentityUpdater, googleIdentityUpdater, addressBookIdentityUpdater;
 
 +(Musubi*)sharedInstance
 {
@@ -155,6 +156,9 @@ static Musubi* _sharedInstance = nil;
     
     self.googleIdentityUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: storeFactory];
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.googleIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+
+    self.addressBookIdentityUpdater = [[AddressBookIdentityManager alloc] initWithStoreFactory: storeFactory];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.addressBookIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
 }
 
 - (void) stopServices {
