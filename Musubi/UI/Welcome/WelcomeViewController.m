@@ -58,18 +58,16 @@
     self.emailField.delegate = self;
 }
 
-/*
- * Hide the keyboard if user clicks out of it
- */
 - (void)viewDidLoad {
+    // Hide the keyboard if user clicks out of it
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    
+
     [nc addObserver:self selector:@selector(keyboardWillShow:) name:
      UIKeyboardWillShowNotification object:nil];
-    
+
     [nc addObserver:self selector:@selector(keyboardWillHide:) name:
      UIKeyboardWillHideNotification object:nil];
-    
+
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                             action:@selector(didTapAnywhere:)];
 }
