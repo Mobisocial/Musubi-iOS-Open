@@ -64,7 +64,7 @@
     UIBarItem* space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:
                         UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
-    NSMutableArray* items = [NSMutableArray arrayWithObjects: self.actionButton, space, nil];
+    NSMutableArray* items = [NSMutableArray arrayWithObjects: space, self.actionButton, nil];
     //NSMutableArray* items = [NSMutableArray arrayWithArray:_toolbar.items];
     //[items addObject: space];
     //[items addObject: self.actionButton];
@@ -86,7 +86,7 @@
 
 - (void)openMainActionSheet 
 {
-    UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Save Image", @"Edit Image", @"Share Image", @"Set as...", nil];   
+    UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Save", @"Share", @"Edit", @"Set as...", nil];   
     
     [actions setTag:kMainActionSheetTag];
     [actions showInView:self.view];
@@ -208,8 +208,6 @@
 
 - (void) setFeedPicture: (UIImage*) img {
     MFeed* feed = ((FeedPhoto*)self.centerPhoto).obj.feed;
-
-    NSLog(@"Got the picture!");
     
     UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
     NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
@@ -251,15 +249,6 @@
         }
         case 1:
         {
-            // Edit image
-            UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Edit..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Aviary", @"Sketch", @"Caption", nil];
-            
-            [actions setTag:kEditActionSheetTag];
-            [actions showInView:self.view];
-            break;
-        }
-        case 2:
-        {
             // Share the image
             FeedPhoto* feedPhoto = (FeedPhoto*)self.centerPhoto;
             NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
@@ -290,6 +279,35 @@
                                    }];
                         break;
         }
+        case 2:
+        {
+            // Edit image
+            /*
+            UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Edit..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Aviary", @"Sketch", @"Caption", nil];
+            
+            [actions setTag:kEditActionSheetTag];
+            [actions showInView:self.view];
+            break;*/
+            
+            // Open the image in Aviary
+            NSURL    *aUrl  = [NSURL URLWithString:[self.centerPhoto URLForVersion:TTPhotoVersionLarge]];
+            
+            
+            NSURLRequest* request = [NSURLRequest requestWithURL:aUrl];
+            [NSURLConnection sendAsynchronousRequest:request 
+                                               queue:[NSOperationQueue mainQueue]
+                                   completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                                       UIImage  *img  = [[UIImage alloc] initWithData:data];
+                                       
+                                       AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage: img];
+                                       [editorController setDelegate:self];
+                                       [self presentModalViewController:editorController animated:YES];
+                                       
+                                   }];
+            
+            break;
+
+        }
         case 3:
         {
             [self openSetAsActionSheet];
@@ -310,7 +328,6 @@
                                                queue:[NSOperationQueue mainQueue]
                                    completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                        UIImage  *img  = [[UIImage alloc] initWithData:data];
-                                       NSLog(@"Got the picture!");
                                        
                                        AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage: img];
                                        [editorController setDelegate:self];

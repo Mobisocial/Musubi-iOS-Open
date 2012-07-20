@@ -90,7 +90,7 @@
     }
     
     _overlayViewController = overlayViewController;
-    _overlayViewController.view.frame = CGRectMake(0, 40, 320, 356);
+    _overlayViewController.view.frame = CGRectMake(0, 0, 320, 436);
     [self.view addSubview:_overlayViewController.view];
     [self.view bringSubviewToFront:_overlayViewController.view];
 }

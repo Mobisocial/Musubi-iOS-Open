@@ -32,7 +32,7 @@
 
 @implementation WelcomeViewController
 
-@synthesize authMgr = _authMgr, facebookButton = _facebookButton, googleButton = _googleButton, statusLabel = _statusLabel, emailField = _emailField;
+@synthesize authMgr = _authMgr, facebookButton = _facebookButton, googleButton = _googleButton, statusLabel = _statusLabel, emailField = _emailField, tapRecognizer = _tapRecognizer;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -57,6 +57,40 @@
     
     self.emailField.delegate = self;
 }
+
+/*
+ * Hide the keyboard if user clicks out of it
+ */
+- (void)viewDidLoad {
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    
+    [nc addObserver:self selector:@selector(keyboardWillShow:) name:
+     UIKeyboardWillShowNotification object:nil];
+    
+    [nc addObserver:self selector:@selector(keyboardWillHide:) name:
+     UIKeyboardWillHideNotification object:nil];
+    
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                            action:@selector(didTapAnywhere:)];
+}
+
+-(void) keyboardWillShow:(NSNotification *) note {
+    [self.view addGestureRecognizer:self.tapRecognizer];
+}
+
+-(void) keyboardWillHide:(NSNotification *) note
+{
+    [self.view removeGestureRecognizer:self.tapRecognizer];
+}
+
+-(void)didTapAnywhere: (UITapGestureRecognizer*) recognizer {    
+    [self.emailField resignFirstResponder];
+}
+
+/*
+ * End hide keyboard
+ */
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -123,7 +157,9 @@
 #pragma mark - UITextField delegate
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    [_authMgr connect:kAccountTypeEmail withPrincipal:_emailField.text];
+    if ([self.emailField.text rangeOfString:@"@"].location != NSNotFound) {
+        [_authMgr connect:kAccountTypeEmail withPrincipal:_emailField.text];
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

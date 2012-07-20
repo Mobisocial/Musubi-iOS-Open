@@ -34,6 +34,7 @@
 @property (nonatomic, strong) IBOutlet UIButton* googleButton;
 @property (nonatomic, strong) IBOutlet UILabel* statusLabel;
 @property (nonatomic, strong) IBOutlet UITextField* emailField;
+@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 
 - (IBAction)authNetwork:(id)sender;
 

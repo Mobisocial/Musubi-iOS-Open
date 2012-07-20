@@ -24,24 +24,29 @@
 //
 
 #import "PictureOverlayViewController.h"
-#import "PictureEditViewController.h"
 #import "Three20/Three20.h"
 #import "MusubiStyleSheet.h"
+#import "Three20UI+Additions.h"
 
 @implementation PictureOverlayViewController
 
 @synthesize imagePickerController = _imagePickerController;
 @synthesize delegate = _delegate;
+@synthesize toolBar = _toolBar;
 
-- (id)init
+- (id)initForImagePicker:(UIImagePickerControllerSourceType)sourceType
 {
     if (self = [super init])
     {
         self.imagePickerController = [[UIImagePickerController alloc] init];
+        self.imagePickerController.sourceType = sourceType;
         self.imagePickerController.delegate = self;
         
-        self.captionButton.hidden = NO;
-        self.captionView.hidden = YES;
+        if (sourceType == UIImagePickerControllerSourceTypeCamera) {
+            self.wantsFullScreenLayout = YES;
+        }
+        
+        [self setupImagePicker];
         
         UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
         gestureRecognizer.cancelsTouchesInView = NO;
@@ -51,35 +56,26 @@
     return self;
 }
 
+- (void) setupImagePicker {
+    if (self.imagePickerController.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        self.imagePickerController.showsCameraControls = NO;
+        [self.imagePickerController.cameraOverlayView addSubview:self.view];
+        self.view.frame = CGRectMake(0.0, 0.0, 320, 480);
+    } else {            
+        self.view.frame = CGRectMake(0.0, 0.0, 320, 460);
+    }
+        
+    self.preview.hidden = YES;
+    self.toolBar.hidden = NO;
+    self.editButton.hidden = YES;
+    self.captionButton.hidden = YES;
+    self.captionView.hidden = YES;
+    
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (void)setupImagePicker:(UIImagePickerControllerSourceType)sourceType
-{
-    self.imagePickerController.sourceType = sourceType;
-    
-    if (sourceType == UIImagePickerControllerSourceTypeCamera)
-    {
-        // user wants to use the camera interface
-        //
-        self.imagePickerController.showsCameraControls = YES;
-        
-        if ([[self.imagePickerController.cameraOverlayView subviews] count] == 0)
-        {
-            // setup our custom overlay view for the camera
-            //
-            // ensure that our custom view's frame fits within the parent frame
-            CGRect overlayViewFrame = self.imagePickerController.cameraOverlayView.frame;
-            CGRect newFrame = CGRectMake(0.0, 50.0,
-                                         CGRectGetWidth(overlayViewFrame),
-                                         366);
-            self.view.frame = newFrame;
-            
-            [self.imagePickerController.cameraOverlayView addSubview:self.view];
-        }
-    }
 }
 
 - (void)viewDidLoad {
@@ -100,10 +96,67 @@
     [self.captionField becomeFirstResponder];
 }
 
+- (NSArray*) toolbarItems {
+    if (_preview.hidden) {
+     return [NSArray arrayWithObjects:
+                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel  target:self action:@selector(cancelPicture:)],
+                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
+                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera  target:self action:@selector(shootPicture:)],
+                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
+                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
+                    nil];
+    } else {
+        UIBarButtonItem* retakeItem = [[UIBarButtonItem alloc] initWithTitle:self.imagePickerController.sourceType == UIImagePickerControllerSourceTypeCamera ?@"Retake" : @"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(retakePicture:)];
+        
+        UIBarButtonItem* useItem = [[UIBarButtonItem alloc] initWithTitle:@"Use" style:UIBarButtonItemStyleDone target:self action:@selector(usePicture:)];
+        
+        return [NSArray arrayWithObjects:
+                        retakeItem,
+                        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                        useItem,
+                        nil];
+    }
+}
+
+- (UIImageView*) preview {
+    if (!_preview) {
+        _preview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.height-55)];
+        _preview.backgroundColor = [UIColor blackColor];
+        _preview.contentMode = UIViewContentModeScaleAspectFit;
+        _preview.hidden = YES;
+        [self.view addSubview:_preview];
+    }
+    return _preview;
+}
+
+- (UIToolbar*) toolBar {
+    if (!_toolBar) {
+        _toolBar=[[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.height-55, 320, 55)];
+        _toolBar.barStyle = UIBarStyleBlackOpaque;
+        _toolBar.items = self.toolbarItems;
+        [self.view addSubview:_toolBar];
+    }
+    return _toolBar;
+}
+
+- (TTButton*) editButton {
+    if (!_editButton) {
+        _editButton = [[TTButton alloc] init];
+        _editButton.frame = CGRectMake(10, self.view.height-100, 80, 34);
+        [_editButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateNormal] forState:UIControlStateNormal]; 
+        [_editButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateHighlighted] forState:UIControlStateHighlighted]; 
+        [_editButton setTitle:@"Edit" forState:UIControlStateNormal];
+        [_editButton addTarget:self action:@selector(editPicture:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.view addSubview:_editButton];
+    }
+    return _editButton;
+}
+
 - (TTButton*) captionButton {
     if (!_captionButton) {
         _captionButton = [[TTButton alloc] init];
-        _captionButton.frame = CGRectMake(210, 328, 100, 34);
+        _captionButton.frame = CGRectMake(210, self.view.height-100, 100, 34);
         [_captionButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateNormal] forState:UIControlStateNormal]; 
         [_captionButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateHighlighted] forState:UIControlStateHighlighted]; 
         [_captionButton setTitle:@"Caption" forState:UIControlStateNormal];
@@ -116,7 +169,7 @@
 
 - (UILabel*) captionLabel {
     if (!_captionLabel) {
-        _captionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 333, 320, 44)];
+        _captionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.height-100, 320, 44)];
         _captionLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
         _captionLabel.font = [UIFont systemFontOfSize:14];
         _captionLabel.textColor = [UIColor whiteColor];
@@ -130,7 +183,7 @@
 
 - (UIView*) captionView {
     if (!_captionView) {
-        _captionView = [[TTView alloc] initWithFrame:CGRectMake(0, 410, 320, 44)];
+        _captionView = [[TTView alloc] initWithFrame:CGRectMake(0, self.view.height-54, 320, 44)];
         ((TTView*)_captionView).style = [MusubiStyleSheet bottomPanelStyle];
         _captionView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
         
@@ -178,10 +231,12 @@
     
     if (self.captionLabel.text.length) {
         self.captionLabel.hidden = NO;
-        self.captionButton.center = CGPointMake(260, 302);
+        self.captionButton.center = CGPointMake(260, self.view.height-126);
+        self.editButton.center = CGPointMake(50, self.view.height-126);
     } else {
         self.captionLabel.hidden = YES;
-        self.captionButton.center = CGPointMake(260, 346);
+        self.captionButton.center = CGPointMake(260, self.view.height-82);
+        self.editButton.center = CGPointMake(50, self.view.height-82);
     }
 }
 
@@ -198,40 +253,76 @@
 #pragma mark -
 #pragma mark UIImagePickerControllerDelegate
 
+
+- (IBAction)shootPicture:(id)sender {
+    [self.imagePickerController takePicture];
+}
+
+- (IBAction)retakePicture:(id)sender {
+    _preview.hidden = YES;
+    _toolBar.hidden = NO;
+    _toolBar.items = self.toolbarItems;
+    _captionButton.hidden = YES;
+    _editButton.hidden = YES;
+    
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+    [((UIViewController*)self.delegate) presentModalViewController:self.imagePickerController animated:NO];
+    
+    [self setupImagePicker];
+}
+
+- (IBAction)cancelPicture:(id)sender {
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
+}
+
+- (IBAction)usePicture:(id)sender {
+    if (self.imagePickerController.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        UIImageWriteToSavedPhotosAlbum(_preview.image, nil, nil, nil);
+    }    
+    
+    [self.delegate picturePickerFinishedWithPicture:_preview.image withCaption:self.captionLabel.text];
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
+}
+
+- (IBAction)editPicture:(id)sender {
+    
+    AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage: _preview.image];
+    [editorController setDelegate:self];
+    
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+    [((UIViewController*)self.delegate) presentModalViewController:editorController animated:NO];
+}
+
+- (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image {    
+    _preview.image = image;
+    
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
+    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
+}
+
+- (void)photoEditorCanceled:(AFPhotoEditorController *)editor {
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
+    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
+}
+
 // this get called when an image has been chosen from the library or taken from the camera
 //
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
     
-    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+    _preview.image = image;
+    _preview.hidden = NO;
+    _captionButton.hidden = NO;
+    _editButton.hidden = NO;
+    _toolBar.items = self.toolbarItems;
     
-    if (self.imagePickerController.sourceType != UIImagePickerControllerSourceTypeCamera) {
-        PictureEditViewController* editVC = [[PictureEditViewController alloc] init];
-        editVC.overlayViewController = self;
-        editVC.picture = image;
-        editVC.delegate = self;
-        
-        [((UIViewController*)self.delegate) presentModalViewController:editVC animated:YES];
-    } else {
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-        [self.delegate picturePickerFinishedWithPicture:image withCaption:self.captionLabel.text];        
-    }
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:YES];
-}
-
-#pragma mark PictureEditViewControllerDelegate
-
-- (void)pictureEditViewController:(PictureEditViewController *)vc chosePicture:(UIImage *)picture {    
-    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:YES];
-    [self.delegate picturePickerFinishedWithPicture:picture withCaption:self.captionLabel.text];
-}
-
-- (void)pictureEditViewController:(PictureEditViewController *)vc didCancel:(BOOL)cancel {
     [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:YES];
 }
 
