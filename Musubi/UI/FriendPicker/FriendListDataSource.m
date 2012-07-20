@@ -125,6 +125,17 @@
     return item;
 }
 
+- (FriendListItem*) existingItemByPrincipal: (NSString*) principal {
+    for (NSMutableArray* section in self.items) {
+        for (FriendListItem* sectionItem in section) {
+            if ([sectionItem.identity.principal isEqualToString:principal]) {
+                return sectionItem;
+            }
+        }
+    }
+    return nil;
+}
+
 - (void)search:(NSString *)text {
     text = [text uppercaseString];
     
