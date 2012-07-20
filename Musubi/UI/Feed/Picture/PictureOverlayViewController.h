@@ -24,7 +24,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PictureEditViewController.h"
+#import "AFPhotoEditorController.h"
 
 @class TTButton;
 
@@ -32,21 +32,27 @@
 - (void) picturePickerFinishedWithPicture:(UIImage *)picture withCaption: (NSString*) caption;
 @end
 
-@interface PictureOverlayViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,PictureEditViewControllerDelegate> {
+@interface PictureOverlayViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,AFPhotoEditorControllerDelegate> {
     UIView* _captionView;
     UITextField* _captionField;
     UILabel* _captionLabel;
     TTButton* _captionButton;
+    TTButton* _editButton;
+    UIToolbar *_toolBar;
+    
+    UIImageView* _preview;
 }
 
 @property (nonatomic, readonly) UIView* captionView;
 @property (nonatomic, readonly) UITextField* captionField;
 @property (nonatomic, readonly) UILabel* captionLabel;
 @property (nonatomic, readonly) TTButton* captionButton;
+@property (nonatomic, readonly) TTButton* editButton;
+@property (nonatomic, readonly) UIToolbar* toolBar;
 
 @property (nonatomic, strong) UIImagePickerController* imagePickerController;
 @property (nonatomic, strong) id<PictureOverlayViewControllerDelegate> delegate;
 
-- (void)setupImagePicker:(UIImagePickerControllerSourceType)sourceType;
+- (id)initForImagePicker:(UIImagePickerControllerSourceType)sourceType;
 
 @end

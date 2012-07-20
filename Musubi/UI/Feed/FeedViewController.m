@@ -483,9 +483,8 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         case 0: // take picture
         {
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-                _pictureViewController = [[PictureOverlayViewController alloc] init];
+                _pictureViewController = [[PictureOverlayViewController alloc] initForImagePicker:UIImagePickerControllerSourceTypeCamera];
                 _pictureViewController.delegate = self;
-                [_pictureViewController setupImagePicker:UIImagePickerControllerSourceTypeCamera];
                 [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't have a camera" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
@@ -495,9 +494,8 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         case 1: // existing picture
         {   
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-                _pictureViewController = [[PictureOverlayViewController alloc] init];
+                _pictureViewController = [[PictureOverlayViewController alloc] initForImagePicker:UIImagePickerControllerSourceTypePhotoLibrary];
                 _pictureViewController.delegate = self;
-                [_pictureViewController setupImagePicker:UIImagePickerControllerSourceTypePhotoLibrary];
                 [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't support the photo library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
