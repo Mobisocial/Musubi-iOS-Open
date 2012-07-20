@@ -25,8 +25,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define kAddressBookIdentityUpdaterFrequency 1.0
-//14400.0
+#define kAddressBookIdentityUpdaterFrequency 14400.0
 
 @class PersistentModelStoreFactory, PersistentModelStore;
 
