@@ -102,6 +102,8 @@
 		D228E5BC15925AE9002E15E6 /* MusubiStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = D228E5BB15925AE9002E15E6 /* MusubiStyleSheet.m */; };
 		D228E5BE159289E3002E15E6 /* cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = D228E5BD159289E3002E15E6 /* cloud.png */; };
 		D228E5C2159296E1002E15E6 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D228E5C1159296E1002E15E6 /* background.jpg */; };
+		D22B69E015B9115B00429023 /* AddressBookIdentityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D22B69DF15B9115B00429023 /* AddressBookIdentityManager.m */; };
+		D22B69E215B9174F00429023 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22B69E115B9174F00429023 /* AddressBook.framework */; };
 		D2313BDE1519319100BB0526 /* AMQPSenderService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSenderService.m */; };
 		D23F12A11586ACE600BA0602 /* AMQPUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D23F12A01586ACE600BA0602 /* AMQPUtil.m */; };
 		D23F12A41586BA9600BA0602 /* ObjectPipelineService.m in Sources */ = {isa = PBXBuildFile; fileRef = D23F12A31586BA9500BA0602 /* ObjectPipelineService.m */; };
@@ -646,6 +648,9 @@
 		D228E5BB15925AE9002E15E6 /* MusubiStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusubiStyleSheet.m; sourceTree = "<group>"; };
 		D228E5BD159289E3002E15E6 /* cloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud.png; sourceTree = "<group>"; };
 		D228E5C1159296E1002E15E6 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
+		D22B69DE15B9115B00429023 /* AddressBookIdentityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddressBookIdentityManager.h; path = Identity/AddressBookIdentityManager.h; sourceTree = "<group>"; };
+		D22B69DF15B9115B00429023 /* AddressBookIdentityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddressBookIdentityManager.m; path = Identity/AddressBookIdentityManager.m; sourceTree = "<group>"; };
+		D22B69E115B9174F00429023 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		D2313BDC1519319000BB0526 /* AMQPSenderService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSenderService.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSenderService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSenderService.m; sourceTree = "<group>"; };
 		D23F129F1586ACE600BA0602 /* AMQPUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPUtil.h; sourceTree = "<group>"; };
@@ -1314,6 +1319,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D22B69E215B9174F00429023 /* AddressBook.framework in Frameworks */,
 				D2EF51B815B63CC400A8EA49 /* libsqlite3.0.dylib in Frameworks */,
 				D2EF51B615B63CB900A8EA49 /* libz.1.2.5.dylib in Frameworks */,
 				D2EF51B415B63CA600A8EA49 /* StoreKit.framework in Frameworks */,
@@ -1570,6 +1576,8 @@
 				D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */,
 				D210C1791526D70B00280605 /* GoogleIdentityUpdater.h */,
 				D210C17A1526D70B00280605 /* GoogleIdentityUpdater.m */,
+				D22B69DE15B9115B00429023 /* AddressBookIdentityManager.h */,
+				D22B69DF15B9115B00429023 /* AddressBookIdentityManager.m */,
 			);
 			name = Identity;
 			sourceTree = "<group>";
@@ -2928,10 +2936,6 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
-				D2EF51B715B63CC400A8EA49 /* libsqlite3.0.dylib */,
-				D2EF51B515B63CB900A8EA49 /* libz.1.2.5.dylib */,
-				D2EF51B315B63CA600A8EA49 /* StoreKit.framework */,
-				D2EF51B115B63C9400A8EA49 /* Accelerate.framework */,
 				F7FDB0F6159BDD2700BDA402 /* target-script-min.js */,
 				F74F95E615B4B45C00E75D7D /* Resources */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
@@ -2955,6 +2959,11 @@
 		D298F9F5143CE6DF000831DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D22B69E115B9174F00429023 /* AddressBook.framework */,
+				D2EF51B715B63CC400A8EA49 /* libsqlite3.0.dylib */,
+				D2EF51B515B63CB900A8EA49 /* libz.1.2.5.dylib */,
+				D2EF51B315B63CA600A8EA49 /* StoreKit.framework */,
+				D2EF51B115B63C9400A8EA49 /* Accelerate.framework */,
 				563FA28B15A6486200FB5AFF /* MapKit.framework */,
 				D44606A1159E6628000A711C /* Twitter.framework */,
 				D446069F159E6610000A711C /* MessageUI.framework */,
@@ -3894,6 +3903,7 @@
 				D2C04A2515A25E9B002C6888 /* EmailAuth.m in Sources */,
 				D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */,
 				D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */,
+				D22B69E015B9115B00429023 /* AddressBookIdentityManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
