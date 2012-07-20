@@ -289,6 +289,21 @@
 - (IBAction)friendsSelected:(id)sender {
     [self textFieldDidChange:self.pickerTextField];
     FriendListDataSource* ds = (FriendListDataSource*)self.dataSource;
+    
+    if (ds.selectedIdentities.count == 0) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Empty chat" message:@"You didn't add any people to this chat. Are you sure you want to continue?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+        [alert show];
+    }
+    else {
+        [_delegate friendsSelected:ds.selectedIdentities];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex != 1)
+        return;
+    FriendListDataSource* ds = (FriendListDataSource*)self.dataSource;
     [_delegate friendsSelected:ds.selectedIdentities];
 }
 
