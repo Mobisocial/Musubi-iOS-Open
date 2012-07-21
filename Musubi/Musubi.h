@@ -30,6 +30,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 #define kMusubiNotificationOwnedIdentityAvailable @"OwnedIdentityAvailable"
 #define kMusubiNotificationAuthTokenRefresh @"AuthTokenRefresh"
+#define kMusubiNotificationAuthAccountValid @"AuthAccountValid"
 #define kMusubiNotificationFacebookFriendRefresh @"FacebookFriendRefresh"
 #define kMusubiNotificationGoogleFriendRefresh @"GoogleFriendRefresh"
 #define kMusubiNotificationAddressBookRefresh @"AddressBookRefresh"
@@ -65,7 +66,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 #define kMusubiThreadPriorityBackground 0.0
 
-@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjProcessorService, FacebookIdentityUpdater, GoogleIdentityUpdater, AddressBookIdentityManager;
+@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjProcessorService, FacebookIdentityUpdater, GoogleIdentityUpdater, AddressBookIdentityManager, CorralHTTPServer, FacebookLoginOperation;
 
 
 @interface Musubi : NSObject {
@@ -91,9 +92,19 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 @property (nonatomic, strong) GoogleIdentityUpdater* googleIdentityUpdater;
 @property (nonatomic, strong) AddressBookIdentityManager* addressBookIdentityUpdater;
 
+@property (nonatomic, strong) CorralHTTPServer* corralHTTPServer;
+
+// Facebook SingleSignOn always calls back the appDelegate, so we need a reference to the login
+@property (nonatomic, weak) FacebookLoginOperation* facebookLoginOperation;
+
 + (Musubi*) sharedInstance;
 
 // creates a new store on the current thread
 - (PersistentModelStore*) newStore;
 
+- (void) onAppLaunch;
+- (void)onRemoteNotification:(NSDictionary *)userInfo;
+- (void)onAppDidBecomeActive;
+- (void)onAppWillResignActive;
+- (BOOL) handleURL: (NSURL*) url fromSourceApplication: (NSString*) sourceApplication;
 @end

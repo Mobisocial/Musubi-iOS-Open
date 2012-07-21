@@ -24,66 +24,22 @@
 //
 
 #import "AppDelegate.h"
-#import "FacebookAuth.h"
-xxx#import "Musubi.h"
-#import "APNPushManager.h"
-#import <DropboxSDK/DropboxSDK.h>
+#import "Musubi.h"
 #import "NSData+HexString.h"
-#import <DropboxSDK/DropboxSDK.h>
-
-#import "PersistentModelStore.h"
-#import "MObj.h"
-#import "MIdentity.h"
-#import "Three20/Three20.h"
-#import "MusubiStyleSheet.h"
-#import "Util/MusubiShareKitConfigurator.h"
-#import "SHKConfiguration.h"
-#import "SHKFacebook.h"
-#import "SHK.h"
 
 @implementation AppDelegate
 
-@synthesize window = _window, facebookLoginOperation, navController, corralHTTPServer;
+@synthesize window = _window, navController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
-    //[TestFlight takeOff:@"xxx"];
-    
-    NSDate* showUIDate = [NSDate dateWithTimeIntervalSinceNow:1];
-        
-    DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"" appSecret:@"" root:kDBRootAppFolder];
-    [DBSession setSharedSession:dbSession];
-    
-    [Musubi sharedInstance];
-    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
-    
-    [TTStyleSheet setGlobalStyleSheet:[[MusubiStyleSheet alloc] init]];
-    
-    // Pause on the loading screen for a bit, for awesomeness display reasons
-    [NSThread sleepUntilDate:showUIDate];
-
-    MusubiShareKitConfigurator *configurator = [[MusubiShareKitConfigurator alloc] init];
-    [SHKConfiguration sharedInstanceWithConfigurator:configurator];
-    [SHK flushOfflineQueue];
-
+    [[Musubi sharedInstance] onAppLaunch];
     return YES;
 }
 
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"received remote notification while running %@", userInfo);
-
-    if( [userInfo objectForKey:@"local"] != NULL &&
-       [userInfo objectForKey:@"amqp"] != NULL)
-    {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 6 * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
-            //TODO: good and racy
-            NSNumber* amqp = (NSNumber*)[userInfo objectForKey:@"amqp"]; 
-            int local = [APNPushManager tallyLocalUnread]; 
-            [application setApplicationIconBadgeNumber:(amqp.intValue + local) ];
-        });
-    }    
+    [[Musubi sharedInstance] onRemoteNotification: userInfo];
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {     
@@ -95,28 +51,12 @@ xxx#import "Musubi.h"
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // launch the corral service
-    self.corralHTTPServer = [[CorralHTTPServer alloc] init];
-    NSError* corralError;
-    if ([self.corralHTTPServer start:&corralError]) {
-        NSLog(@"Corral server running on port %hu", [self.corralHTTPServer listeningPort]);
-    } else {
-        NSLog(@"Error starting corral server: %@", corralError);
-    }
+    [[Musubi sharedInstance] onAppDidBecomeActive];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    [APNPushManager resetLocalUnreadInBackgroundTask:NO];
-
-    // Shutdown corral http server
-    [self.corralHTTPServer stop];
-    self.corralHTTPServer = nil;
-
-    /*
-     Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-     Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-     */
+    [[Musubi sharedInstance] onAppWillResignActive];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -155,27 +95,7 @@ xxx#import "Musubi.h"
 // For iOS 4.2+ support
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    
-    NSString* facebookPrefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
-    if ([url.scheme hasPrefix:facebookPrefix]) {
-        BOOL shk, fb;
-        shk = [SHKFacebook handleOpenURL:url];
-        fb = [facebookLoginOperation handleOpenURL:url];
-        
-        return shk && fb;
-    }
-    
-    if ([[DBSession sharedSession] handleOpenURL:url]) {
-        return YES;
-    }
-
-    NSString* musubiPrefix = @"musubi";
-    if ([url.scheme hasPrefix:musubiPrefix]) {
-        if ([EmailAuthManager handleOpenURL: url])
-            return YES;
-    }
-    
-    return NO;
+    return [[Musubi sharedInstance] handleURL:url fromSourceApplication:sourceApplication];
 }
 
 @end

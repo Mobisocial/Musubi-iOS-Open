@@ -162,7 +162,7 @@
     
 //    if (![facebook isSessionValid]) {
         // App delegate is the one who gets called back after login, needs a reference here
-        [((AppDelegate*) [[UIApplication sharedApplication] delegate]) setFacebookLoginOperation: self];
+        [Musubi sharedInstance].facebookLoginOperation = self;
 
         NSArray *permissions = [[NSArray alloc] initWithObjects:
                                  @"read_friendlists", 
@@ -181,7 +181,7 @@
 
 - (BOOL)handleOpenURL:(NSURL *)url {
     // Remove the reference
-    [((AppDelegate*) [[UIApplication sharedApplication] delegate]) setFacebookLoginOperation: nil];
+    [Musubi sharedInstance].facebookLoginOperation = nil;
     return [facebookMgr.facebook handleOpenURL:url];
 }
 

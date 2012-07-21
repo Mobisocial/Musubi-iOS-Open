@@ -57,11 +57,18 @@
 #import "IntroductionObj.h"
 #import "Authorities.h"
 
+#import "FacebookAuth.h"
+
+#import "CorralHTTPServer.h"
+#import "APNPushManager.h"
+#import <DropboxSDK/DropboxSDK.h>
+
 @implementation Musubi
 
 static Musubi* _sharedInstance = nil;
 
 @synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, facebookIdentityUpdater, googleIdentityUpdater, addressBookIdentityUpdater;
+@synthesize facebookLoginOperation, corralHTTPServer;
 
 +(Musubi*)sharedInstance
 {
@@ -171,6 +178,73 @@ static Musubi* _sharedInstance = nil;
 
 - (PersistentModelStore *) newStore {
     return [storeFactory newStore];
+}
+
+- (void) onAppLaunch {
+    NSDate* showUIDate = [NSDate dateWithTimeIntervalSinceNow:1];
+    
+    DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"" appSecret:@"" root:kDBRootAppFolder];
+    [DBSession setSharedSession:dbSession];
+    
+    [Musubi sharedInstance];
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+    
+    
+    // Pause on the loading screen for a bit, for awesomeness display reasons
+    [NSThread sleepUntilDate:showUIDate];
+}
+
+- (void)onRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"received remote notification while running %@", userInfo);
+    
+    if( [userInfo objectForKey:@"local"] != NULL &&
+       [userInfo objectForKey:@"amqp"] != NULL)
+    {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 6 * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
+            //TODO: good and racy
+            NSNumber* amqp = (NSNumber*)[userInfo objectForKey:@"amqp"]; 
+            int local = [APNPushManager tallyLocalUnread]; 
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:(amqp.intValue + local) ];
+        });
+    }    
+}
+
+- (void)onAppDidBecomeActive {
+    // launch the corral service
+    self.corralHTTPServer = [[CorralHTTPServer alloc] init];
+    NSError* corralError;
+    if ([self.corralHTTPServer start:&corralError]) {
+        NSLog(@"Corral server running on port %hu", [self.corralHTTPServer listeningPort]);
+    } else {
+        NSLog(@"Error starting corral server: %@", corralError);
+    }
+}
+
+- (void)onAppWillResignActive {
+    [APNPushManager resetLocalUnreadInBackgroundTask:NO];
+    
+    // Shutdown corral http server
+    [self.corralHTTPServer stop];
+    self.corralHTTPServer = nil;
+}
+
+- (BOOL) handleURL: (NSURL*) url fromSourceApplication: (NSString*) sourceApplication {
+    NSString* facebookPrefix = [NSString stringWithFormat:@"fb"];
+    if ([url.scheme hasPrefix:facebookPrefix]) {
+        return [facebookLoginOperation handleOpenURL:url];
+    }
+    
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        return YES;
+    }
+    
+    NSString* musubiPrefix = @"musubi";
+    if ([url.scheme hasPrefix:musubiPrefix]) {
+        if ([EmailAuthManager handleOpenURL: url])
+            return YES;
+    }
+
+    return NO;
 }
 
 

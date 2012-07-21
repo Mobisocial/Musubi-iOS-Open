@@ -31,7 +31,6 @@
 #import "Authorities.h"
 #import "FeedManager.h"
 #import "PersistentModelStore.h"
-#import "FeedListItem.h"
 #import "NSData+Base64.h"
 #import "JoinRequestObj.h"
 #import "ObjHelper.h"

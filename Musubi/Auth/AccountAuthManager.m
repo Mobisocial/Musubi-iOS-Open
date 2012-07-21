@@ -154,6 +154,9 @@
 - (void)onAccount:(NSString *)type isValid:(BOOL)valid {
     if (delegate != nil)
         [[((NSObject*)delegate) invokeOnMainThread] accountWithType:type isConnected:valid];
+    
+    
+    [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAuthAccountValid object:type]];
 }
 
 - (void) populateIdentity: (MIdentity*) mIdent fromIBEIdentity: (IBEncryptionIdentity*) ibeId andOriginal: (MIdentity*) original withManager: (IdentityManager*) identityManager andAccountName: (NSString*) accountName {

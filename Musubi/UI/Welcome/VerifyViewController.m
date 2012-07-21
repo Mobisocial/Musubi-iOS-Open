@@ -32,6 +32,30 @@
 @synthesize emailAuth = _emailAuth;
 @synthesize verifySpinner = _verifySpinner;
 
+
+/*
+ + (VerifyViewController*) ensureView {
+ UINavigationController* navController = (UINavigationController*)[[[UIApplication sharedApplication] keyWindow] rootViewController];
+ 
+ VerifyViewController* verifyVC = nil;
+ if ([navController.topViewController isKindOfClass:VerifyViewController.class]) {
+ verifyVC = (VerifyViewController*)navController.topViewController;
+ } else {
+ verifyVC = [[UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil] instantiateViewControllerWithIdentifier:@"VerifyEmail"];
+ [navController pushViewController:verifyVC animated:NO];
+ }
+ 
+ return verifyVC;
+ }
+ 
+ + (void) dismissView {
+ UINavigationController* navController = (UINavigationController*)[[[UIApplication sharedApplication] keyWindow] rootViewController];
+ 
+ if ([navController.topViewController isKindOfClass:VerifyViewController.class]) {
+ [navController popViewControllerAnimated:YES];
+ }
+ }*/
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
