@@ -391,6 +391,7 @@
 				BEF31F370F352DF5000DE5D2 /* Sources */,
 				668E6653131ADFFD00ACE4AB /* Lint */,
 				BEF31F380F352DF5000DE5D2 /* Frameworks */,
+				D273216815BB694A00A7543A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -613,6 +614,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh ../scripts/Protect.command";
 			shellScript = "";
+		};
+		D273216815BB694A00A7543A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Built Three20 in $BUILT_PRODUCTS_DIR\"";
 		};
 		EB9E6C6010B6A8F800DE563C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

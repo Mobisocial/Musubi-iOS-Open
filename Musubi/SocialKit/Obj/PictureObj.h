@@ -23,6 +23,8 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#include <UIKit/UIKit.h>
+
 #import "Obj.h"
 
 #define kObjTypePicture @"picture"
