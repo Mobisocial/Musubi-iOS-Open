@@ -37,7 +37,6 @@ xxx#import "FacebookAuth.h"
 #import "SHKFacebook.h"
 #import "SHK.h"
 
-    
 @implementation AppDelegate
 
 @synthesize window = _window, navController;
@@ -131,13 +130,13 @@ xxx#import "FacebookAuth.h"
     if ([[DBSession sharedSession] handleOpenURL:url]) {
         return YES;
     }
-    
+
     if ([url.scheme hasPrefix:kMusubiUriScheme]) {
         if ([url.path hasPrefix:@"/intro/"]) {
             return YES;
         }
     }
-    
+
     return [[Musubi sharedInstance] handleURL:url fromSourceApplication:sourceApplication];
 }
 
