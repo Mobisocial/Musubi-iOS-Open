@@ -192,29 +192,26 @@
         }
     }*/
     
-    NSString* email = @""; // google logged in user email
-    assert (email != nil);
-        
-    MAccount* account = [am accountWithName: email andType: kAccountTypeGoogle];
-    if (account == nil) {
-        NSLog(@"Skipping google import because we havent connected yet");
-        return;
-    }
-    
-    if (account.feed == nil) {
-        MFeed* feed = [fm create];
-        [feed setAccepted: NO];
-        [feed setType: kFeedTypeAsymmetric];
-        [feed setName: kFeedNameLocalWhitelist];
-        
-        //[_store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:nil];
-        [_store save];
+    NSString* email = _authManager.activeAuth.userEmail;
 
-        account.feed = feed;
-    }
+    assert (email != nil);
+    MAccount* account = [am accountWithName:email andType:kAccountTypeGoogle];
     
-    [fm attachMembers:identities toFeed:account.feed];    
-    
+        if (account.feed == nil) {
+            MFeed* feed = [fm create];
+            [feed setAccepted: NO];
+            [feed setType: kFeedTypeAsymmetric];
+            [feed setName: kFeedNameLocalWhitelist];
+            
+            //[_store.context obtainPermanentIDsForObjects:[NSArray arrayWithObject:feed] error:nil];
+            [_store save];
+            
+            account.feed = feed;
+        }
+        
+        [fm attachMembers:identities toFeed:account.feed];    
+        
+
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSDate date] forKey:kMusubiSettingsGoogleLastIdentityFetch];
     [defaults synchronize];

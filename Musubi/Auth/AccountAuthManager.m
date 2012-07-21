@@ -86,6 +86,8 @@
 }
 
 - (void) checkStatus:(NSString *)type withPrincipal:(NSString*)principal {
+    assert(delegate != nil);
+    
     // First see if there is an account for the network.
     if (![self isConnected: type]) {
         [self onAccount:type isValid:NO];
@@ -150,7 +152,8 @@
 }
 
 - (void)onAccount:(NSString *)type isValid:(BOOL)valid {
-    [[((NSObject*)delegate) invokeOnMainThread] accountWithType:type isConnected:valid];
+    if (delegate != nil)
+        [[((NSObject*)delegate) invokeOnMainThread] accountWithType:type isConnected:valid];
 }
 
 - (void) populateIdentity: (MIdentity*) mIdent fromIBEIdentity: (IBEncryptionIdentity*) ibeId andOriginal: (MIdentity*) original withManager: (IdentityManager*) identityManager andAccountName: (NSString*) accountName {

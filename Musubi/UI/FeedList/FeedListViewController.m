@@ -34,8 +34,10 @@
 #import "NearbyViewController.h"
 
 #import "FeedViewController.h"
+#import "FirstIdentityViewController.h"
 
 #import "AppManager.h"
+#import "IdentityManager.h"
 #import "MApp.h"
 #import "FeedManager.h"
 #import "MFeed.h"
@@ -45,6 +47,7 @@
 #import "AccountManager.h"
 #import "MIdentity.h"
 #import <MessageUI/MFMailComposeViewController.h>
+#import "MusubiStyleSheet.h"
 
 @implementation FeedListViewController {
     NSDate* nextRedraw;
@@ -53,7 +56,8 @@
     NSDate* lastPendingRedraw;
 }
 
-@synthesize initialView = _initialView, unclaimed = _unclaimed, ownedId = _ownedId;
+@synthesize unclaimed = _unclaimed, ownedId = _ownedId;
+@synthesize noFeedsView = _noFeedsView;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -102,101 +106,72 @@
     // Color
     self.navigationController.navigationBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
     
-    AccountManager* accMgr = [[AccountManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-    
+    AccountManager* accMgr = [[AccountManager alloc] initWithStore:[Musubi sharedInstance].mainStore];    
     if ([accMgr claimedAccounts].count == 0) {
         [self performSegueWithIdentifier:@"Welcome" sender:self];
-    }    
-    
-    [self displayNoFeedViewIfNeeded];
-}
-
-- (void) displayNoFeedViewIfNeeded {
-    if (((FeedListDataSource*)self.dataSource).items.count == 0) {
-        if (self.initialView == nil) {
-            self.tableView.hidden = YES;
-            self.view.backgroundColor = [UIColor clearColor];
-
-            noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
-            self.initialView = noFeedsView;
-            noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
-            
-            [self.view addSubview:noFeedsView];
-            UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
-            cloud.frame = CGRectMake(50, 30, 220, 150);
-            cloud.contentMode = UIViewContentModeScaleAspectFit;
-            [noFeedsView addSubview:cloud];
-            
-            UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 200, 220, 30)];
-            headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
-            headerLabel.textAlignment = UITextAlignmentCenter;
-            headerLabel.text = @"No conversations yet :(";
-            headerLabel.backgroundColor = [UIColor clearColor];
-            [noFeedsView addSubview:headerLabel];
-            
-            UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(50, 250, 220, 60)];
-            infoLabel.font = [UIFont systemFontOfSize: 14];
-            infoLabel.textAlignment = UITextAlignmentCenter;
-            infoLabel.text = @"Let's pick a few friends to start a chat with!";
-            infoLabel.backgroundColor = [UIColor clearColor];
-            infoLabel.editable = NO;
-            infoLabel.userInteractionEnabled = NO;
-            [infoLabel sizeToFit];
-            [noFeedsView addSubview:infoLabel];
-            
-            TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
-            [startButton setStyle:[self startButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
-            [startButton setStyle:[self startButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
-            [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
-            [noFeedsView addSubview:startButton];
-            
-            [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
-        }
     } else {
-        if (self.initialView != nil) {
-            [self.initialView removeFromSuperview];
-            self.tableView.hidden = NO;
-            self.initialView = nil;
+        IdentityManager* idMgr = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];    
+        BOOL hasIdentWithName = NO;
+        for (MIdentity* ident in idMgr.ownedIdentities) {
+            if (ident.musubiName) {
+                hasIdentWithName = YES;
+                break;
+            }
+        }
+        
+        if (!hasIdentWithName) {
+            [self performSegueWithIdentifier:@"FirstIdentity" sender:self];
+        } else if (((FeedListDataSource*)self.dataSource).items.count == 0) {
+            self.noFeedsView.hidden = NO;
+        } else {
+            _noFeedsView.hidden = YES;
         }
     }
-
 }
-
-- (TTStyle*)startButtonStyle:(UIControlState)state {
-    UIFont* font = [UIFont boldSystemFontOfSize:14];
-    
-    if (state == UIControlStateNormal) {
-        return
-        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:8] next:
-         [TTInsetStyle styleWithInset:UIEdgeInsetsMake(0, 0, 1, 0) next:
-          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0) blur:1 offset:CGSizeMake(0, 1) next:
-           [TTLinearGradientFillStyle styleWithColor1:RGBCOLOR(255, 255, 255)
-                                               color2:RGBCOLOR(216, 221, 231) next:
-            [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
-             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
-              [TTTextStyle styleWithFont:font color:TTSTYLEVAR(linkTextColor)
-                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
-                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]]]];
-    } else if (state == UIControlStateHighlighted) {
-        return
-        [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:8] next:
-         [TTInsetStyle styleWithInset:UIEdgeInsetsMake(0, 0, 1, 0) next:
-          [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0.9) blur:1 offset:CGSizeMake(0, 1) next:
-           [TTLinearGradientFillStyle styleWithColor1:RGBCOLOR(225, 225, 225)
-                                               color2:RGBCOLOR(196, 201, 221) next:
-            [TTSolidBorderStyle styleWithColor:RGBCOLOR(161, 167, 178) width:1 next:
-             [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(10, 12, 9, 12) next:
-              [TTTextStyle styleWithFont:font color:[UIColor whiteColor]
-                             shadowColor:[UIColor colorWithWhite:255 alpha:0.4]
-                            shadowOffset:CGSizeMake(0, -1) next:nil]]]]]]];
-    } else {
-        return nil;
-    }
-}
-
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+}
+
+- (UIView*) noFeedsView {
+    if (!_noFeedsView) {
+        _noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+        _noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
+        
+/*        UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
+        cloud.frame = CGRectMake(50, 30, 220, 150);
+        cloud.contentMode = UIViewContentModeScaleAspectFit;
+        [_noFeedsView addSubview:cloud];*/
+        
+        UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 120, 220, 30)];
+        headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
+        headerLabel.textAlignment = UITextAlignmentCenter;
+        headerLabel.text = @"No conversations yet :(";
+        headerLabel.backgroundColor = [UIColor clearColor];
+        [_noFeedsView addSubview:headerLabel];
+        
+        UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(50, 170, 220, 60)];
+        infoLabel.font = [UIFont systemFontOfSize: 14];
+        infoLabel.textAlignment = UITextAlignmentCenter;
+        infoLabel.text = @"Let's pick a few friends to start a chat with!";
+        infoLabel.backgroundColor = [UIColor clearColor];
+        infoLabel.editable = NO;
+        infoLabel.userInteractionEnabled = NO;
+        [infoLabel sizeToFit];
+        [_noFeedsView addSubview:infoLabel];
+        
+        TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
+        [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
+        [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+        [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
+        [_noFeedsView addSubview:startButton];
+        
+        [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.view addSubview:_noFeedsView];
+    }
+    
+    return _noFeedsView;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -305,17 +280,6 @@
         
     }
     
-    /*if (newText.length > 0) {
-        incomingLabel.hidden = NO;
-        [incomingLabel setText: [NSString stringWithFormat:@"  %@", newText]];
-        if (incomingLabel.superview == self.view) {
-            [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
-        } else {
-            [incomingLabel setFrame:CGRectMake(0, 0, 320, 30)];
-        }
-    } else {
-        incomingLabel.hidden = YES;
-    }*/
     incomingLabel.hidden = YES;
 }
 
@@ -332,7 +296,15 @@
     } else if ([[segue identifier] isEqualToString:@"CreateNewFeed"]) {
         FriendPickerViewController *vc = [segue destinationViewController];
         [vc setDelegate:self];
-    } 
+    } else if ([[segue identifier] isEqualToString:@"FirstIdentity"]) {
+        FirstIdentityViewController *vc = [segue destinationViewController];
+        [vc setDelegate:self];
+    }
+}
+
+- (void)identityCreated {
+    [self.navigationController popViewControllerAnimated:NO];
+    [self showFriendPicker];
 }
 
 - (void)newConversation:(id)sender

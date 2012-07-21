@@ -132,6 +132,10 @@
         return;
     }    
     
+    // don't block
+            [self.navigationController popViewControllerAnimated:YES];
+    /*
+    
     BOOL importDone = NO;
     
     if ([notification.object objectForKey:@"index"]) {
@@ -151,7 +155,7 @@
     
     if (importDone) {
         [self.navigationController popViewControllerAnimated:YES];
-    }
+    }*/
 }
 
 #pragma mark - UITextField delegate

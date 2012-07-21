@@ -104,6 +104,7 @@
 		D228E5C2159296E1002E15E6 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D228E5C1159296E1002E15E6 /* background.jpg */; };
 		D22B69E015B9115B00429023 /* AddressBookIdentityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D22B69DF15B9115B00429023 /* AddressBookIdentityManager.m */; };
 		D22B69E215B9174F00429023 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22B69E115B9174F00429023 /* AddressBook.framework */; };
+		D22B69E515B9CDB400429023 /* FirstIdentityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D22B69E415B9CDB400429023 /* FirstIdentityViewController.m */; };
 		D2313BDE1519319100BB0526 /* AMQPSenderService.m in Sources */ = {isa = PBXBuildFile; fileRef = D2313BDD1519319000BB0526 /* AMQPSenderService.m */; };
 		D23F12A11586ACE600BA0602 /* AMQPUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D23F12A01586ACE600BA0602 /* AMQPUtil.m */; };
 		D23F12A41586BA9600BA0602 /* ObjectPipelineService.m in Sources */ = {isa = PBXBuildFile; fileRef = D23F12A31586BA9500BA0602 /* ObjectPipelineService.m */; };
@@ -651,6 +652,8 @@
 		D22B69DE15B9115B00429023 /* AddressBookIdentityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddressBookIdentityManager.h; path = Identity/AddressBookIdentityManager.h; sourceTree = "<group>"; };
 		D22B69DF15B9115B00429023 /* AddressBookIdentityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddressBookIdentityManager.m; path = Identity/AddressBookIdentityManager.m; sourceTree = "<group>"; };
 		D22B69E115B9174F00429023 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		D22B69E315B9CDB400429023 /* FirstIdentityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirstIdentityViewController.h; path = Welcome/FirstIdentityViewController.h; sourceTree = "<group>"; };
+		D22B69E415B9CDB400429023 /* FirstIdentityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirstIdentityViewController.m; path = Welcome/FirstIdentityViewController.m; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSenderService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSenderService.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSenderService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSenderService.m; sourceTree = "<group>"; };
 		D23F129F1586ACE600BA0602 /* AMQPUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPUtil.h; sourceTree = "<group>"; };
@@ -3133,6 +3136,8 @@
 				D2EBDAFF1591574A006436EA /* WelcomeViewController.m */,
 				D29EF97015AB908500CF4901 /* VerifyViewController.h */,
 				D29EF97115AB908500CF4901 /* VerifyViewController.m */,
+				D22B69E315B9CDB400429023 /* FirstIdentityViewController.h */,
+				D22B69E415B9CDB400429023 /* FirstIdentityViewController.m */,
 			);
 			name = Welcome;
 			sourceTree = "<group>";
@@ -3904,6 +3909,7 @@
 				D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */,
 				D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */,
 				D22B69E015B9115B00429023 /* AddressBookIdentityManager.m in Sources */,
+				D22B69E515B9CDB400429023 /* FirstIdentityViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,20 +26,21 @@
 #import "Three20/Three20.h"
 #import "FriendPickerViewController.h"
 #import "FeedViewController.h"
+#import "FirstIdentityViewController.h"
 
 @interface FeedListViewControllerDelegate : TTTableViewVarHeightDelegate
 
 @end
 
-@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate, UIActionSheetDelegate> {
+@interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate, UIActionSheetDelegate, FirstIdentityViewControllerDelegate> {
     UILabel* incomingLabel;
-    UIView* noFeedsView;
 }
 
-@property (nonatomic, strong) UIView* initialView;
 @property (nonatomic, strong) NSMutableArray* unclaimed;
 @property (nonatomic, strong) MIdentity* ownedId;
+@property (nonatomic, readonly) UIView* noFeedsView;
 
 - (IBAction)newConversation:(id)sender;
+- (void) showFriendPicker;
 
 @end

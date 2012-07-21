@@ -16,19 +16,30 @@
 
 
 //
-//  MusubiStyleSheet.h
+//  FirstIdentityViewController.h
 //  musubi
 //
-//  Created by Willem Bult on 6/20/12.
+//  Created by Willem Bult on 7/20/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Three20/Three20.h"
+#import <UIKit/UIKit.h>
 
-@interface MusubiStyleSheet : TTDefaultStyleSheet
-+ (TTStyle*) embossedButton:(UIControlState)state;
-+ (TTStyle*) transparentRoundedButton:(UIControlState)state;
-+ (TTStyle*) textViewBorder;
-+ (TTStyle*) bottomPanelStyle;
-+ (TTStyle*) roundedButtonStyle:(UIControlState)state;
+@class FeedListViewController;
+
+
+@protocol FirstIdentityViewControllerDelegate <NSObject>
+
+- (void) identityCreated;
+
+@end
+
+@interface FirstIdentityViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITextFieldDelegate> {
+    UIScrollView* _scroll;
+    UIButton* _thumbnailButton;
+    UITextField* _nameField;
+}
+
+@property (nonatomic) id<FirstIdentityViewControllerDelegate> delegate;
+
 @end
