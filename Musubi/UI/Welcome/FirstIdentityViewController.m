@@ -87,6 +87,7 @@
         [idMgr updateIdentity:ident];
     }
     
+    [self.navigationController popViewControllerAnimated:NO];
     [_delegate identityCreated];
 }
 

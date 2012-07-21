@@ -44,7 +44,7 @@
 }
 
 @property (nonatomic,retain) id<FriendPickerViewControllerDelegate> delegate;
-@property (nonatomic,readonly) TTPickerTextField* pickerTextField;
+@property (nonatomic,retain) TTPickerTextField* pickerTextField;
 @property (nonatomic,retain) NSMutableArray* pinnedIdentities;
 
 @end

@@ -27,20 +27,61 @@
                         <segue destination="s4b-rn-gXZ" kind="push" identifier="ShowFeed" id="nHK-F1-yOs"/>
                         <segue destination="7m1-lg-Ljz" kind="push" identifier="Nearby" id="3bB-Kg-VcR"/>
                         <segue destination="Xha-HF-lG4" kind="push" identifier="FriendPicker" id="Ul8-LG-a2e"/>
-                        <segue destination="scf-k1-rT0" kind="push" identifier="Welcome" id="Xf4-cU-I0J"/>
-                        <segue destination="bVf-0I-KRX" kind="push" identifier="FirstIdentity" id="Gt7-mU-n6U"/>
+                        <segue destination="scf-k1-rT0" kind="custom" identifier="Welcome" customClass="NonAnimatedSegue" id="Xf4-cU-I0J"/>
+                        <segue destination="bVf-0I-KRX" kind="custom" identifier="FirstIdentity" customClass="NonAnimatedSegue" id="Gt7-mU-n6U"/>
+                        <segue destination="Fre-5U-bQe" kind="custom" identifier="eula" customClass="NonAnimatedSegue" id="96l-pb-wvu"/>
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1059" y="-659"/>
+            <point key="canvasLocation" x="1107" y="-659"/>
+        </scene>
+        <!--Eula View Controller - EULA-->
+        <scene sceneID="5Zn-qz-GmL">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dWm-qG-q9o" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="Eula" title="EULA" id="Fre-5U-bQe" customClass="EulaViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EHj-B6-kkN">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Loading..." id="M8F-Pp-C3Y">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="aoT-kI-zH8">
+                                <rect key="frame" x="0.0" y="416" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="VD7-Uy-ZBX"/>
+                                    <barButtonItem title="Decline" id="qJU-zx-ais"/>
+                                    <barButtonItem title="Accept" id="EW5-9w-W8c"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="nnL-g9-Hki"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Eula" id="boG-cH-KJy"/>
+                    <connections>
+                        <outlet property="acceptButton" destination="EW5-9w-W8c" id="56e-WT-kcD"/>
+                        <outlet property="bottomBar" destination="aoT-kI-zH8" id="41v-C7-OqK"/>
+                        <outlet property="declineButton" destination="qJU-zx-ais" id="rs8-Rt-JPE"/>
+                        <outlet property="eulaText" destination="M8F-Pp-C3Y" id="hiG-Zr-LOA"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="22" y="-1353"/>
         </scene>
         <!--Welcome View Controller - Welcome-->
         <scene sceneID="cnw-GT-ZJG">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gEW-m3-Cu0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController title="Welcome" id="scf-k1-rT0" customClass="WelcomeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Welcome" title="Welcome" id="scf-k1-rT0" customClass="WelcomeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GSV-i6-uhf">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ljX-S6-3Gg">
@@ -129,7 +170,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="489" y="-1353"/>
+            <point key="canvasLocation" x="501" y="-1359"/>
         </scene>
         <!--Verify View Controller - Verifying-->
         <scene sceneID="QHs-uM-7sO">
@@ -218,9 +259,9 @@
         <scene sceneID="eEn-QP-xnb">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NSr-T1-pjS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="bVf-0I-KRX" customClass="FirstIdentityViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FirstIdentity" id="bVf-0I-KRX" customClass="FirstIdentityViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lax-cf-K0N">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -750,6 +791,15 @@
                 <relationship kind="outlet" name="statusField" candidateClass="StatusTextView"/>
             </relationships>
         </class>
+        <class className="EulaViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EulaViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="acceptButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="bottomBar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="declineButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="eulaText" candidateClass="UITextView"/>
+            </relationships>
+        </class>
         <class className="FeedListViewController" superclassName="TTTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FeedListViewController.h"/>
             <relationships>
@@ -782,7 +832,7 @@
                 <relationship kind="outlet" name="statusField" candidateClass="StatusTextView"/>
             </relationships>
         </class>
-        <class className="FirstIdentityViewController" superclassName="ViewController">
+        <class className="FirstIdentityViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FirstIdentityViewController.h"/>
         </class>
         <class className="FriendPickerViewController" superclassName="TTTableViewController">

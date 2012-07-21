@@ -230,6 +230,9 @@
 		D410BA5215734DEC00951D94 /* HtmlObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D410BA5115734DEB00951D94 /* HtmlObjItemCell.m */; };
 		D437B091159A639A00A4E625 /* FeedPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = D437B090159A639A00A4E625 /* FeedPhoto.m */; };
 		D437B094159A667100A4E625 /* FeedPhotoSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D437B093159A667100A4E625 /* FeedPhotoSource.m */; };
+		D439D1F315B9CA88006CEB24 /* EulaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D439D1F215B9CA88006CEB24 /* EulaViewController.m */; };
+		D439D1F515B9D0E3006CEB24 /* privacypolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = D439D1F415B9D0E3006CEB24 /* privacypolicy.txt */; };
+		D439D1F715B9D0F1006CEB24 /* eula.txt in Resources */ = {isa = PBXBuildFile; fileRef = D439D1F615B9D0F1006CEB24 /* eula.txt */; };
 		D44606A2159E6628000A711C /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44606A1159E6628000A711C /* Twitter.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D44606A5159E6866000A711C /* MusubiShareKitConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = D44606A4159E6866000A711C /* MusubiShareKitConfigurator.m */; };
 		D44D41CD15A2176C000BAC41 /* libShareKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D44D41C415A2171B000BAC41 /* libShareKit.a */; };
@@ -1206,6 +1209,10 @@
 		D437B090159A639A00A4E625 /* FeedPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedPhoto.m; sourceTree = "<group>"; };
 		D437B092159A667100A4E625 /* FeedPhotoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedPhotoSource.h; sourceTree = "<group>"; };
 		D437B093159A667100A4E625 /* FeedPhotoSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedPhotoSource.m; sourceTree = "<group>"; };
+		D439D1F115B9CA88006CEB24 /* EulaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EulaViewController.h; path = Welcome/EulaViewController.h; sourceTree = "<group>"; };
+		D439D1F215B9CA88006CEB24 /* EulaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EulaViewController.m; path = Welcome/EulaViewController.m; sourceTree = "<group>"; };
+		D439D1F415B9D0E3006CEB24 /* privacypolicy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacypolicy.txt; sourceTree = "<group>"; };
+		D439D1F615B9D0F1006CEB24 /* eula.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = eula.txt; sourceTree = "<group>"; };
 		D446069F159E6610000A711C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D44606A1159E6628000A711C /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		D44606A3159E6866000A711C /* MusubiShareKitConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusubiShareKitConfigurator.h; sourceTree = "<group>"; };
@@ -1692,6 +1699,8 @@
 		D26028D91566EEBE00CF6500 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				D439D1F615B9D0F1006CEB24 /* eula.txt */,
+				D439D1F415B9D0E3006CEB24 /* privacypolicy.txt */,
 				F74F95EB15B4B48200E75D7D /* facebook_signin.png */,
 				F74F95EC15B4B48200E75D7D /* facebook_signin@2x.png */,
 				F74F95ED15B4B48200E75D7D /* google_signin.png */,
@@ -3138,6 +3147,8 @@
 				D29EF97115AB908500CF4901 /* VerifyViewController.m */,
 				D22B69E315B9CDB400429023 /* FirstIdentityViewController.h */,
 				D22B69E415B9CDB400429023 /* FirstIdentityViewController.m */,
+				D439D1F115B9CA88006CEB24 /* EulaViewController.h */,
+				D439D1F215B9CA88006CEB24 /* EulaViewController.m */,
 			);
 			name = Welcome;
 			sourceTree = "<group>";
@@ -3658,6 +3669,8 @@
 				F74F95F115B4B48300E75D7D /* google_signin.png in Resources */,
 				F74F95F215B4B48300E75D7D /* google_signin@2x.png in Resources */,
 				D2EF51C415B63D7E00A8EA49 /* AviarySDKResources.bundle in Resources */,
+				D439D1F515B9D0E3006CEB24 /* privacypolicy.txt in Resources */,
+				D439D1F715B9D0F1006CEB24 /* eula.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3910,6 +3923,7 @@
 				D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */,
 				D22B69E015B9115B00429023 /* AddressBookIdentityManager.m in Sources */,
 				D22B69E515B9CDB400429023 /* FirstIdentityViewController.m in Sources */,
+				D439D1F315B9CA88006CEB24 /* EulaViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

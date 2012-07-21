@@ -58,7 +58,13 @@
         
         text = [LocationObjItemCell textForItem:(ManagedObjFeedItem*)object];
         sender = object.sender;
-        self.detailTextLabel.text = [NSString stringWithFormat: @"I just checked in to: %@", text];
+        if(text.length == 0) {
+            self.detailTextLabel.text = [NSString stringWithFormat: @"I just checked in somewhere."];
+        }
+        else {
+            self.detailTextLabel.text = [NSString stringWithFormat: @"I just checked in to: %@", text];
+        }
+        
     }
 }
 
@@ -95,11 +101,16 @@
     return 200;
 }
 
-+ (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
-    /*return [LocationObjItemCell mapHeight] + [LocationObjItemCell textHeightForItem:item] + kTableCellSmallMargin;*/
-    CGSize size = [[LocationObjItemCell textForItem: (ManagedObjFeedItem*)item] sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
++ (CGFloat)renderHeightForItem:(FeedItem *)item {
     
-    return size.height; 
+    NSString* text = [LocationObjItemCell textForItem:(ManagedObjFeedItem*)item];
+    
+    if(text.length == 0) {
+        text = @" ";
+    }
+    
+    CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(244, 1024) lineBreakMode:UILineBreakModeWordWrap];
+    return size.height;
 }
 
 - (void)layoutSubviews {

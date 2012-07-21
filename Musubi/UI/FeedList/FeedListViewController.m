@@ -48,6 +48,7 @@
 #import "MIdentity.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "MusubiStyleSheet.h"
+#import "EulaViewController.h"
 
 @implementation FeedListViewController {
     NSDate* nextRedraw;
@@ -107,7 +108,14 @@
     self.navigationController.navigationBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
     
     AccountManager* accMgr = [[AccountManager alloc] initWithStore:[Musubi sharedInstance].mainStore];    
-    if ([accMgr claimedAccounts].count == 0) {
+
+    // Require EULA
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber* eulaAccepted = (NSNumber*)[defaults objectForKey:kMusubiSettingsEulaAccepted];
+    if ([eulaAccepted intValue] < kEulaRequiredVersion) {
+        [self performSegueWithIdentifier:@"eula" sender:self];
+    } else if ([accMgr claimedAccounts].count == 0) {
+        // Require an account
         [self performSegueWithIdentifier:@"Welcome" sender:self];
     } else {
         IdentityManager* idMgr = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];    
@@ -120,6 +128,7 @@
         }
         
         if (!hasIdentWithName) {
+            // Require an identity
             [self performSegueWithIdentifier:@"FirstIdentity" sender:self];
         } else if (((FeedListDataSource*)self.dataSource).items.count == 0) {
             self.noFeedsView.hidden = NO;
@@ -303,7 +312,6 @@
 }
 
 - (void)identityCreated {
-    [self.navigationController popViewControllerAnimated:NO];
     [self showFriendPicker];
 }
 

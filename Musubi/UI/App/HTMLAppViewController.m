@@ -163,7 +163,7 @@
         if (result != nil) {
             SBJsonWriter* writer = [[SBJsonWriter alloc] init];
             NSError* err = nil;
-            json = [writer stringWithObject: result error:&err];
+            json = [writer stringWithObject: result];
             
             if (err != nil) {
                 NSLog(@"JSON Encoding error: %@", err);
