@@ -41,6 +41,8 @@ xxx#import "Musubi.h"
 #import "SHKFacebook.h"
 #import "SHK.h"
 
+#define kMusubiUriScheme @"musubi"
+
 @implementation AppDelegate
 
 @synthesize window = _window, facebookLoginOperation, navController, corralHTTPServer;
@@ -169,12 +171,12 @@ xxx#import "Musubi.h"
         return YES;
     }
 
-    NSString* musubiPrefix = @"musubi";
-    if ([url.scheme hasPrefix:musubiPrefix]) {
-        if ([EmailAuthManager handleOpenURL: url])
+    if ([url.scheme hasPrefix:kMusubiUriScheme]) {
+        if ([url.path hasPrefix:@"/intro/"]) {
             return YES;
+        }
     }
-    
+
     return NO;
 }
 
