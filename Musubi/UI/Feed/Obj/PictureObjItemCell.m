@@ -30,6 +30,9 @@
 #import "CorralHTTPServer.h"
 #import "AFPhotoEditorController.h"
 #import "PictureObj.h"
+#import "AppManager.h"
+#import "Musubi.h"
+#import "FeedViewController.h"
 
 #define kEditButtonHeight 40
 
@@ -150,14 +153,18 @@
 // and also "enhance again" button to confirmation screen.
 - (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
 {
+    ManagedObjFeedItem* parent = self.object;
+    PictureObj* obj = [[PictureObj alloc] initWithImage:image andText:@""];
+    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MApp* app = [am ensureSuperApp];
+
+    [FeedViewController sendObj:obj toFeed:parent.managedObj.feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
     [editor dismissModalViewControllerAnimated:YES];
-//    UIViewController* controller = self.contentView.window.rootViewController;
-//    [[controller modalViewController] dismissModalViewControllerAnimated:YES];
 }
 
 - (void)photoEditorCanceled:(AFPhotoEditorController *)editor
 {
-    [[editor modalViewController] dismissModalViewControllerAnimated:YES];
+    [editor dismissModalViewControllerAnimated:YES];
 }
 
 @end
