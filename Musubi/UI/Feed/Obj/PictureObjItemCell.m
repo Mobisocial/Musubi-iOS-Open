@@ -33,6 +33,7 @@
 #import "AppManager.h"
 #import "Musubi.h"
 #import "FeedViewController.h"
+#import "MusubiAnalytics.h"
 
 #define kEditButtonHeight 40
 
@@ -131,6 +132,16 @@
 }
 
 - (void) enhancePicture: (id)sender {
+    NSError* error;
+    if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryEditor
+                                         action:kAnalyticsActionEdit
+                                          label:kAnalyticsLabelEditFromFeed
+                                          value:-1
+                                      withError:&error]) {
+        // Handle error here
+    }
+
+
     ManagedObjFeedItem* item = self.object;
     NSURL    *aUrl  = [NSURL URLWithString:[CorralHTTPServer urlForRaw:item.managedObj]];
     

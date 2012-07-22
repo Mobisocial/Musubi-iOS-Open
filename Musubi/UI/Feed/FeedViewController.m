@@ -65,6 +65,7 @@
 #import "HTMLAppViewController.h"
 #import "FeedPhoto.h"
 #import "FeedPhotoViewController.h"
+#import "MusubiAnalytics.h"
 
 #import "IndexedTTTableView.h"
 
@@ -92,6 +93,11 @@
     [super viewDidLoad];
     self.tableView.allowsMultipleSelection = YES;
     [self createModel];
+
+    NSError *error;
+    if (![[GANTracker sharedTracker] trackPageview:kAnalyticsPageFeed withError:&error]) {
+        NSLog(@"error in trackPageview");
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -682,6 +688,11 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 }
 
 + (MObj*) sendObj:(Obj *)obj toFeed:(MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store {
+    NSError *error;
+    if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionSendObj label:obj.type value:nil withError:&error]) {
+        // error
+    }
+
     @try {
         MObj* res = [ObjHelper sendObj:obj toFeed:feed fromApp:app usingStore:store];
         return res;

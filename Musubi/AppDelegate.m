@@ -36,6 +36,10 @@ xxx#import "FacebookAuth.h"
 #import "SHKConfiguration.h"
 #import "SHKFacebook.h"
 #import "SHK.h"
+#import "MusubiAnalytics.h"
+
+#define kMusubiUriScheme @"musubi"
+static const NSInteger kGANDispatchPeriodSec = 60;
 
 @implementation AppDelegate
 
@@ -45,7 +49,14 @@ xxx#import "FacebookAuth.h"
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[Musubi sharedInstance] onAppLaunch];
-    
+
+    //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
+    //[TestFlight takeOff:@"xxx"];
+
+    [self prepareAnalytics];
+
+    NSDate* showUIDate = [NSDate dateWithTimeIntervalSinceNow:1];
+        
     DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"" appSecret:@"" root:kDBRootAppFolder];
     [DBSession setSharedSession:dbSession];
     
@@ -59,6 +70,24 @@ xxx#import "FacebookAuth.h"
     return YES;
 }
 
+- (void) prepareAnalytics {
+    [[GANTracker sharedTracker] startTrackerWithAccountID:@""
+                                           dispatchPeriod:kGANDispatchPeriodSec
+                                                 delegate:nil];
+    
+    NSError *error;
+    if (![[GANTracker sharedTracker] setCustomVariableAtIndex:1
+                                                         name:@"iPhone1"
+                                                        value:@"iv1"
+                                                    withError:&error]) {
+        // Handle error here
+    }
+
+    if (![[GANTracker sharedTracker] trackPageview:kAnalyticsPageAppEntryPoint
+                                         withError:&error]) {
+        // Handle error here
+    }
+}
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [[Musubi sharedInstance] onRemoteNotification: userInfo];

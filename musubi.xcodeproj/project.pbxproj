@@ -143,6 +143,10 @@
 		D4698A301575E6EF000749CF /* ManagedObjFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D4698A2F1575E6EE000749CF /* ManagedObjFeedItem.m */; };
 		D4698A331575FBBD000749CF /* IntroductionObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4698A321575FBBC000749CF /* IntroductionObjItemCell.m */; };
 		D4DB1349157C2DC000337A16 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4DB1348157C2DC000337A16 /* CFNetwork.framework */; };
+		D4DB1350157C332400337A16 /* CorralHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D4DB134F157C332400337A16 /* CorralHTTPConnection.m */; };
+		D4E42AB0156224EF00C21FDA /* DeleteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E42AAF156224EE00C21FDA /* DeleteObj.m */; };
+		D4E6A9F615BC82B9001B79A1 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4E6A9F515BC82B9001B79A1 /* libGoogleAnalytics.a */; };
+		D4F0C09215791DD700541F5C /* FileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09115791DD700541F5C /* FileObj.m */; };
 		D4F0C09515791EBE00541F5C /* VideoObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09415791EBE00541F5C /* VideoObj.m */; };
 		D4F0C0981579206100541F5C /* FileObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C0971579206100541F5C /* FileObjItemCell.m */; };
 		D4F0C09B157920BB00541F5C /* VideoObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09A157920BB00541F5C /* VideoObjItemCell.m */; };
@@ -518,6 +522,15 @@
 		D4698A311575FBBC000749CF /* IntroductionObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroductionObjItemCell.h; sourceTree = "<group>"; };
 		D4698A321575FBBC000749CF /* IntroductionObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroductionObjItemCell.m; sourceTree = "<group>"; };
 		D4DB1348157C2DC000337A16 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		D4DB134E157C332400337A16 /* CorralHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorralHTTPConnection.h; sourceTree = "<group>"; };
+		D4DB134F157C332400337A16 /* CorralHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorralHTTPConnection.m; sourceTree = "<group>"; };
+		D4E42AAE156224EE00C21FDA /* DeleteObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteObj.h; path = SocialKit/Obj/DeleteObj.h; sourceTree = "<group>"; };
+		D4E42AAF156224EE00C21FDA /* DeleteObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteObj.m; path = SocialKit/Obj/DeleteObj.m; sourceTree = "<group>"; };
+		D4E6A9F415BC82AA001B79A1 /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GANTracker.h; path = GoogleAnalytics/GANTracker.h; sourceTree = "<group>"; };
+		D4E6A9F515BC82B9001B79A1 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics.a; path = GoogleAnalytics/libGoogleAnalytics.a; sourceTree = "<group>"; };
+		D4E6A9F715BC9297001B79A1 /* MusubiAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusubiAnalytics.h; sourceTree = "<group>"; };
+		D4F0C09015791DD700541F5C /* FileObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileObj.h; path = SocialKit/Obj/FileObj.h; sourceTree = "<group>"; };
+		D4F0C09115791DD700541F5C /* FileObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileObj.m; path = SocialKit/Obj/FileObj.m; sourceTree = "<group>"; };
 		D4F0C09315791EBE00541F5C /* VideoObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoObj.h; sourceTree = "<group>"; };
 		D4F0C09415791EBE00541F5C /* VideoObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoObj.m; sourceTree = "<group>"; };
 		D4F0C0961579206100541F5C /* FileObjItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileObjItemCell.h; sourceTree = "<group>"; };
@@ -574,6 +587,7 @@
 				D2A45AF5155EF6DE009C1D73 /* DropboxSDK.framework in Frameworks */,
 				D2EF51C315B63D7E00A8EA49 /* libAviarySDK.a in Frameworks */,
 				D28E247D15BB796700C75CBA /* DropboxSDK.framework in Frameworks */,
+				D4E6A9F615BC82B9001B79A1 /* libGoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -834,6 +848,32 @@
 			children = (
 				D28E254415BC808C00C75CBA /* MusubiShareKitConfigurator.h */,
 				D28E254515BC808C00C75CBA /* MusubiShareKitConfigurator.m */,
+				D272FB63151A90F800D2521A /* DDInvocationGrabber.h */,
+				D272FB62151A90F800D2521A /* DDInvocationGrabber.m */,
+				D26D36D5147B3ED400C4FE93 /* LocationController.h */,
+				D26D36D6147B3ED400C4FE93 /* LocationController.m */,
+				C075913215605A790006948E /* NSData+HexString.h */,
+				C075913315605A790006948E /* NSData+HexString.m */,
+				C0BABA6E157980510068A455 /* NSDate+LocalTime.h */,
+				C0BABA6F157980510068A455 /* NSDate+LocalTime.m */,
+				D2F8C687152533D6005AD880 /* NSDate+TimeAgo.h */,
+				D2F8C688152533D6005AD880 /* NSDate+TimeAgo.m */,
+				D272FB61151A90F800D2521A /* NSObject+DDExtensions.h */,
+				D272FB60151A90F800D2521A /* NSObject+DDExtensions.m */,
+				D26D36D7147B3ED400C4FE93 /* UIImage+Alpha.h */,
+				D26D36D8147B3ED400C4FE93 /* UIImage+Alpha.m */,
+				D26D36D9147B3ED400C4FE93 /* UIImage+Resize.h */,
+				D26D36DA147B3ED400C4FE93 /* UIImage+Resize.m */,
+				D26D36DB147B3ED400C4FE93 /* UIImage+RoundedCorner.h */,
+				D26D36DC147B3ED400C4FE93 /* UIImage+RoundedCorner.m */,
+				D26D36DD147B3ED400C4FE93 /* XQueryComponents.h */,
+				D26D36DE147B3ED400C4FE93 /* XQueryComponents.m */,
+				AAAB44AA15902FB500596337 /* IdentityUtils.h */,
+				AAAB44AB15902FB500596337 /* IdentityUtils.m */,
+				D44606A3159E6866000A711C /* MusubiShareKitConfigurator.h */,
+				D44606A4159E6866000A711C /* MusubiShareKitConfigurator.m */,
+				D4E6A9F715BC9297001B79A1 /* MusubiAnalytics.h */,
+>>>>>>> 4f59412... Basic analytics for Musubi-IOS
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -866,6 +906,7 @@
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D4E6A9F315BC8242001B79A1 /* GoogleAnalytics */,
 				D2EF51B915B63D7E00A8EA49 /* AviarySDK */,
 				D28E232A15BB70B300C75CBA /* MusubiSDK.xcodeproj */,
 				D28E256515BCEB8700C75CBA /* GTMOAuth2.xcodeproj */,
@@ -2350,6 +2391,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		D4E6A9F315BC8242001B79A1 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				D4E6A9F515BC82B9001B79A1 /* libGoogleAnalytics.a */,
+				D4E6A9F415BC82AA001B79A1 /* GANTracker.h */,
+			);
+			name = GoogleAnalytics;
+			sourceTree = "<group>";
+		};
 		F74F95E615B4B45C00E75D7D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -2844,6 +2894,7 @@
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					"\"$(SRCROOT)/Libraries/AviarySDK\"",
+					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2902,6 +2953,7 @@
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					"\"$(SRCROOT)/Libraries/AviarySDK\"",
+					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

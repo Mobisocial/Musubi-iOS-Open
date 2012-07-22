@@ -29,6 +29,7 @@
 #import "Three20/Three20.h"
 #import "VerifyViewController.h"
 
+#import "MusubiAnalytics.h"
 
 @implementation WelcomeViewController
 
@@ -111,6 +112,12 @@
 
 - (void)authNetwork:(id)sender {
     NSString* type = sender == self.facebookButton ? kAccountTypeFacebook : kAccountTypeGoogle;
+
+    NSError *error;
+    if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryOnboarding action:kAnalyticsActionConnectingAccount label:type value:-1 withError:&error]) {
+        // error
+    }
+
     [_authMgr performSelectorInBackground:@selector(connect:) withObject:type];
 }
 
@@ -118,6 +125,11 @@
 
 - (void)accountWithType:(NSString *)type isConnected:(BOOL)connected {
     if (connected) {
+        NSError *error;
+        if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryOnboarding action:kAnalyticsActionConnectedAccount label:type value:-1 withError:&error]) {
+            // error
+        }
+
         _facebookButton.hidden = YES;
         _googleButton.hidden = YES;
         _statusLabel.text = @"Importing contacts...";

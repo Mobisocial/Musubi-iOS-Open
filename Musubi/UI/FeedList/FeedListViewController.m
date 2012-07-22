@@ -48,6 +48,7 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "MusubiStyleSheet.h"
 #import "EulaViewController.h"
+#import "MusubiAnalytics.h"
 
 @implementation FeedListViewController {
     NSDate* nextRedraw;
@@ -93,6 +94,14 @@
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeFinished object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationUpdatedFeed object:nil];
 
+}
+
+-(void)viewDidLoad {
+    [super viewDidLoad];
+    NSError *error;
+    if (![[GANTracker sharedTracker] trackPageview:kAnalyticsPageFeedList withError:&error]) {
+        NSLog(@"error in trackPageview");
+    }    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
