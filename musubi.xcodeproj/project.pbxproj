@@ -273,6 +273,7 @@
 		D4DB1349157C2DC000337A16 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4DB1348157C2DC000337A16 /* CFNetwork.framework */; };
 		D4DB1350157C332400337A16 /* CorralHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D4DB134F157C332400337A16 /* CorralHTTPConnection.m */; };
 		D4E42AB0156224EF00C21FDA /* DeleteObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E42AAF156224EE00C21FDA /* DeleteObj.m */; };
+		D4E6A9F615BC82B9001B79A1 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4E6A9F515BC82B9001B79A1 /* libGoogleAnalytics.a */; };
 		D4F0C09215791DD700541F5C /* FileObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09115791DD700541F5C /* FileObj.m */; };
 		D4F0C09515791EBE00541F5C /* VideoObj.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C09415791EBE00541F5C /* VideoObj.m */; };
 		D4F0C0981579206100541F5C /* FileObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0C0971579206100541F5C /* FileObjItemCell.m */; };
@@ -1288,6 +1289,9 @@
 		D4DB134F157C332400337A16 /* CorralHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CorralHTTPConnection.m; sourceTree = "<group>"; };
 		D4E42AAE156224EE00C21FDA /* DeleteObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteObj.h; path = SocialKit/Obj/DeleteObj.h; sourceTree = "<group>"; };
 		D4E42AAF156224EE00C21FDA /* DeleteObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteObj.m; path = SocialKit/Obj/DeleteObj.m; sourceTree = "<group>"; };
+		D4E6A9F415BC82AA001B79A1 /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GANTracker.h; path = GoogleAnalytics/GANTracker.h; sourceTree = "<group>"; };
+		D4E6A9F515BC82B9001B79A1 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics.a; path = GoogleAnalytics/libGoogleAnalytics.a; sourceTree = "<group>"; };
+		D4E6A9F715BC9297001B79A1 /* MusubiAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusubiAnalytics.h; sourceTree = "<group>"; };
 		D4F0C09015791DD700541F5C /* FileObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileObj.h; path = SocialKit/Obj/FileObj.h; sourceTree = "<group>"; };
 		D4F0C09115791DD700541F5C /* FileObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileObj.m; path = SocialKit/Obj/FileObj.m; sourceTree = "<group>"; };
 		D4F0C09315791EBE00541F5C /* VideoObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoObj.h; sourceTree = "<group>"; };
@@ -1357,6 +1361,7 @@
 				C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */,
 				D2A45AF5155EF6DE009C1D73 /* DropboxSDK.framework in Frameworks */,
 				D2EF51C315B63D7E00A8EA49 /* libAviarySDK.a in Frameworks */,
+				D4E6A9F615BC82B9001B79A1 /* libGoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1821,6 +1826,7 @@
 				AAAB44AB15902FB500596337 /* IdentityUtils.m */,
 				D44606A3159E6866000A711C /* MusubiShareKitConfigurator.h */,
 				D44606A4159E6866000A711C /* MusubiShareKitConfigurator.m */,
+				D4E6A9F715BC9297001B79A1 /* MusubiAnalytics.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1888,6 +1894,7 @@
 		D2794AF11457D33F00C5FDAB /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D4E6A9F315BC8242001B79A1 /* GoogleAnalytics */,
 				D2EF51B915B63D7E00A8EA49 /* AviarySDK */,
 				D44D41B615A2171A000BAC41 /* ShareKit.xcodeproj */,
 				AA33534F158FA1A900B6CAF5 /* QRCodeEncoderObjectiveCAtGithub.xcodeproj */,
@@ -3357,6 +3364,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		D4E6A9F315BC8242001B79A1 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				D4E6A9F515BC82B9001B79A1 /* libGoogleAnalytics.a */,
+				D4E6A9F415BC82AA001B79A1 /* GANTracker.h */,
+			);
+			name = GoogleAnalytics;
+			sourceTree = "<group>";
+		};
 		F74F95E615B4B45C00E75D7D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -4237,6 +4253,7 @@
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					"\"$(SRCROOT)/Libraries/AviarySDK\"",
+					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -4278,6 +4295,7 @@
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					"\"$(SRCROOT)/Libraries/AviarySDK\"",
+					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

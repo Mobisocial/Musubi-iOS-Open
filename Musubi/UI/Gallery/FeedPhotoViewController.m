@@ -40,6 +40,7 @@
 #import "MusubiStyleSheet.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AFPhotoEditorController.h"
+#import "MusubiAnalytics.h"
 
 @implementation FeedPhotoViewController
 
@@ -69,6 +70,14 @@
     //[items addObject: space];
     //[items addObject: self.actionButton];
     _toolbar.items = items;
+}
+
+-(void)viewDidLoad {
+    [super viewDidLoad];
+    NSError *error;
+    if (![[GANTracker sharedTracker] trackPageview:kAnalyticsPageFeedGallery withError:&error]) {
+        NSLog(@"error in trackPageview");
+    }    
 }
 
 - (UIBarButtonItem*) actionButton {
@@ -281,6 +290,16 @@
         }
         case 2:
         {
+
+            NSError* error;
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryEditor
+                                                 action:kAnalyticsActionEdit
+                                                  label:kAnalyticsLabelEditFromGallery
+                                                  value:-1
+                                              withError:&error]) {
+                // Handle error here
+            }
+
             // Edit image
             /*
             UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:@"Edit..." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Aviary", @"Sketch", @"Caption", nil];

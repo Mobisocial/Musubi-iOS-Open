@@ -25,6 +25,7 @@
 
 #import "EULAViewController.h"
 #import "Three20/Three20.h"
+#import "MusubiAnalytics.h"
 
 @interface EulaViewController ()
 
@@ -43,11 +44,21 @@
 }
 
 - (IBAction)doDecline:(id)sender {
+    NSError *error;
+    if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryOnboarding action:kAnalyticsActionDeclineEula label:nil value:-1 withError:&error]) {
+        // error
+    }
+
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"You must accept the EULA to use this app." message:@"You must accept the EULA to use Musubi. If you do not agree to the terms, click the Home button to exit." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles: nil];
     [alert show];
 }
 
 - (IBAction)doAccept:(id)sender {
+    NSError *error;
+    if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryOnboarding action:kAnalyticsActionAcceptEula label:nil value:-1 withError:&error]) {
+        // error
+    }
+
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber* version = [[NSNumber alloc] initWithInt:kEulaRequiredVersion];
     [defaults setObject:version forKey:kMusubiSettingsEulaAccepted];
@@ -57,6 +68,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    NSError *error;
+    if (![[GANTracker sharedTracker] trackPageview:kAnalyticsPageEula withError:&error]) {
+    }
 
     [_declineButton setAction:@selector(doDecline:)];
     [_acceptButton setAction:@selector(doAccept:)];
