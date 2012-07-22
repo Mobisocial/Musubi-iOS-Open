@@ -27,6 +27,14 @@
 #import "ManagedObjFeedItem.h"
 #import "ObjHelper.h"
 #import "UIViewAdditions.h"
+#import "CorralHTTPServer.h"
+#import "AFPhotoEditorController.h"
+#import "PictureObj.h"
+#import "AppManager.h"
+#import "Musubi.h"
+#import "FeedViewController.h"
+
+#define kEditButtonHeight 40
 
 @implementation PictureObjItemCell
 
@@ -66,9 +74,10 @@
 }
 
 + (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
-    return [PictureObjItemCell pictureHeightForItem:item] + [PictureObjItemCell textHeightForItem:item] + kTableCellSmallMargin;
+    return [PictureObjItemCell pictureHeightForItem:item] + [PictureObjItemCell textHeightForItem:item] + kEditButtonHeight + 2*kTableCellSmallMargin;
 }
 
+// XXX awkward lazy-loading field with side-effects.
 - (UIImageView *)pictureView {
     if (!_pictureView) {
         _pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
@@ -100,11 +109,62 @@
         CGFloat left = self.detailTextLabel.origin.x;
         CGFloat top = self.timestampLabel.origin.y + self.timestampLabel.height + kTableCellMargin;
         
-        self.pictureView.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, [PictureObjItemCell pictureHeightForImage:self.pictureView.image]);
-        
+        float pictureHeight = [PictureObjItemCell pictureHeightForImage:self.pictureView.image];
+        self.pictureView.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, pictureHeight);
+
         CGFloat textTop = top + self.pictureView.height;
         self.detailTextLabel.frame = CGRectMake(left, textTop, self.detailTextLabel.width, [PictureObjItemCell textHeightForItem:(ManagedObjFeedItem*)_item] + kTableCellSmallMargin);
+
+        UIView* enhance = [self.contentView viewWithTag:9];
+        if (enhance != nil) {
+            [enhance removeFromSuperview];
+        }
+        float editTop = textTop + kTableCellSmallMargin;
+        float editWidth = 80;
+        UIButton* enhanceButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [enhanceButton setTitle:@"Enhance" forState:UIControlStateNormal];
+        [enhanceButton addTarget:self action:@selector(enhancePicture:) forControlEvents:UIControlEventTouchUpInside];
+        [enhanceButton setTag:9];
+        enhanceButton.frame = CGRectMake(left, editTop, editWidth, kEditButtonHeight);
+        [self.contentView addSubview:enhanceButton];
     }
+}
+
+- (void) enhancePicture: (id)sender {
+    ManagedObjFeedItem* item = self.object;
+    NSURL    *aUrl  = [NSURL URLWithString:[CorralHTTPServer urlForRaw:item.managedObj]];
+    
+    NSURLRequest* request = [NSURLRequest requestWithURL:aUrl];
+    [NSURLConnection sendAsynchronousRequest:request 
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               UIImage  *img  = [[UIImage alloc] initWithData:data];
+                               
+                               AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage: img];
+                               [editorController setDelegate:self];
+                               UIViewController* controller = self.contentView.window.rootViewController;
+                               [controller presentModalViewController:editorController animated:YES];
+                           }];
+}
+
+#pragma mark AFPhotoEditorController delegate
+
+// TODO: re-use with Gallery, add options like "share w facebook / twitter"
+// and also "enhance again" button to confirmation screen.
+- (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image
+{
+    ManagedObjFeedItem* parent = self.object;
+    PictureObj* obj = [[PictureObj alloc] initWithImage:image andText:@""];
+    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MApp* app = [am ensureSuperApp];
+
+    [FeedViewController sendObj:obj toFeed:parent.managedObj.feed fromApp:app usingStore:[Musubi sharedInstance].mainStore];
+    [editor dismissModalViewControllerAnimated:YES];
+}
+
+- (void)photoEditorCanceled:(AFPhotoEditorController *)editor
+{
+    [editor dismissModalViewControllerAnimated:YES];
 }
 
 @end

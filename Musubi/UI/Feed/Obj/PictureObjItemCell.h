@@ -24,8 +24,9 @@
 //
 
 #import "FeedItemCell.h"
+#import "AFPhotoEditorController.h"
 
-@interface PictureObjItemCell : FeedItemCell {
+@interface PictureObjItemCell : FeedItemCell<AFPhotoEditorControllerDelegate> {
     UIImageView* _pictureView;
 }
 
