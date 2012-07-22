@@ -113,16 +113,17 @@
         self.detailTextLabel.frame = CGRectMake(left, textTop, self.detailTextLabel.width, [PictureObjItemCell textHeightForItem:(ManagedObjFeedItem*)_item] + kTableCellSmallMargin);
 
         UIView* enhance = [self.contentView viewWithTag:9];
-        if (enhance == nil) {        
-            float editTop = textTop + kTableCellSmallMargin;
-            float editWidth = 80;
-            UIButton* enhanceButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [enhanceButton setTitle:@"Enhance" forState:UIControlStateNormal];
-            [enhanceButton addTarget:self action:@selector(enhancePicture:) forControlEvents:UIControlEventTouchUpInside];
-            [enhanceButton setTag:9];
-            enhanceButton.frame = CGRectMake(left, editTop, editWidth, kEditButtonHeight);
-            [self.contentView addSubview:enhanceButton];
+        if (enhance != nil) {
+            [enhance removeFromSuperview];
         }
+        float editTop = textTop + kTableCellSmallMargin;
+        float editWidth = 80;
+        UIButton* enhanceButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [enhanceButton setTitle:@"Enhance" forState:UIControlStateNormal];
+        [enhanceButton addTarget:self action:@selector(enhancePicture:) forControlEvents:UIControlEventTouchUpInside];
+        [enhanceButton setTag:9];
+        enhanceButton.frame = CGRectMake(left, editTop, editWidth, kEditButtonHeight);
+        [self.contentView addSubview:enhanceButton];
     }
 }
 
