@@ -30,8 +30,15 @@
 
 @implementation AMQPUtil
 
+static NSString* globalPrefix = @"";
+
 + (NSString*) queueNameForKey: (NSData*) key withPrefix: (NSString*) prefix {
     // the \n is because the android version shoved that in on base64 encode... not really URL safe...lol
-    return [NSString stringWithFormat:@"%@%@\n", prefix, [key encodeBase64WebSafe]];
+    return [NSString stringWithFormat:@"%@%@%@\n", globalPrefix, prefix, [key encodeBase64WebSafe]];
 }
+
++ (void) setGlobalPrefix: (NSString*) prefix {
+    globalPrefix = prefix;
+}
+
 @end

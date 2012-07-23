@@ -104,9 +104,10 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 // creates a new store on the current thread
 - (PersistentModelStore*) newStore;
 
+- (void) setTransportPrefix: (NSString*) prefix;
 - (void) onAppLaunch;
-- (void)onRemoteNotification:(NSDictionary *)userInfo;
-- (void)onAppDidBecomeActive;
-- (void)onAppWillResignActive;
+- (void) onRemoteNotification:(NSDictionary *)userInfo;
+- (void) onAppDidBecomeActive;
+- (void) onAppWillResignActive;
 - (BOOL) handleURL: (NSURL*) url fromSourceApplication: (NSString*) sourceApplication;
 @end

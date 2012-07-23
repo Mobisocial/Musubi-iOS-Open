@@ -29,4 +29,5 @@
 
 @interface AMQPUtil : NSObject
 + (NSString*) queueNameForKey: (NSData*) key withPrefix: (NSString*) prefix;
++ (void) setGlobalPrefix: (NSString*) prefix;
 @end

@@ -39,6 +39,7 @@
 #import "MessageEncodeService.h"
 #import "MessageDecodeService.h"
 #import "AMQPTransport.h"
+#import "AMQPUtil.h"
 #import "AddressBookIdentityManager.h"
 #import "ObjProcessorService.h"
 
@@ -165,6 +166,10 @@ static Musubi* _sharedInstance = nil;
 - (void) restart {    
     [self stopServices];
     [self startServices];
+}
+
+- (void)setTransportPrefix:(NSString *)prefix {
+    [AMQPUtil setGlobalPrefix: prefix];
 }
 
 - (PersistentModelStore *) newStore {
