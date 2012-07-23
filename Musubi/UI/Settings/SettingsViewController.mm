@@ -353,6 +353,9 @@
             break;
         }
      }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
 }
 
 - (void) connectAccountWithType: (NSString*) type {
