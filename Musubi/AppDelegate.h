@@ -24,20 +24,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CorralHTTPServer.h"
 
-@class FacebookLoginOperation;
+@class FacebookIdentityUpdater, GoogleIdentityUpdater, FacebookLoginOperation;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property ( nonatomic) UIWindow *window;
 @property ( nonatomic) UINavigationController* navController;
-@property (nonatomic, strong) CorralHTTPServer* corralHTTPServer;
+
+@property (nonatomic) FacebookIdentityUpdater* facebookIdentityUpdater;
+@property (nonatomic) GoogleIdentityUpdater* googleIdentityUpdater;
 
 // Facebook SingleSignOn always calls back the appDelegate, so we need a reference to the login
 @property (nonatomic, weak) FacebookLoginOperation* facebookLoginOperation;
 
-- (void) restart;
+
+-(void)restart;
 
 @end
 

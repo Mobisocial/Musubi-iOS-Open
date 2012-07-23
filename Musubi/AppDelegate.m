@@ -24,19 +24,15 @@
 //
 
 #import "AppDelegate.h"
-#import "FacebookAuth.h"
-xxx#import "Musubi.h"
-#import "APNPushManager.h"
-#import <DropboxSDK/DropboxSDK.h>
+#import "Musubi.h"
 #import "NSData+HexString.h"
 #import <DropboxSDK/DropboxSDK.h>
 
-#import "PersistentModelStore.h"
-#import "MObj.h"
-#import "MIdentity.h"
-#import "Three20/Three20.h"
-#import "MusubiStyleSheet.h"
-#import "Util/MusubiShareKitConfigurator.h"
+#import "FacebookIdentityUpdater.h"
+#import "GoogleIdentityUpdater.h"
+xxx#import "FacebookAuth.h"
+
+#import "MusubiShareKitConfigurator.h"
 #import "SHKConfiguration.h"
 #import "SHKFacebook.h"
 #import "SHK.h"
@@ -47,10 +43,13 @@ static const NSInteger kGANDispatchPeriodSec = 60;
 
 @implementation AppDelegate
 
-@synthesize window = _window, facebookLoginOperation, navController, corralHTTPServer;
+@synthesize window = _window, navController;
+@synthesize facebookIdentityUpdater, googleIdentityUpdater, facebookLoginOperation;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[Musubi sharedInstance] onAppLaunch];
+
     //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
     //[TestFlight takeOff:@"xxx"];
 
@@ -61,18 +60,13 @@ static const NSInteger kGANDispatchPeriodSec = 60;
     DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"" appSecret:@"" root:kDBRootAppFolder];
     [DBSession setSharedSession:dbSession];
     
-    [Musubi sharedInstance];
-    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
+    self.facebookIdentityUpdater = [[FacebookIdentityUpdater alloc] initWithStoreFactory: [Musubi sharedInstance].storeFactory];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kFacebookIdentityUpdaterFrequency target:self.facebookIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
     
-    [TTStyleSheet setGlobalStyleSheet:[[MusubiStyleSheet alloc] init]];
+    self.googleIdentityUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: [Musubi sharedInstance].storeFactory];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.googleIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+      
     
-    // Pause on the loading screen for a bit, for awesomeness display reasons
-    [NSThread sleepUntilDate:showUIDate];
-
-    MusubiShareKitConfigurator *configurator = [[MusubiShareKitConfigurator alloc] init];
-    [SHKConfiguration sharedInstanceWithConfigurator:configurator];
-    [SHK flushOfflineQueue];
-
     return YES;
 }
 
@@ -96,18 +90,7 @@ static const NSInteger kGANDispatchPeriodSec = 60;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"received remote notification while running %@", userInfo);
-
-    if( [userInfo objectForKey:@"local"] != NULL &&
-       [userInfo objectForKey:@"amqp"] != NULL)
-    {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 6 * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
-            //TODO: good and racy
-            NSNumber* amqp = (NSNumber*)[userInfo objectForKey:@"amqp"]; 
-            int local = [APNPushManager tallyLocalUnread]; 
-            [application setApplicationIconBadgeNumber:(amqp.intValue + local) ];
-        });
-    }    
+    [[Musubi sharedInstance] onRemoteNotification: userInfo];
 }
 
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {     
@@ -119,28 +102,12 @@ static const NSInteger kGANDispatchPeriodSec = 60;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // launch the corral service
-    self.corralHTTPServer = [[CorralHTTPServer alloc] init];
-    NSError* corralError;
-    if ([self.corralHTTPServer start:&corralError]) {
-        NSLog(@"Corral server running on port %hu", [self.corralHTTPServer listeningPort]);
-    } else {
-        NSLog(@"Error starting corral server: %@", corralError);
-    }
+    [[Musubi sharedInstance] onAppDidBecomeActive];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    [APNPushManager resetLocalUnreadInBackgroundTask:NO];
-
-    // Shutdown corral http server
-    [self.corralHTTPServer stop];
-    self.corralHTTPServer = nil;
-
-    /*
-     Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-     Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-     */
+    [[Musubi sharedInstance] onAppWillResignActive];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -199,7 +166,7 @@ static const NSInteger kGANDispatchPeriodSec = 60;
         }
     }
 
-    return NO;
+    return [[Musubi sharedInstance] handleURL:url fromSourceApplication:sourceApplication];
 }
 
 @end

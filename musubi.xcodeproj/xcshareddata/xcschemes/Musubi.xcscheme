@@ -17,7 +17,7 @@
                BlueprintIdentifier = "D298F9F1143CE6DF000831DD"
                BuildableName = "Musubi.app"
                BlueprintName = "Musubi"
-               ReferencedContainer = "container:musubi.xcodeproj">
+               ReferencedContainer = "container:Musubi.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "D298F9F1143CE6DF000831DD"
             BuildableName = "Musubi.app"
             BlueprintName = "Musubi"
-            ReferencedContainer = "container:musubi.xcodeproj">
+            ReferencedContainer = "container:Musubi.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -54,7 +54,7 @@
             BlueprintIdentifier = "D298F9F1143CE6DF000831DD"
             BuildableName = "Musubi.app"
             BlueprintName = "Musubi"
-            ReferencedContainer = "container:musubi.xcodeproj">
+            ReferencedContainer = "container:Musubi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -72,7 +72,7 @@
             BlueprintIdentifier = "D298F9F1143CE6DF000831DD"
             BuildableName = "Musubi.app"
             BlueprintName = "Musubi"
-            ReferencedContainer = "container:musubi.xcodeproj">
+            ReferencedContainer = "container:Musubi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

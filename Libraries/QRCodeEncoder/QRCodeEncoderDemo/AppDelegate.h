@@ -16,5 +16,5 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) QRCodeEncoderDemoViewController *viewController;
-
+-(void)restart
 @end

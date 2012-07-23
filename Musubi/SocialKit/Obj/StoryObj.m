@@ -23,6 +23,7 @@
 //  Copyright (c) 2012 Stanford University. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "StoryObj.h"
 #import "TFHpple.h"
 #import "UIImage+Resize.h"
