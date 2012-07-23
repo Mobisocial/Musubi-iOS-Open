@@ -37,7 +37,6 @@
 #import "AppManager.h"
 #import "Musubi.h"
 #import "Authorities.h"
-#import "IBEncryptionScheme.h"
 
 @implementation NearbyFeed
 @synthesize groupCapability, groupName, thumbnail, sharerHash, sharerName, sharerType, memberCount;
@@ -133,8 +132,7 @@
 
         [fm attachMember:me toFeed:feed];
         BOOL added = NO, changed = NO;
-        IBEncryptionIdentity* hid = [[IBEncryptionIdentity alloc] initWithAuthority:sharerType hashedKey:sharerHash temporalFrame:0];
-        MIdentity* sharer = [im ensureIdentity:hid withName:sharerName identityAdded:&added profileDataChanged:&changed];
+        MIdentity* sharer = [im ensureIdentityWithType:sharerType andHash:sharerHash andName:sharerName identityAdded:&added profileDataChanged:&changed];
         [fm attachMember:sharer toFeed:feed];
         
         [store save];    

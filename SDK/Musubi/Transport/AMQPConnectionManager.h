@@ -29,13 +29,13 @@
 #import "amqp.h"
 #import "amqp_framing.h"
 #import "utils.h"
+#import "Reachability.h"
 
 #define kAMQPChannelIncoming 1
 #define kAMQPChannelOutgoing 2
 
 #define kAMQPConnectionException @"AMQPConnectionException"
 
-@class Reachability;
 
 @interface AMQPConnectionManager : NSObject {
     amqp_connection_state_t conn;

@@ -25,10 +25,21 @@
 
 #import <UIKit/UIKit.h>
 
+@class FacebookIdentityUpdater, GoogleIdentityUpdater, FacebookLoginOperation;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property ( nonatomic) UIWindow *window;
 @property ( nonatomic) UINavigationController* navController;
+
+@property (nonatomic) FacebookIdentityUpdater* facebookIdentityUpdater;
+@property (nonatomic) GoogleIdentityUpdater* googleIdentityUpdater;
+
+// Facebook SingleSignOn always calls back the appDelegate, so we need a reference to the login
+@property (nonatomic, weak) FacebookLoginOperation* facebookLoginOperation;
+
+
+-(void)restart;
 
 @end
 

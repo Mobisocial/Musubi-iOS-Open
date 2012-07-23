@@ -27,7 +27,6 @@
 
 #import "AddressBookIdentityManager.h"
 #import <AddressBook/AddressBook.h>
-#import "AccountAuthManager.h"
 #import "Authorities.h"
 #import "AccountManager.h"
 #import "IdentityManager.h"

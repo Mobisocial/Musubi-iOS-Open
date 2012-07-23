@@ -43,6 +43,10 @@
 - (MIdentity*) defaultIdentity;
 - (MIdentity*) defaultIdentityForParticipants: (NSArray*) participants;
 - (MIdentity*) identityForIBEncryptionIdentity: (IBEncryptionIdentity*) ident;
+- (MIdentity *)identityForType:(uint8_t)type andPrincipal: (NSString*) principal;
+- (MIdentity *)identityForType: (uint8_t) type andHash: (NSData*) hash;
+- (MIdentity*) ensureIdentityWithType: (uint8_t) type andPrincipal: (NSString*) principal andName: (NSString*) name identityAdded: (BOOL*) identityAdded profileDataChanged: (BOOL*) profileDataChanged;
+- (MIdentity*) ensureIdentityWithType: (uint8_t) type andHash: (NSData*) hash andName: (NSString*) name identityAdded: (BOOL*) identityAdded profileDataChanged: (BOOL*) profileDataChanged;
 - (MIdentity*) ensureIdentity: (IBEncryptionIdentity*) ibeId withName: (NSString*) name identityAdded: (BOOL*) identityAdded profileDataChanged: (BOOL*) profileDataChanged;
 - (IBEncryptionIdentity *) ibEncryptionIdentityForHasedIdentity: (IBEncryptionIdentity*) ident;
 - (IBEncryptionIdentity*) ibEncryptionIdentityForIdentity: (MIdentity*) ident forTemporalFrame: (uint64_t) tf;

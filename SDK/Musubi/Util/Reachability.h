@@ -59,24 +59,24 @@ typedef enum {
 } NetworkStatus;
 #define kReachabilityChangedNotification @"kNetworkReachabilityChangedNotification"
 
-@interface Reachability: NSObject
+@interface MusubiSDK_Reachability: NSObject
 {
     BOOL localWiFiRef;
     SCNetworkReachabilityRef reachabilityRef;
 }
 
 //reachabilityWithHostName- Use to check the reachability of a particular host name. 
-+ (Reachability*) reachabilityWithHostName: (NSString*) hostName;
++ (MusubiSDK_Reachability*) reachabilityWithHostName: (NSString*) hostName;
 
 //reachabilityWithAddress- Use to check the reachability of a particular IP address. 
-+ (Reachability*) reachabilityWithAddress: (const struct sockaddr_in*) hostAddress;
++ (MusubiSDK_Reachability*) reachabilityWithAddress: (const struct sockaddr_in*) hostAddress;
 
 //reachabilityForInternetConnection- checks whether the default route is available.  
 //  Should be used by applications that do not connect to a particular host
-+ (Reachability*) reachabilityForInternetConnection;
++ (MusubiSDK_Reachability*) reachabilityForInternetConnection;
 
 //reachabilityForLocalWiFi- checks whether a local wifi connection is available.
-+ (Reachability*) reachabilityForLocalWiFi;
++ (MusubiSDK_Reachability*) reachabilityForLocalWiFi;
 
 //Start listening for reachability notifications on the current run loop
 - (BOOL) startNotifier;
@@ -87,3 +87,5 @@ typedef enum {
 //WiFi may require a connection for VPN on Demand.
 - (BOOL) connectionRequired;
 @end
+
+@compatibility_alias Reachability MusubiSDK_Reachability;

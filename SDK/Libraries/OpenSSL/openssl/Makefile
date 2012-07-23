@@ -13,8 +13,8 @@ SHLIB_MAJOR=1
 SHLIB_MINOR=0.0
 SHLIB_EXT=.$(SHLIB_MAJOR).$(SHLIB_MINOR).dylib
 PLATFORM=darwin-i386-cc
-OPTIONS=-openssldir=/Users/wbult/Library/Developer/Xcode/DerivedData/MusubiSDK-cqstzdzoeikmhpdwehzmilsfvjyk/Build/Products no-gmp no-gost no-jpake no-krb5 no-md2 no-rc5 no-rfc3779 no-shared no-store no-zlib no-zlib-dynamic static-engine
-CONFIGURE_ARGS=darwin-i386-cc no-krb5 no-gost -openssldir=/Users/wbult/Library/Developer/Xcode/DerivedData/MusubiSDK-cqstzdzoeikmhpdwehzmilsfvjyk/Build/Products
+OPTIONS=-openssldir=/Users/wbult/Library/Developer/Xcode/DerivedData/Musubi-dihzaskqntsegseoeebirkcjvdop/Build/Products no-gmp no-gost no-jpake no-krb5 no-md2 no-rc5 no-rfc3779 no-shared no-store no-zlib no-zlib-dynamic static-engine
+CONFIGURE_ARGS=darwin-i386-cc no-krb5 no-gost -openssldir=/Users/wbult/Library/Developer/Xcode/DerivedData/Musubi-dihzaskqntsegseoeebirkcjvdop/Build/Products
 SHLIB_TARGET=darwin-shared
 
 # HERE indicates where this Makefile lives.  This can be used to indicate
@@ -60,7 +60,7 @@ OPENSSLDIR=/usr/local/ssl
 # PKCS1_CHECK - pkcs1 tests.
 
 CC= cc
-CFLAG= -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -openssldir=/Users/wbult/Library/Developer/Xcode/DerivedData/MusubiSDK-cqstzdzoeikmhpdwehzmilsfvjyk/Build/Products -arch i386 -O3 -fomit-frame-pointer -DL_ENDIAN -DOPENSSL_BN_ASM_PART_WORDS -DOPENSSL_IA32_SSE2 -DOPENSSL_BN_ASM_MONT -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DMD5_ASM -DRMD160_ASM -DAES_ASM -DWHIRLPOOL_ASM
+CFLAG= -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -openssldir=/Users/wbult/Library/Developer/Xcode/DerivedData/Musubi-dihzaskqntsegseoeebirkcjvdop/Build/Products -arch i386 -O3 -fomit-frame-pointer -DL_ENDIAN -DOPENSSL_BN_ASM_PART_WORDS -DOPENSSL_IA32_SSE2 -DOPENSSL_BN_ASM_MONT -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DMD5_ASM -DRMD160_ASM -DAES_ASM -DWHIRLPOOL_ASM
 DEPFLAG= -DOPENSSL_NO_GMP -DOPENSSL_NO_GOST -DOPENSSL_NO_JPAKE -DOPENSSL_NO_MD2 -DOPENSSL_NO_RC5 -DOPENSSL_NO_RFC3779 -DOPENSSL_NO_STORE
 PEX_LIBS= -Wl,-search_paths_first
 EX_LIBS= 

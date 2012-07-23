@@ -39,8 +39,6 @@
 #import "MessageEncodeService.h"
 #import "MessageDecodeService.h"
 #import "AMQPTransport.h"
-#import "FacebookIdentityUpdater.h"
-#import "GoogleIdentityUpdater.h"
 #import "AddressBookIdentityManager.h"
 #import "ObjProcessorService.h"
 
@@ -59,18 +57,15 @@
 #import "IntroductionObj.h"
 #import "Authorities.h"
 
-#import "FacebookAuth.h"
-
 #import "CorralHTTPServer.h"
 #import "APNPushManager.h"
-#import <DropboxSDK/DropboxSDK.h>
 
 @implementation Musubi
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, facebookIdentityUpdater, googleIdentityUpdater, addressBookIdentityUpdater;
-@synthesize facebookLoginOperation, corralHTTPServer;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, addressBookIdentityUpdater;
+@synthesize corralHTTPServer;
 
 +(Musubi*)sharedInstance
 {
@@ -160,14 +155,8 @@ static Musubi* _sharedInstance = nil;
     [self.objPipelineService start];
     
     // Make sure we keep the facebook friends up to date
-    self.facebookIdentityUpdater = [[FacebookIdentityUpdater alloc] initWithStoreFactory: storeFactory];
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kFacebookIdentityUpdaterFrequency target:self.facebookIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
-    
-    self.googleIdentityUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: storeFactory];
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.googleIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
-
     self.addressBookIdentityUpdater = [[AddressBookIdentityManager alloc] initWithStoreFactory: storeFactory];
-    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.addressBookIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kAddressBookIdentityUpdaterFrequency target:self.addressBookIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
 }
 
 - (void) stopServices {
@@ -184,9 +173,6 @@ static Musubi* _sharedInstance = nil;
 
 - (void) onAppLaunch {
     NSDate* showUIDate = [NSDate dateWithTimeIntervalSinceNow:1];
-    
-    DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"" appSecret:@"" root:kDBRootAppFolder];
-    [DBSession setSharedSession:dbSession];
     
     [Musubi sharedInstance];
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
@@ -231,22 +217,11 @@ static Musubi* _sharedInstance = nil;
 }
 
 - (BOOL) handleURL: (NSURL*) url fromSourceApplication: (NSString*) sourceApplication {
-    NSString* facebookPrefix = [NSString stringWithFormat:@"fb"];
-    if ([url.scheme hasPrefix:facebookPrefix]) {
-        return [facebookLoginOperation handleOpenURL:url];
-    }
-    
-    if ([[DBSession sharedSession] handleOpenURL:url]) {
-        return YES;
-    }
-    
-    NSString* musubiPrefix = @"musubi";
-    if ([url.scheme hasPrefix:musubiPrefix]) {
-        if ([EmailAuthManager handleOpenURL: url])
-            return YES;
-    }
-
     return NO;
+}
+
++ (NSString *)urlForObjRaw:(MObj *)obj {
+    return [CorralHTTPServer urlForRaw:obj];
 }
 
 

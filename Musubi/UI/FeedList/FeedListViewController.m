@@ -30,7 +30,6 @@
 #import "FeedListItem.h"
 #import "PersistentModelStore.h"
 #import "AMQPTransport.h"
-#import "AMQPConnectionManager.h"
 #import "NearbyViewController.h"
 
 #import "FeedViewController.h"
@@ -86,13 +85,12 @@
     
     self.variableHeightRows = YES;    
     
-    // We only need to know when a message starts getting decrypted, when it is completely processed
-    [[Musubi sharedInstance].transport.connMngr addObserver:self forKeyPath:@"connectionState" options:0 context:nil];
-    [[Musubi sharedInstance] addObserver:self forKeyPath:@"transport" options:0 context:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageEncodeStarted object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageDecodeStarted object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationMessageDecodeFinished object:nil];
-    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending) name:kMusubiNotificationUpdatedFeed object:nil];
+    // We only need to know when a message starts getting decrypted, when it is completely processed    
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationConnectionStateChanged object:nil];    
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageEncodeStarted object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeStarted object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationMessageDecodeFinished object:nil];
+    [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(updatePending:) name:kMusubiNotificationUpdatedFeed object:nil];
 
 }
 
@@ -101,7 +99,7 @@
     
     [incomingLabel removeFromSuperview];
     [self.view addSubview:incomingLabel];
-    [self updatePending];
+    [self updatePending: nil];
     
     // Color
     self.navigationController.navigationBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
@@ -217,19 +215,10 @@
     [self reload];   
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if([keyPath isEqualToString:@"transport"]) {
-        [[Musubi sharedInstance].transport.connMngr addObserver:self forKeyPath:@"connectionState" options:0 context:nil];
-    } else {
-        [self updatePending];
-    }
-}
-
-
 // TODO: This needs to be in some other class, but let's keep it simple for now
-- (void)updatePending {
+- (void)updatePending: (NSNotification*) notification {
     if(![NSThread isMainThread]) {
-        [self performSelectorOnMainThread:@selector(updatePending) withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(updatePending:) withObject:notification waitUntilDone:NO];
         return;
     }
     
@@ -244,22 +233,20 @@
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                 nextPendingRedraw = nil;
                 lastPendingRedraw = nil;
-                [self updatePending];
+                [self updatePending: notification];
             });
             return;
         }
     }
     lastPendingRedraw = [NSDate date];
     nextPendingRedraw = nil;
-
     
     NSString* newText = nil;
     
-    AMQPTransport* transport = [Musubi sharedInstance].transport;
-    NSString* connectionState = transport ? transport.connMngr.connectionState : @"Starting up...";
-    
-    if(connectionState) {
-        newText = connectionState;
+    if (notification && [notification.name isEqualToString:kMusubiNotificationConnectionStateChanged]) {
+        newText = (NSString*)notification.object;        
+        if (!newText)
+            newText = @"Starting up...";
     } else {
         PersistentModelStore* store = [Musubi sharedInstance].mainStore;
         NSArray* encoding = [store query:[NSPredicate predicateWithFormat:@"(encoded == nil) AND (sent == NO)"] onEntity:@"Obj"];
@@ -292,7 +279,7 @@
         [vc setFeed: item.feed];
         [vc.view addSubview:incomingLabel];
         [vc setDelegate:self];
-        [self updatePending];
+        [self updatePending: nil];
     } else if ([[segue identifier] isEqualToString:@"CreateNewFeed"]) {
         FriendPickerViewController *vc = [segue destinationViewController];
         [vc setDelegate:self];

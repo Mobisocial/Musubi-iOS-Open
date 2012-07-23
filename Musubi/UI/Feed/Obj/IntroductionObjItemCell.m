@@ -27,7 +27,6 @@
 #import "IdentityManager.h"
 #import "Musubi.h"
 #import "NSData+Base64.h"
-#import "IBEncryptionScheme.h"
 #define kAddedSomePeople @"Added some people."
 
 @implementation IntroductionObjItemCell
@@ -45,8 +44,7 @@
         NSData* hash = [(NSString*)[[identities objectAtIndex:i] objectForKey:@"hash"] decodeBase64];
         if(!hash)
             continue;
-        IBEncryptionIdentity* hid = [[IBEncryptionIdentity alloc] initWithAuthority:authority hashedKey:hash temporalFrame:0];
-        MIdentity* ident = [im identityForIBEncryptionIdentity:hid];
+        MIdentity* ident = [im identityForType: authority andHash:hash];
         if(!ident)
             continue;
         [buffer appendString: [IdentityManager displayNameForIdentity:ident]];

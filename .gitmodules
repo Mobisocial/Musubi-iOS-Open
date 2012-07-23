@@ -1,5 +1,5 @@
-[submodule "SDK/Libraries/Facebook"]
-    path = SDK/Libraries/Facebook
+[submodule "Libraries/Facebook"]
+    path = Libraries/Facebook
     url = https://github.com/facebook/facebook-ios-sdk
 [submodule "Libraries/DejalActivityView"]
 	path = Libraries/DejalActivityView

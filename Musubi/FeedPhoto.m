@@ -17,9 +17,9 @@
 
 #import "FeedPhoto.h"
 #import "FeedPhotoSource.h"
-#import "CorralHTTPServer.h"
 #import "SBJsonParser.h"
 #import "PictureObj.h"
+#import "Musubi.h"
 
 @implementation FeedPhoto
 @synthesize caption = _caption;
@@ -48,7 +48,7 @@
             NSDictionary *json = [parser objectWithString:obj.json];
             self.caption = [json objectForKey:kTextField];
         }
-        self.urlLarge = [CorralHTTPServer urlForRaw:obj];
+        self.urlLarge = [Musubi urlForObjRaw:obj];
         self.urlSmall = self.urlLarge;
         self.urlThumb = self.urlLarge;
         self.index = index;

@@ -26,14 +26,37 @@
 #import "AppDelegate.h"
 #import "Musubi.h"
 #import "NSData+HexString.h"
+#import <DropboxSDK/DropboxSDK.h>
 
+#import "FacebookIdentityUpdater.h"
+#import "GoogleIdentityUpdater.h"
+xxx#import "FacebookAuth.h"
+
+#import "MusubiShareKitConfigurator.h"
+#import "SHKConfiguration.h"
+#import "SHKFacebook.h"
+#import "SHK.h"
+
+    
 @implementation AppDelegate
 
 @synthesize window = _window, navController;
+@synthesize facebookIdentityUpdater, googleIdentityUpdater, facebookLoginOperation;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[Musubi sharedInstance] onAppLaunch];
+    
+    DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"" appSecret:@"" root:kDBRootAppFolder];
+    [DBSession setSharedSession:dbSession];
+    
+    self.facebookIdentityUpdater = [[FacebookIdentityUpdater alloc] initWithStoreFactory: [Musubi sharedInstance].storeFactory];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kFacebookIdentityUpdaterFrequency target:self.facebookIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+    
+    self.googleIdentityUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: [Musubi sharedInstance].storeFactory];
+    [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.googleIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
+      
+    
     return YES;
 }
 
@@ -95,6 +118,26 @@
 // For iOS 4.2+ support
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    NSString* facebookPrefix = [NSString stringWithFormat:@"fb%@", SHKCONFIG(facebookAppId)];
+    if ([url.scheme hasPrefix:facebookPrefix]) {
+        BOOL shk, fb;
+        shk = [SHKFacebook handleOpenURL:url];
+        fb = [facebookLoginOperation handleOpenURL:url];
+        
+        return shk && fb;
+    }
+    
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        return YES;
+    }
+    
+    if ([url.scheme hasPrefix:kMusubiUriScheme]) {
+        if ([url.path hasPrefix:@"/intro/"]) {
+            return YES;
+        }
+    }
+    
     return [[Musubi sharedInstance] handleURL:url fromSourceApplication:sourceApplication];
 }
 

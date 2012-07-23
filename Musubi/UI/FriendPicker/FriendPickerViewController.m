@@ -29,7 +29,6 @@
 #import "FriendListItem.h"
 #import "Musubi.h"
 #import "AccountManager.h"
-#import "IBEncryptionScheme.h"
 #import "MIdentity.h"
 #import "IdentityManager.h"
 #import "Authorities.h"
@@ -220,9 +219,7 @@
     // Ensure the entered email address is valid
     if ([self validateEmail:newIdentityName]) {
         
-        IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:newIdentityName temporalFrame:0];
-        
-        MIdentity* mId = [im ensureIdentity:ident withName:newIdentityName identityAdded:&identityAdded profileDataChanged:&profileDataChanged];
+        MIdentity* mId = [im ensureIdentityWithType:kIdentityTypeEmail andPrincipal:newIdentityName andName:newIdentityName identityAdded:&identityAdded profileDataChanged:&profileDataChanged];
         
         newListItem.musubiName = newIdentityName;
         newListItem.realName = newIdentityName;

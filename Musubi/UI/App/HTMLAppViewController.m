@@ -32,6 +32,7 @@
 #import "FeedManager.h"
 #import "IdentityManager.h"
 #import "NSData+HexString.h"
+#import "SBJsonWriter.h"
 
 @implementation HTMLAppViewController
 

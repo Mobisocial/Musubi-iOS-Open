@@ -50,6 +50,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 #define kMusubiNotificationUpdatedFeed @"UpdatedFeed"
 #define kMusubiNotificationIdentityImported @"IdentityImported"
 #define kMusubiNotificationIdentityImportFinished @"IdentityImportFinished"
+#define kMusubiNotificationConnectionStateChanged @"ConnectionStateChanged"
 
 #define kMusubiExceptionDuplicateMessage @"DuplicateMessage"
 #define kMusubiExceptionRecipientMismatch @"RecipientMismatch"
@@ -69,7 +70,9 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 #define kMusubiThreadPriorityBackground 0.0
 
-@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjProcessorService, FacebookIdentityUpdater, GoogleIdentityUpdater, AddressBookIdentityManager, CorralHTTPServer, FacebookLoginOperation;
+#define kMusubiUriScheme @"musubi://"
+
+@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjProcessorService, AddressBookIdentityManager, CorralHTTPServer, MObj;
 
 
 @interface Musubi : NSObject {
@@ -91,16 +94,12 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 //read from a background thread
 @property (atomic, strong) NSString* apnDeviceToken;
 
-@property (nonatomic, strong) FacebookIdentityUpdater* facebookIdentityUpdater;
-@property (nonatomic, strong) GoogleIdentityUpdater* googleIdentityUpdater;
 @property (nonatomic, strong) AddressBookIdentityManager* addressBookIdentityUpdater;
 
 @property (nonatomic, strong) CorralHTTPServer* corralHTTPServer;
 
-// Facebook SingleSignOn always calls back the appDelegate, so we need a reference to the login
-@property (nonatomic, weak) FacebookLoginOperation* facebookLoginOperation;
-
 + (Musubi*) sharedInstance;
++ (NSString *)urlForObjRaw:(MObj *)obj;
 
 // creates a new store on the current thread
 - (PersistentModelStore*) newStore;

@@ -1,0 +1,295 @@
+TRabbitMQ
+v5
+r1
+cCheck dependencies
+cProcessPCH /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch.pth RabbitMQ-Prefix.pch normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_api.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_api.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_connection.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_connection.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_framing.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_framing.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_mem.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_mem.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_table.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_table.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_socket.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_socket.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_url.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_url.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/socket.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../socket.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/utils.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../utils.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+cLibtool /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/libRabbitMQ.a normal i386
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk
+c000000004F453DF80000000000000110
+t1329937912
+s272
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_api.c
+c00000000500B38820000000000001BB8
+t1342912642
+s7096
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_connection.c
+c00000000500B38820000000000003567
+t1342912642
+s13671
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_framing.c
+c00000000500B38820000000000014A39
+t1342912642
+s84537
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_mem.c
+c00000000500B388200000000000013EB
+t1342912642
+s5099
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_socket.c
+c00000000500B38820000000000003975
+t1342912642
+s14709
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_table.c
+c00000000500B38820000000000002D6A
+t1342912642
+s11626
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_url.c
+c00000000500B388200000000000011F6
+t1342912642
+s4598
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../socket.c
+c00000000500B388200000000000008D4
+t1342912642
+s2260
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../utils.c
+c00000000500B38820000000000001179
+t1342912642
+s4473
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/RabbitMQ-Prefix.pch
+c00000000500B3882000000000000009D
+t1342912642
+s157
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/libRabbitMQ.a
+t2
+s0
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/RabbitMQ.LinkFileList
+c00000000500B3C330000000000000563
+t1342913587
+s1379
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_api.o
+t2
+s0
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_connection.o
+t2
+s0
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_framing.o
+t2
+s0
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_mem.o
+t2
+s0
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_socket.o
+t2
+s0
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_table.o
+t2
+s0
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_url.o
+t2
+s0
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/socket.o
+t2
+s0
+
+N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/utils.o
+t2
+s0
+
+N/var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch.pth
+t2
+s0
+
+CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_api.c
+r0
+
+CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_connection.c
+r0
+
+CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_framing.c
+r0
+
+CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_mem.c
+r0
+
+CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_socket.c
+r0
+
+CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_table.c
+r0
+
+CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_url.c
+r0
+
+CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../socket.c
+r0
+
+CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../utils.c
+r0
+
+CCheck dependencies
+r0
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependenciesc5c5c1b373bbb541^93c6f0b373bbb541^---0#1#0#--18"Check dependencies36"CB44057F-4F77-4F4A-80EB-336841444C22-
+
+CCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_api.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_api.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+s364606388.824133
+e364606388.934119
+r1
+xCompileC
+xbuild/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_api.o
+x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_api.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection84"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_api.c8a1fd3b473bbb541^1f10f0b473bbb541^---0#0#0#-19%DVTDocumentLocation2@92"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_api.c0000000000000000^3166"CompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_api.o ../amqp_api.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -arch i386 -fmessage-length=0 -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-sign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator -include /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_api.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_api.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_api.c -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_api.o36"E81DADA9-267E-461A-9D06-7025D24B691C-
+
+CCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_connection.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_connection.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+s364606388.824929
+e364606388.991144
+r1
+xCompileC
+xbuild/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_connection.o
+x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_connection.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection91"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_connection.cad51d3b473bbb541^16c3fdb473bbb541^---0#0#0#-19%DVTDocumentLocation2@99"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_connection.c0000000000000000^3208"CompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_connection.o ../amqp_connection.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -arch i386 -fmessage-length=0 -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-sign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator -include /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_connection.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_connection.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_connection.c -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_connection.o36"B3B3EC13-A4ED-4C94-BF2C-4B35F338CDB0-
+
+CCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_framing.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_framing.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+s364606388.836805
+e364606389.215904
+r1
+xCompileC
+xbuild/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_framing.o
+x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_framing.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection88"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_framing.cc460d6b473bbb541^674637b573bbb541^---0#0#0#-19%DVTDocumentLocation2@96"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_framing.c0000000000000000^3190"CompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_framing.o ../amqp_framing.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -arch i386 -fmessage-length=0 -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-sign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator -include /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_framing.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_framing.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_framing.c -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_framing.o36"FB22DFE6-0EC2-4998-8A3D-521AEBB14798-
+
+CCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_mem.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_mem.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+s364606388.838928
+e364606388.895790
+r1
+xCompileC
+xbuild/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_mem.o
+x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_mem.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection84"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_mem.c47e9d6b473bbb541^d55de5b473bbb541^---0#0#0#-19%DVTDocumentLocation2@92"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_mem.c0000000000000000^3166"CompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_mem.o ../amqp_mem.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -arch i386 -fmessage-length=0 -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-sign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator -include /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_mem.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_mem.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_mem.c -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_mem.o36"6C1A9521-59BC-4CB3-B182-DE66704962B7-
+
+CCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_socket.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_socket.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+s364606388.944341
+e364606389.098143
+r1
+xCompileC
+xbuild/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_socket.o
+x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_socket.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection87"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_socket.cf2e9f1b473bbb541^aa2919b573bbb541^---0#0#0#-19%DVTDocumentLocation2@95"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_socket.c0000000000000000^3184"CompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_socket.o ../amqp_socket.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -arch i386 -fmessage-length=0 -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-sign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator -include /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_socket.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_socket.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_socket.c -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_socket.o36"248066C9-D3EF-4DD9-9511-52D365564921-
+
+CCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_table.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_table.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+s364606388.944328
+e364606389.094479
+r1
+xCompileC
+xbuild/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_table.o
+x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_table.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection86"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_table.c03eaf1b473bbb541^f33818b573bbb541^---0#0#0#-19%DVTDocumentLocation2@94"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_table.c0000000000000000^3178"CompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_table.o ../amqp_table.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -arch i386 -fmessage-length=0 -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-sign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator -include /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_table.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_table.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_table.c -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_table.o36"5D3D11A0-1247-430B-BEA8-C2DE2A942952-
+
+CCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_url.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_url.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+s364606389.004197
+e364606389.084253
+r1
+xCompileC
+xbuild/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_url.o
+x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_url.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection84"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_url.ccd3c01b573bbb541^507316b573bbb541^---0#0#0#-19%DVTDocumentLocation2@92"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_url.c0000000000000000^3166"CompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_url.o ../amqp_url.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -arch i386 -fmessage-length=0 -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-sign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator -include /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_url.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_url.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../amqp_url.c -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/amqp_url.o36"CF9C8B3A-615E-4E88-8B9E-A2E411EE7D2D-
+
+CCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/socket.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../socket.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+s364606389.089425
+e364606389.180081
+r1
+xCompileC
+xbuild/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/socket.o
+x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../socket.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection82"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../socket.c341417b573bbb541^f2422eb573bbb541^---0#0#0#-19%DVTDocumentLocation2@90"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../socket.c0000000000000000^3154"CompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/socket.o ../socket.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -arch i386 -fmessage-length=0 -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-sign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator -include /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/socket.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/socket.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../socket.c -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/socket.o36"954986C3-0462-48DF-A033-2E7CC056CF0F-
+
+CCompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/utils.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../utils.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+s364606389.095734
+e364606389.180242
+r1
+xCompileC
+xbuild/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/utils.o
+x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../utils.c
+xnormal
+xi386
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection81"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../utils.cb4ab18b573bbb541^874f2eb573bbb541^---0#0#0#-19%DVTDocumentLocation2@89"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../utils.c0000000000000000^3148"CompileC build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/utils.o ../utils.c normal i386 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -arch i386 -fmessage-length=0 -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-sign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator -include /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/utils.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/utils.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/../utils.c -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/utils.o36"AE3E40C1-1EE5-4FB8-B8A2-2FED6AC64851-
+
+CLibtool /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/libRabbitMQ.a normal i386
+s364606389.222857
+e364606389.230956
+r1
+xLibtool
+x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/libRabbitMQ.a
+xnormal
+xi386
+o/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: -dynamic not specified the following flags are invalid: -ObjC 
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection61"Libtool build/Debug-iphonesimulator/libRabbitMQ.a normal i3867d2439b573bbb541^89233bb573bbb541^-159"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: -dynamic not specified the following flags are invalid: -ObjC -0#0#0#--999"Libtool build/Debug-iphonesimulator/libRabbitMQ.a normal i386    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv MACOSX_DEPLOYMENT_TARGET 10.6    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool -static -arch_only i386 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -L/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator -filelist /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/Objects-normal/i386/RabbitMQ.LinkFileList -ObjC -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/libRabbitMQ.a36"6F966F56-F900-429A-ABB2-6A3C30F9905F-
+
+CProcessPCH /Users/wbult/Library/Developer/Xcode/DerivedData/MusubiSDK-cqstzdzoeikmhpdwehzmilsfvjyk/Index/PrecompiledHeaders/RabbitMQ-Prefix-dfgjlewcqnunkcahwcilpsvrhqln_ast/RabbitMQ-Prefix.pch.pth RabbitMQ-Prefix.pch normal i386 c com.apple.compilers.llvm.clang.1_0.astbuilder
+r0
+
+CProcessPCH /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch.pth RabbitMQ-Prefix.pch normal i386 c com.apple.compilers.llvm.clang.1_0.compiler
+s364606388.783813
+e364606388.815955
+r1
+xProcessPCH
+x/var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch.pth
+xRabbitMQ-Prefix.pch
+xnormal
+xi386
+xc
+xcom.apple.compilers.llvm.clang.1_0.compiler
+lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection30"Precompile RabbitMQ-Prefix.pche0d7c8b473bbb541^edefd0b473bbb541^---0#0#0#-19%DVTDocumentLocation2@98"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/RabbitMQ-Prefix.pch0000000000000000^3122"ProcessPCH /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch.pth RabbitMQ-Prefix.pch normal i386 c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c-header -arch i386 -fmessage-length=0 -std=gnu99 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wreturn-type -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wuninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-sign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wno-newline-eof -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/RabbitMQ-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/RabbitMQ.build/Debug-iphonesimulator/RabbitMQ.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/build/Debug-iphonesimulator --serialize-diagnostics /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/RabbitMQ/RabbitMQ/RabbitMQ-Prefix.pch -o /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch.pth -MMD -MT dependencies -MF /var/folders/sp/0yytpznd14l_n9x88v5y4jfc0000gn/C/com.apple.Xcode.501/SharedPrecompiledHeaders/RabbitMQ-Prefix-dscxhimysuuzypbpcbtdqskxwhul/RabbitMQ-Prefix.pch.d36"A5B2E559-6273-4837-ACD7-FF18F9154678-
+
