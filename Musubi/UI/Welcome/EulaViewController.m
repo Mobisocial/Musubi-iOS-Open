@@ -26,13 +26,14 @@
 #import "EULAViewController.h"
 #import "Three20/Three20.h"
 #import "MusubiAnalytics.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface EulaViewController ()
-
+@interface EulaViewController()
 @end
 
 @implementation EulaViewController
 @synthesize eulaText = _eulaText, declineButton = _declineButton, acceptButton = _acceptButton, bottomBar = _bottomBar;
+bool _isAlreadyAccepted;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,6 +66,26 @@
     [[self navigationController] popViewControllerAnimated:NO];
 }
 
+- (IBAction)pleaseEmailMeTheEulaSoICanReadItLater:(id)sender {
+    MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+    controller.mailComposeDelegate = self;
+    
+    NSMutableArray* recipients = [[NSMutableArray alloc] init];
+    
+    [controller setSubject:@"Musubi EULA and Privacy Policy"];
+    
+    [controller setMessageBody:_eulaText.text isHTML:NO];
+    
+    [controller setToRecipients:recipients];
+    
+    if (controller) [self presentModalViewController:controller animated:YES];
+}
+
+
+- (void) isAlreadyAccepted: (BOOL) accepted {
+    _isAlreadyAccepted = accepted;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -73,8 +94,12 @@
     if (![[GANTracker sharedTracker] trackPageview:kAnalyticsPageEula withError:&error]) {
     }
 
-    [_declineButton setAction:@selector(doDecline:)];
-    [_acceptButton setAction:@selector(doAccept:)];
+    if (_isAlreadyAccepted) {
+        [_bottomBar setItems:[[NSArray alloc] initWithObjects: nil]];
+    } else {
+        [_declineButton setAction:@selector(doDecline:)];
+        [_acceptButton setAction:@selector(doAccept:)];
+    }
     [self loadEula];
     
     _bottomBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
@@ -104,8 +129,16 @@
 
 - (UINavigationItem *)navigationItem {
     UINavigationItem* item = [super navigationItem];
-    item.hidesBackButton = YES;
+    item.hidesBackButton = !_isAlreadyAccepted;
     return item;
+}
+
+#pragma MFMailComposeViewController Delegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    if (result == MFMailComposeResultSent) {
+        NSLog(@"Invitation email sent.");
+    }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

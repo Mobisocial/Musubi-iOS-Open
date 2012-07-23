@@ -118,7 +118,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -131,6 +131,8 @@
         case 2:
             return 2;
         case 3:
+            return 1;
+        case 4:
             return 1;
     }
     
@@ -148,6 +150,8 @@
             return @"Dropbox Backup";
         case 3:
             return @"QR Code";
+        case 4:
+            return @"About";
     }
     
     return nil;
@@ -242,6 +246,19 @@
             
             return cell;
         }
+        case 4: {
+            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
+            }
+            
+            [[cell textLabel] setText: @"Eula & Privacy Policy"];
+            [[cell detailTextLabel] setText: @""];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            
+            return cell;
+        }
     }
     return nil;
 }
@@ -329,6 +346,11 @@
         }
         case 3: {
             [self performSegueWithIdentifier:@"ShowQRCode" sender:self];
+            break;
+        }
+        case 4: {
+            [self performSegueWithIdentifier:@"eula" sender:self];
+            break;
         }
      }
 }
@@ -392,6 +414,8 @@
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"No accounts" message:@"Please connect to another service on the settings page first to use Musubi" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
         }
+    } else if ([[segue identifier] isEqualToString:@"eula"]) {
+        [segue.destinationViewController performSelector:@selector(isAlreadyAccepted:) withObject:[NSNumber numberWithBool:YES]];
     }
 }
 
