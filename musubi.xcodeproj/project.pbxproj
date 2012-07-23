@@ -3436,7 +3436,7 @@
 			attributes = {
 				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "Musubi" */;
+			buildConfigurationList = D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "musubi" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -4327,7 +4327,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "Musubi" */ = {
+		D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "musubi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D298FA24143CE6DF000831DD /* Debug */,
