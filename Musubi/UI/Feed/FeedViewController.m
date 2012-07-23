@@ -484,10 +484,15 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    NSError *error;
 
     switch (buttonIndex) {
         case 0: // take picture
         {
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionFeedAction label:kAnalyticsLabelFeedActionCamera value:nil withError:&error]) {
+                // error
+            }
+
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
                 _pictureViewController = [[PictureOverlayViewController alloc] initForImagePicker:UIImagePickerControllerSourceTypeCamera];
                 _pictureViewController.delegate = self;
@@ -499,6 +504,10 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         }
         case 1: // existing picture
         {   
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionFeedAction label:kAnalyticsLabelFeedActionGallery value:nil withError:&error]) {
+                // error
+            }
+
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
                 _pictureViewController = [[PictureOverlayViewController alloc] initForImagePicker:UIImagePickerControllerSourceTypePhotoLibrary];
                 _pictureViewController.delegate = self;
@@ -510,12 +519,20 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         }
         case 2: // Audio
         {
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionFeedAction label:kAnalyticsLabelFeedActionRecordAudio value:nil withError:&error]) {
+                // error
+            }
+
             [self hideKeyboard];
             [self slideSubView:self.audioRVC.view];
             break;
         }
         case 3: // app (sketch)
         {
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionFeedAction label:kAnalyticsLabelFeedActionSketch value:nil withError:&error]) {
+                // error
+            }
+
             NSString* appId = @"musubi.sketch";
             AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
             MApp* app = [appMgr ensureAppWithAppId:appId];
@@ -544,6 +561,10 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         }
         case 4: // check in
         {
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionFeedAction label:kAnalyticsLabelFeedActionCheckIn value:nil withError:&error]) {
+                // error
+            }
+
             [self performSegueWithIdentifier:@"ShowCheckinController" sender:_feed];
             break;
         }

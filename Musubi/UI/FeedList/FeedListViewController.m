@@ -407,7 +407,16 @@
 
 #pragma UIAlertView Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1 && self.ownedId != nil) {
+    NSError* error;
+    if (buttonIndex == 0) {
+        if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionInvite label:kAnalyticsLabelNo value:nil withError:&error]) {
+            // error
+        }
+    } else if (buttonIndex == 1 && self.ownedId != nil) {
+        if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionInvite label:kAnalyticsLabelYes value:nil withError:&error]) {
+            // error
+        }
+
         NSString* nameForURL = [self.ownedId.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSString* principalForURL = [self.ownedId.principal stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSString* typeForURL = [NSString stringWithFormat:@"%d", self.ownedId.type];
