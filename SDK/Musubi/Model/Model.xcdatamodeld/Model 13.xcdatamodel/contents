@@ -84,7 +84,6 @@
         <attribute name="principal" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="principalHash" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="principalShortHash" optional="YES" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="profile" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="receivedProfileVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="sentProfileVersion" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -186,7 +185,7 @@
         <element name="Feed" positionX="160" positionY="192" width="128" height="195"/>
         <element name="FeedApp" positionX="160" positionY="192" width="128" height="75"/>
         <element name="FeedMember" positionX="160" positionY="192" width="128" height="75"/>
-        <element name="Identity" positionX="160" positionY="192" width="128" height="345"/>
+        <element name="Identity" positionX="160" positionY="192" width="128" height="330"/>
         <element name="IncomingSecret" positionX="160" positionY="192" width="128" height="165"/>
         <element name="Like" positionX="160" positionY="192" width="128" height="90"/>
         <element name="MissingMessage" positionX="160" positionY="192" width="128" height="75"/>

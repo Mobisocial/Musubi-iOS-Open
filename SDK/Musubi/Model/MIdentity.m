@@ -44,6 +44,7 @@
 @dynamic principalHash;
 @dynamic principalShortHash;
 @dynamic receivedProfileVersion;
+@dynamic profile;
 @dynamic sentProfileVersion;
 @dynamic thumbnail;
 @dynamic type;

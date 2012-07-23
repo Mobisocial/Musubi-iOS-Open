@@ -45,6 +45,7 @@
 @property (nonatomic, retain) NSData * principalHash;
 @property (nonatomic) int64_t principalShortHash;
 @property (nonatomic) int64_t receivedProfileVersion;
+@property (nonatomic, retain) NSData * profile;
 @property (nonatomic) int64_t sentProfileVersion;
 @property (nonatomic, retain) NSData * thumbnail;
 @property (nonatomic) int16_t type;

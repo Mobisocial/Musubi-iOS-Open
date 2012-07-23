@@ -59,4 +59,7 @@
 
 + (NSString*) displayNameForIdentity: (MIdentity*)ident;
 
++ (NSDictionary*) deserializeProfile: (NSData*) data;
++ (NSData*) serializeProfile: (NSDictionary*) dict;
+
 @end

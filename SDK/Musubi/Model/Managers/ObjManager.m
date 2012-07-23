@@ -107,6 +107,11 @@
     return [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (type == 'picture') AND ((processed == YES) OR (encoded == nil))", feed.objectID] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:TRUE] limit:-1];
 }
 
+- (MObj*)firstRenderableObjInFeed:(MFeed *)feed{
+    NSArray* matches = [self query:[NSPredicate predicateWithFormat:@"(feed == %@) AND (parent == nil) AND (renderable == YES) AND ((processed == YES) OR (encoded == nil))", feed.objectID] sortBy:[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:TRUE] limit:1];
+    return matches.count ? [matches objectAtIndex:0] : nil;
+}
+
 - (NSArray *)renderableObjsInFeed:(MFeed *)feed {
     return [self renderableObjsInFeed:feed limit:-1];
 }

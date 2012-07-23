@@ -40,6 +40,7 @@
 #define kProfileObjVersion @"version"
 #define kProfileObjName @"name"
 #define kProfileObjPrincipal @"principal"
+#define kProfileObjProfile @"profile"
 
 @implementation ProfileObj
 
@@ -49,15 +50,23 @@
     if (!self)
     return nil;
 
-    NSMutableDictionary* profile = [NSMutableDictionary dictionaryWithCapacity:4];
-    [profile setValue:[NSNumber numberWithBool:replyRequested] forKey:kProfileObjReply];
-    [profile setValue:[NSNumber numberWithLongLong:(long long)([[NSDate date] timeIntervalSince1970] * 1000)] forKey:kProfileObjVersion];
-    [profile setValue:user.musubiName forKey:kProfileObjName];
+    NSMutableDictionary* data = [NSMutableDictionary dictionaryWithCapacity:4];
+    [data setValue:[NSNumber numberWithBool:replyRequested] forKey:kProfileObjReply];
+    [data setValue:[NSNumber numberWithLongLong:(long long)([[NSDate date] timeIntervalSince1970] * 1000)] forKey:kProfileObjVersion];
+    [data setValue:user.musubiName forKey:kProfileObjName];
     if(includePrincipal) {
-        [profile setValue:user.principal forKey:kProfileObjPrincipal];
+        [data setValue:user.principal forKey:kProfileObjPrincipal];
+    }
+    
+    if (user.profile) {
+        NSDictionary* dict = [IdentityManager deserializeProfile:user.profile];
+        
+        if (dict != nil && [dict isKindOfClass:[NSDictionary class]]) {
+            [data setValue:dict forKey:kProfileObjProfile];
+        }
     }
 
-    self.data = profile;
+    self.data = data;
     self.type = kObjTypeProfile;
     self.raw = user.musubiThumbnail;
     return self;
@@ -126,8 +135,17 @@
             NSObject* principalString = [profile valueForKey:kProfileObjPrincipal];
             if(principalString && [principalString isKindOfClass:[NSString class]]) {
                 NSString* principal = (NSString*)principalString;
-                if([sender.principalHash isEqualToData:[[principal dataUsingEncoding:NSUTF8StringEncoding] sha256Digest]]) {
+                if(![sender.principalHash isEqualToData:[[principal dataUsingEncoding:NSUTF8StringEncoding] sha256Digest]]) {
                     sender.principal = principal;
+                    changed = YES;
+                }
+            }
+            
+            NSDictionary* profileDict = [profile valueForKey:kProfileObjProfile];
+            if (profileDict && [profileDict isKindOfClass:[NSDictionary class]]) {
+                NSData* data = [IdentityManager serializeProfile:profileDict];
+                if (![sender.profile isEqualToData:data]) {
+                    sender.profile = data;
                     changed = YES;
                 }
             }

@@ -266,4 +266,26 @@
 - (NSArray *)claimedIdentities {
     return [self query:[NSPredicate predicateWithFormat:@"claimed=1"]];
 }
+
+
++ (NSDictionary*) deserializeProfile: (NSData*) data {
+    
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSDictionary *dict = [unarchiver decodeObject];
+    [unarchiver finishDecoding];
+    
+    if (dict && [dict isKindOfClass:[NSDictionary class]]) {
+        return dict;
+    } else {
+        return nil;
+    }
+}
+
++ (NSData*) serializeProfile: (NSDictionary*) dict {
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:dict];
+    [archiver finishEncoding];
+    return data;
+}
 @end

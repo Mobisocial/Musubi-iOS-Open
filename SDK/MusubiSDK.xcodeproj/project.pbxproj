@@ -427,6 +427,7 @@
 		D22FE27E15BA9342002EC00A /* MusubiSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiSDK-Prefix.pch"; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSenderService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSenderService.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSenderService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSenderService.m; sourceTree = "<group>"; };
+		D2375E8C15BDF34D00CA764D /* Model 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 13.xcdatamodel"; sourceTree = "<group>"; };
 		D23F129F1586ACE600BA0602 /* AMQPUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPUtil.h; sourceTree = "<group>"; };
 		D23F12A01586ACE600BA0602 /* AMQPUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPUtil.m; sourceTree = "<group>"; };
 		D23F12A21586BA9400BA0602 /* ObjectPipelineService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectPipelineService.h; sourceTree = "<group>"; };
@@ -2087,6 +2088,7 @@
 				D25FE00015BD0152005B1849 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "MusubiSDK" */ = {
 			isa = XCConfigurationList;
@@ -2103,6 +2105,7 @@
 		D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D2375E8C15BDF34D00CA764D /* Model 13.xcdatamodel */,
 				D46F70541590341B007B190C /* Model 12.xcdatamodel */,
 				D2E708341587F6C00015E43D /* Model 11.xcdatamodel */,
 				D2E708331587EE730015E43D /* Model 10.xcdatamodel */,
