@@ -1780,6 +1780,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D216DE6714F48952001A4166 /* Build configuration list for PBXNativeTarget "MusubiAppTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D216DE6814F48952001A4166 /* Debug */,
+				D216DE6914F48952001A4166 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "Musubi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

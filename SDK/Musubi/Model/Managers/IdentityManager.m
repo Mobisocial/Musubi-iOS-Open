@@ -127,7 +127,7 @@
     }
     
     if (bestIdentity)
-        return (MIdentity*)[self query:[NSPredicate predicateWithFormat:@"self = %@", bestIdentity]];
+        return (MIdentity*)[self queryFirst:[NSPredicate predicateWithFormat:@"self = %@", bestIdentity]];
     else
         return [self defaultIdentity];
 }
