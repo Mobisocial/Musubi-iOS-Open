@@ -27,7 +27,6 @@
 #import "ManagedObjFeedItem.h"
 #import "ObjHelper.h"
 #import "UIViewAdditions.h"
-#import "CorralHTTPServer.h"
 #import "AFPhotoEditorController.h"
 #import "PictureObj.h"
 #import "AppManager.h"
@@ -143,7 +142,7 @@
 
 
     ManagedObjFeedItem* item = self.object;
-    NSURL    *aUrl  = [NSURL URLWithString:[CorralHTTPServer urlForRaw:item.managedObj]];
+    NSURL    *aUrl  = [NSURL URLWithString:[Musubi urlForObjRaw:item.managedObj]];
     
     NSURLRequest* request = [NSURLRequest requestWithURL:aUrl];
     [NSURLConnection sendAsynchronousRequest:request 

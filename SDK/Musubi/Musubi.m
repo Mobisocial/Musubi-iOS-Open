@@ -64,7 +64,7 @@
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, addressBookIdentityUpdater;
+@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, addressBookIdentityUpdater, identityProvider;
 @synthesize corralHTTPServer;
 
 +(Musubi*)sharedInstance
@@ -133,7 +133,7 @@ static Musubi* _sharedInstance = nil;
 
 - (void) startServices {
     // The identity provider is our main IBE point of contact
-    identityProvider = [[AphidIdentityProvider alloc] init];
+    self.identityProvider = [[AphidIdentityProvider alloc] init];
     
     // The key manager handles our encryption and signature keys
     self.keyManager = [[IdentityKeyManager alloc] initWithIdentityProvider: identityProvider];

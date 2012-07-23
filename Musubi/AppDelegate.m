@@ -31,14 +31,18 @@
 #import "FacebookIdentityUpdater.h"
 #import "GoogleIdentityUpdater.h"
 xxx#import "FacebookAuth.h"
+#import "GoogleAuth.h"
 
 #import "MusubiShareKitConfigurator.h"
 #import "SHKConfiguration.h"
 #import "SHKFacebook.h"
 #import "SHK.h"
 #import "MusubiAnalytics.h"
+#import "ObjRegistry.h"
 
-#define kMusubiUriScheme @"musubi"
+#import "Three20/Three20.h"
+#import "MusubiStyleSheet.h"
+
 static const NSInteger kGANDispatchPeriodSec = 60;
 
 @implementation AppDelegate
@@ -48,7 +52,10 @@ static const NSInteger kGANDispatchPeriodSec = 60;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [ObjRegistry registerObjs];
     [[Musubi sharedInstance] onAppLaunch];
+    
+    [TTStyleSheet setGlobalStyleSheet:[[MusubiStyleSheet alloc] init]];
 
     //    [self setFacebook: [[[Facebook alloc] initWithAppId:kFacebookAppId andDelegate:self] autorelease]];
     //[TestFlight takeOff:@"xxx"];
@@ -60,12 +67,21 @@ static const NSInteger kGANDispatchPeriodSec = 60;
     DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"" appSecret:@"" root:kDBRootAppFolder];
     [DBSession setSharedSession:dbSession];
     
+    
+    MusubiShareKitConfigurator *configurator = [[MusubiShareKitConfigurator alloc] init];
+    [SHKConfiguration sharedInstanceWithConfigurator:configurator];
+    [SHK flushOfflineQueue];
+
+    
     self.facebookIdentityUpdater = [[FacebookIdentityUpdater alloc] initWithStoreFactory: [Musubi sharedInstance].storeFactory];
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kFacebookIdentityUpdaterFrequency target:self.facebookIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
     
     self.googleIdentityUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: [Musubi sharedInstance].storeFactory];
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.googleIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
       
+    [[Musubi sharedInstance].identityProvider registerProvider:[[EmailAphidAuthProvider alloc] init]];
+    [[Musubi sharedInstance].identityProvider registerProvider:[[FacebookAphidAuthProvider alloc] init]];
+    [[Musubi sharedInstance].identityProvider registerProvider:[[GoogleAphidAuthProvider alloc] init]];
     
     return YES;
 }

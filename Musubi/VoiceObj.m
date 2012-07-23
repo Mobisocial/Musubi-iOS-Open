@@ -47,4 +47,8 @@
     return [self initWithAudio:[NSData dataWithContentsOfURL:url] withData:data];
 }
 
+- (id)initWithData:(NSDictionary *)data andRaw:(NSData *)raw {
+    return [self initWithType:kObjTypeVoice data:data andRaw:raw];
+}
+
 @end

@@ -33,5 +33,5 @@
 
 - (id)initWithAudio:(NSData*) rawAudio withData:(NSDictionary*)data;
 - (id)initWithURL:(NSURL*) url withData:(NSDictionary*)data;
-
+- (id)initWithData: (NSDictionary*) data andRaw: (NSData*) raw;
 @end

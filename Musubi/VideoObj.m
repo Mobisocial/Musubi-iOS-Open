@@ -27,4 +27,7 @@
 
 @implementation VideoObj
 
+- (id)initWithData:(NSDictionary *)data andRaw:(NSData *)raw {
+    return [self initWithType:kObjTypeVideo data:data andRaw: raw];
+}
 @end

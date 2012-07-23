@@ -28,6 +28,7 @@
 #import "AccountAuthManager.h"
 #import "MAccount.h"
 #import "Musubi.h"
+#import "Authorities.h"
 
 @implementation FacebookAuthManager
 
@@ -210,6 +211,25 @@
     }
     
     finished = YES;
+}
+
+@end
+
+
+
+@implementation FacebookAphidAuthProvider
+
+- (NSString *)accountType {
+    return kAccountTypeFacebook;
+}
+
+- (uint8_t)identityType {
+    return kIdentityTypeFacebook;
+}
+
+- (NSString *)tokenForPrincipal:(NSString *)principal {
+    FacebookAuthManager* mgr = [[FacebookAuthManager alloc] init];
+    return [mgr activeAccessToken];
 }
 
 @end

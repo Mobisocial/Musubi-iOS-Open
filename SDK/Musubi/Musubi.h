@@ -72,18 +72,18 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 #define kMusubiUriScheme @"musubi://"
 
-@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjProcessorService, AddressBookIdentityManager, CorralHTTPServer, MObj;
+@class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjProcessorService, AddressBookIdentityManager, CorralHTTPServer, MObj, AphidIdentityProvider;
 
 
-@interface Musubi : NSObject {
-    id<IdentityProvider> identityProvider;
-}
+@interface Musubi : NSObject
 
 // store to use on the main thread
 @property (nonatomic, strong) PersistentModelStore* mainStore;
 @property (nonatomic, strong) PersistentModelStoreFactory* storeFactory;
 
 @property (nonatomic, strong) NSNotificationCenter* notificationCenter;
+
+@property (nonatomic, strong) AphidIdentityProvider* identityProvider;
 
 @property (nonatomic, strong) AMQPTransport* transport;
 @property (nonatomic, strong) IdentityKeyManager* keyManager;

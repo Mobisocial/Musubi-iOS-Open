@@ -28,4 +28,6 @@
 
 @interface VideoObj : Obj<RenderableObj>
 
+- (id)initWithData:(NSDictionary *)data andRaw:(NSData *)raw;
+
 @end

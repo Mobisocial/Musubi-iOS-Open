@@ -29,6 +29,7 @@
 #import "MAccount.h"
 #import "Musubi.h"
 #import "AccountAuthManager.h"
+#import "Authorities.h"
 
 static GTMOAuth2Authentication* active;
 
@@ -207,6 +208,28 @@ static GTMOAuth2Authentication* active;
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     NSLog(@"Error: %@", error);
     [self finish];
+}
+
+@end
+
+@implementation GoogleAphidAuthProvider
+
+- (NSString *)accountType {
+    return kAccountTypeGoogle;
+}
+
+- (uint8_t)identityType {
+    return kIdentityTypeEmail;
+}
+
+- (NSString *)tokenForPrincipal:(NSString *)principal {
+    GoogleAuthManager* mgr = [[GoogleAuthManager alloc] init];
+    
+    if ([[mgr activeAuth].userEmail isEqualToString:principal]) {
+        return [mgr activeAccessToken];
+    }
+    
+    return nil;
 }
 
 @end

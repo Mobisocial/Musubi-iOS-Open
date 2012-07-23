@@ -34,6 +34,8 @@
 @interface StoryObj : Obj<RenderableObj>
 
 - (id)initWithURL:(NSURL *)url text:(NSString*) text ;
+- (id)initWithData: (NSDictionary*) data andRaw: (NSData*) data;
+
 @property (nonatomic, strong) NSString* text;
 @property (nonatomic, strong) NSString* story_url;
 @property (nonatomic, strong) NSString* story_title;

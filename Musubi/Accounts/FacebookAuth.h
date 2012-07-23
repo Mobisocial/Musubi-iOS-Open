@@ -25,6 +25,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Facebook.h"
+#import "AphidIdentityProvider.h"
 
 #define kFacebookAppId @""
 
@@ -71,4 +72,7 @@
 
 - (BOOL) handleOpenURL: (NSURL*) url;
 
+@end
+
+@interface FacebookAphidAuthProvider : NSObject<AphidAuthProvider>
 @end

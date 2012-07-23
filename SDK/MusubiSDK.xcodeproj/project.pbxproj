@@ -15,6 +15,12 @@
 		D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D216DE6014F48951001A4166 /* InfoPlist.strings */; };
 		D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D216DE6414F48952001A4166 /* MusubiAppTest.m */; };
 		D22FE27B15BA9342002EC00A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
+		D25FDFF615BD0152005B1849 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25FDFF515BD0152005B1849 /* CoreFoundation.framework */; };
+		D25FDFFC15BD0152005B1849 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D25FDFFA15BD0152005B1849 /* InfoPlist.strings */; };
+		D25FE00315BD0164005B1849 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D248D2EF14F84ABC00DF96DB /* Model.xcdatamodeld */; };
+		D25FE00415BD0164005B1849 /* Model5-6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D2C66EFA156CC2AD001A0124 /* Model5-6.xcmappingmodel */; };
+		D25FE00A15BD05A4005B1849 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D25FE00915BD05A4005B1849 /* CoreData.framework */; };
+		D25FE00D15BD0B6E005B1849 /* libMusubiSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D22FE27A15BA9342002EC00A /* libMusubiSDK.a */; };
 		D272FB541519C19E00D2521A /* EncodingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE1C14FD7A4B00C6ABB3 /* EncodingTest.m */; };
 		D272FB561519C19E00D2521A /* IBEncryptionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D208155E1512863000F12039 /* IBEncryptionTest.m */; };
 		D276421C15BA9468000DA7A8 /* CorralHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = D4DB1295157C2BD800337A16 /* CorralHTTPServer.m */; };
@@ -440,6 +446,16 @@
 		D25F490E1471A32500AC1551 /* net.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = net.h; sourceTree = "<group>"; };
 		D25F490F1471A32500AC1551 /* numbers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = numbers.c; sourceTree = "<group>"; };
 		D25F49141471A32500AC1551 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
+		D25FDFD715BD00C2005B1849 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		D25FDFDA15BD00C2005B1849 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		D25FDFDB15BD00C2005B1849 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D25FDFDC15BD00C2005B1849 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D25FDFF415BD0152005B1849 /* MusubiSDKBundle.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusubiSDKBundle.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		D25FDFF515BD0152005B1849 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		D25FDFF915BD0152005B1849 /* MusubiSDKBundle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MusubiSDKBundle-Info.plist"; sourceTree = "<group>"; };
+		D25FDFFB15BD0152005B1849 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D25FDFFD15BD0152005B1849 /* MusubiSDKBundle-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiSDKBundle-Prefix.pch"; sourceTree = "<group>"; };
+		D25FE00915BD05A4005B1849 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		D266465015BA881D00875D64 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		D266465115BA881D00875D64 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		D26D1693156C81B700FC7650 /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
@@ -663,6 +679,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D25FDFF115BD0152005B1849 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D25FE00D15BD0B6E005B1849 /* libMusubiSDK.a in Frameworks */,
+				D25FE00A15BD05A4005B1849 /* CoreData.framework in Frameworks */,
+				D25FDFF615BD0152005B1849 /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -840,6 +866,34 @@
 			path = bson;
 			sourceTree = "<group>";
 		};
+		D25FDFD915BD00C2005B1849 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D25FDFDA15BD00C2005B1849 /* AppKit.framework */,
+				D25FDFDB15BD00C2005B1849 /* CoreData.framework */,
+				D25FDFDC15BD00C2005B1849 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		D25FDFF715BD0152005B1849 /* MusubiSDKBundle */ = {
+			isa = PBXGroup;
+			children = (
+				D25FDFF815BD0152005B1849 /* Supporting Files */,
+			);
+			path = MusubiSDKBundle;
+			sourceTree = "<group>";
+		};
+		D25FDFF815BD0152005B1849 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D25FDFF915BD0152005B1849 /* MusubiSDKBundle-Info.plist */,
+				D25FDFFA15BD0152005B1849 /* InfoPlist.strings */,
+				D25FDFFD15BD0152005B1849 /* MusubiSDKBundle-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		D26D3691147B3ED300C4FE93 /* Musubi */ = {
 			isa = PBXGroup;
 			children = (
@@ -997,6 +1051,7 @@
 				D2794AF11457D33F00C5FDAB /* Libraries */,
 				D216DE5D14F48951001A4166 /* MusubiAppTest */,
 				D22FE27C15BA9342002EC00A /* MusubiSDK */,
+				D25FDFF715BD0152005B1849 /* MusubiSDKBundle */,
 				D298F9F5143CE6DF000831DD /* Frameworks */,
 				D298F9F3143CE6DF000831DD /* Products */,
 			);
@@ -1007,6 +1062,7 @@
 			children = (
 				D216DE5914F48951001A4166 /* MusubiAppTest.octest */,
 				D22FE27A15BA9342002EC00A /* libMusubiSDK.a */,
+				D25FDFF415BD0152005B1849 /* MusubiSDKBundle.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1014,6 +1070,7 @@
 		D298F9F5143CE6DF000831DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D25FE00915BD05A4005B1849 /* CoreData.framework */,
 				D22B69E115B9174F00429023 /* AddressBook.framework */,
 				D2EF51B715B63CC400A8EA49 /* libsqlite3.0.dylib */,
 				D2EF51B515B63CB900A8EA49 /* libz.1.2.5.dylib */,
@@ -1039,6 +1096,9 @@
 				D298F9F6143CE6DF000831DD /* UIKit.framework */,
 				D298F9F8143CE6DF000831DD /* Foundation.framework */,
 				D298FA15143CE6DF000831DD /* SenTestingKit.framework */,
+				D25FDFD715BD00C2005B1849 /* Cocoa.framework */,
+				D25FDFF515BD0152005B1849 /* CoreFoundation.framework */,
+				D25FDFD915BD00C2005B1849 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1390,6 +1450,23 @@
 			productReference = D22FE27A15BA9342002EC00A /* libMusubiSDK.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		D25FDFF315BD0152005B1849 /* MusubiSDKBundle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D25FDFFE15BD0152005B1849 /* Build configuration list for PBXNativeTarget "MusubiSDKBundle" */;
+			buildPhases = (
+				D25FDFF015BD0152005B1849 /* Sources */,
+				D25FDFF115BD0152005B1849 /* Frameworks */,
+				D25FDFF215BD0152005B1849 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MusubiSDKBundle;
+			productName = MusubiSDKBundle;
+			productReference = D25FDFF415BD0152005B1849 /* MusubiSDKBundle.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1427,6 +1504,7 @@
 			targets = (
 				D216DE5814F48951001A4166 /* MusubiAppTest */,
 				D22FE27915BA9342002EC00A /* MusubiSDK */,
+				D25FDFF315BD0152005B1849 /* MusubiSDKBundle */,
 			);
 		};
 /* End PBXProject section */
@@ -1482,6 +1560,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D216DE6214F48952001A4166 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D25FDFF215BD0152005B1849 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D25FDFFC15BD0152005B1849 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1639,6 +1725,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D25FDFF015BD0152005B1849 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D25FE00315BD0164005B1849 /* Model.xcdatamodeld in Sources */,
+				D25FE00415BD0164005B1849 /* Model5-6.xcmappingmodel in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1664,6 +1759,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				D216DE6114F48952001A4166 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D25FDFFA15BD0152005B1849 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D25FDFFB15BD0152005B1849 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1763,6 +1866,7 @@
 					"$(SRCROOT)/Libraries/OAuth2/**",
 					/usr/include/libxml2,
 					"$(SRCROOT)/Libraries/SBJson/Classes/**",
+					"$(SRCROOT)/Libraries/CocoaHTTPServer/**",
 				);
 				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
@@ -1799,6 +1903,7 @@
 					"$(SRCROOT)/Libraries/OAuth2/**",
 					/usr/include/libxml2,
 					"$(SRCROOT)/Libraries/SBJson/Classes/**",
+					"$(SRCROOT)/Libraries/CocoaHTTPServer/**",
 				);
 				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
@@ -1808,6 +1913,53 @@
 				SKIP_INSTALL = YES;
 				SYMROOT = build;
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D25FDFFF15BD0152005B1849 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DSTROOT = "$(SRCROOT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MusubiSDKBundle/MusubiSDKBundle-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "MusubiSDKBundle/MusubiSDKBundle-Info.plist";
+				INSTALL_PATH = /Products;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		D25FE00015BD0152005B1849 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DSTROOT = "$(SRCROOT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MusubiSDKBundle/MusubiSDKBundle-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "MusubiSDKBundle/MusubiSDKBundle-Info.plist";
+				INSTALL_PATH = /Products;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
@@ -1927,6 +2079,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D25FDFFE15BD0152005B1849 /* Build configuration list for PBXNativeTarget "MusubiSDKBundle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D25FDFFF15BD0152005B1849 /* Debug */,
+				D25FE00015BD0152005B1849 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "MusubiSDK" */ = {
 			isa = XCConfigurationList;

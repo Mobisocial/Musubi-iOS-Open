@@ -52,6 +52,9 @@
 @synthesize story_description = _story_description;
 @synthesize story_thumbnail = _story_thumbnail;
 
+- (id)initWithData: (NSDictionary*) data andRaw: (NSData*) raw {
+    return [self initWithType:kObjTypeStory data:data andRaw:raw];
+}
 
 - (id)initWithURL:(NSURL *)url text:(NSString*) text {
     NSURL* originalUrl = url;

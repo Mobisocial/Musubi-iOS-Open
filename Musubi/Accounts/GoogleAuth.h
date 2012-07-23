@@ -24,6 +24,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AphidIdentityProvider.h"
 
 #define kGoogleOAuthScope @"xxx"
 #define kGoogleClientId @"xxx"
@@ -63,4 +64,7 @@
 @interface GoogleOAuthLoginOperation : GoogleOAuthOperation<NSURLConnectionDelegate, NSURLConnectionDataDelegate> {
 }
 
+@end
+
+@interface GoogleAphidAuthProvider : NSObject<AphidAuthProvider>
 @end

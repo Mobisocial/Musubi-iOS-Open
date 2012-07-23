@@ -40,5 +40,6 @@
 
 - (id) initWithText: (NSString*) text andLat: (NSNumber*) lat andLon: (NSNumber*) lon;
 - (id) initWithData: (NSDictionary*) data;
+- (id) initWithData: (NSDictionary*) data andRaw: (NSData*) raw;
 
 @end

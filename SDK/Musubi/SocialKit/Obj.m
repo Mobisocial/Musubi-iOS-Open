@@ -31,9 +31,6 @@
 
 @synthesize type = _type, data = _data, raw = _raw;
 
-- (id)initWithType:(NSString *)t {
-    return [self initWithType:t data:nil andRaw:nil];
-}
 
 - (id)initWithType:(NSString *)t data:(NSDictionary *)data andRaw:(NSData *)raw {
     self = [super init];

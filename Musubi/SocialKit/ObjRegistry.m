@@ -15,23 +15,31 @@
  */
 
 
-
-
 //
-//  ObjFactory.h
-//  musubi
+//  ObjRegistry.m
+//  Musubi
 //
-//  Created by Willem Bult on 3/29/12.
+//  Created by Willem Bult on 7/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "ObjRegistry.h"
+#import "ObjFactory.h"
 
-@class Obj,MObj;
+#import "FeedNameObj.h"
+#import "LocationObj.h"
+#import "StoryObj.h"
+#import "VoiceObj.h"
+#import "VideoObj.h"
 
-@interface ObjFactory : NSObject
+@implementation ObjRegistry
 
-+ (Obj*) objFromManagedObj: (MObj*) mObj;
-+ (void) registerObjClass: (Class) cls forType: (NSString*) type;
++ (void)registerObjs {
+    [ObjFactory registerObjClass:[FeedNameObj class] forType:kObjTypeFeedName];
+    [ObjFactory registerObjClass:[LocationObj class] forType:kObjTypeLocation];
+    [ObjFactory registerObjClass:[StoryObj class] forType:kObjTypeStory];
+    [ObjFactory registerObjClass:[VoiceObj class] forType:kObjTypeVoice];
+    [ObjFactory registerObjClass:[VideoObj class] forType:kObjTypeVideo];
+}
 
 @end

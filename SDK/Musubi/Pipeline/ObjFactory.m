@@ -41,9 +41,22 @@
 
 @implementation ObjFactory
 
-+ (Obj*) objFromManagedObj: (MObj*) mObj {
-    assert (mObj != nil);    
+static NSMutableDictionary* objClasses;
+
++ (void)registerObjClass:(Class)cls forType:(NSString *)type {
+    if (!objClasses) {
+        objClasses = [NSMutableDictionary dictionary];
+    }
     
+    if (![[cls alloc] respondsToSelector:@selector(initWithData:andRaw:)]) {
+        @throw [NSException exceptionWithName:@"ObjException" reason:@"Obj should implement initWithData:andRaw: method" userInfo:nil];
+    }
+    
+    [objClasses setObject:cls forKey:type];
+}
+
++ (Obj*) objFromManagedObj: (MObj*) mObj {
+    assert (mObj != nil);
     
     NSDictionary* data = nil;
     if (mObj.json) {
@@ -52,6 +65,7 @@
     }
     
     NSString* objType = mObj.type;
+    
     if ([objType isEqualToString:kObjTypeStatus]) {
         return [[StatusObj alloc] initWithData:data];
     } else if ([objType isEqualToString:kObjTypeIntroduction]) {
@@ -65,7 +79,13 @@
     } else if ([objType isEqualToString:kObjTypeDelete]) {
         return [[DeleteObj alloc] initWithData:data];
     } else if ([objType isEqualToString:kObjTypeFile]) {
-        return [[FileObj alloc] initWithType:objType data:data andRaw:mObj.raw];
+        return [[FileObj alloc] initWithType:kObjTypeFile data:data andRaw:mObj.raw];
+    } else {
+        Class objCls = [objClasses objectForKey:objType];
+        if (objCls) {
+            id<ExtendedObj> obj = [objCls alloc];
+            return (Obj*)[obj initWithData:data andRaw:mObj.raw];
+        }
     }
     
     return [[UnknownObj alloc] initWithType:objType data:data andRaw:mObj.raw];

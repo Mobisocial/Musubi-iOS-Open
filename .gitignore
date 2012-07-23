@@ -1,7 +1,7 @@
 .DS_Store
 *.o
 *.s
-Libraries/OpenSSL/openssl/test
+SDK/Libraries/OpenSSL/openssl/test
 *.mode1
 *.mode1v3
 *.mode2v3
@@ -9,10 +9,11 @@ Libraries/OpenSSL/openssl/test
 *.perspectivev3
 *.pbxuser
 xcuserdata
-/Libraries/OpenSSL/openssl/Makefile
-/Libraries/OpenSSL/openssl/Makefile.bak
-/Libraries/OpenSSL/openssl/apps/openssl
-/Libraries/OpenSSL/openssl/crypto/buildinf.h
-/Libraries/OpenSSL/openssl/crypto/opensslconf.h.bak
-/Libraries/OpenSSL/openssl/libcrypto.a
-/Libraries/OpenSSL/openssl/libssl.a
+SDK/Libraries/OpenSSL/openssl/Makefile
+SDK/Libraries/OpenSSL/openssl/Makefile.bak
+SDK/Libraries/OpenSSL/openssl/apps/openssl
+SDK/Libraries/OpenSSL/openssl/crypto/buildinf.h
+SDK/Libraries/OpenSSL/openssl/crypto/opensslconf.h.bak
+SDK/Libraries/OpenSSL/openssl/libcrypto.a
+SDK/Libraries/OpenSSL/openssl/libssl.a
+SDK/Products

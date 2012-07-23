@@ -99,7 +99,11 @@ static PersistentModelStoreFactory *sharedInstance = nil;
 }
 
 - (id) initWithPath: (NSURL*) path {
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
+ 
+    NSString* bundlePath = [[NSBundle mainBundle] pathForResource:@"MusubiSDKBundle" ofType:@"bundle"];
+    NSBundle* bundle = [NSBundle bundleWithPath:bundlePath];
+    
+    NSURL *modelURL = [bundle URLForResource:@"Model" withExtension:@"momd"];
     NSManagedObjectModel *mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     
     NSError *error = nil;
