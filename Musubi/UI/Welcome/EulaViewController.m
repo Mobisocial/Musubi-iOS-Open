@@ -119,6 +119,7 @@ bool _isAlreadyAccepted;
 
     NSString* combined = [[eulaText stringByAppendingString:@"\n\n\n"] stringByAppendingString:privacyText];
     [_eulaText setText:combined];
+    [self.eulaText setEditable:NO];
 }
 
 - (void)viewDidUnload
