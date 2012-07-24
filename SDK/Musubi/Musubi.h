@@ -70,7 +70,7 @@ static NSString* kMusubiAppId = @"edu.stanford.mobisocial.dungbeetle";
 
 #define kMusubiThreadPriorityBackground 0.0
 
-#define kMusubiUriScheme @"musubi://"
+#define kMusubiUriScheme @"musubi"
 
 @class PersistentModelStore, PersistentModelStoreFactory, IdentityKeyManager, MessageEncodeService, MessageDecodeService, AMQPTransport, ObjProcessorService, AddressBookIdentityManager, CorralHTTPServer, MObj, AphidIdentityProvider;
 
