@@ -124,6 +124,7 @@
 #pragma mark - AccountAuthManager delegate
 
 - (void)accountWithType:(NSString *)type isConnected:(BOOL)connected {
+    NSLog(@"welcomeview");
     if (connected) {
         NSError *error;
         if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryOnboarding action:kAnalyticsActionConnectedAccount label:type value:-1 withError:&error]) {
