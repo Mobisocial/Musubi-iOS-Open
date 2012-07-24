@@ -80,15 +80,86 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _screenHeight = self.view.height;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(orientationChanged:)
+     name:UIDeviceOrientationDidChangeNotification
+     object:[UIDevice currentDevice]];
 }
+
+- (void) orientationChanged:(NSNotification *)note
+{
+    UIDevice * device = note.object;
+    UIButton* cameraButton = [[self.toolBar.items objectAtIndex:2] customView];
+    UIButton* cancelButton = [[self.toolBar.items objectAtIndex:0] customView];
+    switch(device.orientation)
+    {
+        case UIDeviceOrientationPortrait:
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.15];
+            cameraButton.transform = CGAffineTransformIdentity;
+            cancelButton.transform = CGAffineTransformIdentity;
+            /*self.captionButton.transform = CGAffineTransformIdentity;
+            self.captionButton.frame = CGRectMake(210, _screenHeight-100, 100, 34);
+            self.editButton.transform = CGAffineTransformIdentity;
+            self.editButton.frame = CGRectMake(10, _screenHeight-100, 80, 34);*/
+
+            [UIView commitAnimations];
+
+            break;
+            
+        case UIDeviceOrientationPortraitUpsideDown:
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.2];
+            
+            cameraButton.transform = CGAffineTransformMakeRotation(M_PI);
+            cancelButton.transform = CGAffineTransformMakeRotation(M_PI);
+            
+            [UIView commitAnimations];
+            break;
+            
+        case UIDeviceOrientationLandscapeLeft:
+        {
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.2];
+            
+
+            cameraButton.transform = CGAffineTransformMakeRotation(M_PI/2);
+            cancelButton.transform = CGAffineTransformMakeRotation(M_PI/2);
+            /*self.captionButton.frame = CGRectMake(-20, _screenHeight-130, 100, 34);
+            self.captionButton.transform = CGAffineTransformMakeRotation(M_PI/2);
+
+            self.editButton.frame = CGRectMake(-20, 30, 80, 34);
+            self.editButton.transform = CGAffineTransformMakeRotation(M_PI/2);*/
+            
+            [UIView commitAnimations];
+            break;
+        }
+        case UIDeviceOrientationLandscapeRight:
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.2];
+            
+            cameraButton.transform = CGAffineTransformMakeRotation(-M_PI/2);
+            cancelButton.transform = CGAffineTransformMakeRotation(-M_PI/2);
+
+            [UIView commitAnimations];
+            break;
+            
+        default:
+            break;
+    };
+}
+
 - (void)viewDidUnload {
     [super viewDidUnload];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (IBAction) showCaption:(id)sender {
@@ -98,11 +169,29 @@
 
 - (NSArray*) toolbarItems {
     if (_preview.hidden) {
+        
+        UIImage* cameraImage = [UIImage imageNamed:@"camera.png"];
+        UIImage* cancelImage = [UIImage imageNamed:@"cancel.png"];
+        
+        UIButton *cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [cameraButton addTarget:self action:@selector(shootPicture:) forControlEvents:UIControlEventTouchUpInside];
+        [cancelButton addTarget:self action:@selector(cancelPicture:) forControlEvents:UIControlEventTouchUpInside];
+        [cameraButton setImage:cameraImage forState:UIControlStateNormal];
+        [cancelButton setImage:cancelImage forState:UIControlStateNormal];
+        cameraButton.frame = CGRectMake(0,0, cameraImage.size.width, cameraImage.size.height);
+        cancelButton.frame = CGRectMake(0,0, cancelImage.size.width, cancelImage.size.height);
+        cameraButton.showsTouchWhenHighlighted = YES; // makes it highlight like normal
+        cancelButton.showsTouchWhenHighlighted = YES;
+                                                                      
+        
+        UIBarButtonItem *cameraBarButton = [[UIBarButtonItem alloc] initWithCustomView:cameraButton];
+        UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
+
      return [NSArray arrayWithObjects:
-                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel  target:self action:@selector(cancelPicture:)],
+                    cancelBarButton,
                     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
-                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera  target:self action:@selector(shootPicture:)],
-                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
+                    cameraBarButton,
                     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
                     nil];
     } else {
