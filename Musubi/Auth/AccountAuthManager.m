@@ -152,8 +152,9 @@
 }
 
 - (void)onAccount:(NSString *)type isValid:(BOOL)valid {
-    if (delegate != nil)
+    if (delegate != nil) {
         [[((NSObject*)delegate) invokeOnMainThread] accountWithType:type isConnected:valid];
+    }
 }
 
 - (void) populateIdentity: (MIdentity*) mIdent fromIBEIdentity: (IBEncryptionIdentity*) ibeId andOriginal: (MIdentity*) original withManager: (IdentityManager*) identityManager andAccountName: (NSString*) accountName {
