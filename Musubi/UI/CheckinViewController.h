@@ -42,7 +42,7 @@
     IBOutlet TTButton* sendButton;
     IBOutlet StatusTextView* statusField;
     GpsLookup* lookup;
-    NSNumber *lat, *lon;
+    MKPointAnnotation *annotationPoint;
 }
 
 @property (nonatomic, retain) MFeed* feed;
