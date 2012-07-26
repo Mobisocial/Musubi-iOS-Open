@@ -304,6 +304,9 @@ static NSMutableDictionary* sContactImages;
     } else if (images.count == 1) {
         return [images objectAtIndex:0];
     }
+    else {
+        return [UIImage imageNamed:@"missing.png"];
+    }
      
     return nil;
 }
