@@ -156,6 +156,9 @@
             else if (_identity.thumbnail) {
                 cell.picture.image = [UIImage imageWithData:_identity.thumbnail];
             }
+            if(cell.picture.image == nil) {
+                cell.picture.image = [UIImage imageNamed:@"missing.png"];
+            }
             
             return cell;
         }
