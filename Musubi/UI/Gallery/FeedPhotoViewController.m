@@ -179,7 +179,6 @@
                                                queue:[NSOperationQueue mainQueue]
                                    completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                        UIImage  *img  = [[UIImage alloc] initWithData:data];
-                                       [self performSelectorOnMainThread:@selector(setFeedPicture:) withObject:img waitUntilDone:NO];
                                        UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
                                        NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
                                        
