@@ -288,6 +288,11 @@
 		F74F95F015B4B48300E75D7D /* facebook_signin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F74F95EC15B4B48200E75D7D /* facebook_signin@2x.png */; };
 		F74F95F115B4B48300E75D7D /* google_signin.png in Resources */ = {isa = PBXBuildFile; fileRef = F74F95ED15B4B48200E75D7D /* google_signin.png */; };
 		F74F95F215B4B48300E75D7D /* google_signin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F74F95EE15B4B48200E75D7D /* google_signin@2x.png */; };
+		F792AA2615C72C9900317E6C /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F792AA2515C72C9900317E6C /* MainStoryboard_iPad.storyboard */; };
+		F7CB339915BF521C00AD0415 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = F7CB339715BF521C00AD0415 /* camera.png */; };
+		F7CB339A15BF521C00AD0415 /* camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7CB339815BF521C00AD0415 /* camera@2x.png */; };
+		F7CB339D15BF531900AD0415 /* cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = F7CB339B15BF531900AD0415 /* cancel.png */; };
+		F7CB339E15BF531900AD0415 /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7CB339C15BF531900AD0415 /* cancel@2x.png */; };
 		F7DEE92B15A3BB4E0026397A /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = F7DEE92A15A3BB4E0026397A /* check.png */; };
 		F7FDB0F7159BDD2700BDA402 /* target-script-min.js in Sources */ = {isa = PBXBuildFile; fileRef = F7FDB0F6159BDD2700BDA402 /* target-script-min.js */; };
 /* End PBXBuildFile section */
@@ -1312,6 +1317,11 @@
 		F74F95EC15B4B48200E75D7D /* facebook_signin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook_signin@2x.png"; sourceTree = "<group>"; };
 		F74F95ED15B4B48200E75D7D /* google_signin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = google_signin.png; sourceTree = "<group>"; };
 		F74F95EE15B4B48200E75D7D /* google_signin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "google_signin@2x.png"; sourceTree = "<group>"; };
+		F792AA2515C72C9900317E6C /* MainStoryboard_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		F7CB339715BF521C00AD0415 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		F7CB339815BF521C00AD0415 /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
+		F7CB339B15BF531900AD0415 /* cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel.png; sourceTree = "<group>"; };
+		F7CB339C15BF531900AD0415 /* cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel@2x.png"; sourceTree = "<group>"; };
 		F7DEE92A15A3BB4E0026397A /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		F7FDB0F6159BDD2700BDA402 /* target-script-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "target-script-min.js"; path = "html5/apps/musubi.sketch/lib/target-script-min.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1514,6 +1524,7 @@
 				D437B08E159A636B00A4E625 /* Gallery */,
 				D23EED011554854200B18153 /* FeedList */,
 				D250C9621579815600955AB2 /* MainStoryboard_iPhone.storyboard */,
+				F792AA2515C72C9900317E6C /* MainStoryboard_iPad.storyboard */,
 				D211D969151979D200E38051 /* Settings */,
 				D228E5BA15925AE9002E15E6 /* MusubiStyleSheet.h */,
 				D228E5BB15925AE9002E15E6 /* MusubiStyleSheet.m */,
@@ -1708,6 +1719,10 @@
 				D439D1F415B9D0E3006CEB24 /* privacypolicy.txt */,
 				F74F95EB15B4B48200E75D7D /* facebook_signin.png */,
 				F74F95EC15B4B48200E75D7D /* facebook_signin@2x.png */,
+				F7CB339715BF521C00AD0415 /* camera.png */,
+				F7CB339815BF521C00AD0415 /* camera@2x.png */,
+				F7CB339B15BF531900AD0415 /* cancel.png */,
+				F7CB339C15BF531900AD0415 /* cancel@2x.png */,
 				F74F95ED15B4B48200E75D7D /* google_signin.png */,
 				F74F95EE15B4B48200E75D7D /* google_signin@2x.png */,
 				D40B061915AE3F6600E3F944 /* heart16_gray.png */,
@@ -3687,6 +3702,11 @@
 				D2EF51C415B63D7E00A8EA49 /* AviarySDKResources.bundle in Resources */,
 				D439D1F515B9D0E3006CEB24 /* privacypolicy.txt in Resources */,
 				D439D1F715B9D0F1006CEB24 /* eula.txt in Resources */,
+				F7CB339915BF521C00AD0415 /* camera.png in Resources */,
+				F7CB339A15BF521C00AD0415 /* camera@2x.png in Resources */,
+				F7CB339D15BF531900AD0415 /* cancel.png in Resources */,
+				F7CB339E15BF531900AD0415 /* cancel@2x.png in Resources */,
+				F792AA2615C72C9900317E6C /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4181,7 +4201,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
@@ -4226,7 +4246,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;

@@ -39,15 +39,6 @@
     [self setAccountTypes: [NSDictionary dictionaryWithObjectsAndKeys:@"Facebook", kAccountTypeFacebook, @"Google", kAccountTypeGoogle, @"Email", kAccountTypeEmail, nil]];
 
     _accountPrincipals = [NSMutableDictionary dictionaryWithCapacity:accountTypes.count];
-    for (NSString* type in accountTypes.allKeys) {
-        NSArray* principals = [authMgr principalsForAccount:type];
-        if (principals.count > 0) {
-            [_accountPrincipals setObject:[principals objectAtIndex:0] forKey:type];
-        }
-        
-        [authMgr performSelectorInBackground:@selector(checkStatus:) withObject:type];
-        [authMgr checkStatus: type];
-    }
     
     dbUploadProgress = kDBOperationNotStarted;
     dbDownloadProgress = kDBOperationNotStarted;
@@ -78,7 +69,17 @@
     [super viewWillAppear:animated];
     
     [[self dbRestClient] loadMetadata:@"/"];
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];    
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+    
+    for (NSString* type in accountTypes.allKeys) {
+        NSArray* principals = [authMgr principalsForAccount:type];
+        if (principals.count > 0) {
+            [_accountPrincipals setObject:[principals objectAtIndex:0] forKey:type];
+        }
+        
+        [authMgr performSelectorInBackground:@selector(checkStatus:) withObject:type];
+        [authMgr checkStatus: type];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

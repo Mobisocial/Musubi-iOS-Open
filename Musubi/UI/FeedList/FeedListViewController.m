@@ -250,7 +250,7 @@
         [self performSelectorOnMainThread:@selector(updatePending) withObject:nil waitUntilDone:NO];
         return;
     }
-    
+    /*
     if(nextPendingRedraw) {
         return;
     }
@@ -269,7 +269,7 @@
     }
     lastPendingRedraw = [NSDate date];
     nextPendingRedraw = nil;
-
+*/
     
     NSString* newText = nil;
     
@@ -284,21 +284,29 @@
         int pending = encoding.count;
         
         if (pending > 0) {
-            newText = [NSString stringWithFormat: @"Encrypting %@outgoing message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+            newText = [NSString stringWithFormat: @"Sending %@outgoing message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
         } else {
             NSArray* decoding = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
             
             pending = decoding.count;
             
             if (pending > 0) {
-                newText = [NSString stringWithFormat: @"Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+                newText = [NSString stringWithFormat: @"Receiving %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
             }
         }
-        
-        
     }
     
-    incomingLabel.hidden = YES;
+    if (newText.length > 0) {
+        incomingLabel.hidden = NO;
+        [incomingLabel setText: [NSString stringWithFormat:@"  %@", newText]];
+        if (incomingLabel.superview == self.view) {
+            [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+        } else {
+            [incomingLabel setFrame:CGRectMake(0, 0, 320, 30)];
+        }
+    } else {
+        incomingLabel.hidden = YES;
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

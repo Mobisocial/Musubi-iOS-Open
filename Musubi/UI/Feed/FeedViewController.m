@@ -653,7 +653,6 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog(@"where am i going?");
     if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
         FriendPickerViewController *vc = segue.destinationViewController;
         FeedManager* fm = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
@@ -682,7 +681,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     else if ([[segue identifier] isEqualToString:@"ShowLocationController"]) {
         LocationViewController *vc = [segue destinationViewController];
         [vc setManagedObjFeedItem:(ManagedObjFeedItem*) sender];
-        NSLog(@"show location controller");
+        //NSLog(@"show location controller");
     }
 }
 

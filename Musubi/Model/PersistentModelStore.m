@@ -165,7 +165,8 @@ static PersistentModelStoreFactory *sharedInstance = nil;
 }
 
 - (void) otherContextSaved: (NSNotification*) notification {
-    if (notification.object != context) {
+    NSManagedObjectContext* moc = notification.object;
+    if (moc.parentContext == context) {
         // call the result handler block on the main queue (i.e. main thread)
         dispatch_async( dispatch_get_main_queue(), ^{
             [context mergeChangesFromContextDidSaveNotification:notification];

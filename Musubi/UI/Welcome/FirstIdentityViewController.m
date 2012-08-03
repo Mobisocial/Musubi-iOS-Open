@@ -28,6 +28,7 @@
 #import "MusubiStyleSheet.h"
 #import "MIdentity.h"
 #import "IdentityManager.h"
+#import "UIImage+Resize.h"
 #import "Musubi.h"
 
 @implementation FirstIdentityViewController
@@ -133,7 +134,10 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     [self dismissModalViewControllerAnimated:YES];
-    [_thumbnailButton setImage:image forState:UIControlStateNormal];
+    
+    UIImage* resized = [image centerFitAndResizeTo:CGSizeMake(256, 256)];
+    
+    [_thumbnailButton setImage:resized forState:UIControlStateNormal];
 }
 
 

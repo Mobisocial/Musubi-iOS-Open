@@ -41,6 +41,7 @@
     UIToolbar *_toolBar;
     
     UIImageView* _preview;
+    int    _screenHeight;
 }
 
 @property (nonatomic, readonly) UIView* captionView;

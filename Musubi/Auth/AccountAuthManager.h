@@ -35,11 +35,11 @@
 
 
 @interface AccountAuthManager : NSObject {
-    id<AccountAuthManagerDelegate> __unsafe_unretained delegate;
+    id<AccountAuthManagerDelegate> __weak delegate;
     NSOperationQueue* queue;
 }
 
-@property (nonatomic, unsafe_unretained) id<AccountAuthManagerDelegate> delegate;
+@property (nonatomic, weak) id<AccountAuthManagerDelegate> delegate;
 @property (nonatomic) NSOperationQueue* queue;
 
 - (id) initWithDelegate: (id<AccountAuthManagerDelegate>) d;
