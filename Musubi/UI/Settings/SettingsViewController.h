@@ -34,7 +34,7 @@
 #define kDBOperationCompleted -2
 #define kDBOperationFailed -3
 
-@interface SettingsViewController : UIViewController<UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,AccountAuthManagerDelegate,DBRestClientDelegate,TTTextBarDelegate> {
+@interface SettingsViewController : UIViewController<UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,AccountAuthManagerDelegate,DBRestClientDelegate,TTTextBarDelegate,UIActionSheetDelegate> {
     AccountAuthManager* authMgr;
     NSDictionary* accountTypes;
     

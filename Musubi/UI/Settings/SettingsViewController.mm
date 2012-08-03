@@ -103,12 +103,46 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)pictureClicked:(id)sender {    
-    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
-    [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
-    [picker setDelegate:self];
+- (void)pictureClicked:(id)sender {
     
-    [self presentModalViewController:picker animated:YES];
+    
+    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", nil];
+    
+    [commandPicker showInView:self.view];
+    
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+        case 0: // take picture
+        {
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+                picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                picker.delegate = self;
+                [self presentModalViewController:picker animated:YES];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't have a camera" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            }
+            break;
+        }
+        case 1: // existing picture
+        {
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+                UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+                picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                picker.delegate = self;
+                [self presentModalViewController:picker animated:YES];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't support the photo library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            }
+            break;
+        }
+    }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void) closeKeyboard {
