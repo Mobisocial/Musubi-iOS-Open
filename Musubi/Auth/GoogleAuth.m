@@ -58,7 +58,8 @@ static GTMOAuth2Authentication* active;
 }
 
 - (NSString *)activeAccessToken {
-    return [self activeAuth].accessToken;
+    GTMOAuth2Authentication* auth = self.activeAuth;
+    return [auth.accessToken copy];
 }
 
 - (void) didLoginWith: (GTMOAuth2Authentication*) auth {
