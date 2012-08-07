@@ -153,40 +153,81 @@
 
 - (UIView*) noFeedsView {
     if (!_noFeedsView) {
-        _noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
-        _noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
-        
-/*        UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
-        cloud.frame = CGRectMake(50, 30, 220, 150);
-        cloud.contentMode = UIViewContentModeScaleAspectFit;
-        [_noFeedsView addSubview:cloud];*/
-        
-        UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 120, 220, 30)];
-        headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
-        headerLabel.textAlignment = UITextAlignmentCenter;
-        headerLabel.text = @"No conversations yet :(";
-        headerLabel.backgroundColor = [UIColor clearColor];
-        [_noFeedsView addSubview:headerLabel];
-        
-        UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(50, 170, 220, 60)];
-        infoLabel.font = [UIFont systemFontOfSize: 14];
-        infoLabel.textAlignment = UITextAlignmentCenter;
-        infoLabel.text = @"Let's pick a few friends to start a chat with!";
-        infoLabel.backgroundColor = [UIColor clearColor];
-        infoLabel.editable = NO;
-        infoLabel.userInteractionEnabled = NO;
-        [infoLabel sizeToFit];
-        [_noFeedsView addSubview:infoLabel];
-        
-        TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
-        [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
-        [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
-        [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
-        [_noFeedsView addSubview:startButton];
-        
-        [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.view addSubview:_noFeedsView];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+
+            _noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+            _noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
+            
+    /*        UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
+            cloud.frame = CGRectMake(50, 30, 220, 150);
+            cloud.contentMode = UIViewContentModeScaleAspectFit;
+            [_noFeedsView addSubview:cloud];*/
+            
+            UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 120, 220, 30)];
+            headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
+            headerLabel.textAlignment = UITextAlignmentCenter;
+            headerLabel.text = @"No conversations yet :(";
+            headerLabel.backgroundColor = [UIColor clearColor];
+            [_noFeedsView addSubview:headerLabel];
+            
+            UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(50, 170, 220, 60)];
+            infoLabel.font = [UIFont systemFontOfSize: 14];
+            infoLabel.textAlignment = UITextAlignmentCenter;
+            infoLabel.text = @"Let's pick a few friends to start a chat with!";
+            infoLabel.backgroundColor = [UIColor clearColor];
+            infoLabel.editable = NO;
+            infoLabel.userInteractionEnabled = NO;
+            [infoLabel sizeToFit];
+            [_noFeedsView addSubview:infoLabel];
+            
+            TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
+            [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
+            [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+            [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
+            [_noFeedsView addSubview:startButton];
+            
+            [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:_noFeedsView];
+
+        } else {
+            // iPad view setup
+            _noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+            _noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
+            
+            /*        UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
+             cloud.frame = CGRectMake(50, 30, 220, 150);
+             cloud.contentMode = UIViewContentModeScaleAspectFit;
+             [_noFeedsView addSubview:cloud];*/
+            
+            UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-(400/2), self.view.frame.size.height/3, 400, 30)];
+            headerLabel.font = [UIFont boldSystemFontOfSize:30.0];
+            headerLabel.textAlignment = UITextAlignmentCenter;
+            headerLabel.text = @"No conversations yet :(";
+            headerLabel.backgroundColor = [UIColor clearColor];
+            [_noFeedsView addSubview:headerLabel];
+            
+            UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-(440/2), self.view.frame.size.height/3+110, 440, 60)];
+            infoLabel.font = [UIFont systemFontOfSize: 22];
+            infoLabel.textAlignment = UITextAlignmentCenter;
+            infoLabel.text = @"Let's pick a few friends to start a chat with!";
+            infoLabel.backgroundColor = [UIColor clearColor];
+            infoLabel.editable = NO;
+            infoLabel.userInteractionEnabled = NO;
+            [infoLabel sizeToFit];
+            [_noFeedsView addSubview:infoLabel];
+            
+            TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-(250/2), self.view.frame.size.height/3+180, 250, 75)];
+            [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
+            [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+            [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
+            [startButton setFont: [UIFont systemFontOfSize: 22]];
+            [_noFeedsView addSubview:startButton];
+            
+            [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:_noFeedsView];
+        }
     }
     
     return _noFeedsView;

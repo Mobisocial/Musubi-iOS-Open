@@ -24,7 +24,6 @@
 //
 
 #import "FirstIdentityViewController.h"
-#import "Three20/Three20.h"
 #import "MusubiStyleSheet.h"
 #import "MIdentity.h"
 #import "IdentityManager.h"
@@ -40,38 +39,89 @@
     
     self.view.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
     
-    _scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    _scroll.contentSize = CGSizeMake(320, 920);
-    _scroll.scrollEnabled = NO;
-    [self.view addSubview:_scroll];
-  
-    TTView* buttonContainer = [[TTView alloc] initWithFrame:CGRectMake(90, 30, 140, 140)];
-    buttonContainer.backgroundColor = [UIColor clearColor];
-    buttonContainer.style = [MusubiStyleSheet textViewBorder];
-    UILabel* imageLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, 120, 20)];
-    imageLabel.font = [UIFont systemFontOfSize:12];
-    imageLabel.textAlignment = UITextAlignmentCenter;
-    imageLabel.text = @"Choose your picture";
-    [buttonContainer addSubview:imageLabel];
-    _thumbnailButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _thumbnailButton.frame = CGRectMake(10, 10, 120, 120);
-    [_thumbnailButton addTarget:self action:@selector(choosePicture:) forControlEvents:UIControlEventTouchUpInside];
-    [buttonContainer addSubview:_thumbnailButton];
-    [_scroll addSubview:buttonContainer];
+    // Setup views for iPhone
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        _scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        _scroll.contentSize = CGSizeMake(320, 920);
+        _scroll.scrollEnabled = NO;
+        [self.view addSubview:_scroll];
+      
+        TTView* buttonContainer = [[TTView alloc] initWithFrame:CGRectMake(90, 30, 140, 140)];
+        _buttonContainer = buttonContainer;
+        buttonContainer.backgroundColor = [UIColor clearColor];
+        buttonContainer.style = [MusubiStyleSheet textViewBorder];
+        UILabel* imageLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 60, 120, 20)];
+        imageLabel.font = [UIFont systemFontOfSize:12];
+        imageLabel.textAlignment = UITextAlignmentCenter;
+        imageLabel.text = @"Choose your picture";
+        [buttonContainer addSubview:imageLabel];
+        _thumbnailButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _thumbnailButton.frame = CGRectMake(10, 10, 120, 120);
+        [_thumbnailButton addTarget:self action:@selector(choosePicture:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonContainer addSubview:_thumbnailButton];
+        [_scroll addSubview:buttonContainer];
+        
+        _nameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 200, 220, 29)];
+        _nameField.borderStyle = UITextBorderStyleRoundedRect;
+        _nameField.delegate = self;
+        _nameField.placeholder = @"Your name";
+        _nameField.textAlignment = UITextAlignmentCenter;
+        [_scroll addSubview:_nameField];
+        
+        TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
+        [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
+        [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+        [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
+        [startButton addTarget:self action:@selector(startChat:) forControlEvents:UIControlEventTouchUpInside];
+        [_scroll addSubview:startButton];
     
-    _nameField = [[UITextField alloc] initWithFrame:CGRectMake(50, 200, 220, 29)];
-    _nameField.borderStyle = UITextBorderStyleRoundedRect;
-    _nameField.delegate = self;
-    _nameField.placeholder = @"Your name";
-    _nameField.textAlignment = UITextAlignmentCenter;
-    [_scroll addSubview:_nameField];
-    
-    TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
-    [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
-    [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
-    [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
-    [startButton addTarget:self action:@selector(startChat:) forControlEvents:UIControlEventTouchUpInside];
-    [_scroll addSubview:startButton];
+    // Setup views for iPad
+    } else {
+        _scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        _scroll.contentSize = CGSizeMake(320, 920);
+        _scroll.scrollEnabled = NO;
+        [self.view addSubview:_scroll];
+        
+        NSInteger centerWidth = self.view.frame.size.width/2;
+        NSInteger centerHeight = self.view.frame.size.height/2;
+        NSInteger pictureSize = 300;
+        
+        TTView* buttonContainer = [[TTView alloc] initWithFrame:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize)];
+        buttonContainer.backgroundColor = [UIColor clearColor];
+        buttonContainer.style = [MusubiStyleSheet textViewBorder];
+        UILabel* imageLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, pictureSize/2-20, pictureSize-10, 50)];
+        imageLabel.font = [UIFont systemFontOfSize:22];
+        imageLabel.textAlignment = UITextAlignmentCenter;
+        imageLabel.text = @"Choose your picture";
+        [buttonContainer addSubview:imageLabel];
+        _thumbnailButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _thumbnailButton.frame = CGRectMake(0, 0, pictureSize, pictureSize);
+        [_thumbnailButton addTarget:self action:@selector(choosePicture:) forControlEvents:UIControlEventTouchUpInside];
+        [buttonContainer addSubview:_thumbnailButton];
+        buttonContainer.layer.masksToBounds = YES;
+        buttonContainer.layer.cornerRadius = 25; // if you like rounded corners
+        /*buttonContainer.layer.shadowOffset = CGSizeMake(0, 0);
+        buttonContainer.layer.shadowRadius = 20;
+        buttonContainer.layer.shadowOpacity = 0.2;*/
+        [buttonContainer.layer setBorderColor: [[UIColor blackColor] CGColor]];
+        [buttonContainer.layer setBorderWidth: 5.0];
+        [_scroll addSubview:buttonContainer];
+        
+        _nameField = [[UITextField alloc] initWithFrame:CGRectMake(centerWidth-(pictureSize/2), centerHeight-40, pictureSize, 29)];
+        _nameField.borderStyle = UITextBorderStyleRoundedRect;
+        _nameField.delegate = self;
+        _nameField.placeholder = @"Your name";
+        _nameField.textAlignment = UITextAlignmentCenter;
+        [_scroll addSubview:_nameField];
+        
+        TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(centerWidth-(200/2), centerHeight+40, 200, 50)];
+        [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
+        [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+        [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
+        [startButton addTarget:self action:@selector(startChat:) forControlEvents:UIControlEventTouchUpInside];
+        [_scroll addSubview:startButton];
+        
+    }
 }
 
 - (IBAction)startChat:(id)sender {
@@ -95,7 +145,24 @@
 - (IBAction)choosePicture:(id)sender {    
     UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", nil];
     
-    [commandPicker showInView:self.view];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [commandPicker showInView:self.view];
+    } else {
+        NSInteger centerWidth = self.view.frame.size.width/2;
+        NSInteger pictureSize = 300;
+
+        /*UIView* test = [[UIView alloc] init];
+        test.frame = commandPicker.frame;
+        
+        _popover=[[UIPopoverController alloc] initWithContentViewController:test];
+        _popover.delegate=self;
+        
+        [_popover presentPopoverFromRect:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        [commandPicker showInView:test];*/
+
+        [commandPicker showFromRect:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize) inView:self.view animated:YES];
+    }
+
 }
 
 
@@ -114,15 +181,32 @@
             break;
         }
         case 1: // existing picture
-        {   
+        {
+                    
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
                 UIImagePickerController* picker = [[UIImagePickerController alloc] init];
                 picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
                 picker.delegate = self;
-                [self presentModalViewController:picker animated:YES];
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                    
+                    [self presentModalViewController:picker animated:YES];
+                
+                } else {
+                
+                    _popover=[[UIPopoverController alloc] initWithContentViewController:picker];
+                    _popover.delegate=self;
+                    
+                    NSInteger centerWidth = self.view.frame.size.width/2;
+                    NSInteger pictureSize = 300;
+                    
+                    [_popover presentPopoverFromRect:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+
+                }
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't support the photo library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             }
+            
             break;
         }
     }
@@ -135,9 +219,10 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo {
     [self dismissModalViewControllerAnimated:YES];
     
-    UIImage* resized = [image centerFitAndResizeTo:CGSizeMake(256, 256)];
+    UIImage* resized = [image centerFitAndResizeTo:CGSizeMake(300, 300)];
     
     [_thumbnailButton setImage:resized forState:UIControlStateNormal];
+    [_popover dismissPopoverAnimated:YES];
 }
 
 

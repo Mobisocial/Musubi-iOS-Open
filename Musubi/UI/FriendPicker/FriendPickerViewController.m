@@ -135,7 +135,12 @@
         
         if (remaining > 0) {
             [_importingLabel setText:[NSString stringWithFormat: @"  Importing %d contacts...", remaining]];
-            [_importingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [_importingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+            } else {
+                [_importingLabel setFrame:CGRectMake(0, self.view.height-30, self.view.width, 30)];
+
+            }
         } else {
             _importingLabel.text = @"";
             [_importingLabel setFrame:CGRectZero];    
