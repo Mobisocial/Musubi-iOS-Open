@@ -34,7 +34,7 @@
 #define kDBOperationCompleted -2
 #define kDBOperationFailed -3
 
-@interface SettingsViewController : UIViewController<UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,AccountAuthManagerDelegate,DBRestClientDelegate,TTTextBarDelegate,UIActionSheetDelegate> {
+@interface SettingsViewController : UIViewController<UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,AccountAuthManagerDelegate,DBRestClientDelegate,TTTextBarDelegate,UIActionSheetDelegate,UIPopoverControllerDelegate> {
     AccountAuthManager* authMgr;
     NSDictionary* accountTypes;
     
@@ -44,6 +44,7 @@
     NSString* dbRestoreFile;
     
     UIAlertView* loadingDialog;
+    UIPopoverController* _popover;
 }
 
 @property (nonatomic) AccountAuthManager* authMgr;

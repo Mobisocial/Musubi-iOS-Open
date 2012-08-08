@@ -24,6 +24,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Three20/Three20.h"
 
 @class FeedListViewController;
 
@@ -38,6 +39,8 @@
     UIScrollView* _scroll;
     UIButton* _thumbnailButton;
     UITextField* _nameField;
+    TTView* _buttonContainer;
+    UIPopoverController* _popover;
 }
 
 @property (nonatomic) id<FirstIdentityViewControllerDelegate> delegate;

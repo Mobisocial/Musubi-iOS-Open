@@ -107,8 +107,25 @@
     
     
     UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", nil];
-    
-    [commandPicker showInView:self.view];
+        
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [commandPicker showInView:self.view];
+    } else {
+        NSInteger centerWidth = self.view.frame.size.width/2;
+        NSInteger pictureSize = 300;
+        
+        /*UIView* test = [[UIView alloc] init];
+         test.frame = commandPicker.frame;
+         
+         _popover=[[UIPopoverController alloc] initWithContentViewController:test];
+         _popover.delegate=self;
+         
+         [_popover presentPopoverFromRect:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+         [commandPicker showInView:test];*/
+        
+        [commandPicker showFromRect:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize) inView:self.view animated:YES];
+    }
+
     
 }
 
@@ -132,7 +149,23 @@
                 UIImagePickerController* picker = [[UIImagePickerController alloc] init];
                 picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
                 picker.delegate = self;
-                [self presentModalViewController:picker animated:YES];
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                    
+                    [self presentModalViewController:picker animated:YES];
+                    
+                } else {
+                    
+                    _popover=[[UIPopoverController alloc] initWithContentViewController:picker];
+                    _popover.delegate=self;
+                    
+                    NSInteger centerWidth = self.view.frame.size.width/2;
+                    NSInteger pictureSize = 300;
+                    NamePictureCell* cell = (NamePictureCell*) [self.tableView dequeueReusableCellWithIdentifier:@"NamePictureCell"];
+                    
+                    [_popover presentPopoverFromRect:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+                    
+                }
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't support the photo library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             }

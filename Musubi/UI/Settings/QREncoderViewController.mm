@@ -13,14 +13,12 @@
 
 @interface QREncoderViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UIImageView *thumbnailImageView;
 
 @end
 
 @implementation QREncoderViewController
 
 @synthesize imageView;
-@synthesize thumbnailImageView;
 @synthesize dataToEncode;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -51,7 +49,6 @@
     MIdentity *identity = [idMgr defaultIdentity];
     UIImage *thumbnail = [[UIImage alloc] initWithData:identity.musubiThumbnail == nil ? 
                           identity.thumbnail : identity.musubiThumbnail];
-    [thumbnailImageView setImage:thumbnail];
 
     
 //    //put the image into the view
@@ -72,7 +69,6 @@
 - (void)viewDidUnload
 {
     [self setImageView:nil];
-    [self setThumbnailImageView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
