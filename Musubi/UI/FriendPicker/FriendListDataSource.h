@@ -36,12 +36,13 @@
 }
 
 @property (nonatomic, retain) NSMutableArray* selection;
+@property (nonatomic, retain) TTPickerTextField* pickerTextField;
 @property (nonatomic, readonly) NSArray* selectedIdentities;
 @property (nonatomic, retain) NSArray* pinnedIdentities;
 
 - (FriendListItem*) itemAtIndexPath: (NSIndexPath*) indexPath;
 - (NSIndexPath*) indexPathForItem: (FriendListItem*) item;
-- (FriendListItem*) itemForIdentity: (MIdentity*) ident;
+- (FriendListItem*) itemForIdentity: (MIdentity*) identity;
 - (BOOL) toggleSelectionForItem: (FriendListItem*) item;
 - (FriendListItem*) existingItemByPrincipal: (NSString*) principal;
 @end

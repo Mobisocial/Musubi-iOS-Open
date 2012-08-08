@@ -34,6 +34,8 @@
 #import "AccountManager.h"
 #import "MAccount.h"
 #import "MIdentity.h"
+#import "MEncryptionUserKey.h"
+#import "Authorities.h"
 
 @implementation IdentityManager
 
@@ -243,5 +245,21 @@
 }
 - (NSArray *)claimedIdentities {
     return [self query:[NSPredicate predicateWithFormat:@"claimed=1"]];
+}
+
+/* don't use this right now... need to discuss how to properly handle deletes
+ since other code references identities */
+- (void)deleteIdentity:(MIdentity *)identity {
+    
+    
+    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:identity.principal temporalFrame:0];
+    
+    for (MEncryptionUserKey* userKey in [store query:[NSPredicate predicateWithFormat:@"identity = %@", identity] onEntity:@"EncryptionUserKey"]) {
+        NSLog(@"userkey: %@", userKey.identity.principal);
+        [store.context deleteObject:userKey];
+    }
+    
+    [store.context deleteObject:[self identityForIBEncryptionIdentity:ident]];
+    [store save];
 }
 @end

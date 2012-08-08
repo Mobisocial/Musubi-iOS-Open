@@ -270,7 +270,6 @@
                 [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_earliestUnreadMessageRow inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
                 
                 for(int i = _earliestUnreadMessageRow; i < self.items.count; i++) {
-                    NSLog(@"highlighting %d", i);
                     [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
                 }
                 

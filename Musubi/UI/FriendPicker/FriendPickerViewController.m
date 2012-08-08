@@ -150,6 +150,7 @@
 - (void)createModel {
     self.dataSource = [[FriendListDataSource alloc] init];
     ((FriendListDataSource*)self.dataSource).pinnedIdentities = _pinnedIdentities;
+    ((FriendListDataSource*)self.dataSource).pickerTextField = _pickerTextField;
 }
 
 - (id<UITableViewDelegate>)createDelegate {
