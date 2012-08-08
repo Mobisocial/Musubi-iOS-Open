@@ -167,6 +167,9 @@
 
 - (void) attachMembers: (NSArray*) participants toFeed: (MFeed*) feed {
     for (MIdentity* mId in participants) {
+        if(feed == nil) {
+            break;
+        }
         [self attachMember: mId toFeed: feed];
     }
 }
