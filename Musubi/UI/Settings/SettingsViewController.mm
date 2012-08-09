@@ -195,7 +195,7 @@
         case 1:
             return accountTypes.count;
         case 2:
-            return 2;
+            return 3;
         case 3:
             return 1;
         case 4:
@@ -294,6 +294,10 @@
                     }
                         
                     break;
+                }
+                case 2: {
+                    [[cell textLabel] setText: @"Debug Unlink"];
+                    [[cell detailTextLabel] setText: @"Click to unlink"];
                 }
             }
             
@@ -404,6 +408,9 @@
                             [[self dbRestClient] loadFile:dbRestoreFile intoPath:path.path];
                         }
                         break;
+                    }
+                    case 2: {
+                        [[DBSession sharedSession] unlinkAll];
                     }
                 }
             }
