@@ -341,7 +341,7 @@
 }
 
 - (DBRestClient *)dbRestClient {
-    if (!dbRestClient) {
+    if (!dbRestClient && [[DBSession sharedSession] isLinked]) {
         dbRestClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
         dbRestClient.delegate = self;
     }
