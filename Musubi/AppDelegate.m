@@ -41,6 +41,7 @@ xxx#import "Musubi.h"
 #import "SHKFacebook.h"
 #import "SHK.h"
 #import "MusubiAnalytics.h"
+#import "SettingsViewController.h"
 
 #define kMusubiUriScheme @"musubi"
 static const NSInteger kGANDispatchPeriodSec = 60;
@@ -190,6 +191,7 @@ static const NSInteger kGANDispatchPeriodSec = 60;
     }
     
     if ([[DBSession sharedSession] handleOpenURL:url]) {
+        [((SettingsViewController*) self.window.rootViewController.childViewControllers.lastObject).tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
         return YES;
     }
 
