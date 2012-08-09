@@ -411,6 +411,7 @@
                     }
                     case 2: {
                         [[DBSession sharedSession] unlinkAll];
+                        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
                     }
                 }
             }
