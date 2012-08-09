@@ -496,7 +496,7 @@
         [[self modalViewController] dismissModalViewControllerAnimated:YES];
     } else {
         [_popover dismissPopoverAnimated:YES];
-        
+        [[self modalViewController] dismissModalViewControllerAnimated:YES];
     }
 }
 
