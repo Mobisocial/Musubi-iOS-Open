@@ -62,7 +62,7 @@
     MKPointAnnotation *annotationPoint = [[MKPointAnnotation alloc] init];
     [annotationPoint setCoordinate:coord];
     [annotationPoint setTitle:[_managedObjFeedItem sender]];
-    [annotationPoint setSubtitle:text];
+    //[annotationPoint setSubtitle:text];
     [_mapView addAnnotation:annotationPoint];
     [_mapView selectAnnotation:annotationPoint animated:NO];
     

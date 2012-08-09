@@ -294,6 +294,14 @@
     return ((FriendListItem*) obj).musubiName;
 }
 
+- (void) didBeginDragging {
+    [(FriendPickerViewController*)self hideKeyboard];
+}
+
+- (void) hideKeyboard {
+    [_pickerTextField resignFirstResponder];
+}
+
 - (IBAction)friendsSelected:(id)sender {
     [self textFieldDidChange:self.pickerTextField];
     FriendListDataSource* ds = (FriendListDataSource*)self.dataSource;
