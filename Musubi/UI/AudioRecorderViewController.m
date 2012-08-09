@@ -40,9 +40,22 @@
 #pragma mark - Preparation
 - (void)loadView 
 {
-#define AVRECORDER_VIEW_FRAME_HEIGHT 420
-#define AVRECORDER_VIEW_FRAME_WIDTH 320
-#define AVRECORDER_TABBAR_HEIGHT 50
+
+    int AVRECORDER_VIEW_FRAME_HEIGHT, AVRECORDER_VIEW_FRAME_WIDTH, AVRECORDER_TABBAR_HEIGHT;
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        AVRECORDER_VIEW_FRAME_HEIGHT = 420;
+        AVRECORDER_VIEW_FRAME_WIDTH = 320;
+        AVRECORDER_TABBAR_HEIGHT = 50;
+    } else {
+        AVRECORDER_VIEW_FRAME_HEIGHT = screenHeight;
+        AVRECORDER_VIEW_FRAME_WIDTH = screenWidth;
+        AVRECORDER_TABBAR_HEIGHT = 50;
+    }
     self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, AVRECORDER_VIEW_FRAME_WIDTH, AVRECORDER_VIEW_FRAME_HEIGHT)];
     self.view.opaque = NO;
     self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.9];

@@ -36,8 +36,9 @@
 - (void) changedName: (NSString*) name;
 @end
 
-@interface FeedSettingsViewController : UITableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface FeedSettingsViewController : UITableViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate> {
     UIButton* broadcastSwitch;
+    UIPopoverController* _popover;
 }
 
 @property (nonatomic, retain) MFeed* feed;

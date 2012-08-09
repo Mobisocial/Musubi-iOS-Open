@@ -340,10 +340,23 @@
     if (newText.length > 0) {
         incomingLabel.hidden = NO;
         [incomingLabel setText: [NSString stringWithFormat:@"  %@", newText]];
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        CGFloat screenWidth = screenRect.size.width;
+        CGFloat screenHeight = screenRect.size.height;
+        
         if (incomingLabel.superview == self.view) {
-            [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+            } else {
+                [incomingLabel setFrame:CGRectMake(0, screenHeight-94, screenWidth, 30)];
+            }
         } else {
-            [incomingLabel setFrame:CGRectMake(0, 0, 320, 30)];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [incomingLabel setFrame:CGRectMake(0, 0, 320, 30)];
+            } else {
+                [incomingLabel setFrame:CGRectMake(0, 0, screenWidth, 30)];
+
+            }
         }
     } else {
         incomingLabel.hidden = YES;
@@ -379,7 +392,14 @@
     
     UIActionSheet* newConversationPicker = [[UIActionSheet alloc] initWithTitle:@"New conversation" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Create from contacts", @"Join nearby group", nil];
     
-    [newConversationPicker showInView:self.view];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        
+        [newConversationPicker showInView:self.view];
+    } else {
+        CGRect pictureFrame = CGRectMake(self.view.frame.size.width-40, 0, 1, 1);
+        [newConversationPicker showFromRect:pictureFrame inView:self.view animated:YES];
+    }
+    
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{

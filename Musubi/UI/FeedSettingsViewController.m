@@ -36,6 +36,7 @@
 #import "NearbyFeed.h"
 #import "DejalActivityView.h"
 #import "FeedViewController.h"
+#import "NamePictureCell.h"
 
 @interface FeedSettingsViewController ()
 
@@ -88,12 +89,70 @@
 
 
 - (void)pictureClicked:(id)sender {    
-    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+    /*UIImagePickerController* picker = [[UIImagePickerController alloc] init];
     [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
     [picker setDelegate:self];
     
-    [self presentModalViewController:picker animated:YES];
+    [self presentModalViewController:picker animated:YES];*/
+    
+    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", nil];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [commandPicker showInView:self.view];
+    } else {
+        
+        NamePictureCell* cell = (NamePictureCell*) [self.tableView dequeueReusableCellWithIdentifier:@"NamePictureCell"];
+        
+        CGRect pictureFrame = CGRectMake(28, 50, 100, 100);
+        [commandPicker showFromRect:pictureFrame inView:self.view animated:YES];
+    }
+
 }
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+        case 0: // take picture
+        {
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+                picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                picker.delegate = self;
+                [self presentModalViewController:picker animated:YES];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't have a camera" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            }
+            break;
+        }
+        case 1: // existing picture
+        {
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+                UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+                picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                picker.delegate = self;
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                    
+                    [self presentModalViewController:picker animated:YES];
+                    
+                } else {
+                    
+                    _popover=[[UIPopoverController alloc] initWithContentViewController:picker];
+                    _popover.delegate=self;
+                    
+                    NamePictureCell* cell = (NamePictureCell*) [self.tableView dequeueReusableCellWithIdentifier:@"NamePictureCell"];
+                    CGRect pictureFrame = CGRectMake(28, 50, 100, 100);
+
+                    [_popover presentPopoverFromRect:pictureFrame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+                    
+                }
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't support the photo library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            }
+            break;
+        }
+    }
+}
+
 
 - (void)viewDidUnload
 {
@@ -433,7 +492,12 @@
     
     [[self tableView] reloadData];
     
-    [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    } else {
+        [_popover dismissPopoverAnimated:YES];
+        
+    }
 }
 
 

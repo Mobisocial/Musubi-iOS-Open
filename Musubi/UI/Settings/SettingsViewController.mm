@@ -111,8 +111,6 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [commandPicker showInView:self.view];
     } else {
-        NSInteger centerWidth = self.view.frame.size.width/2;
-        NSInteger pictureSize = 300;
         
         /*UIView* test = [[UIView alloc] init];
          test.frame = commandPicker.frame;
@@ -122,8 +120,10 @@
          
          [_popover presentPopoverFromRect:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
          [commandPicker showInView:test];*/
-        
-        [commandPicker showFromRect:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize) inView:self.view animated:YES];
+        NamePictureCell* cell = (NamePictureCell*) [self.tableView dequeueReusableCellWithIdentifier:@"NamePictureCell"];
+        CGRect pictureFrame = CGRectMake(cell.picture.frame.size.width/2+18, cell.picture.frame.size.height-8, cell.picture.frame.size.width, cell.picture.frame.size.height);
+
+        [commandPicker showFromRect:pictureFrame inView:self.view animated:YES];
     }
 
     
@@ -159,11 +159,9 @@
                     _popover=[[UIPopoverController alloc] initWithContentViewController:picker];
                     _popover.delegate=self;
                     
-                    NSInteger centerWidth = self.view.frame.size.width/2;
-                    NSInteger pictureSize = 300;
                     NamePictureCell* cell = (NamePictureCell*) [self.tableView dequeueReusableCellWithIdentifier:@"NamePictureCell"];
-                    
-                    [_popover presentPopoverFromRect:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+                    CGRect pictureFrame = CGRectMake(cell.picture.frame.size.width/2+18, cell.picture.frame.size.height-8, cell.picture.frame.size.width, cell.picture.frame.size.height);
+                    [_popover presentPopoverFromRect:pictureFrame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
                     
                 }
             } else {
@@ -626,7 +624,11 @@
 
     
     [[self tableView] reloadData];
-    [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    } else {
+        [_popover dismissPopoverAnimated:YES];
+    }
 }
 
 @end

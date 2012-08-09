@@ -32,7 +32,7 @@
 - (void) picturePickerFinishedWithPicture:(UIImage *)picture withCaption: (NSString*) caption;
 @end
 
-@interface PictureOverlayViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,AFPhotoEditorControllerDelegate> {
+@interface PictureOverlayViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,AFPhotoEditorControllerDelegate, UIPopoverControllerDelegate> {
     UIView* _captionView;
     UITextField* _captionField;
     UILabel* _captionLabel;
@@ -42,6 +42,7 @@
     
     UIImageView* _preview;
     int    _screenHeight;
+    UIPopoverController* _popover;
 }
 
 @property (nonatomic, readonly) UIView* captionView;

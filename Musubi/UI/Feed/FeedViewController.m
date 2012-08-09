@@ -76,6 +76,7 @@
 @synthesize feed = _feed;
 @synthesize delegate = _delegate;
 @synthesize audioRVC = _audioRVC;
+@synthesize popover = _popover;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -479,8 +480,13 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 
 - (IBAction)commandButtonPushed: (id) sender {
     UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", @"Record Audio", @"Sketch", @"Check-in", nil];
-    
-    [commandPicker showInView:mainView];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+
+        [commandPicker showInView:mainView];
+    } else {
+        CGRect pictureFrame = CGRectMake(15, self.view.frame.size.height-10, 1, 60);
+        [commandPicker showFromRect:pictureFrame inView:self.view animated:YES];
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
@@ -511,7 +517,21 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
                 _pictureViewController = [[PictureOverlayViewController alloc] initForImagePicker:UIImagePickerControllerSourceTypePhotoLibrary];
                 _pictureViewController.delegate = self;
-                [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                    
+                    [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
+                    
+                } else {
+                    
+                    _popover=[[UIPopoverController alloc] initWithContentViewController:_pictureViewController.imagePickerController];
+                    _popover.delegate=self;
+                    
+                    CGRect frame = CGRectMake(15, self.view.frame.size.height-10, 1, 60);
+                    
+                    [_popover presentPopoverFromRect:frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+                    
+                }
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't support the photo library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             }
@@ -618,8 +638,9 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     MApp* app = [am ensureSuperApp];
     
     [self sendObj:obj fromApp:app];
-    
+
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    
     [self refreshFeed];
 }
 
