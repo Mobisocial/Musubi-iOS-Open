@@ -249,7 +249,8 @@
             NSString* accountType = [accountTypes.allKeys objectAtIndex:indexPath.row];
             NSString* account = [accountTypes objectForKey:accountType];
             [[cell textLabel] setText: account];
-            [[cell detailTextLabel] setText: [authMgr isConnected:accountType] ? @"Connected" : @"Click to connect"];
+            NSString* accountPrincipal = [[authMgr principalsForAccount:accountType] lastObject];
+            [[cell detailTextLabel] setText: [authMgr isConnected:accountType] ? accountPrincipal : @"Click to connect"];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
             return cell;
