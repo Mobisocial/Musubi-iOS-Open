@@ -296,8 +296,9 @@
                     break;
                 }
                 case 2: {
-                    [[cell textLabel] setText: @"Debug Unlink"];
-                    [[cell detailTextLabel] setText: @"Click to unlink"];
+                    [[cell textLabel] setText: @"Unlink Dropbox"];
+                    [[cell detailTextLabel] setText: [[DBSession sharedSession] isLinked] ? @"Click to unlink" : @"Not linked"]; 
+                    
                 }
             }
             
@@ -411,7 +412,13 @@
                     }
                     case 2: {
                         [[DBSession sharedSession] unlinkAll];
+                        
+                        UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:2]];
+                        
+                        [[cell detailTextLabel] setText: @"Not Linked"];
+
                         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+
                     }
                 }
             }
