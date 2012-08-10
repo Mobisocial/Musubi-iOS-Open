@@ -517,6 +517,9 @@
               from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
 
     [self updateDBUploadProgress:kDBOperationCompleted];
+    
+    // Reload the metadata so that we have the remote file path of this backup
+    [[self dbRestClient] loadMetadata:@"/"];
 }
 
 - (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
