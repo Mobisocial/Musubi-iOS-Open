@@ -41,6 +41,7 @@
 #import "BSONEncoder.h"
 #import "Message.h"
 #import "Recipient.h"
+#import "IdentityManager.h"
 
 @implementation AMQPSenderService
 
@@ -102,6 +103,8 @@
     
     NSMutableArray* ids = [NSMutableArray arrayWithCapacity:[m.r count]];
     NSMutableSet* hidForQueue = [NSMutableSet setWithCapacity:[m.r count]];
+    IdentityManager* identityManager = [[IdentityManager alloc] initWithStore:self.store];
+    
     
     if (m.r.count > 100) {
         [self log:@"Message to more than 100 people, can't deal with this, discarding"];
@@ -115,7 +118,8 @@
         IBEncryptionIdentity* ident = [[[IBEncryptionIdentity alloc] initWithKey:((Recipient*)[m.r objectAtIndex:i]).i] keyAtTemporalFrame:0];
         [hidForQueue addObject: ident];
         
-        MIdentity* mIdent = (MIdentity*)[self.store createEntity:@"Identity"];
+        MIdentity* mIdent = [identityManager identityForIBEncryptionIdentity:ident];
+        
         [mIdent setPrincipalHash:[ident hashed]];
         [mIdent setType: [ident authority]];
         [self.store save];
