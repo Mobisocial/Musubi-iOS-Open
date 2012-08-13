@@ -171,8 +171,13 @@ static const NSInteger kGANDispatchPeriodSec = 60;
 -(void)restart
 {
     NSLog(@"Restarting UI");
-
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];    
+    UIStoryboard *storyboard;
+    if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)) {
+        storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+    }
+    else {
+        storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+    }
     UIViewController* vc = [storyboard instantiateInitialViewController];
     [self.window setRootViewController:vc];
 }
