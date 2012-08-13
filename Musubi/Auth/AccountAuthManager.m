@@ -268,7 +268,7 @@
         
         if (mAccount == nil) {
             mAccount = (MAccount*)[store createEntity:@"Account"];
-            [mAccount setName: name];
+            [mAccount setName: principal];
             [mAccount setType: type];
             [mAccount setIdentity: mId];
             //[store save];
