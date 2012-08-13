@@ -191,6 +191,7 @@ static const NSInteger kGANDispatchPeriodSec = 60;
     }
     
     if ([[DBSession sharedSession] handleOpenURL:url]) {
+        [((SettingsViewController*) self.window.rootViewController.childViewControllers.lastObject).tableView reloadData];
         [((SettingsViewController*) self.window.rootViewController.childViewControllers.lastObject).tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
         [((SettingsViewController*) self.window.rootViewController.childViewControllers.lastObject).tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:2 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
         return YES;

@@ -195,7 +195,8 @@
         case 1:
             return accountTypes.count;
         case 2:
-            return 3;
+            return [[DBSession sharedSession] isLinked] ? 3 : 2;
+            //return 3;
         case 3:
             return 1;
         case 4:
@@ -262,7 +263,8 @@
             }
             
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            
+            [cell setAccessoryType:UITableViewCellAccessoryNone];
+
             switch (indexPath.row) {
                 case 0: {
                     [[cell textLabel] setText: @"Save"];
@@ -388,6 +390,7 @@
         case 2: {
             if (![[DBSession sharedSession] isLinked]) {
                 [[DBSession sharedSession] link];
+                //[self.tableView reloadData];
             } else {
                 switch (indexPath.row) {
                     case 0: {
@@ -413,12 +416,15 @@
                     }
                     case 2: {
                         [[DBSession sharedSession] unlinkAll];
+                        dbUploadProgress = -1;
                         
+                        [self.tableView reloadData];
+
                         UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:2]];
-                        
                         [[cell detailTextLabel] setText: @"Not Linked"];
 
                         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+                        
 
                     }
                 }
