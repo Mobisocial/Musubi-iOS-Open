@@ -38,7 +38,6 @@ xxx#import "FacebookAuth.h"
 #import "SHKFacebook.h"
 #import "SHK.h"
 #import "MusubiAnalytics.h"
-<<<<<<< HEAD
 #import "ObjRegistry.h"
 
 #import "Three20/Three20.h"

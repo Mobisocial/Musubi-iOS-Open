@@ -1,227 +1,0 @@
-TOAuthTouchStaticLib
-v5
-r1
-cCheck dependencies
-cCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2Authentication.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2Authentication.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2SignIn.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2SignIn.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2ViewControllerTouch.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/Touch/GTMOAuth2ViewControllerTouch.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcher.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcher.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcherLogging.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcherLogging.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetchHistory.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetchHistory.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-cLibtool /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/libOAuthTouch2.a normal i386
-
-N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/SystemConfiguration.framework/SystemConfiguration
-c000000004F551C7900000000000C5770
-t1330977913
-s808816
-
-N/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk
-c000000004F453DF80000000000000110
-t1329937912
-s272
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2Authentication.h
-c00000000500B388100000000000031DC
-t1342912641
-s12764
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2Authentication.m
-c00000000500B38810000000000009207
-t1342912641
-s37383
-i"GTMOAuth2Authentication.h"
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2SignIn.h
-c00000000500B388100000000000017EB
-t1342912641
-s6123
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2SignIn.m
-c00000000500B38810000000000006D8C
-t1342912641
-s28044
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetchHistory.h
-c00000000500B38810000000000001970
-t1342912641
-s6512
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetchHistory.m
-c00000000500B38810000000000004305
-t1342912641
-s17157
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcher.h
-c00000000500B38810000000000006B72
-t1342912641
-s27506
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcher.m
-c00000000500B3881000000000000DEA3
-t1342912641
-s56995
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcherLogging.h
-c00000000500B38810000000000000BA1
-t1342912641
-s2977
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcherLogging.m
-c00000000500B3881000000000000961D
-t1342912641
-s38429
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/Touch/GTMOAuth2ViewControllerTouch.h
-c00000000500B38810000000000002F62
-t1342912641
-s12130
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/Touch/GTMOAuth2ViewControllerTouch.m
-c00000000500B3881000000000000825F
-t1342912641
-s33375
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/libOAuthTouch2.a
-t1342913588
-s664552
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetchHistory.o
-t1342913588
-s64852
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcher.o
-t1342913588
-s161568
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcherLogging.o
-t1342913588
-s75788
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2Authentication.o
-t1342913588
-s132648
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2SignIn.o
-t1342913588
-s80640
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2ViewControllerTouch.o
-t1342913588
-s138152
-
-N/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/OAuthTouch2.LinkFileList
-c00000000500B3C3300000000000003DE
-t1342913587
-s990
-
-CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2Authentication.m
-r0
-
-CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2SignIn.m
-r0
-
-CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetchHistory.m
-r0
-
-CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcher.m
-r0
-
-CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcherLogging.m
-r0
-
-CBuild AST from /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/Touch/GTMOAuth2ViewControllerTouch.m
-r0
-
-CCheck dependencies
-r0
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependencies6501a3ac77bbb541^eb56bbac77bbb541^---0#1#0#--18"Check dependencies36"4826A98D-B235-45F2-86EB-AF7AFD141727-
-
-CCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetchHistory.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetchHistory.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s364606388.507586
-e364606388.837746
-r1
-xCompileC
-xbuild/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetchHistory.o
-x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetchHistory.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection93"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetchHistory.m601e82b473bbb541^3e7bd6b473bbb541^---0#0#0#-19%DVTDocumentLocation2@101"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetchHistory.m0000000000000000^3456"CompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetchHistory.o HTTPFetcher/GTMHTTPFetchHistory.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Werror -Werror-implicit-function-declaration -Wmissing-field-initializers -Wmissing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-uninitialized -Wunknown-pragmas -Wshadow -Wno-four-char-constants -Wsign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wnewline-eof -Wno-selector -Wstrict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator -DDEBUG=1 -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetchHistory.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetchHistory.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetchHistory.m -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetchHistory.o36"66BC652D-62C0-470F-A713-2D7B152C5BA2-
-
-CCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcher.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcher.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s364606387.824244
-e364606388.833842
-r1
-xCompileC
-xbuild/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcher.o
-x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcher.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection88"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcher.m5f29d3b373bbb541^577ad5b473bbb541^---0#0#0#-19%DVTDocumentLocation2@96"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcher.m0000000000000000^3426"CompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcher.o HTTPFetcher/GTMHTTPFetcher.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Werror -Werror-implicit-function-declaration -Wmissing-field-initializers -Wmissing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-uninitialized -Wunknown-pragmas -Wshadow -Wno-four-char-constants -Wsign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wnewline-eof -Wno-selector -Wstrict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator -DDEBUG=1 -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcher.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcher.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcher.m -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcher.o36"D1325869-D53F-4769-B4ED-8E0A31297C25-
-
-CCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcherLogging.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcherLogging.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s364606388.461621
-e364606388.802287
-r1
-xCompileC
-xbuild/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcherLogging.o
-x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcherLogging.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection95"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcherLogging.mcd5a76b473bbb541^f870cdb473bbb541^---0#0#0#-19%DVTDocumentLocation2@103"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcherLogging.m0000000000000000^3468"CompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcherLogging.o HTTPFetcher/GTMHTTPFetcherLogging.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Werror -Werror-implicit-function-declaration -Wmissing-field-initializers -Wmissing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-uninitialized -Wunknown-pragmas -Wshadow -Wno-four-char-constants -Wsign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wnewline-eof -Wno-selector -Wstrict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator -DDEBUG=1 -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcherLogging.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcherLogging.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/HTTPFetcher/GTMHTTPFetcherLogging.m -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMHTTPFetcherLogging.o36"5417459D-1E57-49CD-BC05-AAF2DB5CD798-
-
-CCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2Authentication.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2Authentication.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s364606387.822497
-e364606388.506304
-r1
-xCompileC
-xbuild/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2Authentication.o
-x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2Authentication.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection85"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2Authentication.m2dccd2b373bbb541^b1a781b473bbb541^---0#0#0#-19%DVTDocumentLocation2@93"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2Authentication.m0000000000000000^3456"CompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2Authentication.o GTMOAuth2Authentication.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Werror -Werror-implicit-function-declaration -Wmissing-field-initializers -Wmissing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-uninitialized -Wunknown-pragmas -Wshadow -Wno-four-char-constants -Wsign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wnewline-eof -Wno-selector -Wstrict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator -DDEBUG=1 -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2Authentication.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2Authentication.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2Authentication.m -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2Authentication.o36"01E795D9-16C7-440D-B751-0FA19B685539-
-
-CCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2SignIn.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2SignIn.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s364606387.822879
-e364606388.460341
-r1
-xCompileC
-xbuild/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2SignIn.o
-x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2SignIn.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection77"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2SignIn.m18cdd2b373bbb541^bcea75b473bbb541^---0#0#0#-19%DVTDocumentLocation2@85"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2SignIn.m0000000000000000^3408"CompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2SignIn.o GTMOAuth2SignIn.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Werror -Werror-implicit-function-declaration -Wmissing-field-initializers -Wmissing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-uninitialized -Wunknown-pragmas -Wshadow -Wno-four-char-constants -Wsign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wnewline-eof -Wno-selector -Wstrict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator -DDEBUG=1 -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2SignIn.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2SignIn.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/GTMOAuth2SignIn.m -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2SignIn.o36"CC9C9535-F1EE-4DCA-97E2-EC9F7EE5E7C7-
-
-CCompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2ViewControllerTouch.o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/Touch/GTMOAuth2ViewControllerTouch.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-s364606387.823651
-e364606388.782512
-r1
-xCompileC
-xbuild/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2ViewControllerTouch.o
-x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/Touch/GTMOAuth2ViewControllerTouch.m
-xnormal
-xi386
-xobjective-c
-xcom.apple.compilers.llvm.clang.1_0.compiler
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection96"Compile /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/Touch/GTMOAuth2ViewControllerTouch.mc901d3b373bbb541^255cc8b473bbb541^---0#0#0#-19%DVTDocumentLocation2@104"file://localhost/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/Touch/GTMOAuth2ViewControllerTouch.m0000000000000000^3498"CompileC build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2ViewControllerTouch.o Touch/GTMOAuth2ViewControllerTouch.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2    setenv LANG en_US.US-ASCII    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch i386 -fmessage-length=0 -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Werror -Werror-implicit-function-declaration -Wmissing-field-initializers -Wmissing-prototypes -Wreturn-type -Wno-implicit-atomic-properties -Wformat -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wno-uninitialized -Wunknown-pragmas -Wshadow -Wno-four-char-constants -Wsign-compare -Wno-shorten-64-to-32 -Wpointer-sign -Wnewline-eof -Wno-selector -Wstrict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -fexceptions -fasm-blocks -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.6 -g -Wno-conversion -Wno-sign-conversion -fobjc-abi-version=2 -fobjc-legacy-dispatch "-DIBOutlet=__attribute__((iboutlet))" "-DIBOutletCollection(ClassName)=__attribute__((iboutletcollection(ClassName)))" "-DIBAction=void)__attribute__((ibaction)" -D__IPHONE_OS_VERSION_MIN_REQUIRED=50100 -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-generated-files.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-own-target-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-all-target-headers.hmap -iquote /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/OAuthTouch2-project-headers.hmap -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/include -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources/i386 -I/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/DerivedSources -F/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator -DDEBUG=1 -MMD -MT dependencies -MF /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2ViewControllerTouch.d --serialize-diagnostics /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2ViewControllerTouch.dia -c /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/Touch/GTMOAuth2ViewControllerTouch.m -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/GTMOAuth2ViewControllerTouch.o36"BC46310D-61A8-4EAF-BB67-6D4E2D3B6E27-
-
-CLibtool /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/libOAuthTouch2.a normal i386
-s364606388.897069
-e364606388.927262
-r1
-xLibtool
-x/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/libOAuthTouch2.a
-xnormal
-xi386
-o/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: -dynamic not specified the following flags are invalid: -ObjC 
-lSLF05#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection64"Libtool build/Debug-iphonesimulator/libOAuthTouch2.a normal i3866ec2e5b473bbb541^2d09f0b473bbb541^-159"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool: -dynamic not specified the following flags are invalid: -ObjC -0#0#0#--1007"Libtool build/Debug-iphonesimulator/libOAuthTouch2.a normal i386    cd /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2    setenv MACOSX_DEPLOYMENT_TARGET 10.6    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin"    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/libtool -static -arch_only i386 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk -L/Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator -filelist /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/GTMOAuth2.build/Debug-iphonesimulator/OAuthTouchStaticLib.build/Objects-normal/i386/OAuthTouch2.LinkFileList -ObjC -framework SystemConfiguration -o /Users/wbult/Code/xcode/Musubi/SDK/Libraries/OAuth2/build/Debug-iphonesimulator/libOAuthTouch2.a36"9416833D-A9FF-4B88-ACDF-0489A55B17E3-
-

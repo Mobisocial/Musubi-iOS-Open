@@ -145,17 +145,27 @@
     }
 }
 
-- (MIdentity *)identityForIBEncryptionIdentity:(IBEncryptionIdentity *)ident {
-    NSArray* results = [self query: [NSPredicate predicateWithFormat:@"(type == %d) AND (principalShortHash == %llu)", ident.authority, *(uint64_t*)[ident.hashed bytes]]];
+
+- (MIdentity *)identityForType:(uint8_t)type andPrincipal: (NSString*) principal {
+    NSData* hash = [[[principal lowercaseString] dataUsingEncoding:NSUTF8StringEncoding] sha256Digest];
+    return [self identityForType:type andHash:hash];
+}
+
+- (MIdentity *)identityForType: (uint8_t) type andHash: (NSData*) hash {
+    NSArray* results = [self query: [NSPredicate predicateWithFormat:@"(type == %d) AND (principalShortHash == %llu)", type, *(uint64_t*)[hash bytes]]];
     
     for (int i=0; i<results.count; i++) {
         MIdentity* match = [results objectAtIndex:i];
-        if (![[match principalHash] isEqualToData:ident.hashed]) {
+        if (![[match principalHash] isEqualToData:hash]) {
             continue;
         }
         return match;
     }
     return nil;
+}
+
+- (MIdentity *)identityForIBEncryptionIdentity:(IBEncryptionIdentity *)ident {    
+    return [self identityForType:ident.authority andHash:ident.hashed];
 }
 
 - (IBEncryptionIdentity *)ibEncryptionIdentityForIdentity:(MIdentity *)ident forTemporalFrame:(uint64_t) tf{
@@ -166,6 +176,18 @@
     }
 }
 
+
+- (MIdentity*) ensureIdentityWithType: (uint8_t) type andPrincipal: (NSString*) principal andName: (NSString*) name identityAdded: (BOOL*) identityAdded profileDataChanged: (BOOL*) profileDataChanged {
+    
+    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:type principal:principal temporalFrame:0];
+    return [self ensureIdentity:ident withName:name identityAdded:identityAdded profileDataChanged:profileDataChanged];
+}
+
+- (MIdentity*) ensureIdentityWithType: (uint8_t) type andHash: (NSData*) hash andName: (NSString*) name identityAdded: (BOOL*) identityAdded profileDataChanged: (BOOL*) profileDataChanged {
+    
+    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:type hashedKey:hash temporalFrame:0];
+    return [self ensureIdentity:ident withName:name identityAdded:identityAdded profileDataChanged:profileDataChanged];
+}
 
 - (MIdentity*) ensureIdentity: (IBEncryptionIdentity*) ibeId withName: (NSString*) name identityAdded: (BOOL*) identityAdded profileDataChanged: (BOOL*) profileDataChanged {
     FeedManager* feedManager = [[FeedManager alloc] initWithStore: store];

@@ -30,7 +30,6 @@
 #import "MIdentity.h"
 #import "FriendListItem.h"
 #import "FriendListItemCell.h"
-#import "IBEncryptionScheme.h"
 #import "PersistentModelStore.h"
 
 @implementation FriendListDataSource {

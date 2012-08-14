@@ -24,12 +24,13 @@
 //
 
 #import "WelcomeViewController.h"
-#import "MAccount.h"
 #import "Musubi.h"
 #import "Three20/Three20.h"
 #import "VerifyViewController.h"
 
 #import "MusubiAnalytics.h"
+#import "Authorities.h"
+#import "MAccount.h"
 
 @implementation WelcomeViewController
 

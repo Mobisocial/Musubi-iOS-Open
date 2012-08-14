@@ -28,7 +28,6 @@
 		D276422115BA9468000DA7A8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D369D147B3ED300C4FE93 /* NSData+Base64.m */; };
 		D276422315BA9468000DA7A8 /* NSData+Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = D26D36A1147B3ED300C4FE93 /* NSData+Crypto.m */; };
 		D276422515BA9468000DA7A8 /* IBEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D2CB073B14EDCBB50006D1E9 /* IBEncryptionScheme.m */; };
-		D276422715BA9468000DA7A8 /* RSAEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D29A2CDB15B0B20000EA748A /* RSAEncryptionScheme.m */; };
 		D276422915BA9468000DA7A8 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D4814F867E40067B197 /* Message.m */; };
 		D276422B15BA9468000DA7A8 /* Sender.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D4B14F868B60067B197 /* Sender.m */; };
 		D276422D15BA9468000DA7A8 /* Recipient.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D4E14F868F50067B197 /* Recipient.m */; };
@@ -427,6 +426,7 @@
 		D22FE27E15BA9342002EC00A /* MusubiSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusubiSDK-Prefix.pch"; sourceTree = "<group>"; };
 		D2313BDC1519319000BB0526 /* AMQPSenderService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPSenderService.h; sourceTree = "<group>"; };
 		D2313BDD1519319000BB0526 /* AMQPSenderService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPSenderService.m; sourceTree = "<group>"; };
+		D236B30D15DB115100492579 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "Libraries/OpenSSL/build/Debug-iphoneos/libcrypto.a"; sourceTree = "<group>"; };
 		D2375E8C15BDF34D00CA764D /* Model 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 13.xcdatamodel"; sourceTree = "<group>"; };
 		D23F129F1586ACE600BA0602 /* AMQPUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMQPUtil.h; sourceTree = "<group>"; };
 		D23F12A01586ACE600BA0602 /* AMQPUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMQPUtil.m; sourceTree = "<group>"; };
@@ -1048,6 +1048,7 @@
 		D298F9E7143CE6DF000831DD = {
 			isa = PBXGroup;
 			children = (
+				D236B30D15DB115100492579 /* libcrypto.a */,
 				D26D3691147B3ED300C4FE93 /* Musubi */,
 				D2794AF11457D33F00C5FDAB /* Libraries */,
 				D216DE5D14F48951001A4166 /* MusubiAppTest */,
@@ -1644,7 +1645,6 @@
 				D276422115BA9468000DA7A8 /* NSData+Base64.m in Sources */,
 				D276422315BA9468000DA7A8 /* NSData+Crypto.m in Sources */,
 				D276422515BA9468000DA7A8 /* IBEncryptionScheme.m in Sources */,
-				D276422715BA9468000DA7A8 /* RSAEncryptionScheme.m in Sources */,
 				D276422915BA9468000DA7A8 /* Message.m in Sources */,
 				D276422B15BA9468000DA7A8 /* Sender.m in Sources */,
 				D276422D15BA9468000DA7A8 /* Recipient.m in Sources */,
@@ -1871,11 +1871,14 @@
 				);
 				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Libraries/OpenSSL/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYMROOT = build;
 			};
 			name = Debug;
 		};
@@ -1908,11 +1911,14 @@
 				);
 				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Libraries/OpenSSL/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SYMROOT = build;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -2010,6 +2016,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = Products;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2055,6 +2062,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = Products;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = NO;
 			};

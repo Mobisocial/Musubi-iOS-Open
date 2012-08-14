@@ -830,8 +830,6 @@
 			isa = PBXGroup;
 			children = (
 				F77ED39215C7411600B43757 /* welcome.png */,
-				D439D1F615B9D0F1006CEB24 /* eula.txt */,
-				D439D1F415B9D0E3006CEB24 /* privacypolicy.txt */,
 				F74F95EB15B4B48200E75D7D /* facebook_signin.png */,
 				F74F95EC15B4B48200E75D7D /* facebook_signin@2x.png */,
 				F7CB339715BF521C00AD0415 /* camera.png */,
@@ -1430,8 +1428,6 @@
 				D28E257715BCEBEE00C75CBA /* privacypolicy.txt in Resources */,
 				D28E257915BCEC0A00C75CBA /* eula.txt in Resources */,
 				D25FE01115BD0CF0005B1849 /* MusubiSDKBundle.bundle in Resources */,
-				D439D1F515B9D0E3006CEB24 /* privacypolicy.txt in Resources */,
-				D439D1F715B9D0F1006CEB24 /* eula.txt in Resources */,
 				F7CB339915BF521C00AD0415 /* camera.png in Resources */,
 				F7CB339A15BF521C00AD0415 /* camera@2x.png in Resources */,
 				F7CB339D15BF531900AD0415 /* cancel.png in Resources */,
@@ -1609,33 +1605,28 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Libraries/IBE/IBE",
-					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
-					"$(SRCROOT)/Libraries/GMP/build/include",
-					"$(SRCROOT)/Libraries/GMP/build/include32",
-					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
-					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
-					"$(SRCROOT)/Libraries/Facebook/src",
+					"$(SRCROOT)/Libraries/Facebook/src/**",
 					"$(SRCROOT)/Libraries/RabbitMQ",
 					"$(SRCROOT)/Libraries/OAuth2/**",
 					"$(SRCROOT)/Libraries/QRCodeEncoder/QRCodeEncoderObjectiveCAtGithub",
-					"$(BUILT_PRODUCTS_DIR)/../three20",
-					"$(BUILT_PRODUCTS_DIR)/../../three20",
-					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
 					/usr/include/libxml2,
-					"$(SRCROOT)/Libraries/Three20/src/**",
+					"$(SRCROOT)/SDK/Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/MusubiSDK",
+					"$(SRCROOT)/Libraries/Three20/Build/Products/three20/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries/TestFlight\"",
+					"\"$(SRCROOT)/Libraries/Three20/Build/Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
+					"\"$(SRCROOT)/Libraries/AviarySDK\"",
+					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
 				);
 				OTHER_LDFLAGS = "-lxml2";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Libraries/TestFlight\" $(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) \"$(SRCROOT)/Libraries/AviarySDK\" \"$(SRCROOT)/Libraries/GoogleAnalytics\" $(SRCROOT)/Libraries/Three20/Build/Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
@@ -1681,6 +1672,7 @@
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Libraries/TestFlight\" $(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) \"$(SRCROOT)/Libraries/AviarySDK\" \"$(SRCROOT)/Libraries/GoogleAnalytics\"";
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
@@ -1701,32 +1693,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Libraries/IBE/IBE",
-					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
-					"$(SRCROOT)/Libraries/GMP/build/include",
-					"$(SRCROOT)/Libraries/GMP/build/include32",
-					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
-					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
-					"$(SRCROOT)/Libraries/Facebook/src",
-					"$(SRCROOT)/Libraries/RabbitMQ",
-					"$(SRCROOT)/Libraries/OAuth2/**",
-					"$(SRCROOT)/Libraries/QRCodeEncoder/QRCodeEncoderObjectiveCAtGithub",
-					"$(BUILT_PRODUCTS_DIR)/../three20",
-					"$(BUILT_PRODUCTS_DIR)/../../three20",
-					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
-					/usr/include/libxml2,
-					"$(SRCROOT)/Libraries/Three20/src/**",
-					"$(BUILT_PRODUCTS_DIR)/MusubiSDK",
-				);
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Libraries/TestFlight\"",
-					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
-					"\"$(SRCROOT)/Libraries/AviarySDK\"",
-					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
-				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lThree20",
@@ -1808,7 +1775,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "Musubi" */ = {
+		D298F9EC143CE6DF000831DD /* Build configuration list for PBXProject "musubi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D298FA24143CE6DF000831DD /* Debug */,

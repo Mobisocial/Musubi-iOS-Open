@@ -17,3 +17,9 @@ SDK/Libraries/OpenSSL/openssl/crypto/opensslconf.h.bak
 SDK/Libraries/OpenSSL/openssl/libcrypto.a
 SDK/Libraries/OpenSSL/openssl/libssl.a
 SDK/Products
+SDK/Libraries/RabbitMQ/RabbitMQ/build
+SDK/Libraries/*/Products
+SDK/Libraries/*/build
+Libraries/*/build
+Libraries/*/Products
+Products
