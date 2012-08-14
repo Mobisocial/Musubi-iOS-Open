@@ -113,13 +113,14 @@
         self.pictureView.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, pictureHeight);
 
         CGFloat textTop = top + self.pictureView.height;
-        self.detailTextLabel.frame = CGRectMake(left, textTop, self.detailTextLabel.width, [PictureObjItemCell textHeightForItem:(ManagedObjFeedItem*)_item] + kTableCellSmallMargin);
+        CGFloat textHeight = [PictureObjItemCell textHeightForItem:(ManagedObjFeedItem*)_item] + kTableCellSmallMargin;
+        self.detailTextLabel.frame = CGRectMake(left, textTop, self.detailTextLabel.width, textHeight);
 
         UIView* enhance = [self.contentView viewWithTag:9];
         if (enhance != nil) {
             [enhance removeFromSuperview];
         }
-        float editTop = textTop + kTableCellSmallMargin;
+        float editTop = textTop + textHeight;
         float editWidth = 80;
         UIButton* enhanceButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [enhanceButton setTitle:@"Enhance" forState:UIControlStateNormal];

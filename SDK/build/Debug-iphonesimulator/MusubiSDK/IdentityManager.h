@@ -35,5 +35,6 @@
 - (NSArray*) identitiesWithSentEqual0;
 
 + (NSString*) displayNameForIdentity: (MIdentity*)ident;
+- (void) deleteIdentity:(MIdentity *) ident;
 
 @end

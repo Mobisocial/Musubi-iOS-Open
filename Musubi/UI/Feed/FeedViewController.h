@@ -37,7 +37,7 @@
     - (void) friendsForNewConversationSelected:(NSArray*)selection;
 @end
 
-@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate, FeedSettingsViewControllerDelegate, CheckinViewControllerDelegate,  PictureOverlayViewControllerDelegate> {
+@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate, FeedSettingsViewControllerDelegate, CheckinViewControllerDelegate,  PictureOverlayViewControllerDelegate, UIPopoverControllerDelegate> {
     MFeed* _feed;
     
     PictureOverlayViewController* _pictureViewController;
@@ -50,6 +50,7 @@
     
     
     int lastRow;
+    UIPopoverController* _popover;
 }
 
 - (IBAction)sendMessage:(id)sender;
@@ -59,6 +60,7 @@
 + (MObj*) sendObj:(Obj *)obj toFeed: (MFeed *)feed fromApp: (MApp*) app usingStore: (PersistentModelStore*) store;
 + (void)launchApp: (MApp*) app withObj: (MObj*) obj feed: (MFeed*)feed andController: (UIViewController*) controller popViewController: (BOOL) shouldPop;
 
+@property (nonatomic, strong) UIPopoverController* popover;
 @property (nonatomic, retain) MFeed* feed;
 @property (nonatomic, weak) id<FeedViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSDate* newerThan;

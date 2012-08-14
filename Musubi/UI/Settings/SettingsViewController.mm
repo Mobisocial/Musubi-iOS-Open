@@ -39,15 +39,6 @@
     [self setAccountTypes: [NSDictionary dictionaryWithObjectsAndKeys:@"Facebook", kAccountTypeFacebook, @"Google", kAccountTypeGoogle, @"Email", kAccountTypeEmail, nil]];
 
     _accountPrincipals = [NSMutableDictionary dictionaryWithCapacity:accountTypes.count];
-    for (NSString* type in accountTypes.allKeys) {
-        NSArray* principals = [authMgr principalsForAccount:type];
-        if (principals.count > 0) {
-            [_accountPrincipals setObject:[principals objectAtIndex:0] forKey:type];
-        }
-        
-        [authMgr performSelectorInBackground:@selector(checkStatus:) withObject:type];
-        [authMgr checkStatus: type];
-    }
     
     dbUploadProgress = kDBOperationNotStarted;
     dbDownloadProgress = kDBOperationNotStarted;
@@ -78,7 +69,17 @@
     [super viewWillAppear:animated];
     
     [[self dbRestClient] loadMetadata:@"/"];
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];    
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+    
+    for (NSString* type in accountTypes.allKeys) {
+        NSArray* principals = [authMgr principalsForAccount:type];
+        if (principals.count > 0) {
+            [_accountPrincipals setObject:[principals objectAtIndex:0] forKey:type];
+        }
+        
+        [authMgr performSelectorInBackground:@selector(checkStatus:) withObject:type];
+        [authMgr checkStatus: type];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -102,12 +103,77 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)pictureClicked:(id)sender {    
-    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
-    [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
-    [picker setDelegate:self];
+- (void)pictureClicked:(id)sender {
     
-    [self presentModalViewController:picker animated:YES];
+    
+    UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", nil];
+        
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [commandPicker showInView:self.view];
+    } else {
+        
+        /*UIView* test = [[UIView alloc] init];
+         test.frame = commandPicker.frame;
+         
+         _popover=[[UIPopoverController alloc] initWithContentViewController:test];
+         _popover.delegate=self;
+         
+         [_popover presentPopoverFromRect:CGRectMake(centerWidth-(pictureSize/2), 100, pictureSize, pictureSize) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+         [commandPicker showInView:test];*/
+        NamePictureCell* cell = (NamePictureCell*) [self.tableView dequeueReusableCellWithIdentifier:@"NamePictureCell"];
+        CGRect pictureFrame = CGRectMake(cell.picture.frame.size.width/2+18, cell.picture.frame.size.height-8, cell.picture.frame.size.width, cell.picture.frame.size.height);
+
+        [commandPicker showFromRect:pictureFrame inView:self.view animated:YES];
+    }
+
+    
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+        case 0: // take picture
+        {
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+                picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                picker.delegate = self;
+                [self presentModalViewController:picker animated:YES];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't have a camera" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            }
+            break;
+        }
+        case 1: // existing picture
+        {
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+                UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+                picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                picker.delegate = self;
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                    
+                    [self presentModalViewController:picker animated:YES];
+                    
+                } else {
+                    
+                    _popover=[[UIPopoverController alloc] initWithContentViewController:picker];
+                    _popover.delegate=self;
+                    
+                    NamePictureCell* cell = (NamePictureCell*) [self.tableView dequeueReusableCellWithIdentifier:@"NamePictureCell"];
+                    CGRect pictureFrame = CGRectMake(cell.picture.frame.size.width/2+18, cell.picture.frame.size.height-8, cell.picture.frame.size.width, cell.picture.frame.size.height);
+                    [_popover presentPopoverFromRect:pictureFrame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+                    
+                }
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't support the photo library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            }
+            break;
+        }
+    }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void) closeKeyboard {
@@ -118,7 +184,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -129,7 +195,8 @@
         case 1:
             return accountTypes.count;
         case 2:
-            return 2;
+            return [[DBSession sharedSession] isLinked] ? 3 : 2;
+            //return 3;
         case 3:
             return 1;
         case 4:
@@ -183,7 +250,7 @@
             NSString* accountType = [accountTypes.allKeys objectAtIndex:indexPath.row];
             NSString* account = [accountTypes objectForKey:accountType];
             [[cell textLabel] setText: account];
-            [[cell detailTextLabel] setText: [authMgr isConnected:accountType] ? @"Connected" : @"Click to connect"];
+            [[cell detailTextLabel] setText: [authMgr isConnected:accountType] ? [[authMgr principalsForAccount:accountType] objectAtIndex:0] : @"Click to connect"];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
             return cell;
@@ -195,7 +262,8 @@
             }
             
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            
+            [cell setAccessoryType:UITableViewCellAccessoryNone];
+
             switch (indexPath.row) {
                 case 0: {
                     [[cell textLabel] setText: @"Save"];
@@ -228,6 +296,11 @@
                     }
                         
                     break;
+                }
+                case 2: {
+                    [[cell textLabel] setText: @"Unlink Dropbox"];
+                    [[cell detailTextLabel] setText: [[DBSession sharedSession] isLinked] ? @"Click to unlink" : @"Not linked"]; 
+                    
                 }
             }
             
@@ -275,7 +348,7 @@
 }
 
 - (DBRestClient *)dbRestClient {
-    if (!dbRestClient) {
+    if (!dbRestClient && [[DBSession sharedSession] isLinked]) {
         dbRestClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
         dbRestClient.delegate = self;
     }
@@ -316,6 +389,7 @@
         case 2: {
             if (![[DBSession sharedSession] isLinked]) {
                 [[DBSession sharedSession] link];
+                //[self.tableView reloadData];
             } else {
                 switch (indexPath.row) {
                     case 0: {
@@ -339,6 +413,19 @@
                         }
                         break;
                     }
+                    case 2: {
+                        [[DBSession sharedSession] unlinkAll];
+                        dbUploadProgress = -1;
+                        
+                        [self.tableView reloadData];
+
+                        UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:2]];
+                        [[cell detailTextLabel] setText: @"Not Linked"];
+
+                        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+                        
+
+                    }
                 }
             }
                         
@@ -353,6 +440,9 @@
             break;
         }
      }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
 }
 
 - (void) connectAccountWithType: (NSString*) type {
@@ -440,6 +530,9 @@
               from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
 
     [self updateDBUploadProgress:kDBOperationCompleted];
+    
+    // Reload the metadata so that we have the remote file path of this backup
+    [[self dbRestClient] loadMetadata:@"/"];
 }
 
 - (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
@@ -555,7 +648,13 @@
 
     
     [[self tableView] reloadData];
-    [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    } else {
+        [_popover dismissPopoverAnimated:YES];
+        [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    }
+    
 }
 
 @end

@@ -67,6 +67,11 @@ bool _isAlreadyAccepted;
 }
 
 - (IBAction)pleaseEmailMeTheEulaSoICanReadItLater:(id)sender {
+    NSError *error;
+    if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryOnboarding action:kAnalyticsActionEmailEula label:nil value:-1 withError:&error]) {
+        // error
+    }
+
     MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
     controller.mailComposeDelegate = self;
     
@@ -114,6 +119,7 @@ bool _isAlreadyAccepted;
 
     NSString* combined = [[eulaText stringByAppendingString:@"\n\n\n"] stringByAppendingString:privacyText];
     [_eulaText setText:combined];
+    [self.eulaText setEditable:NO];
 }
 
 - (void)viewDidUnload

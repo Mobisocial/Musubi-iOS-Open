@@ -30,6 +30,7 @@
 #import "NSData+Crypto.h"
 
 #import "Musubi.h"
+#import "SBJSON.h"
 #import "Obj.h"
 
 #import "PersistentModelStore.h"
@@ -168,6 +169,9 @@
 
 - (void) attachMembers: (NSArray*) participants toFeed: (MFeed*) feed {
     for (MIdentity* mId in participants) {
+        if(feed == nil) {
+            break;
+        }
         [self attachMember: mId toFeed: feed];
     }
 }

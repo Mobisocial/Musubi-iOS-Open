@@ -76,6 +76,7 @@
 @synthesize feed = _feed;
 @synthesize delegate = _delegate;
 @synthesize audioRVC = _audioRVC;
+@synthesize popover = _popover;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -479,15 +480,25 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 
 - (IBAction)commandButtonPushed: (id) sender {
     UIActionSheet* commandPicker = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Picture", @"Picture From Album", @"Record Audio", @"Sketch", @"Check-in", nil];
-    
-    [commandPicker showInView:mainView];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+
+        [commandPicker showInView:mainView];
+    } else {
+        CGRect pictureFrame = CGRectMake(15, self.view.frame.size.height-10, 1, 60);
+        [commandPicker showFromRect:pictureFrame inView:self.view animated:YES];
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    NSError *error;
 
     switch (buttonIndex) {
         case 0: // take picture
         {
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionFeedAction label:kAnalyticsLabelFeedActionCamera value:nil withError:&error]) {
+                // error
+            }
+
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
                 _pictureViewController = [[PictureOverlayViewController alloc] initForImagePicker:UIImagePickerControllerSourceTypeCamera];
                 _pictureViewController.delegate = self;
@@ -499,10 +510,28 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         }
         case 1: // existing picture
         {   
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionFeedAction label:kAnalyticsLabelFeedActionGallery value:nil withError:&error]) {
+                // error
+            }
+
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
                 _pictureViewController = [[PictureOverlayViewController alloc] initForImagePicker:UIImagePickerControllerSourceTypePhotoLibrary];
                 _pictureViewController.delegate = self;
-                [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                    
+                    [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
+                    
+                } else {
+                    
+                    _popover=[[UIPopoverController alloc] initWithContentViewController:_pictureViewController.imagePickerController];
+                    _popover.delegate=self;
+                    
+                    CGRect frame = CGRectMake(15, self.view.frame.size.height-10, 1, 60);
+                    
+                    [_popover presentPopoverFromRect:frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+                    
+                }
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't support the photo library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             }
@@ -510,12 +539,20 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         }
         case 2: // Audio
         {
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionFeedAction label:kAnalyticsLabelFeedActionRecordAudio value:nil withError:&error]) {
+                // error
+            }
+
             [self hideKeyboard];
             [self slideSubView:self.audioRVC.view];
             break;
         }
         case 3: // app (sketch)
         {
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionFeedAction label:kAnalyticsLabelFeedActionSketch value:nil withError:&error]) {
+                // error
+            }
+
             NSString* appId = @"musubi.sketch";
             AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
             MApp* app = [appMgr ensureAppWithAppId:appId];
@@ -544,6 +581,10 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         }
         case 4: // check in
         {
+            if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionFeedAction label:kAnalyticsLabelFeedActionCheckIn value:nil withError:&error]) {
+                // error
+            }
+
             [self performSegueWithIdentifier:@"ShowCheckinController" sender:_feed];
             break;
         }
@@ -597,8 +638,9 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     MApp* app = [am ensureSuperApp];
     
     [self sendObj:obj fromApp:app];
-    
+
     [[self modalViewController] dismissModalViewControllerAnimated:YES];
+    
     [self refreshFeed];
 }
 
@@ -632,7 +674,6 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSLog(@"where am i going?");
     if ([[segue identifier] isEqualToString:@"AddPeopleSegue"]) {
         FriendPickerViewController *vc = segue.destinationViewController;
         FeedManager* fm = [[FeedManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
@@ -661,7 +702,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     else if ([[segue identifier] isEqualToString:@"ShowLocationController"]) {
         LocationViewController *vc = [segue destinationViewController];
         [vc setManagedObjFeedItem:(ManagedObjFeedItem*) sender];
-        NSLog(@"show location controller");
+        //NSLog(@"show location controller");
     }
 }
 

@@ -46,6 +46,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    _facebookButton.hidden = NO;
+    _googleButton.hidden = NO;
+    _statusLabel.text = @"...or use your existing accounts";
+    
     // Color
     self.navigationController.navigationBar.tintColor = [((id)[TTStyleSheet globalStyleSheet]) navigationBarTintColor];
 }
@@ -117,6 +121,10 @@
     if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryOnboarding action:kAnalyticsActionConnectingAccount label:type value:-1 withError:&error]) {
         // error
     }
+        
+    _facebookButton.hidden = YES;
+    _googleButton.hidden = YES;
+    _statusLabel.text = @"Connecting...";
 
     [_authMgr performSelectorInBackground:@selector(connect:) withObject:type];
 }

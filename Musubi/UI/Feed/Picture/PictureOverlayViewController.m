@@ -27,6 +27,7 @@
 #import "Three20/Three20.h"
 #import "MusubiStyleSheet.h"
 #import "Three20UI+Additions.h"
+#import "FeedViewController.h"
 
 @implementation PictureOverlayViewController
 
@@ -57,19 +58,36 @@
 }
 
 - (void) setupImagePicker {
-    if (self.imagePickerController.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        self.imagePickerController.showsCameraControls = NO;
-        [self.imagePickerController.cameraOverlayView addSubview:self.view];
-        self.view.frame = CGRectMake(0.0, 0.0, 320, 480);
-    } else {            
-        self.view.frame = CGRectMake(0.0, 0.0, 320, 460);
-    }
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (self.imagePickerController.sourceType == UIImagePickerControllerSourceTypeCamera) {
+            self.imagePickerController.showsCameraControls = NO;
+            [self.imagePickerController.cameraOverlayView addSubview:self.view];
+            self.view.frame = CGRectMake(0.0, 0.0, 320, 480);
+        } else {            
+            self.view.frame = CGRectMake(0.0, 0.0, 320, 460);
+        }
+            
+        self.preview.hidden = YES;
+        self.toolBar.hidden = NO;
+        self.editButton.hidden = YES;
+        self.captionButton.hidden = YES;
+        self.captionView.hidden = YES;
+    } else {
+        // Setup iPad Views
+        if (self.imagePickerController.sourceType == UIImagePickerControllerSourceTypeCamera) {
+            self.imagePickerController.showsCameraControls = NO;
+            [self.imagePickerController.cameraOverlayView addSubview:self.view];
+            self.view.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height);
+        } else {
+            self.view.frame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height);
+        }
         
-    self.preview.hidden = YES;
-    self.toolBar.hidden = NO;
-    self.editButton.hidden = YES;
-    self.captionButton.hidden = YES;
-    self.captionView.hidden = YES;
+        self.preview.hidden = YES;
+        self.toolBar.hidden = NO;
+        self.editButton.hidden = YES;
+        self.captionButton.hidden = YES;
+        self.captionView.hidden = YES;
+    }
     
 }
 
@@ -80,15 +98,86 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _screenHeight = self.view.height;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self selector:@selector(orientationChanged:)
+     name:UIDeviceOrientationDidChangeNotification
+     object:[UIDevice currentDevice]];
 }
+
+- (void) orientationChanged:(NSNotification *)note
+{
+    UIDevice * device = note.object;
+    UIButton* cameraButton = [[self.toolBar.items objectAtIndex:2] customView];
+    UIButton* cancelButton = [[self.toolBar.items objectAtIndex:0] customView];
+    switch(device.orientation)
+    {
+        case UIDeviceOrientationPortrait:
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.15];
+            cameraButton.transform = CGAffineTransformIdentity;
+            cancelButton.transform = CGAffineTransformIdentity;
+            /*self.captionButton.transform = CGAffineTransformIdentity;
+            self.captionButton.frame = CGRectMake(210, _screenHeight-100, 100, 34);
+            self.editButton.transform = CGAffineTransformIdentity;
+            self.editButton.frame = CGRectMake(10, _screenHeight-100, 80, 34);*/
+
+            [UIView commitAnimations];
+
+            break;
+            
+        case UIDeviceOrientationPortraitUpsideDown:
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.2];
+            
+            cameraButton.transform = CGAffineTransformMakeRotation(M_PI);
+            cancelButton.transform = CGAffineTransformMakeRotation(M_PI);
+            
+            [UIView commitAnimations];
+            break;
+            
+        case UIDeviceOrientationLandscapeLeft:
+        {
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.2];
+            
+
+            cameraButton.transform = CGAffineTransformMakeRotation(M_PI/2);
+            cancelButton.transform = CGAffineTransformMakeRotation(M_PI/2);
+            /*self.captionButton.frame = CGRectMake(-20, _screenHeight-130, 100, 34);
+            self.captionButton.transform = CGAffineTransformMakeRotation(M_PI/2);
+
+            self.editButton.frame = CGRectMake(-20, 30, 80, 34);
+            self.editButton.transform = CGAffineTransformMakeRotation(M_PI/2);*/
+            
+            [UIView commitAnimations];
+            break;
+        }
+        case UIDeviceOrientationLandscapeRight:
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.2];
+            
+            cameraButton.transform = CGAffineTransformMakeRotation(-M_PI/2);
+            cancelButton.transform = CGAffineTransformMakeRotation(-M_PI/2);
+
+            [UIView commitAnimations];
+            break;
+            
+        default:
+            break;
+    };
+}
+
 - (void)viewDidUnload {
     [super viewDidUnload];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (IBAction) showCaption:(id)sender {
@@ -98,11 +187,29 @@
 
 - (NSArray*) toolbarItems {
     if (_preview.hidden) {
+        
+        UIImage* cameraImage = [UIImage imageNamed:@"camera.png"];
+        UIImage* cancelImage = [UIImage imageNamed:@"cancel.png"];
+        
+        UIButton *cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [cameraButton addTarget:self action:@selector(shootPicture:) forControlEvents:UIControlEventTouchUpInside];
+        [cancelButton addTarget:self action:@selector(cancelPicture:) forControlEvents:UIControlEventTouchUpInside];
+        [cameraButton setImage:cameraImage forState:UIControlStateNormal];
+        [cancelButton setImage:cancelImage forState:UIControlStateNormal];
+        cameraButton.frame = CGRectMake(0,0, cameraImage.size.width, cameraImage.size.height);
+        cancelButton.frame = CGRectMake(0,0, cancelImage.size.width, cancelImage.size.height);
+        cameraButton.showsTouchWhenHighlighted = YES; // makes it highlight like normal
+        cancelButton.showsTouchWhenHighlighted = YES;
+                                                                      
+        
+        UIBarButtonItem *cameraBarButton = [[UIBarButtonItem alloc] initWithCustomView:cameraButton];
+        UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
+
      return [NSArray arrayWithObjects:
-                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel  target:self action:@selector(cancelPicture:)],
+                    cancelBarButton,
                     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
-                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera  target:self action:@selector(shootPicture:)],
-                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
+                    cameraBarButton,
                     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
                     nil];
     } else {
@@ -120,7 +227,11 @@
 
 - (UIImageView*) preview {
     if (!_preview) {
-        _preview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.height-55)];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            _preview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.height-55)];
+        } else {
+            _preview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height-25)];
+        }
         _preview.backgroundColor = [UIColor blackColor];
         _preview.contentMode = UIViewContentModeScaleAspectFit;
         _preview.hidden = YES;
@@ -131,10 +242,17 @@
 
 - (UIToolbar*) toolBar {
     if (!_toolBar) {
-        _toolBar=[[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.height-55, 320, 55)];
-        _toolBar.barStyle = UIBarStyleBlackOpaque;
-        _toolBar.items = self.toolbarItems;
-        [self.view addSubview:_toolBar];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            _toolBar=[[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.height-55, 320, 55)];
+            _toolBar.barStyle = UIBarStyleBlackOpaque;
+            _toolBar.items = self.toolbarItems;
+            [self.view addSubview:_toolBar];
+        } else {
+            _toolBar=[[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.height-55, self.view.width, 55)];
+            _toolBar.barStyle = UIBarStyleBlackOpaque;
+            _toolBar.items = self.toolbarItems;
+            [self.view addSubview:_toolBar];
+        }
     }
     return _toolBar;
 }
@@ -142,8 +260,13 @@
 - (TTButton*) editButton {
     if (!_editButton) {
         _editButton = [[TTButton alloc] init];
-        _editButton.frame = CGRectMake(10, self.view.height-100, 80, 34);
-        [_editButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateNormal] forState:UIControlStateNormal]; 
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            _editButton.frame = CGRectMake(10, self.view.height-100, 80, 34);
+        } else {
+            _editButton.frame = CGRectMake(10, self.view.height-100, 80, 34);
+        }
+        [_editButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateNormal] forState:UIControlStateNormal];
         [_editButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateHighlighted] forState:UIControlStateHighlighted]; 
         [_editButton setTitle:@"Edit" forState:UIControlStateNormal];
         [_editButton addTarget:self action:@selector(editPicture:) forControlEvents:UIControlEventTouchUpInside];
@@ -156,8 +279,15 @@
 - (TTButton*) captionButton {
     if (!_captionButton) {
         _captionButton = [[TTButton alloc] init];
-        _captionButton.frame = CGRectMake(210, self.view.height-100, 100, 34);
-        [_captionButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateNormal] forState:UIControlStateNormal]; 
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            _captionButton.frame = CGRectMake(210, self.view.height-100, 100, 34);
+        } else {
+            _captionButton.frame = CGRectMake(self.view.width-110, self.view.height-100, 100, 34);
+
+        }
+        
+        [_captionButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateNormal] forState:UIControlStateNormal];
         [_captionButton setStyle:[MusubiStyleSheet transparentRoundedButton:UIControlStateHighlighted] forState:UIControlStateHighlighted]; 
         [_captionButton setTitle:@"Caption" forState:UIControlStateNormal];
         [_captionButton addTarget:self action:@selector(showCaption:) forControlEvents:UIControlEventTouchUpInside];
@@ -169,7 +299,11 @@
 
 - (UILabel*) captionLabel {
     if (!_captionLabel) {
-        _captionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.height-100, 320, 44)];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            _captionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.height-100, 320, 44)];
+        } else {
+            _captionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.height-100, self.view.width, 44)];
+        }
         _captionLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
         _captionLabel.font = [UIFont systemFontOfSize:14];
         _captionLabel.textColor = [UIColor whiteColor];
@@ -183,7 +317,11 @@
 
 - (UIView*) captionView {
     if (!_captionView) {
-        _captionView = [[TTView alloc] initWithFrame:CGRectMake(0, self.view.height-54, 320, 44)];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            _captionView = [[TTView alloc] initWithFrame:CGRectMake(0, self.view.height-54, 320, 44)];
+        } else {
+            _captionView = [[TTView alloc] initWithFrame:CGRectMake(0, self.view.height-54, self.view.width, 44)];
+        }
         ((TTView*)_captionView).style = [MusubiStyleSheet bottomPanelStyle];
         _captionView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
         
@@ -195,7 +333,11 @@
 
 - (UITextField*) captionField {
     if (!_captionField) {
-        _captionField = [[UITextField alloc] initWithFrame: CGRectMake(10, 5, 290, 34)];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            _captionField = [[UITextField alloc] initWithFrame: CGRectMake(10, 5, 290, 34)];
+        } else {
+            _captionField = [[UITextField alloc] initWithFrame: CGRectMake(10, 5, self.view.width-30, 34)];
+        }
         _captionField.backgroundColor = [UIColor clearColor];
         _captionField.font = [UIFont systemFontOfSize:16.0];
         _captionField.delegate = self;
@@ -222,7 +364,11 @@
     CGRect keyboardFrameConverted = CGRectNull;
     keyboardFrameConverted = [self.view convertRect:keyboardFrame fromView:window];
     
-    self.captionView.center = CGPointMake(160, keyboardFrameConverted.origin.y - self.captionView.frame.size.height / 2);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        self.captionView.center = CGPointMake(160, keyboardFrameConverted.origin.y - self.captionView.frame.size.height / 2);
+    } else {
+        self.captionView.center = CGPointMake(self.view.width/2, keyboardFrameConverted.origin.y - self.captionView.frame.size.height / 2);
+    }
 }
 
 - (void) keyboardWillHide: (NSNotification*) notification {
@@ -231,12 +377,23 @@
     
     if (self.captionLabel.text.length) {
         self.captionLabel.hidden = NO;
-        self.captionButton.center = CGPointMake(260, self.view.height-126);
-        self.editButton.center = CGPointMake(50, self.view.height-126);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            self.captionButton.frame = CGRectMake(210, self.view.height-100-44, 100, 34);
+            self.editButton.frame = CGRectMake(10, self.view.height-100-44, 80, 34);
+        } else {
+            self.captionButton.frame = CGRectMake(self.view.width-110, self.view.height-100-44, 100, 34);
+            self.editButton.frame = CGRectMake(10, self.view.height-100-44, 80, 34);
+            
+        }
     } else {
         self.captionLabel.hidden = YES;
-        self.captionButton.center = CGPointMake(260, self.view.height-82);
-        self.editButton.center = CGPointMake(50, self.view.height-82);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            self.captionButton.frame = CGRectMake(210, self.view.height-100, 100, 34);
+            self.editButton.frame = CGRectMake(10, self.view.height-100, 80, 34);
+        } else {
+            self.captionButton.frame = CGRectMake(self.view.width-110, self.view.height-100, 100, 34);
+            self.editButton.frame = CGRectMake(10, self.view.height-100, 80, 34);
+        }
     }
 }
 
@@ -266,7 +423,7 @@
     _editButton.hidden = YES;
     
     [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
-    [((UIViewController*)self.delegate) presentModalViewController:self.imagePickerController animated:NO];
+    //[((UIViewController*)self.delegate) presentModalViewController:self.imagePickerController animated:NO];
     
     [self setupImagePicker];
 }
@@ -317,7 +474,12 @@
     _editButton.hidden = NO;
     _toolBar.items = self.toolbarItems;
     
-    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+    } else {
+        [((FeedViewController*)self.delegate).popover dismissPopoverAnimated:YES];
+        
+    }
     [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
 }
 

@@ -29,16 +29,13 @@
 #import "SignatureUserKeyManager.h"
 #import "EncryptionUserKeyManager.h"
 #import "EncodedMessageManager.h"
-#import "PersistentModelStore.h"
-#import "MIdentity.h"
-#import "IBEncryptionScheme.h"
-#import "MSignatureUserKey.h"
 
 @implementation MessageListener
 
 @synthesize identityProvider, identity, transportManager, transport;
 
 - (id)initWithIdentityProvider:(UnverifiedIdentityProvider *)ip andIdentity:(IBEncryptionIdentity *)i {
+    NSAssert(i.principal != nil);
     self = [super init];
     if (self != nil) {
         [self setIdentityProvider: ip];

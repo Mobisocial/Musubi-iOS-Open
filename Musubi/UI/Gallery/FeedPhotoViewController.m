@@ -98,6 +98,14 @@
     UIActionSheet* actions = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Save", @"Share", @"Edit", @"Set as...", nil];   
     
     [actions setTag:kMainActionSheetTag];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [actions showInView:self.view];
+    } else {
+        
+        CGRect pictureFrame = CGRectMake(self.view.frame.size.width-25, self.view.frame.size.height-35, 20, 20);
+        [actions showFromRect:pictureFrame inView:self.view animated:YES];
+    }
     [actions showInView:self.view];
 }
 
@@ -179,7 +187,6 @@
                                                queue:[NSOperationQueue mainQueue]
                                    completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                        UIImage  *img  = [[UIImage alloc] initWithData:data];
-                                       [self performSelectorOnMainThread:@selector(setFeedPicture:) withObject:img waitUntilDone:NO];
                                        UIImage* resized = [img centerFitAndResizeTo:CGSizeMake(256, 256)];
                                        NSData* thumbnail = UIImageJPEGRepresentation(resized, 0.90);
                                        

@@ -36,6 +36,8 @@
 #import "AccountManager.h"
 #import "MAccount.h"
 #import "MIdentity.h"
+#import "MEncryptionUserKey.h"
+#import "Authorities.h"
 
 @implementation IdentityManager
 
@@ -50,7 +52,8 @@
     
     assert(ident != nil);
     assert(ident.principalHash != nil && *(uint64_t*)ident.principalHash.bytes == ident.principalShortHash);
-    
+    assert(!ident.owned || ident.principal);
+
     // TOOD: synchronize code
     ident.updatedAt = [[NSDate date] timeIntervalSince1970] * 1000;
     [store save];
@@ -61,6 +64,7 @@
     assert(ident.principalHash != nil);
     assert((*(uint64_t*)ident.principalHash.bytes) == ident.principalShortHash);
     assert(ident.principalShortHash != 0);
+    assert(!ident.owned || ident.principal);
     
 	// TOOD: synchronize code
     int64_t now = [[NSDate date] timeIntervalSince1970] * 1000;
@@ -141,26 +145,17 @@
     }
 }
 
-- (MIdentity *)identityForType:(uint8_t)type andPrincipal: (NSString*) principal {
-    NSData* hash = [[principal dataUsingEncoding:NSUTF8StringEncoding] sha256Digest];
-    return [self identityForType:type andHash:hash];
-}
-
-- (MIdentity *)identityForType: (uint8_t) type andHash: (NSData*) hash {
-    NSArray* results = [self query: [NSPredicate predicateWithFormat:@"(type == %d) AND (principalShortHash == %llu)", type, *(uint64_t*)[hash bytes]]];
+- (MIdentity *)identityForIBEncryptionIdentity:(IBEncryptionIdentity *)ident {
+    NSArray* results = [self query: [NSPredicate predicateWithFormat:@"(type == %d) AND (principalShortHash == %llu)", ident.authority, *(uint64_t*)[ident.hashed bytes]]];
     
     for (int i=0; i<results.count; i++) {
         MIdentity* match = [results objectAtIndex:i];
-        if (![[match principalHash] isEqualToData:hash]) {
+        if (![[match principalHash] isEqualToData:ident.hashed]) {
             continue;
         }
         return match;
     }
     return nil;
-}
-
-- (MIdentity *)identityForIBEncryptionIdentity:(IBEncryptionIdentity *)ident {
-    return [self identityForType:ident.authority andHash:ident.hashed];
 }
 
 - (IBEncryptionIdentity *)ibEncryptionIdentityForIdentity:(MIdentity *)ident forTemporalFrame:(uint64_t) tf{
@@ -171,17 +166,6 @@
     }
 }
 
-- (MIdentity*) ensureIdentityWithType: (uint8_t) type andPrincipal: (NSString*) principal andName: (NSString*) name identityAdded: (BOOL*) identityAdded profileDataChanged: (BOOL*) profileDataChanged {
-    
-    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:type principal:principal temporalFrame:0];
-    return [self ensureIdentity:ident withName:name identityAdded:identityAdded profileDataChanged:profileDataChanged];
-}
-
-- (MIdentity*) ensureIdentityWithType: (uint8_t) type andHash: (NSData*) hash andName: (NSString*) name identityAdded: (BOOL*) identityAdded profileDataChanged: (BOOL*) profileDataChanged {
-    
-    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:type hashedKey:hash temporalFrame:0];
-    return [self ensureIdentity:ident withName:name identityAdded:identityAdded profileDataChanged:profileDataChanged];
-}
 
 - (MIdentity*) ensureIdentity: (IBEncryptionIdentity*) ibeId withName: (NSString*) name identityAdded: (BOOL*) identityAdded profileDataChanged: (BOOL*) profileDataChanged {
     FeedManager* feedManager = [[FeedManager alloc] initWithStore: store];
@@ -267,25 +251,19 @@
     return [self query:[NSPredicate predicateWithFormat:@"claimed=1"]];
 }
 
-
-+ (NSDictionary*) deserializeProfile: (NSData*) data {
+/* don't use this right now... need to discuss how to properly handle deletes
+ since other code references identities */
+- (void)deleteIdentity:(MIdentity *)identity {
     
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    NSDictionary *dict = [unarchiver decodeObject];
-    [unarchiver finishDecoding];
     
-    if (dict && [dict isKindOfClass:[NSDictionary class]]) {
-        return dict;
-    } else {
-        return nil;
+    IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:kIdentityTypeEmail principal:identity.principal temporalFrame:0];
+    
+    for (MEncryptionUserKey* userKey in [store query:[NSPredicate predicateWithFormat:@"identity = %@", identity] onEntity:@"EncryptionUserKey"]) {
+        NSLog(@"userkey: %@", userKey.identity.principal);
+        [store.context deleteObject:userKey];
     }
-}
-
-+ (NSData*) serializeProfile: (NSDictionary*) dict {
-    NSMutableData *data = [[NSMutableData alloc] init];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [archiver encodeObject:dict];
-    [archiver finishEncoding];
-    return data;
+    
+    [store.context deleteObject:[self identityForIBEncryptionIdentity:ident]];
+    [store save];
 }
 @end

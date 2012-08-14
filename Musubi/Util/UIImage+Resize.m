@@ -186,10 +186,12 @@
     // Aspect scales the image to the selected bounds (filling) and then cuts out the center that matches the selected bounds
     // Result is the max available center portion of the image that fits in the bounds
     
-    int resizeBound = MAX(size.height, size.width);    
-    UIImage* resized = [self resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:CGSizeMake(resizeBound, resizeBound) interpolationQuality:0.8];            
+    CGFloat aspect = MAX(size.height / self.size.height, size.width / self.size.width);
+    CGSize bounds = CGSizeMake(aspect * self.size.width, aspect * self.size.height);
     
-    CGPoint offset = CGPointMake((resizeBound - size.width)/2, (resizeBound - size.height)/2);
+    UIImage* resized = [self resizedImageWithContentMode:UIViewContentModeScaleAspectFill bounds:bounds interpolationQuality:0.8];            
+    
+    CGPoint offset = CGPointMake((bounds.width - size.width)/2, (bounds.height - size.height)/2);
     return [resized croppedImage:CGRectMake(offset.x, offset.y, size.width, size.height)]; 
 }
 

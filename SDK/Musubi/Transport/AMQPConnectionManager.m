@@ -36,7 +36,6 @@
 #import "Musubi.h"
 #include <sys/socket.h>
 #import "Reachability.h"
-#import <UIKit/UIKit.h>
 
 #define kMusubiAMQPServerHost @"bumblebee.musubi.us"
 
@@ -134,7 +133,7 @@
     BOOL message_set = NO;
     while([UIApplication sharedApplication].backgroundTimeRemaining < 15) {
         if(!message_set)  {
-            self.connectionState = @"Out of background juice...";
+            self.connectionState = @"Restarting...";
             message_set = YES;
         }
         [NSThread sleepForTimeInterval:0.5];

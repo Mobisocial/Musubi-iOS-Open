@@ -61,12 +61,10 @@
     if(lookup == nil) {
         lookup = [[GpsLookup alloc] init];
     }
-    [_mapView setScrollEnabled:NO];
-    [_mapView setZoomEnabled:NO];
+    [_mapView setScrollEnabled:YES];
+    [_mapView setZoomEnabled:YES];
     [lookup lookupAndCall:^(CLLocation *location) {
-        lat = [NSNumber numberWithDouble:location.coordinate.latitude];
-        lon = [NSNumber numberWithDouble:location.coordinate.longitude];
-        MKPointAnnotation *annotationPoint = [[MKPointAnnotation alloc] init];
+        annotationPoint = [[MKPointAnnotation alloc] init];
         annotationPoint.coordinate = location.coordinate;
         
         [_mapView addAnnotation:annotationPoint];
@@ -82,6 +80,8 @@
     tapGestureRecognizer.delegate = self;
     [_mapView addGestureRecognizer:tapGestureRecognizer];
 }
+
+
 
 -(void)mapViewTapped:(UITapGestureRecognizer *) tgr {
     [self hideKeyboard];
@@ -145,8 +145,8 @@
     
     LocationObj* location = [[LocationObj alloc] 
                              initWithText: [statusField text] 
-                             andLat: lat
-                             andLon: lon];
+                             andLat: [NSNumber numberWithDouble:annotationPoint.coordinate.latitude]
+                             andLon: [NSNumber numberWithDouble:annotationPoint.coordinate.longitude]];
     
     AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
     MApp* app = [am ensureSuperApp];
@@ -245,6 +245,21 @@
 shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
+}
+
+#pragma mark MKMapViewDelegate
+
+- (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    NSLog(@"making annotation view");
+    MKAnnotationView *annotationView = [mv dequeueReusableAnnotationViewWithIdentifier:@"PinAnnotationView"];
+    
+    if (!annotationView) {
+        annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"PinAnnotationView"];
+        annotationView.draggable = YES;
+    }
+    
+    return annotationView;
 }
 
 @end

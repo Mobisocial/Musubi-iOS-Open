@@ -30,9 +30,16 @@
 #import "MIdentity.h"
 #import "FriendListItem.h"
 #import "FriendListItemCell.h"
+#import "IBEncryptionScheme.h"
+#import "PersistentModelStore.h"
 
-@implementation FriendListDataSource
+@implementation FriendListDataSource {
+    FriendListItem* itemToDelete;
+    UITableView* tableViewToUpdate;
+    NSMutableDictionary* feedCache;
+}
 
+@synthesize pickerTextField = _pickerTextField;
 @synthesize selection = _selection;
 @synthesize pinnedIdentities = _pinnedIdentities;
 
@@ -134,6 +141,62 @@
         }
     }
     return nil;
+}
+
+/*
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UITableView * tableView = tableViewToUpdate;
+    tableViewToUpdate = nil;
+    FriendListItem* originalItem = itemToDelete;
+    itemToDelete = nil;
+    if(buttonIndex != 1)
+        return;
+    
+    
+
+    MIdentity* identity = originalItem.identity;
+    
+    [tableView beginUpdates];
+    
+    if (!originalItem.pinned) {
+        if (originalItem.selected) {
+            [_pickerTextField removeCellWithObject: originalItem];
+        }
+    }
+    
+    for(int i = self.items.count - 1; i >= 0; --i) {
+        NSMutableArray* section_items = [self.items objectAtIndex:i];
+        for(int j = section_items.count - 1; j >= 0; --j) {
+            FriendListItem* item = [section_items objectAtIndex:j];
+            if([item.identity.principal isEqual:identity.principal]) {
+                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:j inSection:i]] withRowAnimation:UITableViewRowAnimationFade];
+                [section_items removeObjectAtIndex:j];
+            }
+        }
+        if(!section_items.count) {
+            [tableView deleteSections:[NSIndexSet indexSetWithIndex:i] withRowAnimation:UITableViewRowAnimationFade];
+            [self.items removeObjectAtIndex:i];
+            [self.sections removeObjectAtIndex:i];
+        }
+    }
+    
+    PersistentModelStore *store = [[Musubi sharedInstance] newStore];
+    IdentityManager* identMgr = [[IdentityManager alloc] initWithStore: store];
+    [identMgr deleteIdentity:originalItem.identity];
+    
+    [tableView endUpdates];
+}*/
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Delete Person" message:@"Are you sure?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+        
+        itemToDelete = [[self.items objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        
+        tableViewToUpdate = tableView;
+        [alert show];
+    }
 }
 
 - (void)search:(NSString *)text {

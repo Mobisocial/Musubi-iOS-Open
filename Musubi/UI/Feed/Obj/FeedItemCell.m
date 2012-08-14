@@ -208,6 +208,9 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
         if (item.profilePicture) {
             [self.profilePictureButton setImage:item.profilePicture forState:UIControlStateNormal];
         }
+        else {
+            [self.profilePictureButton setImage:[UIImage imageNamed:@"missing.png"] forState:UIControlStateNormal];
+        }
         if (item.likes.count > 0 || item.iLiked) {
             [self.likeView setObject:item];
         }

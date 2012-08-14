@@ -20,6 +20,16 @@
 
 #define kAnalyticsCategoryApp @"App"
 #define kAnalyticsActionSendObj @"Send Obj"
+#define kAnalyticsActionFeedAction @"Feed Action"
+#define kAnalyticsLabelFeedActionCamera @"Picture from Camera"
+#define kAnalyticsLabelFeedActionGallery @"Picture from Gallery"
+#define kAnalyticsLabelFeedActionRecordAudio @"Record Audio"
+#define kAnalyticsLabelFeedActionSketch @"Sketch"
+#define kAnalyticsLabelFeedActionCheckIn @"Check-In"
+
+#define kAnalyticsActionInvite @"Invite"
+#define kAnalyticsLabelYes @"Yes"
+#define kAnalyticsLabelNo @"No"
 
 #define kAnalyticsCategoryEditor @"Editor"
 #define kAnalyticsActionEdit @"Edit"
@@ -30,6 +40,7 @@
 #define kAnalyticsCategoryOnboarding @"Onboarding"
 #define kAnalyticsActionAcceptEula @"Accept Eula"
 #define kAnalyticsActionDeclineEula @"Decline Eula"
+#define kAnalyticsActionEmailEula @"Email Eula"
 #define kAnalyticsActionConnectingAccount @"Connecting Account"
 #define kAnalyticsActionConnectedAccount @"Connected Account"
 

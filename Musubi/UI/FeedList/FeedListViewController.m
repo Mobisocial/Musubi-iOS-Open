@@ -151,40 +151,81 @@
 
 - (UIView*) noFeedsView {
     if (!_noFeedsView) {
-        _noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
-        _noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
-        
-/*        UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
-        cloud.frame = CGRectMake(50, 30, 220, 150);
-        cloud.contentMode = UIViewContentModeScaleAspectFit;
-        [_noFeedsView addSubview:cloud];*/
-        
-        UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 120, 220, 30)];
-        headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
-        headerLabel.textAlignment = UITextAlignmentCenter;
-        headerLabel.text = @"No conversations yet :(";
-        headerLabel.backgroundColor = [UIColor clearColor];
-        [_noFeedsView addSubview:headerLabel];
-        
-        UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(50, 170, 220, 60)];
-        infoLabel.font = [UIFont systemFontOfSize: 14];
-        infoLabel.textAlignment = UITextAlignmentCenter;
-        infoLabel.text = @"Let's pick a few friends to start a chat with!";
-        infoLabel.backgroundColor = [UIColor clearColor];
-        infoLabel.editable = NO;
-        infoLabel.userInteractionEnabled = NO;
-        [infoLabel sizeToFit];
-        [_noFeedsView addSubview:infoLabel];
-        
-        TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
-        [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
-        [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
-        [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
-        [_noFeedsView addSubview:startButton];
-        
-        [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.view addSubview:_noFeedsView];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+
+            _noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+            _noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
+            
+    /*        UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
+            cloud.frame = CGRectMake(50, 30, 220, 150);
+            cloud.contentMode = UIViewContentModeScaleAspectFit;
+            [_noFeedsView addSubview:cloud];*/
+            
+            UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 120, 220, 30)];
+            headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
+            headerLabel.textAlignment = UITextAlignmentCenter;
+            headerLabel.text = @"No conversations yet :(";
+            headerLabel.backgroundColor = [UIColor clearColor];
+            [_noFeedsView addSubview:headerLabel];
+            
+            UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(50, 170, 220, 60)];
+            infoLabel.font = [UIFont systemFontOfSize: 14];
+            infoLabel.textAlignment = UITextAlignmentCenter;
+            infoLabel.text = @"Let's pick a few friends to start a chat with!";
+            infoLabel.backgroundColor = [UIColor clearColor];
+            infoLabel.editable = NO;
+            infoLabel.userInteractionEnabled = NO;
+            [infoLabel sizeToFit];
+            [_noFeedsView addSubview:infoLabel];
+            
+            TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(60, 320, 200, 50)];
+            [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
+            [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+            [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
+            [_noFeedsView addSubview:startButton];
+            
+            [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:_noFeedsView];
+
+        } else {
+            // iPad view setup
+            _noFeedsView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+            _noFeedsView.backgroundColor = [((id)[TTStyleSheet globalStyleSheet]) tablePlainBackgroundColor];
+            
+            /*        UIImageView* cloud = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cloud.png"]];
+             cloud.frame = CGRectMake(50, 30, 220, 150);
+             cloud.contentMode = UIViewContentModeScaleAspectFit;
+             [_noFeedsView addSubview:cloud];*/
+            
+            UILabel* headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-(400/2), self.view.frame.size.height/3, 400, 30)];
+            headerLabel.font = [UIFont boldSystemFontOfSize:30.0];
+            headerLabel.textAlignment = UITextAlignmentCenter;
+            headerLabel.text = @"No conversations yet :(";
+            headerLabel.backgroundColor = [UIColor clearColor];
+            [_noFeedsView addSubview:headerLabel];
+            
+            UITextView* infoLabel = [[UITextView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-(440/2), self.view.frame.size.height/3+110, 440, 60)];
+            infoLabel.font = [UIFont systemFontOfSize: 22];
+            infoLabel.textAlignment = UITextAlignmentCenter;
+            infoLabel.text = @"Let's pick a few friends to start a chat with!";
+            infoLabel.backgroundColor = [UIColor clearColor];
+            infoLabel.editable = NO;
+            infoLabel.userInteractionEnabled = NO;
+            [infoLabel sizeToFit];
+            [_noFeedsView addSubview:infoLabel];
+            
+            TTButton* startButton = [[TTButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-(250/2), self.view.frame.size.height/3+180, 250, 75)];
+            [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateNormal] forState:UIControlStateNormal];
+            [startButton setStyle:[MusubiStyleSheet roundedButtonStyle:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+            [startButton setTitle:@"Start a chat" forState:UIControlStateNormal];
+            [startButton setFont: [UIFont systemFontOfSize: 22]];
+            [_noFeedsView addSubview:startButton];
+            
+            [startButton addTarget:self action:@selector(showFriendPicker) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:_noFeedsView];
+        }
     }
     
     return _noFeedsView;
@@ -239,7 +280,7 @@
         [self performSelectorOnMainThread:@selector(updatePending:) withObject:notification waitUntilDone:NO];
         return;
     }
-    
+
     if(nextPendingRedraw) {
         return;
     }
@@ -271,21 +312,42 @@
         int pending = encoding.count;
         
         if (pending > 0) {
-            newText = [NSString stringWithFormat: @"Encrypting %@outgoing message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+            newText = [NSString stringWithFormat: @"Sending %@outgoing message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
         } else {
             NSArray* decoding = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
             
             pending = decoding.count;
             
             if (pending > 0) {
-                newText = [NSString stringWithFormat: @"Decrypting %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
+                newText = [NSString stringWithFormat: @"Receiving %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
             }
         }
-        
-        
     }
     
-    incomingLabel.hidden = YES;
+    if (newText.length > 0) {
+        incomingLabel.hidden = NO;
+        [incomingLabel setText: [NSString stringWithFormat:@"  %@", newText]];
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        CGFloat screenWidth = screenRect.size.width;
+        CGFloat screenHeight = screenRect.size.height;
+        
+        if (incomingLabel.superview == self.view) {
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [incomingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+            } else {
+                [incomingLabel setFrame:CGRectMake(0, screenHeight-94, screenWidth, 30)];
+            }
+        } else {
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [incomingLabel setFrame:CGRectMake(0, 0, 320, 30)];
+            } else {
+                [incomingLabel setFrame:CGRectMake(0, 0, screenWidth, 30)];
+
+            }
+        }
+    } else {
+        incomingLabel.hidden = YES;
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -317,7 +379,14 @@
     
     UIActionSheet* newConversationPicker = [[UIActionSheet alloc] initWithTitle:@"New conversation" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Create from contacts", @"Join nearby group", nil];
     
-    [newConversationPicker showInView:self.view];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        
+        [newConversationPicker showInView:self.view];
+    } else {
+        CGRect pictureFrame = CGRectMake(self.view.frame.size.width-40, 0, 1, 1);
+        [newConversationPicker showFromRect:pictureFrame inView:self.view animated:YES];
+    }
+    
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
@@ -394,7 +463,16 @@
 
 #pragma UIAlertView Delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1 && self.ownedId != nil) {
+    NSError* error;
+    if (buttonIndex == 0) {
+        if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionInvite label:kAnalyticsLabelNo value:nil withError:&error]) {
+            // error
+        }
+    } else if (buttonIndex == 1 && self.ownedId != nil) {
+        if (![[GANTracker sharedTracker] trackEvent:kAnalyticsCategoryApp action:kAnalyticsActionInvite label:kAnalyticsLabelYes value:nil withError:&error]) {
+            // error
+        }
+
         NSString* nameForURL = [self.ownedId.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSString* principalForURL = [self.ownedId.principal stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSString* typeForURL = [NSString stringWithFormat:@"%d", self.ownedId.type];

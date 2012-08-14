@@ -134,7 +134,12 @@
         
         if (remaining > 0) {
             [_importingLabel setText:[NSString stringWithFormat: @"  Importing %d contacts...", remaining]];
-            [_importingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [_importingLabel setFrame:CGRectMake(0, 386, 320, 30)];
+            } else {
+                [_importingLabel setFrame:CGRectMake(0, self.view.height-30, self.view.width, 30)];
+
+            }
         } else {
             _importingLabel.text = @"";
             [_importingLabel setFrame:CGRectZero];    
@@ -149,6 +154,7 @@
 - (void)createModel {
     self.dataSource = [[FriendListDataSource alloc] init];
     ((FriendListDataSource*)self.dataSource).pinnedIdentities = _pinnedIdentities;
+    ((FriendListDataSource*)self.dataSource).pickerTextField = _pickerTextField;
 }
 
 - (id<UITableViewDelegate>)createDelegate {
@@ -284,6 +290,14 @@
 
 - (NSString*) tableView:(UITableView*)tv labelForObject:(id) obj {
     return ((FriendListItem*) obj).musubiName;
+}
+
+- (void) didBeginDragging {
+    [(FriendPickerViewController*)self hideKeyboard];
+}
+
+- (void) hideKeyboard {
+    [_pickerTextField resignFirstResponder];
 }
 
 - (IBAction)friendsSelected:(id)sender {

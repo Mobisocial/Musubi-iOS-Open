@@ -158,7 +158,7 @@
 
 - (void) populateIdentity: (MIdentity*) mIdent withType: (uint8_t) type principal: (NSString*) principal name: (NSString*) name{
         
-    NSData* hash = [[principal dataUsingEncoding:NSUTF8StringEncoding] sha256Digest];
+    NSData* hash = [[[principal lowerCaseString] dataUsingEncoding:NSUTF8StringEncoding] sha256Digest];
 
     [mIdent setClaimed: YES];
     [mIdent setOwned: YES];
@@ -270,7 +270,7 @@
         
         if (mAccount == nil) {
             mAccount = (MAccount*)[store createEntity:@"Account"];
-            [mAccount setName: name];
+            [mAccount setName: principal];
             [mAccount setType: type];
             [mAccount setIdentity: mId];
             //[store save];
