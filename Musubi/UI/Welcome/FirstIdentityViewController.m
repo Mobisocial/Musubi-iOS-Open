@@ -29,6 +29,9 @@
 #import "IdentityManager.h"
 #import "UIImage+Resize.h"
 #import "Musubi.h"
+#import "MAccount.h"
+#import "AccountAuthManager.h"
+#import "AccountManager.h"
 
 @implementation FirstIdentityViewController
 
@@ -121,6 +124,15 @@
         [startButton addTarget:self action:@selector(startChat:) forControlEvents:UIControlEventTouchUpInside];
         [_scroll addSubview:startButton];
         
+    }
+    AccountAuthManager *authMgr = [[AccountAuthManager alloc] initWithDelegate:self];
+    
+    if ([authMgr isConnected:kAccountTypeGoogle]) {
+        AccountManager* accMgr = [[AccountManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        MAccount *acc = [[accMgr accountsWithType:kAccountTypeGoogle] objectAtIndex:0];
+        
+        [_nameField setText:acc.identity.name];
+        [_thumbnailButton setImage:[[UIImage alloc] initWithData:acc.identity.musubiThumbnail] forState:UIControlStateNormal];
     }
 }
 
