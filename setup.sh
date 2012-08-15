@@ -3,6 +3,9 @@
 #this script initializes a clean checkout of musubi and builds the libraries
 #that are bundled in source code form.  after you checkout for the first time
 
+pushd SDK
+./setup.sh
+popd
 
 echo FETCHING DEPENDENCIES
 git submodule update --init

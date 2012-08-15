@@ -33,7 +33,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9069D2980FCE65C10042E34C /* Build configuration list for PBXNativeTarget "crypto" */;
 			buildPhases = (
-				9038ACD812DCAC96004FA0D0 /* ShellScript */,
+				9038ACD812DCAC96004FA0D0 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -72,13 +72,14 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		9038ACD812DCAC96004FA0D0 /* ShellScript */ = {
+		9038ACD812DCAC96004FA0D0 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
