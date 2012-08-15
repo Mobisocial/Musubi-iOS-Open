@@ -46,7 +46,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    _facebookButton.hidden = NO;
+    _facebookButton.hidden = YES;
     _googleButton.hidden = NO;
     _statusLabel.text = @"...or use your existing accounts";
     
