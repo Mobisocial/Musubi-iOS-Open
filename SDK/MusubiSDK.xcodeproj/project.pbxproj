@@ -251,6 +251,9 @@
 		D2AADE4B14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE4A14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m */; };
 		D2AADE5214FEEBEC00C6ABB3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27968DC1457DA4700C5FDAB /* CoreData.framework */; };
 		D2D30EE2151B25E5009D1E62 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
+		D2DD07FC15DC4B6C0091491E /* MusubiConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D2DD07FB15DC4B6C0091491E /* MusubiConfiguration.m */; };
+		D2DD080115DC4D4D0091491E /* MusubiConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = D2DD07FA15DC4B6C0091491E /* MusubiConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2DD080215DC4D600091491E /* MusubiConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = D2DD07FB15DC4B6C0091491E /* MusubiConfiguration.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -546,6 +549,8 @@
 		D2CD05E314462BD90080861E /* libcommonCrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcommonCrypto.dylib; path = usr/lib/system/libcommonCrypto.dylib; sourceTree = SDKROOT; };
 		D2D9302215223F4A006E4F58 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D2D931101522A2DE006E4F58 /* RabbitMQ.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RabbitMQ.xcodeproj; path = RabbitMQ/RabbitMQ/RabbitMQ.xcodeproj; sourceTree = "<group>"; };
+		D2DD07FA15DC4B6C0091491E /* MusubiConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusubiConfiguration.h; sourceTree = "<group>"; };
+		D2DD07FB15DC4B6C0091491E /* MusubiConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusubiConfiguration.m; sourceTree = "<group>"; };
 		D2E708331587EE730015E43D /* Model 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 10.xcdatamodel"; sourceTree = "<group>"; };
 		D2E708341587F6C00015E43D /* Model 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 11.xcdatamodel"; sourceTree = "<group>"; };
 		D2EF51B115B63C9400A8EA49 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -913,6 +918,8 @@
 				D26D36CC147B3ED400C4FE93 /* Transport */,
 				D26D36D4147B3ED400C4FE93 /* Util */,
 				D28E256115BCE1A300C75CBA /* Prefixes.h */,
+				D2DD07FA15DC4B6C0091491E /* MusubiConfiguration.h */,
+				D2DD07FB15DC4B6C0091491E /* MusubiConfiguration.m */,
 			);
 			path = Musubi;
 			sourceTree = "<group>";
@@ -1407,6 +1414,7 @@
 				D276437615BA960B000DA7A8 /* NSDate+TimeAgo.h in Headers */,
 				D276437715BA960B000DA7A8 /* NSObject+DDExtensions.h in Headers */,
 				D276437B15BA960B000DA7A8 /* XQueryComponents.h in Headers */,
+				D2DD080115DC4D4D0091491E /* MusubiConfiguration.h in Headers */,
 				D276437C15BA960B000DA7A8 /* IdentityUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1602,6 +1610,7 @@
 				D216DE6514F48952001A4166 /* MusubiAppTest.m in Sources */,
 				D2AADE4B14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m in Sources */,
 				D208155C1512851700F12039 /* AMQPTransportTest.m in Sources */,
+				D2DD07FC15DC4B6C0091491E /* MusubiConfiguration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1609,6 +1618,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2DD080215DC4D600091491E /* MusubiConfiguration.m in Sources */,
 				D276430B15BA9526000DA7A8 /* bson.c in Sources */,
 				D276430C15BA9526000DA7A8 /* encoding.c in Sources */,
 				D276430D15BA9526000DA7A8 /* gridfs.c in Sources */,

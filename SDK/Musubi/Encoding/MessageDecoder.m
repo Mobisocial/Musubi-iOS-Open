@@ -46,6 +46,7 @@
 #import "Message.h"
 #import "Secret.h"
 #import "Authorities.h"
+#import "MusubiConfiguration.h"
 
 @implementation MessageDecoder
 
@@ -62,7 +63,11 @@
 }
 
 - (MIdentity*) addIdentityWithKey: (NSData*) key {
-    return [transportDataProvider addClaimedIdentity:[[IBEncryptionIdentity alloc] initWithKey:key]];
+    if ([Musubi sharedInstance].config.autoClaimIncomingIdentities) {
+        return [transportDataProvider addClaimedIdentity:[[IBEncryptionIdentity alloc] initWithKey:key]];
+    } else {
+        return [transportDataProvider addUnclaimedIdentity:[[IBEncryptionIdentity alloc] initWithKey:key]];
+    }
 }
 
 - (MDevice*) addDevice: (MIdentity*) ident withId:(NSData*)devId {
@@ -129,8 +134,7 @@
     [is setEncryptionPeriod: meTimed.temporalFrame];
     [is setSignaturePeriod: sid.temporalFrame];
     [is setSignature: me.s];
-    
-    
+       
     
     [transportDataProvider insertIncomingSecret:is otherIdentity:sid myIdentity:meTimed];
     return is;
