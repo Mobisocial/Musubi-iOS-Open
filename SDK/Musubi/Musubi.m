@@ -61,11 +61,13 @@
 #import "CorralHTTPServer.h"
 #import "APNPushManager.h"
 
+#import "MusubiConfiguration.h"
+
 @implementation Musubi
 
 static Musubi* _sharedInstance = nil;
 
-@synthesize mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, addressBookIdentityUpdater, identityProvider;
+@synthesize config, mainStore, storeFactory, notificationCenter, keyManager, encodeService, decodeService, transport, objPipelineService, apnDeviceToken, addressBookIdentityUpdater, identityProvider;
 @synthesize corralHTTPServer;
 
 +(Musubi*)sharedInstance
@@ -92,13 +94,15 @@ static Musubi* _sharedInstance = nil;
     self.storeFactory = [PersistentModelStoreFactory sharedInstance];
     self.mainStore = storeFactory.rootStore;
     
+    self.config = [[MusubiConfiguration alloc] init];
+    
     [self cleanUp];
     
     // The notification sender informs every major part in the system about what's going on
     self.notificationCenter = [[NSNotificationCenter alloc] init];
             
     [self performSelectorInBackground:@selector(startServices) withObject:nil];
-   
+
     return self;
 }
 
