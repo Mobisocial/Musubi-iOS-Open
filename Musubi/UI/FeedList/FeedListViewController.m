@@ -88,7 +88,15 @@
     incomingLabel.textColor = [UIColor colorWithWhite:1 alpha:1];
     
     self.variableHeightRows = YES;
-    self.tableView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+    //self.tableView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+    UIColor* backgroundColor = _tableViewStyle == UITableViewStyleGrouped
+    ? TTSTYLEVAR(tableGroupedBackgroundColor)
+    : [MusubiStyleSheet feedTexturedBackgroundColor];
+    // : TTSTYLEVAR(tablePlainBackgroundColor);
+    if (backgroundColor) {
+        _tableView.backgroundColor = backgroundColor;
+        self.view.backgroundColor = backgroundColor;
+    }
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // We only need to know when a message starts getting decrypted, when it is completely processed
