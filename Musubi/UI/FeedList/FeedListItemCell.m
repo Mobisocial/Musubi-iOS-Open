@@ -28,8 +28,8 @@
 #import "MFeed.h"
 #import "Three20UI/UIViewAdditions.h"
 
-static const CGFloat    kDefaultMessageImageWidth   = 70.0f;
-static const CGFloat    kDefaultMessageImageHeight  = 70.0f;
+static const CGFloat    kDefaultMessageImageWidth   = 67.0f;
+static const CGFloat    kDefaultMessageImageHeight  = 67.0f;
 
 static NSUInteger kDefaultStrokeWidth = 1;
 @implementation FeedListItemCell
@@ -41,16 +41,35 @@ static NSUInteger kDefaultStrokeWidth = 1;
         self.userInteractionEnabled = YES;
 
     }
+    
+    
+    self.layer.cornerRadius = 10.0;
+    _frame = CGRectNull;
+    
     return self;
 }
+
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    self.backgroundColor = [UIColor whiteColor];
+    if (CGRectIsNull(_frame)) {
+        _frame = CGRectMake(self.origin.x+10, self.origin.y+10, self.width-20, self.height-10);
+    }
+    self.frame = _frame;
+    
+    self.layer.shadowOffset = CGSizeMake(0, 1);
+    self.layer.shadowColor = [[UIColor darkGrayColor] CGColor];
+    self.layer.shadowRadius = 3.0;
+    self.layer.shadowOpacity = .8;
+    
     [self profilePictureView];
     _profilePictureView.clipsToBounds = YES;
     _profilePictureView.contentMode = UIViewContentModeScaleAspectFill;
-    _profilePictureView.frame = CGRectMake(0, 0, kDefaultMessageImageWidth, kDefaultMessageImageHeight);
+    _profilePictureView.frame = CGRectMake(7, 7, kDefaultMessageImageWidth, kDefaultMessageImageHeight);
+    _profilePictureView.layer.cornerRadius = 5.0;
+    _profilePictureView.layer.masksToBounds = YES;
     
     [_unreadLabel sizeToFit];
     _unreadLabel.left = self.contentView.width - _unreadLabel.width - kTableCellSmallMargin;
@@ -62,6 +81,7 @@ static NSUInteger kDefaultStrokeWidth = 1;
     
     _titleLabel.left = left;
     _titleLabel.width = width;
+    _titleLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.left = left;
     self.textLabel.width = width;
     self.detailTextLabel.left = left;
@@ -128,7 +148,7 @@ static NSUInteger kDefaultStrokeWidth = 1;
 }
 
 + (CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object {
-    return 70;
+    return 90;
 }
 
 @end
