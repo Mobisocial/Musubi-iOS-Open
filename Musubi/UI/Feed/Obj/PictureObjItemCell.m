@@ -33,10 +33,13 @@
 #import "Musubi.h"
 #import "FeedViewController.h"
 #import "MusubiAnalytics.h"
+#import "QuartzCore/CALayer.h"
 
 #define kEditButtonHeight 40
 
 @implementation PictureObjItemCell
+
+@synthesize pictureContainer = _pictureContainer, pictureBack = _pictureBack, pictureFlipButton = _pictureFlipButton;
 
 + (void)prepareItem:(ManagedObjFeedItem *)item {
     item.computedData = [UIImage imageWithData: item.managedObj.raw];
@@ -74,7 +77,7 @@
 }
 
 + (CGFloat)renderHeightForItem:(ManagedObjFeedItem *)item {
-    return [PictureObjItemCell pictureHeightForItem:item] + [PictureObjItemCell textHeightForItem:item] + kEditButtonHeight + 2*kTableCellSmallMargin;
+    return [PictureObjItemCell pictureHeightForItem:item] + [PictureObjItemCell textHeightForItem:item] + 2*kTableCellSmallMargin;
 }
 
 // XXX awkward lazy-loading field with side-effects.
@@ -82,8 +85,61 @@
     if (!_pictureView) {
         _pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         [_pictureView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-        [_pictureView setContentMode:UIViewContentModeScaleAspectFit];
-        [self.contentView addSubview:_pictureView];
+        //[_pictureView setContentMode:UIViewContentModeScaleAspectFit];
+        [_pictureView.layer setMasksToBounds:YES];
+        [_pictureView.layer setCornerRadius:2];
+        [_pictureView.layer setBorderWidth:5.0];
+        
+        CGFloat nRed=191.0/255.0;
+        CGFloat nGreen=185.0/255.0;
+        CGFloat nBlue=172/255.0;
+        
+        UIColor *myColor=[[UIColor alloc]initWithRed:nRed green:nGreen blue:nBlue alpha:1];
+        
+        [_pictureView.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+        
+        
+        //Add a shadow by wrapping the avatar into a container
+        self.pictureContainer = [[UIView alloc] initWithFrame: _pictureView.frame];
+        [self.pictureContainer setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+        // setup shadow layer and corner
+        self.pictureContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.pictureContainer.layer.shadowOffset = CGSizeMake(0, 1);
+        self.pictureContainer.layer.shadowOpacity = 0.7;
+        self.pictureContainer.layer.shadowRadius = 1.0;
+        self.pictureContainer.layer.cornerRadius = 2.0;
+        self.pictureContainer.clipsToBounds = NO;
+        
+        
+        self.pictureBack = [[UIView alloc] initWithFrame:self.pictureContainer.frame];
+        [self.pictureBack setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+        [self.pictureBack setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"corkBoard.png"]]];
+        [self.pictureBack.layer setMasksToBounds:YES];
+        [self.pictureBack.layer setCornerRadius:2];
+        [self.pictureBack.layer setBorderWidth:5.0];
+        [self.pictureBack.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+
+        //[self.pictureContainer removeAllSubviews];
+        //[self.pictureContainer addSubview:pictureBack];
+        //[self.pictureView addSubview:self.pictureView];
+        //[self.pictureContainer insertSubview:self.pictureBack atIndex: 1];
+        
+        
+        self.pictureFlipButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.pictureFlipButton addTarget:self
+                   action:@selector(flipPicture:)
+         forControlEvents:UIControlEventTouchDown];
+        [self.pictureFlipButton setTitle:@"->" forState:UIControlStateNormal];
+        
+        
+        // combine the views
+        [self.pictureContainer addSubview:self.pictureBack];
+        [self.pictureContainer addSubview: self.pictureView];
+        [self.pictureContainer addSubview:self.pictureFlipButton];
+        //[self.pictureContainer insertSubview:self.pictureFlipButton atIndex:0];
+        [self.contentView addSubview: self.pictureContainer];
+        
+    
     }
     
     return _pictureView;
@@ -110,12 +166,18 @@
         CGFloat top = self.timestampLabel.origin.y + self.timestampLabel.height + kTableCellMargin;
         
         float pictureHeight = [PictureObjItemCell pictureHeightForImage:self.pictureView.image];
-        self.pictureView.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, pictureHeight);
-
+        self.pictureContainer.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, pictureHeight);;
+        self.pictureView.frame = CGRectMake(0, 0, self.detailTextLabel.frame.size.width, pictureHeight);
+        self.pictureBack.frame = CGRectMake(0, 0, self.detailTextLabel.frame.size.width, pictureHeight);
+        self.pictureFlipButton.frame = CGRectMake(self.pictureContainer.frame.size.width-50, self.pictureContainer.frame.size.height-40, 40, 30);
+        self.pictureFlipButton.layer.cornerRadius = 20; // this value vary as per your desire
+        self.pictureFlipButton.clipsToBounds = YES;
+        
         CGFloat textTop = top + self.pictureView.height;
         CGFloat textHeight = [PictureObjItemCell textHeightForItem:(ManagedObjFeedItem*)_item] + kTableCellSmallMargin;
         self.detailTextLabel.frame = CGRectMake(left, textTop, self.detailTextLabel.width, textHeight);
 
+        
         UIView* enhance = [self.contentView viewWithTag:9];
         if (enhance != nil) {
             [enhance removeFromSuperview];
@@ -126,9 +188,35 @@
         [enhanceButton setTitle:@"Enhance" forState:UIControlStateNormal];
         [enhanceButton addTarget:self action:@selector(enhancePicture:) forControlEvents:UIControlEventTouchUpInside];
         [enhanceButton setTag:9];
-        enhanceButton.frame = CGRectMake(left, editTop, editWidth, kEditButtonHeight);
-        [self.contentView addSubview:enhanceButton];
+        enhanceButton.frame = CGRectMake(self.pictureBack.frame.size.width/2-editWidth/2, self.pictureBack.frame.size.height/2-kEditButtonHeight/2, editWidth, kEditButtonHeight);
+        [self.pictureBack addSubview:enhanceButton];
     }
+}
+
+- (void) flipPicture: (id)sender {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    [UIView beginAnimations:nil context:context];
+    [UIView setAnimationDuration:0.75];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.pictureContainer cache:YES];
+    //[_pictureContainer removeAllSubviews];
+    
+    [self.pictureContainer exchangeSubviewAtIndex:1 withSubviewAtIndex:0];
+    
+   
+    
+    //[self.pictureView exchangeSubviewAtIndex:0 withSubviewAtIndex:1];
+    [UIView commitAnimations];
+    
+   /* [UIView transitionWithView:_pictureContainer duration:0.5
+                       options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
+                           [_pictureContainer removeAllSubviews];
+                           
+                           UIView* pictureBack = [[UIView alloc] initWithFrame:self.pictureView.frame];
+                           [pictureBack setBackgroundColor:[UIColor blackColor]];
+                           [_pictureContainer addSubview:pictureBack];
+
+                       } completion:nil];*/
 }
 
 - (void) enhancePicture: (id)sender {

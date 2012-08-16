@@ -31,4 +31,6 @@
 + (TTStyle*) textViewBorder;
 + (TTStyle*) bottomPanelStyle;
 + (TTStyle*) roundedButtonStyle:(UIControlState)state;
++ (UIColor *)feedTexturedBackgroundColor;
+
 @end
