@@ -130,6 +130,7 @@
                    action:@selector(flipPicture:)
          forControlEvents:UIControlEventTouchDown];
         [self.pictureFlipButton setTitle:@"->" forState:UIControlStateNormal];
+        //[btnTwo setImage:[UIImage imageNamed:@"image.png"] forState:UIControlStateNormal];
         
         
         // combine the views
@@ -169,8 +170,8 @@
         self.pictureContainer.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, pictureHeight);;
         self.pictureView.frame = CGRectMake(0, 0, self.detailTextLabel.frame.size.width, pictureHeight);
         self.pictureBack.frame = CGRectMake(0, 0, self.detailTextLabel.frame.size.width, pictureHeight);
-        self.pictureFlipButton.frame = CGRectMake(self.pictureContainer.frame.size.width-50, self.pictureContainer.frame.size.height-40, 40, 30);
-        self.pictureFlipButton.layer.cornerRadius = 20; // this value vary as per your desire
+        self.pictureFlipButton.frame = CGRectMake(self.pictureContainer.frame.size.width-60, self.pictureContainer.frame.size.height-40, 50, 30);
+        self.pictureFlipButton.layer.cornerRadius = 12; // this value vary as per your desire
         self.pictureFlipButton.clipsToBounds = YES;
         
         CGFloat textTop = top + self.pictureView.height;
