@@ -121,7 +121,8 @@
         
         UIColor* backgroundColor = _tableViewStyle == UITableViewStyleGrouped
         ? TTSTYLEVAR(tableGroupedBackgroundColor)
-        : TTSTYLEVAR(tablePlainBackgroundColor);
+        : [MusubiStyleSheet feedTexturedBackgroundColor];
+       // : TTSTYLEVAR(tablePlainBackgroundColor);
         if (backgroundColor) {
             _tableView.backgroundColor = backgroundColor;
             self.view.backgroundColor = backgroundColor;
