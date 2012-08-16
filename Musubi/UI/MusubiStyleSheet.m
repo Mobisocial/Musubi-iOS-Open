@@ -39,6 +39,10 @@
 //    return [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1];
 }
 
++ (UIColor *)feedTexturedBackgroundColor {
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"newBackground.png"]];
+}
+
 - (UIColor *)tablePlainCellSeparatorColor {
     return [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1];
 }
