@@ -16,24 +16,18 @@
 
 
 //
-//  FeedListItemCell.h
+//  FeedListStyleSheet.h
 //  musubi
 //
-//  Created by Willem Bult on 5/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ian Vo on 8/16/12.
+//
 //
 
-#import "Three20/Three20.h"
+#import <Three20Style/Three20Style.h>
 
-@interface FeedListItemCell : TTTableMessageItemCell {
-    UILabel* _unreadLabel;
-    UIImageView* _profilePictureView;
-    UIImageView* _pictureView;
-    CGRect _frame;
-}
+@interface FeedListStyleSheet : TTDefaultStyleSheet
 
-@property (nonatomic, readonly, retain) UILabel* unreadLabel;
-@property (nonatomic, readonly, retain) UIImageView* profilePictureView;
-@property (nonatomic, readonly, retain) UIImageView* pictureView;
+@property(nonatomic,readonly) UIColor* myFirstColor;
+@property(nonatomic,readonly) UIFont* myFirstFont;
 
 @end

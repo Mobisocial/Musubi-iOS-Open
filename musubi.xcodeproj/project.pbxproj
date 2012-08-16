@@ -24,6 +24,7 @@
 		5675EBF115B0A6ED00EBD834 /* IndexedTTTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5675EBF015B0A6ED00EBD834 /* IndexedTTTableView.m */; };
 		5679215D157D5673008B43A6 /* FeedNameObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */; };
 		569D54E015ABB18C002A3275 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 569D54DF15ABB18B002A3275 /* LocationViewController.m */; };
+		56DD8D8C15DD874B008458D7 /* FeedListStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 56DD8D8B15DD874B008458D7 /* FeedListStyleSheet.m */; };
 		56EC332B157C345F00438473 /* FeedSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332A157C345F00438473 /* FeedSettingsViewController.m */; };
 		56EC332E157C347300438473 /* FeedNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EC332D157C347300438473 /* FeedNameCell.m */; };
 		AA33535E158FA1CE00B6CAF5 /* libqrencoder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA335359158FA1A900B6CAF5 /* libqrencoder.a */; };
@@ -512,6 +513,8 @@
 		5679215C157D5672008B43A6 /* FeedNameObjItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedNameObjItemCell.m; sourceTree = "<group>"; };
 		569D54DE15ABB18B002A3275 /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationViewController.h; sourceTree = "<group>"; };
 		569D54DF15ABB18B002A3275 /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
+		56DD8D8A15DD874B008458D7 /* FeedListStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedListStyleSheet.h; path = FeedList/FeedListStyleSheet.h; sourceTree = "<group>"; };
+		56DD8D8B15DD874B008458D7 /* FeedListStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedListStyleSheet.m; path = FeedList/FeedListStyleSheet.m; sourceTree = "<group>"; };
 		56EC3329157C345F00438473 /* FeedSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedSettingsViewController.h; sourceTree = "<group>"; };
 		56EC332A157C345F00438473 /* FeedSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedSettingsViewController.m; sourceTree = "<group>"; };
 		56EC332C157C347300438473 /* FeedNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedNameCell.h; sourceTree = "<group>"; };
@@ -1627,6 +1630,8 @@
 				D26D0F631576DC5500722E3B /* FeedListItemCell.m */,
 				D26D0F651576DF3000722E3B /* FeedListItem.h */,
 				D26D0F661576DF3100722E3B /* FeedListItem.m */,
+				56DD8D8A15DD874B008458D7 /* FeedListStyleSheet.h */,
+				56DD8D8B15DD874B008458D7 /* FeedListStyleSheet.m */,
 			);
 			name = FeedList;
 			sourceTree = "<group>";
@@ -3971,7 +3976,19 @@
 				D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */,
 				D22B69E015B9115B00429023 /* AddressBookIdentityManager.m in Sources */,
 				D22B69E515B9CDB400429023 /* FirstIdentityViewController.m in Sources */,
-				D439D1F315B9CA88006CEB24 /* EulaViewController.m in Sources */,
+				D28E253A15BC7E0D00C75CBA /* EmailAuth.m in Sources */,
+				D28E253B15BC7E0D00C75CBA /* FacebookAuth.m in Sources */,
+				D28E253C15BC7E0D00C75CBA /* FacebookIdentityUpdater.m in Sources */,
+				D28E253D15BC7E0D00C75CBA /* GoogleAuth.m in Sources */,
+				D28E253E15BC7E0D00C75CBA /* GoogleIdentityUpdater.m in Sources */,
+				D28E254315BC7EC800C75CBA /* AccountAuthManager.m in Sources */,
+				D28E254615BC808C00C75CBA /* MusubiShareKitConfigurator.m in Sources */,
+				D25FDFC815BCFD79005B1849 /* EulaViewController.m in Sources */,
+				D25FE01415BD25B8005B1849 /* UIImage+Resize.m in Sources */,
+				D25FE01715BD25D5005B1849 /* UIImage+RoundedCorner.m in Sources */,
+				D25FE01A15BD25E2005B1849 /* UIImage+Alpha.m in Sources */,
+				D25FE01D15BD2CB2005B1849 /* ObjRegistry.m in Sources */,
+				56DD8D8C15DD874B008458D7 /* FeedListStyleSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

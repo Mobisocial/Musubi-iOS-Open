@@ -28,6 +28,7 @@
 #import "FeedListDataSource.h"
 #import "FeedListModel.h"
 #import "FeedListItem.h"
+#import "FeedListStyleSheet.h"
 #import "PersistentModelStore.h"
 #import "AMQPTransport.h"
 #import "AMQPConnectionManager.h"
@@ -86,7 +87,9 @@
     incomingLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.5];
     incomingLabel.textColor = [UIColor colorWithWhite:1 alpha:1];
     
-    self.variableHeightRows = YES;    
+    self.variableHeightRows = YES;
+    self.tableView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     // We only need to know when a message starts getting decrypted, when it is completely processed
     [[Musubi sharedInstance].transport.connMngr addObserver:self forKeyPath:@"connectionState" options:0 context:nil];
@@ -100,6 +103,10 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
+    
+    self->previousStyleSheet = [TTStyleSheet globalStyleSheet];
+    //[TTStyleSheet setGlobalStyleSheet:[[FeedListStyleSheet alloc] init]];
+    
     NSError *error;
     if (![[GANTracker sharedTracker] trackPageview:kAnalyticsPageFeedList withError:&error]) {
         NSLog(@"error in trackPageview");
@@ -149,6 +156,15 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+}
+
+- (void)viewDidUnload {
+    [TTStyleSheet setGlobalStyleSheet:self->previousStyleSheet];
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationConnectionStateChanged object:nil];    
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationMessageEncodeStarted object:nil];
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationMessageDecodeStarted object:nil];
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationMessageDecodeFinished object:nil];
+    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationUpdatedFeed object:nil];
 }
 
 - (UIView*) noFeedsView {

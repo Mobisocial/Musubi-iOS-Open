@@ -34,6 +34,9 @@
 
 @interface FeedListViewController : TTTableViewController<FriendPickerViewControllerDelegate, FeedViewControllerDelegate, UIActionSheetDelegate, FirstIdentityViewControllerDelegate> {
     UILabel* incomingLabel;
+    
+    NSString* _connectionState;
+    TTStyleSheet *previousStyleSheet;
 }
 
 @property (nonatomic, strong) NSMutableArray* unclaimed;
