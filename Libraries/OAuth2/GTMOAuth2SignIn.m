@@ -163,7 +163,8 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
 #if !GTM_OAUTH2_SKIP_GOOGLE_SUPPORT
     NSString *host = [authorizationURL host];
     if ([host hasSuffix:@".google.com"]) {
-      shouldFetchGoogleUserEmail_ = YES;
+        shouldFetchGoogleUserEmail_ = YES;
+        shouldFetchGoogleUserProfile_ = YES;
     }
 #endif
 

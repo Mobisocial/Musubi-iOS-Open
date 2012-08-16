@@ -27,9 +27,12 @@
 #import "GTMOAuth2ViewControllerTouch.h"
 #import "SBJsonParser.h"
 #import "MAccount.h"
+#import "MIdentity.h"
 #import "Musubi.h"
 #import "AccountAuthManager.h"
 #import "Authorities.h"
+#import "UIImage+Resize.h"
+#import "IdentityManager.h"
 
 static GTMOAuth2Authentication* active;
 
@@ -192,8 +195,27 @@ static GTMOAuth2Authentication* active;
     NSDictionary* dict = [parser objectWithString:json];
     
     if (dict != nil && [dict objectForKey:@"email"] != nil) {
-        NSString* accountName = [dict objectForKey:@"email"];
-        MAccount* account = [manager storeAccount:kAccountTypeGoogle name:accountName principal:[dict objectForKey:@"email"]];
+        //NSLog(@"dict keys %@", [dict allKeys]);
+        //NSLog(@"dict values %@", [dict allValues]);
+        NSString* email = [dict objectForKey:@"email"];
+        NSString* name = [dict objectForKey:@"given_name"];
+        NSString* imageUrl = [dict objectForKey:@"picture"];
+        NSLog(@"imageUrl = %@", imageUrl);
+        NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:imageUrl]];
+        
+        UIImage *image = [[UIImage alloc] initWithData:imageData];
+        
+        UIImage* resized = [image centerFitAndResizeTo:CGSizeMake(300, 300)];
+                
+        MAccount* account = [manager storeAccount:kAccountTypeGoogle name:name principal:email];
+        
+        IdentityManager* idMgr = [[IdentityManager alloc] initWithStore:[[Musubi sharedInstance] newStore]];
+        
+        for (MIdentity* ident in idMgr.ownedIdentities) {
+            ident.musubiThumbnail = UIImageJPEGRepresentation(resized, 0.9);
+            [idMgr updateIdentity:ident];
+        }
+        
         [manager onAccount:kAccountTypeGoogle isValid:account != nil];
         
         if (account) {
