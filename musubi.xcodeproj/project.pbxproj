@@ -298,6 +298,10 @@
 		F7CB339E15BF531900AD0415 /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7CB339C15BF531900AD0415 /* cancel@2x.png */; };
 		F7DEE92B15A3BB4E0026397A /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = F7DEE92A15A3BB4E0026397A /* check.png */; };
 		F7EFA3A915DD99D70035CF00 /* corkBoard.png in Resources */ = {isa = PBXBuildFile; fileRef = F7EFA3A815DD99D70035CF00 /* corkBoard.png */; };
+		F7EFA43215DDB5060035CF00 /* pencil.png in Resources */ = {isa = PBXBuildFile; fileRef = F7EFA43015DDB5060035CF00 /* pencil.png */; };
+		F7EFA43315DDB5060035CF00 /* pencil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7EFA43115DDB5060035CF00 /* pencil@2x.png */; };
+		F7EFA43A15DDC1C00035CF00 /* backArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = F7EFA43815DDC1C00035CF00 /* backArrow.png */; };
+		F7EFA43B15DDC1C00035CF00 /* backArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7EFA43915DDC1C00035CF00 /* backArrow@2x.png */; };
 		F7FDB0F7159BDD2700BDA402 /* target-script-min.js in Sources */ = {isa = PBXBuildFile; fileRef = F7FDB0F6159BDD2700BDA402 /* target-script-min.js */; };
 /* End PBXBuildFile section */
 
@@ -1332,6 +1336,10 @@
 		F7CB339C15BF531900AD0415 /* cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cancel@2x.png"; sourceTree = "<group>"; };
 		F7DEE92A15A3BB4E0026397A /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		F7EFA3A815DD99D70035CF00 /* corkBoard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = corkBoard.png; sourceTree = "<group>"; };
+		F7EFA43015DDB5060035CF00 /* pencil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pencil.png; sourceTree = "<group>"; };
+		F7EFA43115DDB5060035CF00 /* pencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pencil@2x.png"; sourceTree = "<group>"; };
+		F7EFA43815DDC1C00035CF00 /* backArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backArrow.png; sourceTree = "<group>"; };
+		F7EFA43915DDC1C00035CF00 /* backArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backArrow@2x.png"; sourceTree = "<group>"; };
 		F7FDB0F6159BDD2700BDA402 /* target-script-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "target-script-min.js"; path = "html5/apps/musubi.sketch/lib/target-script-min.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1738,8 +1746,12 @@
 				F7CB339C15BF531900AD0415 /* cancel@2x.png */,
 				F74F95ED15B4B48200E75D7D /* google_signin.png */,
 				F74F95EE15B4B48200E75D7D /* google_signin@2x.png */,
+				F7EFA43015DDB5060035CF00 /* pencil.png */,
+				F7EFA43115DDB5060035CF00 /* pencil@2x.png */,
 				D40B061915AE3F6600E3F944 /* heart16_gray.png */,
 				D40B061A15AE3F6600E3F944 /* heart16_gray@2x.png */,
+				F7EFA43815DDC1C00035CF00 /* backArrow.png */,
+				F7EFA43915DDC1C00035CF00 /* backArrow@2x.png */,
 				D40B061B15AE3F6600E3F944 /* heart16.png */,
 				D40B061C15AE3F6600E3F944 /* heart16@2x.png */,
 				F7DEE92A15A3BB4E0026397A /* check.png */,
@@ -3724,6 +3736,10 @@
 				F77ED39315C7411600B43757 /* welcome.png in Resources */,
 				F757EA5D15DC67040077886C /* newBackground.png in Resources */,
 				F7EFA3A915DD99D70035CF00 /* corkBoard.png in Resources */,
+				F7EFA43215DDB5060035CF00 /* pencil.png in Resources */,
+				F7EFA43315DDB5060035CF00 /* pencil@2x.png in Resources */,
+				F7EFA43A15DDC1C00035CF00 /* backArrow.png in Resources */,
+				F7EFA43B15DDC1C00035CF00 /* backArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

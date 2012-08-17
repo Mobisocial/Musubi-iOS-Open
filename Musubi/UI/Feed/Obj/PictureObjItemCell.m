@@ -35,6 +35,7 @@
 #import "FeedViewController.h"
 #import "MusubiAnalytics.h"
 #import "QuartzCore/CALayer.h"
+#import "SHK.h"
 
 #define kEditButtonHeight 40
 
@@ -119,6 +120,7 @@
         [self.pictureBack.layer setCornerRadius:2];
         [self.pictureBack.layer setBorderWidth:5.0];
         [self.pictureBack.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+        [self.pictureBack setTag:60];
 
         //[self.pictureContainer removeAllSubviews];
         //[self.pictureContainer addSubview:pictureBack];
@@ -126,13 +128,14 @@
         //[self.pictureContainer insertSubview:self.pictureBack atIndex: 1];
         
         
-        self.pictureFlipButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.pictureFlipButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.pictureFlipButton addTarget:self
                    action:@selector(flipPicture:)
          forControlEvents:UIControlEventTouchDown];
-        [self.pictureFlipButton setTitle:@"->" forState:UIControlStateNormal];
-        //[btnTwo setImage:[UIImage imageNamed:@"image.png"] forState:UIControlStateNormal];
-        
+        [self.pictureFlipButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal];
+        [self.pictureFlipButton setBackgroundColor:[UIColor whiteColor]];
+        self.pictureFlipButton.alpha = 0.65;
+        self.pictureFlipButton.contentMode = UIViewContentModeScaleAspectFit;
         
         // combine the views
         [self.pictureContainer addSubview:self.pictureBack];
@@ -171,7 +174,7 @@
         self.pictureContainer.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, pictureHeight);;
         self.pictureView.frame = CGRectMake(0, 0, self.detailTextLabel.frame.size.width, pictureHeight);
         self.pictureBack.frame = CGRectMake(0, 0, self.detailTextLabel.frame.size.width, pictureHeight);
-        self.pictureFlipButton.frame = CGRectMake(self.pictureContainer.frame.size.width-60, self.pictureContainer.frame.size.height-40, 50, 30);
+        self.pictureFlipButton.frame = CGRectMake(self.pictureContainer.frame.size.width-45, self.pictureContainer.frame.size.height-40, 35, 30);
         self.pictureFlipButton.layer.cornerRadius = 12; // this value vary as per your desire
         self.pictureFlipButton.clipsToBounds = YES;
         
@@ -187,12 +190,56 @@
         float editTop = textTop + textHeight;
         float editWidth = 80;
         UIButton* enhanceButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+
         [enhanceButton setTitle:@"Enhance" forState:UIControlStateNormal];
         [enhanceButton addTarget:self action:@selector(enhancePicture:) forControlEvents:UIControlEventTouchUpInside];
         [enhanceButton setTag:9];
-        enhanceButton.frame = CGRectMake(self.pictureBack.frame.size.width/2-editWidth/2, self.pictureBack.frame.size.height/2-kEditButtonHeight/2, editWidth, kEditButtonHeight);
+        enhanceButton.frame = CGRectMake(self.pictureBack.frame.size.width/2-editWidth/2, self.pictureBack.frame.size.height/3-kEditButtonHeight/2, editWidth, kEditButtonHeight);
+        
+        UIButton* shareButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        
+        [shareButton setTitle:@"Share" forState:UIControlStateNormal];
+        [shareButton addTarget:self action:@selector(sharePicture:) forControlEvents:UIControlEventTouchUpInside];
+        [shareButton setTag:9];
+        shareButton.frame = CGRectMake(self.pictureBack.frame.size.width/2-editWidth/2, enhanceButton.frame.origin.y + enhanceButton.frame.size.height + 20, editWidth, kEditButtonHeight);
+        
         [self.pictureBack addSubview:enhanceButton];
+        [self.pictureBack addSubview:shareButton];
+
     }
+}
+
+- (void) sharePicture: (id)sender {
+    /*ManagedObjFeedItem* item = self.object;
+    NSURL    *aUrl  = [NSURL URLWithString:[Musubi urlForObjRaw:item.managedObj]];
+    
+    NSURLRequest* request = [NSURLRequest requestWithURL:aUrl];
+    
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                               UIImage  *img  = [[UIImage alloc] initWithData:data];
+                               NSString *shareCaption = nil;
+                               
+                               if (self.detailTextLabel.text == nil) {
+                                   shareCaption = @"sent via Musubi";
+                               } else {
+                                   shareCaption = self.detailTextLabel.text;
+                               }
+                               
+                               SHKItem *item = [SHKItem image:img title:shareCaption];
+                               
+                               // Get the ShareKit action sheet
+                               SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
+                               
+                               // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
+                               // but sometimes it may not find one. To be safe, set it explicitly
+                               TTTableView *tv = (TTTableView *) self.superview.superview;
+                               [SHK setRootViewController:tv.superview];
+                               
+                               // Display the action sheet
+                               [actionSheet showInView:self.superview];
+                           }];*/
 }
 
 - (void) flipPicture: (id)sender {
@@ -200,25 +247,20 @@
     
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationDuration:0.75];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.pictureContainer cache:YES];
-    //[_pictureContainer removeAllSubviews];
     
+    if ([[self.pictureContainer.subviews objectAtIndex:1] tag] == 60) {
+        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.pictureContainer cache:YES];
+        [self.pictureFlipButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal];
+
+    } else {
+        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.pictureContainer cache:YES];
+        [self.pictureFlipButton setImage:[UIImage imageNamed:@"backArrow.png"] forState:UIControlStateNormal];
+
+    }
+        
     [self.pictureContainer exchangeSubviewAtIndex:1 withSubviewAtIndex:0];
     
-   
-    
-    //[self.pictureView exchangeSubviewAtIndex:0 withSubviewAtIndex:1];
     [UIView commitAnimations];
-    
-   /* [UIView transitionWithView:_pictureContainer duration:0.5
-                       options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
-                           [_pictureContainer removeAllSubviews];
-                           
-                           UIView* pictureBack = [[UIView alloc] initWithFrame:self.pictureView.frame];
-                           [pictureBack setBackgroundColor:[UIColor blackColor]];
-                           [_pictureContainer addSubview:pictureBack];
-
-                       } completion:nil];*/
 }
 
 - (void) enhancePicture: (id)sender {
