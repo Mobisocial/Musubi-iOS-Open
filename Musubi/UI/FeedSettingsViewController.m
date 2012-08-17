@@ -37,6 +37,7 @@
 #import "DejalActivityView.h"
 #import "FeedViewController.h"
 #import "NamePictureCell.h"
+#import "MusubiStyleSheet.h"
 
 @interface FeedSettingsViewController ()
 
@@ -73,6 +74,13 @@
         // Custom initialization
     }
     return self;
+}
+
+
+- (void)loadView {
+    [super loadView];
+
+    self.view.backgroundColor = [MusubiStyleSheet feedTexturedBackgroundColor];
 }
 
 - (void)viewDidLoad

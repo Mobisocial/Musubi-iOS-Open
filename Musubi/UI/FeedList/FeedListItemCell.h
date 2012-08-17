@@ -29,11 +29,10 @@
     UILabel* _unreadLabel;
     UIImageView* _profilePictureView;
     UIImageView* _pictureView;
-    CGRect _frame;
 }
 
 @property (nonatomic, readonly, retain) UILabel* unreadLabel;
 @property (nonatomic, readonly, retain) UIImageView* profilePictureView;
 @property (nonatomic, readonly, retain) UIImageView* pictureView;
-
+@property (nonatomic, readonly, retain) NSValue* frameCache;
 @end
