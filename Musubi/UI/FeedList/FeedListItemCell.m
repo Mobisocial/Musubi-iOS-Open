@@ -28,8 +28,8 @@
 #import "MFeed.h"
 #import "Three20UI/UIViewAdditions.h"
 
-static const CGFloat    kDefaultMessageImageWidth   = 67.0f;
-static const CGFloat    kDefaultMessageImageHeight  = 67.0f;
+static const CGFloat    kDefaultMessageImageWidth   = 64.0f;
+static const CGFloat    kDefaultMessageImageHeight  = 64.0f;
 
 static NSUInteger kDefaultStrokeWidth = 1;
 @implementation FeedListItemCell
@@ -44,20 +44,19 @@ static NSUInteger kDefaultStrokeWidth = 1;
     
     
     self.layer.cornerRadius = 10.0;
-    _frame = CGRectNull;
-    
+    _frameCache = [NSValue valueWithCGRect:CGRectNull];
     return self;
 }
-
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
     self.backgroundColor = [UIColor whiteColor];
-    if (CGRectIsNull(_frame)) {
-        _frame = CGRectMake(self.origin.x+10, self.origin.y+10, self.width-20, self.height-10);
+    if (CGRectIsNull([_frameCache CGRectValue])) {
+        NSLog(@"is null");
+        _frameCache = [NSValue valueWithCGRect:CGRectMake(self.origin.x+10, self.origin.y+7, self.width-20, self.height-14)];
     }
-    self.frame = _frame;
+    self.frame = [_frameCache CGRectValue];
     
     self.layer.shadowOffset = CGSizeMake(0, 1);
     self.layer.shadowColor = [[UIColor darkGrayColor] CGColor];
@@ -67,7 +66,7 @@ static NSUInteger kDefaultStrokeWidth = 1;
     [self profilePictureView];
     _profilePictureView.clipsToBounds = YES;
     _profilePictureView.contentMode = UIViewContentModeScaleAspectFill;
-    _profilePictureView.frame = CGRectMake(7, 7, kDefaultMessageImageWidth, kDefaultMessageImageHeight);
+    _profilePictureView.frame = CGRectMake(7, 6, kDefaultMessageImageWidth, kDefaultMessageImageHeight);
     _profilePictureView.layer.cornerRadius = 5.0;
     _profilePictureView.layer.masksToBounds = YES;
     

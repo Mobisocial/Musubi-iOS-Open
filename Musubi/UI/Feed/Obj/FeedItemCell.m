@@ -116,8 +116,11 @@ static const CGFloat    kDefaultMessageImageHeight  = 34.0f;
     CGFloat left = 0.0f;
 
     if (_profilePictureButton) {
-        _profilePictureButton.frame = CGRectMake(kTableCellSmallMargin, kTableCellSmallMargin,
-                                       kDefaultMessageImageWidth, kDefaultMessageImageHeight);        
+        _profilePictureButton.frame = CGRectMake(kTableCellSmallMargin, kTableCellSmallMargin+5,
+                                       kDefaultMessageImageWidth, kDefaultMessageImageHeight);
+        
+        _profilePictureButton.layer.cornerRadius = 5.0;
+        _profilePictureButton.layer.masksToBounds = YES;
     }
     
     left += kTableCellSmallMargin + kDefaultMessageImageHeight + kTableCellSmallMargin;
