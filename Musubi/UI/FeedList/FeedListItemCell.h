@@ -34,5 +34,4 @@
 @property (nonatomic, readonly, retain) UILabel* unreadLabel;
 @property (nonatomic, readonly, retain) UIImageView* profilePictureView;
 @property (nonatomic, readonly, retain) UIImageView* pictureView;
-@property (nonatomic, readonly, retain) NSValue* frameCache;
 @end

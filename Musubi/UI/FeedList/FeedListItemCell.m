@@ -42,22 +42,24 @@ static NSUInteger kDefaultStrokeWidth = 1;
 
     }
     
-    
     self.layer.cornerRadius = 10.0;
-    _frameCache = [NSValue valueWithCGRect:CGRectNull];
     return self;
+}
+
+
+-(void)setFrame:(CGRect)frame {
+    frame.origin.x += 10;
+    frame.origin.y += 7;
+    frame.size.width -= 20;
+    frame.size.height -= 14;
+    
+    [super setFrame:frame];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
     self.backgroundColor = [UIColor whiteColor];
-    if (CGRectIsNull([_frameCache CGRectValue])) {
-        NSLog(@"is null");
-        _frameCache = [NSValue valueWithCGRect:CGRectMake(self.origin.x+10, self.origin.y+7, self.width-20, self.height-14)];
-    }
-    self.frame = [_frameCache CGRectValue];
-    
     self.layer.shadowOffset = CGSizeMake(0, 1);
     self.layer.shadowColor = [[UIColor darkGrayColor] CGColor];
     self.layer.shadowRadius = 3.0;
@@ -114,6 +116,7 @@ static NSUInteger kDefaultStrokeWidth = 1;
     
     self.profilePictureView.image = object.image;
     self.selectionStyle = UITableViewCellSelectionStyleGray;
+    
 }
 
 - (UILabel*)unreadLabel {
