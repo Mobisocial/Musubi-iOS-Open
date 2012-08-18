@@ -41,6 +41,7 @@
 @implementation PictureObjItemCell
 
 @synthesize pictureContainer = _pictureContainer, pictureBack = _pictureBack, pictureFlipButton = _pictureFlipButton;
+@synthesize pictureEnhanceButton = _pictureEnhanceButton, pictureShareButton = _pictureShareButton;
 
 + (void)prepareItem:(ManagedObjFeedItem *)item {
     item.computedData = [UIImage imageWithData: item.managedObj.raw];
@@ -143,7 +144,11 @@
         //[self.pictureContainer insertSubview:self.pictureFlipButton atIndex:0];
         [self.contentView addSubview: self.pictureContainer];
         
-    
+        self.pictureShareButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        self.pictureEnhanceButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.pictureBack addSubview:self.pictureEnhanceButton];
+        [self.pictureBack addSubview:self.pictureShareButton];
+
     }
     
     return _pictureView;
@@ -154,6 +159,9 @@
         [super setObject:object];
         if (object.computedData != nil) {
             self.pictureView.image = object.computedData;
+            if ([[self.pictureContainer.subviews objectAtIndex:1] tag] == 60) {
+                [self.pictureContainer exchangeSubviewAtIndex:1 withSubviewAtIndex:0];
+            }
         } else {
             self.pictureView.image = [UIImage imageNamed:@"error.png"];
         }
@@ -170,11 +178,11 @@
         CGFloat top = self.timestampLabel.origin.y + self.timestampLabel.height + kTableCellMargin;
         
         float pictureHeight = [PictureObjItemCell pictureHeightForImage:self.pictureView.image];
-        self.pictureContainer.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, pictureHeight);;
+        self.pictureContainer.frame = CGRectMake(left, top, self.detailTextLabel.frame.size.width, pictureHeight);
         self.pictureView.frame = CGRectMake(0, 0, self.detailTextLabel.frame.size.width, pictureHeight);
         self.pictureBack.frame = CGRectMake(0, 0, self.detailTextLabel.frame.size.width, pictureHeight);
         self.pictureFlipButton.frame = CGRectMake(self.pictureContainer.frame.size.width-45, self.pictureContainer.frame.size.height-40, 35, 30);
-        self.pictureFlipButton.layer.cornerRadius = 12; // this value vary as per your desire
+        self.pictureFlipButton.layer.cornerRadius = 12;
         self.pictureFlipButton.clipsToBounds = YES;
         
         CGFloat textTop = top + self.pictureView.height;
@@ -182,29 +190,25 @@
         self.detailTextLabel.frame = CGRectMake(left, textTop, self.detailTextLabel.width, textHeight);
 
         
-        UIView* enhance = [self.contentView viewWithTag:9];
+        /*UIView* enhance = [self.contentView viewWithTag:9];
         if (enhance != nil) {
             [enhance removeFromSuperview];
-        }
+        }*/
         float editTop = textTop + textHeight;
         float editWidth = 80;
-        UIButton* enhanceButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        
 
-        [enhanceButton setTitle:@"Enhance" forState:UIControlStateNormal];
-        [enhanceButton addTarget:self action:@selector(enhancePicture:) forControlEvents:UIControlEventTouchUpInside];
-        [enhanceButton setTag:9];
-        enhanceButton.frame = CGRectMake(self.pictureBack.frame.size.width/2-editWidth/2, self.pictureBack.frame.size.height/3-kEditButtonHeight/2, editWidth, kEditButtonHeight);
+        [self.pictureEnhanceButton setTitle:@"Enhance" forState:UIControlStateNormal];
+        [self.pictureEnhanceButton addTarget:self action:@selector(enhancePicture:) forControlEvents:UIControlEventTouchUpInside];
+        [self.pictureEnhanceButton setTag:9];
+        self.pictureEnhanceButton.frame = CGRectMake(self.pictureBack.frame.size.width/2-editWidth/2, self.pictureBack.frame.size.height/3-kEditButtonHeight/2, editWidth, kEditButtonHeight);
         
-        UIButton* shareButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         
-        [shareButton setTitle:@"Share" forState:UIControlStateNormal];
-        [shareButton addTarget:self action:@selector(sharePicture:) forControlEvents:UIControlEventTouchUpInside];
-        [shareButton setTag:9];
-        shareButton.frame = CGRectMake(self.pictureBack.frame.size.width/2-editWidth/2, enhanceButton.frame.origin.y + enhanceButton.frame.size.height + 20, editWidth, kEditButtonHeight);
         
-        [self.pictureBack addSubview:enhanceButton];
-        [self.pictureBack addSubview:shareButton];
-
+        [self.pictureShareButton setTitle:@"Share" forState:UIControlStateNormal];
+        [self.pictureShareButton addTarget:self action:@selector(sharePicture:) forControlEvents:UIControlEventTouchUpInside];
+        [self.pictureShareButton setTag:9];
+        self.pictureShareButton.frame = CGRectMake(self.pictureBack.frame.size.width/2-editWidth/2, self.pictureEnhanceButton.frame.origin.y + self.pictureEnhanceButton.frame.size.height + 20, editWidth, kEditButtonHeight);
     }
 }
 
