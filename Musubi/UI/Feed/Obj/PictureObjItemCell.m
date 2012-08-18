@@ -88,7 +88,7 @@
     if (!_pictureView) {
         _pictureView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         [_pictureView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-        //[_pictureView setContentMode:UIViewContentModeScaleAspectFit];
+        [_pictureView setContentMode:UIViewContentModeScaleAspectFit];
         [_pictureView.layer setMasksToBounds:YES];
         [_pictureView.layer setCornerRadius:2];
         [_pictureView.layer setBorderWidth:5.0];
