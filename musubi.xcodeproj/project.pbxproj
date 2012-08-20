@@ -206,13 +206,6 @@
 			remoteGlobalIDString = D25FDFD615BD00C2005B1849;
 			remoteInfo = MusubiSDKBundle;
 		};
-		D25FE00515BD016B005B1849 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D28E232A15BB70B300C75CBA /* MusubiSDK.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D25FDFF315BD0152005B1849;
-			remoteInfo = MusubiSDKBundle;
-		};
 		D28E234B15BB70B400C75CBA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D28E232A15BB70B300C75CBA /* MusubiSDK.xcodeproj */;
@@ -1258,7 +1251,6 @@
 				D28E235515BB70BD00C75CBA /* PBXTargetDependency */,
 				AA33535D158FA1C500B6CAF5 /* PBXTargetDependency */,
 				D44D41CC15A2173E000BAC41 /* PBXTargetDependency */,
-				D25FE00615BD016B005B1849 /* PBXTargetDependency */,
 			);
 			name = Musubi;
 			productName = musubi;
@@ -1586,11 +1578,6 @@
 			isa = PBXTargetDependency;
 			name = qrencoder;
 			targetProxy = AA33535C158FA1C500B6CAF5 /* PBXContainerItemProxy */;
-		};
-		D25FE00615BD016B005B1849 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = MusubiSDKBundle;
-			targetProxy = D25FE00515BD016B005B1849 /* PBXContainerItemProxy */;
 		};
 		D28E235515BB70BD00C75CBA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
