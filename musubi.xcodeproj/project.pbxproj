@@ -1679,14 +1679,16 @@
 					"$(SRCROOT)/Libraries/OAuth2/**",
 					"$(SRCROOT)/Libraries/QRCodeEncoder/QRCodeEncoderObjectiveCAtGithub",
 					/usr/include/libxml2,
-					"$(SRCROOT)/SDK/Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/MusubiSDK",
+					"$(BUILD_DIR)/../IntermediateBuildFilesPath/UninstalledProducts/MusubiSDK",
 					"$(SRCROOT)/Libraries/Three20/Build/Products/three20/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries/TestFlight\"",
+					"\"$(SRCROOT)/Libraries/Three20/Build/Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
+					"\"$(SRCROOT)/Libraries/AviarySDK\"",
+					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
@@ -1751,13 +1753,6 @@
 				GCC_PREFIX_HEADER = "Musubi/Musubi-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Musubi/Musubi-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Libraries/TestFlight\"",
-					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
-					"\"$(SRCROOT)/Libraries/AviarySDK\"",
-					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
-				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lThree20",
