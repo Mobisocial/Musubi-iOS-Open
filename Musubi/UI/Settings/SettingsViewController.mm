@@ -22,6 +22,7 @@
 #import "NSStringAdditions.h"
 #import "IdentityUtils.h"
 #import "Three20/Three20.h"
+#import "MusubiStyleSheet.h"
 
 @implementation SettingsViewController
 
@@ -30,7 +31,6 @@
 @synthesize tableView = _tableView;
 
 #pragma mark - View lifecycle
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -102,6 +102,7 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
 
 - (void)pictureClicked:(id)sender {
     

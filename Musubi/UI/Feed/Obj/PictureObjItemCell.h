@@ -28,8 +28,13 @@
 
 @interface PictureObjItemCell : FeedItemCell<AFPhotoEditorControllerDelegate> {
     UIImageView* _pictureView;
+   // UIView* _pictureContainer;
 }
 
 @property (nonatomic, readonly) UIImageView* pictureView;
-
+@property (nonatomic, retain) UIView* pictureContainer;
+@property (nonatomic, retain) UIView* pictureBack;
+@property (nonatomic, retain) UIButton* pictureFlipButton;
+@property (nonatomic, retain) UIButton* pictureEnhanceButton;
+@property (nonatomic, retain) UIButton* pictureShareButton;
 @end

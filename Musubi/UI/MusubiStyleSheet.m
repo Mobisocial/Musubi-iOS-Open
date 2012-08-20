@@ -28,8 +28,9 @@
 @implementation MusubiStyleSheet
 
 - (UIColor*)navigationBarTintColor {
+    return [UIColor colorWithRed:173.0/255.0 green:92.0/255.0 blue:71.0/255.0 alpha:1];
     //return [UIColor colorWithRed:125.0/255.0 green:41.0/255.0 blue:165.0/255.0 alpha:1]; // Purple
-    return [UIColor colorWithRed:5.0/255.0 green:115.0/255.0 blue:155.0/255.0 alpha:1]; // Cyan
+    //return [UIColor colorWithRed:5.0/255.0 green:115.0/255.0 blue:155.0/255.0 alpha:1]; // Cyan
 //    return [UIColor colorWithRed:255.0/255.0 green:100.0/255.0 blue:0.0/255.0 alpha:1]; // Orange
 //    return [UIColor colorWithRed:10.0/255.0 green:115.0/255.0 blue:255.0/255.0 alpha:1]; // Blue
 }
@@ -37,6 +38,10 @@
 - (UIColor *)tablePlainBackgroundColor {
     return [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.jpg"]];
 //    return [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1];
+}
+
++ (UIColor *)feedTexturedBackgroundColor {
+    return [UIColor colorWithPatternImage:[UIImage imageNamed:@"newBackground.png"]];
 }
 
 - (UIColor *)tablePlainCellSeparatorColor {

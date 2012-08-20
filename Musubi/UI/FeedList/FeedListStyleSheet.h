@@ -16,21 +16,18 @@
 
 
 //
-//  MusubiStyleSheet.h
+//  FeedListStyleSheet.h
 //  musubi
 //
-//  Created by Willem Bult on 6/20/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Ian Vo on 8/16/12.
+//
 //
 
-#import "Three20/Three20.h"
+#import <Three20Style/Three20Style.h>
 
-@interface MusubiStyleSheet : TTDefaultStyleSheet
-+ (TTStyle*) embossedButton:(UIControlState)state;
-+ (TTStyle*) transparentRoundedButton:(UIControlState)state;
-+ (TTStyle*) textViewBorder;
-+ (TTStyle*) bottomPanelStyle;
-+ (TTStyle*) roundedButtonStyle:(UIControlState)state;
-+ (UIColor *)feedTexturedBackgroundColor;
+@interface FeedListStyleSheet : TTDefaultStyleSheet
+
+@property(nonatomic,readonly) UIColor* myFirstColor;
+@property(nonatomic,readonly) UIFont* myFirstFont;
 
 @end

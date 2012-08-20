@@ -36,6 +36,7 @@
     UILabel* incomingLabel;
     
     NSString* _connectionState;
+    TTStyleSheet *previousStyleSheet;
 }
 
 @property (nonatomic, strong) NSMutableArray* unclaimed;
