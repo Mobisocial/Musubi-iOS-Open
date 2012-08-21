@@ -86,12 +86,21 @@ Obj *clipboardObj;
     
     self.googleIdentityUpdater = [[GoogleIdentityUpdater alloc] initWithStoreFactory: [Musubi sharedInstance].storeFactory];
     [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:kGoogleIdentityUpdaterFrequency target:self.googleIdentityUpdater selector:@selector(refreshFriendsIfNeeded) userInfo:nil repeats:YES] forMode:NSDefaultRunLoopMode];
-      
+    
+    [self registerAuthProviders];
+    
+    return YES;
+}
+
+- (void) registerAuthProviders {
+    if (![Musubi sharedInstance].identityProvider) {
+        [self performSelector:@selector(registerAuthProviders) withObject:self afterDelay:.5];
+        return;
+    }
+    
     [[Musubi sharedInstance].identityProvider registerProvider:[[EmailAphidAuthProvider alloc] init]];
     [[Musubi sharedInstance].identityProvider registerProvider:[[FacebookAphidAuthProvider alloc] init]];
     [[Musubi sharedInstance].identityProvider registerProvider:[[GoogleAphidAuthProvider alloc] init]];
-    
-    return YES;
 }
 
 - (void) prepareAnalytics {
