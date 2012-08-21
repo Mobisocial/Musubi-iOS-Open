@@ -42,8 +42,11 @@
 @property (nonatomic, strong) NSMutableArray* unclaimed;
 @property (nonatomic, strong) MIdentity* ownedId;
 @property (nonatomic, readonly) UIView* noFeedsView;
+@property (nonatomic, strong) Obj* clipboardObj;
 
 - (IBAction)newConversation:(id)sender;
 - (void) showFriendPicker;
+
+- (void) setClipboardObj:(Obj*)obj;
 
 @end

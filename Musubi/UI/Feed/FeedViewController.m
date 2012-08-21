@@ -99,6 +99,13 @@
     if (![[GANTracker sharedTracker] trackPageview:kAnalyticsPageFeed withError:&error]) {
         NSLog(@"error in trackPageview");
     }
+
+    if (self.clipboardObj != nil) {
+        AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        MApp* app = [am ensureSuperApp];
+        [self sendObj:self.clipboardObj fromApp:app];
+        self.clipboardObj = nil;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
