@@ -44,11 +44,18 @@ xxx#import "Musubi.h"
 #import "SettingsViewController.h"
 
 #define kMusubiUriScheme @"musubi"
+#import "IdentityManager.h"
+#import "FeedListViewController.h"
+#import "StatusObj.h"
+#import "NSData+Base64.h"
+
 static const NSInteger kGANDispatchPeriodSec = 60;
 
 @implementation AppDelegate
 
 @synthesize window = _window, facebookLoginOperation, navController, corralHTTPServer;
+
+Obj *clipboardObj;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -204,11 +211,56 @@ static const NSInteger kGANDispatchPeriodSec = 60;
 
     if ([url.scheme hasPrefix:kMusubiUriScheme]) {
         if ([url.path hasPrefix:@"/intro/"]) {
+            // n, t, p
+            NSArray *components = [[url query] componentsSeparatedByString:@"&"];
+            NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+            for (NSString *component in components) {
+                [parameters setObject:[[component componentsSeparatedByString:@"="] objectAtIndex:0] forKey:[[component componentsSeparatedByString:@"="] objectAtIndex:1]];
+            }
+            NSString *idName = [parameters objectForKey:@"n"];
+            NSString *idTypeString = [parameters objectForKey:@"t"];
+            NSString *idValue = [parameters objectForKey:@"p"];
+
+            if (idValue != nil && idTypeString != nil) {
+                int idType = [idTypeString intValue];
+                if (idName == nil) {
+                    idName = idValue;
+                }
+
+                BOOL identityAdded = NO;
+                BOOL profileDataChanged = NO;
+                IdentityManager* im = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+                [im ensureIdentityWithType:idType andPrincipal:idValue andName:idName identityAdded:&identityAdded profileDataChanged:&profileDataChanged];
+            }
+
             return YES;
+        } else if ([url.host isEqualToString:@"share"]) {
+            NSString *b64String = [url.path substringFromIndex:1];
+            NSData *jsonData = [b64String decodeBase64];
+            NSDictionary* json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+
+            if (json != nil) {
+                clipboardObj = nil; // TODO: Parse the obj
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Sharing data" message:@"Click 'Okay' and choose a conversation for sharing, or click cancel to discard the data." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Okay", nil];
+                [alert show];
+
+                return YES;
+            }
         }
     }
+    NSLog(@"No one touched %@", [url path]);
+    return [[Musubi sharedInstance] handleURL:url fromSourceApplication:sourceApplication];
+}
 
-    return NO;
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        UINavigationController* nav = (UINavigationController*)self.window.rootViewController;
+        [nav popToRootViewControllerAnimated:YES];
+        FeedListViewController *feedList = (FeedListViewController*) nav.topViewController;
+        [feedList setClipboardObj: clipboardObj];
+        clipboardObj = nil;
+    }
 }
 
 @end
