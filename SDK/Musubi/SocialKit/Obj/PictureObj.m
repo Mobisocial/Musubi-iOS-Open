@@ -33,7 +33,7 @@
 @synthesize image = _image;
 @synthesize text = _text;
 
-- (id)initWithImage:(UIImage *)img andText:(NSString *)text {
+- (id)initWithImage:(UIImage *)img andText:(NSString *)text andCallback: (NSString*) callback {
     self = [super init];
     if (self) {
         int width = MIN(img.size.width, 480);
@@ -50,8 +50,12 @@
     return self;
 }
 
+- (id)initWithImage:(UIImage *)img andText:(NSString *)text {
+    return [self initWithImage:img andText:text andCallback:nil];
+}
+
 - (id)initWithImage:(UIImage *)img {
-    return [self initWithImage:img andText:nil];
+    return [self initWithImage:img andText:nil andCallback:nil];
 }
 
 - (id)initWithRaw:(NSData *)raw andData: (NSDictionary*) data {
