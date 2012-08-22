@@ -46,8 +46,9 @@ xxx#import "Musubi.h"
 #define kMusubiUriScheme @"musubi"
 #import "IdentityManager.h"
 #import "FeedListViewController.h"
-#import "StatusObj.h"
+#import "PictureObj.h"
 #import "NSData+Base64.h"
+#import "DejalActivityView.h"
 
 static const NSInteger kGANDispatchPeriodSec = 60;
 
@@ -55,7 +56,7 @@ static const NSInteger kGANDispatchPeriodSec = 60;
 
 @synthesize window = _window, facebookLoginOperation, navController, corralHTTPServer;
 
-Obj *clipboardObj;
+NSDictionary *objJson;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -235,32 +236,62 @@ Obj *clipboardObj;
 
             return YES;
         } else if ([url.host isEqualToString:@"share"]) {
-            NSString *b64String = [url.path substringFromIndex:1];
-            NSData *jsonData = [b64String decodeBase64];
-            NSDictionary* json = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-
-            if (json != nil) {
-                clipboardObj = nil; // TODO: Parse the obj
-                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Sharing data" message:@"Click 'Okay' and choose a conversation for sharing, or click cancel to discard the data." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Okay", nil];
-                [alert show];
-
-                return YES;
-            }
+            [self shareObjFromUrl:url];
+            return YES;
         }
     }
-    NSLog(@"No one touched %@", [url path]);
     return [[Musubi sharedInstance] handleURL:url fromSourceApplication:sourceApplication];
+}
+
+- (void) shareObjFromUrl: (NSURL *) url {
+    NSString *encodedString = [url.path substringFromIndex:1];
+    NSString *jsonString = [encodedString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    objJson = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    
+    UIAlertView* alert;
+    if (objJson != nil) {
+        alert = [[UIAlertView alloc] initWithTitle:@"Sharing data" message:@"Click 'Okay' and choose a conversation for sharing, or click cancel to discard the data." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Okay", nil];
+    } else {
+        alert = [[UIAlertView alloc] initWithTitle:@"Error sharing data" message:@"Error sharing data." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+        NSLog(@"Error sharing data %@", jsonString);
+    }
+    [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
-        UINavigationController* nav = (UINavigationController*)self.window.rootViewController;
-        [nav popToRootViewControllerAnimated:YES];
-        FeedListViewController *feedList = (FeedListViewController*) nav.topViewController;
-        [feedList setClipboardObj: clipboardObj];
-        clipboardObj = nil;
+        NSString *type = [objJson objectForKey:@"type"];
+        NSDictionary* json = [objJson objectForKey:@"json"];
+        if ([type isEqualToString:@"picture"]) {
+            NSString *imgUrlString = [json objectForKey:@"src"];
+            NSString *imgTitle = [json objectForKey:kTextField];
+            NSString *imgCallback = [json objectForKey:kFieldCallback];
+            NSURL *imgUrl = [NSURL URLWithString:imgUrlString];
+            if (imgUrl != nil) {
+                dispatch_async(dispatch_get_current_queue(), ^{
+                    UINavigationController* nav = (UINavigationController*)self.window.rootViewController;
+                    [DejalBezelActivityView activityViewForView:nav.view withLabel:@"Preparing data..." width:200];
+
+                    UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:imgUrl]];
+                    Obj* obj = [[PictureObj alloc] initWithImage:image andText:imgTitle andCallback:imgCallback];
+                    [DejalBezelActivityView removeViewAnimated:YES];
+                    
+                    [nav popToRootViewControllerAnimated:YES];
+                    FeedListViewController *feedList = (FeedListViewController*) nav.topViewController;
+                    [feedList setClipboardObj: obj];
+                });
+            } else {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error sharing data" message:@"Image data not found." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [alert show];
+            }
+        } else {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error sharing data" message:@"Unsupported data type." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [alert show];
+        }
     }
+    objJson = nil;
 }
 
 @end
