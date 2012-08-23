@@ -168,7 +168,7 @@
 
 - (void)viewDidUnload {
     [TTStyleSheet setGlobalStyleSheet:self->previousStyleSheet];
-    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationConnectionStateChanged object:nil];    
+//    [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationConnectionStateChanged object:nil];    
     [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationMessageEncodeStarted object:nil];
     [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationMessageDecodeStarted object:nil];
     [[Musubi sharedInstance].notificationCenter removeObserver:self name:kMusubiNotificationMessageDecodeFinished object:nil];
