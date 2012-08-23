@@ -231,7 +231,6 @@
 		D410BA5215734DEC00951D94 /* HtmlObjItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D410BA5115734DEB00951D94 /* HtmlObjItemCell.m */; };
 		D437B091159A639A00A4E625 /* FeedPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = D437B090159A639A00A4E625 /* FeedPhoto.m */; };
 		D437B094159A667100A4E625 /* FeedPhotoSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D437B093159A667100A4E625 /* FeedPhotoSource.m */; };
-		D439D1F315B9CA88006CEB24 /* EulaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D439D1F215B9CA88006CEB24 /* EulaViewController.m */; };
 		D439D1F515B9D0E3006CEB24 /* privacypolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = D439D1F415B9D0E3006CEB24 /* privacypolicy.txt */; };
 		D439D1F715B9D0F1006CEB24 /* eula.txt in Resources */ = {isa = PBXBuildFile; fileRef = D439D1F615B9D0F1006CEB24 /* eula.txt */; };
 		D44606A2159E6628000A711C /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44606A1159E6628000A711C /* Twitter.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -3992,18 +3991,6 @@
 				D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */,
 				D22B69E015B9115B00429023 /* AddressBookIdentityManager.m in Sources */,
 				D22B69E515B9CDB400429023 /* FirstIdentityViewController.m in Sources */,
-				D28E253A15BC7E0D00C75CBA /* EmailAuth.m in Sources */,
-				D28E253B15BC7E0D00C75CBA /* FacebookAuth.m in Sources */,
-				D28E253C15BC7E0D00C75CBA /* FacebookIdentityUpdater.m in Sources */,
-				D28E253D15BC7E0D00C75CBA /* GoogleAuth.m in Sources */,
-				D28E253E15BC7E0D00C75CBA /* GoogleIdentityUpdater.m in Sources */,
-				D28E254315BC7EC800C75CBA /* AccountAuthManager.m in Sources */,
-				D28E254615BC808C00C75CBA /* MusubiShareKitConfigurator.m in Sources */,
-				D25FDFC815BCFD79005B1849 /* EulaViewController.m in Sources */,
-				D25FE01415BD25B8005B1849 /* UIImage+Resize.m in Sources */,
-				D25FE01715BD25D5005B1849 /* UIImage+RoundedCorner.m in Sources */,
-				D25FE01A15BD25E2005B1849 /* UIImage+Alpha.m in Sources */,
-				D25FE01D15BD2CB2005B1849 /* ObjRegistry.m in Sources */,
 				56DD8D8C15DD874B008458D7 /* FeedListStyleSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4264,13 +4251,21 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Libraries/Facebook/src/**",
+					"$(SRCROOT)/Libraries/IBE/IBE",
+					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
+					"$(SRCROOT)/Libraries/GMP/build/include",
+					"$(SRCROOT)/Libraries/GMP/build/include32",
+					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
+					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
+					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
 					"$(SRCROOT)/Libraries/OAuth2/**",
 					"$(SRCROOT)/Libraries/QRCodeEncoder/QRCodeEncoderObjectiveCAtGithub",
+					"$(BUILT_PRODUCTS_DIR)/../three20",
+					"$(BUILT_PRODUCTS_DIR)/../../three20",
+					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
 					/usr/include/libxml2,
-					"$(SRCROOT)/SDK/Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/MusubiSDK",
-					"$(SRCROOT)/Libraries/Three20/Build/Products/three20/**",
+					"$(SRCROOT)/Libraries/Three20/src/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -4324,7 +4319,7 @@
 					"-lIBE",
 				);
 				PRODUCT_NAME = Musubi;
-				PROVISIONING_PROFILE = "7F5BA8C8-66D6-48CF-92F5-49C8EDA15961";
+				PROVISIONING_PROFILE = "9B1315D7-55BA-45E1-A2FC-FE3E30F56BC7";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4336,7 +4331,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ARC_MIGRATION = donothing;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Thomas Purtell";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/Dropbox\"",
@@ -4366,7 +4361,7 @@
 					"-lIBE",
 				);
 				PRODUCT_NAME = Musubi;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "3B5B81FB-D9A9-4B80-9BA3-28C36CAB43F5";
 				USER_HEADER_SEARCH_PATHS = "Submodules/**";
 				WRAPPER_EXTENSION = app;
 			};
