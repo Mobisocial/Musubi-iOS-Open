@@ -77,6 +77,7 @@
 @synthesize delegate = _delegate;
 @synthesize audioRVC = _audioRVC;
 @synthesize popover = _popover;
+@synthesize clipboardObj = _clipboardObj;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
