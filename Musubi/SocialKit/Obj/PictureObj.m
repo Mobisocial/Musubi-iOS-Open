@@ -48,7 +48,7 @@
     return self;
 }
 - (id)initWithImage:(UIImage *)img andText:(NSString *)text {
-    eturn [self initWithImage:img andText:nil andCallback:nil];
+    return [self initWithImage:img andText:nil andCallback:nil];
 }
 - (id)initWithImage:(UIImage *)img {
     return [self initWithImage:img andText:nil];
