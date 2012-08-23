@@ -278,7 +278,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
                     [DejalBezelActivityView activityViewForView:nav.view withLabel:@"Preparing data..." width:200];
 
                     UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:imgUrl]];
-                    Obj* obj = [[PictureObj alloc] initWithImage:image andText:imgTitle andCallback:imgCallback];
+                    Obj* obj = [[PictureObj alloc] initWithImage:image andText:imgTitle];
                     [DejalBezelActivityView removeViewAnimated:YES];
                     
                     [nav popToRootViewControllerAnimated:YES];
