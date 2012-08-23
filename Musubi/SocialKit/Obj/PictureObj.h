@@ -27,7 +27,7 @@
 
 #define kObjTypePicture @"picture"
 
-#define kFieldCallback "@callback"
+#define kFieldCallback @"callback"
 #define kMimeField @"mimeType"
 #define kTextField @"text"
 
