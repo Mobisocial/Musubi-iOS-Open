@@ -29,6 +29,7 @@ xxx#import "Musubi.h"
 #import "APNPushManager.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "NSData+HexString.h"
+#import "IBEncryptionScheme.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 #import "PersistentModelStore.h"
@@ -231,7 +232,9 @@ NSDictionary *objJson;
                 BOOL identityAdded = NO;
                 BOOL profileDataChanged = NO;
                 IdentityManager* im = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-                [im ensureIdentityWithType:idType andPrincipal:idValue andName:idName identityAdded:&identityAdded profileDataChanged:&profileDataChanged];
+                
+                IBEncryptionIdentity* ident = [[IBEncryptionIdentity alloc] initWithAuthority:idType principal:idValue temporalFrame:0];
+                [im ensureIdentity:ident withName:idName identityAdded:&identityAdded profileDataChanged:&profileDataChanged];
             }
 
             return YES;
@@ -240,7 +243,7 @@ NSDictionary *objJson;
             return YES;
         }
     }
-    return [[Musubi sharedInstance] handleURL:url fromSourceApplication:sourceApplication];
+    return NO;
 }
 
 - (void) shareObjFromUrl: (NSURL *) url {
