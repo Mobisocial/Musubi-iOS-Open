@@ -227,7 +227,9 @@
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(feedUpdated:) name:kMusubiNotificationUpdatedFeed object:nil];
     [[Musubi sharedInstance].notificationCenter addObserver:self selector:@selector(reloadObj:) name:kMusubiNotificationObjSent object:nil];
 
-    [self resetUnreadCount];    
+    [self resetUnreadCount];
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -503,7 +505,8 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
                 _pictureViewController = [[PictureOverlayViewController alloc] initForImagePicker:UIImagePickerControllerSourceTypeCamera];
                 _pictureViewController.delegate = self;
-                [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
+                
+                [self presentModalViewController:_pictureViewController.imagePickerController animated:NO];
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't have a camera" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             }
@@ -554,7 +557,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
                 // error
             }
 
-            NSString* appId = @"musubi.sketch";
+            NSString* appId = @"crossword";
             AppManager* appMgr = [[AppManager alloc] initWithStore: [Musubi sharedInstance].mainStore];
             MApp* app = [appMgr ensureAppWithAppId:appId];
 

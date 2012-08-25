@@ -422,8 +422,9 @@
     _captionButton.hidden = YES;
     _editButton.hidden = YES;
     
-    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+//    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
     //[((UIViewController*)self.delegate) presentModalViewController:self.imagePickerController animated:NO];
+    [self.imagePickerController popViewControllerAnimated:NO];
     
     [self setupImagePicker];
 }
@@ -442,24 +443,26 @@
 }
 
 - (IBAction)editPicture:(id)sender {
-    
     AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage: _preview.image];
     [editorController setDelegate:self];
     
-    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
-    [((UIViewController*)self.delegate) presentModalViewController:editorController animated:NO];
+//    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+//    [((UIViewController*)self.delegate) presentModalViewController:editorController animated:NO];
+    [self.imagePickerController pushViewController:editorController animated:NO];
 }
 
 - (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image {    
     _preview.image = image;
     
-    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
-    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
+//    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
+//    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
+    [self.imagePickerController popViewControllerAnimated:NO];
 }
 
 - (void)photoEditorCanceled:(AFPhotoEditorController *)editor {
-    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
-    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
+//    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
+//    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
+    [self.imagePickerController popViewControllerAnimated:NO];
 }
 
 // this get called when an image has been chosen from the library or taken from the camera
@@ -473,14 +476,17 @@
     _captionButton.hidden = NO;
     _editButton.hidden = NO;
     _toolBar.items = self.toolbarItems;
-    
+    /*
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
     } else {
         [((FeedViewController*)self.delegate).popover dismissPopoverAnimated:YES];
         
-    }
-    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
+    }*/
+    
+    //[((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
+    [self.imagePickerController pushViewController:self animated:NO];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker

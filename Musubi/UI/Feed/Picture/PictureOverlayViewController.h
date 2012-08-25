@@ -26,10 +26,12 @@
 #import <UIKit/UIKit.h>
 #import "AFPhotoEditorController.h"
 
-@class TTButton;
+@class TTButton, PictureOverlayViewController;
 
 @protocol PictureOverlayViewControllerDelegate
+
 - (void) picturePickerFinishedWithPicture:(UIImage *)picture withCaption: (NSString*) caption;
+
 @end
 
 @interface PictureOverlayViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,AFPhotoEditorControllerDelegate, UIPopoverControllerDelegate> {
