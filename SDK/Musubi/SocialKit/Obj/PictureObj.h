@@ -30,6 +30,8 @@
 #import "Obj.h"
 
 #define kObjTypePicture @"picture"
+
+#define kFieldCallback @"callback"
 #define kMimeField @"mimeType"
 #define kTextField @"text"
 
@@ -43,6 +45,7 @@
 
 - (id) initWithImage: (UIImage*) img;
 - (id) initWithImage: (UIImage*) img andText: (NSString*) text;
+- (id) initWithImage:(UIImage *)img andText: (NSString*) text andCallback: (NSString*) callback;
 - (id) initWithRaw: (NSData*)raw;
 - (id) initWithRaw:(NSData *)raw andData: (NSDictionary*) data;
 

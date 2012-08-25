@@ -77,6 +77,7 @@
 @synthesize delegate = _delegate;
 @synthesize audioRVC = _audioRVC;
 @synthesize popover = _popover;
+@synthesize clipboardObj = _clipboardObj;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -98,6 +99,13 @@
     NSError *error;
     if (![[GANTracker sharedTracker] trackPageview:kAnalyticsPageFeed withError:&error]) {
         NSLog(@"error in trackPageview");
+    }
+
+    if (self.clipboardObj != nil) {
+        AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+        MApp* app = [am ensureSuperApp];
+        [self sendObj:self.clipboardObj fromApp:app];
+        self.clipboardObj = nil;
     }
 }
 

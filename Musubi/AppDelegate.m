@@ -44,12 +44,20 @@ xxx#import "FacebookAuth.h"
 #import "MusubiStyleSheet.h"
 #import "SettingsViewController.h"
 
+#import "IdentityManager.h"
+#import "FeedListViewController.h"
+#import "PictureObj.h"
+#import "NSData+Base64.h"
+#import "DejalActivityView.h"
+
 static const NSInteger kGANDispatchPeriodSec = 60;
 
 @implementation AppDelegate
 
 @synthesize window = _window, navController;
 @synthesize facebookIdentityUpdater, googleIdentityUpdater, facebookLoginOperation;
+
+NSDictionary *objJson;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -196,11 +204,86 @@ static const NSInteger kGANDispatchPeriodSec = 60;
 
     if ([url.scheme hasPrefix:kMusubiUriScheme]) {
         if ([url.path hasPrefix:@"/intro/"]) {
+            // n, t, p
+            NSArray *components = [[url query] componentsSeparatedByString:@"&"];
+            NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+            for (NSString *component in components) {
+                [parameters setObject:[[component componentsSeparatedByString:@"="] objectAtIndex:0] forKey:[[component componentsSeparatedByString:@"="] objectAtIndex:1]];
+            }
+            NSString *idName = [parameters objectForKey:@"n"];
+            NSString *idTypeString = [parameters objectForKey:@"t"];
+            NSString *idValue = [parameters objectForKey:@"p"];
+
+            if (idValue != nil && idTypeString != nil) {
+                int idType = [idTypeString intValue];
+                if (idName == nil) {
+                    idName = idValue;
+                }
+
+                BOOL identityAdded = NO;
+                BOOL profileDataChanged = NO;
+                IdentityManager* im = [[IdentityManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+                [im ensureIdentityWithType:idType andPrincipal:idValue andName:idName identityAdded:&identityAdded profileDataChanged:&profileDataChanged];
+            }
+
+            return YES;
+        } else if ([url.host isEqualToString:@"share"]) {
+            [self shareObjFromUrl:url];
             return YES;
         }
     }
-
     return [[Musubi sharedInstance] handleURL:url fromSourceApplication:sourceApplication];
+}
+
+- (void) shareObjFromUrl: (NSURL *) url {
+    NSString *encodedString = [url.path substringFromIndex:1];
+    NSString *jsonString = [encodedString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    objJson = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    
+    UIAlertView* alert;
+    if (objJson != nil) {
+        alert = [[UIAlertView alloc] initWithTitle:@"Sharing data" message:@"Click 'Okay' and choose a conversation for sharing, or click cancel to discard the data." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Okay", nil];
+    } else {
+        alert = [[UIAlertView alloc] initWithTitle:@"Error sharing data" message:@"Error sharing data." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles: nil];
+        NSLog(@"Error sharing data %@", jsonString);
+    }
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        NSString *type = [objJson objectForKey:@"type"];
+        NSDictionary* json = [objJson objectForKey:@"json"];
+        if ([type isEqualToString:@"picture"]) {
+            NSString *imgUrlString = [json objectForKey:@"src"];
+            NSString *imgTitle = [json objectForKey:kTextField];
+            NSString *imgCallback = [json objectForKey:kFieldCallback];
+            NSURL *imgUrl = [NSURL URLWithString:imgUrlString];
+            if (imgUrl != nil) {
+                dispatch_async(dispatch_get_current_queue(), ^{
+                    UINavigationController* nav = (UINavigationController*)self.window.rootViewController;
+                    [DejalBezelActivityView activityViewForView:nav.view withLabel:@"Preparing data..." width:200];
+
+                    UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:imgUrl]];
+                    Obj* obj = [[PictureObj alloc] initWithImage:image andText:imgTitle andCallback:imgCallback];
+                    [DejalBezelActivityView removeViewAnimated:YES];
+                    
+                    [nav popToRootViewControllerAnimated:YES];
+                    FeedListViewController *feedList = (FeedListViewController*) nav.topViewController;
+                    [feedList setClipboardObj: obj];
+                });
+            } else {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error sharing data" message:@"Image data not found." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [alert show];
+            }
+        } else {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error sharing data" message:@"Unsupported data type." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+    objJson = nil;
 }
 
 @end

@@ -58,7 +58,7 @@
     NSDate* lastPendingRedraw;
 }
 
-@synthesize unclaimed = _unclaimed, ownedId = _ownedId;
+@synthesize unclaimed = _unclaimed, ownedId = _ownedId, clipboardObj = _clipboardObj;
 @synthesize noFeedsView = _noFeedsView;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -378,6 +378,8 @@
     if ([[segue identifier] isEqualToString:@"ShowFeed"]) {
         FeedViewController *vc = [segue destinationViewController];
         FeedListItem* item = sender;
+        vc.clipboardObj = self.clipboardObj;
+        self.clipboardObj = nil;
         vc.newerThan = item.end;
         vc.startingAt = item.start;
         [vc setFeed: item.feed];
@@ -522,6 +524,10 @@
     
     self.unclaimed = nil;
     self.ownedId = nil;
+}
+
+- (void) setClipboardObj:(Obj *)obj {
+    _clipboardObj = obj;
 }
 
 #pragma MFMailComposeViewController Delegate
