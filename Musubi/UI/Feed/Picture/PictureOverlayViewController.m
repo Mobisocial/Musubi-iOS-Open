@@ -448,7 +448,7 @@
     
 //    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
 //    [((UIViewController*)self.delegate) presentModalViewController:editorController animated:NO];
-    [self.imagePickerController pushViewController:editorController animated:NO];
+    [self.navigationController pushViewController:editorController animated:NO];
 }
 
 - (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image {    
@@ -456,13 +456,13 @@
     
 //    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
 //    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
-    [self.imagePickerController popViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 - (void)photoEditorCanceled:(AFPhotoEditorController *)editor {
 //    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
 //    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
-    [self.imagePickerController popViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 // this get called when an image has been chosen from the library or taken from the camera
@@ -476,22 +476,29 @@
     _captionButton.hidden = NO;
     _editButton.hidden = NO;
     _toolBar.items = self.toolbarItems;
-    /*
+        
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+
+        [self.imagePickerController pushViewController:self animated:NO];
+        [self.navigationController setNavigationBarHidden:YES animated:NO];
     } else {
         [((FeedViewController*)self.delegate).popover dismissPopoverAnimated:YES];
         
-    }*/
+        UINavigationController* navC = [[UINavigationController alloc] initWithRootViewController:self];
+        [((FeedViewController*)self.delegate) presentModalViewController:navC animated:NO];
+        [self.navigationController setNavigationBarHidden:YES animated:NO];
+    }
     
-    //[((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
-    [self.imagePickerController pushViewController:self animated:NO];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:YES];
+    } else {
+        [((FeedViewController*)self.delegate).popover dismissPopoverAnimated:YES];
+    }
 }
 
 @end
