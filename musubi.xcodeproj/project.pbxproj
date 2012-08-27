@@ -4309,6 +4309,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
+					"\"$(SRCROOT)/Libraries/IBE/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
+					"\"$(SRCROOT)/Libraries/Three20/Build/Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					"\"$(SRCROOT)/Libraries/AviarySDK\"",
 					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
@@ -4351,6 +4353,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libraries/TestFlight\"",
+					"\"$(SRCROOT)/Libraries/IBE/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
+					"\"$(SRCROOT)/Libraries/Three20/Build/Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"",
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					"\"$(SRCROOT)/Libraries/AviarySDK\"",
 					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
