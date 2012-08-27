@@ -824,12 +824,14 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     } else if ([cell isKindOfClass:[PictureObjItemCell class]]) {
         ManagedObjFeedItem* objItem = cell.object;
         FeedPhoto* photo = [[FeedPhoto alloc] initWithObj:objItem.managedObj];
-        
-        self.feedViewController = (FeedViewController*)self.controller;
-        
-        self.gallery = [[FeedPhotoViewController alloc] initWithFeedViewController:self.feedViewController andPhoto:photo];
-        
-        [[self.controller navigationController] pushViewController:self.gallery animated:true];
+        NSString *callback = [objItem.parsedJson objectForKey:kFieldCallback];
+        if (callback != nil) {
+          [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callback]];
+        } else {
+          self.feedViewController = (FeedViewController*)self.controller;
+          self.gallery = [[FeedPhotoViewController alloc] initWithFeedViewController:self.feedViewController andPhoto:photo];
+          [[self.controller navigationController] pushViewController:self.gallery animated:true];
+        }
     } else if ([cell isKindOfClass:[LocationObjItemCell class]]) {
         ManagedObjFeedItem* objItem = cell.object;
         
