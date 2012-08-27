@@ -185,6 +185,9 @@
         
         *identityAdded = YES;
     }
+    if(!mId.principal) {
+        [mId setPrincipal: ibeId.principal];
+    }
     
     if (!mId.whitelisted) {
         changed = YES;
