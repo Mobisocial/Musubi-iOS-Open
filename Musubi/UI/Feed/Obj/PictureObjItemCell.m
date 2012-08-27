@@ -261,12 +261,16 @@
         [self.pictureFlipButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal];
         [self.pictureEnhanceButton setHidden:YES];
         [self.pictureShareButton setHidden:YES];
+        self.selectionStyle = UITableViewCellSelectionStyleGray;
 
     } else {
         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.pictureContainer cache:YES];
         [self.pictureFlipButton setImage:[UIImage imageNamed:@"backArrow.png"] forState:UIControlStateNormal];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self.pictureEnhanceButton setHidden:NO];
         [self.pictureShareButton setHidden:NO];
+
+        
 
     }
         
