@@ -4143,6 +4143,8 @@
 					"$(BUILT_PRODUCTS_DIR)/../three20",
 					"$(BUILT_PRODUCTS_DIR)/../../three20",
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
+					"$(SRCROOT)/Libraries/Three20/Build/Products/three20",
+					"$(SRCROOT)/Libraries/Three20/src/**",
 					"/usr/include/libxml2/**",
 				);
 				INFOPLIST_FILE = "MusubiAppTest/MusubiAppTest-Info.plist";
@@ -4177,6 +4179,8 @@
 					"$(BUILT_PRODUCTS_DIR)/../three20",
 					"$(BUILT_PRODUCTS_DIR)/../../three20",
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
+					"$(SRCROOT)/Libraries/Three20/Build/Products/three20",
+					"$(SRCROOT)/Libraries/Three20/src/**",
 					"/usr/include/libxml2/**",
 				);
 				INFOPLIST_FILE = "MusubiAppTest/MusubiAppTest-Info.plist";
@@ -4220,8 +4224,9 @@
 					"$(BUILT_PRODUCTS_DIR)/../three20",
 					"$(BUILT_PRODUCTS_DIR)/../../three20",
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
-					/usr/include/libxml2,
+					"$(SRCROOT)/Libraries/Three20/Build/Products/three20",
 					"$(SRCROOT)/Libraries/Three20/src/**",
+					/usr/include/libxml2,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -4264,8 +4269,9 @@
 					"$(BUILT_PRODUCTS_DIR)/../three20",
 					"$(BUILT_PRODUCTS_DIR)/../../three20",
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/three20",
-					/usr/include/libxml2,
+					"$(SRCROOT)/Libraries/Three20/Build/Products/three20",
 					"$(SRCROOT)/Libraries/Three20/src/**",
+					/usr/include/libxml2,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
