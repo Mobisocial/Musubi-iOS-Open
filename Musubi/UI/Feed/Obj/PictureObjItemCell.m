@@ -147,6 +147,9 @@
         
         self.pictureShareButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         self.pictureEnhanceButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [self.pictureShareButton setHidden:YES];
+        [self.pictureEnhanceButton setHidden:YES];
+        
         [self.pictureBack addSubview:self.pictureEnhanceButton];
         [self.pictureBack addSubview:self.pictureShareButton];
 
@@ -162,6 +165,8 @@
             self.pictureView.image = object.computedData;
             if ([[self.pictureContainer.subviews objectAtIndex:1] tag] == 60) {
                 [self.pictureContainer exchangeSubviewAtIndex:1 withSubviewAtIndex:0];
+                [self.pictureEnhanceButton setHidden:YES];
+                [self.pictureShareButton setHidden:YES];
             }
         } else {
             self.pictureView.image = [UIImage imageNamed:@"error.png"];
@@ -214,8 +219,8 @@
 }
 
 - (void) sharePicture: (id)sender {
-    /*ManagedObjFeedItem* item = self.object;
-    NSURL    *aUrl  = [NSURL URLWithString:[Musubi urlForObjRaw:item.managedObj]];
+    ManagedObjFeedItem* item = self.object;
+    NSURL    *aUrl  = [NSURL URLWithString:[CorralHTTPServer urlForRaw:item.managedObj]];
     
     NSURLRequest* request = [NSURLRequest requestWithURL:aUrl];
     
@@ -238,12 +243,11 @@
                                
                                // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
                                // but sometimes it may not find one. To be safe, set it explicitly
-                               TTTableView *tv = (TTTableView *) self.superview.superview;
-                               [SHK setRootViewController:tv.superview];
+                               //[SHK setRootViewController:self];
                                
                                // Display the action sheet
                                [actionSheet showInView:self.superview];
-                           }];*/
+                           }];
 }
 
 - (void) flipPicture: (id)sender {
@@ -255,10 +259,14 @@
     if ([[self.pictureContainer.subviews objectAtIndex:1] tag] == 60) {
         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.pictureContainer cache:YES];
         [self.pictureFlipButton setImage:[UIImage imageNamed:@"pencil.png"] forState:UIControlStateNormal];
+        [self.pictureEnhanceButton setHidden:YES];
+        [self.pictureShareButton setHidden:YES];
 
     } else {
         [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.pictureContainer cache:YES];
         [self.pictureFlipButton setImage:[UIImage imageNamed:@"backArrow.png"] forState:UIControlStateNormal];
+        [self.pictureEnhanceButton setHidden:NO];
+        [self.pictureShareButton setHidden:NO];
 
     }
         
