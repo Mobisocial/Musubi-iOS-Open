@@ -422,7 +422,9 @@
     _captionButton.hidden = YES;
     _editButton.hidden = YES;
     
-    [self.imagePickerController popViewControllerAnimated:NO];
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+    //[((UIViewController*)self.delegate) presentModalViewController:self.imagePickerController animated:NO];
+    
     [self setupImagePicker];
 }
 
@@ -444,16 +446,20 @@
     AFPhotoEditorController *editorController = [[AFPhotoEditorController alloc] initWithImage: _preview.image];
     [editorController setDelegate:self];
     
-    [self.imagePickerController pushViewController:editorController animated:NO];
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];
+    [((UIViewController*)self.delegate) presentModalViewController:editorController animated:NO];
 }
 
 - (void)photoEditor:(AFPhotoEditorController *)editor finishedWithImage:(UIImage *)image {    
     _preview.image = image;
-    [self.imagePickerController popViewControllerAnimated:NO];
+    
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
+    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
 }
 
 - (void)photoEditorCanceled:(AFPhotoEditorController *)editor {
-    [self.imagePickerController popViewControllerAnimated:NO];
+    [((UIViewController*)self.delegate) dismissModalViewControllerAnimated:NO];    
+    [((UIViewController*)self.delegate) presentModalViewController:self animated:NO];
 }
 
 // this get called when an image has been chosen from the library or taken from the camera
