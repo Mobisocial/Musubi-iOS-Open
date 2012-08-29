@@ -51,6 +51,8 @@
 #import "MusubiStyleSheet.h"
 #import "EulaViewController.h"
 #import "MusubiAnalytics.h"
+#import "AMQPSenderService.h"
+#import "MessageDecodeService.h"
 
 @implementation FeedListViewController {
     NSDate* nextRedraw;
@@ -345,16 +347,12 @@
         newText = connectionState;
     } else {
         PersistentModelStore* store = [Musubi sharedInstance].mainStore;
-        NSArray* encoding = [store query:[NSPredicate predicateWithFormat:@"(encoded == nil) AND (sent == NO)"] onEntity:@"Obj"];
-        int pending = encoding.count;
+        int pending = [Musubi sharedInstance].transport.sender.pending.count;
         
         if (pending > 0) {
             newText = [NSString stringWithFormat: @"Sending %@outgoing message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
         } else {
-            NSArray* decoding = [store query:[NSPredicate predicateWithFormat:@"(processed == NO) AND (outbound == NO)"] onEntity:@"EncodedMessage"];
-            
-            pending = decoding.count;
-            
+            pending = [Musubi sharedInstance].decodeService.pending.count;
             if (pending > 0) {
                 newText = [NSString stringWithFormat: @"Receiving %@incoming message%@...", pending > 1 ? [NSString stringWithFormat:@"%d ", pending] : @"", pending > 1 ? @"s" : @""];
             }
