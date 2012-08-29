@@ -27,12 +27,14 @@
 #import "AFPhotoEditorController.h"
 
 @class TTButton;
+@class PictureOverlayViewController;
 
 @protocol PictureOverlayViewControllerDelegate
-- (void) picturePickerFinishedWithPicture:(UIImage *)picture withCaption: (NSString*) caption;
+- (void) picturePickerFinished:(PictureOverlayViewController*)overlay withPicture:(UIImage *)picture withCaption: (NSString*) caption;
+- (void) picturePickerAuxiliaryButton:(PictureOverlayViewController*)overlay;
 @end
 
-@interface PictureOverlayViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate,AFPhotoEditorControllerDelegate, UIPopoverControllerDelegate> {
+@interface PictureOverlayViewController : UIViewController<UINavigationControllerDelegate,UITextFieldDelegate,AFPhotoEditorControllerDelegate> {
     UIView* _captionView;
     UITextField* _captionField;
     UILabel* _captionLabel;
@@ -44,7 +46,9 @@
     int    _screenHeight;
     UIPopoverController* _popover;
 }
+-(id)init;
 
+@property (nonatomic, strong) UIImage* image;
 @property (nonatomic, readonly) UIView* captionView;
 @property (nonatomic, readonly) UITextField* captionField;
 @property (nonatomic, readonly) UILabel* captionLabel;
@@ -52,10 +56,8 @@
 @property (nonatomic, readonly) TTButton* editButton;
 @property (nonatomic, readonly) UIToolbar* toolBar;
 @property (nonatomic, readonly) UIImageView* preview;
-
-@property (nonatomic, strong) UIImagePickerController* imagePickerController;
+@property (nonatomic, strong) NSString* auxiliaryTitle;
+@property (nonatomic, assign) BOOL edited;
 @property (nonatomic, strong) id<PictureOverlayViewControllerDelegate> delegate;
-
-- (id)initForImagePicker:(UIImagePickerControllerSourceType)sourceType;
 
 @end

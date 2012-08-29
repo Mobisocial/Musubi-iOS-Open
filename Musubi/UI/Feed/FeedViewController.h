@@ -37,10 +37,8 @@
     - (void) friendsForNewConversationSelected:(NSArray*)selection;
 @end
 
-@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate, FeedSettingsViewControllerDelegate, CheckinViewControllerDelegate,  PictureOverlayViewControllerDelegate, UIPopoverControllerDelegate> {
+@interface FeedViewController : TTTableViewController<UITextViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, ProfileViewControllerDelegate, AudioRecorderDelegate, FeedSettingsViewControllerDelegate, CheckinViewControllerDelegate,  PictureOverlayViewControllerDelegate, UIPopoverControllerDelegate, UIImagePickerControllerDelegate> {
     MFeed* _feed;
-    
-    PictureOverlayViewController* _pictureViewController;
     
     IBOutlet UIView* mainView;
     IBOutlet TTView* postView;
@@ -67,6 +65,9 @@
 @property (nonatomic, strong) NSDate* startingAt;
 @property (nonatomic, strong) AudioRecorderViewController*audioRVC;
 @property (nonatomic, strong) Obj* clipboardObj;
+@property (nonatomic, strong) UIImagePickerController* getPictureViewController;
+@property (nonatomic, strong) UIImagePickerController* takePictureViewController;
+@property (nonatomic, strong) PictureOverlayViewController* picturePhase2ViewController;
 @end
 
 // FeedViewTableDelegate

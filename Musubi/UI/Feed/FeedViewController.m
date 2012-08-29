@@ -78,6 +78,9 @@
 @synthesize audioRVC = _audioRVC;
 @synthesize popover = _popover;
 @synthesize clipboardObj = _clipboardObj;
+@synthesize getPictureViewController = _getPictureViewController;
+@synthesize takePictureViewController = _takePictureViewController;
+@synthesize picturePhase2ViewController = _picturePhase2ViewController;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -509,9 +512,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             }
 
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-                _pictureViewController = [[PictureOverlayViewController alloc] initForImagePicker:UIImagePickerControllerSourceTypeCamera];
-                _pictureViewController.delegate = self;
-                [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
+                [self showPhotoTaker:YES];
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't have a camera" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             }
@@ -524,23 +525,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
             }
 
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-                _pictureViewController = [[PictureOverlayViewController alloc] initForImagePicker:UIImagePickerControllerSourceTypePhotoLibrary];
-                _pictureViewController.delegate = self;
-                
-                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-                    
-                    [self presentModalViewController:_pictureViewController.imagePickerController animated:YES];
-                    
-                } else {
-                    
-                    _popover=[[UIPopoverController alloc] initWithContentViewController:_pictureViewController.imagePickerController];
-                    _popover.delegate=self;
-                    
-                    CGRect frame = CGRectMake(15, self.view.frame.size.height-10, 1, 60);
-                    
-                    [_popover presentPopoverFromRect:frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-                    
-                }
+                [self showPhotoPicker];
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Sorry" message:@"This device doesn't support the photo library" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             }
@@ -639,18 +624,6 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
         [[controller navigationController] popViewControllerAnimated:false];
     }
     [[controller navigationController] pushViewController:appViewController animated:YES];
-}
-
-- (void)picturePickerFinishedWithPicture:(UIImage *)picture withCaption:(NSString *)caption {
-    PictureObj* obj = [[PictureObj alloc] initWithImage:picture andText:caption];
-    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
-    MApp* app = [am ensureSuperApp];
-    
-    [self sendObj:obj fromApp:app];
-
-    [[self modalViewController] dismissModalViewControllerAnimated:YES];
-    
-    [self refreshFeed];
 }
 
 - (void)friendsSelected:(NSArray *)selection {
@@ -761,6 +734,201 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     
     return nil;
 }
+////////////
+//Methods for the camera overlay view
+////////
+- (UIToolbar*) cameraToolbar {
+    UIToolbar* toolBar;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        toolBar=[[UIToolbar alloc] initWithFrame:CGRectMake(0, screenHeight-55, 320, 55)];
+        toolBar.barStyle = UIBarStyleBlackOpaque;
+        toolBar.items = self.cameraToolbarItems;
+    } else {
+        toolBar=[[UIToolbar alloc] initWithFrame:CGRectMake(0, screenHeight-55, screenWidth, 55)];
+        toolBar.barStyle = UIBarStyleBlackOpaque;
+        toolBar.items = self.cameraToolbarItems;
+    }
+    return toolBar;
+}
+
+- (void)shootPicture:(id)sender
+{
+    [_takePictureViewController takePicture];
+}
+- (void)cancelPicture:(id)sender
+{
+    [self imagePickerControllerDidCancel:_takePictureViewController];
+}
+
+- (NSArray*)cameraToolbarItems
+{
+    UIImage* cameraImage = [UIImage imageNamed:@"camera.png"];
+    UIImage* cancelImage = [UIImage imageNamed:@"cancel.png"];
+
+    UIButton *cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cameraButton addTarget:self action:@selector(shootPicture:) forControlEvents:UIControlEventTouchUpInside];
+    [cancelButton addTarget:self action:@selector(cancelPicture:) forControlEvents:UIControlEventTouchUpInside];
+    [cameraButton setImage:cameraImage forState:UIControlStateNormal];
+    [cancelButton setImage:cancelImage forState:UIControlStateNormal];
+    cameraButton.frame = CGRectMake(0,0, cameraImage.size.width, cameraImage.size.height);
+    cancelButton.frame = CGRectMake(0,0, cancelImage.size.width, cancelImage.size.height);
+    cameraButton.showsTouchWhenHighlighted = YES; // makes it highlight like normal
+    cancelButton.showsTouchWhenHighlighted = YES;
+
+
+    UIBarButtonItem *cameraBarButton = [[UIBarButtonItem alloc] initWithCustomView:cameraButton];
+    UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
+
+    return [NSArray arrayWithObjects:
+        cancelBarButton,
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
+        cameraBarButton,
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace  target:nil action:nil],
+            nil];
+}
+//////////
+// methods to allocate the ui picker controllers
+// weird state tracking is done by checking if a particular controller
+// is set
+/////////
+//lazy initialization, dunno if it is actually necessary
+- (UIImagePickerController *)getPictureViewController
+{
+    if(_getPictureViewController) return _getPictureViewController;
+    _getPictureViewController = [[UIImagePickerController alloc] init];
+    _getPictureViewController.delegate = self;
+    _getPictureViewController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    return _getPictureViewController;
+}
+//lazy initialization, dunno if it is actually necessary
+- (UIImagePickerController *)takePictureViewController
+{
+    if(_takePictureViewController) return _takePictureViewController;
+    _takePictureViewController = [[UIImagePickerController alloc] init];
+    
+    _takePictureViewController.delegate = self;
+    _takePictureViewController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    _takePictureViewController.showsCameraControls = NO;
+    _takePictureViewController.cameraOverlayView = [self cameraToolbar];
+    
+    return _takePictureViewController;
+}
+/////////
+// after picking a picture, you show it with edit/caption
+///////
+- (PictureOverlayViewController*)picturePhase2ViewController
+{
+    if(_picturePhase2ViewController) return _picturePhase2ViewController;
+    _picturePhase2ViewController = [[PictureOverlayViewController alloc] init];
+    
+    _picturePhase2ViewController.delegate = self;
+    return _picturePhase2ViewController;
+    
+}
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+
+    //close out the picker/pop up
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self dismissViewControllerAnimated:NO completion:NULL];
+    } else {
+        [self.popover dismissPopoverAnimated:YES];
+    }
+    
+    PictureOverlayViewController* overlay = self.picturePhase2ViewController;
+    overlay.image = image;
+    if(picker == _getPictureViewController) {
+        overlay.auxiliaryTitle = @"Cancel";
+    } else if(picker == _takePictureViewController) {
+        overlay.auxiliaryTitle = @"Retake";
+    }
+    //show the new one
+    
+    [self presentViewController:overlay animated:(_takePictureViewController == nil) completion:NULL];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    //close out the picker/pop up
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self dismissViewControllerAnimated:NO completion:NULL];
+    } else {
+        [self.popover dismissPopoverAnimated:YES];
+    }
+    //just free it up
+    _getPictureViewController = nil;
+    _takePictureViewController = nil;
+    _picturePhase2ViewController = nil;
+}
+//retake/cancel are different depending on the picture source
+- (void)picturePickerAuxiliaryButton:(PictureOverlayViewController *)overlay
+{
+    if(_takePictureViewController) {
+        [self dismissViewControllerAnimated:NO completion:NULL];
+        [self showPhotoTaker:NO];
+        return;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:NULL];
+    //clean up
+    _getPictureViewController = nil;
+    _takePictureViewController = nil;
+    _picturePhase2ViewController = nil;
+}
+//send it
+//TODO: if edited save in gallery
+- (void)picturePickerFinished:(PictureOverlayViewController *)overlay withPicture:(UIImage *)picture withCaption:(NSString *)caption {
+    //clear the controller out
+    [self dismissViewControllerAnimated:YES completion:NULL];
+
+    if (_takePictureViewController || overlay.edited) {
+        //save to the album
+        UIImageWriteToSavedPhotosAlbum(picture, nil, nil, nil);
+    }
+
+    //just free it up
+    _getPictureViewController = nil;
+    _takePictureViewController = nil;
+    _picturePhase2ViewController = nil;
+
+    //post the picture
+    PictureObj* obj = [[PictureObj alloc] initWithImage:picture andText:caption];
+    AppManager* am = [[AppManager alloc] initWithStore:[Musubi sharedInstance].mainStore];
+    MApp* app = [am ensureSuperApp];
+    
+    [self sendObj:obj fromApp:app];
+    
+    [self refreshFeed];
+    
+}
+- (void)showPhotoTaker:(BOOL)animated {
+    //clean up
+    _getPictureViewController = nil;
+    _takePictureViewController = nil;
+    _picturePhase2ViewController = nil;
+    [self presentViewController:self.takePictureViewController animated:animated completion:NULL];
+}
+- (void)showPhotoPicker {
+    //clean up
+    _getPictureViewController = nil;
+    _takePictureViewController = nil;
+    _picturePhase2ViewController = nil;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self presentViewController:self.getPictureViewController animated:YES completion:NULL];
+    } else {
+        _popover=[[UIPopoverController alloc] initWithContentViewController:self.getPictureViewController];
+        _popover.delegate=self;
+
+        CGRect frame = CGRectMake(15, self.view.frame.size.height-10, 1, 60);
+
+        [_popover presentPopoverFromRect:frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    }
+}
 
 @end
 
@@ -856,5 +1024,7 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     MFeed* feed = [((FeedListDataSource*)self.dataSource) feedForIndex:indexPath.row];
     [self performSegueWithIdentifier:@"ShowFeedCustom" sender:feed];
 }*/
+
+
 
 @end
