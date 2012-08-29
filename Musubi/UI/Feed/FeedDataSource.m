@@ -260,10 +260,11 @@
         _firstLoad = NO;
         
         
-        dispatch_async(dispatch_get_current_queue(), ^{
-            [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(self.items.count-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-        });
-        
+        if(self.items.count) {
+            dispatch_async(dispatch_get_current_queue(), ^{
+                [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(self.items.count-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            });
+        }        
         if(_numUnread > 0) {
             _earliestUnreadMessageRow = self.items.count - (_numUnread);
             dispatch_async(dispatch_get_current_queue(), ^{
