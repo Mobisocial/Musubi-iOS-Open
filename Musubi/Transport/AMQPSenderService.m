@@ -95,6 +95,7 @@
         return NO;
     }
     
+    [self removePending];
     return YES;
 }
 

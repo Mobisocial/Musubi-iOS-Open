@@ -44,6 +44,7 @@
 
 - (NSDictionary *)parsedJson {
     if (parsedJson || !managedObj.json) {
+        NSLog(@"parsed %@", parsedJson);
         return parsedJson;
     }
 

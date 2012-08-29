@@ -116,6 +116,8 @@ static int operationCount;
             [self setDecoder: [[MessageDecoder alloc] initWithTransportDataProvider:_transportManager]];
             
             [self decodeMessage:msg];
+            [self removePending];
+            return YES;
         }
     } @catch (NSException* e) {
         [self log:@"Error: %@", e];
@@ -126,6 +128,7 @@ static int operationCount;
 
         [[Musubi sharedInstance].notificationCenter postNotificationName:kMusubiNotificationMessageDecodeFinished object:nil];        
     }
+    return NO;
 }
 
 - (BOOL) decodeMessage: (MEncodedMessage*) msg {

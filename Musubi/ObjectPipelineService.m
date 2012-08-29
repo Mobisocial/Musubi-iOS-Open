@@ -50,6 +50,7 @@
     self.pending = [NSMutableArray arrayWithCapacity:10];
     self.pendingLock = [[NSLock alloc] init];
     
+    
     // Initialize the processing queues
     self.queues = [NSMutableArray array];
     for (int i=0; i<config.numberOfQueues; i++) {
@@ -152,14 +153,14 @@
 
 @implementation ObjectPipelineOperation
 
-@synthesize objId = _objId, service = _service, store = _store, retry = _retry;
+@synthesize objId = _objId, service = _service, store = _store, retryCount = _retryCount;
 
 - (id)initWithObjectId:(NSManagedObjectID *)objId andService:(ObjectPipelineService *)service {
     self = [super init];
     if (self) {
         _objId = objId;
         _service = service;
-        _retry = YES;
+        _retryCount = 0;
         self.threadPriority = kMusubiThreadPriorityBackground;
     }
     return self;
@@ -171,7 +172,7 @@
     NSError* error;
     assert (!_objId.isTemporaryID);
     NSManagedObject* object = [_store.context existingObjectWithID:_objId error:&error];
-    
+    			
     BOOL done = NO;
     
     [self log:@"Started"];
@@ -191,17 +192,18 @@
     
     if (done) {
         [self log:@"Done"];
-        @synchronized(_service.pendingLock) {
-            [_service.pending removeObject:_objId];
-        }
-    } else if (!_retry) {
+    } else if (_retryCount++ > 1) {
         [self log:@"Not done, not retrying"];
-        @synchronized(_service.pendingLock) {
-            [_service.pending removeObject:_objId];
-        }
     } else {
         [self log:@"Failed, retrying"];
         [_service runOperationForObject:object];
+    }
+}
+
+- (void)removePending
+{
+    @synchronized(_service.pendingLock) {
+        [_service.pending removeObject:_objId];
     }
 }
 

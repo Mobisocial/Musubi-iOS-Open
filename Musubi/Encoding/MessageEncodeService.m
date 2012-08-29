@@ -230,7 +230,7 @@
             }
             @catch (NSException *exception) {
                 // If we can't get the identity
-                self.retry = NO;
+                self.retryCount = INT_MAX - 1;
                 [self log:@"Error: %@", exception];
             }
         } else {
@@ -255,6 +255,8 @@
     [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationAppObjReady object:obj.objectID]];
     [[Musubi sharedInstance].notificationCenter postNotification:[NSNotification notificationWithName:kMusubiNotificationPreparedEncoded object:encoded.objectID]];
 
+    if(success)
+        [self removePending];
     return success;
 }
 

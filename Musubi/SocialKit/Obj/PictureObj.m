@@ -49,7 +49,7 @@
     return self;
 }
 - (id)initWithImage:(UIImage *)img andText:(NSString *)text {
-    return [self initWithImage:img andText:nil andCallback:nil];
+    return [self initWithImage:img andText:text andCallback:nil];
 }
 - (id)initWithImage:(UIImage *)img {
     return [self initWithImage:img andText:nil];
