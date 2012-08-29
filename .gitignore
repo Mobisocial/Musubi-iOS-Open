@@ -8,6 +8,7 @@ Libraries/OpenSSL/openssl/test
 *.perspective
 *.perspectivev3
 *.pbxuser
+Products
 xcuserdata
 /Libraries/OpenSSL/openssl/Makefile
 /Libraries/OpenSSL/openssl/Makefile.bak
