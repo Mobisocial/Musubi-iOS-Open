@@ -4314,6 +4314,7 @@
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					"\"$(SRCROOT)/Libraries/AviarySDK\"",
 					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
+					"$(BUILT_PRODUCTS_DIR)/../../../IBE/BuildProductsPath/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -4358,6 +4359,7 @@
 					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					"\"$(SRCROOT)/Libraries/AviarySDK\"",
 					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
+					"$(BUILT_PRODUCTS_DIR)/../../../IBE/BuildProductsPath/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
