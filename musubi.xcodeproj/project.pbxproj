@@ -4315,6 +4315,8 @@
 					"\"$(SRCROOT)/Libraries/AviarySDK\"",
 					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
 					"$(BUILT_PRODUCTS_DIR)/../../../IBE/BuildProductsPath/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
+					"$(SRCROOT)/../../Libraries/GMP/Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/",
+					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -4326,6 +4328,7 @@
 					"-lThree20Network",
 					"-lThree20Core",
 					"-lIBE",
+					"-lgmp$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				PRODUCT_NAME = Musubi;
 				PROVISIONING_PROFILE = "9B1315D7-55BA-45E1-A2FC-FE3E30F56BC7";
@@ -4360,6 +4363,8 @@
 					"\"$(SRCROOT)/Libraries/AviarySDK\"",
 					"\"$(SRCROOT)/Libraries/GoogleAnalytics\"",
 					"$(BUILT_PRODUCTS_DIR)/../../../IBE/BuildProductsPath/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
+					"$(SRCROOT)/../../Libraries/GMP/Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/",
+					"$(BUILT_PRODUCTS_DIR)/../../../../../Products/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -4371,6 +4376,7 @@
 					"-lThree20Network",
 					"-lThree20Core",
 					"-lIBE",
+					"-lgmp$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				PRODUCT_NAME = Musubi;
 				PROVISIONING_PROFILE = "3B5B81FB-D9A9-4B80-9BA3-28C36CAB43F5";
