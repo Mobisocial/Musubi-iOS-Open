@@ -42,8 +42,7 @@
         [self setText: text];
         [self setRaw: UIImageJPEGRepresentation(_image, .9)];
         
-        [self setData: [NSDictionary dictionaryWithObjectsAndKeys:text, kTextField, nil]];
-        [self setData: [NSDictionary dictionaryWithObjectsAndKeys:callback, kFieldCallback, nil]];
+        [self setData: [NSDictionary dictionaryWithObjectsAndKeys:text, kTextField, callback, kFieldCallback, nil]];
     }
     
     return self;
