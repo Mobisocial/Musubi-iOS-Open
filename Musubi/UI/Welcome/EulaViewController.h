@@ -26,7 +26,7 @@
 #import <UIKit/UIKit.h>
 
 #define kMusubiSettingsEulaAccepted @"EulaVersionAccepted"
-#define kEulaRequiredVersion -1
+#define kEulaRequiredVersion 1
 
 @interface EulaViewController : UIViewController
 

@@ -60,6 +60,7 @@
 		C08679591572E35700F4F2BA /* MIncomingSecret.m in Sources */ = {isa = PBXBuildFile; fileRef = C08679581572E35600F4F2BA /* MIncomingSecret.m */; };
 		C086795C1572E35900F4F2BA /* MSequenceNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = C086795B1572E35800F4F2BA /* MSequenceNumber.m */; };
 		C0BABA70157980510068A455 /* NSDate+LocalTime.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BABA6F157980510068A455 /* NSDate+LocalTime.m */; };
+		C0D2C6E215F1664700F85369 /* EulaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D439D1F215B9CA88006CEB24 /* EulaViewController.m */; };
 		C0D575811551F94600B6624C /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5757D1551F94600B6624C /* libTestFlight.a */; };
 		C0D575821551F94600B6624C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757E1551F94600B6624C /* README.txt */; };
 		C0D575831551F94600B6624C /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0D5757F1551F94600B6624C /* release_notes.txt */; };
@@ -3791,6 +3792,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0D2C6E215F1664700F85369 /* EulaViewController.m in Sources */,
 				D95D190B157D3085003AA911 /* VoiceObj.h in Sources */,
 				D2EC083014FEFB60004F1B3C /* PersistentModelStore.m in Sources */,
 				D27968BE1457D97700C5FDAB /* ZipArchive.mm in Sources */,
