@@ -1,7 +1,7 @@
 ﻿END USER LICENSE AGREEMENT
  
  
-This End User License Agreement (this “Agreement”) is a legal agreement between you and so Stanford University (“Stanford,” “we,” “us” or “our”)regarding Stanford MobiSocial Computing Lab’s iOS app (“Musubi”)which you have chosen to download from the Apple iPhone store website (the “AppleSite”) located at http://www.apple.com/iphone/appstore/. Both we and you acknowledge that this Agreement is between us and you, and thatApple, Inc. and its subsidiaries (collectively, “Apple”) is not a party to this Agreement.  
+This End User License Agreement (this “Agreement”) is a legal agreement between you and Stanford University (“Stanford,” “we,” “us” or “our”) regarding Stanford MobiSocial Computing Lab’s iOS app (“Musubi”)which you have chosen to download from the Apple iPhone store website (the “AppleSite”) located at http://www.apple.com/iphone/appstore/. Both we and you acknowledge that this Agreement is between us and you, and thatApple, Inc. and its subsidiaries (collectively, “Apple”) is not a party to this Agreement.  
  
 This Agreement incorporates by reference the Apple App Store Terms of Service http://www.apple.com/legal/itunes/us/terms.html#SERVICE (the“Apple Terms of Service”).  Upon valid acceptance of this Agreement, you agree and understand that you are bound by the Apple Terms of Service. 
  
