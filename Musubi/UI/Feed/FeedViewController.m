@@ -837,7 +837,11 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self dismissViewControllerAnimated:NO completion:NULL];
     } else {
-        [self.popover dismissPopoverAnimated:YES];
+        if(picker == _getPictureViewController) {
+            [self.popover dismissPopoverAnimated:YES];
+        } else if(picker == _takePictureViewController) {
+            [self dismissViewControllerAnimated:NO completion:NULL];
+        }
     }
     
     PictureOverlayViewController* overlay = self.picturePhase2ViewController;
@@ -858,7 +862,11 @@ CGFloat desiredHeight = [[NSString stringWithFormat: @"%@\n", textView.text] siz
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self dismissViewControllerAnimated:NO completion:NULL];
     } else {
-        [self.popover dismissPopoverAnimated:YES];
+        if(picker == _getPictureViewController) {
+            [self.popover dismissPopoverAnimated:YES];
+        } else if(picker == _takePictureViewController) {
+            [self dismissViewControllerAnimated:NO completion:NULL];
+        }
     }
     //just free it up
     _getPictureViewController = nil;
