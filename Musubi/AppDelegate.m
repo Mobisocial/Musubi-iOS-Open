@@ -248,6 +248,10 @@ NSDictionary *objJson;
 
 - (void) shareObjFromUrl: (NSURL *) url {
     NSString *encodedString = [url.path substringFromIndex:1];
+    if (url.query)
+    {
+        encodedString = [NSString stringWithFormat:@"%@?%@", encodedString, url.query];
+    }
     NSString *jsonString = [encodedString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     objJson = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
@@ -280,7 +284,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
                     UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:imgUrl]];
                     Obj* obj = [[PictureObj alloc] initWithImage:image andText:imgTitle andCallback:imgCallback];
                     [DejalBezelActivityView removeViewAnimated:YES];
-                    
+
                     [nav popToRootViewControllerAnimated:YES];
                     FeedListViewController *feedList = (FeedListViewController*) nav.topViewController;
                     [feedList setClipboardObj: obj];
