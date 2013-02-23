@@ -15,8 +15,6 @@
  */
 
 
-
-
 #import "IBEncryptionScheme.h"
 
 @implementation IBEncryptionKey
