@@ -26,8 +26,6 @@
 
 #import "MAccount.h"
 #import "MIdentity.h"
-#import "FacebookAuth.h"
-#import "GoogleAuth.h"
 #import "SBJSON.h"
 #import "Authorities.h"
 
@@ -73,100 +71,6 @@
 
 - (void) setToken: (NSString*) token forUser: (NSString*) principal withAuthority: (int) authority {
     [knownTokens setObject:token forKey:[NSArray arrayWithObjects:[NSNumber numberWithUnsignedChar:authority], principal, nil]];
-}
-- (void) cacheFacebookToken {
-    AccountManager* accMgr = [[AccountManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
-    NSString* facebookId = nil;
-
-    NSArray* accounts = [accMgr accountsWithType: kAccountTypeFacebook];
-    if (accounts.count > 0) {
-        facebookId = ((MAccount*)[accounts objectAtIndex:0]).identity.principal;
-    }
-    
-    NSString* facebookToken = nil;
-    if (facebookId != nil) {
-        FacebookAuthManager* mgr = [[FacebookAuthManager alloc] init];
-        facebookToken = [mgr activeAccessToken];
-    }
-    
-    if (facebookToken != nil) {
-        [self setToken:facebookToken forUser:facebookId withAuthority:kIdentityTypeFacebook];
-    } else if (facebookId != nil) {
-        // Authentication failures should be reported
-        //        sendNotification("Facebook");
-        @throw [NSException exceptionWithName:kMusubiExceptionAphidBadToken reason:@"Bad token" userInfo:nil];
-    }
-}
-
-- (void) cacheGoogleToken {
-    AccountManager* accMgr = [[AccountManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
-    NSString* googleId = nil;
-    
-    NSArray* accounts = [accMgr accountsWithType: kAccountTypeGoogle];
-    
-    if (accounts.count > 0) {
-        googleId = ((MAccount*)[accounts objectAtIndex:0]).identity.principal;
-    }
-    
-    NSString* googleToken = nil;
-    if (googleId != nil) {
-        GoogleAuthManager* mgr = [[GoogleAuthManager alloc] init];
-        googleToken = [mgr activeAccessToken];
-    }
-    
-    if (googleToken != nil) {
-        [self setToken:googleToken forUser:googleId withAuthority:kIdentityTypeEmail];
-    } else if (googleId != nil) {
-        // Authentication failures should be reported
-        //        sendNotification("Google");
-        @throw [NSException exceptionWithName:kMusubiExceptionAphidBadToken reason:@"Bad token" userInfo:nil];
-    }
-}
-
-- (NSDictionary*) googleTokens {
-    NSMutableDictionary* tokens = [NSMutableDictionary dictionary];
-    
-    AccountManager* accMgr = [[AccountManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
-    GoogleAuthManager* mgr = [[GoogleAuthManager alloc] init];
-    
-    
-    for (MAccount* acc in [accMgr accountsWithType: kAccountTypeGoogle]) {
-        NSString* googleId = acc.identity.principal;
-        NSString* token = [mgr activeAccessToken];
-        
-        if (googleId && !token) {
-            @throw [NSException exceptionWithName:kMusubiExceptionAphidBadToken reason:@"Bad token" userInfo:nil];
-        }
-        
-        [tokens setObject:token forKey:googleId];
-    }
-    
-    return tokens;
-}
-
-- (NSDictionary*) facebookTokens {
-    NSMutableDictionary* tokens = [NSMutableDictionary dictionary];
-    
-    AccountManager* accMgr = [[AccountManager alloc] initWithStore: [[Musubi sharedInstance] newStore]];
-    FacebookAuthManager* mgr = [[FacebookAuthManager alloc] init];
-    
-    for (MAccount* acc in [accMgr accountsWithType: kAccountTypeFacebook]) {
-        NSString* facebookId = acc.identity.principal;
-        
-        //assert(facebookId != nil);
-        
-        NSString* token = [mgr activeAccessToken];
-        
-        if (facebookId && !token) {
-            @throw [NSException exceptionWithName:kMusubiExceptionAphidBadToken reason:@"Bad token" userInfo:nil];
-        }
-        
-        if (facebookId != nil) {
-            [tokens setObject:token forKey:facebookId];
-        }
-    }
-
-    return tokens;
 }
 
 @end
