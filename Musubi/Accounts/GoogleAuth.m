@@ -234,7 +234,7 @@ static GTMOAuth2Authentication* active;
 }
 
 @end
-
+/*
 @implementation GoogleAphidAuthProvider
 
 - (NSString *)accountType {
@@ -256,3 +256,4 @@ static GTMOAuth2Authentication* active;
 }
 
 @end
+*/

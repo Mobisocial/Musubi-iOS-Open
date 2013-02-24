@@ -30,7 +30,7 @@
 
 #import "FacebookIdentityUpdater.h"
 #import "GoogleIdentityUpdater.h"
-xxx#import "FacebookAuth.h"
+#import "FacebookAuth.h"
 #import "GoogleAuth.h"
 
 #import "MusubiShareKitConfigurator.h"
@@ -98,10 +98,10 @@ NSDictionary *objJson;
         [self performSelector:@selector(registerAuthProviders) withObject:self afterDelay:.5];
         return;
     }
-    
+    /*
     [[Musubi sharedInstance].identityProvider registerProvider:[[EmailAphidAuthProvider alloc] init]];
     [[Musubi sharedInstance].identityProvider registerProvider:[[FacebookAphidAuthProvider alloc] init]];
-    [[Musubi sharedInstance].identityProvider registerProvider:[[GoogleAphidAuthProvider alloc] init]];
+    [[Musubi sharedInstance].identityProvider registerProvider:[[GoogleAphidAuthProvider alloc] init]];*/
 }
 
 - (void) prepareAnalytics {

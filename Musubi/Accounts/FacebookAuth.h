@@ -74,5 +74,5 @@
 
 @end
 
-@interface FacebookAphidAuthProvider : NSObject<AphidAuthProvider>
-@end
+//@interface FacebookAphidAuthProvider : NSObject<AphidAuthProvider>
+//@end

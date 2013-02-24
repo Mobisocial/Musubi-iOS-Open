@@ -247,7 +247,6 @@
 		D28E247515BB790300C75CBA /* AMQPUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = D23F129F1586ACE600BA0602 /* AMQPUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D28E247615BB790300C75CBA /* UIImage+Resize.h in Headers */ = {isa = PBXBuildFile; fileRef = D276439A15BA9C8A000DA7A8 /* UIImage+Resize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D28E256015BC81A400C75CBA /* libsbjson-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D28E255615BC816200C75CBA /* libsbjson-ios.a */; };
-		D28E256215BCE9CF00C75CBA /* libIBE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B428CC14F44F4800ED868D /* libIBE.a */; };
 		D2AADE4B14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AADE4A14FD8AFB00C6ABB3 /* TransientTransportDataProvider.m */; };
 		D2AADE5214FEEBEC00C6ABB3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27968DC1457DA4700C5FDAB /* CoreData.framework */; };
 		D2D30EE2151B25E5009D1E62 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2CD05DB14450E3E0080861E /* Security.framework */; };
@@ -659,7 +658,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D28E256215BCE9CF00C75CBA /* libIBE.a in Frameworks */,
 				D28E256015BC81A400C75CBA /* libsbjson-ios.a in Frameworks */,
 				D276439915BA9684000DA7A8 /* SenTestingKit.framework in Frameworks */,
 				D276432A15BA95F3000DA7A8 /* libRabbitMQ.a in Frameworks */,
@@ -1866,11 +1864,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Libraries/IBE/IBE",
-					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
-					"$(SRCROOT)/Libraries/GMP/build/include",
-					"$(SRCROOT)/Libraries/GMP/build/include32",
-					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
 					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
@@ -1906,11 +1899,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Libraries/IBE/IBE",
-					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
-					"$(SRCROOT)/Libraries/GMP/build/include",
-					"$(SRCROOT)/Libraries/GMP/build/include32",
-					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
 					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
@@ -2002,11 +1990,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Libraries/IBE/IBE",
-					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
-					"$(SRCROOT)/Libraries/GMP/build/include",
-					"$(SRCROOT)/Libraries/GMP/build/include32",
-					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
 					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",
@@ -2046,11 +2029,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/Libraries/IBE/IBE",
-					"$(SRCROOT)/Libraries/PBC/pbc-0.5.12/include",
-					"$(SRCROOT)/Libraries/GMP/build/include",
-					"$(SRCROOT)/Libraries/GMP/build/include32",
-					"$(SRCROOT)/Libraries/GMP/build/src-iPhoneOS",
 					"$(SRCROOT)/Libraries/OpenSSL/openssl/include",
 					"$(SRCROOT)/Libraries/Facebook/src",
 					"$(SRCROOT)/Libraries/RabbitMQ",

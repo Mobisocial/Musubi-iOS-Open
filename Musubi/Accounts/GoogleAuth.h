@@ -66,5 +66,5 @@
 
 @end
 
-@interface GoogleAphidAuthProvider : NSObject<AphidAuthProvider>
-@end
+//@interface GoogleAphidAuthProvider : NSObject<AphidAuthProvider>
+//@end
