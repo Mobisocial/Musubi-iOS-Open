@@ -292,7 +292,7 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
   Class serializer = NSClassFromString(@"NSJSONSerialization");
   if (serializer) {
     const NSUInteger kOpts = (1UL << 0); // NSJSONReadingMutableContainers
-    obj = [serializer JSONObjectWithData:data
+    obj = [NSJSONSerialization JSONObjectWithData:data
                                  options:kOpts
                                    error:&error];
 #if DEBUG

@@ -962,7 +962,7 @@ static NSString* gLoggingProcessName = nil;
   if (serializer) {
     const NSUInteger kOpts = (1UL << 0); // NSJSONReadingMutableContainers
     NSMutableDictionary *obj;
-    obj = [serializer JSONObjectWithData:data
+    obj = [NSJSONSerialization JSONObjectWithData:data
                                  options:kOpts
                                    error:NULL];
     return obj;
@@ -990,7 +990,8 @@ static NSString* gLoggingProcessName = nil;
   if (serializer) {
     const NSUInteger kOpts = (1UL << 0); // NSJSONWritingPrettyPrinted
     NSData *data;
-    data = [serializer dataWithJSONObject:obj
+    
+    data = [NSJSONSerialization dataWithJSONObject:obj
                                   options:kOpts
                                     error:NULL];
     if (data) {
