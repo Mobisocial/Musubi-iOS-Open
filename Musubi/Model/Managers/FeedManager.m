@@ -342,7 +342,7 @@
         } else if (((MIdentity*) ident1).type > ((MIdentity*) ident2).type) {
             return 1;
         } else {
-            return [[[((MIdentity*) ident1) principalHash] hex] compare:[[((MIdentity*) ident2) principalHash] hex]];
+            return (int)[[[((MIdentity*) ident1) principalHash] hex] compare:[[((MIdentity*) ident2) principalHash] hex]];
         }
     };
     

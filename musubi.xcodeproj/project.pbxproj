@@ -172,7 +172,6 @@
 		D298F9F7143CE6DF000831DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F6143CE6DF000831DD /* UIKit.framework */; };
 		D298F9F9143CE6DF000831DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D298F9F8143CE6DF000831DD /* Foundation.framework */; };
 		D298FA4C143E5B4E000831DD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D298FA4B143E5B4E000831DD /* libz.dylib */; };
-		D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D29A2CDB15B0B20000EA748A /* RSAEncryptionScheme.m */; };
 		D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D29EF97115AB908500CF4901 /* VerifyViewController.m */; };
 		D2A1FC1215211F6B00C10BE2 /* FacebookIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A1FC1115211F6B00C10BE2 /* FacebookIdentityUpdater.m */; };
 		D2A45AF5155EF6DE009C1D73 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A45AF4155EF6DE009C1D73 /* DropboxSDK.framework */; };
@@ -185,7 +184,6 @@
 		D2B13D5214F869800067B197 /* MessageEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5114F869800067B197 /* MessageEncoder.m */; };
 		D2B13D5514F869CF0067B197 /* OutgoingMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5414F869CF0067B197 /* OutgoingMessage.m */; };
 		D2B13D5B14F882590067B197 /* Secret.m in Sources */ = {isa = PBXBuildFile; fileRef = D2B13D5A14F882580067B197 /* Secret.m */; };
-		D2C04A2515A25E9B002C6888 /* EmailAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C04A2415A25E9B002C6888 /* EmailAuth.m */; };
 		D2C0AA9B14FF035100E9D0BF /* MessageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C0AA9A14FF035100E9D0BF /* MessageDecoder.m */; };
 		D2C66EFB156CC2AD001A0124 /* Model5-6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = D2C66EFA156CC2AD001A0124 /* Model5-6.xcmappingmodel */; };
 		D2C66F01156CCF22001A0124 /* heart32_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D2C66F00156CCF22001A0124 /* heart32_gray.png */; };
@@ -3988,9 +3986,7 @@
 				563FA28A15A6388500FB5AFF /* CheckinViewController.m in Sources */,
 				569D54E015ABB18C002A3275 /* LocationViewController.m in Sources */,
 				5675EBF115B0A6ED00EBD834 /* IndexedTTTableView.m in Sources */,
-				D2C04A2515A25E9B002C6888 /* EmailAuth.m in Sources */,
 				D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */,
-				D29A2CDC15B0B20000EA748A /* RSAEncryptionScheme.m in Sources */,
 				D22B69E015B9115B00429023 /* AddressBookIdentityManager.m in Sources */,
 				D22B69E515B9CDB400429023 /* FirstIdentityViewController.m in Sources */,
 				56DD8D8C15DD874B008458D7 /* FeedListStyleSheet.m in Sources */,
@@ -4329,8 +4325,6 @@
 					"-lThree20Style",
 					"-lThree20Network",
 					"-lThree20Core",
-					"-lIBE",
-					"-lgmp$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				PRODUCT_NAME = Musubi;
 				PROVISIONING_PROFILE = "9B1315D7-55BA-45E1-A2FC-FE3E30F56BC7";
@@ -4377,8 +4371,6 @@
 					"-lThree20Style",
 					"-lThree20Network",
 					"-lThree20Core",
-					"-lIBE",
-					"-lgmp$(EFFECTIVE_PLATFORM_NAME)",
 				);
 				PRODUCT_NAME = Musubi;
 				PROVISIONING_PROFILE = "3B5B81FB-D9A9-4B80-9BA3-28C36CAB43F5";

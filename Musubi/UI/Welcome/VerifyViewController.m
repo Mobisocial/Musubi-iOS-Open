@@ -79,7 +79,7 @@
 #pragma mark AccountAuthManager delegate
 
 - (void)accountWithType:(NSString *)type isConnected:(BOOL)connected {
-    [EmailAuthManager dismissView];
+//    [EmailAuthManager dismissView];
 }
 
 @end
