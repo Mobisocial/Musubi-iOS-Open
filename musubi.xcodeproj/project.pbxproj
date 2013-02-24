@@ -96,7 +96,6 @@
 		D27968DD1457DA4800C5FDAB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27968DC1457DA4700C5FDAB /* CoreData.framework */; };
 		D28E235615BB70C700C75CBA /* libMusubiSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D28E234E15BB70B400C75CBA /* libMusubiSDK.a */; };
 		D28E247D15BB796700C75CBA /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D28E247C15BB796700C75CBA /* DropboxSDK.framework */; };
-		D28E253A15BC7E0D00C75CBA /* EmailAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D28E253115BC7E0D00C75CBA /* EmailAuth.m */; };
 		D28E253B15BC7E0D00C75CBA /* FacebookAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D28E253315BC7E0D00C75CBA /* FacebookAuth.m */; };
 		D28E253C15BC7E0D00C75CBA /* FacebookIdentityUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = D28E253515BC7E0D00C75CBA /* FacebookIdentityUpdater.m */; };
 		D28E253D15BC7E0D00C75CBA /* GoogleAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = D28E253715BC7E0D00C75CBA /* GoogleAuth.m */; };
@@ -246,6 +245,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = OAuthTouchStaticLib;
+		};
+		D2CB740516DAACA4005FFD86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D28E232A15BB70B300C75CBA /* MusubiSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D25FDFF315BD0152005B1849;
+			remoteInfo = MusubiSDKBundle;
 		};
 		D2D930501522417E006E4F58 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1245,6 +1251,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D2CB740616DAACA4005FFD86 /* PBXTargetDependency */,
 				D28E257415BCEB9800C75CBA /* PBXTargetDependency */,
 				D44D41CA15A2172E000BAC41 /* PBXTargetDependency */,
 				D28E235515BB70BD00C75CBA /* PBXTargetDependency */,
@@ -1547,7 +1554,6 @@
 				5675EBF115B0A6ED00EBD834 /* IndexedTTTableView.m in Sources */,
 				D29EF97215AB908500CF4901 /* VerifyViewController.m in Sources */,
 				D22B69E515B9CDB400429023 /* FirstIdentityViewController.m in Sources */,
-				D28E253A15BC7E0D00C75CBA /* EmailAuth.m in Sources */,
 				D28E253B15BC7E0D00C75CBA /* FacebookAuth.m in Sources */,
 				D28E253C15BC7E0D00C75CBA /* FacebookIdentityUpdater.m in Sources */,
 				D28E253D15BC7E0D00C75CBA /* GoogleAuth.m in Sources */,
@@ -1586,6 +1592,11 @@
 			isa = PBXTargetDependency;
 			name = OAuthTouchStaticLib;
 			targetProxy = D28E257315BCEB9800C75CBA /* PBXContainerItemProxy */;
+		};
+		D2CB740616DAACA4005FFD86 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MusubiSDKBundle;
+			targetProxy = D2CB740516DAACA4005FFD86 /* PBXContainerItemProxy */;
 		};
 		D44D41CA15A2172E000BAC41 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
